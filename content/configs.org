@@ -386,7 +386,18 @@
 
 * Eshell
 
+Redirect output to emacs buffer as below.
+
+#+begin_src shell :tangle no
+  git log > #<buffer *scratch*>
+  # or
+  git log >(get-buffer "*scratch*")
+#+end_src
+
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/eshell-conf.el
+  ;; I don't need less in emacs
+  (setenv "PAGER" "cat")
+
   (use-package eshell-toggle
     :custom
     (eshell-toggle-size-fraction 3)

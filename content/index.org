@@ -1,9 +1,29 @@
 #+TITLE: KyeongSoo Org Site
 #+AUTHOR: KyeongSoo Choi
+#+PROPERTY: header-args :tangle no :results none
 
-Here is a new change to our website.
 
 * Overview
+
+** Build html files
+
+#+begin_src shell
+  ./build.sh
+#+end_src
+
+** Run server in Emacs
+
+*** Install =simple-httpd=
+
+#+begin_src emacs-lisp
+  (package-install 'simple-httpd)
+#+end_src
+
+*** Serve a Directory
+
+Serve `./public' by =M-x httpd-serve-directory=
+
+** This heading is for testing purpose
 
 This is an *example* of a website written with _Org Mode!_
 
