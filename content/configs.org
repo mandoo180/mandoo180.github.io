@@ -1,0 +1,571 @@
+#+TITLE: Emacs Configurations
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+PROPERTY: header-args :emacs-lisp :mkdirp yes :results none
+
+
+* Easy Editing
+
+#+begin_src elisp :tangle ~/.emacs.d/elisp/editing-conf.el
+  (dolist (mode '(text-mode-hook
+                  prog-mode-hook
+                  conf-mode-hook))
+    (add-hook mode (lambda ()
+                     (display-line-numbers-mode t)
+                     (display-fill-column-indicator-mode -1))))
+
+  (add-hook 'after-init-hook 'electric-pair-mode)
+  (add-hook 'after-init-hook 'electric-indent-mode)
+  (add-hook 'after-init-hook 'global-auto-revert-mode)
+  (add-hook 'after-init-hook 'delete-selection-mode)
+  (add-hook 'after-init-hook 'transient-mark-mode)
+  (add-hook 'after-init-hook 'subword-mode)
+
+  (use-package multiple-cursors
+    :config
+    (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+    (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+    (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+    (global-set-key (kbd "C-M-<mouse-1>") 'mc/add-cursor-on-click))
+
+  (use-package hungry-delete
+    :diminish
+    :config
+    (global-hungry-delete-mode t))
+
+  (use-package expand-region
+    :ensure t
+    :bind
+    ("M-h" . er/expand-region)
+    ("M-H" . er/contract-region))
+
+  (use-package so-long
+    :config
+    (global-so-long-mode 1))
+
+  (defun kill-back-to-indentation ()
+    "Kill from point back to the first non-whitespace character on the line."
+    (interactive)
+    (let ((prev-pos (point)))
+      (back-to-indentation)
+      (kill-region (point) prev-pos)))
+
+  (global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
+
+  (defun kill-curr-buffer ()
+    (interactive)
+    (kill-buffer (current-buffer)))
+
+  (global-set-key (kbd "C-x k") 'kill-curr-buffer)
+
+  (defun next-open-line ()
+    (interactive)
+    (move-end-of-line 1)
+    (newline-and-indent))
+
+  (global-set-key (kbd "S-<return>") 'next-open-line)
+
+  (defun upcase-word-backwards ()
+    "Uppercase word backwards."
+    (interactive)
+    (backward-word)
+    (upcase-word 1)
+    (backward-word))
+
+  (global-set-key (kbd "M-U") 'upcase-word-backwards)
+
+  (defun downcase-word-backwards ()
+    "Lowercase word backwards."
+    (interactive)
+    (backward-word)
+    (downcase-word 1)
+    (backward-word))
+
+  (global-set-key (kbd "M-L") 'downcase-word-backwards)
+
+  (use-package sudo-edit)
+
+  (use-package undo-tree
+    :init
+    (global-undo-tree-mode 1)
+    :config
+    (setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo-tree-history")))
+    :bind (("C-/" . undo-tree-undo)
+           ("C-?" . undo-tree-redo)
+           ("C-z" . undo-tree-undo)     ; Zap to character isn't helpful
+           ("C-S-z" . undo-tree-redo)))
+
+
+  (provide 'editing-conf)
+#+end_src
+
+* Completion
+
+#+begin_src elisp :tangle ~/.emacs.d/elisp/completion-conf.el
+  (use-package vertico
+    :init
+    (vertico-mode))
+
+  (use-package savehist
+    :init
+    (savehist-mode))
+
+  (use-package orderless
+    :ensure t
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-defaults nil)
+    (completion-category-overrides '((file (styles partial-completion)))))
+
+  (use-package marginalia
+    :ensure t
+    :diminish
+    :config
+    (marginalia-mode t))
+
+  (use-package consult
+    :ensure t
+    :bind
+    ;; C-x bindings
+    ("C-x C-r" . consult-recent-file)
+    ("C-x r e" . consult-recent-file)
+    ("C-x b" . consult-buffer)
+    ("C-x C-b" . consult-buffer)
+    ;; ("C-x 4 b" . consult-buffer-other-window)
+    ("C-x 4 b" . switch-to-buffer-other-window)
+    ("C-x 5 b" . consult-buffer-other-frame)
+    ("C-x t b" . consult-buffer-other-tab)
+    ("C-x r b" . consult-bookmark)
+    ("C-x p b" . consult-project-buffer)
+    ;; Custom M-# bindings for fast register access
+    ("M-#" . consult-register-load)
+    ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+    ("C-M-#" . consult-register)
+    ("M-y" . consult-yank-pop)
+    ;; M-g bindings
+    ("M-g e" . consult-complie-error)
+    ("M-g f" . consult-fly-make)
+    ("M-g g" . consult-goto-line)
+    ("M-g M-g" . consult-goto-line)
+    ("M-g o" . consult-outline)
+    ("M-g m" . consult-mark)
+    ("M-g k" . consult-global-mark)
+    ("M-g i" . consult-imenu)
+    ("M-g I" . consult-imenu-multi)
+    ;; M-s bindings in `search-map'
+    ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+    ("M-s c" . consult-locate)
+    ("M-s g" . consult-grep)
+    ("M-s G" . consult-git-grep)
+    ("M-s r" . consult-ripgrep)
+    ("M-s l" . consult-line)
+    ("M-s L" . consult-line-multi)
+    ("M-s k" . consult-keep-lines)
+    ("M-s h" . consult-org-heading)
+    ("M-s u" . consult-focus-lines))
+
+  (use-package corfu
+    ;; Optional customizations
+    :custom
+    (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+    (corfu-auto t)                 ;; Enable auto completion
+    (corfu-auto-delay 1)
+    (corfu-auto-prefix 3)
+    ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+    :hook
+    ((prog-mode . corfu-mode)
+     (eshell-mode . corfu-mode))
+    :config
+    (keymap-set corfu-map "RET" #'corfu-send))
+
+  (use-package yasnippet
+    :hook
+    (prog-mode . yas-minor-mode))
+
+  (use-package yasnippet-snippets)
+
+  (use-package wgrep
+    :ensure t
+    :config
+    (define-key grep-mode-map (kbd "C-c C-q") 'wgrep-change-to-wgrep-mode)
+    (define-key grep-mode-map (kbd "w") 'wgrep-change-to-wgrep-mode))
+
+  (use-package recentf
+    :ensure t
+    :config
+    (setq recentf-max-saved-items 200)
+    (setq recentf-filename-handlers
+          (append '(abbreviate-file-name) recentf-filename-handlers))
+    (recentf-mode))
+
+  (provide 'completion-conf)
+#+end_src
+
+* Org Mode
+
+#+begin_src elisp :tangle ~/.emacs.d/elisp/org-conf.el
+  (use-package org
+    :pin org
+    :commands (org-capture org-agenda)
+    :config
+    (display-line-numbers-mode 0)
+    (setq org-agenda-start-with-log-mode t
+          org-catch-invisible-edits 'show
+          org-edit-timestamp-down-means-later t
+          org-export-coding-system 'utf-8
+          org-export-kill-product-buffer-when-displayed t
+          org-fast-tag-selection-single-key 'expert
+          org-hide-emphasis-markers t
+          org-html-validation-link nil
+          org-image-actual-width '(450)
+          org-log-done 'time
+          org-log-into-drawer t
+          org-pretty-entities t
+          org-startup-indented t
+          org-startup-with-inline-images t
+          org-tags-column 80))
+
+  ;; Lots of stuff from http://doc.norang.ca/org-mode.html
+  (with-eval-after-load 'org
+    (require 'org-tempo)
+    (add-to-list 'org-structure-template-alist '("txt" . "src text"))
+    (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+    (add-to-list 'org-structure-template-alist '("py" . "src python"))
+    (add-to-list 'org-structure-template-alist '("js" . "src javascript"))
+    (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
+    (add-to-list 'org-structure-template-alist '("java" . "src java"))
+    (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
+    (add-to-list 'org-structure-template-alist '("rust" . "src rust"))
+
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     (seq-filter
+      (lambda (pair)
+        (locate-library (concat "ob-" (symbol-name (car pair)))))
+      '((dot . t)
+        (gnuplot . t)
+        (latex . t)
+        (python . t)
+        (javascript . t)
+        (typescript . t)
+        (shell . t)
+        (sql . t)
+        (sqlite . t)))))
+
+  (use-package org-appear
+    :hook
+    (org-mode . org-appear-mode)
+    :config
+    (setq org-appear-autoemphasis t)
+    (setq org-appear-autolinks t)
+    (setq org-appear-autosubmarkers t)
+    (setq org-appear-autoentities t)
+    (setq org-appear-autokeywords t)
+    (setq org-appear-inside-latex t)
+    (setq org-appear-delay 0.0)
+    (setq org-appear-trigger 'always))
+
+  ;; (use-package org-fragtog
+  ;;   :after org
+  ;;   :hook
+  ;;   (org-mode . org-fragtog-mode)
+  ;;   :custom
+  ;;   (org-startup-with-latex-preview nil)
+  ;;   (org-format-latex-options
+  ;;    (plist-put org-format-latex-options :scale 2)
+  ;;    (plist-put org-format-latex-options :foreground 'auto)
+  ;;    (plist-put org-format-latex-options :background 'auto)))
+
+  ;; (use-package org-modern
+  ;;   :hook
+  ;;   (org-mode . org-modern-mode))
+
+  (defun handle-org-hook ()
+    (setq-local electric-pair-inhibit-predicate `(lambda (c)
+                                                   (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c)))))
+
+  (add-hook 'org-mode-hook #'handle-org-hook)
+
+  (provide 'org-conf)
+#+end_src
+
+* Note Taking
+
+#+begin_src elisp :tangle ~/.emacs.d/elisp/note-conf.el
+  (use-package denote
+    :custom
+    (denote-sort-keywords t)
+    :hook
+    (dired-mode . denote-dired-mode)
+    :init
+    (require 'denote-org-extras))
+
+  (use-package consult-notes
+    :init
+    (consult-notes-denote-mode))
+
+  (provide 'note-conf)
+#+end_src
+
+* Programming Languages
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/lang-conf.el
+  (use-package eglot
+    :defer t
+    :hook
+    (c-mode . eglot-ensure)
+    (mhtml-mode . eglot-ensure)
+    (python-mode . eglot-ensure)
+    (javascript-mode . eglot-ensure)
+    (js-mode . eglot-ensure)
+    (typescript-ts-mode . eglot-ensure))
+
+  (use-package tree-sitter)
+  (use-package tree-sitter-langs)
+
+  (use-package ielm
+    :init
+    (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode))
+
+  (use-package flycheck
+    :init
+    (add-hook 'after-init-hook 'global-flycheck-mode)
+    :config
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+  
+  (use-package eldoc
+    :init  (setq eldoc-idle-delay 0.1))
+
+  ;; use pyvenv-activate/deactivate
+  (use-package pyvenv)
+
+
+  (provide 'lang-conf)
+#+end_src
+
+** Python
+
+*** Ubuntu
+
+#+begin_src shell :tangle no :results none
+  sudo apt update
+  sudo apt install python3-full
+  cd ~
+  python3 -m venv venv
+  export PATH="$HOME/venv/bin:$PATH"
+  pip install python-lsp-server flake8
+#+end_src
+
+*** macOS
+
+#+begin_src shell
+
+#+end_src
+
+*** Windows
+
+#+begin_src text
+
+#+end_src
+
+** JavaScript
+
+#+begin_src shell :tangle no :results none
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+  source ~/.bashrc
+  nvm install node
+  nvm use node
+  npm install typescript \
+      typescript-language-server \
+      vscode-langservers-extracted
+#+end_src
+
+** C
+** Powershell
+
+* Eshell
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/eshell-conf.el
+  (use-package eshell-toggle
+    :custom
+    (eshell-toggle-size-fraction 3)
+    (eshell-toggle-find-project-root-package t) ;; for projectile
+    (eshell-toggle-use-projectile-root 'project) ;; for in-built project.el
+    (eshell-toggle-run-command nil)
+    ;; (eshell-toggle-init-function #'eshell-toggle-init-ansi-term)
+    :bind
+    ("M-`" . eshell-toggle))
+
+  (defun eshell-below()
+    "Split window below with eshell buffer."
+    (interactive)
+    (let* ((height (/ (window-total-height) 3)))
+      (split-window-vertically (- height))
+      (other-window 1)
+      (eshell)))
+
+  (defun toggle-eshell()
+    "Toggle split window with eshell buffer below."
+    (interactive)
+    (let* ((w (window-in-direction 'below)))
+      (with-current-buffer (window-buffer w)
+        (if (eq major-mode 'eshell-mode)
+            (delete-window w)
+          (eshell-below)))))
+
+  ;; no use but think it's good to know
+  (defun eshell-buffers()
+    "Returns eshell buffer list."
+    (delq nil (mapcar (lambda (buf)
+                        (with-current-buffer buf
+                          (if (eq major-mode 'eshell-mode)
+                              buf)))
+                      (buffer-list))))
+
+  (defun handle-eshell-exit()
+    "Deletes the window when eshell buffer exits."
+    (if (> (count-windows 1))
+        (delete-window)))
+
+
+  (defun k/configure-eshell ()
+    ;; Save command history when commands are entered
+    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+
+    ;; Truncate buffer for performance
+    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+    ;; Prompt settings
+    ;; (setq-default eshell-prompt-function #'eshell/eshell-local-prompt-function)
+
+    (setq eshell-history-size         10000
+          eshell-buffer-maximum-lines 10000
+          eshell-hist-ignoredups t
+          eshell-scroll-to-bottom-on-input 'all
+          eshell-error-if-no-glob t
+          eshell-save-history-on-exit t
+          eshell-prefer-lisp-functions nil
+          eshell-destroy-buffer-when-process-dies t)
+
+    (add-hook 'eshell-mode-hook
+              (lambda ()
+                (add-to-list 'eshell-visual-commands "ssh")
+                (add-to-list 'eshell-visual-commands "tail")
+                (add-to-list 'eshell-visual-commands "top")
+                (add-to-list 'eshell-visual-commands "htop")
+                (add-to-list 'eshell-visual-commands "zsh")
+                (add-to-list 'eshell-visual-commands "vim")
+
+                (eshell/alias "l" "ls -hl $1")
+                (eshell/alias "ll" "ls -ahl $1")
+                (eshell/alias "ff" "find-file $1")
+                (eshell/alias "emacs" "find-file $1")
+                (eshell/alias "ffo" "find-file-other-window $1")))
+    (add-hook 'eshell-exit-hook  #'handle-eshell-exit))
+
+  (use-package eshell
+    :hook
+    (eshell-first-time-mode . k/configure-eshell))
+
+  ;; (global-set-key (kbd "C-`") #'toggle-eshell)
+
+  (provide 'eshell-conf)
+#+end_src
+
+* Windows
+
+[[https://gitlab.com/axgfn/edwina][Edwina gitlab link]]
+[[https://github.com/roman/golden-ratio.el][Golden ratio github link]]
+[[https://github.com/emacsorphanage/popwin][Popwin github link]]
+
+*Critical Error*
+
+When open a buffer in other window with consult-buffer,
+it shows all the buffers in sub-windows.
+
+Messages and Error windows keep stacking.
+TODO: Rewrite some codes.
+
+|-------------+--------------------------------------|
+| Binding     | Action                               |
+|-------------+--------------------------------------|
+| =r=, =C-r=      | Arrange windows                      |
+| =n=, =C-n=, =SPC= | Move to next window                  |
+| =p=, =C-p=      | Move to previous window              |
+| =N=, =C-S-n=    | Swap places with the next window     |
+| =P=, =C-S-p=    | Swap places with the previous window |
+| =%=, ={=, =[=     | Decrease the size of the master area |
+| =^=, =}=, =]=     | Increase the size of the master area |
+| =d=, =C-d=      | Decrease number of windows in master |
+| =i=           | Increase number of windows in master |
+| =k=, =C-k=      | Delete window                        |
+| =RET=         | Cycle window to/from master area     |
+| =c=, =C-c=      | Clone current window                 |
+|-------------+--------------------------------------|
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/window-conf.el
+  (use-package edwina
+    :config
+    ;; (setq display-buffer-base-action '(display-buffer-below-selected))
+    (edwina-mode 1))
+
+  (use-package golden-ratio
+    :config
+    ;; (golden-ratio-mode 1)
+    )
+
+  ;; (use-package popwin
+  ;;   :config
+  ;;   (popwin-mode 1))
+
+  (provide 'window-conf)
+#+end_src
+
+* Custom Functions
+
+** Scratch Buffers
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/custom-functions.el
+  (defun scratch-buffer-string(mode)
+    (with-current-buffer (concat "*scratch " mode "*" ) (buffer-substring-no-properties (point-min) (point-max))))
+
+  (defun scratch-buffer-open(mode)
+    (switch-to-buffer (get-buffer-create (concat "*scratch " mode "*"))))
+
+  (defun scratch-pwsh-buffer-string()
+    (scratch-buffer-string "pwsh"))
+
+  (defun scratch-pwsh()
+    (interactive)
+    (scratch-buffer-open "pwsh")
+    (if (not (string-equal major-mode "powershell-mode"))
+        (powershell-mode)))
+
+  (defun scratch-buffer-run(mode command)
+    (get-buffer-create (concat "*scratch " mode " output*"))
+    (with-current-buffer (concat "*scratch " mode " output*")
+      (goto-char (point-max))
+      (switch-to-buffer-other-window (concat "*scratch " mode " output*"))
+      (insert (eshell-command-result command))))
+
+  (defun scratch-pwsh-buffer-run()
+    (interactive)
+    (scratch-buffer-run "pwsh" "pwsh -Command (scratch-pwsh-buffer-string)"))
+
+  (defun scratch-js-buffer-string()
+    (scratch-buffer-string "js"))
+
+  (defun scratch-js()
+    (interactive)
+    (scratch-buffer-open "js")
+    (if (not (string-equal major-mode "js2-mode"))
+        (js2-mode)))
+
+  (defun scratch-js-buffer-run()
+    (interactive)
+    (scratch-buffer-run "js" "node -e (scratch-js-buffer-string)"))
+
+
+  (provide 'custom-functions)
+#+end_src
