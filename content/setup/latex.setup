@@ -1,0 +1,16 @@
+# -*- mode: org; -*-
+#+LATEX_HEADER: \usepackage[margin=1in,headheight=14pt]{geometry} \addtolength{\topmargin}{-1.6pt}
+#+LATEX_HEADER: \usepackage[inkscapeformat=png]{svg}
+#+LATEX_HEADER: \usepackage[headings]{fancyhdr} \pagestyle{fancy}
+#+LATEX_HEADER: \fancyfoot[R]{\includesvg[width=.5cm]{images/emacs-logo.svg}}
+#+LATEX_HEADER: \usepackage{parskip}%
+#+LATEX_HEADER: \usepackage[bottom]{footmisc}
+#+LATEX_HEADER: \usepackage{fancyvrb}
+#+LATEX_HEADER: \DefineVerbatimEnvironment{tinybox}{Verbatim}{fontsize=\tiny,frame=single}
+#+LATEX_HEADER: \DefineVerbatimEnvironment{smallbox}{Verbatim}{fontsize=\small,frame=single}
+#+LATEX_HEADER: \usepackage{xcolor} \definecolor{light-gray}{gray}{0.95}
+#+LATEX_HEADER: \usepackage{listings} \lstset{showstringspaces=false, backgroundcolor=\color{light-gray}}
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmonofont{JetBrains Mono}[Scale=MatchLowercase]
+#+LATEX_HEADER: \setmainfont{Inter}[Scale=MatchLowercase]
+#+LATEX_HEADER: \setsansfont{Inter}[Scale=MatchLowercase]

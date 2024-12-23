@@ -1,0 +1,352 @@
+#+TITLE: Building Emacs from Source
+#+AUTHOR: KyeongSoo Choi
+#+EMAIL: mandoo180@gmail.com
+#+STARTUP: content
+#+SETUPFILE: ~/Projects/k-org-site/content/setup/latex.setup
+#+INCLUDE: ~/Projects/k-org-site/content/setup/macros.setup
+#+EXCLUDE_TAGS: noexport macos
+#+OPTIONS: ^:nil date:t email:t num:2 tags:nil toc:nil
+#+PROPERTY: header-args :noweb yes :exports both :cache no
+#+PROPERTY: header-args:bash results output :dir ~/src/emacs
+
+#+begin_export latex
+    \begin{center}
+       \includesvg[width=10cm]{images/emacs-logo.svg}
+    \end{center}
+    \clearpage \tableofcontents \clearpage
+#+end_export
+
+* TODOs
+
+** TODO When publishing with html, macro is not evaluate correctly.
+
+* README :noexport:
+:PROPERTIES:
+:VISIBILITY: all
+:END:
+
+This is from [[https://gitlab.com/spudlyo/orgdemo2][orgdemo2]] and I'm trying to adopt it for building emacs on Ubuntu, macOS and Windows.
+
+This file is a literate Org-mode document. It is intended to be "run" by GNU Emacs 27.1 or higher.
+This document can execute =bash= shell code in order to demonstrate how to create install packages and
+build Emacs. Out of the box, however, all exported =bash= code blocks include cached results from a
+previous run. This means no bash code blocks will be executed on your system. If Emacs ever asks you
+if you want to execute a =bash= source code block, it means something is no longer cached and you
+should be wary of saying "yes" unless you know what you're doing.
+
+** Choosing which version of the document to export
+<<doc version>> The document will differ slightly depending on which version of the document
+you chose to export. By default, if this document is not altered in any way, the exported version
+will discuss how to install GNU Emacs on Debian/Ubuntu based systems.
+
+- change the "#+SUBTITLE:" line at the top of the document to read "macOS based".
+- change the "#+EXCLUDE_TAGS:" line at the top of the document to "noexport debian".
+- change the "#+EXPORT_FILE_NAME:" line at the top of the document to "mac_buildemacs".
+- change the ":prefix:" property in section [[constants]] to "mac_".
+
+You can hit =C-c C-c= on the Emacs Lisp block below to do just that.
+
+#+caption: Configure this document for macOS
+#+NAME: configure_document
+#+begin_src emacs-lisp :results none :eval never-export :var os="macOS"
+  (let* ((macos-p  (string= os "macOS"))
+         (no_export (if macos-p "debian" "macos"))
+         (prefix    (if macos-p "mac_" "deb_")))
+    (save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward "^\\(#\\+SUBTITLE: A guide for \\)\\([^ ]+\\)\\(.*\\)" nil t)
+        (replace-match (format "\\1%s\\3" os)))
+      (when (re-search-forward "^#\\+EXCLUDE_TAGS:.*" nil t)
+        (replace-match (concat "#+EXCLUDE_TAGS: noexport " no_export)))
+      (when (re-search-forward "^#\\+EXPORT_FILE_NAME:.*" nil t)
+        (replace-match (format "#+EXPORT_FILE_NAME: %sbuildemacs" prefix)))
+      (when (re-search-forward "^:prefix:.*" nil t)
+        (replace-match (concat ":prefix: " prefix)))))
+#+end_src
+
+Once you've made the necessary changes, you can export the document as usual.
+
+*NOTE:* Switching to the RedHat version of the document will invalidate the cache on certain code
+blocks whose names all begin with =install_=. When you export the document, you will be prompted to
+run these =bash= blocks at least four times, which you should decline each time.
+
+*** Using the 'sudo' command
+Many of the =bash= code blocks in this document use the =sudo= command in order to execute shell
+commands as a privileged user. By default, =sudo= will prompt you for a password, which will cause
+issues when running the commands in this document, since we're not running in an interactive
+mode. In order for your local user to run privileged commands /without/ a password, you'll need to
+make a change to the =/etc/sudoers= file using the =sudo visudo= command, which will fire up
+=$EDITOR= for you to edit =/etc/sudoers=.
+
+You should see a section in the file that allows users of a specific group (in this case the =sudo=
+group) to execute any command. On RedHat based GNU/Linux systems the group is called =wheel= rather
+than =sudo=.
+
+#+caption: Relevant section from /etc/sudoers on Ubuntu
+#+begin_example
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+#+end_example
+
+When you edit it, you'll want to change it to look like this:
+
+#+caption: Updated section from /etc/sudoers on Ubuntu
+#+begin_example
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL) NOPASSWD: ALL
+#+end_example
+
+** Emacs Prerequisites
+This document has been tested on Emacs 27.1, Emacs 28.3, and Emacs 29.1. It may work on earlier
+versions of Emacs if you've installed Org mode version 9.3 or above. You should be able to export
+this document to Plain Text or PDF formats without installing any additional Emacs packages, it
+should work with Vanilla Emacs. You also don't need the GUI version of Emacs; it should work fine in
+the Terminal.
+
+On Ubuntu you can install Emacs 27.1 by running: =sudo apt install emacs-nox=. On Fedora you can
+install Emacs 28.3 using =sudo dnf install emacs-nox=. Ideally, you will be viewing this document
+inside GNU Emacs.
+
+** LaTeX Prerequisites
+If you want to export this document to LaTeX or PDF you'll need to install some some additional OS
+packages.
+
+| Software       | Debian Package       | macOS Package |
+|----------------+----------------------+---------------|
+| TeX Live       | texlive-latex-extra  |               |
+| xelatex        | texlive-xetex        |               |
+| pdflatex       | texlive-extra-utils  |               |
+| latexmk        | latexmk              |               |
+| inkscape       | inkscape             |               |
+| JetBrains Mono | fonts-jetbrains-mono |               |
+| Inter          | fonts-inter          |               |
+
+If you can run 'sudo' without needing a password you can hit =C-c C-c= on the block below to install
+the necessary Debian packages to generate LaTeX PDF output. The block below that is for RedHat based
+systems.
+
+*NOTE:* This can take several minutes to run, during which time Emacs may appear to be locked up as
+this work is /not/ done asynchronously. This is around 1.5GB of packages, so make sure you have the
+space available.
+
+#+caption: Install LaTeX Prerequisites on Debian based systems
+#+NAME: deb_install_latex
+#+begin_src bash :results none :eval never-export :dir ~/
+  sudo apt-get install -qq \
+       texlive-latex-extra \
+       texlive-extra-utils \
+       texlive-xetex \
+       latexmk \
+       inkscape \
+       fonts-jetbrains-mono \
+       fonts-inter > /dev/null 2>&1
+#+end_src
+
+#+caption: Install LaTeX Prerequisites on macOS
+#+NAME: rh_install_latex
+#+begin_src bash :results none :eval never-export :dir ~/
+#+end_src
+
+** Executing the code found in this document
+If you want to actually execute the code in this document, you have a couple of options. You can
+navigate to the [[main document]] and manually press =C-c C-c= on each code block. This will require you
+to invalidate the cache first, which you can do by modifying the value of the checksum on the
+=+RESULTS[checksum]:= block. I like this approach because it gives you precise control of when the
+blocks are executed, and lets you observe each result before moving to the next block.
+
+Alternately, if you want to execute all the blocks at once, you can change the default header arg
+from =:cache yes= to =:cache no= at the top of the document. Once you do this, when you export the
+document, it should run all the source code blocks in order. Annoyingly, it will prompt you for
+confirmation on each =bash= code block, which you can suppress by setting the variable
+=buildemacs-confirm-bash= to =nil=.
+
+If you hit =C-c C-c= on the code block below, it will make all the changes suggested above for
+you. After which, when you export the document, it will run all the code blocks. These code blocks
+will download and build GNU Emacs on your computer.
+
+*NOTE*: Running all the code blocks in this document can take tens of minutes, and while it's
+exporting, Emacs will be unresponsive. If you wish to monitor the export progress, it can be
+helpful to open another terminal window and run the =top= command.
+
+# You know what you're doing, right? Right!?
+#+NAME: no_cache_no_confirm
+#+begin_src elisp :results none :eval never-export :var cache="no"
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^\\(#\\+PROPERTY:.*\\):cache [A-Za-z]+")
+      (replace-match (format "\\1:cache %s" cache))))
+  (setq buildemacs-confirm-bash `,(string= cache "yes"))
+#+end_src
+
+*NOTE:* The code blocks in this document assume you're starting from a fresh install of either
+Ubuntu Server 22.04 or Debian Server 38. If you've previously executed some of the code in this
+document, certain code blocks may fail or produce unexpected results. Stated simply, many code
+blocks in this document are *not* idempotent, and only the first uncached run of the document is
+expected to succeed.
+
+* Document constants :noexport:
+:PROPERTIES:
+:prefix: deb_
+:deb_user: a Ubuntu user
+:deb_osver: Ubuntu 24.04.01 LTS
+:deb_osver_short: Ubuntu
+:deb_install: sudo apt install -qq
+:deb_gnutls: libgnutls28-dev
+:deb_ncurses: libncurses-dev
+:mac_user: a macOS user
+:mac_osver: macOS Sonoma 14.6.1
+:mac_osver_short: macOS
+:mac_install: brew install
+:mac_gnutls: none
+:mac_ncurses: none
+:END:
+
+<<constants>> The properties above define all the constants we're using throughout this document.
+By default, when you run this document it will describe how to build GNU Emacs under a Debian based
+system. If you'd like to change this, there are instructions on how to do so in the [[doc version]]
+section.
+
+* Code :noexport:
+
+What follows is code that will be used throughout the document.
+
+#+NAME: get_prop
+#+begin_src emacs-lisp :results value :exports none :var prop="user"
+  (let ((ret (org-property-values prop))
+        (prefix (org-property-values "prefix")))
+    (if ret
+        (car ret)
+      (when prefix
+        (car (org-property-values (concat (car prefix) prop))))))
+#+end_src
+
+#+RESULTS[476573df413eb5c155a676561aa745dd3b60cc89]: get_prop
+#+begin_example
+a Ubuntu user
+#+end_example
+
+#+NAME: lsplit
+#+begin_src emacs-lisp :results value :export none :var line="foo bar\nbaz"
+  (car (split-string line))
+#+end_src
+
+#+RESULTS: lsplit
+: foo
+
+#+NAME: strip
+#+begin_src emacs-lisp :results value raw :export none :var line="  foo   "
+  (string-trim line)
+#+end_src
+
+#+RESULTS: strip
+foo
+
+The following function is run when the document is loaded by Emacs. You have to OK this first. Most
+of what this code does is make it so every =#+begin_example= and =#+end_example= block is rendered in
+LaTeX with a box around it. It's a lot of effort for pretty boxes, but it's worth it. Also, if
+you're not using a custom Emacs theme I load the wonderful =leuven= theme which comes with Emacs and
+makes Org documents look amazing. Sorry, not sorry.
+
+#+NAME: startup
+#+begin_src emacs-lisp :results none :eval never-export :cache no :exports none
+  (require 'ox)
+
+  (defun my-latex-export-example-blocks (text backend info)
+    "Export example blocks as smallbox env."
+    (when (org-export-derived-backend-p backend 'latex)
+      (with-temp-buffer
+        (insert text)
+        ;; replace verbatim env with smallbox
+        (goto-char (point-min))
+        (replace-string "\\begin{verbatim}" "\\begin{smallbox}")
+        (replace-string "\\end{verbatim}" "\\end{smallbox}")
+        (buffer-substring-no-properties (point-min) (point-max)))))
+
+  (make-local-variable 'org-export-filter-example-block-functions)
+  (add-to-list 'org-export-filter-example-block-functions
+               'my-latex-export-example-blocks)
+  (defvar buildemacs-confirm-bash t "Should buildemacs.org confirm bash blocks?")
+#+end_src
+
+* Introduction
+
+<<main document>> In this document we're going to demonstrate how you, {{{pr(user)}}}, can download
+and build the source code for GNU Emacs. The goal is to walk through each step of the process, and
+explain things as we go. By default, most systems do not have the necessary software components
+installed that are required to build GNU Emacs from source, so we'll also be installing a lot of
+software on your computer. You'll need =sudo= access for this, and this document assumes that your
+local user can run =sudo= without a password.
+
+Much of this document is going to involve trying to run the Emacs =./configure= script, having
+something fail, resolving some missing software dependency, and then trying again until we finally
+have a successful build. It's a bit of an iterative process.
+
+- Install: {{{pr(install)}}}
+- Install: {{{pr(ncurses)}}}
+
+* Fun Facts :debian:
+This shows info only for debian based OS
+
+* macOS Specifics :macos:
+This shows info only for macOS
+
+* Set some Emacs Variables and Run some Elisp Code                 :noexport:
+<<emacs variables>> In this section, we're going to set up some buffer local variables and run some
+code. This will allow this literate document to run code on your system. Most of these changes are
+in service to generating a nice PDF file using LaTeX.
+
+In summary:
+
+- Text should wrap at 100 columns.
+- Hide markup emphasis markers, and render the emphasis in-buffer.
+- We should be able to run bash and emacs-lisp code blocks.
+- Elisp code blocks should be evaluated without confirmation.
+- Properties defined in one heading should be inherited by all other headings.
+- Executing a source block should always produce a =+begin_example= block.
+- We should use "xelatex" as the latex compiler.
+- We should should use the "latexmk" script to manage how many times the compiler is run.
+- Hyperlinks should not have janky red boxes around them (colorlinks=true).
+- We need to add the "titletoc" package to the default latex packages list, but before hyperref.
+- Source code blocks should be formatted in LaTeX using the "listings" package.
+- All source code blocks should have a simple box framing them.
+- Execute the Elisp source block "startup":
+- The heading the "startup" source block is in should remain folded after execution.
+- When running the latex to pdf process, allow for dynamic TEX content via shell escape.
+
+# Local Variables:
+# fill-column: 100
+# org-hide-emphasis-markers: t
+# eval: (org-babel-do-load-languages 'org-babel-load-languages '((shell . t) (emacs-lisp . t)))
+# org-confirm-babel-evaluate: (lambda (lang body)
+#                               (not
+#                                 (or
+#                                   (string= lang "elisp")
+#                                   (string= lang "emacs-lisp")
+#                                   (and
+#                                     (string= lang "bash")
+#                                     (eq buildemacs-confirm-bash nil)))))
+# org-use-property-inheritance: t
+# org-babel-min-lines-for-block-output: 0
+# org-latex-compiler: "xelatex"
+# org-latex-pdf-process: ("latexmk -f -pdf -%latex -interaction=nonstopmode -output-directory=%o %f")
+# org-latex-hyperref-template: "\\hypersetup{\n pdfauthor={%a},\n pdftitle={%t},\n colorlinks=true}\n")
+# org-latex-default-packages-alist: (("AUTO" "inputenc" t ("pdflatex"))
+#                                    ("T1" "fontenc" t ("pdflatex"))
+#                                    ("" "graphicx" t)
+#                                    ("" "longtable" nil)
+#                                    ("" "wrapfig" nil)
+#                                    ("" "rotating" nil)
+#                                    ("normalem" "ulem" t)
+#                                    ("" "amsmath" t)
+#                                    ("" "amssymb" t)
+#                                    ("" "capt-of" nil)
+#                                    ("" "titletoc" nil)
+#                                    ("" "hyperref" nil))
+# org-latex-listings: t
+# org-latex-listings-options: (("frame" "single"))
+# eval: (progn
+#         (org-babel-goto-named-src-block "startup")
+#         (org-babel-execute-src-block)
+#         (outline-hide-subtree)
+#         (setq org-latex-pdf-process `(,(concat (car org-latex-pdf-process) " -8bit -shell-escape"))))
+# End:

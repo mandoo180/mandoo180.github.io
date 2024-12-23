@@ -1,0 +1,8 @@
+# -*- mode: org; -*-
+#+MACRO: s src_elisp[:results value :exports results :var x=$1[$2,$3]]{(string-trim x)}
+#+MACRO: sr src_elisp[:results value raw :exports results :var x=$1[$2,$3]]{(string-trim x)}
+#+MACRO: srv src_elisp[:results value raw verbatim :exports results :var x=$1[$2,$3]]{(string-trim x)}
+#+MACRO: p call_get_prop("$1")
+#+MACRO: pr call_get_prop[:results raw]("$1")
+#+MACRO: prv call_get_prop[:results raw verbatim]("$1")
+#+MACRO: pv call_get_prop[:results verbatim]("$1")

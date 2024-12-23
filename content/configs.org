@@ -220,7 +220,7 @@
           org-image-actual-width '(450)
           org-log-done 'time
           org-log-into-drawer t
-          org-pretty-entities t
+          org-pretty-entities nil
           org-startup-indented t
           org-startup-with-inline-images t
           org-tags-column 80))
@@ -276,10 +276,6 @@
   ;;    (plist-put org-format-latex-options :scale 2)
   ;;    (plist-put org-format-latex-options :foreground 'auto)
   ;;    (plist-put org-format-latex-options :background 'auto)))
-
-  ;; (use-package org-modern
-  ;;   :hook
-  ;;   (org-mode . org-modern-mode))
 
   (defun handle-org-hook ()
     (setq-local electric-pair-inhibit-predicate `(lambda (c)
@@ -490,13 +486,12 @@ Redirect output to emacs buffer as below.
 [[https://github.com/roman/golden-ratio.el][Golden ratio github link]]
 [[https://github.com/emacsorphanage/popwin][Popwin github link]]
 
-*Critical Error*
+*Note: Critical Errors*
 
-When open a buffer in other window with consult-buffer,
+1. When open a buffer in other window with consult-buffer,
 it shows all the buffers in sub-windows.
 
-Messages and Error windows keep stacking.
-TODO: Rewrite some codes.
+2. Messages buffer windows keep stacking.
 
 |-------------+--------------------------------------|
 | Binding     | Action                               |
