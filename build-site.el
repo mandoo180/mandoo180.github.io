@@ -43,6 +43,7 @@
         (org-babel-goto-named-src-block li)
         (org-babel-execute-src-block)))))
 
+;; for testing purpose
 (setq org-export-before-processing-functions #'run-before-org-export-processing)
 
 

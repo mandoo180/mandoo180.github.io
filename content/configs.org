@@ -7,12 +7,15 @@
 * Easy Editing
 
 #+begin_src elisp :tangle ~/.emacs.d/elisp/editing-conf.el
+  ;; -*- lexical-binding: t; -*-
+
   (dolist (mode '(text-mode-hook
                   prog-mode-hook
                   conf-mode-hook))
     (add-hook mode (lambda ()
-                     (display-line-numbers-mode t)
-                     (display-fill-column-indicator-mode -1))))
+                     (setq display-line-numbers-width 6)
+                     (display-line-numbers-mode 1)
+                     (display-fill-column-indicator-mode 0))))
 
   (add-hook 'after-init-hook 'electric-pair-mode)
   (add-hook 'after-init-hook 'electric-indent-mode)
@@ -102,6 +105,8 @@
 * Completion
 
 #+begin_src elisp :tangle ~/.emacs.d/elisp/completion-conf.el
+  ;; -*- lexical-binding: t; -*-
+
   (use-package vertico
     :init
     (vertico-mode))
@@ -201,9 +206,63 @@
   (provide 'completion-conf)
 #+end_src
 
+* Theme
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/simple-theme.el
+  (require 'autothemer)
+
+  (autothemer-deftheme simple
+                       "A simple theme."
+
+                       ((((class color) (min-colors #xFFFFFF))) ;; We're only concerned with graphical Emacs
+
+                        ;; Define our color palette
+                        (paper-black        "#373A40")
+                        (paper-white        "#EEEEEE")
+                        (paper-orange       "#F7954A")
+                        (paper-dark-orange  "#DC5F00")
+                        (paper-light-orange "#FCDAC0")
+                        (paper-gray         "#D9D9D9")
+                        (paper-dark-gray    "#686D76"))
+
+                       ;; Customize faces
+                       ((default                      (:foreground paper-white :background paper-black))
+                        (cursor                       (:background paper-dark-orange))
+                        (region                       (:background paper-dark-gray))
+                        (fringe                       (:background paper-black))
+                        (mode-line                    (:background paper-black))
+
+                        (font-lock-keyword-face       (:foreground paper-white :weight 'regular))
+                        (font-lock-constant-face      (:foreground paper-white :weight 'regular))
+                        (font-lock-string-face        (:foreground paper-gray))
+                        (font-lock-builtin-face       (:foreground paper-white))
+                        (font-lock-comment-face       (:foreground paper-dark-gray))
+                        (font-lock-type-face          (:foreground paper-white))
+                        (font-lock-function-name-face (:foreground paper-white :weight 'light))
+                        (font-lock-variable-name-face (:foreground paper-white :weight 'light))
+                        (font-lock-warning-face       (:foreground paper-white :weight 'light))
+
+                        (link                         (:foreground paper-light-orange :underline t))
+                        (link-visited                 (:foreground paper-gray :underline t))
+                        (highlight                    (:foreground paper-white :background paper-dark-gray :underline t))
+                        (isearch                      (:background paper-gray))
+
+                        (org-ellipsis                 (:foreground paper-dark-gray))
+                        (org-tag                      (:foreground paper-dark-gray :height 0.95))
+
+                        (org-block                    (:foreground paper-gray))
+                        (org-table                    (:foreground paper-white))
+
+                        ))
+
+  (provide-theme 'simple)
+#+end_src
+
 * Org Mode
 
 #+begin_src elisp :tangle ~/.emacs.d/elisp/org-conf.el
+  ;; -*- lexical-binding: t; -*-
+
   (use-package org
     :pin org
     :commands (org-capture org-agenda)
@@ -221,7 +280,7 @@
           org-log-done 'time
           org-log-into-drawer t
           org-pretty-entities nil
-          org-startup-indented t
+          org-startup-indented nil
           org-startup-with-inline-images t
           org-tags-column 80))
 
@@ -281,7 +340,14 @@
     (setq-local electric-pair-inhibit-predicate `(lambda (c)
                                                    (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c)))))
 
+  (defun handle-org-after-save-hook ()
+    (message "%s" (buffer-file-name))
+    (message "%s" (expand-file-name "~/Projects/k-org-site/content/configs.org"))
+    (if (string-equal (buffer-file-name) (expand-file-name "~/Projects/k-org-site/content/configs.org"))
+        (org-babel-tangle)))
+
   (add-hook 'org-mode-hook #'handle-org-hook)
+  (add-hook 'after-save-hook #'handle-org-after-save-hook)
 
   (provide 'org-conf)
 #+end_src
@@ -289,6 +355,8 @@
 * Note Taking
 
 #+begin_src elisp :tangle ~/.emacs.d/elisp/note-conf.el
+  ;; -*- lexical-binding: t; -*-
+
   (use-package denote
     :custom
     (denote-sort-keywords t)
@@ -307,6 +375,8 @@
 * Programming Languages
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/lang-conf.el
+  ;; -*- lexical-binding: t; -*-
+
   (use-package eglot
     :defer t
     :hook
@@ -318,7 +388,10 @@
     (typescript-ts-mode . eglot-ensure))
 
   (use-package tree-sitter)
-  (use-package tree-sitter-langs)
+  (use-package treesit-auto
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all))
+  ;; (use-package tree-sitter-langs)
 
   (use-package ielm
     :init
@@ -329,7 +402,7 @@
     (add-hook 'after-init-hook 'global-flycheck-mode)
     :config
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-  
+
   (use-package eldoc
     :init  (setq eldoc-idle-delay 0.1))
 
@@ -391,6 +464,8 @@ Redirect output to emacs buffer as below.
 #+end_src
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/eshell-conf.el
+  ;; -*- lexical-binding: t; -*-
+
   ;; I don't need less in emacs
   (setenv "PAGER" "cat")
 
@@ -469,13 +544,22 @@ Redirect output to emacs buffer as below.
                 (eshell/alias "ff" "find-file $1")
                 (eshell/alias "emacs" "find-file $1")
                 (eshell/alias "ffo" "find-file-other-window $1")))
-    (add-hook 'eshell-exit-hook  #'handle-eshell-exit))
+    ;; (add-hook 'eshell-exit-hook  #'handle-eshell-exit)
+    )
 
   (use-package eshell
     :hook
     (eshell-first-time-mode . k/configure-eshell))
 
   ;; (global-set-key (kbd "C-`") #'toggle-eshell)
+
+  (if (string-equal system-type "windows-nt")
+      (progn
+        (setq eshell-windows-shell-file (executable-find "bash"))
+        (setq explicit-shell-file-name (executable-find "bash"))
+        (setq shell-file-name (executable-find "bash"))
+        (setenv "SHELL" shell-file-name)
+        (setenv "BASH_ENV" "~/.bashrc")))
 
   (provide 'eshell-conf)
 #+end_src
@@ -511,19 +595,27 @@ it shows all the buffers in sub-windows.
 |-------------+--------------------------------------|
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/window-conf.el
-  (use-package edwina
-    :config
-    ;; (setq display-buffer-base-action '(display-buffer-below-selected))
-    (edwina-mode 1))
+  ;; -*- lexical-binding: t; -*-
 
-  (use-package golden-ratio
-    :config
-    ;; (golden-ratio-mode 1)
-    )
-
-  ;; (use-package popwin
+  ;; (use-package edwina
   ;;   :config
-  ;;   (popwin-mode 1))
+  ;;   ;; (setq display-buffer-base-action '(display-buffer-below-selected))
+  ;;   (edwina-mode 1))
+
+  (use-package popper
+    :bind (("C-`" . popper-toggle)
+           ("M-`" . popper-cycle)
+           ("C-M-`" . popper-toggle-type))
+    :init
+    (setq popper-reference-buffers
+          '("\\*Messages\\*"
+            "Output\\*$"
+            "\\*Async Shell Command\\*"
+            ;; eshell-mode
+            help-mode
+            compliation-mode))
+    (popper-mode 1)
+    (popper-echo-mode 1))
 
   (provide 'window-conf)
 #+end_src
@@ -533,6 +625,8 @@ it shows all the buffers in sub-windows.
 ** Scratch Buffers
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/custom-functions.el
+  ;; -*- lexical-binding: t; -*-
+
   (defun scratch-buffer-string(mode)
     (with-current-buffer (concat "*scratch " mode "*" ) (buffer-substring-no-properties (point-min) (point-max))))
 
@@ -575,3 +669,9 @@ it shows all the buffers in sub-windows.
 
   (provide 'custom-functions)
 #+end_src
+
+* Local File Variables
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

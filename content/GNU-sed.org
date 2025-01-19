@@ -1,0 +1,459 @@
+#+title: GNU Sed
+#+author: Kyeong Soo Choi
+#+property: header-args :shell :tangle no :results output
+
+
+* Introduction
+
+The command name =sed= is derived from stream editor. Here, stream
+refers to data being passed via shell pipes. Thus, the command's
+primary functionality is to act as a text editor for stdin data with
+stdout as the output target. Over the years, functionality was added
+to edit file input and save the changes back to the same file.
+
+=s= stands for substitute command
+=/= is an idiomatic delimiter character to separate various portions of
+the command
+=REGEXP= stands for regular expression
+=REPLACEMENT= specifies the replacement string
+=FLAGS= are options to change default behavior of the command
+
+** Basic Usage
+
+#+begin_src shell
+  printf '1,2,3,4\na,b,c,d\n' | sed 's/,/-/g'
+#+end_src
+
+#+RESULTS:
+| 1-2-3-4 |
+| a-b-c-d |
+
+* In-place file editing
+
+** With backup
+
+When an extension is provided as an argument to -i option, the
+original contents of the input file gets preserved as per the
+extension given. For example, if the input file is =ip.txt= and
+=-i.orig= is used, the backup file will be named as =ip.txt.orig=
+
+
+#+begin_src shell :results none
+  sed -i.bkp 's/blue/green/' examples/sed/colors.txt
+#+end_src
+
+** Without backup
+
+Sometimes backups are not desirable. Using -i option on its own will
+prevent creating backups. Be careful though, as changes made connot be
+undone. In such cases, tets the command with sample input before using
+-i option on actual file. You could also use the option with backup,
+compare the differences with a =diff= program and then delete the backup.
+
+#+begin_src shell :results none
+  sed -i 's/an/AN/g' examples/sed/fruits.txt
+#+end_src
+
+** Multiple files
+
+Multiple input files are treated individually and the changes are
+written back to repective files.
+
+#+begin_src shell :results none
+  sed -i.bkp 's/bad/good/' examples/sed/f1.txt examples/sed/f2.txt
+#+end_src
+
+Using wildcard and globbing
+
+#+begin_src shell
+  sed -i.bkp 's/bad/good/' examples/sed/f?.*
+#+end_src
+
+** Prefix backup name
+
+A * character in the argumetn to -i option is special. It will get
+replaced with the input filename. This is helpful if you need to use a
+prefix instead of suffix for the backup filename. Or any other
+combination that may be needed.
+
+#+begin_src shell :results none
+  sed -i'bkp.*' 's/green/yellow/' examples/sed/colors.txt
+#+end_src
+
+** Place backups in different directory
+
+The =*= trick can also be used to place the backups in another directory
+instead of the parent directory of input files. The backup directory
+should already exist for this to work.
+
+#+begin_src shell :results none
+  sed -i'backups/*' 's/good/nice' examples/sed/f?.*
+#+end_src
+
+** Cheatsheet and summary
+
+| Note          | Description                                                                                                                      |
+| -i            | after processing, write back changes to the source file(s) changes made cannot be undone, so use this option with caution        |
+| -i.bkp        | in addition to in-place eiditing, preserve original contents to a whose name is derived from input filename and .bkp as a suffix |
+| -i'bkp.*'     | * here gets replaced with input filename thus providing a way to add a prefix instead of a suffix                                |
+| -i'backups/*' | this will place the backup copy in a different existing directory instead of source directory                                    |
+
+* Selective eiditing
+
+By default, sed acts on the entire input content. Many a times, you
+only want to act upon specific portions of the input. To that end, sed
+has features to filter lines, similar to tools like grep, head and
+tail. sed can replicate most of grep's filtering features without too
+much fuss. And has features like line number based filtering,
+selecting lines between two patterns, relative addressing, etc which
+isn't possible with grep. If you are familiar with functional
+programming, you would have come across map, filter, reduce paradigm.
+A typical task with sed involves filtering a subset of input and then
+modifying (mapping) them. Sometimes, the subset is the entire input,
+as seen in the examples of previous chapters.
+
+** Conditional execution
+
+As seen earlier, the syntax for substitute command is
+s/REGEXP/REPLACEMENT/FLAGS. The /REGEXP/FLAGS portion can be used as a
+conditional expression to allow commands to execute only for the lines
+matching the pattern.
+
+#+begin_src shell
+  printf '1,2,3,4\na,b,c,d\n' | sed '/2/ s/,/-/g'
+#+end_src
+
+#+RESULTS:
+: 1-2-3-4
+: a,b,c,d
+
+Use /REGEXP/FLAGS! to act upon lines other than the matching ones.
+
+#+begin_src shell
+  printf '1,2,3,4\na,b,c,d\n' | sed '/2/! s/,/-/g'
+#+end_src
+
+#+RESULTS:
+: 1,2,3,4
+: a-b-c-d
+
+** Delete command
+
+To delete the filtered lines, use the =d= command. Recall that all input
+lines are printed by default.
+
+#+begin_src shell
+  printf 'sea\neat\ndrop\n' | sed '/at/d'
+#+end_src
+
+#+RESULTS:
+: sea
+: drop
+
+#+begin_src shell
+  # same as: grep -v 'at'
+  printf 'sea\neat\ndrop\n' | sed '/at/!d'
+#+end_src
+
+#+RESULTS:
+: eat
+
+** Print command
+
+To print the filtered lines, use the =p= command. But, recall that all
+input lines are printed by default. So, this command is typically used
+in combination with -n command line option, which would turn off the
+default printing.
+
+#+begin_src shell
+  # same as: grep 'twice' examples/sed/programming_quotes.txt
+  sed -n '/twice/p' examples/sed/programming_quotes.txt
+
+  # same as: grep 'e th' examples/sed/programming_quotes.txt
+  sed -n '/e th/p' examples/sed/programming_quotes.txt
+#+end_src
+
+The substitue command provides =p= as a flag. In such a case, the
+modified line would be printed only if the substituion succeeded.
+
+#+begin_src shell
+  # same as grep '1' programming_quotes.txt | sed 's/1/one/g'
+  sed -n 's/1/one/gp' examples/sed/programming_quotes.txt
+
+  # filter + substitution + p combination
+  # same as grep 'not' programming_qoutes.txt | sed 's/in/**/g'
+  sed -n '/not/ s/in/**/gp' examples/sed/programming_quotes.txt
+#+end_src
+
+#+RESULTS:
+: naming things, and off-by-one errors by Leon Bambrick
+: by def**ition, not smart enough to debug it by Brian W. Kernighan
+: A language that does not affect the way you th**k about programm**g,
+: is not worth know**g by Alan Perlis
+
+Using !p with -n option will be equivalent to using d command.
+
+#+begin_src shell
+  # same as: sed '/at/d'
+  printf 'sea\neat\ndrop\n' | sed -n '/at/!p'
+#+end_src
+
+#+RESULTS:
+: sea
+: drop
+
+** Quit commands
+
+Using q command wil exit sed immediately, without any further
+processing.
+
+#+begin_src shell
+  # quits after an input line containing 'if' is found
+  sed '/if/q' examples/sed/programming_quotes.txt 
+#+end_src
+
+#+RESULTS:
+: Debugging is twice as hard as writing the code in the first place.
+: Therefore, if you write the code as cleverly as possible, you are,
+
+Q command is similar to q but won't print the matching line.
+
+#+begin_src shell
+  sed '/if/Q' examples/sed/programming_quotes.txt 
+#+end_src
+
+#+RESULTS:
+: Debugging is twice as hard as writing the code in the first place.
+
+Use =tac= to get all lines starting from last occurrence of the search
+string with respect to entire file content.
+
+#+begin_src shell
+  tac examples/sed/programming_quotes.txt | sed '/not/q' | tac
+#+end_src
+
+#+RESULTS:
+: is not worth knowing by Alan Perlis
+: 
+: There are 2 hard problems in computer science: cache invalidation,
+: naming things, and off-by-1 errors by Leon Bambrick
+
+You can optionally provides an exit status (from 0 to 255) along with
+the quit commands.
+
+#+begin_src shell :results value
+  printf 'sea\neat\ndrop\n' | sed '/at/q2'
+#+end_src
+
+#+RESULTS:
+: 2
+
+
+** COMMENT Multiple commands
+
+Commands seen so far can be specified more than once by separating
+them using =;= or using the =-e= command line option.
+
+#+begin_src shell
+  printf 'sea\neat\ndrop\n' | sed -n -e 'p' -e 's/at/AT/p'
+  echo '--------------------'
+  printf 'sea\neat\ndrop\n' | sed -n 'p; s/at/AT/p'
+#+end_src
+
+#+RESULTS:
+: sea
+: eat
+: eAT
+: drop
+: --------------------
+: sea
+: eat
+: eAT
+: drop
+
+Another way is to separate the commands using a literal newline
+character. If more than 2-3 lines are needed, it is better to use a
+sed script instead.
+
+#+begin_src shell
+  sed -n '
+  /not/ s/in/**/gp
+  s/1/one/gp
+  s/2/two/gp
+  ' examples/sed/programming_quotes.txt
+#+end_src
+
+#+RESULTS:
+: by def**ition, not smart enough to debug it by Brian W. Kernighan
+: A language that does not affect the way you th**k about programm**g,
+: is not worth know**g by Alan Perlis
+: There are two hard problems in computer science: cache invalidation,
+: naming things, and off-by-one errors by Leon Bambrick
+
+#+begin_src shell
+  sed -n -f examples/sed/script.sed examples/sed/programming_quotes.txt 
+#+end_src
+
+#+RESULTS:
+: by def**ition, not smart enough to debug it by Brian W. Kernighan
+: A language that does not affect the way you th**k about programm**g,
+: is not worth know**g by Alan Perlis
+: There are two hard problems in computer science: cache invalidation,
+: naming things, and off-by-one errors by Leon Bambrick
+
+To execute multiple commands for a common filter, use {} to group the
+commands. You can also nest them if needed.
+
+#+begin_src shell
+  # same as: sed -n 'p; s/at/AT/p'
+  printf 'sea\neat\ndrop\n' | sed '/at/{p; s/at/AT/}'
+  echo '--------------'
+  # spaces around {} is optional
+  printf 'gates\nnot\nused\n' | sed '/e/{s/s/*/g; s/t/*/g}'
+#+end_src
+
+#+RESULTS:
+: sea
+: eat
+: eAT
+: drop
+: --------------
+: ga*e*
+: not
+: u*ed
+
+Command grouping is an easy way to construct conditional AND of
+multiple search strings.
+
+#+begin_src shell
+  # same as: grep 'in' programming_qoutes.txt | grep 'not'
+  sed -n '/in/{/not/p}' examples/sed/programming_quotes.txt
+  echo '--------------------'
+  # same as: grep 'in' programming_quotes.txt | grep 'not' | grep 'you'
+  sed -n '/in/{/not/{/you/p}}' examples/sed/programming_quotes.txt
+  echo '--------------------'
+  # same as: grep 'not' programming_quotes.txt | grep -v 'you'
+  sed -n '/not/{/you/!p}' examples/sed/programming_quotes.txt 
+#+end_src
+
+#+RESULTS:
+: by definition, not smart enough to debug it by Brian W. Kernighan
+: A language that does not affect the way you think about programming,
+: is not worth knowing by Alan Perlis
+: --------------------
+: A language that does not affect the way you think about programming,
+: --------------------
+: by definition, not smart enough to debug it by Brian W. Kernighan
+: is not worth knowing by Alan Perlis
+
+** Line addressing
+
+Line numbers can also be used as a filtering criteria.
+
+#+begin_src shell
+  # here, 3 represents the address for the print command
+  # same as: head -n3 programming_quotes.txt | tail -n1 and sed '3!d'
+  sed -n '3p' examples/sed/programming_quotes.txt
+  echo '--------------------'
+  # print 2nd and 5th line
+  sed -n '2p; 5p' examples/sed/programming_quotes.txt
+  echo '--------------------'
+  # substitution only on 2nd line
+  printf 'gates\nnot\nused\n' | sed '2 s/t/*/g'
+#+end_src
+
+#+RESULTS:
+: by definition, not smart enough to debug it by Brian W. Kernighan
+: --------------------
+: Therefore, if you write the code as cleverly as possible, you are,
+: Some people, when confronted with a problem, think - I know, I will
+: --------------------
+: gates
+: no*
+: used
+
+As a special case, $ indicates the last line of the input
+
+#+begin_src shell
+  # same as: tail -n1 programming_quotes.txt
+  sed -n '$p' examples/sed/programming_quotes.txt
+#+end_src
+
+#+RESULTS:
+: naming things, and off-by-1 errors by Leon Bambrick
+
+For large input files, use =q= command to avoid processing unnecessary
+input lines.
+
+#+begin_src shell
+  seq 3542 4623452 | sed -n '2452{p; q}'
+  echo '--------------------'
+  seq 3542 4623452 | sed -n '250p; 2452{p; q}'
+  echo '--------------------'
+  # here is a sample time comparison
+  time seq 3542 4623452 | sed -n '2452{p; q}' > examples/sed/f1
+  echo '--------------------'
+  time seq 3542 4623452 | sed -n '2452p' > examples/sed/f2
+#+end_src
+
+#+RESULTS:
+: 5993
+: --------------------
+: 3791
+: 5993
+: --------------------
+: --------------------
+
+Mimicking =head= command using line addressing and the =q= command.
+
+#+begin_src shell
+  # same as: seq 23 45 | head -n5
+  seq 23 45 | sed '5q'
+#+end_src
+
+#+RESULTS:
+: 23
+: 24
+: 25
+: 26
+: 27
+
+** Print only line number
+
+The = command will display the line numbers of matching lines.
+
+#+begin_src shell
+  # gives both line number and matching line
+  grep -n 'not' examples/sed/programming_quotes.txt
+
+  # gives only line number of matching line
+  sed -n '/not/=' examples/sed/programming_quotes.txt 
+#+end_src
+
+#+RESULTS:
+: 3:by definition, not smart enough to debug it by Brian W. Kernighan
+: 8:A language that does not affect the way you think about programming,
+: 9:is not worth knowing by Alan Perlis
+: 3
+: 8
+: 9
+
+If needed, matching line can also be printed. But there will be a
+newline character between the matching line and line number.
+
+#+begin_src shell
+  sed -n '/off/{=; p}' examples/sed/programming_quotes.txt
+  echo '--------------------'
+  sed -n '/off/{p; =}' examples/sed/programming_quotes.txt 
+#+end_src
+
+#+RESULTS:
+: 12
+: naming things, and off-by-1 errors by Leon Bambrick
+: --------------------
+: naming things, and off-by-1 errors by Leon Bambrick
+: 12
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

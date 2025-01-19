@@ -29,8 +29,9 @@ This is an *example* of a website written with _Org Mode!_
 
 - [[./configs.org][Emacs configurations]]
 - [[./build-emacs.org][Build Emacs from Source]]
+- [[./GNU-sed.org][Learning GNU Sed]]
 
 * Links
 
 - [[https://github.com/mandoo180][My github repository]]
-- [[http://kyeongsoo.org][My site]]
+- [[https://mandoo180.github.io/][My Github Page]]
