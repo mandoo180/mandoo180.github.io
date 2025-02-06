@@ -4,6 +4,18 @@
 #+PROPERTY: header-args :emacs-lisp :mkdirp yes :results none
 
 
+* Environment
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/environment-conf.el
+  ;; -*- lexical-binding: t; -*-
+
+  (use-package exec-path-from-shell
+    :config
+    (exec-path-from-shell-initialize))
+
+  (provide 'environment-conf)
+#+end_src
+
 * Easy Editing
 
 #+begin_src elisp :tangle ~/.emacs.d/elisp/editing-conf.el
@@ -282,7 +294,8 @@
           org-pretty-entities nil
           org-startup-indented nil
           org-startup-with-inline-images t
-          org-tags-column 80))
+          org-tags-column 80
+          org-src-window-setup 'current-window))
 
   ;; Lots of stuff from http://doc.norang.ca/org-mode.html
   (with-eval-after-load 'org
@@ -468,6 +481,8 @@ Redirect output to emacs buffer as below.
 
   ;; I don't need less in emacs
   (setenv "PAGER" "cat")
+  ;; because using exec-path-from-shell
+  ;; (setenv "PATH" (concat (concat (getenv "HOME") "/venv/bin") ":" (getenv "PATH")))
 
   (use-package eshell-toggle
     :custom
@@ -617,7 +632,49 @@ it shows all the buffers in sub-windows.
     (popper-mode 1)
     (popper-echo-mode 1))
 
+  (use-package ace-window
+    :config
+    (global-set-key (kbd "M-o") #'ace-window))
+
+  (use-package winner
+    :config
+    (winner-mode 1))
+
   (provide 'window-conf)
+#+end_src
+
+* Gen AI
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/gptel-conf.el
+  (use-package gptel
+    :config
+    (exec-path-from-shell-copy-env "GEMINI_API_KEY")
+    (exec-path-from-shell-copy-env "OPENAI_API_KEY")
+    (setq gptel-api-key (getenv "OPENAI_API_KEY"))
+    (setq gptel-default-mode 'org-mode))
+  ;; (setq gptel-model 'gemini-pro
+  ;;         gptel-backend (gptel-make-gemini "Gemini" :key (getenv "GEMINI_API_KEY") :stream t)))
+  ;; (setq gptel-model 'gpt-4o-mini
+  ;;       gptel-backend (gptel-make-openai "ChatGPT" :key (getenv "OPENAI_API_KEY") :stream t)))
+
+  (provide 'gptel-conf)
+#+end_src
+
+* Reading
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/reading-conf.el
+  ;; -*- lexical-binding: t; -*-
+
+  (use-package visual-fill-column)
+
+  (use-package nov
+    :init
+    (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+    :config
+    (setq nov-text-width t)
+    (setq visual-fill-column-center-text t)
+    (add-hook 'nov-mode-hook 'visual-line-mode)
+    (add-hook 'nov-mode-hook 'visual-fill-column-mode))
 #+end_src
 
 * Custom Functions
