@@ -27,9 +27,9 @@ Serve `./public' by =M-x httpd-serve-directory=
 
 This is an *example* of a website written with _Org Mode!_
 
-- [[./configs.org][Emacs configurations]]
-- [[./build-emacs.org][Build Emacs from Source]]
+- [[./emacs-configs.org][Emacs configurations]]
 - [[./GNU-sed.org][Learning GNU Sed]]
+- [[./c-programming-language-2nd.org][C Programming Language]]  
 
 * Links
 
