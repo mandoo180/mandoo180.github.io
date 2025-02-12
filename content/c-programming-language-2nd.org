@@ -399,6 +399,8 @@ After execute program, input and output will be like below.
 
 * CHAPTER 5. Pointers and Arrays
 
+** Pointers and Addresses
+
 #+begin_src c :results none :tangle ~/code/05-01/src/pointers.c
   #include <stdio.h>
 
@@ -416,6 +418,76 @@ After execute program, input and output will be like below.
     printf("*ip = 0: %d\n", x);
     ip = &z[0];                    /* ip now points to z[0] */
     printf("ip = &z[0]: %d\n", ip);
+  }
+#+end_src
+
+** Character Pointers and Functions
+
+#+name: strcpy array subscript version
+#+begin_src c
+  /* strcpy: copy t to s; array subscript version */
+  void strcpy(char *s, char *t) {
+    int i;
+    i = 0;
+    while ((s[i] = t[i]) != '\0')
+      i++;
+  }
+#+end_src
+
+#+name: strcpy pointer version1
+#+begin_src c
+  /* strcpy: copy t to s; pointer version */
+  void strcpy(char *s, char *t) {
+    while ((*s = *t) != '\0') {
+      s++;
+      t++;
+    }
+  }
+#+end_src
+
+#+name: strcpy pointer version2
+#+begin_src c
+  /* strcpy: copy t to s; pointer version 2 */
+  void strcpy(char *s, char *t) {
+    while ((*s++ = *t++) != '\0')
+      ;
+  }
+#+end_src
+
+#+name: strcopy pointer version3
+#+begin_src c
+  void strcpy(char *s, char *t) {
+    while (*s++ = *t++)
+      ;
+  }
+#+end_src
+
+Although this may seem cryptic at first sight, the notational
+convenience is considerable, and the idiom should be mastered, because
+you will see it frequently in C programs.
+
+(eventually you will get '\0' which is null terminator... so it ends)
+
+#+name: strcmp
+#+begin_src c
+  /* strcmp: return <0 if s<t, 0 if s==t, >0 if s>t */
+  int strcmp(char *s, char *t) {
+    int i;
+    for(i = 0; s[i] == t[i]; i++)
+      if (s[i] == '\0')
+        return 0;
+    return s[i] - t[i];
+  }
+#+end_src
+
+#+name: strcmp pointer version
+#+begin_src c
+  /* strcmp: return <0 if s<t, 0 if s==t, >0 if s>t */
+  int strcmp(char *s, char *t) {
+    for (; *s == *t; s++, t++)
+      if (*s == '\0')
+        return 0;
+    return *s - *t;
   }
 #+end_src
 
