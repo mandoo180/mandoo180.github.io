@@ -423,6 +423,26 @@ After execute program, input and output will be like below.
 
 ** Character Pointers and Functions
 
+#+name: strlen
+#+begin_src c
+  /* strlen: return length of string s */
+  int strlen(char *s) {
+    char *p = s;
+    while (*p != '\0')
+      p++;
+    return p - s;
+  }
+#+end_src
+
+The valid pointer operations are assignment of pointers of the same
+type, adding or subtracting a pointer and an integer, subtracting or
+comparing two pointers to members of the same array, and assigning or
+comparing to zero. All other pointer arithmetic is illegal. It is not
+legal to add two pointers, or to multiply or divide or shift or mask
+them, or to add float or double to them, or even except for void *, to
+assign a pointer of one type to a pointer of one type to a pointer of
+another type without a cast.
+
 #+name: strcpy array subscript version
 #+begin_src c
   /* strcpy: copy t to s; array subscript version */
@@ -457,8 +477,9 @@ After execute program, input and output will be like below.
 #+name: strcopy pointer version3
 #+begin_src c
   void strcpy(char *s, char *t) {
-    while (*s++ = *t++)
-      ;
+    while ((*s++ = *t++)) {
+      /* nothing to do */
+    }
   }
 #+end_src
 
@@ -490,6 +511,264 @@ you will see it frequently in C programs.
     return *s - *t;
   }
 #+end_src
+
+** Pointer Arrays; Pointers to Pointers
+
+#+name: sort input lines
+#+begin_src c :results none :tangle ~/code/05-06/src/main.c
+  #include <stdio.h>
+  #include <string.h>
+
+
+  #define ALLOCSIZE 10000
+  static char allocbuf[ALLOCSIZE];
+  static char *allocp = allocbuf;
+  char *alloc(int);
+  char *alloc(int n)  /* return pointer to n characters */
+  {
+      if (allocbuf + ALLOCSIZE - allocp >= n) { /* it fits */
+          allocp += n;
+          return allocp - n; /* old p */
+      } else      /* not enough room */
+          return 0;
+  }
+
+  void afree(char *);
+  void afree(char *p)  /* free storage pointed to by p */
+  {
+      if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+          allocp = p;
+  }
+
+  int getline(char *, int);
+  int getline(char s[], int lim) {
+    int c, i;
+    i = 0;
+    while (--lim > 0 && (c = getchar()) != EOF && c != '\n')
+      s[i++] = c;
+    if (c == '\n')
+      s[i++] = c;
+    s[i] = '\0';
+    return i;
+  }
+
+  #define MAXLEN 1000
+  int readlines(char *[], int);
+  int readlines(char *lineptr[], int maxlines) {
+    int len, nlines;
+    char *p, line[MAXLEN];
+
+    nlines = 0;
+    while ((len = getline(line, MAXLEN)) > 0)
+      if (nlines >= maxlines || (p = alloc(len)) == NULL)
+        return -1;
+      else {
+        line[len-1] = '\0';
+        strcpy(p, line);
+        lineptr[nlines++] = p;
+      }
+    return nlines;
+  }
+
+  void writelines(char *[], int);
+  void writelines(char *lineptr[], int nlines) {
+    int i;
+    for (i = 0; i < nlines; i++) {
+      printf("%s\n", lineptr[i]);
+    }
+  }
+
+  void swap(char *[], int, int);
+  void swap(char *v[], int i, int j) {
+    char *temp;
+    temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+  }
+
+  void qsort(char *[], int, int);
+  void qsort(char *v[], int left, int right) {
+    int i, last;
+    
+    if (left >= right)
+      return;
+    swap(v, left, (left + right) / 2);
+    last = left;
+    for (i = left + 1; i <= right; i++)
+      if (strcmp(v[i], v[left]) < 0)
+        swap(v, ++last, i);
+    swap(v, left, last);
+    qsort(v, left, last -1);
+    qsort(v, last + 1, right);
+  }
+
+  #define MAXLINE 5000
+  char *lineptr[MAXLINE];
+
+  int main() {
+    int nlines;
+    if ((nlines = readlines(lineptr, MAXLINE)) >= 0) {
+      qsort(lineptr, 0, nlines-1);
+      writelines(lineptr, nlines);
+      return 0;
+    } else {
+      printf("error: input too big to sort\n");
+      return 1;
+    }
+  }
+
+#+end_src
+
+#+begin_src text :tangle ~/code/05-06/src/text.txt
+  Nullam eu ante vel est convallis dignissim. Fusce suscipit, wisi nec
+  facilisis facilisis, est dui fermentum leo, quis tempor ligula erat
+  quis odio. Nunc porta vulputate tellus. Nunc rutrum turpis sed pede.
+  Sed bibendum. Aliquam posuere. Nunc aliquet, augue nec adipiscing
+  interdum, lacus tellus malesuada massa, quis varius mi purus non odio.
+  Pellentesque condimentum, magna ut suscipit hendrerit, ipsum augue
+  ornare nulla, non luctus diam neque sit amet urna. Curabitur vulputate
+  vestibulum lorem. Fusce sagittis, libero non molestie mollis, magna
+  orci ultrices dolor, at vulputate neque nulla lacinia eros. Sed id
+  ligula quis est convallis tempor. Curabitur lacinia pulvinar nibh. Nam
+  a sapien.
+#+end_src
+
+#+begin_src makefile :results none :tangle ~/code/05-06/Makefile
+  CC = gcc
+  CFLAGS = -g -Wall
+  SRC = src/main.c
+  TARGET = app.exe
+
+  all: $(TARGET)
+
+  $(TARGET): $(SRC)
+  	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
+
+  clean:
+  	rm -f $(TARGET)
+#+end_src
+
+** Multi-dimensional Arrays (5.7)
+
+#+begin_src c :tangle ~/code/05-07/src/main.c
+  #include <stdio.h>
+  #include <stdlib.h>
+
+
+  static char daytab[2][13] = {
+    /*  1   2    3   4   5   6   7   8   9  10  11  12 */
+    {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+    {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+  };
+
+  /* day_of_year: set day of year from month & day */
+  int day_of_year(int, int, int);
+  int day_of_year(int year, int month, int day) {
+    int i, leap;
+    leap = (year%4 == 0 && year%100 != 0) || year%400 == 0;
+    for (i = 1; i < month; i++)
+      day += daytab[leap][i];
+    return day;
+  }
+
+  /* month_day: set month, day from day of year */
+  void month_day(int, int, int *, int *);
+  void month_day(int year, int yearday, int *pmonth, int *pday) {
+    int i, leap;
+    leap = (year%4 == 0 && year%100 != 0) || year%400 == 0;
+    for (i = 1; yearday > daytab[leap][i]; i++)
+      yearday -= daytab[leap][i];
+    ,*pmonth = i;
+    ,*pday = yearday;
+  }
+
+  /* month_name: return name of n-th month */
+  char *month_name(int);
+  char *month_name(int n) {
+    static char *name[] = {
+      "Illegal month",
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    };
+    return (n < 1 || n > 12) ? name[0] : name[n];
+  }
+
+
+  int main() {
+    int doy = day_of_year(2025, 2, 13);
+    int *pmonth = (int *)malloc(sizeof(int));
+    int *pday = (int *)malloc(sizeof(int));
+    month_day(2025, doy, pmonth, pday);
+    char *monthname = month_name(*pmonth);
+    printf("days of year: %d\n", doy);
+    printf("pmonth: %d\n", *pmonth);
+    printf("pday: %d\n", *pday);
+    printf("month name: %s\n", monthname);
+    free(pmonth);
+    free(pday);
+    
+    return 0;
+  }
+#+end_src
+
+#+begin_src makefile :tangle ~/code/05-07/Makefile
+  CC = gcc
+  CFLAGS = -g -Wall
+  SRC = src/main.c
+  TARGET = app.exe
+
+  all: $(TARGET)
+
+  $(TARGET): $(SRC)
+  	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
+
+  clean:
+  	rm -f $(TARGET)
+#+end_src
+
+** Pinters vs. Multi-dimensional Arrays
+
+Given the definitions
+#+begin_src c
+  int a[10][20];
+  int *b[10];
+#+end_src
+then =a[3][4]= and =b[3][4]= are both syntatically legal references to a
+single int. But =a= is a true two-dimensional array: 200 int-sized
+locations have been set aside, and the conventional rectangular
+subscript calculation =20xrow+col= is used to find the element
+=a[row][col]=. For =b= however, the definition only allocates 10 pointers
+and does not initialize them; initialization must be done explicitly,
+either statically or with code. Assuming that each element of =b= does
+point to a twenty-element array, then there will be 200 ints set
+aside, plus ten calles for the pointers. The important advantage of
+the pointer array is that the rows of the array may be of diffrent
+lengths. That is, each element of =b= need not point to a twenty-element
+vector; some may point to two elements, some to fifty, and some to
+none at all.
+
+** Command-line Arguments (5.10)
+
+The simplest illustration is the program echo, which echoes its
+command-line arguments on a single line, separated by blanks. That is,
+the command
+#+begin_example
+  echo hello, world
+
+  prints the output
+
+  hello, world
+#+end_example
+By convention, argv[0] is the name by which the program was invoked,
+so argc is at least 1. If argc is 1, there are no command-line
+arguments after the program name. In the example above, argc is 3, and
+argv[0], argv[1], and argv[2] are "echo", "hello, ", and "world"
+respectively. The first optional argument is argv[1] and the last is
+argv[argc−1]; additionally, the standard requires that argv[argc] be a
+null pointer.
+
 
 # Local Variables:
 # org-confirm-babel-evaluate: nil
