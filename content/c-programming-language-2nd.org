@@ -769,6 +769,121 @@ respectively. The first optional argument is argv[1] and the last is
 argv[argc−1]; additionally, the standard requires that argv[argc] be a
 null pointer.
 
+=fgets= was used instead of =getline=. Windows issue maybe?
+
+#+name: find simple version
+#+begin_src c :tangle ~/code/05-10-01/src/main.c
+  #include <stdio.h>
+  #include <string.h>
+  #include <stdlib.h>
+
+  #define MAXLINE 1000
+
+  int main(int argc, char *argv[]) {
+    char line[MAXLINE];
+    int found = 0;
+    if (argc != 2)
+      printf("Usage: find pattern\n");
+    else
+      while(fgets(line, sizeof(line), stdin) != NULL) {
+        if (strstr(line, argv[1]) != NULL) {
+          printf("%s", line);
+          found++;
+        }
+      }
+    return found;
+  }
+#+end_src
+
+#+begin_src makefile :tangle ~/code/05-10-01/Makefile
+  CC = gcc
+  CFLAGS = -g -Wall
+  SRC = src/main.c
+  TARGET = find.exe
+
+  all: $(TARGET)
+
+  $(TARGET): $(SRC)
+  	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
+
+  clean:
+  	rm -f $(TARGET)
+#+end_src
+
+#+name: find with option flags
+#+begin_src c :tangle ~/code/05-10-02/src/main.c
+  #include <stdio.h>
+  #include <string.h>
+  #include <stdlib.h>
+
+  #define MAXLINE 1000
+
+  int main(int argc, char *argv[]) {
+    char line[MAXLINE];
+    long lineno = 0;
+    int c, except = 0, number = 0, found = 0;
+
+    while (--argc > 0 && (*++argv)[0] == '-')
+      while (c = *++argv[0])
+        switch(c) {
+        case 'x':
+          except = 1;
+          break;
+        case 'n':
+          number = 1;
+          break;
+        default:
+          printf("find: illegal option %c\n", c);
+          argc = 0;
+          found = -1;
+          break;
+        }
+    if (argc != 1)
+      printf("Usage: find -x -n pattern\n");
+    else
+      while (fgets(line, sizeof(line), stdin) != NULL) {
+        lineno++;
+        if ((strstr(line, *argv) != NULL) != except) {
+          if (number)
+            printf("%ld:", lineno);
+          printf("%s", line);
+          found++;
+        }
+      }
+    return found;
+  }
+#+end_src
+
+#+begin_src makefile :tangle ~/code/05-10-02/Makefile
+  CC = gcc
+  CFLAGS = -g -Wall
+  SRC = src/main.c
+  TARGET = find.exe
+
+  all: $(TARGET)
+
+  $(TARGET): $(SRC)
+  	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
+
+  clean:
+  	rm -f $(TARGET)
+#+end_src
+
+argc is decremented and argv is incremented before each optional
+argument. At the end of the loop, if there are no errors, argc tells
+how many arguments remain unprocessed and argv points to the first of
+these. Thus argc should be 1 and *argv should point at the pattern.
+Notice that *++argv is a pointer to an argument string, so
+(*++argv)[0] is its first character. (An alternate valid form would be
+**++argv.) Because [] binds tighter than * and ++, the parentheses are
+necessary; without them the expression would be taken as *++(argv[0]).
+In fact, that is what we used in the inner loop, where the task is to
+walk along a specific argument string. In the inner loop, the
+expression *++argv[0] increments the pointer argv[0]!
+
+It is rare that one uses pointer expressions more complicated than
+these; in such cases, breaking them into two or three steps will be
+more intuitive.
 
 # Local Variables:
 # org-confirm-babel-evaluate: nil
