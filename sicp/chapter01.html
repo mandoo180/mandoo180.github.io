@@ -1,0 +1,1776 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Structure and Interpretation of Computer Programs</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Structure and Interpretation of Computer Programs</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orge888414">1. Building Abstractions with Procedures</a>
+<ul>
+<li><a href="#org8d59537">1.1. The Elements of Programming</a>
+<ul>
+<li><a href="#org0b984a5">1.1.1. Expressions</a></li>
+<li><a href="#org350e3a4">1.1.2. Naming and the Environment</a></li>
+<li><a href="#orgc6c3c62">1.1.3. Evaluating Combinations</a></li>
+<li><a href="#orga93cdc8">1.1.4. Compound Procedures</a></li>
+<li><a href="#orgb7dba2e">1.1.5. The Substitution Model for Procedure Application</a></li>
+<li><a href="#orgdc97f82">1.1.6. Conditional Expressions and Predicates</a></li>
+<li><a href="#orgeb686bb">1.1.7. Example: Square Roots by Newton's Method</a></li>
+<li><a href="#org1206f8e">1.1.8. Procedures as Black-Box Abstractions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgc9b14ea">2. Make Foot Notes <code>[fn:n]</code></a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge888414" class="outline-2">
+<h2 id="orge888414"><span class="section-number-2">1.</span> Building Abstractions with Procedures</h2>
+<div class="outline-text-2" id="text-1">
+<blockquote>
+<p>
+The acts of the mind, wherein it exerts its power over simple ideas,
+are chiefly these three: 1. Combining several simple ideas into one
+compound one, and thus all complex ideas are made. 2. The second is
+bringing two ideas, whether simple or complex, together, and setting
+them by one another so as to take a view of them at once, without
+uniting them into one, by which it gets all its ideas of relations.
+</p>
+<ol class="org-ol">
+<li>The third is separating them from all other ideas that accompany</li>
+</ol>
+<p>
+them in their real existence: this is called abstraction, and thus all
+its general ideas are made.
+</p>
+
+<p>
+John Locke, An Essay Concerning Human Understanding (1690)
+</p>
+</blockquote>
+
+<p>
+We are about to study the idea of a computational process.
+Computational processes are abstract beings that inhabit computers.
+As they evolve, processes manipulate other abstract things called data. The evolution of a process is directed by a pattern of rules
+called a program. People create programs to direct processes.
+In effect, we conjure the spirits of the computer with our spells.
+</p>
+
+<p>
+A computational process is indeed much like a sorcerer's idea of a
+spirit. It cannot be seen or touched. It is not composed of matter
+at all. However, it is very real. It can perform intellectual work.
+It can answer questions. It can affect the world by disbursing money
+at a bank or by controlling a robot arm in a factory. The programs we
+use to conjure processes are like a sorcerer's spells. They are
+carefully composed from symbolic expressions in arcane and esoteric
+programming languages that prescribe the tasks we want our
+processes to perform.
+</p>
+
+<p>
+A computational process, in a correctly working computer, executes
+programs precisely and accurately. Thus, like the sorcerer's
+apprentice, novice programmers must learn to understand and to
+anticipate the consequences of their conjuring. Even small errors
+(usually called bugs or glitches) in programs can have
+complex and unanticipated consequences.
+</p>
+
+<p>
+Fortunately, learning to program is considerably less dangerous than
+learning sorcery, because the spirits we deal with are conveniently
+contained in a secure way. Real-world programming, however,
+requires care, expertise, and wisdom. A small bug in a computer-aided
+design program, for example, can lead to the catastrophic collapse of
+an airplane or a dam or the self-destruction of an industrial robot.
+</p>
+
+<p>
+Master software engineers have the ability to organize programs so
+that they can be reasonably sure that the resulting processes will
+perform the tasks intended. They can visualize the behavior of their
+systems in advance. They know how to structure programs so that
+unanticipated problems do not lead to catastrophic consequences, and
+when problems do arise, they can debug their programs. Well-designed
+computational systems, like well-designed automobiles or nuclear
+reactors, are designed in a modular manner, so that the parts can be
+constructed, replaced, and debugged separately.
+</p>
+
+<p>
+Programming in Lisp
+</p>
+
+<p>
+We need an appropriate language for describing processes, and we will
+use for this purpose the programming language Lisp. Just as our
+everyday thoughts are usually expressed in our natural language (such
+as English, French, or Japanese), and descriptions of quantitative
+phenomena are expressed with mathematical notations, our procedural
+thoughts will be expressed in Lisp. Lisp was invented in the late
+1950s as a formalism for reasoning about the use of certain kinds of
+logical expressions, called recursion equations, as a model for
+computation. The language was conceived by John McCarthy and is based
+on his paper ``Recursive Functions of Symbolic Expressions and Their
+Computation by Machine'' (McCarthy 1960).
+</p>
+
+<p>
+Despite its inception as a mathematical formalism, Lisp is a practical
+programming language. A Lisp interpreter is a machine that
+carries out processes described in the Lisp language. The first Lisp
+interpreter was implemented by McCarthy with the help of colleagues
+and students in the Artificial Intelligence Group of the MIT Research
+Laboratory of Electronics and in the MIT Computation
+Center.{fn:1} Lisp, whose name is an acronym for LISt Processing,
+was designed to provide symbol-manipulating capabilities for
+attacking programming problems such as the symbolic differentiation
+and integration of algebraic expressions. It included for this
+purpose new data objects known as atoms and lists, which most
+strikingly set it apart from all other languages of the period.
+</p>
+
+<p>
+Lisp was not the product of a concerted design effort. Instead, it
+evolved informally in an experimental manner in response to users'
+needs and to pragmatic implementation considerations. Lisp's informal
+evolution has continued through the years, and the community of Lisp
+users has traditionally resisted attempts to promulgate any
+``official'' definition of the language. This evolution, together
+with the flexibility and elegance of the initial conception, has
+enabled Lisp, which is the second oldest language in widespread use
+today (only Fortran is older), to continually adapt to encompass the
+most modern ideas about program design. Thus, Lisp is by now a family
+of dialects, which, while sharing most of the original features, may
+differ from one another in significant ways. The dialect of Lisp used
+in this book is called Scheme.{fn:2}
+</p>
+
+<p>
+Because of its experimental character and its emphasis on symbol
+manipulation, Lisp was at first very inefficient for numerical
+computations, at least in comparison with Fortran. Over the years,
+however, Lisp compilers have been developed that translate programs
+into machine code that can perform numerical computations reasonably
+efficiently. And for special applications, Lisp has been used with
+great effectiveness.{fn:3} Although Lisp has not yet overcome its old reputation
+as hopelessly inefficient, Lisp is now used in many applications where
+efficiency is not the central concern. For example, Lisp has become
+a language of choice for operating-system shell languages and for
+extension languages for editors and computer-aided design systems.
+</p>
+
+<p>
+If Lisp is not a mainstream language, why are we using it as the
+framework for our discussion of programming? Because the language
+possesses unique features that make it an excellent medium for
+studying important programming constructs and data structures and for
+relating them to the linguistic features that support them. The most
+significant of these features is the fact that Lisp descriptions of
+processes, called procedures, can
+themselves be represented and manipulated as Lisp data. The
+importance of this is that there are powerful program-design
+techniques that rely on the ability to blur the traditional
+distinction between ``passive'' data and ``active'' processes. As we
+shall discover, Lisp's flexibility in handling procedures as data
+makes it one of the most convenient languages in existence for
+exploring these techniques. The ability to represent procedures as
+data also makes Lisp an excellent language for writing programs that
+must manipulate other programs as data, such as the interpreters and
+compilers that support computer languages. Above and beyond these
+considerations, programming in Lisp is great fun.
+</p>
+</div>
+
+<div id="outline-container-org8d59537" class="outline-3">
+<h3 id="org8d59537"><span class="section-number-3">1.1.</span> The Elements of Programming</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+A powerful programming language is more than just a means for
+instructing a computer to perform tasks. The language also serves as
+a framework within which we organize our ideas about processes. Thus,
+when we describe a language, we should pay particular attention to the
+means that the language provides for combining simple ideas to form
+more complex ideas. Every powerful language has three mechanisms for
+accomplishing this:
+</p>
+
+<ul class="org-ul">
+<li><b>primitive expressions</b>, which represent the simplest entities the language is concerned with,</li>
+<li><b>means of combination</b>, by which compound elements are built from simpler ones, and</li>
+<li><b>means of abstraction</b>, by which compound elements can be named and manipulated as units.</li>
+</ul>
+
+<p>
+In programming, we deal with two kinds of elements: procedures and
+data. (Later we will discover that they are really not so distinct.)
+Informally, data is ``stuff'' that we want to manipulate, and
+procedures are descriptions of the rules for manipulating the data.
+Thus, any powerful programming language should be able to describe
+primitive data and primitive procedures and should have methods for
+combining and abstracting procedures and data.
+</p>
+
+<p>
+In this chapter we will deal only with simple numerical data so that
+we can focus on the rules for building procedures.4 In later chapters
+we will see that these same rules allow us to build procedures to
+manipulate compound data as well.
+</p>
+</div>
+
+<div id="outline-container-org0b984a5" class="outline-4">
+<h4 id="org0b984a5"><span class="section-number-4">1.1.1.</span> Expressions</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+One easy way to get started at programming is to examine some typical
+interactions with an interpreter for the Scheme dialect of Lisp.
+Imagine that you are sitting at a computer terminal. You type an
+expression, and the interpreter responds by displaying the result of
+its evaluating that expression.
+</p>
+
+<p>
+One kind of primitive expression you might type is a number. (More
+precisely, the expression that you type consists of the numerals that
+represent the number in base 10.) If you present Lisp with
+a number
+</p>
+
+<pre class="example" id="orgd40a9d1">
+486
+</pre>
+
+<p>
+the interpreter will respond by printing
+</p>
+<pre class="example" id="org84f38e5">
+486
+</pre>
+
+<p>
+Expressions representing numbers may be combined with an expression
+representing a primitive procedure (such as <code>+</code> or <code>*</code>) to form a
+compound expression that represents the
+application of the procedure to those numbers. For example:
+</p>
+
+<pre class="example" id="org041c822">
+(+ 137 349)
+486
+(- 1000 334)
+666
+(* 5 99)
+495
+(/ 10 5)
+2
+(+ 2.7 10)
+12.7
+</pre>
+
+<p>
+Expressions such as these, formed by delimiting a list of expressions
+within parentheses in order to denote procedure application,
+are called combinations. The leftmost
+element in the list is called the operator, and the other
+elements are called operands. The value of a combination is
+obtained by applying the procedure specified by the operator to the
+arguments that are the values of the operands.
+</p>
+
+<p>
+The convention of placing the operator to the left of the operands is
+known as prefix notation, and it may be somewhat confusing at
+first because it departs significantly from the customary mathematical
+convention. Prefix notation has several advantages, however. One of
+them is that it can accommodate procedures that may take an arbitrary
+number of arguments, as in the following examples:
+</p>
+
+<pre class="example" id="org023b192">
+(+ 21 35 12 7)
+75
+
+(* 25 4 12)
+1200
+</pre>
+
+<p>
+No ambiguity can arise, because the operator is always the leftmost
+element and the entire combination is delimited by the
+parentheses.
+</p>
+
+<p>
+A second advantage of prefix notation is that it extends in a
+straightforward way to allow combinations to be nested, that is,
+to have combinations whose elements are themselves
+combinations:
+</p>
+
+<pre class="example" id="org6ca084f">
+(+ (* 3 5) (- 10 6))
+19
+</pre>
+
+<p>
+There is no limit (in principle) to the depth of such nesting and to
+the overall complexity of the expressions that the Lisp interpreter
+can evaluate.
+It is we humans who get confused by still relatively
+simple expressions such as
+</p>
+
+<pre class="example" id="org579c6cc">
+(+ (* 3 (+ (* 2 4) (+ 3 5))) (+ (- 10 7) 6))
+</pre>
+
+<p>
+which the interpreter would readily evaluate to be 57. We can help
+ourselves by writing such an expression in the form
+</p>
+
+<pre class="example" id="org3711b31">
+(+ (* 3
+      (+ (* 2 4)
+         (+ 3 5)))
+   (+ (- 10 7)
+      6))
+</pre>
+
+<p>
+following a formatting convention known as pretty-printing, in
+which each long combination is written so that the operands are
+aligned vertically. The resulting indentations display clearly the
+structure of the expression.&lt;small&gt;6&lt;/small&gt;
+</p>
+
+<p>
+Even with complex expressions, the interpreter always operates in the
+same basic cycle: It reads an expression from the terminal, 
+evaluates the expression, and prints the result.
+This mode of operation is often expressed by saying that the
+interpreter runs in a read-eval-print loop.
+Observe in particular that it is not necessary to explicitly
+instruct the interpreter to print the value of the expression.&lt;small&gt;7&lt;/small&gt;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org350e3a4" class="outline-4">
+<h4 id="org350e3a4"><span class="section-number-4">1.1.2.</span> Naming and the Environment</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+A critical aspect of a programming language is the means it provides
+for using names to refer to computational objects. We say that the
+name identifies a variable whose value is the object.
+</p>
+
+<p>
+In the Scheme dialect of Lisp, we
+name things with define. Typing
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">size</span> 2)
+</pre>
+</div>
+
+<p>
+causes the interpreter to associate the value 2 with the
+name size.
+Once the name size has been associated with the number 2, we can 
+refer to the value 2 by name:
+</p>
+
+<pre class="example" id="orge9e258d">
+size
+2
+(* 5 size)
+10
+</pre>
+
+<p>
+Here are further examples of the use of define:
+</p>
+
+<pre class="example" id="org16dcfdb">
+(define pi 3.14159)
+(define radius 10)
+(* pi (* radius radius))
+314.159
+(define circumference (* 2 pi radius))
+circumference
+62.8318
+</pre>
+
+<p>
+Define is our language's
+simplest means of abstraction, for it allows us to use simple names to
+refer to the results of compound operations, such as the
+circumference computed above.
+In general, computational objects may have very complex
+structures, and it would be extremely inconvenient to have to remember
+and repeat their details each time we want to use them. Indeed,
+complex programs are constructed by building, step by step,
+computational objects of increasing complexity. The
+interpreter makes this step-by-step program construction particularly
+convenient because name-object associations can be created
+incrementally in successive interactions. This feature encourages the
+incremental development and testing of programs and is largely
+responsible for the fact that a Lisp program usually consists of a large
+number of relatively simple procedures.
+</p>
+
+<p>
+It should be clear that the possibility of associating values with
+symbols and later retrieving them means that the interpreter must
+maintain some sort of memory that keeps track of the name-object
+pairs. This memory is called the environment (more precisely
+the global environment, since we will see later that a
+computation may involve a number of different
+environments).
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgc6c3c62" class="outline-4">
+<h4 id="orgc6c3c62"><span class="section-number-4">1.1.3.</span> Evaluating Combinations</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+One of our goals in this chapter is to isolate issues about thinking
+procedurally. As a case in point, let us consider that, in evaluating
+combinations, the interpreter is itself following a procedure.
+</p>
+
+<p>
+To evaluate a combination, do the following:
+</p>
+
+<ol class="org-ol">
+<li>Evaluate the subexpressions of the combination.</li>
+
+<li>Apply the procedure that is the value of the leftmost</li>
+</ol>
+<p>
+subexpression (the operator) to the arguments that are the values of
+the other subexpressions (the operands).
+</p>
+
+<p>
+Even this simple rule illustrates some important points about
+processes in general. First, observe that the first step dictates
+that in order to accomplish the evaluation process for a combination
+we must first perform the evaluation process on each element of the
+combination. Thus, the evaluation rule is recursive in nature;
+that is, it includes, as one of its steps, the need to invoke the rule
+itself.10
+</p>
+
+<p>
+Notice how succinctly the idea of recursion can be used to express
+what, in the case of a deeply nested combination, would otherwise be
+viewed as a rather complicated process. For example, evaluating
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(* (+ 2 (* 4 6))
+   (+ 3 5 7))
+</pre>
+</div>
+
+<p>
+requires that the evaluation rule be applied to four different
+combinations. We can obtain a picture of this process by representing
+the combination in the form of a tree, as shown in
+figure 1.1. Each combination is represented by a
+node with branches corresponding to the operator and the
+operands of the combination stemming from it.
+The terminal nodes (that is, nodes with
+no branches stemming from them) represent either operators or numbers.
+Viewing evaluation in terms of the tree, we can imagine that the
+values of the operands percolate upward, starting from the terminal
+nodes and then combining at higher and higher levels. In general, we
+shall see that recursion is a very powerful technique for dealing with
+hierarchical, treelike objects. In fact, the ``percolate values
+upward'' form of the evaluation rule is an example of a general kind
+of process known as tree accumulation.
+</p>
+
+
+<div id="org217fbf7" class="figure">
+<p><img src="images/ch1-Z-G-1.gif" alt="ch1-Z-G-1.gif" />
+</p>
+</div>
+
+<p>
+Figure 1.1: Tree representation, showing the value of each subcombination.
+</p>
+
+<p>
+Next, observe that the repeated application of the first step brings
+us to the point where we need to evaluate, not combinations, but
+primitive expressions such as numerals, built-in operators, or other
+names. We take care of the primitive cases by stipulating that
+</p>
+
+<p>
+the values of numerals are the numbers that they name,
+</p>
+
+<p>
+the values of built-in operators are the machine
+instruction sequences that carry out the corresponding operations, and
+</p>
+
+<p>
+the values of other names are the objects associated 
+with those names in the environment.
+</p>
+
+<p>
+We may regard the second rule as a special case of the third one by
+stipulating that symbols such as + and * are also included
+in the global environment, and are associated with the sequences of
+machine instructions that are their ``values.'' The key point to
+notice is the role of the environment in determining the meaning of
+the symbols in expressions. In an interactive language such as
+Lisp, it is meaningless to speak of the value of an expression such as
+<code>(+ x 1)</code> without specifying any information about the environment
+that would provide a meaning for the symbol <code>x</code> (or even for the
+symbol <code>+</code>). As we shall see in chapter 3, the general notion of
+the environment as providing a context in which evaluation takes place
+will play an important role in our understanding of program execution.
+</p>
+
+<p>
+Notice that the
+evaluation rule given above does not handle definitions.
+For instance, evaluating
+<code>(define x 3)</code> does not apply define to two arguments, one
+of which is the value of the symbol x and the other of which is
+3, since the purpose of the define is precisely to associate
+x with a value.
+(That is, <code>(define x 3)</code> is not a combination.)
+</p>
+
+<p>
+Such exceptions to the general evaluation rule are called special
+forms. Define is the only example of a special form that we
+have seen so far, but we will meet others shortly. Each special form
+has its own evaluation rule. The various kinds of expressions (each
+with its associated evaluation rule) constitute the syntax of the
+programming language. In comparison with most other programming
+languages, Lisp has a very simple syntax; that is, the evaluation rule
+for expressions can be described by a simple general rule together
+with specialized rules for a small number of special
+forms.{fn:11}
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga93cdc8" class="outline-4">
+<h4 id="orga93cdc8"><span class="section-number-4">1.1.4.</span> Compound Procedures</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+We have identified in Lisp some of the elements that must appear in
+any powerful programming language:
+</p>
+
+<p>
+Numbers and arithmetic operations are 
+primitive data and procedures.
+</p>
+
+<p>
+Nesting of combinations provides a means of 
+combining operations.
+</p>
+
+<p>
+Definitions that associate names with values provide a
+limited means of abstraction.
+</p>
+
+<p>
+Now we will learn about
+procedure definitions, a much more powerful abstraction
+technique by which a compound operation can be given a name and then
+referred to as a unit.
+</p>
+
+<p>
+We begin by examining how to express the idea of ``squaring.'' We
+might say, ``To square something, multiply it by itself.'' This is
+expressed in our language as 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> x) (* x x))
+</pre>
+</div>
+
+<p>
+We can understand this in the following way:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span>  x) (* x x))
+</pre>
+</div>
+
+<p>
+To square something, multiply it by itself.
+</p>
+
+<p>
+We have here a compound procedure, which has been given the name
+square. The procedure represents the operation of multiplying
+something by itself. The thing to be multiplied is given a local
+name, x, which plays the same role that a pronoun plays in
+natural language. Evaluating the definition creates this
+compound procedure and associates it with the name square.12
+</p>
+
+<p>
+The general form of a procedure definition is
+</p>
+
+<pre class="example" id="orgd9b2b32">
+(define (&lt;name&gt;  &lt;formal parameters&gt; ) &lt;body&gt; )
+</pre>
+
+<p>
+The &lt;name&gt; is a symbol to be associated with the procedure
+definition in the environment.{fn:13}
+The &lt;formal parameters&gt; are
+the names used within the body of the procedure to refer to the
+corresponding arguments of the procedure. The
+&lt;body&gt; is an expression that will yield the value of
+the procedure application when the formal parameters are replaced by
+the actual arguments to which the procedure is applied.14
+The &lt;name&gt; 
+and the &lt;formal parameters&gt; 
+are grouped within parentheses, just as they
+would be in an actual call to the procedure being defined.
+</p>
+
+<p>
+Having defined square, we can now use it:
+</p>
+
+<pre class="example" id="org9662795">
+(square 21)
+441
+
+(square (+ 2 5))
+49
+
+(square (square 3))
+81
+</pre>
+
+<p>
+We can also use square as a building block in defining other
+procedures. For example, <code>x2 + y2</code> can be expressed as
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(+ (square x) (square y))
+</pre>
+</div>
+
+<p>
+We can easily define a procedure
+sum-of-squares that, given any two numbers as arguments, produces the
+sum of their squares:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-of-squares</span> x y)
+  (+ (square x) (square y)))
+
+(sum-of-squares 3 4)
+</pre>
+</div>
+<pre class="example" id="org77c8799">
+25
+</pre>
+
+
+<p>
+Now we can use sum-of-squares as a building block in constructing
+further procedures:
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> a)
+  (sum-of-squares (+ a 1) (* a 2)))
+
+(f 5)
+</pre>
+</div>
+<pre class="example" id="org0da51be">
+136
+</pre>
+
+<p>
+Compound procedures are used in exactly the same way as primitive
+procedures. Indeed, one could not tell by looking at the definition
+of sum-of-squares given above whether square was built into
+the interpreter, like <code>+</code> and <code>*</code>, or defined as a compound procedure.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgb7dba2e" class="outline-4">
+<h4 id="orgb7dba2e"><span class="section-number-4">1.1.5.</span> The Substitution Model for Procedure Application</h4>
+<div class="outline-text-4" id="text-1-1-5">
+<p>
+To evaluate a combination whose operator names a compound procedure, the
+interpreter follows much the same process as for combinations whose
+operators name primitive procedures, which we described in
+section 1.1.3. That is, the interpreter
+evaluates the elements of the combination and applies the procedure
+(which is the value of the operator of the combination) to the
+arguments (which are the values of the operands of the combination).
+</p>
+
+<p>
+We can assume that the mechanism for applying primitive procedures to
+arguments is built into the interpreter. For compound procedures, the
+application process is as follows:
+</p>
+
+<p>
+To apply a compound procedure to arguments, evaluate the body of the
+procedure with each formal parameter replaced by the corresponding
+argument.
+</p>
+
+<p>
+To illustrate this process, let's evaluate the combination
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(f 5)
+</pre>
+</div>
+
+<p>
+where <code>f</code> is the procedure defined in
+section 1.1.4. We begin by retrieving the
+body of <code>f</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(sum-of-squares (+ a 1) (* a 2))
+</pre>
+</div>
+
+<p>
+Then we replace the formal parameter a by the argument 5:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(sum-of-squares (+ 5 1) (* 5 2))
+</pre>
+</div>
+
+<p>
+Thus the problem reduces to the evaluation of a combination with two
+operands and an operator sum-of-squares. Evaluating this
+combination involves three subproblems. We must evaluate the
+operator to get the procedure to be applied, and we must evaluate the
+operands to get the arguments. Now <code>(+ 5 1)</code> produces 6 and
+<code>(* 5 2)</code> produces 10, so we must apply the
+sum-of-squares procedure to 6 and 10. These values are substituted
+for the formal parameters x and y in the body of sum-of-squares,
+reducing the expression to
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(+ (square 6) (square 10))
+</pre>
+</div>
+
+<p>
+If we use the definition of square, this reduces to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(+ (* 6 6) (* 10 10))
+</pre>
+</div>
+
+<p>
+which reduces by multiplication to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(+ 36 100)
+</pre>
+</div>
+
+<p>
+and finally to
+</p>
+
+<pre class="example" id="org31692e1">
+136
+</pre>
+
+<p>
+The process we have just described is called the substitution
+model for procedure application. It can be taken as a model that
+determines the ``meaning'' of procedure application, insofar as the
+procedures in this chapter are concerned. However, there are two
+points that should be stressed:
+</p>
+
+<p>
+The purpose of the substitution is to help us think about
+procedure application, not to provide a description of how
+the interpreter really works. Typical interpreters do not evaluate
+procedure applications by manipulating the text of a procedure to
+substitute values for the formal parameters. In practice, the
+``substitution'' is accomplished by using a local environment for the
+formal parameters. We will discuss this more fully in chapters 3 and
+4 when we examine the implementation of an interpreter in detail.
+</p>
+
+<p>
+Over the course of this book, we will present a sequence of
+increasingly elaborate models of how interpreters work, culminating
+with a complete implementation of an interpreter and compiler in
+chapter 5. The substitution model is only the first of these
+models &#x2013; a way to get started thinking formally about the evaluation
+process. In general, when modeling phenomena in science and
+engineering, we begin with simplified, incomplete models. As we
+examine things in greater detail, these simple models become
+inadequate and must be replaced by more refined models. The
+substitution model is no exception. In particular, when we address in
+chapter 3 the use of procedures with ``mutable data,'' we will see that
+the substitution model breaks down and must be replaced by a more
+complicated model of procedure application.{fn:15}
+</p>
+
+<p>
+Applicative order versus normal order
+</p>
+
+<p>
+According to the description of evaluation given in
+section 1.1.3, the interpreter first
+evaluates the operator and operands and then applies the resulting procedure
+to the resulting arguments. This is not the only way to perform
+evaluation. An alternative evaluation model would not evaluate the
+operands until their values were needed. Instead it would first substitute
+operand expressions for parameters until
+it obtained an expression involving only primitive operators, and
+would then perform the evaluation. If we used this method, the
+evaluation of
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(f 5)
+</pre>
+</div>
+
+<p>
+would proceed according to the sequence of expansions
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(sum-of-squares (+ 5 1) (* 5 2))
+(+ (square (+ 5 1)) (square (* 5 2)))
+(+ (* (+ 5 1) (+ 5 1)) (* (* 5 2) (* 5 2)))
+</pre>
+</div>
+
+<p>
+followed by the reductions
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(+ (* 6 6) (* 10 10))
+(+ 36 100)
+</pre>
+</div>
+<pre class="example" id="org33c71b6">
+136
+</pre>
+
+
+<p>
+This gives the same answer as our previous evaluation model, but the
+process is different. In particular, the evaluations
+of (+ 5 1) and (* 5 2) are each performed twice here,
+corresponding to the reduction of the expression
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(* x x)
+</pre>
+</div>
+
+<p>
+with <code>x</code> replaced respectively by <code>(+ 5 1)</code> and <code>(* 5 2)</code>.
+</p>
+
+<p>
+This alternative ``fully expand and then reduce'' evaluation method is
+known as normal-order evaluation, in contrast to the ``evaluate
+the arguments and then apply'' method that the interpreter actually
+uses, which is called applicative-order evaluation. It can be
+shown that, for procedure applications that can be modeled using
+substitution (including all the procedures in the first two chapters
+of this book) and that yield legitimate values, normal-order and
+applicative-order evaluation produce the same value. (See
+exercise 1.5 for an instance of
+an ``illegitimate'' value where normal-order and applicative-order
+evaluation do not give the same result.)
+</p>
+
+<p>
+Lisp uses applicative-order evaluation, partly because of the
+additional efficiency obtained from avoiding multiple evaluations of
+expressions such as those illustrated with <code>(+ 5 1)</code> and <code>(* 5 2)</code>
+above and, more significantly, because normal-order evaluation
+becomes much more complicated to deal with when we leave the realm of
+procedures that can be modeled by substitution. On the other hand,
+normal-order evaluation can be an extremely valuable tool, and we will
+investigate some of its implications in chapters 3 and 4.{fn:16}
+</p>
+
+
+<div id="org2fc080a" class="figure">
+<p><img src="images/ch1-Z-G-2.gif" alt="ch1-Z-G-2.gif" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdc97f82" class="outline-4">
+<h4 id="orgdc97f82"><span class="section-number-4">1.1.6.</span> Conditional Expressions and Predicates</h4>
+<div class="outline-text-4" id="text-1-1-6">
+<p>
+The expressive power of the class of procedures that we can define at
+this point is very limited, because we have no way to make tests and
+to perform different operations depending on the result of a test.
+For instance, we cannot define a procedure that computes the absolute
+value of a number by testing whether the number is positive, negative,
+or zero and taking different actions in the different cases according
+to the rule
+</p>
+
+<p>
+This construct is called a case analysis, and
+there is a special form in Lisp for notating such a case
+analysis. It is called cond (which stands for
+``conditional''), and it is used as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">abs</span> x)
+  (<span style="font-weight: bold;">cond</span> ((&gt; x 0) x)
+        ((= x 0) 0)
+        ((&lt; x 0) (- x))))
+</pre>
+</div>
+
+<p>
+The general form of a conditional expression is
+</p>
+
+<p>
+(cond (&lt; p1&gt; &lt; e1&gt;)
+      (&lt; p2&gt; &lt; e2&gt;)
+</p>
+
+<p>
+(&lt; pn&gt; &lt; en&gt;))
+</p>
+
+<p>
+consisting of the symbol cond followed by
+parenthesized pairs of expressions (&lt; p&gt; &lt; e&gt;)
+called clauses. The first expression in each pair is a predicate &#x2013; that is, an expression whose value is interpreted as
+either true or false.17
+</p>
+
+<p>
+Conditional expressions are evaluated as follows. The predicate
+&lt;p1&gt; is evaluated first. If its value is false, then
+&lt;p2&gt; is evaluated. If &lt;p2&gt;'s value is also false, then
+&lt;p3&gt; is evaluated. This process continues until a predicate is
+found whose value is true, in which case the interpreter returns the
+value of the corresponding consequent expression &lt;e&gt; of the
+clause as the value of the conditional expression. If none of the
+&lt;p&gt;'s is found to be true, the value of the cond is
+undefined.
+</p>
+
+<p>
+The word predicate is used for procedures that return true
+or false, as well as for expressions that evaluate to true or false.
+The absolute-value procedure abs makes use of the primitive
+predicates &gt;, &lt; , and =.18 These take two
+numbers as arguments and test whether the first number is,
+respectively, greater than, less than, or equal to the second number,
+returning true or false accordingly.
+</p>
+
+<p>
+Another way to write the absolute-value procedure is
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">abs</span> x)
+  (<span style="font-weight: bold;">cond</span> ((&lt; x 0) (- x))
+        (<span style="font-weight: bold;">else</span> x)))
+</pre>
+</div>
+
+<p>
+which could be expressed in English as ``If x is less than zero
+return - x; otherwise return x.'' Else is a special symbol
+that can be used in place of the &lt;p&gt; in the final clause of a cond. This causes the cond to return as its value the value of
+the corresponding &lt;e&gt; whenever all previous clauses have been
+bypassed. In fact, any expression that always evaluates to a true
+value could be used as the &lt;p&gt; here.
+</p>
+
+<p>
+Here is yet another way to write the absolute-value procedure:
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">abs</span> x)
+  (<span style="font-weight: bold;">if</span> (&lt; x 0)
+      (- x)
+      x))
+</pre>
+</div>
+
+<p>
+This uses the special form if, a restricted type of conditional
+that can be used when there are precisely two cases in the case
+analysis. The general form of an if expression is
+</p>
+
+<pre class="example" id="orgdd2724f">
+(if &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;)
+</pre>
+
+
+<p>
+To evaluate an if expression, the interpreter starts by evaluating
+the &lt;predicate&gt; part of the expression. If the &lt;predicate&gt;
+evaluates to a true value, the interpreter then evaluates
+the &lt;consequent&gt; and returns its value. Otherwise it evaluates
+the &lt;alternative&gt; and returns its value.{fn:19}
+</p>
+
+<p>
+In addition to primitive
+predicates such as &lt; , =, and &gt;, there are logical
+composition operations, which enable us to construct compound
+predicates. The three most frequently used are these:
+</p>
+
+<pre class="example" id="org6d5c8c7">
+(and &lt;e1&gt; ... &lt;en&gt;)
+</pre>
+
+
+<p>
+The interpreter
+evaluates the expressions &lt;e&gt; one at a time, in left-to-right order. If
+any &lt;e&gt; evaluates to false, the value of the and
+expression is false, and the rest of the &lt;e&gt;'s are not evaluated.
+If all &lt;e&gt;'s evaluate to true values, the value of the and
+expression is the value of the last one.
+</p>
+
+<pre class="example" id="org3117ac6">
+(or &lt;e1&gt; ... &lt;en&gt;)
+</pre>
+
+<p>
+The interpreter
+evaluates the expressions &lt;e&gt; one at a time, in left-to-right order. If
+any &lt;e&gt; evaluates to a true value, that value is
+returned as the value of the or expression,
+and the rest of the &lt;e&gt;'s are not evaluated.
+If all &lt;e&gt;'s evaluate to false,
+the value of the or expression is false.
+</p>
+
+<pre class="example" id="org2d2a885">
+(not &lt;e&gt;)
+</pre>
+
+<p>
+The value of a not expression is true
+when the expression &lt;e&gt; evaluates to false, and false otherwise.
+</p>
+
+<p>
+Notice that and and or are special forms, not procedures,
+because the subexpressions are not necessarily all evaluated.
+Not is an ordinary procedure.
+</p>
+
+<p>
+As an example of how these are used, the condition that a number x
+be in the range 5 &lt; x &lt; 10 may be expressed as
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">and</span> (&gt; x 5) (&lt; x 10))
+</pre>
+</div>
+
+<p>
+As another example, we can define a predicate to test whether one
+number is greater than or equal to another as
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">&gt;=</span> x y)
+  (<span style="font-weight: bold;">or</span> (&gt; x y) (= x y)))
+</pre>
+</div>
+
+<p>
+or alternatively as
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">&gt;=</span> x y)
+  (not (&lt; x y)))
+</pre>
+</div>
+
+<p>
+Exercise 1.1. Below is a sequence of expressions. 
+What is the result printed by the interpreter in response to each
+expression? Assume that the sequence is to be evaluated in the order
+in which it is presented.
+</p>
+
+<pre class="example" id="org66757f4">
+10
+</pre>
+<div class="org-src-container">
+<pre class="src src-scheme">(+ 5 3 4)
+(- 9 1)
+(/ 6 2)
+(+ (* 2 4) (- 4 6))
+(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">a</span> 3)
+(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">b</span> (+ a 1))
+(+ a b (* a b))
+(= a b)
+(<span style="font-weight: bold;">if</span> (<span style="font-weight: bold;">and</span> (&gt; b a) (&lt; b (* a b)))
+    b
+    a)
+(<span style="font-weight: bold;">cond</span> ((= a 4) 6)
+      ((= b 4) (+ 6 7 a))
+      (<span style="font-weight: bold;">else</span> 25))
+(+ 2 (<span style="font-weight: bold;">if</span> (&gt; b a) b a))
+(* (<span style="font-weight: bold;">cond</span> ((&gt; a b) a)
+         ((&lt; a b) b)
+         (<span style="font-weight: bold;">else</span> -1))
+   (+ a 1))
+</pre>
+</div>
+
+<p>
+Exercise 1.2. Translate the following expression into prefix form
+</p>
+
+<p>
+Exercise 1.3. Define a procedure that takes three numbers as arguments and returns
+the sum of the squares of the two larger numbers.
+</p>
+
+<p>
+Exercise 1.4. Observe that our model of evaluation allows for combinations whose
+operators are compound expressions. Use this observation to
+describe the behavior of the following procedure:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">a-plus-abs-b</span> a b)
+  ((<span style="font-weight: bold;">if</span> (&gt; b 0) + -) a b))
+</pre>
+</div>
+
+<p>
+Exercise 1.5. Ben Bitdiddle has invented a test to determine whether the interpreter
+he is faced with is using applicative-order evaluation or normal-order
+evaluation. He defines the following two procedures:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">p</span>) (p))
+
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">test</span> x y)
+  (<span style="font-weight: bold;">if</span> (= x 0)
+      0
+      y))
+</pre>
+</div>
+
+<p>
+Then he evaluates the expression
+</p>
+<pre class="example" id="org1df8b39">
+(test 0 (p))
+</pre>
+
+<p>
+What behavior will Ben observe with an interpreter that uses
+applicative-order evaluation? What behavior will he observe with an
+interpreter that uses normal-order evaluation? Explain your answer.
+(Assume that the evaluation rule for the special form if is the
+same whether the interpreter is using normal or applicative order:
+The predicate expression is evaluated first, and the result
+determines whether to evaluate
+the consequent or the alternative expression.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeb686bb" class="outline-4">
+<h4 id="orgeb686bb"><span class="section-number-4">1.1.7.</span> Example: Square Roots by Newton's Method</h4>
+<div class="outline-text-4" id="text-1-1-7">
+<p>
+Procedures, as introduced above, are much like ordinary mathematical
+functions. They specify a value that is determined by one or more
+parameters. But there is an important difference between
+mathematical functions and computer procedures. Procedures must be
+effective.
+</p>
+
+<p>
+As a case in point, consider the problem of computing square
+roots. We can define the square-root function as
+</p>
+
+<p>
+This describes a perfectly legitimate mathematical function. We could
+use it to recognize whether one number is the square root of another, or
+to derive facts about square roots in general. On the other hand, the
+definition does not describe a procedure. Indeed, it tells us almost
+nothing about how to actually find the square root of a given number. It
+will not help matters to rephrase this definition in pseudo-Lisp:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (the y (<span style="font-weight: bold;">and</span> (&gt;= y 0)
+              (= (square y) x))))
+</pre>
+</div>
+
+<p>
+This only begs the question.
+</p>
+
+<p>
+The contrast between function and procedure is a reflection of the
+general distinction between describing properties of things and
+describing how to do things, or, as it is sometimes referred to, the
+distinction between declarative knowledge and imperative knowledge.
+In mathematics we are usually concerned with declarative (what is)
+descriptions, whereas in computer science we are usually concerned
+with imperative (how to) descriptions.{fn:20}
+</p>
+
+<p>
+How does one compute square roots? The most common way is to use
+Newton's method of successive approximations, which says that whenever
+we have a guess y for the value of the square root of a number x,
+we can perform a simple manipulation to get a better guess (one closer
+to the actual square root) by averaging y with
+x/y.21 For example, we can compute
+the square root of 2 as follows. Suppose our initial guess is 1:
+</p>
+
+<p>
+Guess Quotient Average
+</p>
+
+<pre class="example" id="orga2b2ef1">
+1       (2/1)  =  2        
+((2 + 1)/2)  =  1.5 
+  
+1.5     (2/1.5)  =  1.3333 
+((1.3333 + 1.5)/2)  =  1.4167 
+  
+1.4167  (2/1.4167)  =  1.4118 
+((1.4167 + 1.4118)/2)  =  1.4142 
+  
+1.4142 ......
+</pre>
+
+<p>
+Continuing this process, we obtain better and better
+approximations to the square root.
+</p>
+
+<p>
+Now let's formalize the process in terms of procedures. We start with
+a value for the radicand (the number whose square root we are trying
+to compute) and a value for the guess. If the guess is good enough
+for our purposes, we are done; if not, we must repeat the process with an
+improved guess. We write this basic strategy as a procedure:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess x)
+  (<span style="font-weight: bold;">if</span> (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x)
+                 x)))
+</pre>
+</div>
+
+<p>
+A guess is improved by averaging
+it with the quotient of the radicand and the old guess:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">improve</span> guess x)
+  (average guess (/ x guess)))
+</pre>
+</div>
+
+<p>
+where
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">average</span> x y)
+  (/ (+ x y) 2))
+</pre>
+</div>
+
+<p>
+We also have to say what we mean by ``good enough.'' The
+following will do for illustration, but it is not really a very good
+test. (See exercise 1.7.)
+The idea is to improve the answer until it is close enough so that its
+square differs from the radicand by less than a predetermined
+tolerance (here 0.001):{fn:22}
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess x)
+  (&lt; (abs (- (square guess) x)) 0.001))
+</pre>
+</div>
+
+<p>
+Finally, we need a way to get started. For instance, we can
+always guess that the square root of any number is 1:{fn:23}
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (sqrt-iter 1.0 x))
+</pre>
+</div>
+
+<p>
+If we type these definitions to the interpreter, we can use sqrt
+just as we can use any procedure:
+</p>
+
+<pre class="example" id="orgc748219">
+(sqrt 9)
+3.00009155413138
+(sqrt (+ 100 37))
+11.704699917758145
+(sqrt (+ (sqrt 2) (sqrt 3)))
+1.7739279023207892
+(square (sqrt 1000))
+1000.000369924366
+</pre>
+
+<p>
+The sqrt program also illustrates that the simple procedural
+language we have introduced so far is sufficient for writing any
+purely numerical program that one could write in, say, C or
+Pascal. This might seem surprising, since we have not included in
+our language any iterative (looping) constructs that direct the
+computer to do something over and over again. Sqrt-iter, on the
+other hand, demonstrates how iteration can be accomplished using no
+special construct other than the ordinary ability to call a
+procedure.{fn:24}
+</p>
+
+<p>
+Exercise 1.6. Alyssa P. Hacker doesn't see why if needs
+to be provided as a special form. ``Why can't I just define it as an
+ordinary procedure in terms of cond?'' she asks.
+Alyssa's friend Eva Lu Ator claims this can indeed be done, and
+she defines a new version of if:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">new-if</span> predicate then-clause else-clause)
+  (<span style="font-weight: bold;">cond</span> (predicate then-clause)
+        (<span style="font-weight: bold;">else</span> else-clause)))
+</pre>
+</div>
+
+<p>
+Eva demonstrates the program for Alyssa:
+</p>
+
+<pre class="example" id="org378de8c">
+(new-if (= 2 3) 0 5)
+5
+
+(new-if (= 1 1) 0 5)
+0
+</pre>
+
+<p>
+Delighted, Alyssa uses new-if to rewrite the square-root
+program:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess x)
+  (new-if (good-enough? guess x)
+          guess
+          (sqrt-iter (improve guess x)
+                     x)))
+</pre>
+</div>
+
+<p>
+What happens when Alyssa attempts to use this to compute square roots?
+Explain.
+</p>
+
+<p>
+Exercise 1.7.  The good-enough? test used in computing square roots will not be
+very effective for finding the square roots of very small numbers.
+Also, in real computers, arithmetic operations are almost always
+performed with limited precision. This makes our test inadequate for
+very large numbers. Explain these statements, with examples showing
+how the test fails for small and large numbers. An alternative
+strategy for implementing good-enough? is to watch how guess changes from one iteration to the next and to stop when the
+change is a very small fraction of the guess. Design a square-root
+procedure that uses this kind of end test. Does this work better for
+small and large numbers?
+</p>
+
+<p>
+Exercise 1.8.  Newton's method for cube roots is based on the fact that if y is an
+approximation to the cube root of x, then a better approximation is
+given by the value
+</p>
+
+<p>
+Use this formula to implement a cube-root procedure analogous to the
+square-root procedure. (In section 1.3.4 we
+will see how to implement Newton's method in general as an abstraction
+of these square-root and cube-root procedures.)
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org1206f8e" class="outline-4">
+<h4 id="org1206f8e"><span class="section-number-4">1.1.8.</span> Procedures as Black-Box Abstractions</h4>
+<div class="outline-text-4" id="text-1-1-8">
+<p>
+Sqrt is our first example of a process defined by a set of
+mutually defined procedures. Notice that the definition of sqrt-iter is recursive; that is, the procedure is defined in
+terms of itself. The idea of being able to define a procedure in
+terms of itself may be disturbing; it may seem unclear how such a
+``circular'' definition could make sense at all, much less specify a
+well-defined process to be carried out by a computer. This will be
+addressed more carefully in
+section 1.2. But first let's consider
+some other important points illustrated by the sqrt example.
+</p>
+
+<p>
+Observe that the problem of computing square roots breaks up naturally
+into a number of subproblems: how to tell whether a guess is good
+enough, how to improve a guess, and so on. Each of these tasks is
+accomplished by a separate procedure. The entire sqrt program
+can be viewed as a cluster of procedures (shown in
+figure 1.2) that mirrors the decomposition of
+the problem into subproblems.
+</p>
+
+<p>
+Figure 1.2: Procedural decomposition of the sqrt program.
+</p>
+
+<p>
+The importance of this decomposition strategy is not simply that one
+is dividing the program into parts. After all, we could take any
+large program and divide it into parts &#x2013; the first ten lines, the next
+ten lines, the next ten lines, and so on. Rather, it is crucial that
+each procedure accomplishes an identifiable task that can be used as a
+module in defining other procedures. For example, when we define the
+good-enough? procedure in terms of square, we are able to
+regard the square procedure as a ``black box.'' We are not at
+that moment concerned with how the procedure computes its
+result, only with the fact that it computes the square. The details
+of how the square is computed can be suppressed, to be considered at a
+later time. Indeed, as far as the good-enough? procedure is
+concerned, square is not quite a procedure but rather an
+abstraction of a procedure, a so-called procedural abstraction.
+At this level of abstraction, any procedure that computes the square
+is equally good.
+</p>
+
+<p>
+Thus, considering only the values they return, the following two procedures for
+squaring a number should be indistinguishable. Each takes a numerical
+argument and produces the square of that number as the
+value.{fn:25}
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> x) (* x x))
+
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> x) 
+  (exp (double (log x))))
+
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">double</span> x) (+ x x))
+</pre>
+</div>
+
+<p>
+So a procedure definition should be able to suppress detail. The
+users of the procedure may not have written the procedure themselves,
+but may have obtained it from another programmer as a black box. A
+user should not need to know how the procedure is implemented in order
+to use it.
+</p>
+
+<p>
+<b>Local names</b>
+</p>
+
+<p>
+One detail of a procedure's implementation that should not matter to
+the user of the procedure is the implementer's choice of names for the
+procedure's formal parameters. Thus, the following procedures should
+not be distinguishable:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> x) (* x x))
+
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> y) (* y y))
+</pre>
+</div>
+
+<p>
+This principle &#x2013; that the meaning of a procedure should be independent
+of the parameter names used by its author &#x2013; seems on the surface to be
+self-evident, but its consequences are profound. The simplest
+consequence is that the parameter names of a procedure must be local
+to the body of the procedure. For example, we used square in
+the definition of good-enough? in our square-root procedure:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess x)
+  (&lt; (abs (- (square guess) x)) 0.001))
+</pre>
+</div>
+
+<p>
+The intention of the author of good-enough? is to determine if
+the square of the first argument is within a given tolerance of the
+second argument. We see that the author of good-enough? used
+the name guess to refer to the first argument and x to
+refer to the second argument. The argument of square is guess. If the author of square used x (as above)
+to refer to that argument, we see that the x in good-enough? must be a different x than the one in square. Running the procedure square must not affect the value
+of x that is used by good-enough?, because that value of
+x may be needed by good-enough? after square is done
+computing.
+</p>
+
+<p>
+If the parameters were not local to the bodies of their respective
+procedures, then the parameter x in square could be
+confused with the parameter x in good-enough?, and the
+behavior of good-enough? would depend upon which version of
+square we used. Thus, square would not be the black box
+we desired.
+</p>
+
+<p>
+A formal parameter of a procedure has a very special role in the
+procedure definition, in that it doesn't matter what name the formal
+parameter has. Such a name is called a bound variable, and we
+say that the procedure definition binds its formal parameters.
+The meaning of a procedure definition is unchanged if a bound variable
+is consistently renamed throughout the definition.{fn:26} If a variable is not bound, we say that it is free. The
+set of expressions for which a binding defines a name is called the
+scope of that name.
+In a procedure definition, the bound variables
+declared as the formal parameters of the procedure have the body of
+the procedure as their scope.
+</p>
+
+<p>
+In the definition of good-enough? above, guess and x are
+bound variables but &lt; , -, abs, and square are free.
+The meaning of good-enough? should be independent of the names we
+choose for guess and x so long as they are distinct and
+different from &lt; , -, abs, and square. (If we renamed
+guess to abs we would have introduced a bug by capturing
+the variable abs. It would have changed from free to bound.) The
+meaning of good-enough? is not independent of the names of its
+free variables, however. It surely depends upon the fact (external to
+this definition) that the symbol abs names a procedure for
+computing the absolute value of a number. Good-enough? will
+compute a different function if we substitute cos for abs in
+its definition.
+</p>
+
+
+<p>
+<b>Internal definitions and block structure</b>
+</p>
+
+<p>
+We have one kind of name isolation available to us so far: The formal
+parameters of a procedure are local to the body of the procedure. The
+square-root program illustrates another way in which we would like to
+control the use of names. The existing program consists of
+separate procedures:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (sqrt-iter 1.0 x))
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess x)
+  (<span style="font-weight: bold;">if</span> (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x) x)))
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess x)
+  (&lt; (abs (- (square guess) x)) 0.001))
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">improve</span> guess x)
+  (average guess (/ x guess)))
+</pre>
+</div>
+
+<p>
+The problem with this program is that the only procedure that is
+important to users of sqrt is sqrt. The other
+procedures (sqrt-iter, good-enough?, and improve)
+only clutter up their minds. They may not define any other procedure
+called good-enough? as part of another program to work together
+with the square-root program, because sqrt needs it. The
+problem is especially severe in the construction of large systems by
+many separate programmers. For example, in the construction of a
+large library of numerical procedures, many numerical functions are
+computed as successive approximations and thus might have procedures
+named good-enough? and improve as auxiliary procedures.
+We would like to localize the subprocedures, hiding them inside sqrt so that sqrt could coexist with other successive
+approximations, each having its own private
+good-enough? procedure. To make this possible, we allow a
+procedure to have
+internal definitions that are local to that procedure. For example,
+in the square-root problem we can write
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess x)
+    (&lt; (abs (- (square guess) x)) 0.001))
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">improve</span> guess x)
+    (average guess (/ x guess)))
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess x)
+    (<span style="font-weight: bold;">if</span> (good-enough? guess x)
+        guess
+        (sqrt-iter (improve guess x) x)))
+  (sqrt-iter 1.0 x))
+</pre>
+</div>
+
+<p>
+Such nesting of definitions, called block structure,
+is basically the right solution to the simplest 
+name-packaging problem. But there is a better idea lurking here. In
+addition to internalizing the definitions of the auxiliary procedures,
+we can simplify them. Since x is bound in the definition of
+sqrt, the procedures good-enough?, improve, and
+sqrt-iter, which are defined internally to sqrt, are in the
+scope of x. Thus, it is not necessary to pass x explicitly to
+each of these procedures. Instead, we allow x to be a free
+variable in the internal definitions, as shown below. Then x
+gets its value from the argument with which the enclosing
+procedure sqrt is called. This discipline is called lexical
+scoping.{fn:27}
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess)
+    (&lt; (abs (- (square guess) x)) 0.001))
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">improve</span> guess)
+    (average guess (/ x guess)))
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess)
+    (<span style="font-weight: bold;">if</span> (good-enough? guess)
+        guess
+        (sqrt-iter (improve guess))))
+  (sqrt-iter 1.0))
+</pre>
+</div>
+
+<p>
+We will use block structure extensively to help us break
+up large programs into tractable pieces.{fn:28}
+The idea of block structure originated with the
+programming language Algol 60. It appears in most advanced
+programming languages and is an important tool for helping to organize
+the construction of large programs.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgc9b14ea" class="outline-2">
+<h2 id="orgc9b14ea"><span class="section-number-2">2.</span> Make Foot Notes <code>[fn:n]</code></h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.15)</p>
+</div>
+</body>
+</html>
