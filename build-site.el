@@ -32,6 +32,7 @@
                   :with-creator t
                   :with-toc t
                   :with-latex t
+                  :with-todo-keywords nil
                   :section-number nil
                   :time-stamp-file nil)))
 
