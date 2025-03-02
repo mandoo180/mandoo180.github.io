@@ -307,6 +307,7 @@
     (add-to-list 'org-structure-template-alist '("js" . "src javascript"))
     (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
     (add-to-list 'org-structure-template-alist '("java" . "src java"))
+    (add-to-list 'org-structure-template-alist '("scm" . "src scheme"))
     (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
     (add-to-list 'org-structure-template-alist '("rust" . "src rust"))
 
@@ -322,6 +323,7 @@
         (javascript . t)
         (typescript . t)
         (shell . t)
+        (scheme . t)
         (sql . t)
         (sqlite . t)))))
 
@@ -675,6 +677,8 @@ it shows all the buffers in sub-windows.
     (setq visual-fill-column-center-text t)
     (add-hook 'nov-mode-hook 'visual-line-mode)
     (add-hook 'nov-mode-hook 'visual-fill-column-mode))
+
+  (provide 'reading-conf)
 #+end_src
 
 * Custom Functions
