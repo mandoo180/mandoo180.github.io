@@ -160,16 +160,17 @@
     ("C-M-#" . consult-register)
     ("M-y" . consult-yank-pop)
     ;; M-g bindings
-    ("M-g e" . consult-complie-error)
-    ("M-g f" . consult-fly-make)
     ("M-g g" . consult-goto-line)
     ("M-g M-g" . consult-goto-line)
-    ("M-g o" . consult-outline)
-    ("M-g m" . consult-mark)
-    ("M-g k" . consult-global-mark)
-    ("M-g i" . consult-imenu)
-    ("M-g I" . consult-imenu-multi)
     ;; M-s bindings in `search-map'
+    ("M-s e" . consult-complie-error)
+    ("M-s f" . consult-fly-make)
+    ("M-s s o" . consult-outline)
+    ("M-s m" . consult-mark)
+    ("M-s k" . consult-global-mark)
+    ("M-s i" . consult-imenu)
+    ("M-s I" . consult-imenu-multi)
+
     ("M-s d" . consult-find)                  ;; Alternative: consult-fd
     ("M-s c" . consult-locate)
     ("M-s g" . consult-grep)
@@ -177,7 +178,7 @@
     ("M-s r" . consult-ripgrep)
     ("M-s l" . consult-line)
     ("M-s L" . consult-line-multi)
-    ("M-s k" . consult-keep-lines)
+    ;; ("M-s k" . consult-keep-lines)
     ("M-s h" . consult-org-heading)
     ("M-s u" . consult-focus-lines))
 
@@ -219,7 +220,6 @@
 #+end_src
 
 * Theme
-
 #+begin_src emacs-lisp :tangle ~/.emacs.d/simple-theme.el
   (require 'autothemer)
 
@@ -375,6 +375,7 @@
   (use-package denote
     :custom
     (denote-sort-keywords t)
+    (denote-directory "~/Documents/notes/denote/")
     :hook
     (dired-mode . denote-dired-mode)
     :init
@@ -684,7 +685,6 @@ it shows all the buffers in sub-windows.
 * Custom Functions
 
 ** Scratch Buffers
-
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/custom-functions.el
   ;; -*- lexical-binding: t; -*-
 
@@ -729,6 +729,14 @@ it shows all the buffers in sub-windows.
 
 
   (provide 'custom-functions)
+#+end_src
+
+* Others
+#+begin_src emacs-lisp
+  (unless (require 'ultra-scroll nil 'noerror)
+    (package-vc-install '(ultra-scroll
+                          :vc-backend Git
+                          :url  "https://github.com/jdtsmith/ultra-scroll")))
 #+end_src
 
 * Local File Variables
