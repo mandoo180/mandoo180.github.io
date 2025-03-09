@@ -30,7 +30,7 @@ This is an *example* of a website written with _Org Mode!_
 - [[./emacs-configs.org][Emacs configurations]]
 - [[./GNU-sed.org][Learning GNU Sed]]
 - [[./c-programming-language-2nd.org][C Programming Language]]
-- [[./sicp/chapter01.org][Structure and Interpretation of Computer Programs]]
+- [[./sicp/sicp.org][Structure and Interpretation of Computer Programs]]
   
 * Links
 

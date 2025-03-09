@@ -11,7 +11,8 @@
 ;; requires org export publish
 (require 'ox-publish)
 
-(setq-local k-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
+;; (setq-local k-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
+(setq-local k-html-head "<link rel=\"stylesheet\" href=\"/assets/css/style.css\" />")
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
