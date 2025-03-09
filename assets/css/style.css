@@ -1,0 +1,86 @@
+@font-face {
+    font-family: Iosevka;
+    src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Regular.ttf);
+}
+
+@font-face {
+    font-family: Iosevka;
+    src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Italic.ttf);
+    font-style: italic;
+}
+
+
+@font-face {
+    font-family: Iosevka;
+    src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Iosevka;
+    src: url(/assets/fonts/Iosevka/IosevkaNerdFont-BoldItalic.ttf);
+    font-style: italic;
+    font-weight: bold;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: Iosevka;
+}
+
+body {
+    font-size: 2rem;
+    padding: 1rem;
+}
+
+p {
+    text-align: justify;
+    margin: 1rem 0;
+}
+
+#table-of-contents {
+    display: none;
+}
+
+blockquote,
+.example,
+.src {
+    padding: 1rem;
+    overflow-x: scroll;
+}
+
+
+h1.title,
+.outline-1 h1,
+.outline-2 h2,
+.outline-3 h3,
+.outline-4 h4,
+.outline-5 h5,
+.outline-6 h6 {
+    margin-bottom: 2rem;
+}
+
+.outline-1,
+.outline-2,
+.outline-3,
+.outline-4,
+.outline-5,
+.outline-6 {
+    padding: 0 1rem;
+}
+
+.outline-text-1,
+.outline-text-2,
+.outline-text-3,
+.outline-text-4,
+.outline-text-5,
+.outline-text-6 {
+    padding: 0 2rem;
+    margin: 2rem 0;
+}
