@@ -31,7 +31,7 @@
                   :base-directory "./content"
                   :publishing-directory "./public"
                   :publishing-function 'org-html-publish-to-html
-                  :with-author t
+                  :with-author nil
                   :with-creator t
                   :with-toc t
                   :with-latex t

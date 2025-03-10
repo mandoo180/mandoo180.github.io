@@ -3,7 +3,7 @@ window.onload = function() {
   const $wrapper = document.createElement('div');
   $wrapper.classList.add('toc-toggle-button');
   const $button = document.createElement('button');
-  $button.innerText = 'TOC';
+  $button.innerText = '<';
   $button.addEventListener('click', function() {
     $toc.classList.toggle('shown');
   });
