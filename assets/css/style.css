@@ -1,58 +1,89 @@
 @font-face {
-    font-family: Iosevka;
-    src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Regular.ttf);
+  font-family: Iosevka;
+  src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Regular.ttf);
 }
 
 @font-face {
-    font-family: Iosevka;
-    src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Italic.ttf);
-    font-style: italic;
+  font-family: Iosevka;
+  font-style: italic;
+  src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Italic.ttf);
 }
 
 
 @font-face {
-    font-family: Iosevka;
-    src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Bold.ttf);
-    font-weight: bold;
+  font-family: Iosevka;
+  font-weight: bold;
+  src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Bold.ttf);
 }
 
 @font-face {
-    font-family: Iosevka;
-    src: url(/assets/fonts/Iosevka/IosevkaNerdFont-BoldItalic.ttf);
-    font-style: italic;
-    font-weight: bold;
+  font-family: Iosevka;
+  font-style: italic;
+  font-weight: bold;
+  src: url(/assets/fonts/Iosevka/IosevkaNerdFont-BoldItalic.ttf);
 }
 
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-    font-size: 62.5%;
-    font-family: Iosevka;
+  font-family: Iosevka;
+  font-size: 62.5%;
 }
 
 body {
-    font-size: 2rem;
-    padding: 1rem;
+  font-size: 2rem;
+  padding: 1rem;
 }
 
 p {
-    text-align: justify;
-    margin: 1rem 0;
+  margin: 1rem 0;
+  text-align: justify;
+}
+
+button {
+  background: transparent;
+  border: none;
 }
 
 #table-of-contents {
-    display: none;
+  background: #ebebeb;
+  height: 100%;
+  padding: 2rem 4rem;
+  position: fixed;
+  right: -40rem;
+  top: 0;
+  transition: all 0.5s ease-out;
+  width: 40rem;
+}
+
+#table-of-contents .toc-toggle-button {
+  background: #ebebeb;
+  height: 3rem;
+  left: -5rem;
+  position: absolute;
+  top: 5rem;
+  width: 5rem;
+}
+
+#table-of-contents .toc-toggle-button button {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+#table-of-contents.shown {
+  right: 0rem;
 }
 
 blockquote,
 .example,
 .src {
-    padding: 1rem;
-    overflow-x: scroll;
+  overflow-x: scroll;
+  padding: 1rem;
 }
 
 
@@ -63,7 +94,7 @@ h1.title,
 .outline-4 h4,
 .outline-5 h5,
 .outline-6 h6 {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .outline-1,
@@ -72,7 +103,7 @@ h1.title,
 .outline-4,
 .outline-5,
 .outline-6 {
-    padding: 0 1rem;
+  padding: 0 1rem;
 }
 
 .outline-text-1,
@@ -81,6 +112,6 @@ h1.title,
 .outline-text-4,
 .outline-text-5,
 .outline-text-6 {
-    padding: 0 2rem;
-    margin: 2rem 0;
+  margin: 2rem 0;
+  padding: 0 2rem;
 }

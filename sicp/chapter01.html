@@ -8,6 +8,7 @@
 <title>Building Abstractions with Procedures</title>
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="/assets/css/style.css" />
+<script src="/assets/scripts/script.js"></script>
 </head>
 <body>
 <div id="content" class="content">
@@ -16,34 +17,34 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0acd893">1. The Elements of Programming</a>
+<li><a href="#org3a7c244">1. The Elements of Programming</a>
 <ul>
-<li><a href="#orgac502a2">1.1. Expressions</a></li>
-<li><a href="#orgd7bc2c4">1.2. Naming and the Environment</a></li>
-<li><a href="#org2f319ad">1.3. Evaluating Combinations</a></li>
-<li><a href="#orgf3476e9">1.4. Compound Procedures</a></li>
-<li><a href="#org8f58be3">1.5. The Substitution Model for Procedure Application</a></li>
-<li><a href="#orgaf6b0d6">1.6. Conditional Expressions and Predicates</a></li>
-<li><a href="#orgd595068">1.7. Example: Square Roots by Newton's Method</a></li>
-<li><a href="#org8fd3573">1.8. Procedures as Black-Box Abstractions</a></li>
+<li><a href="#org7632bf2">1.1. Expressions</a></li>
+<li><a href="#org7fadca9">1.2. Naming and the Environment</a></li>
+<li><a href="#org10cf05e">1.3. Evaluating Combinations</a></li>
+<li><a href="#org5d1afc8">1.4. Compound Procedures</a></li>
+<li><a href="#org10757c5">1.5. The Substitution Model for Procedure Application</a></li>
+<li><a href="#org55d96db">1.6. Conditional Expressions and Predicates</a></li>
+<li><a href="#orga34cae1">1.7. Example: Square Roots by Newton's Method</a></li>
+<li><a href="#org490e091">1.8. Procedures as Black-Box Abstractions</a></li>
 </ul>
 </li>
-<li><a href="#org7704c28">2. Procedures and the Processes They Generate</a>
+<li><a href="#orgd9918a7">2. Procedures and the Processes They Generate</a>
 <ul>
-<li><a href="#org155afda">2.1. Linear Recursion and Iteration</a></li>
-<li><a href="#org34c20c3">2.2. Tree Recursion</a></li>
-<li><a href="#org758b822">2.3. Orders of Growth</a></li>
-<li><a href="#org13cdc1b">2.4. Exponentiation</a></li>
-<li><a href="#org6284fc4">2.5. Greatest Common Divisors</a></li>
-<li><a href="#orga3c6106">2.6. Example: Testing for Primality</a></li>
+<li><a href="#org0b432be">2.1. Linear Recursion and Iteration</a></li>
+<li><a href="#org64e9154">2.2. Tree Recursion</a></li>
+<li><a href="#org3fe92bc">2.3. Orders of Growth</a></li>
+<li><a href="#orgff26b4d">2.4. Exponentiation</a></li>
+<li><a href="#orga1b5593">2.5. Greatest Common Divisors</a></li>
+<li><a href="#orgbf71487">2.6. Example: Testing for Primality</a></li>
 </ul>
 </li>
-<li><a href="#org1ff6d60">3. Formulating Abstractions with Higher-Order Procedures</a>
+<li><a href="#orgcab6f44">3. Formulating Abstractions with Higher-Order Procedures</a>
 <ul>
-<li><a href="#org85d6067">3.1. Procedures as Arguments</a></li>
-<li><a href="#orgb8f66d8">3.2. Constructing Procedures Using `Lambda'</a></li>
-<li><a href="#org3e1b26a">3.3. Procedures as General Methods</a></li>
-<li><a href="#org6dac81f">3.4. Procedures as Returned Values</a></li>
+<li><a href="#orge6c3121">3.1. Procedures as Arguments</a></li>
+<li><a href="#orgf9c0a06">3.2. Constructing Procedures Using `Lambda'</a></li>
+<li><a href="#orgad8247a">3.3. Procedures as General Methods</a></li>
+<li><a href="#org7d9a741">3.4. Procedures as Returned Values</a></li>
 </ul>
 </li>
 </ul>
@@ -119,8 +120,8 @@ constructed, replaced, and debugged separately.
 
 <p>
 Programming in Lisp
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;.
 </p>
+<hr />
 
 <p>
 We need an appropriate language for describing processes, and we will
@@ -246,8 +247,8 @@ al. 1992; Sussman and Wisdom 1992).
 </p>
 
 
-<div id="outline-container-org0acd893" class="outline-2">
-<h2 id="org0acd893"><span class="section-number-2">1.</span> The Elements of Programming</h2>
+<div id="outline-container-org3a7c244" class="outline-2">
+<h2 id="org3a7c244"><span class="section-number-2">1.</span> The Elements of Programming</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 A powerful programming language is more than just a means for
@@ -321,8 +322,8 @@ operations.
 </div>
 
 
-<div id="outline-container-orgac502a2" class="outline-3">
-<h3 id="orgac502a2"><span class="section-number-3">1.1.</span> Expressions</h3>
+<div id="outline-container-org7632bf2" class="outline-3">
+<h3 id="org7632bf2"><span class="section-number-3">1.1.</span> Expressions</h3>
 <div class="outline-text-3" id="text-1-1">
 <hr />
 
@@ -339,14 +340,14 @@ One kind of primitive expression you might type is a number.  (More
 precisely, the expression that you type consists of the numerals that
 represent the number in base 10.)  If you present Lisp with a number
 </p>
-<pre class="example" id="org820d6f2">
+<pre class="example" id="orgae213fb">
 486
 </pre>
 
 <p>
 the interpreter will respond by printing (1)
 </p>
-<pre class="example" id="org98fe90f">
+<pre class="example" id="org2178b22">
 486
 </pre>
 
@@ -357,7 +358,7 @@ compound expression that represents the application of the procedure to
 those numbers.  For example:
 </p>
 
-<pre class="example" id="orgcd59e4d">
+<pre class="example" id="org5328d7d">
 (+ 137 349)
 486
 
@@ -393,7 +394,7 @@ them is that it can accommodate procedures that may take an arbitrary
 number of arguments, as in the following examples:
 </p>
 
-<pre class="example" id="orge05ba62">
+<pre class="example" id="orgb6b7286">
 (+ 21 35 12 7)
 75
 
@@ -412,7 +413,7 @@ straightforward way to allow combinations to be nested, that is, to
 have combinations whose elements are themselves combinations:
 </p>
 
-<pre class="example" id="orgfa9c50b">
+<pre class="example" id="orga24d3ad">
 (+ (* 3 5) (- 10 6))
 19
 </pre>
@@ -424,7 +425,7 @@ evaluate.  It is we humans who get confused by still relatively simple
 expressions such as
 </p>
 
-<pre class="example" id="org817cbf9">
+<pre class="example" id="org20654a1">
 (+ (* 3 (+ (* 2 4) (+ 3 5))) (+ (- 10 7) 6))
 </pre>
 
@@ -433,7 +434,7 @@ which the interpreter would readily evaluate to be 57.  We can help
 ourselves by writing such an expression in the form
 </p>
 
-<pre class="example" id="org8a89e7d">
+<pre class="example" id="orgc7af6fb">
 (+ (* 3
       (+ (* 2 4)
          (+ 3 5)))
@@ -486,8 +487,8 @@ everything but the cost of nothing."
 </div>
 
 
-<div id="outline-container-orgd7bc2c4" class="outline-3">
-<h3 id="orgd7bc2c4"><span class="section-number-3">1.2.</span> Naming and the Environment</h3>
+<div id="outline-container-org7fadca9" class="outline-3">
+<h3 id="org7fadca9"><span class="section-number-3">1.2.</span> Naming and the Environment</h3>
 <div class="outline-text-3" id="text-1-2">
 <hr />
 
@@ -512,7 +513,7 @@ causes the interpreter to associate the value 2 with the name
 we can refer to the value 2 by name:
 </p>
 
-<pre class="example" id="org52093f8">
+<pre class="example" id="orga134315">
 size
 2
 
@@ -524,7 +525,7 @@ size
 Here are further examples of the use of `define':
 </p>
 
-<pre class="example" id="org6f28e2b">
+<pre class="example" id="org1f832fc">
 (define pi 3.14159)
 
 (define radius 10)
@@ -581,8 +582,8 @@ implementing interpreters.
 </div>
 
 
-<div id="outline-container-org2f319ad" class="outline-3">
-<h3 id="org2f319ad"><span class="section-number-3">1.3.</span> Evaluating Combinations</h3>
+<div id="outline-container-org10cf05e" class="outline-3">
+<h3 id="org10cf05e"><span class="section-number-3">1.3.</span> Evaluating Combinations</h3>
 <div class="outline-text-3" id="text-1-3">
 <hr />
 
@@ -621,7 +622,7 @@ what, in the case of a deeply nested combination, would otherwise be
 viewed as a rather complicated process.  For example, evaluating
 </p>
 
-<pre class="example" id="org18945bc">
+<pre class="example" id="orgc126605">
 (* (+ 2 (* 4 6))
    (+ 3 5 7))
 </pre>
@@ -646,7 +647,7 @@ example of a general kind of process known as "tree accumulation".
 <b>Figure 1.1:</b> Tree representation, showing the value of each subcombination.
 </p>
 
-<pre class="example" id="org2adfa14">
+<pre class="example" id="org011e42e">
   390
   /|\____________
  / |             \
@@ -745,8 +746,8 @@ Alan Perlis, "Syntactic sugar causes cancer of the semicolon."
 </div>
 
 
-<div id="outline-container-orgf3476e9" class="outline-3">
-<h3 id="orgf3476e9"><span class="section-number-3">1.4.</span> Compound Procedures</h3>
+<div id="outline-container-org5d1afc8" class="outline-3">
+<h3 id="org5d1afc8"><span class="section-number-3">1.4.</span> Compound Procedures</h3>
 <div class="outline-text-3" id="text-1-4">
 <hr />
 
@@ -788,7 +789,7 @@ expressed in our language as
 We can understand this in the following way:
 </p>
 
-<pre class="example" id="orgcc20dc1">
+<pre class="example" id="org68a49fa">
 (define (square    x)         (*      x         x))
   |        |       |           |      |         |
  To     square  something,  multiply  it  by  itself.
@@ -807,9 +808,9 @@ and associates it with the name `square'.(1)
 The general form of a procedure definition is
 </p>
 
-<p>
+<pre class="example" id="org00ba0e2">
 (define (&lt;NAME&gt; &lt;FORMAL PARAMETERS&gt;) &lt;BODY&gt;)
-</p>
+</pre>
 
 <p>
 The &lt;NAME&gt; is a symbol to be associated with the procedure
@@ -827,7 +828,7 @@ being defined.
 Having defined `square', we can now use it:
 </p>
 
-<pre class="example" id="orgd7bff7d">
+<pre class="example" id="org61ad380">
 (square 21)
 441
 
@@ -843,7 +844,7 @@ We can also use `square' as a building block in defining other
 procedures.  For example, <code>x^2 + y^2</code> can be expressed as
 </p>
 
-<pre class="example" id="org765403f">
+<pre class="example" id="orgac4f654">
 (+ (square x) (square y))
 </pre>
 
@@ -853,7 +854,7 @@ We can easily define a procedure `sum-of-squares' that, given any two
 numbers as arguments, produces the sum of their squares:
 </p>
 
-<pre class="example" id="org52e9464">
+<pre class="example" id="orgd225137">
 (define (sum-of-squares x y)
   (+ (square x) (square y)))
 (sum-of-squares 3 4)
@@ -865,7 +866,7 @@ Now we can use `sum-of-squares' as a building block in constructing
 further procedures:
 </p>
 
-<pre class="example" id="orgf794a8d">
+<pre class="example" id="org15e55a5">
 (define (f a)
   (sum-of-squares (+ a 1) (* a 2)))
 
@@ -910,8 +911,8 @@ as the value of the procedure application.
 </div>
 
 
-<div id="outline-container-org8f58be3" class="outline-3">
-<h3 id="org8f58be3"><span class="section-number-3">1.5.</span> The Substitution Model for Procedure Application</h3>
+<div id="outline-container-org10757c5" class="outline-3">
+<h3 id="org10757c5"><span class="section-number-3">1.5.</span> The Substitution Model for Procedure Application</h3>
 <div class="outline-text-3" id="text-1-5">
 <hr />
 
@@ -941,7 +942,7 @@ corresponding argument.
 To illustrate this process, let's evaluate the combination
 </p>
 
-<pre class="example" id="orgfce88ee">
+<pre class="example" id="org8125f26">
 (f 5)
 </pre>
 
@@ -950,7 +951,7 @@ where `f' is the procedure defined in section *Note 1-1-4::.  We begin
 by retrieving the body of `f':
 </p>
 
-<pre class="example" id="org44f2cab">
+<pre class="example" id="org4d90b8c">
 (sum-of-squares (+ a 1) (* a 2))
 </pre>
 
@@ -958,7 +959,7 @@ by retrieving the body of `f':
 Then we replace the formal parameter `a' by the argument 5:
 </p>
 
-<pre class="example" id="org924a8d0">
+<pre class="example" id="orgb76f44f">
 (sum-of-squares (+ 5 1) (* 5 2))
 </pre>
 
@@ -973,14 +974,14 @@ are substituted for the formal parameters `x' and `y' in the body of
 `sum-of-squares', reducing the expression to
 </p>
 
-<pre class="example" id="org22cbdbe">
+<pre class="example" id="orgbd3b1bb">
 (+ (square 6) (square 10))
 </pre>
 
 <p>
 If we use the definition of `square', this reduces to
 </p>
-<pre class="example" id="org8420e31">
+<pre class="example" id="orge7bb042">
 (+ (* 6 6) (* 10 10))
 </pre>
 
@@ -988,14 +989,14 @@ If we use the definition of `square', this reduces to
 which reduces by multiplication to
 </p>
 
-<pre class="example" id="org3185a36">
+<pre class="example" id="org8385ebf">
 (+ 36 100)
 </pre>
 
 <p>
 and finally to
 </p>
-<pre class="example" id="orgc2d61ba">
+<pre class="example" id="orgba6ed61">
 136
 </pre>
 
@@ -1037,8 +1038,8 @@ application.(1)</li>
 
 <p>
 Applicative order versus normal order
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;.
 </p>
+<hr />
 
 <p>
 According to the description of evaluation given in section *Note
@@ -1053,7 +1054,7 @@ evaluation of `(f 5)' would proceed according to the sequence of
 expansions
 </p>
 
-<pre class="example" id="orgf85fa57">
+<pre class="example" id="org5a9222a">
 (sum-of-squares (+ 5 1) (* 5 2))
 
 (+    (square (+ 5 1))      (square (* 5 2))  )
@@ -1065,7 +1066,7 @@ expansions
 followed by the reductions
 </p>
 
-<pre class="example" id="org3e00441">
+<pre class="example" id="orgc36ff65">
 (+         (* 6 6)             (* 10 10))
 
 (+           36                   100)
@@ -1133,8 +1134,8 @@ normal-order variant of Scheme.
 </div>
 
 
-<div id="outline-container-orgaf6b0d6" class="outline-3">
-<h3 id="orgaf6b0d6"><span class="section-number-3">1.6.</span> Conditional Expressions and Predicates</h3>
+<div id="outline-container-org55d96db" class="outline-3">
+<h3 id="org55d96db"><span class="section-number-3">1.6.</span> Conditional Expressions and Predicates</h3>
 <div class="outline-text-3" id="text-1-6">
 <hr />
 
@@ -1148,7 +1149,7 @@ zero and taking different actions in the different cases according to
 the rule
 </p>
 
-<pre class="example" id="orgea7b4dc">
+<pre class="example" id="org15fe452">
       /
       |   x  if x &gt; 0
 |x| = &lt;   0  if x = 0
@@ -1174,21 +1175,21 @@ form in Lisp for notating such a case analysis.  It is called `cond'
 The general form of a conditional expression is
 </p>
 
-<p>
+<pre class="example" id="org559e2eb">
 (cond (&lt;P1&gt; &lt;E1&gt;)
       (&lt;P2&gt; &lt;E2&gt;)
-      &#x2026;
+      ...
       (&lt;PN&gt; &lt;EN&gt;))
-</p>
+</pre>
 
 <p>
 consisting of the symbol `cond' followed by parenthesized pairs of
 expressions
 </p>
 
-<p>
+<pre class="example" id="org76a7cef">
 (&lt;P&gt; &lt;E&gt;)
-</p>
+</pre>
 
 <p>
 called "clauses". The first expression in each pair is a "predicate"&#x2013;that
@@ -1253,9 +1254,9 @@ that can be used when there are precisely two cases in the case
 analysis.  The general form of an `if' expression is
 </p>
 
-<p>
+<pre class="example" id="org2376af1">
 (if &lt;PREDICATE&gt; &lt;CONSEQUENT&gt; &lt;ALTERNATIVE&gt;)
-</p>
+</pre>
 
 <p>
 To evaluate an `if' expression, the interpreter starts by evaluating
@@ -1318,7 +1319,7 @@ As an example of how these are used, the condition that a number x
 be in the range 5 &lt; x &lt; 10 may be expressed as
 </p>
 
-<pre class="example" id="org1d4b30e">
+<pre class="example" id="orgd8de437">
 (and (&gt; x 5) (&lt; x 10))
 </pre>
 
@@ -1326,7 +1327,7 @@ be in the range 5 &lt; x &lt; 10 may be expressed as
 As another example, we can define a predicate to test whether one
 number is greater than or equal to another as
 </p>
-<pre class="example" id="orgefdbea3">
+<pre class="example" id="orgefa82ff">
 (define (&gt;= x y)
   (or (&gt; x y) (= x y)))
 </pre>
@@ -1334,7 +1335,7 @@ number is greater than or equal to another as
 <p>
 or alternatively as
 </p>
-<pre class="example" id="orga39c0dd">
+<pre class="example" id="org41c1a63">
 (define (&gt;= x y)
   (not (&lt; x y)))
 </pre>
@@ -1346,7 +1347,7 @@ Assume that the sequence is to be evaluated in the order in which
 it is presented.
 </p>
 
-<pre class="example" id="orgc2ededd">
+<pre class="example" id="orgd2c1d24">
 10
 
 (+ 5 3 4)
@@ -1385,7 +1386,7 @@ it is presented.
 <b>Exercise 1.2:</b> Translate the following expression into prefix form.
 </p>
 
-<pre class="example" id="org042c946">
+<pre class="example" id="org1c403b6">
 5 + 4 + (2 - (3 - (6 + 4/5)))
 -----------------------------
        3(6 - 2)(2 - 7)
@@ -1403,7 +1404,7 @@ combinations whose operators are compound expressions.  Use this
 observation to describe the behavior of the following procedure:
 </p>
 
-<pre class="example" id="orgaf592ff">
+<pre class="example" id="orgb005d43">
 (define (a-plus-abs-b a b)
   ((if (&gt; b 0) + -) a b))
 </pre>
@@ -1415,7 +1416,7 @@ applicative-order evaluation or normal-order evaluation.  He
 defines the following two procedures:
 </p>
 
-<pre class="example" id="orgb0c4cd6">
+<pre class="example" id="org3b8e623">
 (define (p) (p))
 
 (define (test x y)
@@ -1428,7 +1429,7 @@ defines the following two procedures:
 Then he evaluates the expression
 </p>
 
-<pre class="example" id="org0ff0399">
+<pre class="example" id="orgc040216">
 (test 0 (p))
 </pre>
 
@@ -1475,8 +1476,8 @@ expressions.
 </div>
 
 
-<div id="outline-container-orgd595068" class="outline-3">
-<h3 id="orgd595068"><span class="section-number-3">1.7.</span> Example: Square Roots by Newton's Method</h3>
+<div id="outline-container-orga34cae1" class="outline-3">
+<h3 id="orga34cae1"><span class="section-number-3">1.7.</span> Example: Square Roots by Newton's Method</h3>
 <div class="outline-text-3" id="text-1-7">
 <hr />
 
@@ -1492,7 +1493,7 @@ functions and computer procedures.  Procedures must be effective.
 We can define the square-root function as
 </p>
 
-<pre class="example" id="org30d960c">
+<pre class="example" id="org5888d2f">
 sqrt(x) = the y such that y &gt;= 0 and y^2 = x
 </pre>
 
@@ -1506,7 +1507,7 @@ given number.  It will not help matters to rephrase this definition in
 pseudo-Lisp:
 </p>
 
-<pre class="example" id="org4ad7e43">
+<pre class="example" id="org92ab823">
 (define (sqrt x)
   (the y (and (&gt;= y 0)
               (= (square y) x))))
@@ -1536,7 +1537,7 @@ compute the square root of 2 as follows.  Suppose our initial guess is
 1:
 </p>
 
-<pre class="example" id="orga34b415">
+<pre class="example" id="orgd07a315">
 Guess  Quotient             Average
 1      (2/1) = 2            ((2 + 1)/2) = 1.5
 1.5    (2/1.5) = 1.3333     ((1.3333 + 1.5)/2) = 1.4167
@@ -1617,7 +1618,7 @@ If we type these definitions to the interpreter, we can use `sqrt'
 just as we can use any procedure:
 </p>
 
-<pre class="example" id="orgbf9711c">
+<pre class="example" id="orgbfce24f">
 (sqrt 9)
 3.00009155413138
 
@@ -1650,7 +1651,7 @@ Eva Lu Ator claims this can indeed be done, and she defines a new
 version of `if':
 </p>
 
-<pre class="example" id="orgf8238ae">
+<pre class="example" id="orgcaa590f">
 (define (new-if predicate then-clause else-clause)
   (cond (predicate then-clause)
         (else else-clause)))
@@ -1660,7 +1661,7 @@ version of `if':
 Eva demonstrates the program for Alyssa:
 </p>
 
-<pre class="example" id="org6ee64a3">
+<pre class="example" id="org8ce8e9a">
 (new-if (= 2 3) 0 5)
 5
 
@@ -1672,7 +1673,7 @@ Eva demonstrates the program for Alyssa:
 Delighted, Alyssa uses `new-if' to rewrite the square-root program:
 </p>
 
-<pre class="example" id="orgf680919">
+<pre class="example" id="org3eb907a">
 (define (sqrt-iter guess x)
   (new-if (good-enough? guess x)
           guess
@@ -1705,7 +1706,7 @@ fact that if y is an approximation to the cube root of x, then a
 better approximation is given by the value
 </p>
 
-<pre class="example" id="org448846c">
+<pre class="example" id="org94d4208">
 x/y^2 + 2y
 ----------
     3
@@ -1781,8 +1782,8 @@ using procedure calls to implement iteration should note the remarks on
 </div>
 
 
-<div id="outline-container-org8fd3573" class="outline-3">
-<h3 id="org8fd3573"><span class="section-number-3">1.8.</span> Procedures as Black-Box Abstractions</h3>
+<div id="outline-container-org490e091" class="outline-3">
+<h3 id="org490e091"><span class="section-number-3">1.8.</span> Procedures as Black-Box Abstractions</h3>
 <div class="outline-text-3" id="text-1-8">
 <hr />
 
@@ -1811,7 +1812,7 @@ mirrors the decomposition of the problem into subproblems.
 <b>Figure 1.2:</b> Procedural decomposition of the `sqrt' program.
 </p>
 
-<pre class="example" id="org56c704f">
+<pre class="example" id="orgb7cfe12">
             sqrt
              |
          sqrt-iter
@@ -1865,8 +1866,8 @@ to use it.
 
 <p>
 Local names
-&#x2026;&#x2026;&#x2026;..
 </p>
+<hr />
 
 <p>
 One detail of a procedure's implementation that should not matter to
@@ -1949,8 +1950,8 @@ for `abs' in its definition.
 
 <p>
 Internal definitions and block structure
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;.
 </p>
+<hr />
 
 <p>
 We have one kind of name isolation available to us so far: The formal
@@ -2084,8 +2085,8 @@ that intertwine definition and use.
 </div>
 
 
-<div id="outline-container-org7704c28" class="outline-2">
-<h2 id="org7704c28"><span class="section-number-2">2.</span> Procedures and the Processes They Generate</h2>
+<div id="outline-container-orgd9918a7" class="outline-2">
+<h2 id="orgd9918a7"><span class="section-number-2">2.</span> Procedures and the Processes They Generate</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We have now considered the elements of programming: We have used
@@ -2136,21 +2137,17 @@ Their role is like that played by test patterns in photography: as
 oversimplified prototypical patterns, rather than practical examples in
 their own right.
 </p>
-
-<p>
-
-</p>
 </div>
 
 
-<div id="outline-container-org155afda" class="outline-3">
-<h3 id="org155afda"><span class="section-number-3">2.1.</span> Linear Recursion and Iteration</h3>
+<div id="outline-container-org0b432be" class="outline-3">
+<h3 id="org0b432be"><span class="section-number-3">2.1.</span> Linear Recursion and Iteration</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 <b>Figure 1.3:</b> A linear recursive process for computing 6!.
 </p>
 
-<pre class="example" id="orge05a78d">
+<pre class="example" id="org8d78e10">
 
 (factorial 6)        ------------------------.
 (* 6 (factorial 5))                          |
@@ -2172,40 +2169,41 @@ their own right.
 We begin by considering the factorial function, defined by
 </p>
 
-<p>
-n! = n * (n - 1) * (n - 2) &#x2026; 3 * 2 * 1
-</p>
+<pre class="example" id="org1fa3fe8">
+n! = n * (n - 1) * (n - 2) ... 3 * 2 * 1
+</pre>
 
 <p>
-   There are many ways to compute factorials.  One way is to make use
+There are many ways to compute factorials.  One way is to make use
 of the observation that n! is equal to n times (n - 1)! for any positive
 integer n:
 </p>
 
-<p>
-n! = n * [(n - 1) * (n - 2) &#x2026; 3 * 2 * 1] = n * (n - 1)!
-</p>
+<pre class="example" id="org9cdfd92">
+n! = n * [(n - 1) * (n - 2) ... 3 * 2 * 1] = n * (n - 1)!
+</pre>
 
 <p>
-   Thus, we can compute n! by computing (n - 1)! and multiplying the
+Thus, we can compute n! by computing (n - 1)! and multiplying the
 result by n.  If we add the stipulation that 1! is equal to 1, this
 observation translates directly into a procedure:
 </p>
 
-<p>
-(define (factorial n)
-  (if (= n 1)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">factorial</span> n)
+  (<span style="font-weight: bold;">if</span> (= n 1)
       1
       (* n (factorial (- n 1)))))
-</p>
+</pre>
+</div>
 
 <p>
-   We can use the substitution model of section *Note 1-1-5:: to watch
+We can use the substitution model of section *Note 1-1-5:: to watch
 this procedure in action computing 6!, as shown in *Note Figure 1-3::.
 </p>
 
 <p>
-   Now let's take a different perspective on computing factorials.  We
+Now let's take a different perspective on computing factorials.  We
 could describe a rule for computing n! by specifying that we first
 multiply 1 by 2, then multiply the result by 3, then by 4, and so on
 until we reach n.  More formally, we maintain a running product,
@@ -2214,13 +2212,11 @@ the computation by saying that the counter and the product
 simultaneously change from one step to the next according to the rule
 </p>
 
-<p>
-product  &lt;-  counter  &#x2026;  product
-</p>
+<pre class="example" id="orgad77f68">
+product  &lt;-  counter  ...  product
 
-<p>
 counter  &lt;-  counter  +  1
-</p>
+</pre>
 
 <p>
 and stipulating that n! is the value of the product when the counter
@@ -2231,8 +2227,8 @@ exceeds n.
 <b>Figure 1.4:</b> A linear iterative process for computing 6!.
 </p>
 
-<p>
-(factorial 6)   &#x2013;&#x2014;.
+<pre class="example" id="orgd02256d">
+(factorial 6)   -----.
 (fact-iter   1 1 6)  |
 (fact-iter   1 2 6)  |
 (fact-iter   2 3 6)  |
@@ -2241,34 +2237,33 @@ exceeds n.
 (fact-iter 120 6 6)  |
 (fact-iter 720 7 6)  V
 720
-</p>
+</pre>
 
 <p>
-   Once again, we can recast our description as a procedure for
+Once again, we can recast our description as a procedure for
 computing factorials:(1)
 </p>
 
-<p>
-(define (factorial n)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">factorial</span> n)
   (fact-iter 1 1 n))
-</p>
 
-<p>
-(define (fact-iter product counter max-count)
-  (if (&gt; counter max-count)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fact-iter</span> product counter max-count)
+  (<span style="font-weight: bold;">if</span> (&gt; counter max-count)
       product
       (fact-iter (* counter product)
-		 (+ counter 1)
-		 max-count)))
-</p>
+                 (+ counter 1)
+                 max-count)))
+</pre>
+</div>
 
 <p>
-   As before, we can use the substitution model to visualize the
+As before, we can use the substitution model to visualize the
 process of computing 6!, as shown in *Note Figure 1-4::.
 </p>
 
 <p>
-   Compare the two processes.  From one point of view, they seem hardly
+Compare the two processes.  From one point of view, they seem hardly
 different at all.  Both compute the same mathematical function on the
 same domain, and each requires a number of steps proportional to n to
 compute n!.  Indeed, both processes even carry out the same sequence of
@@ -2278,7 +2273,7 @@ find that they evolve quite differently.
 </p>
 
 <p>
-   Consider the first process.  The substitution model reveals a shape
+Consider the first process.  The substitution model reveals a shape
 of expansion followed by contraction, indicated by the arrow in *Note
 Figure 1-3::.  The expansion occurs as the process builds up a chain of operations
 "deferred operations" (in this case, a chain of multiplications).  The
@@ -2294,7 +2289,7 @@ process".
 </p>
 
 <p>
-   By contrast, the second process does not grow and shrink.  At each
+By contrast, the second process does not grow and shrink.  At each
 step, all we need to keep track of, for any n, are the current values
 of the variables `product', `counter', and `max-count'.  We call this an "iterative
 process".  In general, an iterative process is one whose state can be
@@ -2307,7 +2302,7 @@ a process is called a "linear iterative process".
 </p>
 
 <p>
-   The contrast between the two processes can be seen in another way.
+The contrast between the two processes can be seen in another way.
 In the iterative case, the program variables provide a complete
 description of the state of the process at any point.  If we stopped
 the computation between steps, all we would need to do to resume the
@@ -2320,7 +2315,7 @@ The longer the chain, the more information must be maintained.(2)
 </p>
 
 <p>
-   In contrasting iteration and recursion, we must be careful not to
+In contrasting iteration and recursion, we must be careful not to
 confuse the notion of a recursive "process" with the notion of a
 recursive "procedure".  When we describe a procedure as recursive, we
 are referring to the syntactic fact that the procedure definition
@@ -2336,7 +2331,7 @@ in order to execute the process.
 </p>
 
 <p>
-   One reason that the distinction between process and procedure may be
+One reason that the distinction between process and procedure may be
 confusing is that most implementations of common languages (including
 Ada, Pascal, and C) are designed in such a way that the interpretation
 of any recursive procedure consumes an amount of memory that grows with
@@ -2360,19 +2355,18 @@ method for adding two positive integers in terms of the procedures
 decrements its argument by 1.
 </p>
 
-<p>
-(define (+ a b)
-  (if (= a 0)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">+</span> a b)
+  (<span style="font-weight: bold;">if</span> (= a 0)
       b
       (inc (+ (dec a) b))))
-</p>
 
-<p>
-(define (+ a b)
-  (if (= a 0)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">+</span> a b)
+  (<span style="font-weight: bold;">if</span> (= a 0)
       b
       (+ (dec a) (inc b))))
-</p>
+</pre>
+</div>
 
 <p>
 Using the substitution model, illustrate the process generated by
@@ -2384,52 +2378,43 @@ iterative or recursive?
 <b>Exercise 1.10:</b> The following procedure computes a mathematical
 function called Ackermann's function.
 </p>
-
-<p>
-(define (A x y)
-  (cond ((= y 0) 0)
-	((= x 0) (* 2 y))
-	((= y 1) 2)
-	(else (A (- x 1)
-		 (A x (- y 1))))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">A</span> x y)
+  (<span style="font-weight: bold;">cond</span> ((= y 0) 0)
+        ((= x 0) (* 2 y))
+        ((= y 1) 2)
+        (<span style="font-weight: bold;">else</span> (A (- x 1)
+                 (A x (- y 1))))))
+</pre>
+</div>
 
 <p>
 What are the values of the following expressions?
 </p>
 
-<p>
+<pre class="example" id="org8effb2a">
 (A 1 10)
-</p>
 
-<p>
 (A 2 4)
-</p>
 
-<p>
 (A 3 3)
-</p>
+</pre>
 
 <p>
 Consider the following procedures, where `A' is the procedure
 defined above:
 </p>
 
-<p>
-(define (f n) (A 0 n))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> n) (A 0 n))
 
-<p>
-(define (g n) (A 1 n))
-</p>
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">g</span> n) (A 1 n))
 
-<p>
-(define (h n) (A 2 n))
-</p>
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">h</span> n) (A 2 n))
 
-<p>
-(define (k n) (* 5 n n))
-</p>
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">k</span> n) (* 5 n n))
+</pre>
+</div>
 
 <p>
 Give concise mathematical definitions for the functions computed
@@ -2442,27 +2427,28 @@ n.  For example, `(k n)' computes 5n<sup>2</sup>.
 </p>
 
 <p>
-   (1) In a real program we would probably use the block structure
+(1) In a real program we would probably use the block structure
 introduced in the last section to hide the definition of `fact-iter':
 </p>
 
-<p>
-(define (factorial n)
-	(define (iter product counter)
-		(if (&gt; counter n)
-		    product
-		    (iter (* counter product)
-			  (+ counter 1))))
-	(iter 1 1))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">factorial</span> n)
+        (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">iter</span> product counter)
+                (<span style="font-weight: bold;">if</span> (&gt; counter n)
+                    product
+                    (iter (* counter product)
+                          (+ counter 1))))
+        (iter 1 1))
+</pre>
+</div>
 
 <p>
-   We avoided doing this here so as to minimize the number of things to
+We avoided doing this here so as to minimize the number of things to
 think about at once.
 </p>
 
 <p>
-   (2) When we discuss the implementation of procedures on register
+(2) When we discuss the implementation of procedures on register
 machines in *Note Chapter 5::, we will see that any iterative process
 can be realized "in hardware" as a machine that has a fixed set of
 registers and no auxiliary memory.  In contrast, realizing a recursive
@@ -2471,7 +2457,7 @@ as a "stack".
 </p>
 
 <p>
-   (3) Tail recursion has long been known as a compiler optimization
+(3) Tail recursion has long been known as a compiler optimization
 trick.  A coherent semantic basis for tail recursion was provided by
 Carl Hewitt (1977), who explained it in terms of the "message-passing"
 model of computation that we shall discuss in *Note Chapter 3::.
@@ -2481,16 +2467,12 @@ Steele later showed how tail recursion is a consequence of the natural
 way to compile procedure calls (Steele 1977).  The IEEE standard for
 Scheme requires that Scheme implementations be tail-recursive.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 
 
-<div id="outline-container-org34c20c3" class="outline-3">
-<h3 id="org34c20c3"><span class="section-number-3">2.2.</span> Tree Recursion</h3>
+<div id="outline-container-org64e9154" class="outline-3">
+<h3 id="org64e9154"><span class="section-number-3">2.2.</span> Tree Recursion</h3>
 <div class="outline-text-3" id="text-2-2">
 <hr />
 
@@ -2500,75 +2482,49 @@ an example, consider computing the sequence of Fibonacci numbers, in
 which each number is the sum of the preceding two:
 </p>
 
-<p>
-0, 1, 1, 2, 3, 5, 8, 13, 21, &#x2026;
-</p>
+<pre class="example" id="org755e2fd">
+0, 1, 1, 2, 3, 5, 8, 13, 21, ...
+</pre>
 
 <p>
 In general, the Fibonacci numbers can be defined by the rule
 </p>
-
-<p>
-/
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">0                        if n = 0</td>
-</tr>
-</tbody>
-</table>
-<p>
+<pre class="example" id="orgf6bc062">
+         /
+         |  0                        if n = 0
 Fib(n) = &lt;  1                        if n = 1
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">Fib(n - 1) + Fib(n - 2)  otherwise</td>
-</tr>
-</tbody>
-</table>
-<p>
-\
-</p>
+         |  Fib(n - 1) + Fib(n - 2)  otherwise
+         \
+</pre>
 
 <p>
-   We can immediately translate this definition into a recursive
+We can immediately translate this definition into a recursive
 procedure for computing Fibonacci numbers:
 </p>
 
-<p>
-(define (fib n)
-  (cond ((= n 0) 0)
-	((= n 1) 1)
-	(else (+ (fib (- n 1))
-		 (fib (- n 2))))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib</span> n)
+  (<span style="font-weight: bold;">cond</span> ((= n 0) 0)
+        ((= n 1) 1)
+        (<span style="font-weight: bold;">else</span> (+ (fib (- n 1))
+                 (fib (- n 2))))))
+</pre>
+</div>
+
 
 <p>
-<b>Figure 1.5:</b> The tree-recursive process generated in computing
-`(fib 5)'.
+<b>Figure 1.5:</b> The tree-recursive process generated in computing `(fib 5)'.
 </p>
 
-<p>
-		   ..&lt;&#x2026;&#x2026;&#x2026;&#x2026; fib5   &lt;&#x2026;&#x2026;&#x2026;.
-		&#x2026;     <span class="underline"><span class="underline"><span class="underline"><span class="underline"><span class="underline"><span class="underline"><span class="underline"><span class="underline"><span class="underline"><span class="underline"><span class="underline">/  \</span></span></span></span></span></span></span></span></span></span></span>   .
-	     &#x2026;       /       . &#x2026;..            \    .
-	   ..       fib4     .        . . . .     fib3  .
-	 ..     <span class="underline"><span class="underline"><span class="underline"><span class="underline">/. \</span></span></span></span>  ..             .  <span class="underline"><span class="underline">/  \</span></span>  .
+<pre class="example" id="orgbdd59ff">
+                   ..&lt;............ fib5   &lt;..........
+                ...     ___________/  \___________   .
+             ...       /       . .....            \    .
+           ..       fib4     .        . . . .     fib3  .
+         ..     ____/. \____  ..             .  __/  \__  .
        ..      /  . .  ..   \    .        ..   /  . .   \   .
      ..     fib3 .       .  fib2 .        . fib2 .   .  fib1 .
-   ..      / . \  .     .   /  \  .      .  /  \ &#x2026;  .  |  .
+   ..      / . \  .     .   /  \  .      .  /  \ ...  .  |  .
  ..       / . . \   .  .   /  . \   .  .   / .  \   .  . 1 .
 .      fib2 . . fib1.  .fib1 .  fib0 . .fib1. . fib0 .  .  .
 .      /  \  . . |  .  . |  .  . |   . . |   . . |   .   .&gt;
@@ -2578,10 +2534,10 @@ V     /  . \   . 1  .  . 1  .  . 0  .  . 1  .  . 0  ..
 .   1 .   . 0  .
  .   .     .  .
   .&gt;.       ..
-</p>
+</pre>
 
 <p>
-   Consider the pattern of this computation.  To compute `(fib 5)', we
+Consider the pattern of this computation.  To compute `(fib 5)', we
 compute `(fib 4)' and `(fib 3)'.  To compute `(fib 4)', we compute
 `(fib 3)' and `(fib 2)'.  In general, the evolved process looks like a
 tree, as shown in *Note Figure 1-5::.  Notice that the branches split
@@ -2590,7 +2546,7 @@ that the `fib' procedure calls itself twice each time it is invoked.
 </p>
 
 <p>
-   This procedure is instructive as a prototypical tree recursion, but
+This procedure is instructive as a prototypical tree recursion, but
 it is a terrible way to compute Fibonacci numbers because it does so
 much redundant computation.  Notice in *Note Figure 1-5:: that the
 entire computation of `(fib 3)'&#x2013;almost half the work&#x2013;is duplicated.
@@ -2602,20 +2558,20 @@ with n.  More precisely (see *Note Exercise 1-13::), _Fib<sub>(n)</sub> is the
 closest integer to [phi]<sup>n</sup> /[sqrt](5), where
 </p>
 
-<p>
+<pre class="example" id="org917b681">
 [phi] = (1 + [sqrt]5)/2 ~= 1.6180
-</p>
+</pre>
 
 <p>
 is the "golden ratio", which satisfies the equation
 </p>
 
-<p>
-[phi]<sup>2</sup> = [phi] + 1
-</p>
+<pre class="example" id="org5b67dea">
+[phi]^2 = [phi] + 1
+</pre>
 
 <p>
-   Thus, the process uses a number of steps that grows exponentially
+Thus, the process uses a number of steps that grows exponentially
 with the input.  On the other hand, the space required grows only
 linearly with the input, because we need keep track only of which nodes
 are above us in the tree at any point in the computation.  In general,
@@ -2625,16 +2581,16 @@ required will be proportional to the maximum depth of the tree.
 </p>
 
 <p>
-   We can also formulate an iterative process for computing the
+We can also formulate an iterative process for computing the
 Fibonacci numbers.  The idea is to use a pair of integers a and b,
 initialized to _Fib<sub>(1)</sub> = 1 and _Fib<sub>(0)</sub> = 0, and to repeatedly apply
 the simultaneous transformations
 </p>
 
-<p>
+<pre class="example" id="orgc14f533">
 a &lt;- a + b
 b &lt;- a
-</p>
+</pre>
 
 <p>
 It is not hard to show that, after applying this transformation n times,
@@ -2642,27 +2598,26 @@ a and b will be equal, respectively, to _Fib<sub>(n + 1)</sub> and _Fib<sub>(n)<
 Thus, we can compute Fibonacci numbers iteratively using the procedure
 </p>
 
-<p>
-(define (fib n)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib</span> n)
   (fib-iter 1 0 n))
-</p>
 
-<p>
-(define (fib-iter a b count)
-  (if (= count 0)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib-iter</span> a b count)
+  (<span style="font-weight: bold;">if</span> (= count 0)
       b
       (fib-iter (+ a b) a (- count 1))))
-</p>
+</pre>
+</div>
 
 <p>
-   This second method for computing _Fib<sub>(n)</sub> is a linear iteration.  The
+This second method for computing _Fib<sub>(n)</sub> is a linear iteration.  The
 difference in number of steps required by the two methods&#x2013;one linear in
 n, one growing as fast as _Fib<sub>(n)</sub> itself&#x2013;is enormous, even for small
 inputs.
 </p>
 
 <p>
-   One should not conclude from this that tree-recursive processes are
+One should not conclude from this that tree-recursive processes are
 useless.  When we consider processes that operate on hierarchically
 structured data rather than numbers, we will find that tree recursion
 is a natural and powerful tool.(1) But even in numerical operations,
@@ -2677,8 +2632,8 @@ three state variables.
 
 <p>
 Example: Counting change
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;
 </p>
+<hr />
 
 <p>
 It takes only a bit of cleverness to come up with the iterative
@@ -2690,7 +2645,7 @@ money?
 </p>
 
 <p>
-   This problem has a simple solution as a recursive procedure.
+This problem has a simple solution as a recursive procedure.
 Suppose we think of the types of coins available as arranged in some
 order.  Then the following relation holds:
 </p>
@@ -2709,7 +2664,7 @@ coins, where d is the denomination of the first kind of coin.</li>
 
 
 <p>
-   To see why this is true, observe that the ways to make change can be
+To see why this is true, observe that the ways to make change can be
 divided into two groups: those that do not use any of the first kind of
 coin, and those that do.  Therefore, the total number of ways to make
 change for some amount is equal to the number of ways to make change
@@ -2720,7 +2675,7 @@ change for the amount that remains after using a coin of the first kind.
 </p>
 
 <p>
-   Thus, we can recursively reduce the problem of changing a given
+Thus, we can recursively reduce the problem of changing a given
 amount to the problem of changing smaller amounts using fewer kinds of
 coins.  Consider this reduction rule carefully, and convince yourself
 that we can use it to describe an algorithm if we specify the following
@@ -2740,46 +2695,43 @@ degenerate cases:(2)
 We can easily translate this description into a recursive procedure:
 </p>
 
-<p>
-(define (count-change amount)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">count-change</span> amount)
   (cc amount 5))
-</p>
+
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">cc</span> amount kinds-of-coins)
+  (<span style="font-weight: bold;">cond</span> ((= amount 0) 1)
+        ((<span style="font-weight: bold;">or</span> (&lt; amount 0) (= kinds-of-coins 0)) 0)
+        (<span style="font-weight: bold;">else</span> (+ (cc amount
+                     (- kinds-of-coins 1))
+                 (cc (- amount
+                        (first-denomination kinds-of-coins))
+                     kinds-of-coins)))))
+
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">first-denomination</span> kinds-of-coins)
+  (<span style="font-weight: bold;">cond</span> ((= kinds-of-coins 1) 1)
+        ((= kinds-of-coins 2) 5)
+        ((= kinds-of-coins 3) 10)
+        ((= kinds-of-coins 4) 25)
+        ((= kinds-of-coins 5) 50)))
+</pre>
+</div>
 
 <p>
-(define (cc amount kinds-of-coins)
-  (cond ((= amount 0) 1)
-	((or (&lt; amount 0) (= kinds-of-coins 0)) 0)
-	(else (+ (cc amount
-		     (- kinds-of-coins 1))
-		 (cc (- amount
-			(first-denomination kinds-of-coins))
-		     kinds-of-coins)))))
-</p>
-
-<p>
-(define (first-denomination kinds-of-coins)
-  (cond ((= kinds-of-coins 1) 1)
-	((= kinds-of-coins 2) 5)
-	((= kinds-of-coins 3) 10)
-	((= kinds-of-coins 4) 25)
-	((= kinds-of-coins 5) 50)))
-</p>
-
-<p>
-   (The `first-denomination' procedure takes as input the number of
+(The `first-denomination' procedure takes as input the number of
 kinds of coins available and returns the denomination of the first
 kind.  Here we are thinking of the coins as arranged in order from
 largest to smallest, but any order would do as well.)  We can now
 answer our original question about changing a dollar:
 </p>
 
-<p>
+<pre class="example" id="org33594fb">
 (count-change 100)
 292
-</p>
+</pre>
 
 <p>
-   `Count-change' generates a tree-recursive process with redundancies
+`Count-change' generates a tree-recursive process with redundancies
 similar to those in our first implementation of `fib'.  (It will take
 quite a while for that 292 to be computed.)  On the other hand, it is
 not obvious how to design a better algorithm for computing the result,
@@ -2803,14 +2755,13 @@ process.
 <b>Exercise 1.12:</b> The following pattern of numbers is called "Pascal's
 triangle".
 </p>
-
-<p>
-	1
+<pre class="example" id="org3c724d8">
+        1
       1   1
     1   2   1
   1   3   3   1
 1   4   6   4   1
-</p>
+</pre>
 
 <p>
 The numbers at the edge of the triangle are all 1, and each number
@@ -2832,18 +2783,18 @@ prove that _Fib<sub>(n)</sub> = ([phi]<sup>n</sup> - [illegiblesymbol]<sup>n</su
 </p>
 
 <p>
-   (1) An example of this was hinted at in section *Note 1-1-3::: The
+(1) An example of this was hinted at in section *Note 1-1-3::: The
 interpreter itself evaluates expressions using a tree-recursive process.
 </p>
 
 <p>
-   (2) For example, work through in detail how the reduction rule
+(2) For example, work through in detail how the reduction rule
 applies to the problem of making change for 10 cents using pennies and
 nickels.
 </p>
 
 <p>
-   (3) One approach to coping with redundant computations is to arrange
+(3) One approach to coping with redundant computations is to arrange
 matters so that we automatically construct a table of values as they
 are computed.  Each time we are asked to apply the procedure to some
 argument, we first look to see if the value is already stored in the
@@ -2856,7 +2807,7 @@ requirements grow linearly with the input.  See *Note Exercise 3-27::.
 </p>
 
 <p>
-   (4) The elements of Pascal's triangle are called the "binomial
+(4) The elements of Pascal's triangle are called the "binomial
 coefficients", because the nth row consists of the coefficients of the
 terms in the expansion of (x + y)<sup>n</sup>.  This pattern for computing the
 coefficients appeared in Blaise Pascal's 1653 seminal work on
@@ -2867,16 +2818,12 @@ mathematician Chu Shih-chieh in 1303, in the works of the
 twelfth-century Persian poet and mathematician Omar Khayyam, and in the
 works of the twelfth-century Hindu mathematician Bha'scara A'cha'rya.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 
 
-<div id="outline-container-org758b822" class="outline-3">
-<h3 id="org758b822"><span class="section-number-3">2.3.</span> Orders of Growth</h3>
+<div id="outline-container-org3fe92bc" class="outline-3">
+<h3 id="org3fe92bc"><span class="section-number-3">2.3.</span> Orders of Growth</h3>
 <div class="outline-text-3" id="text-2-3">
 <hr />
 
@@ -2889,7 +2836,7 @@ process as the inputs become larger.
 </p>
 
 <p>
-   Let n be a parameter that measures the size of the problem, and let
+Let n be a parameter that measures the size of the problem, and let
 R(n) be the amount of resources the process requires for a problem of
 size n.  In our previous examples we took n to be the number for which
 a given function is to be computed, but there are other possibilities.
@@ -2906,14 +2853,14 @@ number of elementary machine operations performed.
 </p>
 
 <p>
-   We say that R(n) has order of growth [theta](f(n)), written R(n) =
+We say that R(n) has order of growth [theta](f(n)), written R(n) =
 [theta](f(n)) (pronounced "theta of f(n)"), if there are positive
 constants k<sub>1</sub> and k<sub>2</sub> independent of n such that
 </p>
 
-<p>
-k<sub>1</sub> f(n) &lt;= R(n) &lt;= k<sub>2</sub> f(n)
-</p>
+<pre class="example" id="orgad8091e">
+k_1 f(n) &lt;= R(n) &lt;= k_2 f(n)
+</pre>
 
 <p>
 for any sufficiently large value of n.  (In other words, for large n,
@@ -2921,7 +2868,7 @@ the value R(n) is sandwiched between k<sub>1f</sub>(n) and k<sub>2f</sub>(n).)
 </p>
 
 <p>
-   For instance, with the linear recursive process for computing
+For instance, with the linear recursive process for computing
 factorial described in section *Note 1-2-1:: the number of steps grows
 proportionally to the input n.  Thus, the steps required for this
 process grows as [theta](n).  We also saw that the space required grows
@@ -2933,7 +2880,7 @@ section *Note 1-2-2::.
 </p>
 
 <p>
-   Orders of growth provide only a crude description of the behavior of
+Orders of growth provide only a crude description of the behavior of
 a process.  For example, a process requiring n<sup>2</sup> steps and a process
 requiring 1000n<sup>2</sup> steps and a process requiring 3n<sup>2</sup> + 10n + 17 steps
 all have [theta](n<sup>2</sup>) order of growth.  On the other hand, order of
@@ -2961,11 +2908,11 @@ be computed by making use of the approximation `sin' xapprox x if
 x is sufficiently small, and the trigonometric identity
 </p>
 
-<p>
-	       x             x
-sin x = 3 sin &#x2014; - 4 sin<sup>3</sup> &#x2014;
-	       3             3
-</p>
+<pre class="example" id="org0c76100">
+               x             x
+sin x = 3 sin --- - 4 sin^3 ---
+               3             3
+</pre>
 
 <p>
 to reduce the size of the argument of `sin'.  (For purposes of this
@@ -2974,30 +2921,27 @@ magnitude is not greater than 0.1 radians.) These ideas are
 incorporated in the following procedures:
 </p>
 
-<p>
-(define (cube x) (* x x x))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">cube</span> x) (* x x x))
 
-<p>
-(define (p x) (- (* 3 x) (* 4 (cube x))))
-</p>
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">p</span> x) (- (* 3 x) (* 4 (cube x))))
 
-<p>
-(define (sine angle)
-   (if (not (&gt; (abs angle) 0.1))
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sine</span> angle)
+   (<span style="font-weight: bold;">if</span> (not (&gt; (abs angle) 0.1))
        angle
        (p (sine (/ angle 3.0)))))
-</p>
+</pre>
+</div>
 
 <p>
 a. How many times is the procedure `p' applied when `(sine
-   12.15)' is evaluated?
+12.15)' is evaluated?
 </p>
 
 <p>
 b. What is the order of growth in space and number of steps (as
-   a function of a) used by the process generated by the `sine'
-   procedure when `(sine a)' is evaluated?
+a function of a) used by the process generated by the `sine'
+procedure when `(sine a)' is evaluated?
 </p>
 
 
@@ -3006,7 +2950,7 @@ b. What is the order of growth in space and number of steps (as
 </p>
 
 <p>
-   (1) These statements mask a great deal of oversimplification.  For
+(1) These statements mask a great deal of oversimplification.  For
 instance, if we count process steps as "machine operations" we are
 making the assumption that the number of machine operations needed to
 perform, say, a multiplication is independent of the size of the
@@ -3015,16 +2959,12 @@ sufficiently large.  Similar remarks hold for the estimates of space.
 Like the design and description of a process, the analysis of a process
 can be carried out at various levels of abstraction.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 
 
-<div id="outline-container-org13cdc1b" class="outline-3">
-<h3 id="org13cdc1b"><span class="section-number-3">2.4.</span> Exponentiation</h3>
+<div id="outline-container-orgff26b4d" class="outline-3">
+<h3 id="orgff26b4d"><span class="section-number-3">2.4.</span> Exponentiation</h3>
 <div class="outline-text-3" id="text-2-4">
 <hr />
 
@@ -3035,99 +2975,101 @@ positive integer exponent n and computes b<sup>n</sup>.  One way to do this is
 via the recursive definition
 </p>
 
-<p>
-b<sup>n</sup> = b * b<sup>(n - 1)</sup>
-b<sup>0</sup> = 1
-</p>
+<pre class="example" id="orge6f2d4e">
+b^n = b * b^(n - 1)
+b^0 = 1
+</pre>
 
 <p>
 which translates readily into the procedure
 </p>
 
-<p>
-(define (expt b n)
-  (if (= n 0)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expt</span> b n)
+  (<span style="font-weight: bold;">if</span> (= n 0)
       1
       (* b (expt b (- n 1)))))
-</p>
+</pre>
+</div>
 
 <p>
-   This is a linear recursive process, which requires [theta](n) steps
+This is a linear recursive process, which requires [theta](n) steps
 and [theta](n) space.  Just as with factorial, we can readily formulate
 an equivalent linear iteration:
 </p>
 
-<p>
-(define (expt b n)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expt</span> b n)
   (expt-iter b n 1))
-</p>
 
-<p>
-(define (expt-iter b counter product)
-  (if (= counter 0)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expt-iter</span> b counter product)
+  (<span style="font-weight: bold;">if</span> (= counter 0)
       product
       (expt-iter b
-		(- counter 1)
-		(* b product))))
-</p>
+                (- counter 1)
+                (* b product))))
+</pre>
+</div>
 
 <p>
 This version requires [theta](n) steps and [theta](1) space.
 </p>
 
 <p>
-   We can compute exponentials in fewer steps by using successive
+We can compute exponentials in fewer steps by using successive
 squaring.  For instance, rather than computing b<sup>8</sup> as
 </p>
 
-<p>
+<pre class="example" id="org5b04a3b">
 b * (b * (b * (b * (b * (b * (b * b))))))
-</p>
+</pre>
 
 <p>
 we can compute it using three multiplications:
 </p>
 
-<p>
-b<sup>2</sup> = b * b
-b<sup>4</sup> = b<sup>2</sup> * b<sup>2</sup>
-b<sup>8</sup> = b<sup>4</sup> * b<sup>4</sup>
-</p>
+<pre class="example" id="orga35588e">
+b^2 = b * b
+b^4 = b^2 * b^2
+b^8 = b^4 * b^4
+</pre>
 
 <p>
-   This method works fine for exponents that are powers of 2.  We can
+This method works fine for exponents that are powers of 2.  We can
 also take advantage of successive squaring in computing exponentials in
 general if we use the rule
 </p>
 
-<p>
-b<sup>n</sup> = (b<sup>(b/2)</sup>)<sup>2</sup>    if n is even
-b<sup>n</sup> = b * b<sup>(n - 1)</sup>  if n is odd
-</p>
+<pre class="example" id="orge68eb32">
+b^n = (b^(b/2))^2    if n is even
+b^n = b * b^(n - 1)  if n is odd
+</pre>
 
 <p>
 We can express this method as a procedure:
 </p>
 
-<p>
-(define (fast-expt b n)
-  (cond ((= n 0) 1)
-	((even? n) (square (fast-expt b (/ n 2))))
-	(else (* b (fast-expt b (- n 1))))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fast-expt</span> b n)
+  (<span style="font-weight: bold;">cond</span> ((= n 0) 1)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (<span style="font-weight: bold;">else</span> (* b (fast-expt b (- n 1))))))
+</pre>
+</div>
 
 <p>
 where the predicate to test whether an integer is even is defined in
 terms of the primitive procedure `remainder' by
 </p>
 
-<p>
-(define (even? n)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">even?</span> n)
   (= (remainder n 2) 0))
-</p>
+</pre>
+</div>
 
 <p>
-   The process evolved by `fast-expt' grows logarithmically with n in
+The process evolved by `fast-expt' grows logarithmically with n in
 both space and number of steps.  To see this, observe that computing
 b<sup>(2n)</sup> using `fast-expt' requires only one more multiplication than
 computing b<sup>n</sup>.  The size of the exponent we can compute therefore
@@ -3138,7 +3080,7 @@ about as fast as the logarithm of n to the base 2.  The process has
 </p>
 
 <p>
-   The difference between [theta](`log' n) growth and [theta](n) growth
+The difference between [theta](`log' n) growth and [theta](n) growth
 becomes striking as n becomes large.  For example, `fast-expt' for n =
 1000 requires only 14 multiplications.(2) It is also possible to use
 the idea of successive squaring to devise an iterative algorithm that
@@ -3152,7 +3094,7 @@ recursive algorithm.(3)
 <b>Exercise 1.16:</b> Design a procedure that evolves an iterative
 exponentiation process that uses successive squaring and uses a
 logarithmic number of steps, as does `fast-expt'.  (Hint: Using the
-observation that (b<sup>(n/2)</sup>)<sup>2</sup> = (b<sup>2</sup>)<sup>(n/2)</sup>, keep, along with the
+observation that <code>(b^(n/2))^2 = (b^2)^(n/2)</code>, keep, along with the
 exponent n and the base b, an additional state variable a, and
 define the state transformation in such a way that the product a
 b<sup>n</sup> is unchanged from state to state.  At the beginning of the
@@ -3172,12 +3114,13 @@ multiplication procedure (in which it is assumed that our language
 can only add, not multiply) is analogous to the `expt' procedure:
 </p>
 
-<p>
-(define (* a b)
-  (if (= b 0)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">*</span> a b)
+  (<span style="font-weight: bold;">if</span> (= b 0)
       0
       (+ a (* a (- b 1)))))
-</p>
+</pre>
+</div>
 
 <p>
 This algorithm takes a number of steps that is linear in `b'.  Now
@@ -3200,18 +3143,14 @@ Fibonacci numbers in a logarithmic number of steps.  Recall the
 transformation of the state variables a and b in the `fib-iter'
 process of section *Note 1-2-2::: a &lt;- a + b and b &lt;- a.  Call
 this transformation T, and observe that applying T over and over
-again n times, starting with 1 and 0, produces the pair _Fib_(n +
-</p>
-<ol class="org-ol">
-<li>and _Fib<sub>(n)</sub>.  In other words, the Fibonacci numbers are</li>
-</ol>
-<p>
+again n times, starting with 1 and 0, produces the pair <code>_Fib_(n + 1)</code>
+and <code>_Fib_(n)</code>.  In other words, the Fibonacci numbers are
 produced by applying T<sup>n</sup>, the nth power of the transformation T,
 starting with the pair (1,0).  Now consider T to be the special
-case of p = 0 and q = 1 in a family of transformations T<sub>(pq)</sub>,
-where T<sub>(pq)</sub> transforms the pair (a,b) according to a &lt;- bq + aq +
+case of p = 0 and q = 1 in a family of transformations <code>T_(pq)</code>,
+where <code>T_(pq)</code> transforms the pair (a,b) according to a &lt;- bq + aq +
 ap and b &lt;- bp + aq.  Show that if we apply such a transformation
-T<sub>(pq)</sub> twice, the effect is the same as using a single
+<code>T_(pq)</code> twice, the effect is the same as using a single
 transformation T<sub>(p'q')</sub> of the same form, and compute p' and q' in
 terms of p and q.  This gives us an explicit way to square these
 transformations, and thus we can compute T<sup>n</sup> using successive
@@ -3220,33 +3159,32 @@ to complete the following procedure, which runs in a logarithmic
 number of steps:(5)
 </p>
 
-<p>
-(define (fib n)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib</span> n)
   (fib-iter 1 0 0 1 n))
-</p>
 
-<p>
-(define (fib-iter a b p q count)
-  (cond ((= count 0) b)
-	((even? count)
-	 (fib-iter a
-		   b
-		   &lt;??&gt;      ; compute p'
-		   &lt;??&gt;      ; compute q'
-		   (/ count 2)))
-	(else (fib-iter (+ (* b q) (* a q) (* a p))
-			(+ (* b p) (* a q))
-			p
-			q
-			(- count 1)))))
-</p>
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib-iter</span> a b p q count)
+  (<span style="font-weight: bold;">cond</span> ((= count 0) b)
+        ((even? count)
+         (fib-iter a
+                   b
+                   <span style="font-weight: bold; text-decoration: underline;">&lt;??&gt;</span>      <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">compute p'</span>
+                   <span style="font-weight: bold; text-decoration: underline;">&lt;??&gt;</span>      <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">compute q'</span>
+                   (/ count 2)))
+        (<span style="font-weight: bold;">else</span> (fib-iter (+ (* b q) (* a q) (* a p))
+                        (+ (* b p) (* a q))
+                        p
+                        q
+                        (- count 1)))))
+</pre>
+</div>
 
 <p>
 -----&#x2013;&#x2014; Footnotes -----&#x2013;&#x2014;
 </p>
 
 <p>
-   (1) More precisely, the number of multiplications required is equal
+(1) More precisely, the number of multiplications required is equal
 to 1 less than the log base 2 of n plus the number of ones in the
 binary representation of n.  This total is always less than twice the
 log base 2 of n.  The arbitrary constants k<sub>1</sub> and k<sub>2</sub> in the definition
@@ -3256,19 +3194,19 @@ described as [theta](`log' n).
 </p>
 
 <p>
-   (2) You may wonder why anyone would care about raising numbers to
+(2) You may wonder why anyone would care about raising numbers to
 the 1000th power.  See section *Note 1-2-6::.
 </p>
 
 <p>
-   (3) This iterative algorithm is ancient.  It appears in the
+(3) This iterative algorithm is ancient.  It appears in the
 `Chandah-sutra' by A'cha'rya Pingala, written before 200 B.C. See Knuth
 1981, section 4.6.3, for a full discussion and analysis of this and
 other methods of exponentiation.
 </p>
 
 <p>
-   (4) This algorithm, which is sometimes known as the "Russian peasant
+(4) This algorithm, which is sometimes known as the "Russian peasant
 method" of multiplication, is ancient.  Examples of its use are found
 in the Rhind Papyrus, one of the two oldest mathematical documents in
 existence, written about 1700 B.C.  (and copied from an even older
@@ -3276,19 +3214,15 @@ document) by an Egyptian scribe named A'h-mose.
 </p>
 
 <p>
-   (5) This exercise was suggested to us by Joe Stoy, based on an
+(5) This exercise was suggested to us by Joe Stoy, based on an
 example in Kaldewaij 1990.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 
 
-<div id="outline-container-org6284fc4" class="outline-3">
-<h3 id="org6284fc4"><span class="section-number-3">2.5.</span> Greatest Common Divisors</h3>
+<div id="outline-container-orga1b5593" class="outline-3">
+<h3 id="orga1b5593"><span class="section-number-3">2.5.</span> Greatest Common Divisors</h3>
 <div class="outline-text-3" id="text-2-5">
 <hr />
 
@@ -3306,15 +3240,15 @@ a famous algorithm that is much more efficient.
 </p>
 
 <p>
-   The idea of the algorithm is based on the observation that, if r is
+The idea of the algorithm is based on the observation that, if r is
 the remainder when a is divided by b, then the common divisors of a and
 b are precisely the same as the common divisors of b and r.  Thus, we
 can use the equation
 </p>
 
-<p>
+<pre class="example" id="orgb3fcbfc">
 GCD(a,b) = GCD(b,r)
-</p>
+</pre>
 
 <p>
 to successively reduce the problem of computing a GCD to the problem of
@@ -3322,13 +3256,13 @@ computing the GCD of smaller and smaller pairs of integers.  For
 example,
 </p>
 
-<p>
+<pre class="example" id="org3a33e5b">
 GCD(206,40) = GCD(40,6)
-	    = GCD(6,4)
-	    = GCD(4,2)
-	    = GCD(2,0)
-	    = 2
-</p>
+            = GCD(6,4)
+            = GCD(4,2)
+            = GCD(2,0)
+            = 2
+</pre>
 
 <p>
 reduces GCD(206,40) to GCD(2,0), which is 2.  It is possible to show
@@ -3343,32 +3277,35 @@ Algorithm".(1)
 It is easy to express Euclid's Algorithm as a procedure:
 </p>
 
-<p>
-(define (gcd a b)
-  (if (= b 0)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">gcd</span> a b)
+  (<span style="font-weight: bold;">if</span> (= b 0)
       a
       (gcd b (remainder a b))))
-</p>
+</pre>
+</div>
 
 <p>
-   This generates an iterative process, whose number of steps grows as
+This generates an iterative process, whose number of steps grows as
 the logarithm of the numbers involved.
 </p>
 
 <p>
-   The fact that the number of steps required by Euclid's Algorithm has
+The fact that the number of steps required by Euclid's Algorithm has
 logarithmic growth bears an interesting relation to the Fibonacci
 numbers:
 </p>
 
+<blockquote>
 <p>
 <b>Lame''s Theorem:</b> If Euclid's Algorithm requires k steps to
 compute the GCD of some pair, then the smaller number in the pair
 must be greater than or equal to the kth Fibonacci number.(2)
 </p>
+</blockquote>
 
 <p>
-   We can use this theorem to get an order-of-growth estimate for
+We can use this theorem to get an order-of-growth estimate for
 Euclid's Algorithm.  Let n be the smaller of the two inputs to the
 procedure.  If the process takes k steps, then we must have n&gt;= _Fib<sub>(k)</sub>
 approx [phi]<sup>k</sup>/[sqrt](5).  Therefore the number of steps k grows as the
@@ -3396,7 +3333,7 @@ applicative-order evaluation?
 </p>
 
 <p>
-   (1) Euclid's Algorithm is so called because it appears in Euclid's
+(1) Euclid's Algorithm is so called because it appears in Euclid's
 `Elements' (Book 7, ca. 300 B.C.).  According to Knuth (1973), it can
 be considered the oldest known nontrivial algorithm.  The ancient
 Egyptian method of multiplication (*Note Exercise 1-18::) is surely
@@ -3406,7 +3343,7 @@ illustrative examples.
 </p>
 
 <p>
-   (2) This theorem was proved in 1845 by Gabriel Lame', a French
+(2) This theorem was proved in 1845 by Gabriel Lame', a French
 mathematician and engineer known chiefly for his contributions to
 mathematical physics.  To prove the theorem, we consider pairs (a<sub>k</sub>
 ,b<sub>k</sub>), where a<sub>k</sub>&gt;= b<sub>k</sub>, for which Euclid's Algorithm terminates in k
@@ -3435,16 +3372,12 @@ we just proved together with the definition of the Fibonacci numbers
 gives b<sub>(k+1)</sub> &gt;= b<sub>k</sub> + b<sub>(k-1)</sub> &gt;= _Fib<sub>(k)</sub> + _Fib<sub>(k - 1)</sub> = _Fib<sub>(k +
 1)</sub>, which completes the proof of Lame''s Theorem.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 
 
-<div id="outline-container-orga3c6106" class="outline-3">
-<h3 id="orga3c6106"><span class="section-number-3">2.6.</span> Example: Testing for Primality</h3>
+<div id="outline-container-orgbf71487" class="outline-3">
+<h3 id="orgbf71487"><span class="section-number-3">2.6.</span> Example: Testing for Primality</h3>
 <div class="outline-text-3" id="text-2-6">
 <hr />
 
@@ -3458,8 +3391,8 @@ on these algorithms.
 
 <p>
 Searching for divisors
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;.
 </p>
+<hr />
 
 <p>
 Since ancient times, mathematicians have been fascinated by problems
@@ -3471,66 +3404,66 @@ number n.  It does this in a straightforward way, by testing n for
 divisibility by successive integers starting with 2.
 </p>
 
-<p>
-(define (smallest-divisor n)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">smallest-divisor</span> n)
   (find-divisor n 2))
-</p>
 
-<p>
-(define (find-divisor n test-divisor)
-  (cond ((&gt; (square test-divisor) n) n)
-	((divides? test-divisor n) test-divisor)
-	(else (find-divisor n (+ test-divisor 1)))))
-</p>
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">find-divisor</span> n test-divisor)
+  (<span style="font-weight: bold;">cond</span> ((&gt; (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (<span style="font-weight: bold;">else</span> (find-divisor n (+ test-divisor 1)))))
 
-<p>
-(define (divides? a b)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">divides?</span> a b)
   (= (remainder b a) 0))
-</p>
+</pre>
+</div>
 
 <p>
-   We can test whether a number is prime as follows: n is prime if and
+We can test whether a number is prime as follows: n is prime if and
 only if n is its own smallest divisor.
 </p>
 
-<p>
-(define (prime? n)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">prime?</span> n)
   (= n (smallest-divisor n)))
-</p>
+</pre>
+</div>
 
 <p>
-   The end test for `find-divisor' is based on the fact that if n is not
-prime it must have a divisor less than or equal to <span class="underline">[sqrt]<sub>(n)</sub>.(1)
+The end test for `find-divisor' is based on the fact that if n is not
+prime it must have a divisor less than or equal to <code>_[sqrt]_(n)</code>.(1)
 This means that the algorithm need only test divisors between 1 and
-_[sqrt]<sub>(n)</sub>.  Consequently, the number of steps required to identify n
-as prime will have order of growth [theta](</span>[sqrt]<sub>(n)</sub>).
+<code>_[sqrt]_(n)</code>.  Consequently, the number of steps required to identify n
+as prime will have order of growth <code>[theta](_[sqrt]_(n))</code>.
 </p>
 
 <p>
 The Fermat test
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;
 </p>
+<hr />
 
 <p>
-The [theta](`log' n) primality test is based on a result from number
+The <code>[theta](`log' n)</code> primality test is based on a result from number
 theory known as Fermat's Little Theorem.(2)
 </p>
 
+<blockquote>
 <p>
 <b>Fermat's Little Theorem:</b> If n is a prime number and a is any
 positive integer less than n, then a raised to the nth power is
 congruent to a modulo n.
 </p>
+</blockquote>
 
 <p>
-   (Two numbers are said to be "congruent modulo" n if they both have
+(Two numbers are said to be "congruent modulo" n if they both have
 the same remainder when divided by n.  The remainder of a number a when
 divided by n is also referred to as the "remainder of" a "modulo" n, or
 simply as a "modulo" n.)
 </p>
 
 <p>
-   If n is not prime, then, in general, most of the numbers a&lt; n will
+If n is not prime, then, in general, most of the numbers a&lt; n will
 not satisfy the above relation.  This leads to the following algorithm
 for testing primality: Given a number n, pick a random number a &lt; n and
 compute the remainder of a<sup>n</sup> modulo n.  If the result is not equal to
@@ -3543,29 +3476,30 @@ as the Fermat test.
 </p>
 
 <p>
-   To implement the Fermat test, we need a procedure that computes the
+To implement the Fermat test, we need a procedure that computes the
 exponential of a number modulo another number:
 </p>
 
-<p>
-(define (expmod base exp m)
-  (cond ((= exp 0) 1)
-	((even? exp)
-	 (remainder (square (expmod base (/ exp 2) m))
-		    m))
-	(else
-	 (remainder (* base (expmod base (- exp 1) m))
-		    m))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expmod</span> base exp m)
+  (<span style="font-weight: bold;">cond</span> ((= exp 0) 1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m))
+                    m))
+        (<span style="font-weight: bold;">else</span>
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))
+</pre>
+</div>
 
 <p>
-   This is very similar to the `fast-expt' procedure of section *Note
+This is very similar to the `fast-expt' procedure of section *Note
 1-2-4::.  It uses successive squaring, so that the number of steps
 grows logarithmically with the exponent.(3)
 </p>
 
 <p>
-   The Fermat test is performed by choosing at random a number a
+The Fermat test is performed by choosing at random a number a
 between 1 and n - 1 inclusive and checking whether the remainder modulo
 n of the nth power of a is equal to a.  The random number a is chosen
 using the procedure `random', which we assume is included as a primitive
@@ -3574,30 +3508,32 @@ input.  Hence, to obtain a random number between 1 and n - 1, we call
 `random' with an input of n - 1 and add 1 to the result:
 </p>
 
-<p>
-(define (fermat-test n)
-  (define (try-it a)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fermat-test</span> n)
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">try-it</span> a)
     (= (expmod a n n) a))
   (try-it (+ 1 (random (- n 1)))))
-</p>
+</pre>
+</div>
 
 <p>
-   The following procedure runs the test a given number of times, as
+The following procedure runs the test a given number of times, as
 specified by a parameter.  Its value is true if the test succeeds every
 time, and false otherwise.
 </p>
 
-<p>
-(define (fast-prime? n times)
-  (cond ((= times 0) true)
-	((fermat-test n) (fast-prime? n (- times 1)))
-	(else false)))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fast-prime?</span> n times)
+  (<span style="font-weight: bold;">cond</span> ((= times 0) true)
+        ((fermat-test n) (fast-prime? n (- times 1)))
+        (<span style="font-weight: bold;">else</span> false)))
+</pre>
+</div>
 
 <p>
 Probabilistic methods
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;
 </p>
+<hr />
 
 <p>
 The Fermat test differs in character from most familiar algorithms, in
@@ -3612,7 +3548,7 @@ primality test can be made as small as we like.
 </p>
 
 <p>
-   Unfortunately, this assertion is not quite correct.  There do exist
+Unfortunately, this assertion is not quite correct.  There do exist
 numbers that fool the Fermat test: numbers n that are not prime and yet
 have the property that a<sup>n</sup> is congruent to a modulo n for all integers
 a &lt; n.  Such numbers are extremely rare, so the Fermat test is quite
@@ -3620,7 +3556,7 @@ reliable in practice.(4)
 </p>
 
 <p>
-   There are variations of the Fermat test that cannot be fooled.  In
+There are variations of the Fermat test that cannot be fooled.  In
 these tests, as with the Fermat method, one tests the primality of an
 integer n by choosing a random integer a&lt;n and checking some condition
 that depends upon n and a.  (See *Note Exercise 1-28:: for an example
@@ -3635,7 +3571,7 @@ of error as small as we like.
 </p>
 
 <p>
-   The existence of tests for which one can prove that the chance of
+The existence of tests for which one can prove that the chance of
 error becomes arbitrarily small has sparked interest in algorithms of
 this type, which have come to be known as "probabilistic algorithms".
 There is a great deal of research activity in this area, and
@@ -3644,11 +3580,8 @@ probabilistic algorithms have been fruitfully applied to many fields.(5)
 
 <p>
 <b>Exercise 1.21:</b> Use the `smallest-divisor' procedure to find the
-smallest divisor of each of the following numbers: 199, 1999,
+smallest divisor of each of the following numbers: 199, 1999, 19999.
 </p>
-<ol class="org-ol">
-<li></li>
-</ol>
 
 <p>
 <b>Exercise 1.22:</b> Most Lisp implementations include a primitive
@@ -3660,24 +3593,21 @@ prime.  If n is prime, the procedure prints three asterisks
 followed by the amount of time used in performing the test.
 </p>
 
-<p>
-(define (timed-prime-test n)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">timed-prime-test</span> n)
   (newline)
   (display n)
   (start-prime-test n (runtime)))
-</p>
 
-<p>
-(define (start-prime-test n start-time)
-  (if (prime? n)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">start-prime-test</span> n start-time)
+  (<span style="font-weight: bold;">if</span> (prime? n)
       (report-prime (- (runtime) start-time))))
-</p>
 
-<p>
-(define (report-prime elapsed-time)
-  (display " <b>*</b> ")
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">report-prime</span> elapsed-time)
+  (display <span style="font-style: italic;">" *** "</span>)
   (display elapsed-time))
-</p>
+</pre>
+</div>
 
 <p>
 Using this procedure, write a procedure `search-for-primes' that
@@ -3685,15 +3615,15 @@ checks the primality of consecutive odd integers in a specified
 range.  Use your procedure to find the three smallest primes
 larger than 1000; larger than 10,000; larger than 100,000; larger
 than 1,000,000.  Note the time needed to test each prime.  Since
-the testing algorithm has order of growth of [theta](_[sqrt]<sub>(n)</sub>),
+the testing algorithm has order of growth of <code>[theta](_[sqrt]_(n))</code>,
 you should expect that testing for primes around 10,000 should
-take about _[sqrt]<sub>(10)</sub> times as long as testing for primes around
+take about <code>_[sqrt]_(10)</code> times as long as testing for primes around
 </p>
 <ol class="org-ol">
 <li>Do your timing data bear this out?  How well do the data</li>
 </ol>
 <p>
-for 100,000 and 1,000,000 support the _[sqrt]<sub>(n)</sub> prediction?  Is
+for 100,000 and 1,000,000 support the <code>_[sqrt]_(n)</code> prediction?  Is
 your result compatible with the notion that programs on your
 machine run in time proportional to the number of steps required
 for the computation?
@@ -3736,10 +3666,11 @@ already know how to compute exponentials, we could have simply
 written
 </p>
 
-<p>
-(define (expmod base exp m)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expmod</span> base exp m)
   (remainder (fast-expt base exp) m))
-</p>
+</pre>
+</div>
 
 <p>
 Is she correct?  Would this procedure serve as well for our fast
@@ -3755,17 +3686,18 @@ has rewritten the `expmod' procedure to use an explicit
 multiplication, rather than calling `square':
 </p>
 
-<p>
-(define (expmod base exp m)
-  (cond ((= exp 0) 1)
-	((even? exp)
-	 (remainder (* (expmod base (/ exp 2) m)
-		       (expmod base (/ exp 2) m))
-		    m))
-	(else
-	 (remainder (* base (expmod base (- exp 1) m))
-		    m))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expmod</span> base exp m)
+  (<span style="font-weight: bold;">cond</span> ((= exp 0) 1)
+        ((even? exp)
+         (remainder (* (expmod base (/ exp 2) m)
+                       (expmod base (/ exp 2) m))
+                    m))
+        (<span style="font-weight: bold;">else</span>
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))
+</pre>
+</div>
 
 <p>
 "I don't see what difference that could make," says Louis.  "I
@@ -3812,12 +3744,12 @@ way to make `expmod' signal is to have it return 0.
 </p>
 
 <p>
-   (1) If d is a divisor of n, then so is n/d.  But d and n/d cannot
-both be greater than _[sqrt]<sub>(n)</sub>.
+(1) If d is a divisor of n, then so is n/d.  But d and n/d cannot
+both be greater than <code>_[sqrt]_(n)</code>.
 </p>
 
 <p>
-   (2) Pierre de Fermat (1601-1665) is considered to be the founder of
+(2) Pierre de Fermat (1601-1665) is considered to be the founder of
 modern number theory.  He obtained many important number-theoretic
 results, but he usually announced just the results, without providing
 his proofs.  Fermat's Little Theorem was stated in a letter he wrote in
@@ -3838,7 +3770,7 @@ University.
 </p>
 
 <p>
-   (3) The reduction steps in the cases where the exponent e is greater
+(3) The reduction steps in the cases where the exponent e is greater
 than 1 are based on the fact that, for any integers x, y, and m, we can
 find the remainder of x times y modulo m by computing separately the
 remainders of x modulo m and y modulo m, multiplying these, and then
@@ -3850,7 +3782,7 @@ deal with numbers much larger than m.  (Compare *Note Exercise 1-25::.)
 </p>
 
 <p>
-   (4) [Footnote 1.47] Numbers that fool the Fermat test are called "Carmichael
+(4) [Footnote 1.47] Numbers that fool the Fermat test are called "Carmichael
 numbers", and little is known about them other than that they are
 extremely rare.  There are 255 Carmichael numbers below 100,000,000.
 The smallest few are 561, 1105, 1729, 2465, 2821, and 6601.  In testing
@@ -3863,7 +3795,7 @@ difference between mathematics and engineering.
 </p>
 
 <p>
-   (5) One of the most striking applications of probabilistic prime
+(5) One of the most striking applications of probabilistic prime
 testing has been to the field of cryptography.  Although it is now
 computationally infeasible to factor an arbitrary 200-digit number, the
 primality of such a number can be checked in a few seconds with the
@@ -3876,17 +3808,13 @@ the epitome of a topic in "pure" mathematics to be studied only for its
 own sake, now turns out to have important practical applications to
 cryptography, electronic funds transfer, and information retrieval.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org1ff6d60" class="outline-2">
-<h2 id="org1ff6d60"><span class="section-number-2">3.</span> Formulating Abstractions with Higher-Order Procedures</h2>
+<div id="outline-container-orgcab6f44" class="outline-2">
+<h2 id="orgcab6f44"><span class="section-number-2">3.</span> Formulating Abstractions with Higher-Order Procedures</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 We have seen that procedures are, in effect, abstractions that describe
@@ -3894,9 +3822,10 @@ compound operations on numbers independent of the particular numbers.
 For example, when we
 </p>
 
-<p>
-(define (cube x) (* x x x))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">cube</span> x) (* x x x))
+</pre>
+</div>
 
 <p>
 we are not talking about the cube of a particular number, but rather
@@ -3905,11 +3834,12 @@ could get along without ever defining this procedure, by always writing
 expressions such as
 </p>
 
-<p>
-(* 3 3 3)
+<div class="org-src-container">
+<pre class="src src-scheme">(* 3 3 3)
 (* x x x)
 (* y y y)
-</p>
+</pre>
+</div>
 
 <p>
 and never mentioning `cube' explicitly.  This would place us at a
@@ -3926,7 +3856,7 @@ programming languages include mechanisms for defining procedures.
 </p>
 
 <p>
-   Yet even in numerical processing we will be severely limited in our
+Yet even in numerical processing we will be severely limited in our
 ability to create abstractions if we are restricted to procedures whose
 parameters must be numbers.  Often the same programming pattern will be
 used with a number of different procedures.  To express such patterns
@@ -3937,16 +3867,11 @@ section shows how higher-order procedures can serve as powerful
 abstraction mechanisms, vastly increasing the expressive power of our
 language.
 </p>
-
-
-<p>
-
-</p>
 </div>
 
 
-<div id="outline-container-org85d6067" class="outline-3">
-<h3 id="org85d6067"><span class="section-number-3">3.1.</span> Procedures as Arguments</h3>
+<div id="outline-container-orge6c3121" class="outline-3">
+<h3 id="orge6c3121"><span class="section-number-3">3.1.</span> Procedures as Arguments</h3>
 <div class="outline-text-3" id="text-3-1">
 <hr />
 
@@ -3955,48 +3880,51 @@ Consider the following three procedures.  The first computes the sum of
 the integers from `a' through `b':
 </p>
 
-<p>
-(define (sum-integers a b)
-  (if (&gt; a b)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-integers</span> a b)
+  (<span style="font-weight: bold;">if</span> (&gt; a b)
       0
       (+ a (sum-integers (+ a 1) b))))
-</p>
+</pre>
+</div>
 
 <p>
-   The second computes the sum of the cubes of the integers in the
+The second computes the sum of the cubes of the integers in the
 given range:
 </p>
 
-<p>
-(define (sum-cubes a b)
-  (if (&gt; a b)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-cubes</span> a b)
+  (<span style="font-weight: bold;">if</span> (&gt; a b)
       0
       (+ (cube a) (sum-cubes (+ a 1) b))))
-</p>
+</pre>
+</div>
 
 <p>
 The third computes the sum of a sequence of terms in the series
 </p>
 
-<p>
+<pre class="example" id="orgad482df">
   1       1       1
-&#x2013;&#x2014; + &#x2013;&#x2014; + -&#x2013;&#x2014; + &#x2026;
+----- + ----- + ------ + ...
 1 * 3   5 * 7   9 * 11
-</p>
+</pre>
 
 <p>
 which converges to [pi]/8 (very slowly):(1)
 </p>
 
-<p>
-(define (pi-sum a b)
-  (if (&gt; a b)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-sum</span> a b)
+  (<span style="font-weight: bold;">if</span> (&gt; a b)
       0
       (+ (/ 1.0 (* a (+ a 2))) (pi-sum (+ a 4) b))))
-</p>
+</pre>
+</div>
 
 <p>
-   These three procedures clearly share a common underlying pattern.
+These three procedures clearly share a common underlying pattern.
 They are for the most part identical, differing only in the name of the
 procedure, the function of `a' used to compute the term to be added,
 and the function that provides the next value of `a'.  We could
@@ -4004,28 +3932,28 @@ generate each of the procedures by filling in slots in the same
 template:
 </p>
 
-<p>
+<pre class="example" id="org0e21397">
 (define (&lt;NAME&gt; a b)
   (if (&gt; a b)
       0
       (+ (&lt;TERM&gt; a)
-	 (&lt;NAME&gt; (&lt;NEXT&gt; a) b))))
-</p>
+         (&lt;NAME&gt; (&lt;NEXT&gt; a) b))))
+</pre>
 
 <p>
-   The presence of such a common pattern is strong evidence that there
+The presence of such a common pattern is strong evidence that there
 is a useful abstraction waiting to be brought to the surface.  Indeed,
 mathematicians long ago identified the abstraction of "summation of a
 series" and invented "sigma notation," for example
 </p>
 
-<p>
+<pre class="example" id="org2821257">
  b
-&#x2014;
-&gt;    f(n) = f(a) + &#x2026; + f(b)
-&#x2014;
+---
+&gt;    f(n) = f(a) + ... + f(b)
+---
 n=a
-</p>
+</pre>
 
 <p>
 to express this concept.  The power of sigma notation is that it allows
@@ -4035,7 +3963,7 @@ about sums that are independent of the particular series being summed.
 </p>
 
 <p>
-   Similarly, as program designers, we would like our language to be
+Similarly, as program designers, we would like our language to be
 powerful enough so that we can write a procedure that expresses the
 concept of summation itself rather than only procedures that compute
 particular sums.  We can do so readily in our procedural language by
@@ -4043,156 +3971,115 @@ taking the common template shown above and transforming the "slots"
 into formal parameters:
 </p>
 
-<p>
-(define (sum term a next b)
-  (if (&gt; a b)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum</span> term a next b)
+  (<span style="font-weight: bold;">if</span> (&gt; a b)
       0
       (+ (term a)
-	 (sum term (next a) next b))))
-</p>
+         (sum term (next a) next b))))
+</pre>
+</div>
 
 <p>
-   Notice that `sum' takes as its arguments the lower and upper bounds
+Notice that `sum' takes as its arguments the lower and upper bounds
 `a' and `b' together with the procedures `term' and `next'.  We can use
 `sum' just as we would any procedure.  For example, we can use it
 (along with a procedure `inc' that increments its argument by 1) to
 define `sum-cubes':
 </p>
 
-<p>
-(define (inc n) (+ n 1))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">inc</span> n) (+ n 1))
 
-<p>
-(define (sum-cubes a b)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-cubes</span> a b)
   (sum cube a inc b))
-</p>
+</pre>
+</div>
 
 <p>
-   Using this, we can compute the sum of the cubes of the integers from
+Using this, we can compute the sum of the cubes of the integers from
 1 to 10:
 </p>
 
-<p>
+<pre class="example" id="org4029501">
 (sum-cubes 1 10)
 3025
-</p>
+</pre>
 
 <p>
-   With the aid of an identity procedure to compute the term, we can
+With the aid of an identity procedure to compute the term, we can
 define `sum-integers' in terms of `sum':
 </p>
 
-<p>
-(define (identity x) x)
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">identity</span> x) x)
 
-<p>
-(define (sum-integers a b)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-integers</span> a b)
   (sum identity a inc b))
-</p>
+</pre>
+</div>
 
 <p>
 Then we can add up the integers from 1 to 10:
 </p>
 
-<p>
+<pre class="example" id="orged42615">
 (sum-integers 1 10)
 55
-</p>
+</pre>
 
 <p>
 We can also define `pi-sum' in the same way:(2)
 </p>
 
-<p>
-(define (pi-sum a b)
-  (define (pi-term x)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-sum</span> a b)
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-term</span> x)
     (/ 1.0 (* x (+ x 2))))
-  (define (pi-next x)
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-next</span> x)
     (+ x 4))
   (sum pi-term a pi-next b))
-</p>
+</pre>
+</div>
 
 <p>
 Using these procedures, we can compute an approximation to [pi]:
 </p>
 
-<p>
+<pre class="example" id="orgdd64070">
 (* 8 (pi-sum 1 1000))
 3.139592655589783
-</p>
+</pre>
 
 <p>
-   Once we have `sum', we can use it as a building block in formulating
+Once we have `sum', we can use it as a building block in formulating
 further concepts.  For instance, the definite integral of a function f
 between the limits a and b can be approximated numerically using the
 formula
 </p>
 
-<p>
+<pre class="example" id="org33577e9">
 /b     /  /     dx \    /          dx \    /           dx \      \
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">f =</td>
-<td class="org-left">f</td>
-<td class="org-left">a + --</td>
-<td class="org-left">+ f</td>
-<td class="org-left">a + dx + --</td>
-<td class="org-left">+ f</td>
-<td class="org-left">a + 2dx + --</td>
-<td class="org-left">+ &#x2026;</td>
-<td class="org-left">dx</td>
-</tr>
-</tbody>
-</table>
-<p>
+|  f = | f| a + -- | + f| a + dx + -- | + f| a + 2dx + -- | + ...| dx
 /a     \  \     2  /    \          2  /    \           2  /      /
-</p>
+</pre>
 
 <p>
 for small values of dx.  We can express this directly as a procedure:
 </p>
 
-<p>
+<pre class="example" id="org77c9096">
 (define (integral f a b dx)
   (define (add-dx x) (+ x dx))
   (* (sum f (+ a (/ dx 2.0)) add-dx b)
      dx))
-</p>
 
-<p>
 (integral cube 0 1 0.01)
 .24998750000000042
-</p>
 
-<p>
 (integral cube 0 1 0.001)
 .249999875000001
-</p>
+</pre>
 
 <p>
 (The exact value of the integral of `cube' between 0 and 1 is 1/4.)
@@ -4205,15 +4092,11 @@ Simpson's Rule, the integral of a function f between a and b is
 approximated as
 </p>
 
-<p>
+<pre class="example" id="orgf31db7f">
 h
-</p>
-<ul class="org-ul">
-<li>(y<sub>0</sub> + 4y<sub>1</sub> + 2y<sub>2</sub> + 4y<sub>3</sub> + 2y<sub>4</sub> + &#x2026; + 2y<sub>(n-2)</sub> + 4y<sub>(n-1)</sub> + y<sub>n</sub>)</li>
-</ul>
-<p>
+- (y_0 + 4y_1 + 2y_2 + 4y_3 + 2y_4 + ... + 2y_(n-2) + 4y_(n-1) + y_n)
 3
-</p>
+</pre>
 
 <p>
 where h = (b - a)/n, for some even integer n, and y<sub>k</sub> = f(a + kh).
@@ -4232,51 +4115,51 @@ performed iteratively.  Show how to do this by filling in the
 missing expressions in the following definition:
 </p>
 
-<p>
+<pre class="example" id="orgffb913f">
 (define (sum term a next b)
   (define (iter a result)
     (if &lt;??&gt;
-	&lt;??&gt;
-	(iter &lt;??&gt; &lt;??&gt;)))
+        &lt;??&gt;
+        (iter &lt;??&gt; &lt;??&gt;)))
   (iter &lt;??&gt; &lt;??&gt;))
-</p>
+</pre>
 
 <p>
 <b>Exercise 1.31:</b>
-  a. The `sum' procedure is only the simplest of a vast number of
-     similar abstractions that can be captured as higher-order
-     procedures.(3)  Write an analogous procedure called `product'
-     that returns the product of the values of a function at
-     points over a given range.  Show how to define `factorial' in
-     terms of `product'.  Also use `product' to compute
-     approximations to [pi] using the formula(4)
+a. The `sum' procedure is only the simplest of a vast number of
+similar abstractions that can be captured as higher-order
+procedures.(3)  Write an analogous procedure called `product'
+that returns the product of the values of a function at
+points over a given range.  Show how to define `factorial' in
+terms of `product'.  Also use `product' to compute
+approximations to [pi] using the formula(4)
 </p>
 
-<p>
-pi   2 * 4 * 4 * 6 * 6 * 8 &#x2026;
-&#x2013; = --------------------&#x2013;&#x2014;
- 4   3 * 3 * 5 * 5 * 7 * 7 &#x2026;
-</p>
+<pre class="example" id="org034d3c2">
+pi   2 * 4 * 4 * 6 * 6 * 8 ...
+-- = -------------------------
+ 4   3 * 3 * 5 * 5 * 7 * 7 ...
+</pre>
 
 <p>
 b. If your `product' procedure generates a recursive process,
-   write one that generates an iterative process.  If it
-   generates an iterative process, write one that generates a
-   recursive process.
+write one that generates an iterative process.  If it
+generates an iterative process, write one that generates a
+recursive process.
 </p>
 
 
 <p>
 <b>Exercise 1.32:</b>
-  a. Show that `sum' and `product' (*Note Exercise 1-31::) are
-     both special cases of a still more general notion called
-     `accumulate' that combines a collection of terms, using some
-     general accumulation function:
+a. Show that `sum' and `product' (*Note Exercise 1-31::) are
+both special cases of a still more general notion called
+`accumulate' that combines a collection of terms, using some
+general accumulation function:
 </p>
 
-<p>
+<pre class="example" id="org80dff0e">
 (accumulate combiner null-value term a next b)
-</p>
+</pre>
 
 <p>
 `Accumulate' takes as arguments the same term and range
@@ -4291,9 +4174,9 @@ simple calls to `accumulate'.
 
 <p>
 b. If your `accumulate' procedure generates a recursive process,
-   write one that generates an iterative process.  If it
-   generates an iterative process, write one that generates a
-   recursive process.
+write one that generates an iterative process.  If it
+generates an iterative process, write one that generates a
+recursive process.
 </p>
 
 
@@ -4311,14 +4194,14 @@ the following using `filtered-accumulate':
 
 <p>
 a. the sum of the squares of the prime numbers in the interval a
-   to b (assuming that you have a `prime?' predicate already
-   written)
+to b (assuming that you have a `prime?' predicate already
+written)
 </p>
 
 <p>
 b. the product of all the positive integers less than n that are
-   relatively prime to n (i.e., all positive integers i &lt; n such
-   that GCD(i,n) = 1).
+relatively prime to n (i.e., all positive integers i &lt; n such
+that GCD(i,n) = 1).
 </p>
 
 
@@ -4338,14 +4221,14 @@ this as the basis for some fancy numerical tricks in section *Note
 </p>
 
 <p>
-   (2) Notice that we have used block structure (section *Note 1-1-8::)
+(2) Notice that we have used block structure (section *Note 1-1-8::)
 to embed the definitions of `pi-next' and `pi-term' within `pi-sum',
 since these procedures are unlikely to be useful for any other purpose.
 We will see how to get rid of them altogether in section *Note 1-3-2::.
 </p>
 
 <p>
-   (3) The intent of *Note Exercise 1-31:: through *Note Exercise
+(3) The intent of *Note Exercise 1-31:: through *Note Exercise
 1-33:: is to demonstrate the expressive power that is attained by using
 an appropriate abstraction to consolidate many seemingly disparate
 operations.  However, though accumulation and filtering are elegant
@@ -4359,19 +4242,15 @@ their own as a powerful and elegant approach to designing programs.
 </p>
 
 <p>
-   (4) This formula was discovered by the seventeenth-century English
+(4) This formula was discovered by the seventeenth-century English
 mathematician John Wallis.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 
 
-<div id="outline-container-orgb8f66d8" class="outline-3">
-<h3 id="orgb8f66d8"><span class="section-number-3">3.2.</span> Constructing Procedures Using `Lambda'</h3>
+<div id="outline-container-orgf9c0a06" class="outline-3">
+<h3 id="orgf9c0a06"><span class="section-number-3">3.2.</span> Constructing Procedures Using `Lambda'</h3>
 <div class="outline-text-3" id="text-3-2">
 <hr />
 
@@ -4387,113 +4266,97 @@ special form `lambda', which creates procedures.  Using `lambda' we can
 describe what we want as
 </p>
 
-<p>
-(lambda (x) (+ x 4))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">lambda</span> (x) (+ x 4))
+</pre>
+</div>
 
 <p>
 and
 </p>
 
-<p>
-(lambda (x) (/ 1.0 (* x (+ x 2))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">lambda</span> (x) (/ 1.0 (* x (+ x 2))))
+</pre>
+</div>
 
 <p>
-   Then our `pi-sum' procedure can be expressed without defining any
+Then our `pi-sum' procedure can be expressed without defining any
 auxiliary procedures as
 </p>
 
-<p>
-(define (pi-sum a b)
-  (sum (lambda (x) (/ 1.0 (* x (+ x 2))))
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-sum</span> a b)
+  (sum (<span style="font-weight: bold;">lambda</span> (x) (/ 1.0 (* x (+ x 2))))
        a
-       (lambda (x) (+ x 4))
+       (<span style="font-weight: bold;">lambda</span> (x) (+ x 4))
        b))
-</p>
+</pre>
+</div>
 
 <p>
-   Again using `lambda', we can write the `integral' procedure without
+Again using `lambda', we can write the `integral' procedure without
 having to define the auxiliary procedure `add-dx':
 </p>
 
-<p>
-(define (integral f a b dx)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">integral</span> f a b dx)
   (* (sum f
-	  (+ a (/ dx 2.0))
-	  (lambda (x) (+ x dx))
-	  b)
+          (+ a (/ dx 2.0))
+          (<span style="font-weight: bold;">lambda</span> (x) (+ x dx))
+          b)
      dx))
-</p>
+</pre>
+</div>
 
 <p>
-   In general, `lambda' is used to create procedures in the same way as
+In general, `lambda' is used to create procedures in the same way as
 `define', except that no name is specified for the procedure:
 </p>
 
-<p>
+<pre class="example" id="org3a5e65c">
 (lambda (&lt;FORMAL-PARAMETERS&gt;) &lt;BODY&gt;)
-</p>
+</pre>
 
 <p>
-   The resulting procedure is just as much a procedure as one that is
+The resulting procedure is just as much a procedure as one that is
 created using `define'.  The only difference is that it has not been
 associated with any name in the environment.  In fact,
 </p>
 
-<p>
-(define (plus4 x) (+ x 4))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">plus4</span> x) (+ x 4))
+</pre>
+</div>
 
 <p>
 is equivalent to
 </p>
 
-<p>
-(define plus4 (lambda (x) (+ x 4)))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">plus4</span> (<span style="font-weight: bold;">lambda</span> (x) (+ x 4)))
+</pre>
+</div>
 
 <p>
 We can read a `lambda' expression as follows:
 </p>
 
-<p>
+<pre class="example" id="orga8e05f1">
 (lambda                     (x)     (+   x     4))
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-<p>
+    |                        |       |   |     |
 the procedure of an argument x that adds x and 4
-</p>
+</pre>
 
 <p>
-   Like any expression that has a procedure as its value, a `lambda'
+Like any expression that has a procedure as its value, a `lambda'
 expression can be used as the operator in a combination such as
 </p>
 
-<p>
+<pre class="example" id="org940aba6">
 ((lambda (x y z) (+ x y (square z))) 1 2 3)
 12
-</p>
+</pre>
 
 <p>
 or, more generally, in any context where we would normally use a
@@ -4502,8 +4365,8 @@ procedure name.(1)
 
 <p>
 Using `let' to create local variables
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;.
 </p>
+<hr />
 
 <p>
 Another use of `lambda' is in creating local variables.  We often need
@@ -4512,94 +4375,97 @@ as formal parameters.  For example, suppose we wish to compute the
 function
 </p>
 
-<p>
-f(x,y) = x(1 + xy)<sup>2</sup> + y(1 - y) + (1 + xy)(1 - y)
-</p>
+<pre class="example" id="org56e1f2c">
+f(x,y) = x(1 + xy)^2 + y(1 - y) + (1 + xy)(1 - y)
+</pre>
 
 <p>
 which we could also express as
 </p>
 
-<p>
+<pre class="example" id="org77b5e62">
      a = 1 + xy
      b = 1 - y
-f(x,y) = xa<sup>2</sup> + yb + ab
-</p>
+f(x,y) = xa^2 + yb + ab
+</pre>
 
 <p>
-   In writing a procedure to compute f, we would like to include as
+In writing a procedure to compute f, we would like to include as
 local variables not only x and y but also the names of intermediate
 quantities like a and b.  One way to accomplish this is to use an
 auxiliary procedure to bind the local variables:
 </p>
 
-<p>
-(define (f x y)
-  (define (f-helper a b)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> x y)
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f-helper</span> a b)
     (+ (* x (square a))
        (* y b)
        (* a b)))
   (f-helper (+ 1 (* x y))
-	    (- 1 y)))
-</p>
+            (- 1 y)))
+</pre>
+</div>
 
 <p>
-   Of course, we could use a `lambda' expression to specify an anonymous
+Of course, we could use a `lambda' expression to specify an anonymous
 procedure for binding our local variables.  The body of `f' then
 becomes a single call to that procedure:
 </p>
 
-<p>
-(define (f x y)
-  ((lambda (a b)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> x y)
+  ((<span style="font-weight: bold;">lambda</span> (a b)
      (+ (* x (square a))
-	(* y b)
-	(* a b)))
+        (* y b)
+        (* a b)))
    (+ 1 (* x y))
    (- 1 y)))
-</p>
+</pre>
+</div>
 
 <p>
-   This construct is so useful that there is a special form called
+This construct is so useful that there is a special form called
 `let' to make its use more convenient.  Using `let', the `f' procedure
 could be written as
 </p>
 
-<p>
-(define (f x y)
-  (let ((a (+ 1 (* x y)))
-	(b (- 1 y)))
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> x y)
+  (<span style="font-weight: bold;">let</span> ((a (+ 1 (* x y)))
+        (b (- 1 y)))
     (+ (* x (square a))
        (* y b)
        (* a b))))
-</p>
+</pre>
+</div>
 
 <p>
 The general form of a `let' expression is
 </p>
 
-<p>
+<pre class="example" id="orgab3ca31">
 (let ((&lt;VAR1&gt; &lt;EXP1&gt;)
       (&lt;VAR2&gt; &lt;EXP2&gt;)
-      &#x2026;
+      ...
       (&lt;VARN&gt; &lt;VARN&gt;))
    &lt;BODY&gt;)
-</p>
+</pre>
 
 <p>
 which can be thought of as saying
 </p>
 
-<p>
-let &lt;VAR<sub>1</sub>&gt; have the value &lt;EXP<sub>1</sub>&gt; and
-    &lt;VAR<sub>2</sub>&gt; have the value &lt;EXP<sub>2</sub>&gt; and
-    &#x2026;
-    &lt;VAR<sub>N</sub>&gt; have the value &lt;EXP<sub>N</sub>&gt;
+<pre class="example" id="org639fa1b">
+let &lt;VAR_1&gt; have the value &lt;EXP_1&gt; and
+    &lt;VAR_2&gt; have the value &lt;EXP_2&gt; and
+    ...
+    &lt;VAR_N&gt; have the value &lt;EXP_N&gt;
 in  &lt;BODY&gt;
-</p>
+</pre>
 
 <p>
-   The first part of the `let' expression is a list of name-expression
+The first part of the `let' expression is a list of name-expression
 pairs.  When the `let' is evaluated, each name is associated with the
 value of the corresponding expression.  The body of the `let' is
 evaluated with these names bound as local variables.  The way this
@@ -4607,22 +4473,22 @@ happens is that the `let' expression is interpreted as an alternate
 syntax for
 </p>
 
-<p>
-((lambda (&lt;VAR<sub>1</sub>&gt; &#x2026; &lt;VAR<sub>N</sub>&gt;)
+<pre class="example" id="org2ed0652">
+((lambda (&lt;VAR_1&gt; ... &lt;VAR_N&gt;)
     &lt;BODY&gt;)
- &lt;EXP<sub>1</sub>&gt;
- &#x2026;
- &lt;EXP<sub>N</sub>&gt;)
-</p>
+ &lt;EXP_1&gt;
+ ...
+ &lt;EXP_N&gt;)
+</pre>
 
 <p>
-   No new mechanism is required in the interpreter in order to provide
+No new mechanism is required in the interpreter in order to provide
 local variables.  A `let' expression is simply syntactic sugar for the
 underlying `lambda' application.
 </p>
 
 <p>
-   We can see from this equivalence that the scope of a variable
+We can see from this equivalence that the scope of a variable
 specified by a `let' expression is the body of the `let'.  This implies
 that:
 </p>
@@ -4634,11 +4500,12 @@ they are to be used.  For example, if the value of `x' is 5, the
 value of the expression
 </p>
 
-<p>
-(+ (let ((x 3))
+<div class="org-src-container">
+<pre class="src src-scheme">(+ (<span style="font-weight: bold;">let</span> ((x 3))
      (+ x (* x 10)))
    x)
-</p>
+</pre>
+</div>
 
 <p>
 is 38.  Here, the `x' in the body of the `let' is 3, so the value
@@ -4654,11 +4521,12 @@ variables themselves.  For example, if the value of `x' is 2, the
 expression
 </p>
 
-<p>
-(let ((x 3)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">let</span> ((x 3)
       (y (+ x 2)))
   (* x y))
-</p>
+</pre>
+</div>
 
 <p>
 will have the value 12 because, inside the body of the `let', `x'
@@ -4666,24 +4534,24 @@ will be 3 and `y' will be 4 (which is the outer `x' plus 2).
 </p></li>
 </ul>
 
-
 <p>
-   Sometimes we can use internal definitions to get the same effect as
+Sometimes we can use internal definitions to get the same effect as
 with `let'.  For example, we could have defined the procedure `f' above
 as
 </p>
 
-<p>
-(define (f x y)
-  (define a (+ 1 (* x y)))
-  (define b (- 1 y))
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> x y)
+  (<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">a</span> (+ 1 (* x y)))
+  (<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">b</span> (- 1 y))
   (+ (* x (square a))
      (* y b)
      (* a b)))
-</p>
+</pre>
+</div>
 
 <p>
-   We prefer, however, to use `let' in situations like this and to use
+We prefer, however, to use `let' in situations like this and to use
 internal `define' only for internal procedures.(2)
 </p>
 
@@ -4691,24 +4559,23 @@ internal `define' only for internal procedures.(2)
 <b>Exercise 1.34:</b> Suppose we define the procedure
 </p>
 
-<p>
-(define (f g)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> g)
   (g 2))
-</p>
+</pre>
+</div>
 
 <p>
 Then we have
 </p>
 
-<p>
+<pre class="example" id="orgf92c545">
 (f square)
 4
-</p>
 
-<p>
 (f (lambda (z) (* z (+ z 1))))
 6
-</p>
+</pre>
 
 <p>
 What happens if we (perversely) ask the interpreter to evaluate
@@ -4720,7 +4587,7 @@ the combination `(f f)'?  Explain.
 </p>
 
 <p>
-   (1) It would be clearer and less intimidating to people learning
+(1) It would be clearer and less intimidating to people learning
 Lisp if a name more obvious than `lambda', such as `make-procedure',
 were used.  But the convention is firmly entrenched.  The notation is
 adopted from the [lambda] calculus, a mathematical formalism introduced
@@ -4732,23 +4599,19 @@ semantics of programming languages.
 </p>
 
 <p>
-   (2) Understanding internal definitions well enough to be sure a
+(2) Understanding internal definitions well enough to be sure a
 program means what we intend it to mean requires a more elaborate model
 of the evaluation process than we have presented in this chapter.  The
 subtleties do not arise with internal definitions of procedures,
 however.  We will return to this issue in section *Note 4-1-6::, after
 we learn more about evaluation.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 
 
-<div id="outline-container-org3e1b26a" class="outline-3">
-<h3 id="org3e1b26a"><span class="section-number-3">3.3.</span> Procedures as General Methods</h3>
+<div id="outline-container-orgad8247a" class="outline-3">
+<h3 id="orgad8247a"><span class="section-number-3">3.3.</span> Procedures as General Methods</h3>
 <div class="outline-text-3" id="text-3-3">
 <hr />
 
@@ -4767,8 +4630,8 @@ directly as procedures.
 
 <p>
 Finding roots of equations by the half-interval method
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;
 </p>
+<hr />
 
 <p>
 The "half-interval method" is a simple but powerful technique for
@@ -4788,21 +4651,22 @@ consider "small enough").  Here is a procedure that implements this
 strategy:
 </p>
 
-<p>
-(define (search f neg-point pos-point)
-  (let ((midpoint (average neg-point pos-point)))
-    (if (close-enough? neg-point pos-point)
-	midpoint
-	(let ((test-value (f midpoint)))
-	  (cond ((positive? test-value)
-		 (search f neg-point midpoint))
-		((negative? test-value)
-		 (search f midpoint pos-point))
-		(else midpoint))))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">search</span> f neg-point pos-point)
+  (<span style="font-weight: bold;">let</span> ((midpoint (average neg-point pos-point)))
+    (<span style="font-weight: bold;">if</span> (close-enough? neg-point pos-point)
+        midpoint
+        (<span style="font-weight: bold;">let</span> ((test-value (f midpoint)))
+          (<span style="font-weight: bold;">cond</span> ((positive? test-value)
+                 (search f neg-point midpoint))
+                ((negative? test-value)
+                 (search f midpoint pos-point))
+                (<span style="font-weight: bold;">else</span> midpoint))))))
+</pre>
+</div>
 
 <p>
-   We assume that we are initially given the function f together with
+We assume that we are initially given the function f together with
 points at which its values are negative and positive.  We first compute
 the midpoint of the two given points.  Next we check to see if the
 given interval is small enough, and if so we simply return the midpoint
@@ -4816,18 +4680,19 @@ itself the root we are searching for.
 </p>
 
 <p>
-   To test whether the endpoints are "close enough" we can use a
+To test whether the endpoints are "close enough" we can use a
 procedure similar to the one used in section *Note 1-1-7:: for
 computing square roots:(1)
 </p>
 
-<p>
-(define (close-enough? x y)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">close-enough?</span> x y)
   (&lt; (abs (- x y)) 0.001))
-</p>
+</pre>
+</div>
 
 <p>
-   `Search' is awkward to use directly, because we can accidentally
+`Search' is awkward to use directly, because we can accidentally
 give it points at which f's values do not have the required sign, in
 which case we get a wrong answer.  Instead we will use `search' via the
 following procedure, which checks to see which of the endpoints has a
@@ -4837,44 +4702,45 @@ the two given points, the half-interval method cannot be used, in which
 case the procedure signals an error.(2)
 </p>
 
-<p>
-(define (half-interval-method f a b)
-  (let ((a-value (f a))
-	(b-value (f b)))
-    (cond ((and (negative? a-value) (positive? b-value))
-	   (search f a b))
-	  ((and (negative? b-value) (positive? a-value))
-	   (search f b a))
-	  (else
-	   (error "Values are not of opposite sign" a b)))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">half-interval-method</span> f a b)
+  (<span style="font-weight: bold;">let</span> ((a-value (f a))
+        (b-value (f b)))
+    (<span style="font-weight: bold;">cond</span> ((<span style="font-weight: bold;">and</span> (negative? a-value) (positive? b-value))
+           (search f a b))
+          ((<span style="font-weight: bold;">and</span> (negative? b-value) (positive? a-value))
+           (search f b a))
+          (<span style="font-weight: bold;">else</span>
+           (error <span style="font-style: italic;">"Values are not of opposite sign"</span> a b)))))
+</pre>
+</div>
 
 <p>
-   The following example uses the half-interval method to approximate
+The following example uses the half-interval method to approximate
 [pi] as the root between 2 and 4 of `sin' x = 0:
 </p>
 
-<p>
+<pre class="example" id="org3c3a9c5">
 (half-interval-method sin 2.0 4.0)
 3.14111328125
-</p>
+</pre>
 
 <p>
-   Here is another example, using the half-interval method to search
-for a root of the equation x<sup>3</sup> - 2x - 3 = 0 between 1 and 2:
+Here is another example, using the half-interval method to search
+for a root of the equation <code>x^3 - 2x - 3 = 0</code> between 1 and 2:
 </p>
 
-<p>
+<pre class="example" id="org6d96c54">
 (half-interval-method (lambda (x) (- (* x x x) (* 2 x) 3))
-		      1.0
-		      2.0)
+                      1.0
+                      2.0)
 1.89306640625
-</p>
+</pre>
 
 <p>
 Finding fixed points of functions
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;
 </p>
+<hr />
 
 <p>
 A number x is called a "fixed point" of a function f if x satisfies the
@@ -4882,9 +4748,9 @@ equation f(x) = x.  For some functions f we can locate a fixed point by
 beginning with an initial guess and applying f repeatedly,
 </p>
 
-<p>
+<pre class="example" id="org104a906">
 f(x), f(f(x), (f(f(f(x))))
-</p>
+</pre>
 
 <p>
 until the value does not change very much.  Using this idea, we can
@@ -4895,45 +4761,44 @@ successive values whose difference is less than some prescribed
 tolerance:
 </p>
 
-<p>
-(define tolerance 0.00001)
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">tolerance</span> 0.00001)
 
-<p>
-(define (fixed-point f first-guess)
-  (define (close-enough? v1 v2)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fixed-point</span> f first-guess)
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">close-enough?</span> v1 v2)
     (&lt; (abs (- v1 v2)) tolerance))
-  (define (try guess)
-    (let ((next (f guess)))
-      (if (close-enough? guess next)
-	  next
-	  (try next))))
+  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">try</span> guess)
+    (<span style="font-weight: bold;">let</span> ((next (f guess)))
+      (<span style="font-weight: bold;">if</span> (close-enough? guess next)
+          next
+          (try next))))
   (try first-guess))
-</p>
+</pre>
+</div>
 
 <p>
-   For example, we can use this method to approximate the fixed point
+For example, we can use this method to approximate the fixed point
 of the cosine function, starting with 1 as an initial approximation:(3)
 </p>
 
-<p>
+<pre class="example" id="orgfa64159">
 (fixed-point cos 1.0)
 .7390822985224023
-</p>
+</pre>
 
 <p>
-   Similarly, we can find a solution to the equation y = `sin' y +
+Similarly, we can find a solution to the equation y = `sin' y +
 `cos' y:
 </p>
 
-<p>
+<pre class="example" id="org3496434">
 (fixed-point (lambda (y) (+ (sin y) (cos y)))
-	     1.0)
+             1.0)
 1.2587315962971173
-</p>
+</pre>
 
 <p>
-   The fixed-point process is reminiscent of the process we used for
+The fixed-point process is reminiscent of the process we used for
 finding square roots in section *Note 1-1-7::.  Both are based on the
 idea of repeatedly improving a guess until the result satisfies some
 criterion.  In fact, we can readily formulate the square-root
@@ -4944,14 +4809,15 @@ a fixed point of the function(4) y |-&gt; x/y, and we can therefore try to
 compute square roots as
 </p>
 
-<p>
-(define (sqrt x)
-  (fixed-point (lambda (y) (/ x y))
-	       1.0))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (fixed-point (<span style="font-weight: bold;">lambda</span> (y) (/ x y))
+               1.0))
+</pre>
+</div>
 
 <p>
-   Unfortunately, this fixed-point search does not converge.  Consider
+Unfortunately, this fixed-point search does not converge.  Consider
 an initial guess y<sub>1</sub>.  The next guess is y<sub>2</sub> = x/y<sub>1</sub> and the next guess
 is y<sub>3</sub> = x/y<sub>2</sub> = x/(x/y<sub>1</sub>) = y<sub>1</sub>.  This results in an infinite loop in
 which the two guesses y<sub>1</sub> and y<sub>2</sub> repeat over and over, oscillating
@@ -4959,7 +4825,7 @@ about the answer.
 </p>
 
 <p>
-   One way to control such oscillations is to prevent the guesses from
+One way to control such oscillations is to prevent the guesses from
 changing so much.  Since the answer is always between our guess y and
 x/y, we can make a new guess that is not as far from y as x/y by
 averaging y with x/y, so that the next guess after y is (1/2)(y + x/y)
@@ -4967,20 +4833,21 @@ instead of x/y.  The process of making such a sequence of guesses is
 simply the process of looking for a fixed point of y |-&gt; (1/2)(y + x/y):
 </p>
 
-<p>
-(define (sqrt x)
-  (fixed-point (lambda (y) (average y (/ x y)))
-	       1.0))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (fixed-point (<span style="font-weight: bold;">lambda</span> (y) (average y (/ x y)))
+               1.0))
+</pre>
+</div>
 
 <p>
-   (Note that y = (1/2)(y + x/y) is a simple transformation of the
+(Note that <code>y = (1/2)(y + x/y)</code> is a simple transformation of the
 equation y = x/y; to derive it, add y to both sides of the equation and
 divide by 2.)
 </p>
 
 <p>
-   With this modification, the square-root procedure works.  In fact,
+With this modification, the square-root procedure works.  In fact,
 if we unravel the definitions, we can see that the sequence of
 approximations to the square root generated here is precisely the same
 as the one generated by our original square-root procedure of section
@@ -5010,18 +4877,18 @@ division by `log'(1) = 0.)
 
 <p>
 <b>Exercise 1.37:</b>
-  a. An infinite "continued fraction" is an expression of the form
+a. An infinite "continued fraction" is an expression of the form
 </p>
 
-<p>
-	   N<sub>1</sub>
-f = ----------------&#x2013;&#x2014;
-	       N<sub>2</sub>
-    D<sub>1</sub> + ----------&#x2013;&#x2014;
-		   N<sub>3</sub>
-	  D<sub>2</sub> + ----&#x2013;&#x2014;
-		D<sub>3</sub> + &#x2026;
-</p>
+<pre class="example" id="org2a6c7ca">
+           N_1
+f = ---------------------
+               N_2
+    D_1 + ---------------
+                   N_3
+          D_2 + ---------
+                D_3 + ...
+</pre>
 
 <p>
 As an example, one can show that the infinite continued
@@ -5034,19 +4901,15 @@ so-called finite continued fraction "k-term finite continued
 fraction"&#x2013;has the form
 </p>
 
-<p>
-N<sub>1</sub>
-</p>
-<hr />
-<p>
-	  N<sub>2</sub>
-D<sub>1</sub> + ------&#x2013;&#x2014;
-      &#x2026;    N<sub>K</sub>
-</p>
-<ul class="org-ul">
-<li>&#x2013;&#x2014;
-D<sub>K</sub></li>
-</ul>
+<pre class="example" id="org05db500">
+       N_1
+-----------------
+          N_2
+D_1 + -----------
+      ...    N_K
+          + -----
+             D_K
+</pre>
 
 <p>
 Suppose that `n' and `d' are procedures of one argument (the
@@ -5057,11 +4920,12 @@ k-term finite continued fraction.  Check your procedure by
 approximating 1/[phi] using
 </p>
 
-<p>
-(cont-frac (lambda (i) 1.0)
-	   (lambda (i) 1.0)
-	   k)
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(cont-frac (<span style="font-weight: bold;">lambda</span> (i) 1.0)
+           (<span style="font-weight: bold;">lambda</span> (i) 1.0)
+           k)
+</pre>
+</div>
 
 <p>
 for successive values of `k'.  How large must you make `k' in
@@ -5071,9 +4935,9 @@ places?
 
 <p>
 b. If your `cont-frac' procedure generates a recursive process,
-   write one that generates an iterative process.  If it
-   generates an iterative process, write one that generates a
-   recursive process.
+write one that generates an iterative process.  If it
+generates an iterative process, write one that generates a
+recursive process.
 </p>
 
 
@@ -5093,15 +4957,15 @@ tangent function was published in 1770 by the German mathematician
 J.H. Lambert:
 </p>
 
-<p>
-	      x
-tan x = ----------&#x2013;&#x2014;
-		x<sup>2</sup>
-	1 - ------&#x2013;&#x2014;
-		  x<sup>2</sup>
-	    3 - --&#x2013;&#x2014;
-		5 - &#x2026;
-</p>
+<pre class="example" id="orgb3fda2f">
+              x
+tan x = ---------------
+                x^2
+        1 - -----------
+                  x^2
+            3 - -------
+                5 - ...
+</pre>
 
 <p>
 where x is in radians.  Define a procedure `(tan-cf x k)' that
@@ -5115,7 +4979,7 @@ as in *Note Exercise 1-37::.
 </p>
 
 <p>
-   (1) We have used 0.001 as a representative "small" number to
+(1) We have used 0.001 as a representative "small" number to
 indicate a tolerance for the acceptable error in a calculation.  The
 appropriate tolerance for a real calculation depends upon the problem
 to be solved and the limitations of the computer and the algorithm.
@@ -5124,31 +4988,27 @@ numerical analyst or some other kind of magician.
 </p>
 
 <p>
-   (2) This can be accomplished using `error', which takes as arguments
+(2) This can be accomplished using `error', which takes as arguments
 a number of items that are printed as error messages.
 </p>
 
 <p>
-   (3) Try this during a boring lecture: Set your calculator to radians
+(3) Try this during a boring lecture: Set your calculator to radians
 mode and then repeatedly press the `cos' button until you obtain the
 fixed point.
 </p>
 
 <p>
-   (4) |-&gt; (pronounced "maps to") is the mathematician's way of writing
+(4) |-&gt; (pronounced "maps to") is the mathematician's way of writing
 `lambda'.  y |-&gt; x/y means `(lambda(y) (/ x y))', that is, the function
 whose value at y is x/y.
 </p>
-
-<p>
-
-</p>
 </div>
 </div>
 
 
-<div id="outline-container-org6dac81f" class="outline-3">
-<h3 id="org6dac81f"><span class="section-number-3">3.4.</span> Procedures as Returned Values</h3>
+<div id="outline-container-org7d9a741" class="outline-3">
+<h3 id="org7d9a741"><span class="section-number-3">3.4.</span> Procedures as Returned Values</h3>
 <div class="outline-text-3" id="text-3-4">
 <hr />
 
@@ -5160,7 +5020,7 @@ creating procedures whose returned values are themselves procedures.
 </p>
 
 <p>
-   We can illustrate this idea by looking again at the fixed-point
+We can illustrate this idea by looking again at the fixed-point
 example described at the end of section *Note 1-3-3::.  We formulated a
 new version of the square-root procedure as a fixed-point search,
 starting with the observation that [sqrt]x is a fixed-point of the
@@ -5171,17 +5031,18 @@ value at x is equal to the average of x and f(x).
 </p>
 
 <p>
-   We can express the idea of average damping by means of the following
+We can express the idea of average damping by means of the following
 procedure:
 </p>
 
-<p>
-(define (average-damp f)
-  (lambda (x) (average x (f x))))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">average-damp</span> f)
+  (<span style="font-weight: bold;">lambda</span> (x) (average x (f x))))
+</pre>
+</div>
 
 <p>
-   `Average-damp' is a procedure that takes as its argument a procedure
+`Average-damp' is a procedure that takes as its argument a procedure
 `f' and returns as its value a procedure (produced by the `lambda')
 that, when applied to a number `x', produces the average of `x' and `(f
 x)'.  For example, applying `average-damp' to the `square' procedure
@@ -5190,24 +5051,25 @@ and x<sup>2</sup>.  Applying this resulting procedure to 10 returns the average
 of 10 and 100, or 55:(1)
 </p>
 
-<p>
+<pre class="example" id="org2d4538a">
 ((average-damp square) 10)
 55
-</p>
+</pre>
 
 <p>
-   Using `average-damp', we can reformulate the square-root procedure as
+Using `average-damp', we can reformulate the square-root procedure as
 follows:
 </p>
 
-<p>
-(define (sqrt x)
-  (fixed-point (average-damp (lambda (y) (/ x y)))
-	       1.0))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (fixed-point (average-damp (<span style="font-weight: bold;">lambda</span> (y) (/ x y)))
+               1.0))
+</pre>
+</div>
 
 <p>
-   Notice how this formulation makes explicit the three ideas in the
+Notice how this formulation makes explicit the three ideas in the
 method: fixed-point search, average damping, and the function y |-&gt; x/y.
 It is instructive to compare this formulation of the square-root method
 with the original version given in section *Note 1-1-7::.  Bear in mind
@@ -5223,16 +5085,17 @@ so we can immediately generalize our square-root procedure to one that
 extracts cube roots:(2)
 </p>
 
-<p>
-(define (cube-root x)
-  (fixed-point (average-damp (lambda (y) (/ x (square y))))
-	       1.0))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">cube-root</span> x)
+  (fixed-point (average-damp (<span style="font-weight: bold;">lambda</span> (y) (/ x (square y))))
+               1.0))
+</pre>
+</div>
 
 <p>
 Newton's method
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;
 </p>
+<hr />
 
 <p>
 When we first introduced the square-root procedure, in section *Note
@@ -5242,11 +5105,11 @@ of the equation g(x) = 0 is a fixed point of the function x |-&gt; f(x)
 where
 </p>
 
-<p>
-	   g(x)
-f(x) = x - &#x2013;&#x2014;
-	   Dg(x)
-</p>
+<pre class="example" id="orgacecb79">
+           g(x)
+f(x) = x - -----
+           Dg(x)
+</pre>
 
 <p>
 and Dg(x) is the derivative of g evaluated at x.  Newton's method is
@@ -5255,12 +5118,12 @@ solution of the equation by finding a fixed point of the function f.(3)
 </p>
 
 <p>
-   For many functions g and for sufficiently good initial guesses for x,
+For many functions g and for sufficiently good initial guesses for x,
 Newton's method converges very rapidly to a solution of g(x) = 0.(4)
 </p>
 
 <p>
-   In order to implement Newton's method as a procedure, we must first
+In order to implement Newton's method as a procedure, we must first
 express the idea of derivative.  Note that "derivative," like average
 damping, is something that transforms a function into another function.
 For instance, the derivative of the function x |-&gt; x<sup>3</sup> is the function
@@ -5269,66 +5132,65 @@ then the derivative Dg of g is the function whose value at any number x
 is given (in the limit of small dx) by
 </p>
 
-<p>
-	g(x + dx) - g(x)
-Dg(c) = -----------&#x2013;&#x2014;
-	       dx
-</p>
+<pre class="example" id="org0e36ff7">
+        g(x + dx) - g(x)
+Dg(c) = ----------------
+               dx
+</pre>
 
 <p>
 Thus, we can express the idea of derivative (taking dx to be, say,
 0.00001) as the procedure
 </p>
 
-<p>
-(define (deriv g)
-  (lambda (x)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">deriv</span> g)
+  (<span style="font-weight: bold;">lambda</span> (x)
     (/ (- (g (+ x dx)) (g x))
        dx)))
-</p>
+</pre>
+</div>
 
 <p>
 along with the definition
 </p>
 
-<p>
-(define dx 0.00001)
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">dx</span> 0.00001)
+</pre>
+</div>
 
 <p>
-   Like `average-damp', `deriv' is a procedure that takes a procedure as
+Like `average-damp', `deriv' is a procedure that takes a procedure as
 argument and returns a procedure as value.  For example, to approximate
 the derivative of x |-&gt; x<sup>3</sup> at 5 (whose exact value is 75) we can
 evaluate
 </p>
 
-<p>
+<pre class="example" id="org817e697">
 (define (cube x) (* x x x))
-</p>
 
-<p>
 ((deriv cube) 5)
 75.00014999664018
-</p>
+</pre>
 
 <p>
-   With the aid of `deriv', we can express Newton's method as a
+With the aid of `deriv', we can express Newton's method as a
 fixed-point process:
 </p>
 
-<p>
-(define (newton-transform g)
-  (lambda (x)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">newton-transform</span> g)
+  (<span style="font-weight: bold;">lambda</span> (x)
     (- x (/ (g x) ((deriv g) x)))))
-</p>
 
-<p>
-(define (newtons-method g guess)
+(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">newtons-method</span> g guess)
   (fixed-point (newton-transform g) guess))
-</p>
+</pre>
+</div>
 
 <p>
-   The `newton-transform' procedure expresses the formula at the
+The `newton-transform' procedure expresses the formula at the
 beginning of this section, and `newtons-method' is readily defined in
 terms of this.  It takes as arguments a procedure that computes the
 function for which we want to find a zero, together with an initial
@@ -5341,16 +5203,17 @@ initial guess of 1.(5)
 This provides yet another form of the square-root procedure:
 </p>
 
-<p>
-(define (sqrt x)
-  (newtons-method (lambda (y) (- (square y) x))
-		  1.0))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (newtons-method (<span style="font-weight: bold;">lambda</span> (y) (- (square y) x))
+                  1.0))
+</pre>
+</div>
 
 <p>
 Abstractions and first-class procedures
-&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;
 </p>
+<hr />
 
 <p>
 We've seen two ways to express the square-root computation as an
@@ -5362,47 +5225,50 @@ fixed point of some transformation of the function.  We can express
 this general idea itself as a procedure:
 </p>
 
-<p>
-(define (fixed-point-of-transform g transform guess)
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fixed-point-of-transform</span> g transform guess)
   (fixed-point (transform g) guess))
-</p>
+</pre>
+</div>
 
 <p>
-   This very general procedure takes as its arguments a procedure `g'
+This very general procedure takes as its arguments a procedure `g'
 that computes some function, a procedure that transforms `g', and an
 initial guess.  The returned result is a fixed point of the transformed
 function.
 </p>
 
 <p>
-   Using this abstraction, we can recast the first square-root
+Using this abstraction, we can recast the first square-root
 computation from this section (where we look for a fixed point of the
 average-damped version of y |-&gt; x/y) as an instance of this general
 method:
 </p>
 
-<p>
-(define (sqrt x)
-  (fixed-point-of-transform (lambda (y) (/ x y))
-			    average-damp
-			    1.0))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (fixed-point-of-transform (<span style="font-weight: bold;">lambda</span> (y) (/ x y))
+                            average-damp
+                            1.0))
+</pre>
+</div>
 
 <p>
-   Similarly, we can express the second square-root computation from
+Similarly, we can express the second square-root computation from
 this section (an instance of Newton's method that finds a fixed point
 of the Newton transform of y |-&gt; y<sup>2</sup> - x) as
 </p>
 
-<p>
-(define (sqrt x)
-  (fixed-point-of-transform (lambda (y) (- (square y) x))
-			    newton-transform
-			    1.0))
-</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+  (fixed-point-of-transform (<span style="font-weight: bold;">lambda</span> (y) (- (square y) x))
+                            newton-transform
+                            1.0))
+</pre>
+</div>
 
 <p>
-   We began section *Note 1-3:: with the observation that compound
+We began section *Note 1-3:: with the observation that compound
 procedures are a crucial abstraction mechanism, because they permit us
 to express general methods of computing as explicit elements in our
 programming language.  Now we've seen how higher-order procedures
@@ -5411,7 +5277,7 @@ abstractions.
 </p>
 
 <p>
-   As programmers, we should be alert to opportunities to identify the
+As programmers, we should be alert to opportunities to identify the
 underlying abstractions in our programs and to build upon them and
 generalize them to create more powerful abstractions.  This is not to
 say that one should always write programs in the most abstract way
@@ -5425,7 +5291,7 @@ handled just like other computational elements.
 </p>
 
 <p>
-   In general, programming languages impose restrictions on the ways in
+In general, programming languages impose restrictions on the ways in
 which computational elements can be manipulated.  Elements with the
 fewest restrictions are said to have "first-class" status.  Some of the
 "rights and privileges" of first-class elements are:(6)
@@ -5443,7 +5309,7 @@ fewest restrictions are said to have "first-class" status.  Some of the
 
 
 <p>
-   Lisp, unlike other common programming languages, awards procedures
+Lisp, unlike other common programming languages, awards procedures
 full first-class status.  This poses challenges for efficient
 implementation, but the resulting gain in expressive power is
 enormous.(8)
@@ -5455,12 +5321,12 @@ together with the `newtons-method' procedure in expressions of the
 form
 </p>
 
-<p>
+<pre class="example" id="orgc680e12">
 (newtons-method (cubic a b c) 1)
-</p>
+</pre>
 
 <p>
-to approximate zeros of the cubic x<sup>3</sup> + ax<sup>2</sup> + bx + c.
+to approximate zeros of the cubic <code>x^3 + ax^2 + bx + c</code>.
 </p>
 
 <p>
@@ -5471,9 +5337,9 @@ procedure that adds 1 to its argument, then `(double inc)' should
 be a procedure that adds 2.  What value is returned by
 </p>
 
-<p>
+<pre class="example" id="orge12b538">
 (((double (double double)) inc) 5)
-</p>
+</pre>
 
 <p>
 <b>Exercise 1.42:</b> Let f and g be two one-argument functions.  The "composition"
@@ -5482,22 +5348,18 @@ procedure `compose' that implements composition.  For example, if
 `inc' is a procedure that adds 1 to its argument,
 </p>
 
-<p>
+<pre class="example" id="orgd1819cb">
 ((compose square inc) 6)
 49
-</p>
+</pre>
 
 <p>
 <b>Exercise 1.43:</b> If f is a numerical function and n is a positive
 integer, then we can form the nth repeated application of f, which
 is defined to be the function whose value at x is
-f(f(&#x2026;(f(x))&#x2026;)).  For example, if f is the function x |-&gt; x +
-1, then the nth repeated application of f is the function x |-&gt; x
-</p>
-<ul class="org-ul">
-<li>n.  If f is the operation of squaring a number, then the nth</li>
-</ul>
-<p>
+f(f(&#x2026;(f(x))&#x2026;)).  For example, if f is the function x |-&gt; x + 1,
+then the nth repeated application of f is the function x |-&gt; x + n.
+If f is the operation of squaring a number, then the nth
 repeated application of f is the function that raises its argument
 to the 2<sup>nth</sup> power.  Write a procedure that takes as inputs a
 procedure that computes f and a positive integer n and returns the
@@ -5505,10 +5367,10 @@ procedure that computes the nth repeated application of f.  Your
 procedure should be able to be used as follows:
 </p>
 
-<p>
+<pre class="example" id="org4526600">
 ((repeated square 2) 5)
 625
-</p>
+</pre>
 
 <p>
 Hint: You may find it convenient to use `compose' from *Note
@@ -5570,7 +5432,7 @@ in terms of `iterative-improve'.
 </p>
 
 <p>
-   (1) Observe that this is a combination whose operator is itself a
+(1) Observe that this is a combination whose operator is itself a
 combination.  *Note Exercise 1-4:: already demonstrated the ability to
 form such combinations, but that was only a toy example.  Here we begin
 to see the real need for such combinations&#x2013;when applying a procedure
@@ -5582,14 +5444,14 @@ that is obtained as the value returned by a higher-order procedure.
 </p>
 
 <p>
-   (3) Elementary calculus books usually describe Newton's method in
+(3) Elementary calculus books usually describe Newton's method in
 terms of the sequence of approximations x<sub>(n+1)</sub> = x<sub>n</sub> - g(x<sub>n</sub>)/Dg(x<sub>n</sub>).
 Having language for talking about processes and using the idea of
 fixed points simplifies the description of the method.
 </p>
 
 <p>
-   (4) Newton's method does not always converge to an answer, but it can
+(4) Newton's method does not always converge to an answer, but it can
 be shown that in favorable cases each iteration doubles the
 number-of-digits accuracy of the approximation to the solution.  In
 such cases, Newton's method will converge much more rapidly than the
@@ -5597,31 +5459,27 @@ half-interval method.
 </p>
 
 <p>
-   (5) For finding square roots, Newton's method converges rapidly to
+(5) For finding square roots, Newton's method converges rapidly to
 the correct solution from any starting point.
 </p>
 
 <p>
-   (6) The notion of first-class status of programming-language
+(6) The notion of first-class status of programming-language
 elements is due to the British computer scientist Christopher Strachey
 (1916-1975).
 </p>
 
 <p>
-   (7) We'll see examples of this after we introduce data structures in
+(7) We'll see examples of this after we introduce data structures in
 *Note Chapter 2::.
 </p>
 
 <p>
-   (8) The major implementation cost of first-class procedures is that
+(8) The major implementation cost of first-class procedures is that
 allowing procedures to be returned as values requires reserving storage
 for a procedure's free variables even while the procedure is not
 executing.  In the Scheme implementation we will study in section *Note
 4-1::, these variables are stored in the procedure's environment.
-</p>
-
-<p>
-
 </p>
 </div>
 </div>

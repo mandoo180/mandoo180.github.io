@@ -8,6 +8,7 @@
 <title>Modularity, Objects, and State</title>
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="/assets/css/style.css" />
+<script src="/assets/scripts/script.js"></script>
 </head>
 <body>
 <div id="content" class="content">
@@ -16,43 +17,43 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9ef4324">1. Assignment and Local State</a>
+<li><a href="#org7c335f8">1. Assignment and Local State</a>
 <ul>
-<li><a href="#orgb006971">1.1. Local State Variables</a></li>
-<li><a href="#orge4fafa8">1.2. The Benefits of Introducing Assignment</a></li>
-<li><a href="#orgc24b5f9">1.3. The Costs of Introducing Assignment</a></li>
+<li><a href="#orgab4e799">1.1. Local State Variables</a></li>
+<li><a href="#org60f6a66">1.2. The Benefits of Introducing Assignment</a></li>
+<li><a href="#org40955dd">1.3. The Costs of Introducing Assignment</a></li>
 </ul>
 </li>
-<li><a href="#orgd3d771e">2. The Environment Model of Evaluation</a>
+<li><a href="#orgd021fc2">2. The Environment Model of Evaluation</a>
 <ul>
-<li><a href="#org083e840">2.1. The Rules for Evaluation</a></li>
-<li><a href="#orgf8d37a1">2.2. Applying Simple Procedures</a></li>
-<li><a href="#org9027b80">2.3. Frames as the Repository of Local State</a></li>
-<li><a href="#org80dbf99">2.4. Internal Definitions</a></li>
+<li><a href="#org901def4">2.1. The Rules for Evaluation</a></li>
+<li><a href="#orge2d648d">2.2. Applying Simple Procedures</a></li>
+<li><a href="#org6ba186a">2.3. Frames as the Repository of Local State</a></li>
+<li><a href="#org899e826">2.4. Internal Definitions</a></li>
 </ul>
 </li>
-<li><a href="#orgc64a0cb">3. Modeling with Mutable Data</a>
+<li><a href="#org7639626">3. Modeling with Mutable Data</a>
 <ul>
-<li><a href="#orga341146">3.1. Mutable List Structure</a></li>
-<li><a href="#orgd0273c1">3.2. Representing Queues</a></li>
-<li><a href="#orgb222e89">3.3. Representing Tables</a></li>
-<li><a href="#org03bd691">3.4. A Simulator for Digital Circuits</a></li>
-<li><a href="#org95d79ac">3.5. Propagation of Constraints</a></li>
+<li><a href="#org66eefac">3.1. Mutable List Structure</a></li>
+<li><a href="#org4b5bef1">3.2. Representing Queues</a></li>
+<li><a href="#orgf92cd07">3.3. Representing Tables</a></li>
+<li><a href="#org99962f2">3.4. A Simulator for Digital Circuits</a></li>
+<li><a href="#org067ec7a">3.5. Propagation of Constraints</a></li>
 </ul>
 </li>
-<li><a href="#orgb5ab161">4. Concurrency: Time Is of the Essence</a>
+<li><a href="#orgc92dc71">4. Concurrency: Time Is of the Essence</a>
 <ul>
-<li><a href="#org2a9ad1e">4.1. The Nature of Time in Concurrent Systems</a></li>
-<li><a href="#org7f00f43">4.2. Mechanisms for Controlling Concurrency</a></li>
+<li><a href="#orge2b45c0">4.1. The Nature of Time in Concurrent Systems</a></li>
+<li><a href="#orgf6a7732">4.2. Mechanisms for Controlling Concurrency</a></li>
 </ul>
 </li>
-<li><a href="#org33c5f15">5. Streams</a>
+<li><a href="#org81413b1">5. Streams</a>
 <ul>
-<li><a href="#org1a14131">5.1. Streams Are Delayed Lists</a></li>
-<li><a href="#orgabf9ca8">5.2. Infinite Streams</a></li>
-<li><a href="#org9584a3f">5.3. Exploiting the Stream Paradigm</a></li>
-<li><a href="#org31017b2">5.4. Streams and Delayed Evaluation</a></li>
-<li><a href="#orgac1d344">5.5. Modularity of Functional Programs and Modularity of Objects</a></li>
+<li><a href="#org1cc71c4">5.1. Streams Are Delayed Lists</a></li>
+<li><a href="#org48cca1b">5.2. Infinite Streams</a></li>
+<li><a href="#orgfd9d648">5.3. Exploiting the Stream Paradigm</a></li>
+<li><a href="#orga6556f2">5.4. Streams and Delayed Evaluation</a></li>
+<li><a href="#orgaa94035">5.5. Modularity of Functional Programs and Modularity of Objects</a></li>
 </ul>
 </li>
 </ul>
@@ -144,8 +145,8 @@ known as "delayed evaluation".
 </p>
 
 
-<div id="outline-container-org9ef4324" class="outline-2">
-<h2 id="org9ef4324"><span class="section-number-2">1.</span> Assignment and Local State</h2>
+<div id="outline-container-org7c335f8" class="outline-2">
+<h2 id="org7c335f8"><span class="section-number-2">1.</span> Assignment and Local State</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We ordinarily view the world as populated by independent objects, each
@@ -195,8 +196,8 @@ a name.
 </div>
 
 
-<div id="outline-container-orgb006971" class="outline-3">
-<h3 id="orgb006971"><span class="section-number-3">1.1.</span> Local State Variables</h3>
+<div id="outline-container-orgab4e799" class="outline-3">
+<h3 id="orgab4e799"><span class="section-number-3">1.1.</span> Local State Variables</h3>
 <div class="outline-text-3" id="text-1-1">
 <hr />
 
@@ -641,8 +642,8 @@ environment model of evaluation in section *Note 3-2::.  (See also
 </div>
 
 
-<div id="outline-container-orge4fafa8" class="outline-3">
-<h3 id="orge4fafa8"><span class="section-number-3">1.2.</span> The Benefits of Introducing Assignment</h3>
+<div id="outline-container-org60f6a66" class="outline-3">
+<h3 id="org60f6a66"><span class="section-number-3">1.2.</span> The Benefits of Introducing Assignment</h3>
 <div class="outline-text-3" id="text-1-2">
 <hr />
 
@@ -916,8 +917,8 @@ returns a decimal value.
 </div>
 
 
-<div id="outline-container-orgc24b5f9" class="outline-3">
-<h3 id="orgc24b5f9"><span class="section-number-3">1.3.</span> The Costs of Introducing Assignment</h3>
+<div id="outline-container-org40955dd" class="outline-3">
+<h3 id="org40955dd"><span class="section-number-3">1.3.</span> The Costs of Introducing Assignment</h3>
 <div class="outline-text-3" id="text-1-3">
 <hr />
 
@@ -1397,8 +1398,8 @@ programming and obscure the important ideas.
 </div>
 
 
-<div id="outline-container-orgd3d771e" class="outline-2">
-<h2 id="orgd3d771e"><span class="section-number-2">2.</span> The Environment Model of Evaluation</h2>
+<div id="outline-container-orgd021fc2" class="outline-2">
+<h2 id="orgd021fc2"><span class="section-number-2">2.</span> The Environment Model of Evaluation</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 When we introduced compound procedures in *Note Chapter 1::, we used the
@@ -1441,7 +1442,7 @@ environment.
 <b>Figure 3.1:</b> A simple environment structure.
 </p>
 
-<pre class="example" id="org6b7c4b0">
+<pre class="example" id="orgefe2576">
            +--------+
            |      I |
            | x: 3   |
@@ -1499,8 +1500,8 @@ procedure.
 </div>
 
 
-<div id="outline-container-org083e840" class="outline-3">
-<h3 id="org083e840"><span class="section-number-3">2.1.</span> The Rules for Evaluation</h3>
+<div id="outline-container-org901def4" class="outline-3">
+<h3 id="org901def4"><span class="section-number-3">2.1.</span> The Rules for Evaluation</h3>
 <div class="outline-text-3" id="text-2-1">
 <hr />
 
@@ -1576,7 +1577,7 @@ creates definitions by adding bindings to frames.
 `(define (square x) (* x x))' in the global environment.
 </p>
 
-<pre class="example" id="orgcb145b8">
+<pre class="example" id="orgc92664c">
            +----------------------+
            | other variables      |
 global ---&gt;|                      |
@@ -1624,7 +1625,7 @@ we evaluate the body of the procedure, `(</b> x x)'.  Since the value of
 the global environment.
 </p>
 
-<pre class="example" id="org5820761">
+<pre class="example" id="org8abefbc">
           +------------------------------------+
           | other variables                    |
 global --&gt;|                                    |
@@ -1719,8 +1720,8 @@ warnings.
 </div>
 
 
-<div id="outline-container-orgf8d37a1" class="outline-3">
-<h3 id="orgf8d37a1"><span class="section-number-3">2.2.</span> Applying Simple Procedures</h3>
+<div id="outline-container-orge2d648d" class="outline-3">
+<h3 id="orge2d648d"><span class="section-number-3">2.2.</span> Applying Simple Procedures</h3>
 <div class="outline-text-3" id="text-2-2">
 <hr />
 
@@ -1757,7 +1758,7 @@ with a pointer to the global environment.
 <b>Figure 3.4:</b> Procedure objects in the global frame.
 </p>
 
-<pre class="example" id="org04b0c04">
+<pre class="example" id="orgfc78852">
           +--------------------------------------------+
           | sum-of-squares:                            |
 global --&gt;| square:                                    |
@@ -1793,7 +1794,7 @@ body of `f':
 <b>Figure 3.5:</b> Environments created by evaluating `(f 5)' using the
 procedures in *Note Figure 3-4::.
 </p>
-<pre class="example" id="orga973916">
+<pre class="example" id="orgc2d02d4">
           +-----------------------------------------------------+
 global --&gt;|                                                     |
 env       +-----------------------------------------------------+
@@ -1910,8 +1911,8 @@ the interpreter in section *Note 5-4::.
 </div>
 
 
-<div id="outline-container-org9027b80" class="outline-3">
-<h3 id="org9027b80"><span class="section-number-3">2.3.</span> Frames as the Repository of Local State</h3>
+<div id="outline-container-org6ba186a" class="outline-3">
+<h3 id="org6ba186a"><span class="section-number-3">2.3.</span> Frames as the Repository of Local State</h3>
 <div class="outline-text-3" id="text-2-3">
 <hr />
 
@@ -1961,7 +1962,7 @@ of the procedure is itself a `lambda' expression.
 environment.
 </p>
 
-<pre class="example" id="org9ef210f">
+<pre class="example" id="org4615505">
           +---------------------------+
 global --&gt;| make-withdraw: --+        |
 env       +------------------|--------+
@@ -2008,7 +2009,7 @@ structure.
 <b>Figure 3.7:</b> Result of evaluating `(define W1 (make-withdraw 100))'.
 </p>
 
-<pre class="example" id="orgf06f428">
+<pre class="example" id="orgc23b451">
           +-----------------------------------------------+
           | make-withdraw: -----------------------+       |
 global --&gt;|                                       |       |
@@ -2068,7 +2069,7 @@ to E1.
 <b>Figure 3.8:</b> Environments created by applying the procedure object `W1'.
 </p>
 
-<pre class="example" id="org7b62fd7">
+<pre class="example" id="org2f008c0">
           +---------------------------------------------------+
           | make-withdraw: ...                                |
 global --&gt;|                                                   |
@@ -2110,7 +2111,7 @@ Figure 3-9:: shows the situation after the call to `W1'.
 <b>Figure 3.9:</b> Environments after the call to `W1'.
 </p>
 
-<pre class="example" id="org1587688">
+<pre class="example" id="org6c5da53">
            +------------------------------------+
            | make-withdraw: ...                 |
 global ---&gt;|                                    |
@@ -2158,7 +2159,7 @@ object.
 <b>Figure 3.10:</b> Using `(define W2 (make-withdraw 100))' to create a second object.
 </p>
 
-<pre class="example" id="orgd433088">
+<pre class="example" id="org6c455f5">
          +-------------------------------------------------+
          | make-withdraw: ...                              |
 global -&gt;| W2: ---------------------------+                |
@@ -2256,8 +2257,8 @@ the implementation.  For the interpreter we implement in *Note Chapter
 </div>
 
 
-<div id="outline-container-org80dbf99" class="outline-3">
-<h3 id="org80dbf99"><span class="section-number-3">2.4.</span> Internal Definitions</h3>
+<div id="outline-container-org899e826" class="outline-3">
+<h3 id="org899e826"><span class="section-number-3">2.4.</span> Internal Definitions</h3>
 <div class="outline-text-3" id="text-2-4">
 <hr />
 
@@ -2292,7 +2293,7 @@ procedure `good-enough?' has been called for the first time with
 <b>Figure 3.11:</b> `Sqrt' procedure with internal definitions.
 </p>
 
-<pre class="example" id="org75e2a62">
+<pre class="example" id="orgd82540f">
           +--------------------------------------------------+
 global --&gt;| sqrt: --+                                        |
 env       |         |                                        |
@@ -2447,8 +2448,8 @@ and `acc2'?
 </div>
 
 
-<div id="outline-container-orgc64a0cb" class="outline-2">
-<h2 id="orgc64a0cb"><span class="section-number-2">3.</span> Modeling with Mutable Data</h2>
+<div id="outline-container-org7639626" class="outline-2">
+<h2 id="org7639626"><span class="section-number-2">3.</span> Modeling with Mutable Data</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Chapter 2 dealt with compound data as a means for constructing
@@ -2497,8 +2498,8 @@ systems are modeled as collections of objects with local state.
 </div>
 
 
-<div id="outline-container-orga341146" class="outline-3">
-<h3 id="orga341146"><span class="section-number-3">3.1.</span> Mutable List Structure</h3>
+<div id="outline-container-org66eefac" class="outline-3">
+<h3 id="org66eefac"><span class="section-number-3">3.1.</span> Mutable List Structure</h3>
 <div class="outline-text-3" id="text-3-1">
 <hr />
 
@@ -2515,7 +2516,7 @@ list structures we need new operations.
 <b>Figure 3.12:</b> Lists `x': `((a b) c d)' and `y': `(e f)'.
 </p>
 
-<pre class="example" id="orgfe7b8dd">
+<pre class="example" id="org5d364e3">
      +---+---+     +---+---+     +---+---+
 x --&gt;| * | *-+----&gt;| * | *-+----&gt;| * | / |
      +-|-+---+     +-|-+---+     +-|-+---+
@@ -2543,7 +2544,7 @@ x --&gt;| * | *-+----&gt;| * | *-+----&gt;| * | / |
 <b>Figure 3.13:</b> Effect of `(set-car! x y)' on the lists in *Note Figure 3-12::.
 </p>
 
-<pre class="example" id="org2c42689">
+<pre class="example" id="org5b0bca3">
      +---+---+     +---+---+     +---+---+
 x --&gt;| * | *-+----&gt;| * | *-+----&gt;| * | / |
      +-|-+---+     +-|-+---+     +-|-+---+
@@ -2572,7 +2573,7 @@ x --&gt;| * | *-+----&gt;| * | *-+----&gt;| * | / |
 lists in *Note Figure 3-12::.
 </p>
 
-<pre class="example" id="org1767f4c">
+<pre class="example" id="org52156c4">
      +---+---+     +---+---+     +---+---+
 x --&gt;| * | *-+----&gt;| * | *-+----&gt;| * | / |
      +-|-+---+ +--&gt;+-|-+---+     +-|-+---+
@@ -2601,7 +2602,7 @@ z --&gt;| * | *-+-+   +---+         +---+
 Figure 3-12::.
 </p>
 
-<pre class="example" id="orgd2bc549">
+<pre class="example" id="org008eeac">
      +---+---+     +---+---+     +---+---+
 x --&gt;| * | * |     | * | *-+----&gt;| * | / |
      +-|-+-|-+     +-|-+---+     +-|-+---+
@@ -2846,7 +2847,7 @@ individual pairs are shared by many different structures.
 <b>Figure 3.16:</b> The list `z1' formed by `(cons x x)'.
 </p>
 
-<pre class="example" id="orge879d1d">
+<pre class="example" id="orgf07c8ba">
       +---+---+
 z1 --&gt;| * | * |
       +-|-+-|-+
@@ -2864,7 +2865,7 @@ z1 --&gt;| * | * |
 <b>Figure 3.17:</b> The list `z2' formed by `(cons (list 'a 'b) (list 'a 'b))'.
 </p>
 
-<pre class="example" id="orgc673bfd">
+<pre class="example" id="org7b734fc">
       +---+---+     +---+---+     +---+---+
 z2 --&gt;| * | *-+----&gt;| * | *-+----&gt;| * | / |
       +-|-+---+     +-|-+---+     +-|-+---+
@@ -3167,8 +3168,8 @@ Each can be implemented in terms of the other.
 </div>
 
 
-<div id="outline-container-orgd0273c1" class="outline-3">
-<h3 id="orgd0273c1"><span class="section-number-3">3.2.</span> Representing Queues</h3>
+<div id="outline-container-org4b5bef1" class="outline-3">
+<h3 id="org4b5bef1"><span class="section-number-3">3.2.</span> Representing Queues</h3>
 <div class="outline-text-3" id="text-3-2">
 <hr />
 
@@ -3301,7 +3302,7 @@ illustrates this representation.
 <b>Figure 3.19:</b> Implementation of a queue as a list with front and rear pointers.
 </p>
 
-<pre class="example" id="org3bd9401">
+<pre class="example" id="org95c5a72">
      +---+---+
 q --&gt;| * | *-+-------------------+
      +-|-+---+                   |
@@ -3384,7 +3385,7 @@ new pair.
 queue of *Note Figure 3-19::.
 </p>
 
-<pre class="example" id="org803104b">
+<pre class="example" id="org6a2a612">
      +---+---+
 q --&gt;| * | *-+--------------------------------+
      +-|-+---+                                |
@@ -3425,7 +3426,7 @@ which can be found by following the `cdr' pointer of the first item
 of *Note Figure 3-20::.
 </p>
 
-<pre class="example" id="orge2d5fd9">
+<pre class="example" id="orgf7ee6d8">
      +---+---+
 q --&gt;| * | *-+--------------------------------+
      +-|-+---+                                |
@@ -3554,8 +3555,8 @@ that contains cycles.  (See *Note Exercise 3-13::.)
 </div>
 
 
-<div id="outline-container-orgb222e89" class="outline-3">
-<h3 id="orgb222e89"><span class="section-number-3">3.3.</span> Representing Tables</h3>
+<div id="outline-container-orgf92cd07" class="outline-3">
+<h3 id="orgf92cd07"><span class="section-number-3">3.3.</span> Representing Tables</h3>
 <div class="outline-text-3" id="text-3-3">
 <hr />
 
@@ -3593,7 +3594,7 @@ c:  3
 <b>Figure 3.22:</b> A table represented as a headed list.
 </p>
 
-<pre class="example" id="org1b2e66d">
+<pre class="example" id="org56e9578">
  +---+---+    +---+---+    +---+---+    +---+---+
  | * | *-+---&gt;| * | *-+---&gt;| * | *-+---&gt;| * | / |
  +-|-+---+    +-|-+---+    +-|-+---+    +-|-+---+
@@ -3697,7 +3698,7 @@ symbol, since the key that identifies the subtable serves this purpose.)
 <b>Figure 3.23:</b> A two-dimensional table.
 </p>
 
-<pre class="example" id="orgba34620">
+<pre class="example" id="org4f6e10e">
 table
   |
   V
@@ -3956,8 +3957,8 @@ for the start of the table when it added a new record.
 </div>
 
 
-<div id="outline-container-org03bd691" class="outline-3">
-<h3 id="org03bd691"><span class="section-number-3">3.4.</span> A Simulator for Digital Circuits</h3>
+<div id="outline-container-org99962f2" class="outline-3">
+<h3 id="org99962f2"><span class="section-number-3">3.4.</span> A Simulator for Digital Circuits</h3>
 <div class="outline-text-3" id="text-3-4">
 <hr />
 
@@ -4004,7 +4005,7 @@ otherwise the output will become 0.
 <b>Figure 3.24:</b> Primitive functions in the digital logic simulator.
 </p>
 
-<pre class="example" id="org6ee9b4f">
+<pre class="example" id="orgf7d2215">
                __          ___
   |\        --|  \       --\  \
 --| &gt;o--      |   )--       )  &gt;--
@@ -4030,7 +4031,7 @@ in the design of digital circuits arise from this fact.
 <b>Figure 3.25:</b> A half-adder circuit.
 </p>
 
-<pre class="example" id="org56fb3a0">
+<pre class="example" id="org73d0c65">
     +--------------------------------------+
     |         ____                         |
 A --------*---\   \ D               ___    |
@@ -4145,7 +4146,7 @@ see *Note Exercise 3-30::.)
 <b>Figure 3.26:</b> A full-adder circuit.
 </p>
 
-<pre class="example" id="orgba85a0c">
+<pre class="example" id="orga3f0342">
     +----------------------------------+
     |              +-------+           |
 A -----------------+ half  +-------------- SUM
@@ -4296,7 +4297,7 @@ delays for and-gates, or-gates, and inverters?
 <b>Figure 3.27:</b> A ripple-carry adder for n-bit numbers.
 </p>
 
-<pre class="example" id="orgc9d6809">
+<pre class="example" id="org47506f1">
    :                                              :   :
    : A_1 B_1   C_1   A_2 B_2   C_2   A_3 B_3   C_3:   : A_n B_n C_n=0
    :  |   |   +---+   |   |   +---+   |   |   +-----  :  |   |   +-
@@ -4812,8 +4813,8 @@ time segment has been deleted.
 </div>
 
 
-<div id="outline-container-org95d79ac" class="outline-3">
-<h3 id="org95d79ac"><span class="section-number-3">3.5.</span> Propagation of Constraints</h3>
+<div id="outline-container-org067ec7a" class="outline-3">
+<h3 id="org067ec7a"><span class="section-number-3">3.5.</span> Propagation of Constraints</h3>
 <div class="outline-text-3" id="text-3-5">
 <hr />
 
@@ -4883,7 +4884,7 @@ one of the terms in a sum.
 <b>Figure 3.28:</b> The relation 9C = 5(F - 32) expressed as a constraint network.
 </p>
 
-<pre class="example" id="org90f98a0">
+<pre class="example" id="org0b60d2d">
        +---------+     +---------+   v   +---------+
 C -----+ m1      |  u  |      m1 +-------+ a1      |
        |    *  p +-----+ p  *    |       |    +  s +---- F
@@ -5547,8 +5548,8 @@ to do the converse.
 </div>
 
 
-<div id="outline-container-orgb5ab161" class="outline-2">
-<h2 id="orgb5ab161"><span class="section-number-2">4.</span> Concurrency: Time Is of the Essence</h2>
+<div id="outline-container-orgc92dc71" class="outline-2">
+<h2 id="orgc92dc71"><span class="section-number-2">4.</span> Concurrency: Time Is of the Essence</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 We've seen the power of computational objects with local state as tools
@@ -5644,8 +5645,8 @@ stream, while retaining the behavior of the sequential program.
 </div>
 
 
-<div id="outline-container-org2a9ad1e" class="outline-3">
-<h3 id="org2a9ad1e"><span class="section-number-3">4.1.</span> The Nature of Time in Concurrent Systems</h3>
+<div id="outline-container-orge2b45c0" class="outline-3">
+<h3 id="orge2b45c0"><span class="section-number-3">4.1.</span> The Nature of Time in Concurrent Systems</h3>
 <div class="outline-text-3" id="text-4-1">
 <hr />
 
@@ -5764,7 +5765,7 @@ of events in two banking withdrawals can lead to an incorrect
 final balance.
 </p>
 
-<pre class="example" id="org6aef841">
+<pre class="example" id="org3b33080">
  |           Peter              Bank              Paul
  |                              ____
  |                             /    \
@@ -5816,7 +5817,7 @@ Peter's withdrawal from the shared account.
 account in Bank1 and a private account in Bank2.
 </p>
 
-<pre class="example" id="org2615209">
+<pre class="example" id="org8b07d3e">
  |    Peter          Bank1          Paul           Bank2
  |    ____           ____           ____           ____
  |   /    \         /    \         /    \         /    \
@@ -5950,8 +5951,8 @@ will study a language for expressing nondeterministic computations.
 </div>
 
 
-<div id="outline-container-org7f00f43" class="outline-3">
-<h3 id="org7f00f43"><span class="section-number-3">4.2.</span> Mechanisms for Controlling Concurrency</h3>
+<div id="outline-container-orgf6a7732" class="outline-3">
+<h3 id="orgf6a7732"><span class="section-number-3">4.2.</span> Mechanisms for Controlling Concurrency</h3>
 <div class="outline-text-3" id="text-4-2">
 <hr />
 
@@ -6836,8 +6837,8 @@ distributed systems.
 </div>
 
 
-<div id="outline-container-org33c5f15" class="outline-2">
-<h2 id="org33c5f15"><span class="section-number-2">5.</span> Streams</h2>
+<div id="outline-container-org81413b1" class="outline-2">
+<h2 id="org81413b1"><span class="section-number-2">5.</span> Streams</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 We've gained a good understanding of assignment as a tool in modeling,
@@ -6916,8 +6917,8 @@ of streams to signal processing in section *Note 3-5-3::.
 </div>
 
 
-<div id="outline-container-org1a14131" class="outline-3">
-<h3 id="org1a14131"><span class="section-number-3">5.1.</span> Streams Are Delayed Lists</h3>
+<div id="outline-container-org1cc71c4" class="outline-3">
+<h3 id="org1cc71c4"><span class="section-number-3">5.1.</span> Streams Are Delayed Lists</h3>
 <div class="outline-text-3" id="text-5-1">
 <hr />
 
@@ -7520,8 +7521,8 @@ time and change.
 </div>
 
 
-<div id="outline-container-orgabf9ca8" class="outline-3">
-<h3 id="orgabf9ca8"><span class="section-number-3">5.2.</span> Infinite Streams</h3>
+<div id="outline-container-org48cca1b" class="outline-3">
+<h3 id="org48cca1b"><span class="section-number-3">5.2.</span> Infinite Streams</h3>
 <div class="outline-text-3" id="text-5-2">
 <hr />
 
@@ -7655,7 +7656,7 @@ contains a sieve within it.
 <b>Figure 3.31:</b> The prime sieve viewed as a signal-processing system.
 </p>
 
-<pre class="example" id="orgb20e9f4">
+<pre class="example" id="orgb890fa8">
   +---------------------------------------------------------------+
   | sieve                                                         |
   |                                                               |
@@ -8122,8 +8123,8 @@ the stream.
 </div>
 
 
-<div id="outline-container-org9584a3f" class="outline-3">
-<h3 id="org9584a3f"><span class="section-number-3">5.3.</span> Exploiting the Stream Paradigm</h3>
+<div id="outline-container-orgfd9d648" class="outline-3">
+<h3 id="orgfd9d648"><span class="section-number-3">5.3.</span> Exploiting the Stream Paradigm</h3>
 <div class="outline-text-3" id="text-5-3">
 <hr />
 
@@ -8502,7 +8503,7 @@ composed of three parts: the pair (S<sub>0,T</sub><sub>0</sub>), the rest of the
 the first row, and the remaining pairs:(3)
 </p>
 
-<pre class="example" id="orgb92a733">
+<pre class="example" id="org46975b8">
 (S_0, T_0) | (S_0, T_1)  (S_0, T_2)  ...
 -----------+-----------------------------
            | (S_1, T_1)  (S_1, T_2)  ...
@@ -8754,7 +8755,7 @@ adder to one of the inputs.
 signal-processing system.
 </p>
 
-<pre class="example" id="org5fb15e2">
+<pre class="example" id="org89dec71">
                              initial-value
                                   |
        +-----------+              |   |\__
@@ -8795,7 +8796,7 @@ produces the output stream of voltages.
 <b>Figure 3.33:</b> An RC circuit and the associated signal-flow diagram.
 </p>
 
-<pre class="example" id="org2f302a0">
+<pre class="example" id="orgf4663f3">
  +                 -
 -&gt;----'\/\/\,---| |---
  i                 C
@@ -8967,8 +8968,8 @@ to generate the Ramanujan numbers was shown to us by Charles Leiserson.
 </div>
 
 
-<div id="outline-container-org31017b2" class="outline-3">
-<h3 id="org31017b2"><span class="section-number-3">5.4.</span> Streams and Delayed Evaluation</h3>
+<div id="outline-container-orga6556f2" class="outline-3">
+<h3 id="orga6556f2"><span class="section-number-3">5.4.</span> Streams and Delayed Evaluation</h3>
 <div class="outline-text-3" id="text-5-4">
 <hr />
 
@@ -9014,7 +9015,7 @@ used to solve such equations.
 <b>Figure 3.34:</b> An "analog computer circuit" that solves the equation dy/dt = f(y).
 </p>
 
-<pre class="example" id="org8dd2928">
+<pre class="example" id="org1baeade">
                             y_0
                              |
                              V
@@ -9130,7 +9131,7 @@ and hence can be used in the `solve' procedure shown above.
 second-order linear differential equation.
 </p>
 
-<pre class="example" id="org9025dda">
+<pre class="example" id="orgb7166c7">
                dy_0                y_0
                 |                   |
                 V                   V
@@ -9154,7 +9155,7 @@ signal-processing system to study the homogeneous second-order
 linear differential equation
 </p>
 
-<pre class="example" id="org37e1203">
+<pre class="example" id="org1f515ae">
 d^2 y        d y
 -----  -  a -----  -  by  =  0
 d t^2        d t
@@ -9185,7 +9186,7 @@ capacitance, then the relations between voltage (v) and current
 (i) for the three components are described by the equations
 </p>
 
-<pre class="example" id="org117470a">
+<pre class="example" id="orgab3dd93">
 v_R = i_R R
 
          d_(i L)
@@ -9201,7 +9202,7 @@ i_C = C -------
 and the circuit connections dictate the relations
 </p>
 
-<pre class="example" id="org1741bfb">
+<pre class="example" id="org5385597">
 i_R = i_L = -i_C
 
 v_C = v_L + v_R
@@ -9214,7 +9215,7 @@ current in the inductor) is described by the pair of differential
 equations
 </p>
 
-<pre class="example" id="org6277e58">
+<pre class="example" id="org03ed9e9">
 d v_C        i_L
 -----  =  -  ---
  d t          C
@@ -9233,7 +9234,7 @@ equations is shown in *Note Figure 3-37::.
 <b>Figure 3.36:</b> A series RLC circuit.
 </p>
 
-<pre class="example" id="org73270c5">
+<pre class="example" id="org727dec3">
               + v_R -
         i_R
      +---&gt;----'\/\/\,--------+
@@ -9252,7 +9253,7 @@ v_C -+- C                   (_)   v_L
 RLC circuit.
 </p>
 
-<pre class="example" id="org3e17d7e">
+<pre class="example" id="org6b734ac">
                  +-------------+
 +----------------+  scale: l/L |&lt;--+
 |                +-------------+   |
@@ -9374,8 +9375,8 @@ defined procedures.
 </div>
 
 
-<div id="outline-container-orgac1d344" class="outline-3">
-<h3 id="orgac1d344"><span class="section-number-3">5.5.</span> Modularity of Functional Programs and Modularity of Objects</h3>
+<div id="outline-container-orgaa94035" class="outline-3">
+<h3 id="orgaa94035"><span class="section-number-3">5.5.</span> Modularity of Functional Programs and Modularity of Objects</h3>
 <div class="outline-text-3" id="text-5-5">
 <hr />
 
@@ -9629,7 +9630,7 @@ result to the bank-account stream process, as shown in *Note Figure
 streams of transaction requests.
 </p>
 
-<pre class="example" id="org2218ce6">
+<pre class="example" id="orgc96fde4">
 Peter's requests   +---------+     +---------+
 ------------------&gt;|         |     |         |
 Paul's requests    |  merge  |----&gt;| bank    |----&gt;
