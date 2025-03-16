@@ -307,6 +307,7 @@
     (add-to-list 'org-structure-template-alist '("js" . "src javascript"))
     (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
     (add-to-list 'org-structure-template-alist '("java" . "src java"))
+    (add-to-list 'org-structure-template-alist '("scm" . "src scheme"))
     (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
     (add-to-list 'org-structure-template-alist '("rust" . "src rust"))
 
@@ -322,6 +323,7 @@
         (javascript . t)
         (typescript . t)
         (shell . t)
+        (scheme . t)
         (sql . t)
         (sqlite . t)))))
 
@@ -401,10 +403,30 @@
     (typescript-ts-mode . eglot-ensure))
 
   (use-package tree-sitter)
+
   (use-package treesit-auto
     :config
     (treesit-auto-add-to-auto-mode-alist 'all))
   ;; (use-package tree-sitter-langs)
+
+  (require 'treesit)
+  (add-to-list 'treesit-language-source-alist '(python "https://github.com/tree-sitter/tree-sitter-python.git"))
+  (add-to-list 'treesit-language-source-alist '(c "https://github.com/tree-sitter/tree-sitter-c.git"))
+  (add-to-list 'treesit-language-source-alist '(java "https://github.com/tree-sitter/tree-sitter-java.git"))
+  (add-to-list 'treesit-language-source-alist '(typescript "https://github.com/tree-sitter/tree-sitter-typescript.git"))
+  (add-to-list 'treesit-language-source-alist '(javascript "https://github.com/tree-sitter/tree-sitter-javascript.git"))
+  (add-to-list 'treesit-language-source-alist '(css "https://github.com/tree-sitter/tree-sitter-css.git"))
+  (add-to-list 'treesit-language-source-alist '(html "https://github.com/tree-sitter/tree-sitter-html.git"))
+  (add-to-list 'treesit-language-source-alist '(bash "https://github.com/tree-sitter/tree-sitter-bash.git"))
+
+  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(java-mode . java-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(tsx-mode . typescript-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(js-mode . js-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(css-mode . css-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(sh-mode . bash-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(lua-mode . lua-ts-mode))
 
   (use-package ielm
     :init
@@ -675,6 +697,8 @@ it shows all the buffers in sub-windows.
     (setq visual-fill-column-center-text t)
     (add-hook 'nov-mode-hook 'visual-line-mode)
     (add-hook 'nov-mode-hook 'visual-fill-column-mode))
+
+  (provide 'reading-conf)
 #+end_src
 
 * Custom Functions

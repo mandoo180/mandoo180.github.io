@@ -1,0 +1,160 @@
+@font-face {
+  font-family: Iosevka;
+  src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Regular.ttf);
+}
+
+@font-face {
+  font-family: Iosevka;
+  font-style: italic;
+  src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Italic.ttf);
+}
+
+
+@font-face {
+  font-family: Iosevka;
+  font-weight: bold;
+  src: url(/assets/fonts/Iosevka/IosevkaNerdFont-Bold.ttf);
+}
+
+@font-face {
+  font-family: Iosevka;
+  font-style: italic;
+  font-weight: bold;
+  src: url(/assets/fonts/Iosevka/IosevkaNerdFont-BoldItalic.ttf);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: Iosevka;
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  padding: 1rem;
+}
+
+p {
+  margin: 1rem 0;
+  text-align: justify;
+}
+
+pre {
+  font-size: 1.4rem;
+}
+
+button {
+  background: transparent;
+  border: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+#content {
+  width: 100%;
+  max-width: 60rem;
+  padding-right: 3rem;
+}
+
+#table-of-contents {
+  background: #ebebeb;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 2rem 4rem;
+  position: fixed;
+  right: -27.6rem;
+  top: 0;
+  transition: all 0.5s ease-out;
+  width: 30rem;
+}
+
+#table-of-contents.shown {
+  right: 0;
+}
+
+#table-of-contents .toc-toggle-button {
+  background: #ebebeb;
+  height: 3rem;
+  left: 0;
+  position: absolute;
+  top: 0rem;
+  width: 3rem;
+}
+
+#table-of-contents .toc-toggle-button button {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+blockquote,
+.example,
+.src {
+  overflow-x: scroll;
+  padding: 1rem;
+}
+
+h1.title,
+.outline-1 h1,
+.outline-2 h2,
+.outline-3 h3,
+.outline-4 h4,
+.outline-5 h5,
+.outline-6 h6 {
+  margin-bottom: 1rem;
+}
+
+.outline-1,
+.outline-2,
+.outline-3,
+.outline-4,
+.outline-5,
+.outline-6 {
+  padding: 0 1rem;
+}
+
+/* .outline-text-1, */
+/* .outline-text-2, */
+/* .outline-text-3, */
+/* .outline-text-4, */
+/* .outline-text-5, */
+/* .outline-text-6 { */
+/*   margin: 2rem 0; */
+/*   padding: 0 2rem; */
+/* } */
+
+@media (min-width: 1080px) {
+  body {
+    font-size: 2rem;
+  }
+
+  pre {
+    font-size: 1.8rem;
+  }
+
+  #content {
+    margin: 0 20rem;
+  }
+  
+  #table-of-contents,
+  #table-of-contents.shown {
+    right: 0;
+  }
+  
+}
+
+
+@media (min-width: 1320px) {
+
+  #content {
+    margin: auto;
+  }
+  
+}

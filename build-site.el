@@ -11,7 +11,10 @@
 ;; requires org export publish
 (require 'ox-publish)
 
-(setq-local k-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
+;; (setq-local k-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
+(setq-local k-html-head (concat "<link rel=\"stylesheet\" href=\"/assets/css/style.css\" />"
+                                "\n"
+                                "<script src=\"/assets/scripts/script.js\"></script>"))
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
@@ -28,10 +31,11 @@
                   :base-directory "./content"
                   :publishing-directory "./public"
                   :publishing-function 'org-html-publish-to-html
-                  :with-author t
+                  :with-author nil
                   :with-creator t
                   :with-toc t
                   :with-latex t
+                  :with-todo-keywords nil
                   :section-number nil
                   :time-stamp-file nil)))
 
