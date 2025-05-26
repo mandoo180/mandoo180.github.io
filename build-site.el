@@ -11,14 +11,10 @@
 ;; requires org export publish
 (require 'ox-publish)
 
-;; (setq-local k-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
-(setq-local k-html-head (concat "<link rel=\"stylesheet\" href=\"/assets/css/style.css\" />"
-                                "\n"
-                                "<script src=\"/assets/scripts/script.js\"></script>"))
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
-      org-html-head k-html-head)
+      org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://gongzhitaao.org/orgcss/org.css\"/>")
 (setq org-hide-emphasis-markers t)
 (setq org-confirm-babel-evaluate nil)
 (setq org-use-property-inheritance t)
@@ -39,18 +35,22 @@
                   :section-number nil
                   :time-stamp-file nil)))
 
-(defun run-before-org-export-processing (backend)
-  (message "Testing %s" backend)
-  (dolist (li (org-babel-src-block-names))
-  (if (string-equal "startup" li)
-      (progn
-        (org-babel-goto-named-src-block li)
-        (org-babel-execute-src-block)))))
+;; (defun run-before-org-export-processing (backend)
+;;   (message "Testing %s" backend)
+;;   (dolist (li (org-babel-src-block-names))
+;;   (if (string-equal "startup" li)
+;;       (progn
+;;         (org-babel-goto-named-src-block li)
+;;         (org-babel-execute-src-block)))))
 
 ;; for testing purpose
-(setq org-export-before-processing-functions #'run-before-org-export-processing)
+;; (setq org-export-before-processing-functions #'run-before-org-export-processing)
 
-
-(org-publish-all t)
+(let ((content-dir (directory-file-name "content"))
+	  (public-dir (directory-file-name "public")))
+  (delete-directory (expand-file-name public-dir) t)
+  (copy-directory (expand-file-name "assets" content-dir) (expand-file-name "assets" public-dir) t t t)
+  (org-publish-all t))
 
 (message "Build complete!")
+;;; build-site.el ends here
