@@ -42,46 +42,46 @@ org_html_manager.setup();  // activate after the parameters are set
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge81da76">1. Designing Register Machines</a>
+<li><a href="#org0e5f3fc">1. Designing Register Machines</a>
 <ul>
-<li><a href="#org37decb0">1.1. A Language for Describing Register Machines</a></li>
-<li><a href="#orgf22eaf6">1.2. Abstraction in Machine Design</a></li>
-<li><a href="#orgc424981">1.3. Subroutines</a></li>
-<li><a href="#orgebf2eaa">1.4. Using a Stack to Implement Recursion</a></li>
-<li><a href="#orgd85d691">1.5. Instruction Summary</a></li>
+<li><a href="#org04879a6">1.1. A Language for Describing Register Machines</a></li>
+<li><a href="#org113dfad">1.2. Abstraction in Machine Design</a></li>
+<li><a href="#orgac15aed">1.3. Subroutines</a></li>
+<li><a href="#org39f527c">1.4. Using a Stack to Implement Recursion</a></li>
+<li><a href="#org7ba88f2">1.5. Instruction Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgca7469e">2. A Register-Machine Simulator</a>
+<li><a href="#orgd9a7db2">2. A Register-Machine Simulator</a>
 <ul>
-<li><a href="#orgca4b0d3">2.1. The Machine Model</a></li>
-<li><a href="#orgfa6e0d8">2.2. The Assembler</a></li>
-<li><a href="#orge8878ac">2.3. Generating Execution Procedures for Instructions</a></li>
-<li><a href="#org8ba1d31">2.4. Monitoring Machine Performance</a></li>
+<li><a href="#orga75367a">2.1. The Machine Model</a></li>
+<li><a href="#org3d6a9b0">2.2. The Assembler</a></li>
+<li><a href="#org97f159b">2.3. Generating Execution Procedures for Instructions</a></li>
+<li><a href="#orge02e33f">2.4. Monitoring Machine Performance</a></li>
 </ul>
 </li>
-<li><a href="#orgaeb3e4a">3. Storage Allocation and Garbage Collection</a>
+<li><a href="#org9d333b0">3. Storage Allocation and Garbage Collection</a>
 <ul>
-<li><a href="#orgca4607e">3.1. Memory as Vectors</a></li>
-<li><a href="#orgb648b63">3.2. Maintaining the Illusion of Infinite Memory</a></li>
+<li><a href="#orgcfc106f">3.1. Memory as Vectors</a></li>
+<li><a href="#orgdab1d04">3.2. Maintaining the Illusion of Infinite Memory</a></li>
 </ul>
 </li>
-<li><a href="#orgf86cfd4">4. The Explicit-Control Evaluator</a>
+<li><a href="#orgc4a80f1">4. The Explicit-Control Evaluator</a>
 <ul>
-<li><a href="#org3a3f2a7">4.1. The Core of the Explicit-Control Evaluator</a></li>
-<li><a href="#orgb6915bc">4.2. Sequence Evaluation and Tail Recursion</a></li>
-<li><a href="#org27ac7cb">4.3. Conditionals, Assignments, and Definitions</a></li>
-<li><a href="#org7b09425">4.4. Running the Evaluator</a></li>
+<li><a href="#org69affb9">4.1. The Core of the Explicit-Control Evaluator</a></li>
+<li><a href="#org5b7a39f">4.2. Sequence Evaluation and Tail Recursion</a></li>
+<li><a href="#orged83462">4.3. Conditionals, Assignments, and Definitions</a></li>
+<li><a href="#org7a1d1a3">4.4. Running the Evaluator</a></li>
 </ul>
 </li>
-<li><a href="#orge5af167">5. Compilation</a>
+<li><a href="#org4f5d646">5. Compilation</a>
 <ul>
-<li><a href="#orgd0909d0">5.1. Structure of the Compiler</a></li>
-<li><a href="#org467c6e8">5.2. Compiling Expressions</a></li>
-<li><a href="#org8fd0739">5.3. Compiling Combinations</a></li>
-<li><a href="#org83744cd">5.4. Combining Instruction Sequences</a></li>
-<li><a href="#orge9c2866">5.5. An Example of Compiled Code</a></li>
-<li><a href="#orgdc646f5">5.6. Lexical Addressing</a></li>
-<li><a href="#org5e5e967">5.7. Interfacing Compiled Code to the Evaluator</a></li>
+<li><a href="#orgd068765">5.1. Structure of the Compiler</a></li>
+<li><a href="#org0af6b20">5.2. Compiling Expressions</a></li>
+<li><a href="#orga36d625">5.3. Compiling Combinations</a></li>
+<li><a href="#org1746fc9">5.4. Combining Instruction Sequences</a></li>
+<li><a href="#orgef9f4ed">5.5. An Example of Compiled Code</a></li>
+<li><a href="#org88b8c47">5.6. Lexical Addressing</a></li>
+<li><a href="#org25ccae4">5.7. Interfacing Compiled Code to the Evaluator</a></li>
 </ul>
 </li>
 </ul>
@@ -175,8 +175,8 @@ machine.
 </p>
 
 
-<div id="outline-container-orge81da76" class="outline-2">
-<h2 id="orge81da76"><span class="section-number-2">1.</span> Designing Register Machines</h2>
+<div id="outline-container-org0e5f3fc" class="outline-2">
+<h2 id="org0e5f3fc"><span class="section-number-2">1.</span> Designing Register Machines</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 To design a register machine, we must design its "data paths"
@@ -258,7 +258,7 @@ constructed from electrical components.
 <b>Figure 5.1:</b> Data paths for a GCD machine.
 </p>
 
-<pre class="example" id="org6187652">
+<pre class="example" id="org52cc8cc">
                               ___
 +-----+          +-----+     /   \
 |  a  |&lt;--(X)----|  b  +---&gt;|  =  |
@@ -304,7 +304,7 @@ reaches `done', we will find the value of the GCD in register `a'.
 <b>Figure 5.2:</b> Controller for a GCD machine.
 </p>
 
-<pre class="example" id="org2fff320">
+<pre class="example" id="org253333c">
      start
        |
        V
@@ -352,8 +352,8 @@ machine.
 </div>
 
 
-<div id="outline-container-org37decb0" class="outline-3">
-<h3 id="org37decb0"><span class="section-number-3">1.1.</span> A Language for Describing Register Machines</h3>
+<div id="outline-container-org04879a6" class="outline-3">
+<h3 id="org04879a6"><span class="section-number-3">1.1.</span> A Language for Describing Register Machines</h3>
 <div class="outline-text-3" id="text-1-1">
 <hr />
 
@@ -584,7 +584,7 @@ is like the driver loops we used in the interpreters of *Note Chapter
 <b>Figure 5.4:</b> A GCD machine that reads inputs and prints results.
 </p>
 
-<pre class="example" id="orgdddfe4e">
+<pre class="example" id="org7b7f106">
                    .--------.
                     \ read /
                      \____/
@@ -646,8 +646,8 @@ dedicated to making reading and printing work.
 </div>
 
 
-<div id="outline-container-orgf22eaf6" class="outline-3">
-<h3 id="orgf22eaf6"><span class="section-number-3">1.2.</span> Abstraction in Machine Design</h3>
+<div id="outline-container-org113dfad" class="outline-3">
+<h3 id="org113dfad"><span class="section-number-3">1.2.</span> Abstraction in Machine Design</h3>
 <div class="outline-text-3" id="text-1-2">
 <hr />
 
@@ -691,7 +691,7 @@ The instruction
 <b>Figure 5.5:</b> Data paths and controller for the elaborated GCD machine.
 </p>
 
-<pre class="example" id="orgd35192d">
+<pre class="example" id="org9f4cf34">
                                          ___
      +-----+         +-----+            /   \
      |  a  |&lt;--(X)---+  b  +-------*--&gt;|  =  |
@@ -800,8 +800,8 @@ controller definition in the register-machine language.
 </div>
 
 
-<div id="outline-container-orgc424981" class="outline-3">
-<h3 id="orgc424981"><span class="section-number-3">1.3.</span> Subroutines</h3>
+<div id="outline-container-orgac15aed" class="outline-3">
+<h3 id="orgac15aed"><span class="section-number-3">1.3.</span> Subroutines</h3>
 <div class="outline-text-3" id="text-1-3">
 <hr />
 
@@ -824,7 +824,7 @@ corresponding portions of the machine's controller sequence.
 for a machine with two GCD computations.
 </p>
 
-<pre class="example" id="org1811335">
+<pre class="example" id="org5ed38e7">
                             ___                                 ___
 +-----+        +-----+     /   \    +-----+        +-----+     /   \
 |  a  |&lt;-(X)---+  b  |---&gt;|  =  |   |  c  |&lt;-(X)---+  d  |---&gt;|  =  |
@@ -1031,8 +1031,8 @@ problem of nested subroutine calls.
 </div>
 
 
-<div id="outline-container-orgebf2eaa" class="outline-3">
-<h3 id="orgebf2eaa"><span class="section-number-3">1.4.</span> Using a Stack to Implement Recursion</h3>
+<div id="outline-container-org39f527c" class="outline-3">
+<h3 id="org39f527c"><span class="section-number-3">1.4.</span> Using a Stack to Implement Recursion</h3>
 <div class="outline-text-3" id="text-1-4">
 <hr />
 
@@ -1241,7 +1241,7 @@ machine.
 <b>Figure 5.11:</b> A recursive factorial machine.
 </p>
 
-<pre class="example" id="orgdf9a4b0">
+<pre class="example" id="orgf8f26e9">
                              ___
                             /   \
     +----------*-----------|  =  |
@@ -1402,8 +1402,8 @@ terms of more primitive operations.
 </div>
 
 
-<div id="outline-container-orgd85d691" class="outline-3">
-<h3 id="orgd85d691"><span class="section-number-3">1.5.</span> Instruction Summary</h3>
+<div id="outline-container-org7ba88f2" class="outline-3">
+<h3 id="org7ba88f2"><span class="section-number-3">1.5.</span> Instruction Summary</h3>
 <div class="outline-text-3" id="text-1-5">
 <hr />
 
@@ -1485,8 +1485,8 @@ and `(const ())' is the empty list.
 </div>
 
 
-<div id="outline-container-orgca7469e" class="outline-2">
-<h2 id="orgca7469e"><span class="section-number-2">2.</span> A Register-Machine Simulator</h2>
+<div id="outline-container-orgd9a7db2" class="outline-2">
+<h2 id="orgd9a7db2"><span class="section-number-2">2.</span> A Register-Machine Simulator</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 In order to gain a good understanding of the design of register
@@ -1610,8 +1610,8 @@ designed in *Note Exercise 5-4::.
 </div>
 
 
-<div id="outline-container-orgca4b0d3" class="outline-3">
-<h3 id="orgca4b0d3"><span class="section-number-3">2.1.</span> The Machine Model</h3>
+<div id="outline-container-orga75367a" class="outline-3">
+<h3 id="orga75367a"><span class="section-number-3">2.1.</span> The Machine Model</h3>
 <div class="outline-text-3" id="text-2-1">
 <hr />
 
@@ -1884,8 +1884,8 @@ name in a given machine:
 </div>
 
 
-<div id="outline-container-orgfa6e0d8" class="outline-3">
-<h3 id="orgfa6e0d8"><span class="section-number-3">2.2.</span> The Assembler</h3>
+<div id="outline-container-org3d6a9b0" class="outline-3">
+<h3 id="org3d6a9b0"><span class="section-number-3">2.2.</span> The Assembler</h3>
 <div class="outline-text-3" id="text-2-2">
 <hr />
 
@@ -2129,8 +2129,8 @@ in the `amb' evaluator in section *Note 4-3-3::.
 </div>
 
 
-<div id="outline-container-orge8878ac" class="outline-3">
-<h3 id="orge8878ac"><span class="section-number-3">2.3.</span> Generating Execution Procedures for Instructions</h3>
+<div id="outline-container-org97f159b" class="outline-3">
+<h3 id="org97f159b"><span class="section-number-3">2.3.</span> Generating Execution Procedures for Instructions</h3>
 <div class="outline-text-3" id="text-2-3">
 <hr />
 
@@ -2620,8 +2620,8 @@ first seen during assembly of the instructions.
 </div>
 
 
-<div id="outline-container-org8ba1d31" class="outline-3">
-<h3 id="org8ba1d31"><span class="section-number-3">2.4.</span> Monitoring Machine Performance</h3>
+<div id="outline-container-orge02e33f" class="outline-3">
+<h3 id="orge02e33f"><span class="section-number-3">2.4.</span> Monitoring Machine Performance</h3>
 <div class="outline-text-3" id="text-2-4">
 <hr />
 
@@ -2808,8 +2808,8 @@ or to remove all breakpoints by means of
 </div>
 
 
-<div id="outline-container-orgaeb3e4a" class="outline-2">
-<h2 id="orgaeb3e4a"><span class="section-number-2">3.</span> Storage Allocation and Garbage Collection</h2>
+<div id="outline-container-org9d333b0" class="outline-2">
+<h2 id="org9d333b0"><span class="section-number-2">3.</span> Storage Allocation and Garbage Collection</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 In section *Note 5-4::, we will show how to implement a Scheme
@@ -2854,8 +2854,8 @@ collection".
 </div>
 
 
-<div id="outline-container-orgca4607e" class="outline-3">
-<h3 id="orgca4607e"><span class="section-number-3">3.1.</span> Memory as Vectors</h3>
+<div id="outline-container-orgcfc106f" class="outline-3">
+<h3 id="orgcfc106f"><span class="section-number-3">3.1.</span> Memory as Vectors</h3>
 <div class="outline-text-3" id="text-3-1">
 <hr />
 
@@ -2938,7 +2938,7 @@ other list structures (not of interest here).
 <b>Figure 5.14:</b> Box-and-pointer and memory-vector representations of the list `((1 2) 3 4)'.
 </p>
 
-<pre class="example" id="orgaa7af27">
+<pre class="example" id="org9b06c60">
                +---+---+               +---+---+    +---+---+
 ((1 2) 3 4) --&gt;| * | *-+--------------&gt;| * | *-+---&gt;| * | / |
                +-|-+---+               +-|-+---+    +-|-+---+
@@ -3274,8 +3274,8 @@ by the `free' pointer.
 </div>
 
 
-<div id="outline-container-orgb648b63" class="outline-3">
-<h3 id="orgb648b63"><span class="section-number-3">3.2.</span> Maintaining the Illusion of Infinite Memory</h3>
+<div id="outline-container-orgdab1d04" class="outline-3">
+<h3 id="orgdab1d04"><span class="section-number-3">3.2.</span> Maintaining the Illusion of Infinite Memory</h3>
 <div class="outline-text-3" id="text-3-2">
 <hr />
 
@@ -3374,7 +3374,7 @@ before and just after garbage collection.
 <b>Figure 5.15:</b> Reconfiguration of memory by the garbage-collection process.
 </p>
 
-<pre class="example" id="org43ecaf6">
+<pre class="example" id="org64d0d68">
 
              Just before garbage collection
 
@@ -3678,8 +3678,8 @@ implemented as `pair?'.
 </div>
 
 
-<div id="outline-container-orgf86cfd4" class="outline-2">
-<h2 id="orgf86cfd4"><span class="section-number-2">4.</span> The Explicit-Control Evaluator</h2>
+<div id="outline-container-orgc4a80f1" class="outline-2">
+<h2 id="orgc4a80f1"><span class="section-number-2">4.</span> The Explicit-Control Evaluator</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 In section *Note 5-1:: we saw how to transform simple Scheme programs
@@ -3776,8 +3776,8 @@ method by which it was designed.
 </div>
 
 
-<div id="outline-container-org3a3f2a7" class="outline-3">
-<h3 id="org3a3f2a7"><span class="section-number-3">4.1.</span> The Core of the Explicit-Control Evaluator</h3>
+<div id="outline-container-org69affb9" class="outline-3">
+<h3 id="org69affb9"><span class="section-number-3">4.1.</span> The Core of the Explicit-Control Evaluator</h3>
 <div class="outline-text-3" id="text-4-1">
 <hr />
 
@@ -4157,8 +4157,8 @@ procedure `list-of-values' of section *Note 4-1-1:: (see *Note Exercise
 </div>
 
 
-<div id="outline-container-orgb6915bc" class="outline-3">
-<h3 id="orgb6915bc"><span class="section-number-3">4.2.</span> Sequence Evaluation and Tail Recursion</h3>
+<div id="outline-container-org5b7a39f" class="outline-3">
+<h3 id="org5b7a39f"><span class="section-number-3">4.2.</span> Sequence Evaluation and Tail Recursion</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 The portion of the explicit-control evaluator at `ev-sequence' is
@@ -4367,8 +4367,8 @@ section, provides the optimization uniformly throughout the language.
 </div>
 
 
-<div id="outline-container-org27ac7cb" class="outline-3">
-<h3 id="org27ac7cb"><span class="section-number-3">4.3.</span> Conditionals, Assignments, and Definitions</h3>
+<div id="outline-container-orged83462" class="outline-3">
+<h3 id="orged83462"><span class="section-number-3">4.3.</span> Conditionals, Assignments, and Definitions</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 As with the metacircular evaluator, special forms are handled by
@@ -4517,8 +4517,8 @@ a Scheme program that performs source-level transformations like
 </div>
 
 
-<div id="outline-container-org7b09425" class="outline-3">
-<h3 id="org7b09425"><span class="section-number-3">4.4.</span> Running the Evaluator</h3>
+<div id="outline-container-org7a1d1a3" class="outline-3">
+<h3 id="org7a1d1a3"><span class="section-number-3">4.4.</span> Running the Evaluator</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 With the implementation of the explicit-control evaluator we come to
@@ -4935,8 +4935,8 @@ the opportunity to reboot the computer&#x2013;if you're lucky.
 </div>
 
 
-<div id="outline-container-orge5af167" class="outline-2">
-<h2 id="orge5af167"><span class="section-number-2">5.</span> Compilation</h2>
+<div id="outline-container-org4f5d646" class="outline-2">
+<h2 id="org4f5d646"><span class="section-number-2">5.</span> Compilation</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 The explicit-control evaluator of section *Note 5-4:: is a register
@@ -5149,8 +5149,8 @@ explicit-control evaluator machine.
 </div>
 
 
-<div id="outline-container-orgd0909d0" class="outline-3">
-<h3 id="orgd0909d0"><span class="section-number-3">5.1.</span> Structure of the Compiler</h3>
+<div id="outline-container-orgd068765" class="outline-3">
+<h3 id="orgd068765"><span class="section-number-3">5.1.</span> Structure of the Compiler</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 In section *Note 4-1-7:: we modified our original metacircular
@@ -5313,7 +5313,7 @@ produces one of the following four sequences of instructions, depending
 on how &lt;SEQ<sub>1</sub>&gt; and &lt;SEQ<sub>2</sub>&gt; use &lt;REG<sub>1</sub>&gt; and &lt;REG<sub>2</sub>&gt;:
 </p>
 
-<pre class="example" id="orgc4c08ad">
+<pre class="example" id="org803e053">
 &lt;seq_1&gt; | (save &lt;reg_1&gt;)    | (save &lt;reg_2&gt;)    | (save &lt;reg_2&gt;)
 &lt;seq_2&gt; | &lt;seq_1&gt;           | &lt;seq_1&gt;           | (save &lt;reg_1&gt;)
         | (restore &lt;reg_1&gt;) | (restore &lt;reg_2&gt;) | &lt;seq_1&gt;
@@ -5482,8 +5482,8 @@ simulation.)
 </div>
 
 
-<div id="outline-container-org467c6e8" class="outline-3">
-<h3 id="org467c6e8"><span class="section-number-3">5.2.</span> Compiling Expressions</h3>
+<div id="outline-container-org0af6b20" class="outline-3">
+<h3 id="org0af6b20"><span class="section-number-3">5.2.</span> Compiling Expressions</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 In this section and the next we implement the code generators to which
@@ -5910,8 +5910,8 @@ structure for compound procedures described in section *Note 4-1-3:::
 </div>
 
 
-<div id="outline-container-org8fd0739" class="outline-3">
-<h3 id="org8fd0739"><span class="section-number-3">5.3.</span> Compiling Combinations</h3>
+<div id="outline-container-orga36d625" class="outline-3">
+<h3 id="orga36d625"><span class="section-number-3">5.3.</span> Compiling Combinations</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 The essence of the compilation process is the compilation of procedure
@@ -6322,8 +6322,8 @@ registers:
 </div>
 
 
-<div id="outline-container-org83744cd" class="outline-3">
-<h3 id="org83744cd"><span class="section-number-3">5.4.</span> Combining Instruction Sequences</h3>
+<div id="outline-container-org1746fc9" class="outline-3">
+<h3 id="org1746fc9"><span class="section-number-3">5.4.</span> Combining Instruction Sequences</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 This section describes the details on how instruction sequences are
@@ -6532,8 +6532,8 @@ an arbitrary number of arguments.
 </div>
 
 
-<div id="outline-container-orge9c2866" class="outline-3">
-<h3 id="orge9c2866"><span class="section-number-3">5.5.</span> An Example of Compiled Code</h3>
+<div id="outline-container-orgef9f4ed" class="outline-3">
+<h3 id="orgef9f4ed"><span class="section-number-3">5.5.</span> An Example of Compiled Code</h3>
 <div class="outline-text-3" id="text-5-5">
 <p>
 Now that we have seen all the elements of the compiler, let us examine
@@ -7085,8 +7085,8 @@ problem.
 </div>
 
 
-<div id="outline-container-orgdc646f5" class="outline-3">
-<h3 id="orgdc646f5"><span class="section-number-3">5.6.</span> Lexical Addressing</h3>
+<div id="outline-container-org88b8c47" class="outline-3">
+<h3 id="org88b8c47"><span class="section-number-3">5.6.</span> Lexical Addressing</h3>
 <div class="outline-text-3" id="text-5-6">
 <p>
 One of the most common optimizations performed by compilers is the
@@ -7336,8 +7336,8 @@ compile-time environment.
 </div>
 
 
-<div id="outline-container-org5e5e967" class="outline-3">
-<h3 id="org5e5e967"><span class="section-number-3">5.7.</span> Interfacing Compiled Code to the Evaluator</h3>
+<div id="outline-container-org25ccae4" class="outline-3">
+<h3 id="org25ccae4"><span class="section-number-3">5.7.</span> Interfacing Compiled Code to the Evaluator</h3>
 <div class="outline-text-3" id="text-5-7">
 <p>
 We have not yet explained how to load compiled code into the evaluator
