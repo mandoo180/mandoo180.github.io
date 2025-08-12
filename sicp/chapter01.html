@@ -7,43 +7,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Building Abstractions with Procedures</title>
 <meta name="generator" content="Org Mode" />
-<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style>
 </head>
 <body>
-<div id="content" class="content">
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
 <h1 class="title">Building Abstractions with Procedures</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd0573b4">1. The Elements of Programming</a>
+<li><a href="#org0e1013b">1. The Elements of Programming</a>
 <ul>
-<li><a href="#org240d95e">1.1. Expressions</a></li>
-<li><a href="#orgc8672b6">1.2. Naming and the Environment</a></li>
-<li><a href="#org06b9d42">1.3. Evaluating Combinations</a></li>
-<li><a href="#org3e22dec">1.4. Compound Procedures</a></li>
-<li><a href="#org04c6aa9">1.5. The Substitution Model for Procedure Application</a></li>
-<li><a href="#org071f460">1.6. Conditional Expressions and Predicates</a></li>
-<li><a href="#org56bfce9">1.7. Example: Square Roots by Newton's Method</a></li>
-<li><a href="#org8534a0f">1.8. Procedures as Black-Box Abstractions</a></li>
+<li><a href="#org68f8f3e">1.1. Expressions</a></li>
+<li><a href="#org4920d8c">1.2. Naming and the Environment</a></li>
+<li><a href="#org4e371a8">1.3. Evaluating Combinations</a></li>
+<li><a href="#orgf317c54">1.4. Compound Procedures</a></li>
+<li><a href="#orgdfc1cdf">1.5. The Substitution Model for Procedure Application</a></li>
+<li><a href="#org740b7c6">1.6. Conditional Expressions and Predicates</a></li>
+<li><a href="#org4810910">1.7. Example: Square Roots by Newton's Method</a></li>
+<li><a href="#orgbab13e1">1.8. Procedures as Black-Box Abstractions</a></li>
 </ul>
 </li>
-<li><a href="#org2a070c2">2. Procedures and the Processes They Generate</a>
+<li><a href="#org761ccf1">2. Procedures and the Processes They Generate</a>
 <ul>
-<li><a href="#org1612842">2.1. Linear Recursion and Iteration</a></li>
-<li><a href="#orgf4b310f">2.2. Tree Recursion</a></li>
-<li><a href="#orgc57ef07">2.3. Orders of Growth</a></li>
-<li><a href="#orgffcac5c">2.4. Exponentiation</a></li>
-<li><a href="#orgad462d1">2.5. Greatest Common Divisors</a></li>
-<li><a href="#orge07536f">2.6. Example: Testing for Primality</a></li>
+<li><a href="#org64422ab">2.1. Linear Recursion and Iteration</a></li>
+<li><a href="#org0bc5968">2.2. Tree Recursion</a></li>
+<li><a href="#org2335a20">2.3. Orders of Growth</a></li>
+<li><a href="#orgd25dd8c">2.4. Exponentiation</a></li>
+<li><a href="#orgb9b6500">2.5. Greatest Common Divisors</a></li>
+<li><a href="#orgcd0247f">2.6. Example: Testing for Primality</a></li>
 </ul>
 </li>
-<li><a href="#orgb533af4">3. Formulating Abstractions with Higher-Order Procedures</a>
+<li><a href="#orgdddf3c3">3. Formulating Abstractions with Higher-Order Procedures</a>
 <ul>
-<li><a href="#org70c8acc">3.1. Procedures as Arguments</a></li>
-<li><a href="#orgb8a1aa3">3.2. Constructing Procedures Using `Lambda'</a></li>
-<li><a href="#org873cac6">3.3. Procedures as General Methods</a></li>
-<li><a href="#orgd9a200c">3.4. Procedures as Returned Values</a></li>
+<li><a href="#orgb982d5d">3.1. Procedures as Arguments</a></li>
+<li><a href="#org11a49e3">3.2. Constructing Procedures Using `Lambda'</a></li>
+<li><a href="#org370690a">3.3. Procedures as General Methods</a></li>
+<li><a href="#orgaac80ac">3.4. Procedures as Returned Values</a></li>
 </ul>
 </li>
 </ul>
@@ -246,8 +252,8 @@ al. 1992; Sussman and Wisdom 1992).
 </p>
 
 
-<div id="outline-container-orgd0573b4" class="outline-2">
-<h2 id="orgd0573b4"><span class="section-number-2">1.</span> The Elements of Programming</h2>
+<div id="outline-container-org0e1013b" class="outline-2">
+<h2 id="org0e1013b"><span class="section-number-2">1.</span> The Elements of Programming</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 A powerful programming language is more than just a means for
@@ -321,8 +327,8 @@ operations.
 </div>
 
 
-<div id="outline-container-org240d95e" class="outline-3">
-<h3 id="org240d95e"><span class="section-number-3">1.1.</span> Expressions</h3>
+<div id="outline-container-org68f8f3e" class="outline-3">
+<h3 id="org68f8f3e"><span class="section-number-3">1.1.</span> Expressions</h3>
 <div class="outline-text-3" id="text-1-1">
 <hr />
 
@@ -339,14 +345,14 @@ One kind of primitive expression you might type is a number.  (More
 precisely, the expression that you type consists of the numerals that
 represent the number in base 10.)  If you present Lisp with a number
 </p>
-<pre class="example" id="orgf981f93">
+<pre class="example" id="orgdf12200">
 486
 </pre>
 
 <p>
 the interpreter will respond by printing (1)
 </p>
-<pre class="example" id="org767bb06">
+<pre class="example" id="org914f844">
 486
 </pre>
 
@@ -357,7 +363,7 @@ compound expression that represents the application of the procedure to
 those numbers.  For example:
 </p>
 
-<pre class="example" id="org3283c94">
+<pre class="example" id="org75c7993">
 (+ 137 349)
 486
 
@@ -393,7 +399,7 @@ them is that it can accommodate procedures that may take an arbitrary
 number of arguments, as in the following examples:
 </p>
 
-<pre class="example" id="org7367190">
+<pre class="example" id="orgd36bed7">
 (+ 21 35 12 7)
 75
 
@@ -412,7 +418,7 @@ straightforward way to allow combinations to be nested, that is, to
 have combinations whose elements are themselves combinations:
 </p>
 
-<pre class="example" id="org3d0b218">
+<pre class="example" id="org84a4683">
 (+ (* 3 5) (- 10 6))
 19
 </pre>
@@ -424,7 +430,7 @@ evaluate.  It is we humans who get confused by still relatively simple
 expressions such as
 </p>
 
-<pre class="example" id="org0600ce6">
+<pre class="example" id="org8784a0e">
 (+ (* 3 (+ (* 2 4) (+ 3 5))) (+ (- 10 7) 6))
 </pre>
 
@@ -433,7 +439,7 @@ which the interpreter would readily evaluate to be 57.  We can help
 ourselves by writing such an expression in the form
 </p>
 
-<pre class="example" id="org1a0f696">
+<pre class="example" id="org3757d40">
 (+ (* 3
       (+ (* 2 4)
          (+ 3 5)))
@@ -486,8 +492,8 @@ everything but the cost of nothing."
 </div>
 
 
-<div id="outline-container-orgc8672b6" class="outline-3">
-<h3 id="orgc8672b6"><span class="section-number-3">1.2.</span> Naming and the Environment</h3>
+<div id="outline-container-org4920d8c" class="outline-3">
+<h3 id="org4920d8c"><span class="section-number-3">1.2.</span> Naming and the Environment</h3>
 <div class="outline-text-3" id="text-1-2">
 <hr />
 
@@ -502,7 +508,7 @@ In the Scheme dialect of Lisp, we name things with `define'.  Typing
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">size</span> 2)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> <span class="org-function-name">size</span> 2)
 </pre>
 </div>
 
@@ -512,7 +518,7 @@ causes the interpreter to associate the value 2 with the name
 we can refer to the value 2 by name:
 </p>
 
-<pre class="example" id="org957504f">
+<pre class="example" id="org5af2133">
 size
 2
 
@@ -524,7 +530,7 @@ size
 Here are further examples of the use of `define':
 </p>
 
-<pre class="example" id="org38f8b17">
+<pre class="example" id="orgff90c5f">
 (define pi 3.14159)
 
 (define radius 10)
@@ -581,8 +587,8 @@ implementing interpreters.
 </div>
 
 
-<div id="outline-container-org06b9d42" class="outline-3">
-<h3 id="org06b9d42"><span class="section-number-3">1.3.</span> Evaluating Combinations</h3>
+<div id="outline-container-org4e371a8" class="outline-3">
+<h3 id="org4e371a8"><span class="section-number-3">1.3.</span> Evaluating Combinations</h3>
 <div class="outline-text-3" id="text-1-3">
 <hr />
 
@@ -621,7 +627,7 @@ what, in the case of a deeply nested combination, would otherwise be
 viewed as a rather complicated process.  For example, evaluating
 </p>
 
-<pre class="example" id="org0c4ec35">
+<pre class="example" id="org476c1b2">
 (* (+ 2 (* 4 6))
    (+ 3 5 7))
 </pre>
@@ -646,7 +652,7 @@ example of a general kind of process known as "tree accumulation".
 <b>Figure 1.1:</b> Tree representation, showing the value of each subcombination.
 </p>
 
-<pre class="example" id="org1e62ef4">
+<pre class="example" id="orga37c0fc">
   390
   /|\____________
  / |             \
@@ -745,8 +751,8 @@ Alan Perlis, "Syntactic sugar causes cancer of the semicolon."
 </div>
 
 
-<div id="outline-container-org3e22dec" class="outline-3">
-<h3 id="org3e22dec"><span class="section-number-3">1.4.</span> Compound Procedures</h3>
+<div id="outline-container-orgf317c54" class="outline-3">
+<h3 id="orgf317c54"><span class="section-number-3">1.4.</span> Compound Procedures</h3>
 <div class="outline-text-3" id="text-1-4">
 <hr />
 
@@ -779,7 +785,7 @@ expressed in our language as
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> x) (* x x))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">square</span> x) (* x x))
 </pre>
 </div>
 
@@ -788,7 +794,7 @@ expressed in our language as
 We can understand this in the following way:
 </p>
 
-<pre class="example" id="org74553fe">
+<pre class="example" id="orgabb059e">
 (define (square    x)         (*      x         x))
   |        |       |           |      |         |
  To     square  something,  multiply  it  by  itself.
@@ -807,7 +813,7 @@ and associates it with the name `square'.(1)
 The general form of a procedure definition is
 </p>
 
-<pre class="example" id="org5fc58ef">
+<pre class="example" id="orge36021e">
 (define (&lt;NAME&gt; &lt;FORMAL PARAMETERS&gt;) &lt;BODY&gt;)
 </pre>
 
@@ -827,7 +833,7 @@ being defined.
 Having defined `square', we can now use it:
 </p>
 
-<pre class="example" id="orgb8c0c11">
+<pre class="example" id="orga724ae8">
 (square 21)
 441
 
@@ -843,7 +849,7 @@ We can also use `square' as a building block in defining other
 procedures.  For example, <code>x^2 + y^2</code> can be expressed as
 </p>
 
-<pre class="example" id="orgd99e736">
+<pre class="example" id="org9711bc2">
 (+ (square x) (square y))
 </pre>
 
@@ -853,7 +859,7 @@ We can easily define a procedure `sum-of-squares' that, given any two
 numbers as arguments, produces the sum of their squares:
 </p>
 
-<pre class="example" id="org3642d2e">
+<pre class="example" id="org17f9be0">
 (define (sum-of-squares x y)
   (+ (square x) (square y)))
 (sum-of-squares 3 4)
@@ -865,7 +871,7 @@ Now we can use `sum-of-squares' as a building block in constructing
 further procedures:
 </p>
 
-<pre class="example" id="org63b8185">
+<pre class="example" id="org31510dc">
 (define (f a)
   (sum-of-squares (+ a 1) (* a 2)))
 
@@ -910,8 +916,8 @@ as the value of the procedure application.
 </div>
 
 
-<div id="outline-container-org04c6aa9" class="outline-3">
-<h3 id="org04c6aa9"><span class="section-number-3">1.5.</span> The Substitution Model for Procedure Application</h3>
+<div id="outline-container-orgdfc1cdf" class="outline-3">
+<h3 id="orgdfc1cdf"><span class="section-number-3">1.5.</span> The Substitution Model for Procedure Application</h3>
 <div class="outline-text-3" id="text-1-5">
 <hr />
 
@@ -941,7 +947,7 @@ corresponding argument.
 To illustrate this process, let's evaluate the combination
 </p>
 
-<pre class="example" id="orgc9807bf">
+<pre class="example" id="orge95a14f">
 (f 5)
 </pre>
 
@@ -950,7 +956,7 @@ where `f' is the procedure defined in section *Note 1-1-4::.  We begin
 by retrieving the body of `f':
 </p>
 
-<pre class="example" id="org14cc45f">
+<pre class="example" id="org165c1d9">
 (sum-of-squares (+ a 1) (* a 2))
 </pre>
 
@@ -958,7 +964,7 @@ by retrieving the body of `f':
 Then we replace the formal parameter `a' by the argument 5:
 </p>
 
-<pre class="example" id="org2df3f04">
+<pre class="example" id="orgdab5223">
 (sum-of-squares (+ 5 1) (* 5 2))
 </pre>
 
@@ -973,14 +979,14 @@ are substituted for the formal parameters `x' and `y' in the body of
 `sum-of-squares', reducing the expression to
 </p>
 
-<pre class="example" id="org71dd668">
+<pre class="example" id="orga2c04ea">
 (+ (square 6) (square 10))
 </pre>
 
 <p>
 If we use the definition of `square', this reduces to
 </p>
-<pre class="example" id="org46aecd1">
+<pre class="example" id="org0271105">
 (+ (* 6 6) (* 10 10))
 </pre>
 
@@ -988,14 +994,14 @@ If we use the definition of `square', this reduces to
 which reduces by multiplication to
 </p>
 
-<pre class="example" id="orgda6f229">
+<pre class="example" id="orgb59c891">
 (+ 36 100)
 </pre>
 
 <p>
 and finally to
 </p>
-<pre class="example" id="org2a887ed">
+<pre class="example" id="orgb4050ba">
 136
 </pre>
 
@@ -1053,7 +1059,7 @@ evaluation of `(f 5)' would proceed according to the sequence of
 expansions
 </p>
 
-<pre class="example" id="orgb312cd7">
+<pre class="example" id="orgc94c454">
 (sum-of-squares (+ 5 1) (* 5 2))
 
 (+    (square (+ 5 1))      (square (* 5 2))  )
@@ -1065,7 +1071,7 @@ expansions
 followed by the reductions
 </p>
 
-<pre class="example" id="orgbd45734">
+<pre class="example" id="orga6e9f61">
 (+         (* 6 6)             (* 10 10))
 
 (+           36                   100)
@@ -1133,8 +1139,8 @@ normal-order variant of Scheme.
 </div>
 
 
-<div id="outline-container-org071f460" class="outline-3">
-<h3 id="org071f460"><span class="section-number-3">1.6.</span> Conditional Expressions and Predicates</h3>
+<div id="outline-container-org740b7c6" class="outline-3">
+<h3 id="org740b7c6"><span class="section-number-3">1.6.</span> Conditional Expressions and Predicates</h3>
 <div class="outline-text-3" id="text-1-6">
 <hr />
 
@@ -1148,7 +1154,7 @@ zero and taking different actions in the different cases according to
 the rule
 </p>
 
-<pre class="example" id="orgd93ebef">
+<pre class="example" id="orgae26dfe">
       /
       |   x  if x &gt; 0
 |x| = &lt;   0  if x = 0
@@ -1163,8 +1169,8 @@ form in Lisp for notating such a case analysis.  It is called `cond'
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">abs</span> x)
-  (<span style="font-weight: bold;">cond</span> ((&gt; x 0) x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">abs</span> x)
+  (<span class="org-keyword">cond</span> ((&gt; x 0) x)
         ((= x 0) 0)
         ((&lt; x 0) (- x))))
 </pre>
@@ -1174,7 +1180,7 @@ form in Lisp for notating such a case analysis.  It is called `cond'
 The general form of a conditional expression is
 </p>
 
-<pre class="example" id="org19fcf80">
+<pre class="example" id="org146db28">
 (cond (&lt;P1&gt; &lt;E1&gt;)
       (&lt;P2&gt; &lt;E2&gt;)
       ...
@@ -1186,7 +1192,7 @@ consisting of the symbol `cond' followed by parenthesized pairs of
 expressions
 </p>
 
-<pre class="example" id="orgac02c67">
+<pre class="example" id="org56c5fc0">
 (&lt;P&gt; &lt;E&gt;)
 </pre>
 
@@ -1220,9 +1226,9 @@ Another way to write the absolute-value procedure is
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">abs</span> x)
-  (<span style="font-weight: bold;">cond</span> ((&lt; x 0) (- x))
-        (<span style="font-weight: bold;">else</span> x)))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">abs</span> x)
+  (<span class="org-keyword">cond</span> ((&lt; x 0) (- x))
+        (<span class="org-keyword">else</span> x)))
 </pre>
 </div>
 
@@ -1240,8 +1246,8 @@ expression that always evaluates to a true value could be used as the
 Here is yet another way to write the absolute-value procedure:
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">abs</span> x)
-  (<span style="font-weight: bold;">if</span> (&lt; x 0)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">abs</span> x)
+  (<span class="org-keyword">if</span> (&lt; x 0)
       (- x)
       x))
 </pre>
@@ -1253,7 +1259,7 @@ that can be used when there are precisely two cases in the case
 analysis.  The general form of an `if' expression is
 </p>
 
-<pre class="example" id="org2f345f9">
+<pre class="example" id="org8674450">
 (if &lt;PREDICATE&gt; &lt;CONSEQUENT&gt; &lt;ALTERNATIVE&gt;)
 </pre>
 
@@ -1318,7 +1324,7 @@ As an example of how these are used, the condition that a number x
 be in the range 5 &lt; x &lt; 10 may be expressed as
 </p>
 
-<pre class="example" id="org93f1ee0">
+<pre class="example" id="org74faa23">
 (and (&gt; x 5) (&lt; x 10))
 </pre>
 
@@ -1326,7 +1332,7 @@ be in the range 5 &lt; x &lt; 10 may be expressed as
 As another example, we can define a predicate to test whether one
 number is greater than or equal to another as
 </p>
-<pre class="example" id="org8d06ad5">
+<pre class="example" id="orga27a32d">
 (define (&gt;= x y)
   (or (&gt; x y) (= x y)))
 </pre>
@@ -1334,7 +1340,7 @@ number is greater than or equal to another as
 <p>
 or alternatively as
 </p>
-<pre class="example" id="orgb9b4bf3">
+<pre class="example" id="orgb4bef1f">
 (define (&gt;= x y)
   (not (&lt; x y)))
 </pre>
@@ -1346,7 +1352,7 @@ Assume that the sequence is to be evaluated in the order in which
 it is presented.
 </p>
 
-<pre class="example" id="orga9f7ece">
+<pre class="example" id="org73b673d">
 10
 
 (+ 5 3 4)
@@ -1385,7 +1391,7 @@ it is presented.
 <b>Exercise 1.2:</b> Translate the following expression into prefix form.
 </p>
 
-<pre class="example" id="org3015b7a">
+<pre class="example" id="org1d24798">
 5 + 4 + (2 - (3 - (6 + 4/5)))
 -----------------------------
        3(6 - 2)(2 - 7)
@@ -1403,7 +1409,7 @@ combinations whose operators are compound expressions.  Use this
 observation to describe the behavior of the following procedure:
 </p>
 
-<pre class="example" id="org6e302e1">
+<pre class="example" id="org3538393">
 (define (a-plus-abs-b a b)
   ((if (&gt; b 0) + -) a b))
 </pre>
@@ -1415,7 +1421,7 @@ applicative-order evaluation or normal-order evaluation.  He
 defines the following two procedures:
 </p>
 
-<pre class="example" id="orgf87d10f">
+<pre class="example" id="org1b178f6">
 (define (p) (p))
 
 (define (test x y)
@@ -1428,7 +1434,7 @@ defines the following two procedures:
 Then he evaluates the expression
 </p>
 
-<pre class="example" id="orgc60e22a">
+<pre class="example" id="org146c6a6">
 (test 0 (p))
 </pre>
 
@@ -1475,8 +1481,8 @@ expressions.
 </div>
 
 
-<div id="outline-container-org56bfce9" class="outline-3">
-<h3 id="org56bfce9"><span class="section-number-3">1.7.</span> Example: Square Roots by Newton's Method</h3>
+<div id="outline-container-org4810910" class="outline-3">
+<h3 id="org4810910"><span class="section-number-3">1.7.</span> Example: Square Roots by Newton's Method</h3>
 <div class="outline-text-3" id="text-1-7">
 <hr />
 
@@ -1492,7 +1498,7 @@ functions and computer procedures.  Procedures must be effective.
 We can define the square-root function as
 </p>
 
-<pre class="example" id="org7b81227">
+<pre class="example" id="org2b98bae">
 sqrt(x) = the y such that y &gt;= 0 and y^2 = x
 </pre>
 
@@ -1506,7 +1512,7 @@ given number.  It will not help matters to rephrase this definition in
 pseudo-Lisp:
 </p>
 
-<pre class="example" id="org86b1e2d">
+<pre class="example" id="org4b30941">
 (define (sqrt x)
   (the y (and (&gt;= y 0)
               (= (square y) x))))
@@ -1536,7 +1542,7 @@ compute the square root of 2 as follows.  Suppose our initial guess is
 1:
 </p>
 
-<pre class="example" id="orgff9cd3b">
+<pre class="example" id="orgaf80c9b">
 Guess  Quotient             Average
 1      (2/1) = 2            ((2 + 1)/2) = 1.5
 1.5    (2/1.5) = 1.3333     ((1.3333 + 1.5)/2) = 1.4167
@@ -1558,8 +1564,8 @@ process with an improved guess.  We write this basic strategy as a
 procedure:
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess x)
-  (<span style="font-weight: bold;">if</span> (good-enough? guess x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt-iter</span> guess x)
+  (<span class="org-keyword">if</span> (good-enough? guess x)
       guess
       (sqrt-iter (improve guess x)
                  x)))
@@ -1572,7 +1578,7 @@ radicand and the old guess:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">improve</span> guess x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">improve</span> guess x)
   (average guess (/ x guess)))
 </pre>
 </div>
@@ -1582,7 +1588,7 @@ where
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">average</span> x y)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">average</span> x y)
   (/ (+ x y) 2))
 </pre>
 </div>
@@ -1596,7 +1602,7 @@ by less than a predetermined tolerance (here 0.001):(3)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">good-enough?</span> guess x)
   (&lt; (abs (- (square guess) x)) 0.001))
 </pre>
 </div>
@@ -1607,7 +1613,7 @@ guess that the square root of any number is 1:(4)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
   (sqrt-iter 1.0 x))
 </pre>
 </div>
@@ -1617,7 +1623,7 @@ If we type these definitions to the interpreter, we can use `sqrt'
 just as we can use any procedure:
 </p>
 
-<pre class="example" id="orga773e12">
+<pre class="example" id="orga2a9fa8">
 (sqrt 9)
 3.00009155413138
 
@@ -1650,7 +1656,7 @@ Eva Lu Ator claims this can indeed be done, and she defines a new
 version of `if':
 </p>
 
-<pre class="example" id="org254fd75">
+<pre class="example" id="orga6d0be7">
 (define (new-if predicate then-clause else-clause)
   (cond (predicate then-clause)
         (else else-clause)))
@@ -1660,7 +1666,7 @@ version of `if':
 Eva demonstrates the program for Alyssa:
 </p>
 
-<pre class="example" id="orgaec304e">
+<pre class="example" id="org4dc859a">
 (new-if (= 2 3) 0 5)
 5
 
@@ -1672,7 +1678,7 @@ Eva demonstrates the program for Alyssa:
 Delighted, Alyssa uses `new-if' to rewrite the square-root program:
 </p>
 
-<pre class="example" id="org7cce45f">
+<pre class="example" id="org7dd9f6a">
 (define (sqrt-iter guess x)
   (new-if (good-enough? guess x)
           guess
@@ -1705,7 +1711,7 @@ fact that if y is an approximation to the cube root of x, then a
 better approximation is given by the value
 </p>
 
-<pre class="example" id="org8cadbb2">
+<pre class="example" id="orga44c078">
 x/y^2 + 2y
 ----------
     3
@@ -1781,8 +1787,8 @@ using procedure calls to implement iteration should note the remarks on
 </div>
 
 
-<div id="outline-container-org8534a0f" class="outline-3">
-<h3 id="org8534a0f"><span class="section-number-3">1.8.</span> Procedures as Black-Box Abstractions</h3>
+<div id="outline-container-orgbab13e1" class="outline-3">
+<h3 id="orgbab13e1"><span class="section-number-3">1.8.</span> Procedures as Black-Box Abstractions</h3>
 <div class="outline-text-3" id="text-1-8">
 <hr />
 
@@ -1811,7 +1817,7 @@ mirrors the decomposition of the problem into subproblems.
 <b>Figure 1.2:</b> Procedural decomposition of the `sqrt' program.
 </p>
 
-<pre class="example" id="orgc71f44e">
+<pre class="example" id="org07ac578">
             sqrt
              |
          sqrt-iter
@@ -1846,12 +1852,12 @@ takes a numerical argument and produces the square of that number as
 the value.(1)
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> x) (* x x))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">square</span> x) (* x x))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> x)
+(<span class="org-keyword">define</span> (<span class="org-function-name">square</span> x)
   (exp (double (log x))))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">double</span> x) (+ x x))
+(<span class="org-keyword">define</span> (<span class="org-function-name">double</span> x) (+ x x))
 </pre>
 </div>
 
@@ -1876,9 +1882,9 @@ not be distinguishable:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> x) (* x x))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">square</span> x) (* x x))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">square</span> y) (* y y))
+(<span class="org-keyword">define</span> (<span class="org-function-name">square</span> y) (* y y))
 </pre>
 </div>
 
@@ -1892,7 +1898,7 @@ the definition of `good-enough?' in our square-root procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">good-enough?</span> guess x)
   (&lt; (abs (- (square guess) x)) 0.001))
 </pre>
 </div>
@@ -1961,18 +1967,18 @@ procedures:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
   (sqrt-iter 1.0 x))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess x)
-  (<span style="font-weight: bold;">if</span> (good-enough? guess x)
+(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt-iter</span> guess x)
+  (<span class="org-keyword">if</span> (good-enough? guess x)
       guess
       (sqrt-iter (improve guess x) x)))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess x)
+(<span class="org-keyword">define</span> (<span class="org-function-name">good-enough?</span> guess x)
   (&lt; (abs (- (square guess) x)) 0.001))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">improve</span> guess x)
+(<span class="org-keyword">define</span> (<span class="org-function-name">improve</span> guess x)
   (average guess (/ x guess)))
 </pre>
 </div>
@@ -1997,13 +2003,13 @@ example, in the square-root problem we can write
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">good-enough?</span> guess x)
     (&lt; (abs (- (square guess) x)) 0.001))
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">improve</span> guess x)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">improve</span> guess x)
     (average guess (/ x guess)))
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess x)
-    (<span style="font-weight: bold;">if</span> (good-enough? guess x)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">sqrt-iter</span> guess x)
+    (<span class="org-keyword">if</span> (good-enough? guess x)
         guess
         (sqrt-iter (improve guess x) x)))
   (sqrt-iter 1.0 x))
@@ -2026,13 +2032,13 @@ scoping".(3)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">good-enough?</span> guess)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">good-enough?</span> guess)
     (&lt; (abs (- (square guess) x)) 0.001))
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">improve</span> guess)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">improve</span> guess)
     (average guess (/ x guess)))
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt-iter</span> guess)
-    (<span style="font-weight: bold;">if</span> (good-enough? guess)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">sqrt-iter</span> guess)
+    (<span class="org-keyword">if</span> (good-enough? guess)
         guess
         (sqrt-iter (improve guess))))
   (sqrt-iter 1.0))
@@ -2084,8 +2090,8 @@ that intertwine definition and use.
 </div>
 
 
-<div id="outline-container-org2a070c2" class="outline-2">
-<h2 id="org2a070c2"><span class="section-number-2">2.</span> Procedures and the Processes They Generate</h2>
+<div id="outline-container-org761ccf1" class="outline-2">
+<h2 id="org761ccf1"><span class="section-number-2">2.</span> Procedures and the Processes They Generate</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We have now considered the elements of programming: We have used
@@ -2139,14 +2145,14 @@ their own right.
 </div>
 
 
-<div id="outline-container-org1612842" class="outline-3">
-<h3 id="org1612842"><span class="section-number-3">2.1.</span> Linear Recursion and Iteration</h3>
+<div id="outline-container-org64422ab" class="outline-3">
+<h3 id="org64422ab"><span class="section-number-3">2.1.</span> Linear Recursion and Iteration</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 <b>Figure 1.3:</b> A linear recursive process for computing 6!.
 </p>
 
-<pre class="example" id="orga7654fc">
+<pre class="example" id="orga45ca23">
 
 (factorial 6)        ------------------------.
 (* 6 (factorial 5))                          |
@@ -2168,7 +2174,7 @@ their own right.
 We begin by considering the factorial function, defined by
 </p>
 
-<pre class="example" id="org1f01201">
+<pre class="example" id="org2eeb42a">
 n! = n * (n - 1) * (n - 2) ... 3 * 2 * 1
 </pre>
 
@@ -2178,7 +2184,7 @@ of the observation that n! is equal to n times (n - 1)! for any positive
 integer n:
 </p>
 
-<pre class="example" id="org8147b0d">
+<pre class="example" id="orgfc531a1">
 n! = n * [(n - 1) * (n - 2) ... 3 * 2 * 1] = n * (n - 1)!
 </pre>
 
@@ -2189,8 +2195,8 @@ observation translates directly into a procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">factorial</span> n)
-  (<span style="font-weight: bold;">if</span> (= n 1)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">factorial</span> n)
+  (<span class="org-keyword">if</span> (= n 1)
       1
       (* n (factorial (- n 1)))))
 </pre>
@@ -2211,7 +2217,7 @@ the computation by saying that the counter and the product
 simultaneously change from one step to the next according to the rule
 </p>
 
-<pre class="example" id="org0b6f0ea">
+<pre class="example" id="org9eb135c">
 product  &lt;-  counter  ...  product
 
 counter  &lt;-  counter  +  1
@@ -2226,7 +2232,7 @@ exceeds n.
 <b>Figure 1.4:</b> A linear iterative process for computing 6!.
 </p>
 
-<pre class="example" id="orgd3322bd">
+<pre class="example" id="org1ab0a28">
 (factorial 6)   -----.
 (fact-iter   1 1 6)  |
 (fact-iter   1 2 6)  |
@@ -2244,11 +2250,11 @@ computing factorials:(1)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">factorial</span> n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">factorial</span> n)
   (fact-iter 1 1 n))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fact-iter</span> product counter max-count)
-  (<span style="font-weight: bold;">if</span> (&gt; counter max-count)
+(<span class="org-keyword">define</span> (<span class="org-function-name">fact-iter</span> product counter max-count)
+  (<span class="org-keyword">if</span> (&gt; counter max-count)
       product
       (fact-iter (* counter product)
                  (+ counter 1)
@@ -2355,13 +2361,13 @@ decrements its argument by 1.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">+</span> a b)
-  (<span style="font-weight: bold;">if</span> (= a 0)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">+</span> a b)
+  (<span class="org-keyword">if</span> (= a 0)
       b
       (inc (+ (dec a) b))))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">+</span> a b)
-  (<span style="font-weight: bold;">if</span> (= a 0)
+(<span class="org-keyword">define</span> (<span class="org-function-name">+</span> a b)
+  (<span class="org-keyword">if</span> (= a 0)
       b
       (+ (dec a) (inc b))))
 </pre>
@@ -2378,11 +2384,11 @@ iterative or recursive?
 function called Ackermann's function.
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">A</span> x y)
-  (<span style="font-weight: bold;">cond</span> ((= y 0) 0)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">A</span> x y)
+  (<span class="org-keyword">cond</span> ((= y 0) 0)
         ((= x 0) (* 2 y))
         ((= y 1) 2)
-        (<span style="font-weight: bold;">else</span> (A (- x 1)
+        (<span class="org-keyword">else</span> (A (- x 1)
                  (A x (- y 1))))))
 </pre>
 </div>
@@ -2391,7 +2397,7 @@ function called Ackermann's function.
 What are the values of the following expressions?
 </p>
 
-<pre class="example" id="org9169a0b">
+<pre class="example" id="orgfebf7ee">
 (A 1 10)
 
 (A 2 4)
@@ -2405,13 +2411,13 @@ defined above:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> n) (A 0 n))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">f</span> n) (A 0 n))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">g</span> n) (A 1 n))
+(<span class="org-keyword">define</span> (<span class="org-function-name">g</span> n) (A 1 n))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">h</span> n) (A 2 n))
+(<span class="org-keyword">define</span> (<span class="org-function-name">h</span> n) (A 2 n))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">k</span> n) (* 5 n n))
+(<span class="org-keyword">define</span> (<span class="org-function-name">k</span> n) (* 5 n n))
 </pre>
 </div>
 
@@ -2431,9 +2437,9 @@ introduced in the last section to hide the definition of `fact-iter':
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">factorial</span> n)
-        (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">iter</span> product counter)
-                (<span style="font-weight: bold;">if</span> (&gt; counter n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">factorial</span> n)
+        (<span class="org-keyword">define</span> (<span class="org-function-name">iter</span> product counter)
+                (<span class="org-keyword">if</span> (&gt; counter n)
                     product
                     (iter (* counter product)
                           (+ counter 1))))
@@ -2470,8 +2476,8 @@ Scheme requires that Scheme implementations be tail-recursive.
 </div>
 
 
-<div id="outline-container-orgf4b310f" class="outline-3">
-<h3 id="orgf4b310f"><span class="section-number-3">2.2.</span> Tree Recursion</h3>
+<div id="outline-container-org0bc5968" class="outline-3">
+<h3 id="org0bc5968"><span class="section-number-3">2.2.</span> Tree Recursion</h3>
 <div class="outline-text-3" id="text-2-2">
 <hr />
 
@@ -2481,14 +2487,14 @@ an example, consider computing the sequence of Fibonacci numbers, in
 which each number is the sum of the preceding two:
 </p>
 
-<pre class="example" id="orgf157069">
+<pre class="example" id="org1e05c19">
 0, 1, 1, 2, 3, 5, 8, 13, 21, ...
 </pre>
 
 <p>
 In general, the Fibonacci numbers can be defined by the rule
 </p>
-<pre class="example" id="orgfe5483f">
+<pre class="example" id="orgc5cfb47">
          /
          |  0                        if n = 0
 Fib(n) = &lt;  1                        if n = 1
@@ -2502,10 +2508,10 @@ procedure for computing Fibonacci numbers:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib</span> n)
-  (<span style="font-weight: bold;">cond</span> ((= n 0) 0)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">fib</span> n)
+  (<span class="org-keyword">cond</span> ((= n 0) 0)
         ((= n 1) 1)
-        (<span style="font-weight: bold;">else</span> (+ (fib (- n 1))
+        (<span class="org-keyword">else</span> (+ (fib (- n 1))
                  (fib (- n 2))))))
 </pre>
 </div>
@@ -2515,7 +2521,7 @@ procedure for computing Fibonacci numbers:
 <b>Figure 1.5:</b> The tree-recursive process generated in computing `(fib 5)'.
 </p>
 
-<pre class="example" id="org946984c">
+<pre class="example" id="org744a4ce">
                    ..&lt;............ fib5   &lt;..........
                 ...     ___________/  \___________   .
              ...       /       . .....            \    .
@@ -2557,7 +2563,7 @@ with n.  More precisely (see *Note Exercise 1-13::), _Fib<sub>(n)</sub> is the
 closest integer to [phi]<sup>n</sup> /[sqrt](5), where
 </p>
 
-<pre class="example" id="org466fd08">
+<pre class="example" id="orga3962e7">
 [phi] = (1 + [sqrt]5)/2 ~= 1.6180
 </pre>
 
@@ -2565,7 +2571,7 @@ closest integer to [phi]<sup>n</sup> /[sqrt](5), where
 is the "golden ratio", which satisfies the equation
 </p>
 
-<pre class="example" id="org9dc3dc0">
+<pre class="example" id="org3622b9e">
 [phi]^2 = [phi] + 1
 </pre>
 
@@ -2586,7 +2592,7 @@ initialized to _Fib<sub>(1)</sub> = 1 and _Fib<sub>(0)</sub> = 0, and to repeate
 the simultaneous transformations
 </p>
 
-<pre class="example" id="org42aa611">
+<pre class="example" id="org0a1d7f5">
 a &lt;- a + b
 b &lt;- a
 </pre>
@@ -2598,11 +2604,11 @@ Thus, we can compute Fibonacci numbers iteratively using the procedure
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib</span> n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">fib</span> n)
   (fib-iter 1 0 n))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib-iter</span> a b count)
-  (<span style="font-weight: bold;">if</span> (= count 0)
+(<span class="org-keyword">define</span> (<span class="org-function-name">fib-iter</span> a b count)
+  (<span class="org-keyword">if</span> (= count 0)
       b
       (fib-iter (+ a b) a (- count 1))))
 </pre>
@@ -2695,20 +2701,20 @@ We can easily translate this description into a recursive procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">count-change</span> amount)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">count-change</span> amount)
   (cc amount 5))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">cc</span> amount kinds-of-coins)
-  (<span style="font-weight: bold;">cond</span> ((= amount 0) 1)
-        ((<span style="font-weight: bold;">or</span> (&lt; amount 0) (= kinds-of-coins 0)) 0)
-        (<span style="font-weight: bold;">else</span> (+ (cc amount
+(<span class="org-keyword">define</span> (<span class="org-function-name">cc</span> amount kinds-of-coins)
+  (<span class="org-keyword">cond</span> ((= amount 0) 1)
+        ((<span class="org-keyword">or</span> (&lt; amount 0) (= kinds-of-coins 0)) 0)
+        (<span class="org-keyword">else</span> (+ (cc amount
                      (- kinds-of-coins 1))
                  (cc (- amount
                         (first-denomination kinds-of-coins))
                      kinds-of-coins)))))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">first-denomination</span> kinds-of-coins)
-  (<span style="font-weight: bold;">cond</span> ((= kinds-of-coins 1) 1)
+(<span class="org-keyword">define</span> (<span class="org-function-name">first-denomination</span> kinds-of-coins)
+  (<span class="org-keyword">cond</span> ((= kinds-of-coins 1) 1)
         ((= kinds-of-coins 2) 5)
         ((= kinds-of-coins 3) 10)
         ((= kinds-of-coins 4) 25)
@@ -2724,7 +2730,7 @@ largest to smallest, but any order would do as well.)  We can now
 answer our original question about changing a dollar:
 </p>
 
-<pre class="example" id="orge3f7ea7">
+<pre class="example" id="orgf2cfdbe">
 (count-change 100)
 292
 </pre>
@@ -2754,7 +2760,7 @@ process.
 <b>Exercise 1.12:</b> The following pattern of numbers is called "Pascal's
 triangle".
 </p>
-<pre class="example" id="orge975275">
+<pre class="example" id="orgb5a40de">
         1
       1   1
     1   2   1
@@ -2821,8 +2827,8 @@ works of the twelfth-century Hindu mathematician Bha'scara A'cha'rya.
 </div>
 
 
-<div id="outline-container-orgc57ef07" class="outline-3">
-<h3 id="orgc57ef07"><span class="section-number-3">2.3.</span> Orders of Growth</h3>
+<div id="outline-container-org2335a20" class="outline-3">
+<h3 id="org2335a20"><span class="section-number-3">2.3.</span> Orders of Growth</h3>
 <div class="outline-text-3" id="text-2-3">
 <hr />
 
@@ -2857,7 +2863,7 @@ We say that R(n) has order of growth [theta](f(n)), written R(n) =
 constants k<sub>1</sub> and k<sub>2</sub> independent of n such that
 </p>
 
-<pre class="example" id="org9c416de">
+<pre class="example" id="org187fc62">
 k_1 f(n) &lt;= R(n) &lt;= k_2 f(n)
 </pre>
 
@@ -2907,7 +2913,7 @@ be computed by making use of the approximation `sin' xapprox x if
 x is sufficiently small, and the trigonometric identity
 </p>
 
-<pre class="example" id="org1969920">
+<pre class="example" id="org119ed06">
                x             x
 sin x = 3 sin --- - 4 sin^3 ---
                3             3
@@ -2921,12 +2927,12 @@ incorporated in the following procedures:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">cube</span> x) (* x x x))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">cube</span> x) (* x x x))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">p</span> x) (- (* 3 x) (* 4 (cube x))))
+(<span class="org-keyword">define</span> (<span class="org-function-name">p</span> x) (- (* 3 x) (* 4 (cube x))))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sine</span> angle)
-   (<span style="font-weight: bold;">if</span> (not (&gt; (abs angle) 0.1))
+(<span class="org-keyword">define</span> (<span class="org-function-name">sine</span> angle)
+   (<span class="org-keyword">if</span> (not (&gt; (abs angle) 0.1))
        angle
        (p (sine (/ angle 3.0)))))
 </pre>
@@ -2962,8 +2968,8 @@ can be carried out at various levels of abstraction.
 </div>
 
 
-<div id="outline-container-orgffcac5c" class="outline-3">
-<h3 id="orgffcac5c"><span class="section-number-3">2.4.</span> Exponentiation</h3>
+<div id="outline-container-orgd25dd8c" class="outline-3">
+<h3 id="orgd25dd8c"><span class="section-number-3">2.4.</span> Exponentiation</h3>
 <div class="outline-text-3" id="text-2-4">
 <hr />
 
@@ -2974,7 +2980,7 @@ positive integer exponent n and computes b<sup>n</sup>.  One way to do this is
 via the recursive definition
 </p>
 
-<pre class="example" id="orgdab13a6">
+<pre class="example" id="org45a0112">
 b^n = b * b^(n - 1)
 b^0 = 1
 </pre>
@@ -2984,8 +2990,8 @@ which translates readily into the procedure
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expt</span> b n)
-  (<span style="font-weight: bold;">if</span> (= n 0)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">expt</span> b n)
+  (<span class="org-keyword">if</span> (= n 0)
       1
       (* b (expt b (- n 1)))))
 </pre>
@@ -2998,11 +3004,11 @@ an equivalent linear iteration:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expt</span> b n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">expt</span> b n)
   (expt-iter b n 1))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expt-iter</span> b counter product)
-  (<span style="font-weight: bold;">if</span> (= counter 0)
+(<span class="org-keyword">define</span> (<span class="org-function-name">expt-iter</span> b counter product)
+  (<span class="org-keyword">if</span> (= counter 0)
       product
       (expt-iter b
                 (- counter 1)
@@ -3019,7 +3025,7 @@ We can compute exponentials in fewer steps by using successive
 squaring.  For instance, rather than computing b<sup>8</sup> as
 </p>
 
-<pre class="example" id="org43ab2a7">
+<pre class="example" id="org5039fd1">
 b * (b * (b * (b * (b * (b * (b * b))))))
 </pre>
 
@@ -3027,7 +3033,7 @@ b * (b * (b * (b * (b * (b * (b * b))))))
 we can compute it using three multiplications:
 </p>
 
-<pre class="example" id="org5385b4c">
+<pre class="example" id="orgfe45d5c">
 b^2 = b * b
 b^4 = b^2 * b^2
 b^8 = b^4 * b^4
@@ -3039,7 +3045,7 @@ also take advantage of successive squaring in computing exponentials in
 general if we use the rule
 </p>
 
-<pre class="example" id="org815f8fa">
+<pre class="example" id="org666032d">
 b^n = (b^(b/2))^2    if n is even
 b^n = b * b^(n - 1)  if n is odd
 </pre>
@@ -3049,10 +3055,10 @@ We can express this method as a procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fast-expt</span> b n)
-  (<span style="font-weight: bold;">cond</span> ((= n 0) 1)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">fast-expt</span> b n)
+  (<span class="org-keyword">cond</span> ((= n 0) 1)
         ((even? n) (square (fast-expt b (/ n 2))))
-        (<span style="font-weight: bold;">else</span> (* b (fast-expt b (- n 1))))))
+        (<span class="org-keyword">else</span> (* b (fast-expt b (- n 1))))))
 </pre>
 </div>
 
@@ -3062,7 +3068,7 @@ terms of the primitive procedure `remainder' by
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">even?</span> n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">even?</span> n)
   (= (remainder n 2) 0))
 </pre>
 </div>
@@ -3114,8 +3120,8 @@ can only add, not multiply) is analogous to the `expt' procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">*</span> a b)
-  (<span style="font-weight: bold;">if</span> (= b 0)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">*</span> a b)
+  (<span class="org-keyword">if</span> (= b 0)
       0
       (+ a (* a (- b 1)))))
 </pre>
@@ -3159,18 +3165,18 @@ number of steps:(5)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib</span> n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">fib</span> n)
   (fib-iter 1 0 0 1 n))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fib-iter</span> a b p q count)
-  (<span style="font-weight: bold;">cond</span> ((= count 0) b)
+(<span class="org-keyword">define</span> (<span class="org-function-name">fib-iter</span> a b p q count)
+  (<span class="org-keyword">cond</span> ((= count 0) b)
         ((even? count)
          (fib-iter a
                    b
-                   <span style="font-weight: bold; text-decoration: underline;">&lt;??&gt;</span>      <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">compute p'</span>
-                   <span style="font-weight: bold; text-decoration: underline;">&lt;??&gt;</span>      <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">compute q'</span>
-                   (/ count 2)))
-        (<span style="font-weight: bold;">else</span> (fib-iter (+ (* b q) (* a q) (* a p))
+                   <span class="org-type">&lt;??&gt;</span>      <span class="org-comment-delimiter">; </span><span class="org-comment">compute p'
+</span>                   <span class="org-type">&lt;??&gt;</span>      <span class="org-comment-delimiter">; </span><span class="org-comment">compute q'
+</span>                   (/ count 2)))
+        (<span class="org-keyword">else</span> (fib-iter (+ (* b q) (* a q) (* a p))
                         (+ (* b p) (* a q))
                         p
                         q
@@ -3220,8 +3226,8 @@ example in Kaldewaij 1990.
 </div>
 
 
-<div id="outline-container-orgad462d1" class="outline-3">
-<h3 id="orgad462d1"><span class="section-number-3">2.5.</span> Greatest Common Divisors</h3>
+<div id="outline-container-orgb9b6500" class="outline-3">
+<h3 id="orgb9b6500"><span class="section-number-3">2.5.</span> Greatest Common Divisors</h3>
 <div class="outline-text-3" id="text-2-5">
 <hr />
 
@@ -3245,7 +3251,7 @@ b are precisely the same as the common divisors of b and r.  Thus, we
 can use the equation
 </p>
 
-<pre class="example" id="orge9ff971">
+<pre class="example" id="org0ecacfc">
 GCD(a,b) = GCD(b,r)
 </pre>
 
@@ -3255,7 +3261,7 @@ computing the GCD of smaller and smaller pairs of integers.  For
 example,
 </p>
 
-<pre class="example" id="org09761a6">
+<pre class="example" id="orgdfbd5b9">
 GCD(206,40) = GCD(40,6)
             = GCD(6,4)
             = GCD(4,2)
@@ -3277,8 +3283,8 @@ It is easy to express Euclid's Algorithm as a procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">gcd</span> a b)
-  (<span style="font-weight: bold;">if</span> (= b 0)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">gcd</span> a b)
+  (<span class="org-keyword">if</span> (= b 0)
       a
       (gcd b (remainder a b))))
 </pre>
@@ -3375,8 +3381,8 @@ gives b<sub>(k+1)</sub> &gt;= b<sub>k</sub> + b<sub>(k-1)</sub> &gt;= _Fib<sub>(
 </div>
 
 
-<div id="outline-container-orge07536f" class="outline-3">
-<h3 id="orge07536f"><span class="section-number-3">2.6.</span> Example: Testing for Primality</h3>
+<div id="outline-container-orgcd0247f" class="outline-3">
+<h3 id="orgcd0247f"><span class="section-number-3">2.6.</span> Example: Testing for Primality</h3>
 <div class="outline-text-3" id="text-2-6">
 <hr />
 
@@ -3404,15 +3410,15 @@ divisibility by successive integers starting with 2.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">smallest-divisor</span> n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">smallest-divisor</span> n)
   (find-divisor n 2))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">find-divisor</span> n test-divisor)
-  (<span style="font-weight: bold;">cond</span> ((&gt; (square test-divisor) n) n)
+(<span class="org-keyword">define</span> (<span class="org-function-name">find-divisor</span> n test-divisor)
+  (<span class="org-keyword">cond</span> ((&gt; (square test-divisor) n) n)
         ((divides? test-divisor n) test-divisor)
-        (<span style="font-weight: bold;">else</span> (find-divisor n (+ test-divisor 1)))))
+        (<span class="org-keyword">else</span> (find-divisor n (+ test-divisor 1)))))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">divides?</span> a b)
+(<span class="org-keyword">define</span> (<span class="org-function-name">divides?</span> a b)
   (= (remainder b a) 0))
 </pre>
 </div>
@@ -3423,7 +3429,7 @@ only if n is its own smallest divisor.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">prime?</span> n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">prime?</span> n)
   (= n (smallest-divisor n)))
 </pre>
 </div>
@@ -3480,12 +3486,12 @@ exponential of a number modulo another number:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expmod</span> base exp m)
-  (<span style="font-weight: bold;">cond</span> ((= exp 0) 1)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">expmod</span> base exp m)
+  (<span class="org-keyword">cond</span> ((= exp 0) 1)
         ((even? exp)
          (remainder (square (expmod base (/ exp 2) m))
                     m))
-        (<span style="font-weight: bold;">else</span>
+        (<span class="org-keyword">else</span>
          (remainder (* base (expmod base (- exp 1) m))
                     m))))
 </pre>
@@ -3508,8 +3514,8 @@ input.  Hence, to obtain a random number between 1 and n - 1, we call
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fermat-test</span> n)
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">try-it</span> a)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">fermat-test</span> n)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">try-it</span> a)
     (= (expmod a n n) a))
   (try-it (+ 1 (random (- n 1)))))
 </pre>
@@ -3522,10 +3528,10 @@ time, and false otherwise.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fast-prime?</span> n times)
-  (<span style="font-weight: bold;">cond</span> ((= times 0) true)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">fast-prime?</span> n times)
+  (<span class="org-keyword">cond</span> ((= times 0) true)
         ((fermat-test n) (fast-prime? n (- times 1)))
-        (<span style="font-weight: bold;">else</span> false)))
+        (<span class="org-keyword">else</span> false)))
 </pre>
 </div>
 
@@ -3593,17 +3599,17 @@ followed by the amount of time used in performing the test.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">timed-prime-test</span> n)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">timed-prime-test</span> n)
   (newline)
   (display n)
   (start-prime-test n (runtime)))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">start-prime-test</span> n start-time)
-  (<span style="font-weight: bold;">if</span> (prime? n)
+(<span class="org-keyword">define</span> (<span class="org-function-name">start-prime-test</span> n start-time)
+  (<span class="org-keyword">if</span> (prime? n)
       (report-prime (- (runtime) start-time))))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">report-prime</span> elapsed-time)
-  (display <span style="font-style: italic;">" *** "</span>)
+(<span class="org-keyword">define</span> (<span class="org-function-name">report-prime</span> elapsed-time)
+  (display <span class="org-string">" *** "</span>)
   (display elapsed-time))
 </pre>
 </div>
@@ -3666,7 +3672,7 @@ written
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expmod</span> base exp m)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">expmod</span> base exp m)
   (remainder (fast-expt base exp) m))
 </pre>
 </div>
@@ -3686,13 +3692,13 @@ multiplication, rather than calling `square':
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">expmod</span> base exp m)
-  (<span style="font-weight: bold;">cond</span> ((= exp 0) 1)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">expmod</span> base exp m)
+  (<span class="org-keyword">cond</span> ((= exp 0) 1)
         ((even? exp)
          (remainder (* (expmod base (/ exp 2) m)
                        (expmod base (/ exp 2) m))
                     m))
-        (<span style="font-weight: bold;">else</span>
+        (<span class="org-keyword">else</span>
          (remainder (* base (expmod base (- exp 1) m))
                     m))))
 </pre>
@@ -3812,8 +3818,8 @@ cryptography, electronic funds transfer, and information retrieval.
 </div>
 
 
-<div id="outline-container-orgb533af4" class="outline-2">
-<h2 id="orgb533af4"><span class="section-number-2">3.</span> Formulating Abstractions with Higher-Order Procedures</h2>
+<div id="outline-container-orgdddf3c3" class="outline-2">
+<h2 id="orgdddf3c3"><span class="section-number-2">3.</span> Formulating Abstractions with Higher-Order Procedures</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 We have seen that procedures are, in effect, abstractions that describe
@@ -3822,7 +3828,7 @@ For example, when we
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">cube</span> x) (* x x x))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">cube</span> x) (* x x x))
 </pre>
 </div>
 
@@ -3869,8 +3875,8 @@ language.
 </div>
 
 
-<div id="outline-container-org70c8acc" class="outline-3">
-<h3 id="org70c8acc"><span class="section-number-3">3.1.</span> Procedures as Arguments</h3>
+<div id="outline-container-orgb982d5d" class="outline-3">
+<h3 id="orgb982d5d"><span class="section-number-3">3.1.</span> Procedures as Arguments</h3>
 <div class="outline-text-3" id="text-3-1">
 <hr />
 
@@ -3880,8 +3886,8 @@ the integers from `a' through `b':
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-integers</span> a b)
-  (<span style="font-weight: bold;">if</span> (&gt; a b)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sum-integers</span> a b)
+  (<span class="org-keyword">if</span> (&gt; a b)
       0
       (+ a (sum-integers (+ a 1) b))))
 </pre>
@@ -3893,8 +3899,8 @@ given range:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-cubes</span> a b)
-  (<span style="font-weight: bold;">if</span> (&gt; a b)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sum-cubes</span> a b)
+  (<span class="org-keyword">if</span> (&gt; a b)
       0
       (+ (cube a) (sum-cubes (+ a 1) b))))
 </pre>
@@ -3904,7 +3910,7 @@ given range:
 The third computes the sum of a sequence of terms in the series
 </p>
 
-<pre class="example" id="org296ba8b">
+<pre class="example" id="org74151e4">
   1       1       1
 ----- + ----- + ------ + ...
 1 * 3   5 * 7   9 * 11
@@ -3915,8 +3921,8 @@ which converges to [pi]/8 (very slowly):(1)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-sum</span> a b)
-  (<span style="font-weight: bold;">if</span> (&gt; a b)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">pi-sum</span> a b)
+  (<span class="org-keyword">if</span> (&gt; a b)
       0
       (+ (/ 1.0 (* a (+ a 2))) (pi-sum (+ a 4) b))))
 </pre>
@@ -3931,7 +3937,7 @@ generate each of the procedures by filling in slots in the same
 template:
 </p>
 
-<pre class="example" id="org5aa6834">
+<pre class="example" id="orgaf536d3">
 (define (&lt;NAME&gt; a b)
   (if (&gt; a b)
       0
@@ -3946,7 +3952,7 @@ mathematicians long ago identified the abstraction of "summation of a
 series" and invented "sigma notation," for example
 </p>
 
-<pre class="example" id="org6650e2a">
+<pre class="example" id="orgdf50618">
  b
 ---
 &gt;    f(n) = f(a) + ... + f(b)
@@ -3971,8 +3977,8 @@ into formal parameters:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum</span> term a next b)
-  (<span style="font-weight: bold;">if</span> (&gt; a b)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sum</span> term a next b)
+  (<span class="org-keyword">if</span> (&gt; a b)
       0
       (+ (term a)
          (sum term (next a) next b))))
@@ -3988,9 +3994,9 @@ define `sum-cubes':
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">inc</span> n) (+ n 1))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">inc</span> n) (+ n 1))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-cubes</span> a b)
+(<span class="org-keyword">define</span> (<span class="org-function-name">sum-cubes</span> a b)
   (sum cube a inc b))
 </pre>
 </div>
@@ -4000,7 +4006,7 @@ Using this, we can compute the sum of the cubes of the integers from
 1 to 10:
 </p>
 
-<pre class="example" id="orgc945292">
+<pre class="example" id="orgfb0b18d">
 (sum-cubes 1 10)
 3025
 </pre>
@@ -4011,9 +4017,9 @@ define `sum-integers' in terms of `sum':
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">identity</span> x) x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">identity</span> x) x)
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sum-integers</span> a b)
+(<span class="org-keyword">define</span> (<span class="org-function-name">sum-integers</span> a b)
   (sum identity a inc b))
 </pre>
 </div>
@@ -4022,7 +4028,7 @@ define `sum-integers' in terms of `sum':
 Then we can add up the integers from 1 to 10:
 </p>
 
-<pre class="example" id="orge1d92f9">
+<pre class="example" id="org377d663">
 (sum-integers 1 10)
 55
 </pre>
@@ -4032,10 +4038,10 @@ We can also define `pi-sum' in the same way:(2)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-sum</span> a b)
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-term</span> x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">pi-sum</span> a b)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">pi-term</span> x)
     (/ 1.0 (* x (+ x 2))))
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-next</span> x)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">pi-next</span> x)
     (+ x 4))
   (sum pi-term a pi-next b))
 </pre>
@@ -4045,7 +4051,7 @@ We can also define `pi-sum' in the same way:(2)
 Using these procedures, we can compute an approximation to [pi]:
 </p>
 
-<pre class="example" id="org9678785">
+<pre class="example" id="orga73d0bd">
 (* 8 (pi-sum 1 1000))
 3.139592655589783
 </pre>
@@ -4057,7 +4063,7 @@ between the limits a and b can be approximated numerically using the
 formula
 </p>
 
-<pre class="example" id="org4eed25e">
+<pre class="example" id="org08aaf13">
 /b     /  /     dx \    /          dx \    /           dx \      \
 |  f = | f| a + -- | + f| a + dx + -- | + f| a + 2dx + -- | + ...| dx
 /a     \  \     2  /    \          2  /    \           2  /      /
@@ -4067,7 +4073,7 @@ formula
 for small values of dx.  We can express this directly as a procedure:
 </p>
 
-<pre class="example" id="orga6c98ee">
+<pre class="example" id="org31f9236">
 (define (integral f a b dx)
   (define (add-dx x) (+ x dx))
   (* (sum f (+ a (/ dx 2.0)) add-dx b)
@@ -4091,7 +4097,7 @@ Simpson's Rule, the integral of a function f between a and b is
 approximated as
 </p>
 
-<pre class="example" id="orga28b976">
+<pre class="example" id="org3ad7ec5">
 h
 - (y_0 + 4y_1 + 2y_2 + 4y_3 + 2y_4 + ... + 2y_(n-2) + 4y_(n-1) + y_n)
 3
@@ -4114,7 +4120,7 @@ performed iteratively.  Show how to do this by filling in the
 missing expressions in the following definition:
 </p>
 
-<pre class="example" id="org286c865">
+<pre class="example" id="orgf4ba7f7">
 (define (sum term a next b)
   (define (iter a result)
     (if &lt;??&gt;
@@ -4134,7 +4140,7 @@ terms of `product'.  Also use `product' to compute
 approximations to [pi] using the formula(4)
 </p>
 
-<pre class="example" id="org225ce65">
+<pre class="example" id="org45d7718">
 pi   2 * 4 * 4 * 6 * 6 * 8 ...
 -- = -------------------------
  4   3 * 3 * 5 * 5 * 7 * 7 ...
@@ -4156,7 +4162,7 @@ both special cases of a still more general notion called
 general accumulation function:
 </p>
 
-<pre class="example" id="orgea9a1a2">
+<pre class="example" id="org25f1054">
 (accumulate combiner null-value term a next b)
 </pre>
 
@@ -4248,8 +4254,8 @@ mathematician John Wallis.
 </div>
 
 
-<div id="outline-container-orgb8a1aa3" class="outline-3">
-<h3 id="orgb8a1aa3"><span class="section-number-3">3.2.</span> Constructing Procedures Using `Lambda'</h3>
+<div id="outline-container-org11a49e3" class="outline-3">
+<h3 id="org11a49e3"><span class="section-number-3">3.2.</span> Constructing Procedures Using `Lambda'</h3>
 <div class="outline-text-3" id="text-3-2">
 <hr />
 
@@ -4266,7 +4272,7 @@ describe what we want as
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">lambda</span> (x) (+ x 4))
+<pre class="src src-scheme">(<span class="org-keyword">lambda</span> (x) (+ x 4))
 </pre>
 </div>
 
@@ -4275,7 +4281,7 @@ and
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">lambda</span> (x) (/ 1.0 (* x (+ x 2))))
+<pre class="src src-scheme">(<span class="org-keyword">lambda</span> (x) (/ 1.0 (* x (+ x 2))))
 </pre>
 </div>
 
@@ -4285,10 +4291,10 @@ auxiliary procedures as
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">pi-sum</span> a b)
-  (sum (<span style="font-weight: bold;">lambda</span> (x) (/ 1.0 (* x (+ x 2))))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">pi-sum</span> a b)
+  (sum (<span class="org-keyword">lambda</span> (x) (/ 1.0 (* x (+ x 2))))
        a
-       (<span style="font-weight: bold;">lambda</span> (x) (+ x 4))
+       (<span class="org-keyword">lambda</span> (x) (+ x 4))
        b))
 </pre>
 </div>
@@ -4299,10 +4305,10 @@ having to define the auxiliary procedure `add-dx':
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">integral</span> f a b dx)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">integral</span> f a b dx)
   (* (sum f
           (+ a (/ dx 2.0))
-          (<span style="font-weight: bold;">lambda</span> (x) (+ x dx))
+          (<span class="org-keyword">lambda</span> (x) (+ x dx))
           b)
      dx))
 </pre>
@@ -4313,7 +4319,7 @@ In general, `lambda' is used to create procedures in the same way as
 `define', except that no name is specified for the procedure:
 </p>
 
-<pre class="example" id="org408dc70">
+<pre class="example" id="org42cd5ce">
 (lambda (&lt;FORMAL-PARAMETERS&gt;) &lt;BODY&gt;)
 </pre>
 
@@ -4324,7 +4330,7 @@ associated with any name in the environment.  In fact,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">plus4</span> x) (+ x 4))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">plus4</span> x) (+ x 4))
 </pre>
 </div>
 
@@ -4333,7 +4339,7 @@ is equivalent to
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">plus4</span> (<span style="font-weight: bold;">lambda</span> (x) (+ x 4)))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> <span class="org-function-name">plus4</span> (<span class="org-keyword">lambda</span> (x) (+ x 4)))
 </pre>
 </div>
 
@@ -4341,7 +4347,7 @@ is equivalent to
 We can read a `lambda' expression as follows:
 </p>
 
-<pre class="example" id="org269c7ee">
+<pre class="example" id="orgdef1441">
 (lambda                     (x)     (+   x     4))
     |                        |       |   |     |
 the procedure of an argument x that adds x and 4
@@ -4352,7 +4358,7 @@ Like any expression that has a procedure as its value, a `lambda'
 expression can be used as the operator in a combination such as
 </p>
 
-<pre class="example" id="org9f0b363">
+<pre class="example" id="org951bf8f">
 ((lambda (x y z) (+ x y (square z))) 1 2 3)
 12
 </pre>
@@ -4374,7 +4380,7 @@ as formal parameters.  For example, suppose we wish to compute the
 function
 </p>
 
-<pre class="example" id="org3aa7a27">
+<pre class="example" id="org33a66a9">
 f(x,y) = x(1 + xy)^2 + y(1 - y) + (1 + xy)(1 - y)
 </pre>
 
@@ -4382,7 +4388,7 @@ f(x,y) = x(1 + xy)^2 + y(1 - y) + (1 + xy)(1 - y)
 which we could also express as
 </p>
 
-<pre class="example" id="org7695c78">
+<pre class="example" id="org97ae217">
      a = 1 + xy
      b = 1 - y
 f(x,y) = xa^2 + yb + ab
@@ -4396,8 +4402,8 @@ auxiliary procedure to bind the local variables:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> x y)
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f-helper</span> a b)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">f</span> x y)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">f-helper</span> a b)
     (+ (* x (square a))
        (* y b)
        (* a b)))
@@ -4413,8 +4419,8 @@ becomes a single call to that procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> x y)
-  ((<span style="font-weight: bold;">lambda</span> (a b)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">f</span> x y)
+  ((<span class="org-keyword">lambda</span> (a b)
      (+ (* x (square a))
         (* y b)
         (* a b)))
@@ -4430,8 +4436,8 @@ could be written as
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> x y)
-  (<span style="font-weight: bold;">let</span> ((a (+ 1 (* x y)))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">f</span> x y)
+  (<span class="org-keyword">let</span> ((a (+ 1 (* x y)))
         (b (- 1 y)))
     (+ (* x (square a))
        (* y b)
@@ -4443,7 +4449,7 @@ could be written as
 The general form of a `let' expression is
 </p>
 
-<pre class="example" id="orga25f3ea">
+<pre class="example" id="org38f21fe">
 (let ((&lt;VAR1&gt; &lt;EXP1&gt;)
       (&lt;VAR2&gt; &lt;EXP2&gt;)
       ...
@@ -4455,7 +4461,7 @@ The general form of a `let' expression is
 which can be thought of as saying
 </p>
 
-<pre class="example" id="orge0e37bc">
+<pre class="example" id="orgfe9c502">
 let &lt;VAR_1&gt; have the value &lt;EXP_1&gt; and
     &lt;VAR_2&gt; have the value &lt;EXP_2&gt; and
     ...
@@ -4472,7 +4478,7 @@ happens is that the `let' expression is interpreted as an alternate
 syntax for
 </p>
 
-<pre class="example" id="org6ea83c9">
+<pre class="example" id="org4ca6889">
 ((lambda (&lt;VAR_1&gt; ... &lt;VAR_N&gt;)
     &lt;BODY&gt;)
  &lt;EXP_1&gt;
@@ -4500,7 +4506,7 @@ value of the expression
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(+ (<span style="font-weight: bold;">let</span> ((x 3))
+<pre class="src src-scheme">(+ (<span class="org-keyword">let</span> ((x 3))
      (+ x (* x 10)))
    x)
 </pre>
@@ -4521,7 +4527,7 @@ expression
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">let</span> ((x 3)
+<pre class="src src-scheme">(<span class="org-keyword">let</span> ((x 3)
       (y (+ x 2)))
   (* x y))
 </pre>
@@ -4540,9 +4546,9 @@ as
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> x y)
-  (<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">a</span> (+ 1 (* x y)))
-  (<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">b</span> (- 1 y))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">f</span> x y)
+  (<span class="org-keyword">define</span> <span class="org-function-name">a</span> (+ 1 (* x y)))
+  (<span class="org-keyword">define</span> <span class="org-function-name">b</span> (- 1 y))
   (+ (* x (square a))
      (* y b)
      (* a b)))
@@ -4559,7 +4565,7 @@ internal `define' only for internal procedures.(2)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">f</span> g)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">f</span> g)
   (g 2))
 </pre>
 </div>
@@ -4568,7 +4574,7 @@ internal `define' only for internal procedures.(2)
 Then we have
 </p>
 
-<pre class="example" id="org608613d">
+<pre class="example" id="orge44e422">
 (f square)
 4
 
@@ -4609,8 +4615,8 @@ we learn more about evaluation.
 </div>
 
 
-<div id="outline-container-org873cac6" class="outline-3">
-<h3 id="org873cac6"><span class="section-number-3">3.3.</span> Procedures as General Methods</h3>
+<div id="outline-container-org370690a" class="outline-3">
+<h3 id="org370690a"><span class="section-number-3">3.3.</span> Procedures as General Methods</h3>
 <div class="outline-text-3" id="text-3-3">
 <hr />
 
@@ -4651,16 +4657,16 @@ strategy:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">search</span> f neg-point pos-point)
-  (<span style="font-weight: bold;">let</span> ((midpoint (average neg-point pos-point)))
-    (<span style="font-weight: bold;">if</span> (close-enough? neg-point pos-point)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">search</span> f neg-point pos-point)
+  (<span class="org-keyword">let</span> ((midpoint (average neg-point pos-point)))
+    (<span class="org-keyword">if</span> (close-enough? neg-point pos-point)
         midpoint
-        (<span style="font-weight: bold;">let</span> ((test-value (f midpoint)))
-          (<span style="font-weight: bold;">cond</span> ((positive? test-value)
+        (<span class="org-keyword">let</span> ((test-value (f midpoint)))
+          (<span class="org-keyword">cond</span> ((positive? test-value)
                  (search f neg-point midpoint))
                 ((negative? test-value)
                  (search f midpoint pos-point))
-                (<span style="font-weight: bold;">else</span> midpoint))))))
+                (<span class="org-keyword">else</span> midpoint))))))
 </pre>
 </div>
 
@@ -4685,7 +4691,7 @@ computing square roots:(1)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">close-enough?</span> x y)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">close-enough?</span> x y)
   (&lt; (abs (- x y)) 0.001))
 </pre>
 </div>
@@ -4702,15 +4708,15 @@ case the procedure signals an error.(2)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">half-interval-method</span> f a b)
-  (<span style="font-weight: bold;">let</span> ((a-value (f a))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">half-interval-method</span> f a b)
+  (<span class="org-keyword">let</span> ((a-value (f a))
         (b-value (f b)))
-    (<span style="font-weight: bold;">cond</span> ((<span style="font-weight: bold;">and</span> (negative? a-value) (positive? b-value))
+    (<span class="org-keyword">cond</span> ((<span class="org-keyword">and</span> (negative? a-value) (positive? b-value))
            (search f a b))
-          ((<span style="font-weight: bold;">and</span> (negative? b-value) (positive? a-value))
+          ((<span class="org-keyword">and</span> (negative? b-value) (positive? a-value))
            (search f b a))
-          (<span style="font-weight: bold;">else</span>
-           (error <span style="font-style: italic;">"Values are not of opposite sign"</span> a b)))))
+          (<span class="org-keyword">else</span>
+           (error <span class="org-string">"Values are not of opposite sign"</span> a b)))))
 </pre>
 </div>
 
@@ -4719,7 +4725,7 @@ The following example uses the half-interval method to approximate
 [pi] as the root between 2 and 4 of `sin' x = 0:
 </p>
 
-<pre class="example" id="org084b1b0">
+<pre class="example" id="org3412ebc">
 (half-interval-method sin 2.0 4.0)
 3.14111328125
 </pre>
@@ -4729,7 +4735,7 @@ Here is another example, using the half-interval method to search
 for a root of the equation <code>x^3 - 2x - 3 = 0</code> between 1 and 2:
 </p>
 
-<pre class="example" id="org9937050">
+<pre class="example" id="org8b64924">
 (half-interval-method (lambda (x) (- (* x x x) (* 2 x) 3))
                       1.0
                       2.0)
@@ -4747,7 +4753,7 @@ equation f(x) = x.  For some functions f we can locate a fixed point by
 beginning with an initial guess and applying f repeatedly,
 </p>
 
-<pre class="example" id="org5a16c1c">
+<pre class="example" id="orgf1bec00">
 f(x), f(f(x), (f(f(f(x))))
 </pre>
 
@@ -4761,14 +4767,14 @@ tolerance:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">tolerance</span> 0.00001)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> <span class="org-function-name">tolerance</span> 0.00001)
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fixed-point</span> f first-guess)
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">close-enough?</span> v1 v2)
+(<span class="org-keyword">define</span> (<span class="org-function-name">fixed-point</span> f first-guess)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">close-enough?</span> v1 v2)
     (&lt; (abs (- v1 v2)) tolerance))
-  (<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">try</span> guess)
-    (<span style="font-weight: bold;">let</span> ((next (f guess)))
-      (<span style="font-weight: bold;">if</span> (close-enough? guess next)
+  (<span class="org-keyword">define</span> (<span class="org-function-name">try</span> guess)
+    (<span class="org-keyword">let</span> ((next (f guess)))
+      (<span class="org-keyword">if</span> (close-enough? guess next)
           next
           (try next))))
   (try first-guess))
@@ -4780,7 +4786,7 @@ For example, we can use this method to approximate the fixed point
 of the cosine function, starting with 1 as an initial approximation:(3)
 </p>
 
-<pre class="example" id="org3bc82f4">
+<pre class="example" id="orga99cd98">
 (fixed-point cos 1.0)
 .7390822985224023
 </pre>
@@ -4790,7 +4796,7 @@ Similarly, we can find a solution to the equation y = `sin' y +
 `cos' y:
 </p>
 
-<pre class="example" id="orgb3cb762">
+<pre class="example" id="org3ae0725">
 (fixed-point (lambda (y) (+ (sin y) (cos y)))
              1.0)
 1.2587315962971173
@@ -4809,8 +4815,8 @@ compute square roots as
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
-  (fixed-point (<span style="font-weight: bold;">lambda</span> (y) (/ x y))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
+  (fixed-point (<span class="org-keyword">lambda</span> (y) (/ x y))
                1.0))
 </pre>
 </div>
@@ -4833,8 +4839,8 @@ simply the process of looking for a fixed point of y |-&gt; (1/2)(y + x/y):
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
-  (fixed-point (<span style="font-weight: bold;">lambda</span> (y) (average y (/ x y)))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
+  (fixed-point (<span class="org-keyword">lambda</span> (y) (average y (/ x y)))
                1.0))
 </pre>
 </div>
@@ -4879,7 +4885,7 @@ division by `log'(1) = 0.)
 a. An infinite "continued fraction" is an expression of the form
 </p>
 
-<pre class="example" id="org9b62b72">
+<pre class="example" id="org26183fb">
            N_1
 f = ---------------------
                N_2
@@ -4900,7 +4906,7 @@ so-called finite continued fraction "k-term finite continued
 fraction"&#x2013;has the form
 </p>
 
-<pre class="example" id="orgffede52">
+<pre class="example" id="org93eac9b">
        N_1
 -----------------
           N_2
@@ -4920,8 +4926,8 @@ approximating 1/[phi] using
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(cont-frac (<span style="font-weight: bold;">lambda</span> (i) 1.0)
-           (<span style="font-weight: bold;">lambda</span> (i) 1.0)
+<pre class="src src-scheme">(cont-frac (<span class="org-keyword">lambda</span> (i) 1.0)
+           (<span class="org-keyword">lambda</span> (i) 1.0)
            k)
 </pre>
 </div>
@@ -4956,7 +4962,7 @@ tangent function was published in 1770 by the German mathematician
 J.H. Lambert:
 </p>
 
-<pre class="example" id="orgc5fb27f">
+<pre class="example" id="orgda24f51">
               x
 tan x = ---------------
                 x^2
@@ -5006,8 +5012,8 @@ whose value at y is x/y.
 </div>
 
 
-<div id="outline-container-orgd9a200c" class="outline-3">
-<h3 id="orgd9a200c"><span class="section-number-3">3.4.</span> Procedures as Returned Values</h3>
+<div id="outline-container-orgaac80ac" class="outline-3">
+<h3 id="orgaac80ac"><span class="section-number-3">3.4.</span> Procedures as Returned Values</h3>
 <div class="outline-text-3" id="text-3-4">
 <hr />
 
@@ -5035,8 +5041,8 @@ procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">average-damp</span> f)
-  (<span style="font-weight: bold;">lambda</span> (x) (average x (f x))))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">average-damp</span> f)
+  (<span class="org-keyword">lambda</span> (x) (average x (f x))))
 </pre>
 </div>
 
@@ -5050,7 +5056,7 @@ and x<sup>2</sup>.  Applying this resulting procedure to 10 returns the average
 of 10 and 100, or 55:(1)
 </p>
 
-<pre class="example" id="org7278b78">
+<pre class="example" id="orgd0443bf">
 ((average-damp square) 10)
 55
 </pre>
@@ -5061,8 +5067,8 @@ follows:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
-  (fixed-point (average-damp (<span style="font-weight: bold;">lambda</span> (y) (/ x y)))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
+  (fixed-point (average-damp (<span class="org-keyword">lambda</span> (y) (/ x y)))
                1.0))
 </pre>
 </div>
@@ -5085,8 +5091,8 @@ extracts cube roots:(2)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">cube-root</span> x)
-  (fixed-point (average-damp (<span style="font-weight: bold;">lambda</span> (y) (/ x (square y))))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">cube-root</span> x)
+  (fixed-point (average-damp (<span class="org-keyword">lambda</span> (y) (/ x (square y))))
                1.0))
 </pre>
 </div>
@@ -5104,7 +5110,7 @@ of the equation g(x) = 0 is a fixed point of the function x |-&gt; f(x)
 where
 </p>
 
-<pre class="example" id="org479aee3">
+<pre class="example" id="orgc5fb368">
            g(x)
 f(x) = x - -----
            Dg(x)
@@ -5131,7 +5137,7 @@ then the derivative Dg of g is the function whose value at any number x
 is given (in the limit of small dx) by
 </p>
 
-<pre class="example" id="org195b5a9">
+<pre class="example" id="org10442d1">
         g(x + dx) - g(x)
 Dg(c) = ----------------
                dx
@@ -5143,8 +5149,8 @@ Thus, we can express the idea of derivative (taking dx to be, say,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">deriv</span> g)
-  (<span style="font-weight: bold;">lambda</span> (x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">deriv</span> g)
+  (<span class="org-keyword">lambda</span> (x)
     (/ (- (g (+ x dx)) (g x))
        dx)))
 </pre>
@@ -5155,7 +5161,7 @@ along with the definition
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">dx</span> 0.00001)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> <span class="org-function-name">dx</span> 0.00001)
 </pre>
 </div>
 
@@ -5166,7 +5172,7 @@ the derivative of x |-&gt; x<sup>3</sup> at 5 (whose exact value is 75) we can
 evaluate
 </p>
 
-<pre class="example" id="orgefff31f">
+<pre class="example" id="orge528dab">
 (define (cube x) (* x x x))
 
 ((deriv cube) 5)
@@ -5179,11 +5185,11 @@ fixed-point process:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">newton-transform</span> g)
-  (<span style="font-weight: bold;">lambda</span> (x)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">newton-transform</span> g)
+  (<span class="org-keyword">lambda</span> (x)
     (- x (/ (g x) ((deriv g) x)))))
 
-(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">newtons-method</span> g guess)
+(<span class="org-keyword">define</span> (<span class="org-function-name">newtons-method</span> g guess)
   (fixed-point (newton-transform g) guess))
 </pre>
 </div>
@@ -5203,8 +5209,8 @@ This provides yet another form of the square-root procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
-  (newtons-method (<span style="font-weight: bold;">lambda</span> (y) (- (square y) x))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
+  (newtons-method (<span class="org-keyword">lambda</span> (y) (- (square y) x))
                   1.0))
 </pre>
 </div>
@@ -5225,7 +5231,7 @@ this general idea itself as a procedure:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">fixed-point-of-transform</span> g transform guess)
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">fixed-point-of-transform</span> g transform guess)
   (fixed-point (transform g) guess))
 </pre>
 </div>
@@ -5245,8 +5251,8 @@ method:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
-  (fixed-point-of-transform (<span style="font-weight: bold;">lambda</span> (y) (/ x y))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
+  (fixed-point-of-transform (<span class="org-keyword">lambda</span> (y) (/ x y))
                             average-damp
                             1.0))
 </pre>
@@ -5259,8 +5265,8 @@ of the Newton transform of y |-&gt; y<sup>2</sup> - x) as
 </p>
 
 <div class="org-src-container">
-<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> (<span style="font-weight: bold;">sqrt</span> x)
-  (fixed-point-of-transform (<span style="font-weight: bold;">lambda</span> (y) (- (square y) x))
+<pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">sqrt</span> x)
+  (fixed-point-of-transform (<span class="org-keyword">lambda</span> (y) (- (square y) x))
                             newton-transform
                             1.0))
 </pre>
@@ -5320,7 +5326,7 @@ together with the `newtons-method' procedure in expressions of the
 form
 </p>
 
-<pre class="example" id="org4347d5d">
+<pre class="example" id="orge6ae306">
 (newtons-method (cubic a b c) 1)
 </pre>
 
@@ -5336,7 +5342,7 @@ procedure that adds 1 to its argument, then `(double inc)' should
 be a procedure that adds 2.  What value is returned by
 </p>
 
-<pre class="example" id="org83b84ee">
+<pre class="example" id="orgab62573">
 (((double (double double)) inc) 5)
 </pre>
 
@@ -5347,7 +5353,7 @@ procedure `compose' that implements composition.  For example, if
 `inc' is a procedure that adds 1 to its argument,
 </p>
 
-<pre class="example" id="org89e74c6">
+<pre class="example" id="orgb3bc506">
 ((compose square inc) 6)
 49
 </pre>
@@ -5366,7 +5372,7 @@ procedure that computes the nth repeated application of f.  Your
 procedure should be able to be used as follows:
 </p>
 
-<pre class="example" id="orgb607777">
+<pre class="example" id="orgf307939">
 ((repeated square 2) 5)
 625
 </pre>
@@ -5483,9 +5489,9 @@ executing.  In the Scheme implementation we will study in section *Note
 </div>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
+</main>
+<footer id="postamble" class="status">
 <p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.15)</p>
-</div>
+</footer>
 </body>
 </html>

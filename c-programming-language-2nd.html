@@ -7,86 +7,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>C Programming Language</title>
 <meta name="generator" content="Org Mode" />
-<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style>
 </head>
 <body>
-<div id="content" class="content">
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
 <h1 class="title">C Programming Language</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd226cd9">1. CHAPTER 4. Functions and Program Structure</a>
+<li><a href="#org8db495e">1. CHAPTER 4. Functions and Program Structure</a>
 <ul>
-<li><a href="#org20d0e40">1.1. Basics of Functions</a></li>
-<li><a href="#orgac49706">1.2. Functions Returning Non-integers</a></li>
-<li><a href="#org8b61007">1.3. External Variables</a></li>
-<li><a href="#org487bfdc">1.4. Recursion</a></li>
+<li><a href="#orgd24402b">1.1. Basics of Functions</a></li>
+<li><a href="#orgd9892c6">1.2. Functions Returning Non-integers</a></li>
+<li><a href="#org3ae2337">1.3. External Variables</a></li>
+<li><a href="#orgada3773">1.4. Recursion</a></li>
 </ul>
 </li>
-<li><a href="#orgdca6c53">2. CHAPTER 5. Pointers and Arrays</a></li>
+<li><a href="#orge262291">2. CHAPTER 5. Pointers and Arrays</a></li>
 </ul>
 </div>
 </div>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-src-window-setup 'current-window)
+<pre class="src src-emacs-lisp">(<span class="org-keyword">setq</span> org-src-window-setup 'current-window)
 </pre>
 </div>
 
 
-<div id="outline-container-orgd226cd9" class="outline-2">
-<h2 id="orgd226cd9"><span class="section-number-2">1.</span> CHAPTER 4. Functions and Program Structure</h2>
+<div id="outline-container-org8db495e" class="outline-2">
+<h2 id="org8db495e"><span class="section-number-2">1.</span> CHAPTER 4. Functions and Program Structure</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org20d0e40" class="outline-3">
-<h3 id="org20d0e40"><span class="section-number-3">1.1.</span> Basics of Functions</h3>
+<div id="outline-container-orgd24402b" class="outline-3">
+<h3 id="orgd24402b"><span class="section-number-3">1.1.</span> Basics of Functions</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
-<span style="font-weight: bold;">#define</span> <span style="font-weight: bold; font-style: italic;">MAXLINE</span> 1000
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
+<span class="org-preprocessor">#define</span> <span class="org-variable-name">MAXLINE</span> 1000
 
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">strindex</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">source</span>[], <span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">searchfor</span>[]);
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">_getline</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">line</span>[], <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">max</span>);
+<span class="org-type">int</span> <span class="org-function-name">strindex</span>(<span class="org-type">char</span> <span class="org-variable-name">source</span>[], <span class="org-type">char</span> <span class="org-variable-name">searchfor</span>[]);
+<span class="org-type">int</span> <span class="org-function-name">_getline</span>(<span class="org-type">char</span> <span class="org-variable-name">line</span>[], <span class="org-type">int</span> <span class="org-variable-name">max</span>);
 
-<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">pattern</span>[] = <span style="font-style: italic;">"ould"</span>;
+<span class="org-type">char</span> <span class="org-variable-name">pattern</span>[] = <span class="org-string">"ould"</span>;
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">main</span>() {
-  <span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">line</span>[MAXLINE];
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">found</span> = 0;
-  <span style="font-weight: bold;">while</span> (_getline(line, MAXLINE) &gt; 0) {
-    <span style="font-weight: bold;">if</span> (strindex(line, pattern) &gt;= 0) {
-      printf(<span style="font-style: italic;">"nils"</span>, line);
+<span class="org-type">int</span> <span class="org-function-name">main</span>() {
+  <span class="org-type">char</span> <span class="org-variable-name">line</span>[MAXLINE];
+  <span class="org-type">int</span> <span class="org-variable-name">found</span> = 0;
+  <span class="org-keyword">while</span> (_getline(line, MAXLINE) &gt; 0) {
+    <span class="org-keyword">if</span> (strindex(line, pattern) &gt;= 0) {
+      printf(<span class="org-string">"nils"</span>, line);
       found++;
     }
   }
-  <span style="font-weight: bold;">return</span> found;
+  <span class="org-keyword">return</span> found;
 }
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">strindex</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">s</span>[], <span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">t</span>[]) {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">i</span>, <span style="font-weight: bold; font-style: italic;">j</span> , <span style="font-weight: bold; font-style: italic;">k</span>;
-  <span style="font-weight: bold;">for</span> (i = 0; s[i] != <span style="font-style: italic;">'\0'</span>; i++) {
-    <span style="font-weight: bold;">for</span> (j = i, k = 0; t[k] != <span style="font-style: italic;">'\0'</span> &amp;&amp; s[j] == t[k]; j++, k++) {
+<span class="org-type">int</span> <span class="org-function-name">strindex</span>(<span class="org-type">char</span> <span class="org-variable-name">s</span>[], <span class="org-type">char</span> <span class="org-variable-name">t</span>[]) {
+  <span class="org-type">int</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">j</span> , <span class="org-variable-name">k</span>;
+  <span class="org-keyword">for</span> (i = 0; s[i] != <span class="org-string">'\0'</span>; i++) {
+    <span class="org-keyword">for</span> (j = i, k = 0; t[k] != <span class="org-string">'\0'</span> &amp;&amp; s[j] == t[k]; j++, k++) {
 
     }
-    <span style="font-weight: bold;">if</span> (k &gt; 0 &amp;&amp; t[k] == <span style="font-style: italic;">'\0'</span>) {
-      <span style="font-weight: bold;">return</span> i;
+    <span class="org-keyword">if</span> (k &gt; 0 &amp;&amp; t[k] == <span class="org-string">'\0'</span>) {
+      <span class="org-keyword">return</span> i;
     }
   }
-  <span style="font-weight: bold;">return</span> -1;
+  <span class="org-keyword">return</span> -1;
 }
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">_getline</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">s</span>[], <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">lim</span>) {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">c</span>, <span style="font-weight: bold; font-style: italic;">i</span>;
+<span class="org-type">int</span> <span class="org-function-name">_getline</span>(<span class="org-type">char</span> <span class="org-variable-name">s</span>[], <span class="org-type">int</span> <span class="org-variable-name">lim</span>) {
+  <span class="org-type">int</span> <span class="org-variable-name">c</span>, <span class="org-variable-name">i</span>;
   i = 0;
-  <span style="font-weight: bold;">while</span> (--lim &gt; 0 &amp;&amp; (c = getchar()) != EOF &amp;&amp; c != <span style="font-style: italic;">'\n'</span>) {
+  <span class="org-keyword">while</span> (--lim &gt; 0 &amp;&amp; (c = getchar()) != EOF &amp;&amp; c != <span class="org-string">'\n'</span>) {
     s[i++] = c;
   }
-  <span style="font-weight: bold;">if</span> (c == <span style="font-style: italic;">'\n'</span>) {
+  <span class="org-keyword">if</span> (c == <span class="org-string">'\n'</span>) {
     s[i++] = c;  
   }
-  s[i] = <span style="font-style: italic;">'\0'</span>;
-  <span style="font-weight: bold;">return</span> i;
+  s[i] = <span class="org-string">'\0'</span>;
+  <span class="org-keyword">return</span> i;
 }
 
 
@@ -94,291 +100,291 @@
 </div>
 
 <div class="org-src-container">
-<pre class="src src-makefile"><span style="font-weight: bold; font-style: italic;">CC</span> = gcc
-<span style="font-weight: bold; font-style: italic;">CFLAGS</span> = -g -Wall -Werror -I./src
-<span style="font-weight: bold; font-style: italic;">SRCS</span> = src/grep.c
-<span style="font-weight: bold; font-style: italic;">OBJS</span> = $(<span style="font-weight: bold; font-style: italic;">SRCS</span>:<span style="font-weight: bold; font-style: italic;">.c</span>=.o)
-<span style="font-weight: bold; font-style: italic;">TARGET</span> = app
+<pre class="src src-makefile"><span class="org-variable-name">CC</span> = gcc
+<span class="org-variable-name">CFLAGS</span> = -g -Wall -Werror -I./src
+<span class="org-variable-name">SRCS</span> = src/grep.c
+<span class="org-variable-name">OBJS</span> = $(<span class="org-variable-name">SRCS</span>:<span class="org-variable-name">.c</span>=.o)
+<span class="org-variable-name">TARGET</span> = app
 
-<span style="font-weight: bold;">all</span>: $(<span style="font-weight: bold; font-style: italic;">TARGET</span>)
+<span class="org-makefile-targets">all</span>: $(<span class="org-variable-name">TARGET</span>)
 
-<span style="font-weight: bold;">$(</span><span style="font-weight: bold; font-style: italic;">TARGET</span><span style="font-weight: bold;">)</span>: $(<span style="font-weight: bold; font-style: italic;">OBJS</span>)
-      $(<span style="font-weight: bold; font-style: italic;">CC</span>) -o <span style="font-weight: bold;">$</span><span style="font-weight: bold; text-decoration: underline;">@</span> $<span style="font-weight: bold; text-decoration: underline;">^</span>
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">TARGET</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">OBJS</span>)
+      $(<span class="org-variable-name">CC</span>) -o <span class="org-makefile-targets">$</span><span class="org-makefile-targets"><span class="org-constant">@</span></span> $<span class="org-constant">^</span>
 
-<span style="font-weight: bold;">nil.o</span>: nilc
-      $(<span style="font-weight: bold; font-style: italic;">CC</span>) $(<span style="font-weight: bold; font-style: italic;">CFLAGS</span>) -c nil&lt; -o <span style="font-weight: bold;">$</span><span style="font-weight: bold; text-decoration: underline;">@</span>
+<span class="org-makefile-targets">nil.o</span>: nilc
+      $(<span class="org-variable-name">CC</span>) $(<span class="org-variable-name">CFLAGS</span>) -c nil&lt; -o <span class="org-makefile-targets">$</span><span class="org-makefile-targets"><span class="org-constant">@</span></span>
 
-<span style="font-weight: bold;">clean</span>:
-      rm -f $(<span style="font-weight: bold; font-style: italic;">OBJS</span>) $(<span style="font-weight: bold; font-style: italic;">TARGET</span>)
+<span class="org-makefile-targets">clean</span>:
+      rm -f $(<span class="org-variable-name">OBJS</span>) $(<span class="org-variable-name">TARGET</span>)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgac49706" class="outline-3">
-<h3 id="orgac49706"><span class="section-number-3">1.2.</span> Functions Returning Non-integers</h3>
+<div id="outline-container-orgd9892c6" class="outline-3">
+<h3 id="orgd9892c6"><span class="section-number-3">1.2.</span> Functions Returning Non-integers</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;ctype.h&gt;</span>
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;ctype.h&gt;</span>
 
 
-<span style="font-weight: bold; text-decoration: underline;">double</span> <span style="font-weight: bold;">atof</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">s</span>[]) {
-  <span style="font-weight: bold; text-decoration: underline;">double</span> <span style="font-weight: bold; font-style: italic;">val</span>, <span style="font-weight: bold; font-style: italic;">power</span>;
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">i</span>, <span style="font-weight: bold; font-style: italic;">sign</span>;
-  <span style="font-weight: bold;">for</span> (i = 0; isspace(s[i]); i++) {
-    <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">skip white space</span><span style="font-weight: bold; font-style: italic;"> */</span>
+<span class="org-type">double</span> <span class="org-function-name">atof</span>(<span class="org-type">char</span> <span class="org-variable-name">s</span>[]) {
+  <span class="org-type">double</span> <span class="org-variable-name">val</span>, <span class="org-variable-name">power</span>;
+  <span class="org-type">int</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">sign</span>;
+  <span class="org-keyword">for</span> (i = 0; isspace(s[i]); i++) {
+    <span class="org-comment-delimiter">/* </span><span class="org-comment">skip white space</span><span class="org-comment-delimiter"> */</span>
   }
-  sign = (s[i] == <span style="font-style: italic;">'-'</span>) ? -1 : 1;
-  <span style="font-weight: bold;">if</span> (s[i] == <span style="font-style: italic;">'+'</span> || s[i] == <span style="font-style: italic;">'-'</span>) {
+  sign = (s[i] == <span class="org-string">'-'</span>) ? -1 : 1;
+  <span class="org-keyword">if</span> (s[i] == <span class="org-string">'+'</span> || s[i] == <span class="org-string">'-'</span>) {
     i++;
   }
-  <span style="font-weight: bold;">for</span> (val = 0.0; isdigit(s[i]); i++) {
-    val = 10.0 * val + (s[i] - <span style="font-style: italic;">'0'</span>);
+  <span class="org-keyword">for</span> (val = 0.0; isdigit(s[i]); i++) {
+    val = 10.0 * val + (s[i] - <span class="org-string">'0'</span>);
   }
-  <span style="font-weight: bold;">if</span> (s[i] == <span style="font-style: italic;">'.'</span>) {
+  <span class="org-keyword">if</span> (s[i] == <span class="org-string">'.'</span>) {
     i++;
   }
-  <span style="font-weight: bold;">for</span> (power = 1.0; isdigit(s[i]); i++) {
-    val = 10.0 * val + (s[i] - <span style="font-style: italic;">'0'</span>);
+  <span class="org-keyword">for</span> (power = 1.0; isdigit(s[i]); i++) {
+    val = 10.0 * val + (s[i] - <span class="org-string">'0'</span>);
     power *= 10.0;
   }
-  <span style="font-weight: bold;">return</span> sign * val / power;
+  <span class="org-keyword">return</span> sign * val / power;
 }
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
 
-<span style="font-weight: bold;">#define</span> <span style="font-weight: bold; font-style: italic;">MAXLINE</span> 100
+<span class="org-preprocessor">#define</span> <span class="org-variable-name">MAXLINE</span> 100
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">main</span>() {
-  <span style="font-weight: bold; text-decoration: underline;">double</span> <span style="font-weight: bold; font-style: italic;">sum</span>, <span style="font-weight: bold;">atof</span>(<span style="font-weight: bold; text-decoration: underline;">char</span>[]);
-  <span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">line</span>[MAXLINE];
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">_getline</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">line</span>[], <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">max</span>);
+<span class="org-type">int</span> <span class="org-function-name">main</span>() {
+  <span class="org-type">double</span> <span class="org-variable-name">sum</span>, <span class="org-function-name">atof</span>(<span class="org-type">char</span>[]);
+  <span class="org-type">char</span> <span class="org-variable-name">line</span>[MAXLINE];
+  <span class="org-type">int</span> <span class="org-function-name">_getline</span>(<span class="org-type">char</span> <span class="org-variable-name">line</span>[], <span class="org-type">int</span> <span class="org-variable-name">max</span>);
 
   sum = 0;
-  <span style="font-weight: bold;">while</span> (_getline(line, MAXLINE) &gt; 0) {
-    printf(<span style="font-style: italic;">"\tnilg\n"</span>, sum += atof(line));
+  <span class="org-keyword">while</span> (_getline(line, MAXLINE) &gt; 0) {
+    printf(<span class="org-string">"\tnilg\n"</span>, sum += atof(line));
   }
-  <span style="font-weight: bold;">return</span> 0;
+  <span class="org-keyword">return</span> 0;
 }
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">_getline</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">s</span>[], <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">lim</span>) {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">c</span>, <span style="font-weight: bold; font-style: italic;">i</span>;
+<span class="org-type">int</span> <span class="org-function-name">_getline</span>(<span class="org-type">char</span> <span class="org-variable-name">s</span>[], <span class="org-type">int</span> <span class="org-variable-name">lim</span>) {
+  <span class="org-type">int</span> <span class="org-variable-name">c</span>, <span class="org-variable-name">i</span>;
   i = 0;
-  <span style="font-weight: bold;">while</span> (--lim &gt; 0 &amp;&amp; (c = getchar()) != EOF &amp;&amp; c != <span style="font-style: italic;">'\n'</span>) {
+  <span class="org-keyword">while</span> (--lim &gt; 0 &amp;&amp; (c = getchar()) != EOF &amp;&amp; c != <span class="org-string">'\n'</span>) {
     s[i++] = c;
   }
-  <span style="font-weight: bold;">if</span> (c == <span style="font-style: italic;">'\n'</span>) {
+  <span class="org-keyword">if</span> (c == <span class="org-string">'\n'</span>) {
     s[i++] = c;  
   }
-  s[i] = <span style="font-style: italic;">'\0'</span>;
-  <span style="font-weight: bold;">return</span> i;
+  s[i] = <span class="org-string">'\0'</span>;
+  <span class="org-keyword">return</span> i;
 }
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-makefile"><span style="font-weight: bold; font-style: italic;">CC</span> = gcc
-<span style="font-weight: bold; font-style: italic;">CFLAGS</span> = -g -Wall -Werror -I./src
-<span style="font-weight: bold; font-style: italic;">SRCS</span> = src/main.c src/atof.c
-<span style="font-weight: bold; font-style: italic;">OBJS</span> = $(<span style="font-weight: bold; font-style: italic;">SRCS</span>:<span style="font-weight: bold; font-style: italic;">.c</span>=.o)
-<span style="font-weight: bold; font-style: italic;">TARGET</span> = app
+<pre class="src src-makefile"><span class="org-variable-name">CC</span> = gcc
+<span class="org-variable-name">CFLAGS</span> = -g -Wall -Werror -I./src
+<span class="org-variable-name">SRCS</span> = src/main.c src/atof.c
+<span class="org-variable-name">OBJS</span> = $(<span class="org-variable-name">SRCS</span>:<span class="org-variable-name">.c</span>=.o)
+<span class="org-variable-name">TARGET</span> = app
 
-<span style="font-weight: bold;">all</span>: $(<span style="font-weight: bold; font-style: italic;">TARGET</span>)
+<span class="org-makefile-targets">all</span>: $(<span class="org-variable-name">TARGET</span>)
 
-<span style="font-weight: bold;">$(</span><span style="font-weight: bold; font-style: italic;">TARGET</span><span style="font-weight: bold;">)</span>: $(<span style="font-weight: bold; font-style: italic;">OBJS</span>)
-      $(<span style="font-weight: bold; font-style: italic;">CC</span>) -o <span style="font-weight: bold;">$</span><span style="font-weight: bold; text-decoration: underline;">@</span> $<span style="font-weight: bold; text-decoration: underline;">^</span>
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">TARGET</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">OBJS</span>)
+      $(<span class="org-variable-name">CC</span>) -o <span class="org-makefile-targets">$</span><span class="org-makefile-targets"><span class="org-constant">@</span></span> $<span class="org-constant">^</span>
 
-<span style="font-weight: bold;">nil.o</span>: nilc
-      $(<span style="font-weight: bold; font-style: italic;">CC</span>) $(<span style="font-weight: bold; font-style: italic;">CFLAGS</span>) -c nil&lt; -o <span style="font-weight: bold;">$</span><span style="font-weight: bold; text-decoration: underline;">@</span>
+<span class="org-makefile-targets">nil.o</span>: nilc
+      $(<span class="org-variable-name">CC</span>) $(<span class="org-variable-name">CFLAGS</span>) -c nil&lt; -o <span class="org-makefile-targets">$</span><span class="org-makefile-targets"><span class="org-constant">@</span></span>
 
-<span style="font-weight: bold;">clean</span>:
-      rm -f $(<span style="font-weight: bold; font-style: italic;">OBJS</span>) $(<span style="font-weight: bold; font-style: italic;">TARGET</span>)
+<span class="org-makefile-targets">clean</span>:
+      rm -f $(<span class="org-variable-name">OBJS</span>) $(<span class="org-variable-name">TARGET</span>)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8b61007" class="outline-3">
-<h3 id="org8b61007"><span class="section-number-3">1.3.</span> External Variables</h3>
+<div id="outline-container-org3ae2337" class="outline-3">
+<h3 id="org3ae2337"><span class="section-number-3">1.3.</span> External Variables</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#define</span> <span style="font-weight: bold; font-style: italic;">NUMBER</span> <span style="font-style: italic;">'0'</span>              <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">signal that a number was found</span><span style="font-weight: bold; font-style: italic;"> */</span>
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">push</span>(<span style="font-weight: bold; text-decoration: underline;">double</span>);
-<span style="font-weight: bold; text-decoration: underline;">double</span> <span style="font-weight: bold;">pop</span>(<span style="font-weight: bold; text-decoration: underline;">void</span>);
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">getop</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> []);
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">getch</span>(<span style="font-weight: bold; text-decoration: underline;">void</span>);
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">ungetch</span>(<span style="font-weight: bold; text-decoration: underline;">int</span>);
+<pre class="src src-c"><span class="org-preprocessor">#define</span> <span class="org-variable-name">NUMBER</span> <span class="org-string">'0'</span>              <span class="org-comment-delimiter">/* </span><span class="org-comment">signal that a number was found</span><span class="org-comment-delimiter"> */</span>
+<span class="org-type">void</span> <span class="org-function-name">push</span>(<span class="org-type">double</span>);
+<span class="org-type">double</span> <span class="org-function-name">pop</span>(<span class="org-type">void</span>);
+<span class="org-type">int</span> <span class="org-function-name">getop</span>(<span class="org-type">char</span> []);
+<span class="org-type">int</span> <span class="org-function-name">getch</span>(<span class="org-type">void</span>);
+<span class="org-type">void</span> <span class="org-function-name">ungetch</span>(<span class="org-type">int</span>);
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
-<span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdlib.h&gt;</span>             <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">for atof()</span><span style="font-weight: bold; font-style: italic;"> */</span>
-<span style="font-weight: bold;">#include</span> <span style="font-style: italic;">"calc.h"</span>
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
+<span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdlib.h&gt;</span>             <span class="org-comment-delimiter">/* </span><span class="org-comment">for atof()</span><span class="org-comment-delimiter"> */</span>
+<span class="org-preprocessor">#include</span> <span class="org-string">"calc.h"</span>
 
-<span style="font-weight: bold;">#define</span> <span style="font-weight: bold; font-style: italic;">MAXOP</span> 100               <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">max size of operand or operator</span><span style="font-weight: bold; font-style: italic;"> */</span>
+<span class="org-preprocessor">#define</span> <span class="org-variable-name">MAXOP</span> 100               <span class="org-comment-delimiter">/* </span><span class="org-comment">max size of operand or operator</span><span class="org-comment-delimiter"> */</span>
 
-<span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">reverse Polish calculator</span><span style="font-weight: bold; font-style: italic;"> */</span>
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">main</span>() {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">type</span>;
-  <span style="font-weight: bold; text-decoration: underline;">double</span> <span style="font-weight: bold; font-style: italic;">op2</span>;
-  <span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">s</span>[MAXOP];
+<span class="org-comment-delimiter">/* </span><span class="org-comment">reverse Polish calculator</span><span class="org-comment-delimiter"> */</span>
+<span class="org-type">int</span> <span class="org-function-name">main</span>() {
+  <span class="org-type">int</span> <span class="org-variable-name">type</span>;
+  <span class="org-type">double</span> <span class="org-variable-name">op2</span>;
+  <span class="org-type">char</span> <span class="org-variable-name">s</span>[MAXOP];
 
-  <span style="font-weight: bold;">while</span> ((type = getop(s)) != EOF) {
-    <span style="font-weight: bold;">switch</span>(type) {
-    <span style="font-weight: bold;">case</span> NUMBER:
+  <span class="org-keyword">while</span> ((type = getop(s)) != EOF) {
+    <span class="org-keyword">switch</span>(type) {
+    <span class="org-keyword">case</span> NUMBER:
       push(atof(s));
-      <span style="font-weight: bold;">break</span>;
-    <span style="font-weight: bold;">case</span> <span style="font-style: italic;">'+'</span>:
+      <span class="org-keyword">break</span>;
+    <span class="org-keyword">case</span> <span class="org-string">'+'</span>:
       push(pop() + pop());
-      <span style="font-weight: bold;">break</span>;
-    <span style="font-weight: bold;">case</span> <span style="font-style: italic;">'*'</span>:
+      <span class="org-keyword">break</span>;
+    <span class="org-keyword">case</span> <span class="org-string">'*'</span>:
       push(pop() * pop());
-      <span style="font-weight: bold;">break</span>;
-    <span style="font-weight: bold;">case</span> <span style="font-style: italic;">'-'</span>:
+      <span class="org-keyword">break</span>;
+    <span class="org-keyword">case</span> <span class="org-string">'-'</span>:
       op2 = pop();
       push(pop() - op2);
-      <span style="font-weight: bold;">break</span>;
-    <span style="font-weight: bold;">case</span> <span style="font-style: italic;">'/'</span>:
+      <span class="org-keyword">break</span>;
+    <span class="org-keyword">case</span> <span class="org-string">'/'</span>:
       op2 = pop();
-      <span style="font-weight: bold;">if</span> (op2 != 0.0)
+      <span class="org-keyword">if</span> (op2 != 0.0)
         push(pop() / op2);
-      <span style="font-weight: bold;">else</span>
-        printf(<span style="font-style: italic;">"error: zero divisor\n"</span>);
-      <span style="font-weight: bold;">break</span>;
-    <span style="font-weight: bold;">case</span> <span style="font-style: italic;">'\n'</span>:
-      printf(<span style="font-style: italic;">"\tnil.8g\n"</span>, pop());
-      <span style="font-weight: bold;">break</span>;
-    <span style="font-weight: bold;">default</span>:
-      printf(<span style="font-style: italic;">"error: unknown command nils\n"</span>, s);
-      <span style="font-weight: bold;">break</span>;
+      <span class="org-keyword">else</span>
+        printf(<span class="org-string">"error: zero divisor\n"</span>);
+      <span class="org-keyword">break</span>;
+    <span class="org-keyword">case</span> <span class="org-string">'\n'</span>:
+      printf(<span class="org-string">"\tnil.8g\n"</span>, pop());
+      <span class="org-keyword">break</span>;
+    <span class="org-keyword">default</span>:
+      printf(<span class="org-string">"error: unknown command nils\n"</span>, s);
+      <span class="org-keyword">break</span>;
     }
   }
-  <span style="font-weight: bold;">return</span> 0;
+  <span class="org-keyword">return</span> 0;
 }
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
-<span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;ctype.h&gt;</span>
-<span style="font-weight: bold;">#include</span> <span style="font-style: italic;">"calc.h"</span>
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
+<span class="org-preprocessor">#include</span> <span class="org-string">&lt;ctype.h&gt;</span>
+<span class="org-preprocessor">#include</span> <span class="org-string">"calc.h"</span>
 
-<span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">getop: get next operator or numberic operand</span><span style="font-weight: bold; font-style: italic;"> */</span>
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">getop</span>(<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">s</span>[]) {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">i</span>, <span style="font-weight: bold; font-style: italic;">c</span>;
-  <span style="font-weight: bold;">while</span>((s[0] = c = getch()) == <span style="font-style: italic;">' '</span> || c == <span style="font-style: italic;">'\t'</span>) {
-    <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">skip</span><span style="font-weight: bold; font-style: italic;"> */</span>
+<span class="org-comment-delimiter">/* </span><span class="org-comment">getop: get next operator or numberic operand</span><span class="org-comment-delimiter"> */</span>
+<span class="org-type">int</span> <span class="org-function-name">getop</span>(<span class="org-type">char</span> <span class="org-variable-name">s</span>[]) {
+  <span class="org-type">int</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">c</span>;
+  <span class="org-keyword">while</span>((s[0] = c = getch()) == <span class="org-string">' '</span> || c == <span class="org-string">'\t'</span>) {
+    <span class="org-comment-delimiter">/* </span><span class="org-comment">skip</span><span class="org-comment-delimiter"> */</span>
   }
-  s[1] = <span style="font-style: italic;">'\0'</span>;
-  <span style="font-weight: bold;">if</span> (!isdigit(c) &amp;&amp; c != <span style="font-style: italic;">'.'</span>)
-    <span style="font-weight: bold;">return</span> c;                   <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">not a number</span><span style="font-weight: bold; font-style: italic;"> */</span>
+  s[1] = <span class="org-string">'\0'</span>;
+  <span class="org-keyword">if</span> (<span class="org-negation-char">!</span>isdigit(c) &amp;&amp; c != <span class="org-string">'.'</span>)
+    <span class="org-keyword">return</span> c;                   <span class="org-comment-delimiter">/* </span><span class="org-comment">not a number</span><span class="org-comment-delimiter"> */</span>
   i = 0;
-  <span style="font-weight: bold;">if</span> (isdigit(c))
-    <span style="font-weight: bold;">while</span> (isdigit(s[++i] = c = getch())) {
-      <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">collect integer part</span><span style="font-weight: bold; font-style: italic;"> */</span>
+  <span class="org-keyword">if</span> (isdigit(c))
+    <span class="org-keyword">while</span> (isdigit(s[++i] = c = getch())) {
+      <span class="org-comment-delimiter">/* </span><span class="org-comment">collect integer part</span><span class="org-comment-delimiter"> */</span>
     }
-  <span style="font-weight: bold;">if</span> (c == <span style="font-style: italic;">'.'</span>)
-    <span style="font-weight: bold;">while</span> (isdigit(s[++i] = c = getch())) {
-      <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">collect fraction part</span><span style="font-weight: bold; font-style: italic;"> */</span>
+  <span class="org-keyword">if</span> (c == <span class="org-string">'.'</span>)
+    <span class="org-keyword">while</span> (isdigit(s[++i] = c = getch())) {
+      <span class="org-comment-delimiter">/* </span><span class="org-comment">collect fraction part</span><span class="org-comment-delimiter"> */</span>
     }
-  s[i] = <span style="font-style: italic;">'\0'</span>;
-  <span style="font-weight: bold;">if</span> (c != EOF)
+  s[i] = <span class="org-string">'\0'</span>;
+  <span class="org-keyword">if</span> (c != EOF)
     ungetch(c);
-  <span style="font-weight: bold;">return</span> NUMBER;
+  <span class="org-keyword">return</span> NUMBER;
 }
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
-<span style="font-weight: bold;">#define</span> <span style="font-weight: bold; font-style: italic;">BUFSIZE</span> 100
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
+<span class="org-preprocessor">#define</span> <span class="org-variable-name">BUFSIZE</span> 100
 
-<span style="font-weight: bold; text-decoration: underline;">char</span> <span style="font-weight: bold; font-style: italic;">buf</span>[BUFSIZE];
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">bufp</span> = 0;
+<span class="org-type">char</span> <span class="org-variable-name">buf</span>[BUFSIZE];
+<span class="org-type">int</span> <span class="org-variable-name">bufp</span> = 0;
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">getch</span>(<span style="font-weight: bold; text-decoration: underline;">void</span>) {
-  <span style="font-weight: bold;">return</span> (bufp &gt; 0) ? buf[--bufp] : getchar();
+<span class="org-type">int</span> <span class="org-function-name">getch</span>(<span class="org-type">void</span>) {
+  <span class="org-keyword">return</span> (bufp &gt; 0) ? buf[--bufp] : getchar();
 }
 
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">ungetch</span>(<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">c</span>) {
-  <span style="font-weight: bold;">if</span> (bufp &gt;= BUFSIZE)
-    printf(<span style="font-style: italic;">"ungetch: too many characters\n"</span>);
-  <span style="font-weight: bold;">else</span>
+<span class="org-type">void</span> <span class="org-function-name">ungetch</span>(<span class="org-type">int</span> <span class="org-variable-name">c</span>) {
+  <span class="org-keyword">if</span> (bufp &gt;= BUFSIZE)
+    printf(<span class="org-string">"ungetch: too many characters\n"</span>);
+  <span class="org-keyword">else</span>
     buf[bufp++] = c;
 }
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
-<span style="font-weight: bold;">#include</span> <span style="font-style: italic;">"calc.h"</span>
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
+<span class="org-preprocessor">#include</span> <span class="org-string">"calc.h"</span>
 
-<span style="font-weight: bold;">#define</span> <span style="font-weight: bold; font-style: italic;">MAXVAL</span> 100
+<span class="org-preprocessor">#define</span> <span class="org-variable-name">MAXVAL</span> 100
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">sp</span> = 0;
-<span style="font-weight: bold; text-decoration: underline;">double</span> <span style="font-weight: bold; font-style: italic;">val</span>[MAXVAL];
+<span class="org-type">int</span> <span class="org-variable-name">sp</span> = 0;
+<span class="org-type">double</span> <span class="org-variable-name">val</span>[MAXVAL];
 
-<span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">push: push f onto value stack</span><span style="font-weight: bold; font-style: italic;"> */</span>
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">push</span>(<span style="font-weight: bold; text-decoration: underline;">double</span> <span style="font-weight: bold; font-style: italic;">f</span>) {
-  <span style="font-weight: bold;">if</span> (sp &lt; MAXVAL)
+<span class="org-comment-delimiter">/* </span><span class="org-comment">push: push f onto value stack</span><span class="org-comment-delimiter"> */</span>
+<span class="org-type">void</span> <span class="org-function-name">push</span>(<span class="org-type">double</span> <span class="org-variable-name">f</span>) {
+  <span class="org-keyword">if</span> (sp &lt; MAXVAL)
     val[sp++] = f;
-  <span style="font-weight: bold;">else</span>
-    printf(<span style="font-style: italic;">"error: stack full, can't push nilg\n"</span>, f);
+  <span class="org-keyword">else</span>
+    printf(<span class="org-string">"error: stack full, can't push nilg\n"</span>, f);
 }
 
-<span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">pop: pop and return top value from stack</span><span style="font-weight: bold; font-style: italic;"> */</span>
-<span style="font-weight: bold; text-decoration: underline;">double</span> <span style="font-weight: bold;">pop</span>(<span style="font-weight: bold; text-decoration: underline;">void</span>) {
-  <span style="font-weight: bold;">if</span> (sp &gt; 0)
-    <span style="font-weight: bold;">return</span> val[--sp];
-  <span style="font-weight: bold;">else</span> {
-    printf(<span style="font-style: italic;">"error: stack empty\n"</span>);
-    <span style="font-weight: bold;">return</span> 0.0;
+<span class="org-comment-delimiter">/* </span><span class="org-comment">pop: pop and return top value from stack</span><span class="org-comment-delimiter"> */</span>
+<span class="org-type">double</span> <span class="org-function-name">pop</span>(<span class="org-type">void</span>) {
+  <span class="org-keyword">if</span> (sp &gt; 0)
+    <span class="org-keyword">return</span> val[--sp];
+  <span class="org-keyword">else</span> {
+    printf(<span class="org-string">"error: stack empty\n"</span>);
+    <span class="org-keyword">return</span> 0.0;
   }
 }
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-makefile"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Compiler</span>
-<span style="font-weight: bold; font-style: italic;">CC</span> = gcc
+<pre class="src src-makefile"><span class="org-comment-delimiter"># </span><span class="org-comment">Compiler
+</span><span class="org-variable-name">CC</span> = gcc
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Compiler flags</span>
-<span style="font-weight: bold; font-style: italic;">CFLAGS</span> = -g -Wall -Werror -I./src
+<span class="org-comment-delimiter"># </span><span class="org-comment">Compiler flags
+</span><span class="org-variable-name">CFLAGS</span> = -g -Wall -Werror -I./src
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Source files</span>
-<span style="font-weight: bold; font-style: italic;">SRCS</span> = src/main.c src/getop.c src/getch.c src/stack.c
+<span class="org-comment-delimiter"># </span><span class="org-comment">Source files
+</span><span class="org-variable-name">SRCS</span> = src/main.c src/getop.c src/getch.c src/stack.c
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Object files</span>
-<span style="font-weight: bold; font-style: italic;">OBJS</span> = $(<span style="font-weight: bold; font-style: italic;">SRCS</span>:<span style="font-weight: bold; font-style: italic;">.c</span>=.o)
+<span class="org-comment-delimiter"># </span><span class="org-comment">Object files
+</span><span class="org-variable-name">OBJS</span> = $(<span class="org-variable-name">SRCS</span>:<span class="org-variable-name">.c</span>=.o)
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Executable name</span>
-<span style="font-weight: bold; font-style: italic;">TARGET</span> = app
+<span class="org-comment-delimiter"># </span><span class="org-comment">Executable name
+</span><span class="org-variable-name">TARGET</span> = app
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Default target</span>
-<span style="font-weight: bold;">all</span>: $(<span style="font-weight: bold; font-style: italic;">TARGET</span>)
+<span class="org-comment-delimiter"># </span><span class="org-comment">Default target
+</span><span class="org-makefile-targets">all</span>: $(<span class="org-variable-name">TARGET</span>)
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Link object files to create the executable</span>
-<span style="font-weight: bold;">$(</span><span style="font-weight: bold; font-style: italic;">TARGET</span><span style="font-weight: bold;">)</span>: $(<span style="font-weight: bold; font-style: italic;">OBJS</span>)
-      $(<span style="font-weight: bold; font-style: italic;">CC</span>) -o <span style="font-weight: bold;">$</span><span style="font-weight: bold; text-decoration: underline;">@</span> $<span style="font-weight: bold; text-decoration: underline;">^</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Link object files to create the executable
+</span><span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">TARGET</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">OBJS</span>)
+      $(<span class="org-variable-name">CC</span>) -o <span class="org-makefile-targets">$</span><span class="org-makefile-targets"><span class="org-constant">@</span></span> $<span class="org-constant">^</span>
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Compile source files to objects files</span>
-<span style="font-weight: bold;">nil.o</span>: nil.c
-      $(<span style="font-weight: bold; font-style: italic;">CC</span>) $(<span style="font-weight: bold; font-style: italic;">CFLAGS</span>) -c $<span style="font-weight: bold; text-decoration: underline;">&lt;</span> -o <span style="font-weight: bold;">$</span><span style="font-weight: bold; text-decoration: underline;">@</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Compile source files to objects files
+</span><span class="org-makefile-targets">nil.o</span>: nil.c
+      $(<span class="org-variable-name">CC</span>) $(<span class="org-variable-name">CFLAGS</span>) -c $<span class="org-constant">&lt;</span> -o <span class="org-makefile-targets">$</span><span class="org-makefile-targets"><span class="org-constant">@</span></span>
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Clean target</span>
-<span style="font-weight: bold;">clean</span>:
-      rm -f $(<span style="font-weight: bold; font-style: italic;">OBJS</span>) $(<span style="font-weight: bold; font-style: italic;">TARGET</span>)
+<span class="org-comment-delimiter"># </span><span class="org-comment">Clean target
+</span><span class="org-makefile-targets">clean</span>:
+      rm -f $(<span class="org-variable-name">OBJS</span>) $(<span class="org-variable-name">TARGET</span>)
 </pre>
 </div>
 
 <p>
 After execute program, input and output will be like below.
 </p>
-<pre class="example" id="orgbd37622">
+<pre class="example" id="org24bc70f">
 IN: 1 1 +
 OUT: 2
 IN: 1 1 + 2 2 + *
@@ -388,63 +394,63 @@ OUT: 8
 </div>
 </div>
 
-<div id="outline-container-org487bfdc" class="outline-3">
-<h3 id="org487bfdc"><span class="section-number-3">1.4.</span> Recursion</h3>
+<div id="outline-container-orgada3773" class="outline-3">
+<h3 id="orgada3773"><span class="section-number-3">1.4.</span> Recursion</h3>
 <div class="outline-text-3" id="text-1-4">
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
 
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">printd</span>(<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">n</span>);
+<span class="org-type">void</span> <span class="org-function-name">printd</span>(<span class="org-type">int</span> <span class="org-variable-name">n</span>);
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">main</span>() {
+<span class="org-type">int</span> <span class="org-function-name">main</span>() {
   printd(123);
 }
 
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">printd</span>(<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">n</span>) {
-  <span style="font-weight: bold;">if</span> (n &lt; 0) {
-    putchar(<span style="font-style: italic;">'-'</span>);
+<span class="org-type">void</span> <span class="org-function-name">printd</span>(<span class="org-type">int</span> <span class="org-variable-name">n</span>) {
+  <span class="org-keyword">if</span> (n &lt; 0) {
+    putchar(<span class="org-string">'-'</span>);
     n = -n;
   }
-  <span style="font-weight: bold;">if</span> (n / 10)
+  <span class="org-keyword">if</span> (n / 10)
     printd(n / 10);
-  putchar(n nil 10 + <span style="font-style: italic;">'0'</span>);
+  putchar(n nil 10 + <span class="org-string">'0'</span>);
 }
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
 
 
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">qsort</span>(<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">v</span>[], <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">left</span>, <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">right</span>);
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">swap</span>(<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">v</span>[], <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">i</span>, <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">j</span>);
+<span class="org-type">void</span> <span class="org-function-name">qsort</span>(<span class="org-type">int</span> <span class="org-variable-name">v</span>[], <span class="org-type">int</span> <span class="org-variable-name">left</span>, <span class="org-type">int</span> <span class="org-variable-name">right</span>);
+<span class="org-type">void</span> <span class="org-function-name">swap</span>(<span class="org-type">int</span> <span class="org-variable-name">v</span>[], <span class="org-type">int</span> <span class="org-variable-name">i</span>, <span class="org-type">int</span> <span class="org-variable-name">j</span>);
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">main</span>() {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">v</span>[] = {3, 5, 2, 1, 6, 8, 10};
+<span class="org-type">int</span> <span class="org-function-name">main</span>() {
+  <span class="org-type">int</span> <span class="org-variable-name">v</span>[] = {3, 5, 2, 1, 6, 8, 10};
   qsort(v, 0, 6);
-  <span style="font-weight: bold;">for</span> (<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">i</span> = 0; i &lt; 7; i++)
-    printf(<span style="font-style: italic;">"nild, "</span>, v[i]);
-  printf(<span style="font-style: italic;">"\n"</span>);
+  <span class="org-keyword">for</span> (<span class="org-type">int</span> <span class="org-variable-name">i</span> = 0; i &lt; 7; i++)
+    printf(<span class="org-string">"nild, "</span>, v[i]);
+  printf(<span class="org-string">"\n"</span>);
 }
 
-<span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">qsort: sort v[left]..v[right] into increasing order</span><span style="font-weight: bold; font-style: italic;"> */</span>
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">qsort</span>(<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">v</span>[], <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">left</span>, <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">right</span>) {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">i</span>, <span style="font-weight: bold; font-style: italic;">last</span>;
-  <span style="font-weight: bold;">if</span> (left &gt;= right)            <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">do nothing if array contains fewer than two elements</span><span style="font-weight: bold; font-style: italic;"> */</span>
-    <span style="font-weight: bold;">return</span>;
-  swap(v, left, (left + right) / 2); <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">move partition elem to v[0]</span><span style="font-weight: bold; font-style: italic;"> */</span>
+<span class="org-comment-delimiter">/* </span><span class="org-comment">qsort: sort v[left]..v[right] into increasing order</span><span class="org-comment-delimiter"> */</span>
+<span class="org-type">void</span> <span class="org-function-name">qsort</span>(<span class="org-type">int</span> <span class="org-variable-name">v</span>[], <span class="org-type">int</span> <span class="org-variable-name">left</span>, <span class="org-type">int</span> <span class="org-variable-name">right</span>) {
+  <span class="org-type">int</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">last</span>;
+  <span class="org-keyword">if</span> (left &gt;= right)            <span class="org-comment-delimiter">/* </span><span class="org-comment">do nothing if array contains fewer than two elements</span><span class="org-comment-delimiter"> */</span>
+    <span class="org-keyword">return</span>;
+  swap(v, left, (left + right) / 2); <span class="org-comment-delimiter">/* </span><span class="org-comment">move partition elem to v[0]</span><span class="org-comment-delimiter"> */</span>
   last = left;
-  <span style="font-weight: bold;">for</span> (i = left + 1; i &lt;= right; i++) <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">partition</span><span style="font-weight: bold; font-style: italic;"> */</span>
-    <span style="font-weight: bold;">if</span> (v[i] &lt; v[left])
+  <span class="org-keyword">for</span> (i = left + 1; i &lt;= right; i++) <span class="org-comment-delimiter">/* </span><span class="org-comment">partition</span><span class="org-comment-delimiter"> */</span>
+    <span class="org-keyword">if</span> (v[i] &lt; v[left])
       swap(v, ++last, i);
-  swap(v, left, last);         <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">restore partition elem</span><span style="font-weight: bold; font-style: italic;"> */</span>
+  swap(v, left, last);         <span class="org-comment-delimiter">/* </span><span class="org-comment">restore partition elem</span><span class="org-comment-delimiter"> */</span>
   qsort(v, left, last - 1);
   qsort(v, last + 1, right);
 }
 
-<span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">swap: interchange v[i] and v[j]</span><span style="font-weight: bold; font-style: italic;"> */</span>
-<span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">swap</span>(<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">v</span>[], <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">i</span>, <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">j</span>) {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">temp</span>;
+<span class="org-comment-delimiter">/* </span><span class="org-comment">swap: interchange v[i] and v[j]</span><span class="org-comment-delimiter"> */</span>
+<span class="org-type">void</span> <span class="org-function-name">swap</span>(<span class="org-type">int</span> <span class="org-variable-name">v</span>[], <span class="org-type">int</span> <span class="org-variable-name">i</span>, <span class="org-type">int</span> <span class="org-variable-name">j</span>) {
+  <span class="org-type">int</span> <span class="org-variable-name">temp</span>;
   temp = v[i];
   v[i] = v[j];
   v[j] = temp;
@@ -455,34 +461,34 @@ OUT: 8
 </div>
 </div>
 
-<div id="outline-container-orgdca6c53" class="outline-2">
-<h2 id="orgdca6c53"><span class="section-number-2">2.</span> CHAPTER 5. Pointers and Arrays</h2>
+<div id="outline-container-orge262291" class="outline-2">
+<h2 id="orge262291"><span class="section-number-2">2.</span> CHAPTER 5. Pointers and Arrays</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-c"><span style="font-weight: bold;">#include</span> <span style="font-style: italic;">&lt;stdio.h&gt;</span>
+<pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
 
 
-<span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold;">main</span>() {
-  <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">x</span> = 1, <span style="font-weight: bold; font-style: italic;">y</span> = 2, <span style="font-weight: bold; font-style: italic;">z</span>[10];
-  <span style="font-weight: bold; text-decoration: underline;">int</span> *<span style="font-weight: bold; font-style: italic;">ip</span>;                      <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">ip is a pointer to int</span><span style="font-weight: bold; font-style: italic;"> */</span>
-  printf(<span style="font-style: italic;">"int *ip: nilp\n"</span>, &amp;ip);
+<span class="org-type">int</span> <span class="org-function-name">main</span>() {
+  <span class="org-type">int</span> <span class="org-variable-name">x</span> = 1, <span class="org-variable-name">y</span> = 2, <span class="org-variable-name">z</span>[10];
+  <span class="org-type">int</span> *<span class="org-variable-name">ip</span>;                      <span class="org-comment-delimiter">/* </span><span class="org-comment">ip is a pointer to int</span><span class="org-comment-delimiter"> */</span>
+  printf(<span class="org-string">"int *ip: nilp\n"</span>, &amp;ip);
 
-  ip = &amp;x;                      <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">ip now points to x</span><span style="font-weight: bold; font-style: italic;"> */</span>
-  printf(<span style="font-style: italic;">"ip = &amp;x: nild\n"</span>, ip);
-  y = *ip;                      <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">y is now 1</span><span style="font-weight: bold; font-style: italic;"> */</span>
-  printf(<span style="font-style: italic;">"y = *ip: nild\n"</span>, y);
-  *ip = 0;                      <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">x is now 0</span><span style="font-weight: bold; font-style: italic;"> */</span>
-  printf(<span style="font-style: italic;">"*ip = 0: nild\n"</span>, x);
-  ip = &amp;z[0];                    <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">ip now points to z[0]</span><span style="font-weight: bold; font-style: italic;"> */</span>
-  printf(<span style="font-style: italic;">"ip = &amp;z[0]: nild\n"</span>, ip);
+  ip = &amp;x;                      <span class="org-comment-delimiter">/* </span><span class="org-comment">ip now points to x</span><span class="org-comment-delimiter"> */</span>
+  printf(<span class="org-string">"ip = &amp;x: nild\n"</span>, ip);
+  y = *ip;                      <span class="org-comment-delimiter">/* </span><span class="org-comment">y is now 1</span><span class="org-comment-delimiter"> */</span>
+  printf(<span class="org-string">"y = *ip: nild\n"</span>, y);
+  *ip = 0;                      <span class="org-comment-delimiter">/* </span><span class="org-comment">x is now 0</span><span class="org-comment-delimiter"> */</span>
+  printf(<span class="org-string">"*ip = 0: nild\n"</span>, x);
+  ip = &amp;z[0];                    <span class="org-comment-delimiter">/* </span><span class="org-comment">ip now points to z[0]</span><span class="org-comment-delimiter"> */</span>
+  printf(<span class="org-string">"ip = &amp;z[0]: nild\n"</span>, ip);
 }
 </pre>
 </div>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
+</main>
+<footer id="postamble" class="status">
 <p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.15)</p>
-</div>
+</footer>
 </body>
 </html>

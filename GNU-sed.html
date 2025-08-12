@@ -7,38 +7,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>GNU Sed</title>
 <meta name="generator" content="Org Mode" />
-<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style>
 </head>
 <body>
-<div id="content" class="content">
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
 <h1 class="title">GNU Sed</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4bf540a">1. Introduction</a>
+<li><a href="#org09b9c3f">1. Introduction</a>
 <ul>
-<li><a href="#org68696fe">1.1. Basic Usage</a></li>
+<li><a href="#org7bd1c45">1.1. Basic Usage</a></li>
 </ul>
 </li>
-<li><a href="#org5d9cb17">2. In-place file editing</a>
+<li><a href="#orge9387e5">2. In-place file editing</a>
 <ul>
-<li><a href="#orgb781897">2.1. With backup</a></li>
-<li><a href="#orgfb460b5">2.2. Without backup</a></li>
-<li><a href="#org9b0b092">2.3. Multiple files</a></li>
-<li><a href="#orga024c13">2.4. Prefix backup name</a></li>
-<li><a href="#org1cfc13a">2.5. Place backups in different directory</a></li>
-<li><a href="#org11d170b">2.6. Cheatsheet and summary</a></li>
+<li><a href="#org7806f26">2.1. With backup</a></li>
+<li><a href="#orgccf7ace">2.2. Without backup</a></li>
+<li><a href="#org3d3c0c1">2.3. Multiple files</a></li>
+<li><a href="#orga734f16">2.4. Prefix backup name</a></li>
+<li><a href="#org099cc93">2.5. Place backups in different directory</a></li>
+<li><a href="#org79cd534">2.6. Cheatsheet and summary</a></li>
 </ul>
 </li>
-<li><a href="#org8dc517e">3. Selective eiditing</a>
+<li><a href="#orge42a2b4">3. Selective eiditing</a>
 <ul>
-<li><a href="#orge155452">3.1. Conditional execution</a></li>
-<li><a href="#orga26eccc">3.2. Delete command</a></li>
-<li><a href="#org4375af9">3.3. Print command</a></li>
-<li><a href="#org320236c">3.4. Quit commands</a></li>
-<li><a href="#org56a2aaa">3.5. Line addressing</a></li>
-<li><a href="#orgcba5039">3.6. Print only line number</a></li>
+<li><a href="#orge33ed25">3.1. Conditional execution</a></li>
+<li><a href="#orgb459dbc">3.2. Delete command</a></li>
+<li><a href="#org190b8f6">3.3. Print command</a></li>
+<li><a href="#orge12fb53">3.4. Quit commands</a></li>
+<li><a href="#org260c9fb">3.5. Line addressing</a></li>
+<li><a href="#org1310149">3.6. Print only line number</a></li>
 </ul>
 </li>
 </ul>
@@ -46,8 +52,8 @@
 </div>
 
 
-<div id="outline-container-org4bf540a" class="outline-2">
-<h2 id="org4bf540a"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org09b9c3f" class="outline-2">
+<h2 id="org09b9c3f"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The command name <code>sed</code> is derived from stream editor. Here, stream
@@ -67,23 +73,23 @@ the command
 </p>
 </div>
 
-<div id="outline-container-org68696fe" class="outline-3">
-<h3 id="org68696fe"><span class="section-number-3">1.1.</span> Basic Usage</h3>
+<div id="outline-container-org7bd1c45" class="outline-3">
+<h3 id="org7bd1c45"><span class="section-number-3">1.1.</span> Basic Usage</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
-<pre class="src src-shell">printf <span style="font-style: italic;">'1,2,3,4\na,b,c,d\n'</span> | sed <span style="font-style: italic;">'s/,/-/g'</span>
+<pre class="src src-shell"><span class="org-builtin">printf</span> <span class="org-string">'1,2,3,4\na,b,c,d\n'</span> | sed <span class="org-string">'s/,/-/g'</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5d9cb17" class="outline-2">
-<h2 id="org5d9cb17"><span class="section-number-2">2.</span> In-place file editing</h2>
+<div id="outline-container-orge9387e5" class="outline-2">
+<h2 id="orge9387e5"><span class="section-number-2">2.</span> In-place file editing</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgb781897" class="outline-3">
-<h3 id="orgb781897"><span class="section-number-3">2.1.</span> With backup</h3>
+<div id="outline-container-org7806f26" class="outline-3">
+<h3 id="org7806f26"><span class="section-number-3">2.1.</span> With backup</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 When an extension is provided as an argument to -i option, the
@@ -94,14 +100,14 @@ extension given. For example, if the input file is <code>ip.txt</code> and
 
 
 <div class="org-src-container">
-<pre class="src src-shell">sed -i.bkp <span style="font-style: italic;">'s/blue/green/'</span> examples/sed/colors.txt
+<pre class="src src-shell">sed -i.bkp <span class="org-string">'s/blue/green/'</span> examples/sed/colors.txt
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgfb460b5" class="outline-3">
-<h3 id="orgfb460b5"><span class="section-number-3">2.2.</span> Without backup</h3>
+<div id="outline-container-orgccf7ace" class="outline-3">
+<h3 id="orgccf7ace"><span class="section-number-3">2.2.</span> Without backup</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Sometimes backups are not desirable. Using -i option on its own will
@@ -112,14 +118,14 @@ compare the differences with a <code>diff</code> program and then delete the bac
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">sed -i <span style="font-style: italic;">'s/an/AN/g'</span> examples/sed/fruits.txt
+<pre class="src src-shell">sed -i <span class="org-string">'s/an/AN/g'</span> examples/sed/fruits.txt
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9b0b092" class="outline-3">
-<h3 id="org9b0b092"><span class="section-number-3">2.3.</span> Multiple files</h3>
+<div id="outline-container-org3d3c0c1" class="outline-3">
+<h3 id="org3d3c0c1"><span class="section-number-3">2.3.</span> Multiple files</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Multiple input files are treated individually and the changes are
@@ -127,7 +133,7 @@ written back to repective files.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">sed -i.bkp <span style="font-style: italic;">'s/bad/good/'</span> examples/sed/f1.txt examples/sed/f2.txt
+<pre class="src src-shell">sed -i.bkp <span class="org-string">'s/bad/good/'</span> examples/sed/f1.txt examples/sed/f2.txt
 </pre>
 </div>
 
@@ -136,14 +142,14 @@ Using wildcard and globbing
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">sed -i.bkp <span style="font-style: italic;">'s/bad/good/'</span> examples/sed/f?.*
+<pre class="src src-shell">sed -i.bkp <span class="org-string">'s/bad/good/'</span> examples/sed/f?.*
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga024c13" class="outline-3">
-<h3 id="orga024c13"><span class="section-number-3">2.4.</span> Prefix backup name</h3>
+<div id="outline-container-orga734f16" class="outline-3">
+<h3 id="orga734f16"><span class="section-number-3">2.4.</span> Prefix backup name</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 A * character in the argumetn to -i option is special. It will get
@@ -153,14 +159,14 @@ combination that may be needed.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">sed -i<span style="font-style: italic;">'bkp.*'</span> <span style="font-style: italic;">'s/green/yellow/'</span> examples/sed/colors.txt
+<pre class="src src-shell">sed -i<span class="org-string">'bkp.*'</span> <span class="org-string">'s/green/yellow/'</span> examples/sed/colors.txt
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1cfc13a" class="outline-3">
-<h3 id="org1cfc13a"><span class="section-number-3">2.5.</span> Place backups in different directory</h3>
+<div id="outline-container-org099cc93" class="outline-3">
+<h3 id="org099cc93"><span class="section-number-3">2.5.</span> Place backups in different directory</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 The <code>*</code> trick can also be used to place the backups in another directory
@@ -169,14 +175,14 @@ should already exist for this to work.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">sed -i<span style="font-style: italic;">'backups/*'</span> <span style="font-style: italic;">'s/good/nice'</span> examples/sed/f?.*
+<pre class="src src-shell">sed -i<span class="org-string">'backups/*'</span> <span class="org-string">'s/good/nice'</span> examples/sed/f?.*
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org11d170b" class="outline-3">
-<h3 id="org11d170b"><span class="section-number-3">2.6.</span> Cheatsheet and summary</h3>
+<div id="outline-container-org79cd534" class="outline-3">
+<h3 id="org79cd534"><span class="section-number-3">2.6.</span> Cheatsheet and summary</h3>
 <div class="outline-text-3" id="text-2-6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -217,8 +223,8 @@ should already exist for this to work.
 </div>
 </div>
 
-<div id="outline-container-org8dc517e" class="outline-2">
-<h2 id="org8dc517e"><span class="section-number-2">3.</span> Selective eiditing</h2>
+<div id="outline-container-orge42a2b4" class="outline-2">
+<h2 id="orge42a2b4"><span class="section-number-2">3.</span> Selective eiditing</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 By default, sed acts on the entire input content. Many a times, you
@@ -235,8 +241,8 @@ as seen in the examples of previous chapters.
 </p>
 </div>
 
-<div id="outline-container-orge155452" class="outline-3">
-<h3 id="orge155452"><span class="section-number-3">3.1.</span> Conditional execution</h3>
+<div id="outline-container-orge33ed25" class="outline-3">
+<h3 id="orge33ed25"><span class="section-number-3">3.1.</span> Conditional execution</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 As seen earlier, the syntax for substitute command is
@@ -246,7 +252,7 @@ matching the pattern.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">printf <span style="font-style: italic;">'1,2,3,4\na,b,c,d\n'</span> | sed <span style="font-style: italic;">'/2/ s/,/-/g'</span>
+<pre class="src src-shell"><span class="org-builtin">printf</span> <span class="org-string">'1,2,3,4\na,b,c,d\n'</span> | sed <span class="org-string">'/2/ s/,/-/g'</span>
 </pre>
 </div>
 
@@ -255,14 +261,14 @@ Use /REGEXP/FLAGS! to act upon lines other than the matching ones.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">printf <span style="font-style: italic;">'1,2,3,4\na,b,c,d\n'</span> | sed <span style="font-style: italic;">'/2/! s/,/-/g'</span>
+<pre class="src src-shell"><span class="org-builtin">printf</span> <span class="org-string">'1,2,3,4\na,b,c,d\n'</span> | sed <span class="org-string">'/2/! s/,/-/g'</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga26eccc" class="outline-3">
-<h3 id="orga26eccc"><span class="section-number-3">3.2.</span> Delete command</h3>
+<div id="outline-container-orgb459dbc" class="outline-3">
+<h3 id="orgb459dbc"><span class="section-number-3">3.2.</span> Delete command</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 To delete the filtered lines, use the <code>d</code> command. Recall that all input
@@ -270,20 +276,20 @@ lines are printed by default.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">printf <span style="font-style: italic;">'sea\neat\ndrop\n'</span> | sed <span style="font-style: italic;">'/at/d'</span>
+<pre class="src src-shell"><span class="org-builtin">printf</span> <span class="org-string">'sea\neat\ndrop\n'</span> | sed <span class="org-string">'/at/d'</span>
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as: grep -v 'at'</span>
-printf <span style="font-style: italic;">'sea\neat\ndrop\n'</span> | sed <span style="font-style: italic;">'/at/!d'</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">same as: grep -v 'at'
+</span><span class="org-builtin">printf</span> <span class="org-string">'sea\neat\ndrop\n'</span> | sed <span class="org-string">'/at/!d'</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4375af9" class="outline-3">
-<h3 id="org4375af9"><span class="section-number-3">3.3.</span> Print command</h3>
+<div id="outline-container-org190b8f6" class="outline-3">
+<h3 id="org190b8f6"><span class="section-number-3">3.3.</span> Print command</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 To print the filtered lines, use the <code>p</code> command. But, recall that all
@@ -293,11 +299,11 @@ default printing.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as: grep 'twice' examples/sed/programming_quotes.txt</span>
-sed -n <span style="font-style: italic;">'/twice/p'</span> examples/sed/programming_quotes.txt
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">same as: grep 'twice' examples/sed/programming_quotes.txt
+</span>sed -n <span class="org-string">'/twice/p'</span> examples/sed/programming_quotes.txt
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as: grep 'e th' examples/sed/programming_quotes.txt</span>
-sed -n <span style="font-style: italic;">'/e th/p'</span> examples/sed/programming_quotes.txt
+<span class="org-comment-delimiter"># </span><span class="org-comment">same as: grep 'e th' examples/sed/programming_quotes.txt
+</span>sed -n <span class="org-string">'/e th/p'</span> examples/sed/programming_quotes.txt
 </pre>
 </div>
 
@@ -307,12 +313,12 @@ modified line would be printed only if the substituion succeeded.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as grep '1' programming_quotes.txt | sed 's/1/one/g'</span>
-sed -n <span style="font-style: italic;">'s/1/one/gp'</span> examples/sed/programming_quotes.txt
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">same as grep '1' programming_quotes.txt | sed 's/1/one/g'
+</span>sed -n <span class="org-string">'s/1/one/gp'</span> examples/sed/programming_quotes.txt
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">filter + substitution + p combination</span>
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as grep 'not' programming_qoutes.txt | sed 's/in/**/g'</span>
-sed -n <span style="font-style: italic;">'/not/ s/in/**/gp'</span> examples/sed/programming_quotes.txt
+<span class="org-comment-delimiter"># </span><span class="org-comment">filter + substitution + p combination
+</span><span class="org-comment-delimiter"># </span><span class="org-comment">same as grep 'not' programming_qoutes.txt | sed 's/in/**/g'
+</span>sed -n <span class="org-string">'/not/ s/in/**/gp'</span> examples/sed/programming_quotes.txt
 </pre>
 </div>
 
@@ -321,15 +327,15 @@ Using !p with -n option will be equivalent to using d command.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as: sed '/at/d'</span>
-printf <span style="font-style: italic;">'sea\neat\ndrop\n'</span> | sed -n <span style="font-style: italic;">'/at/!p'</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">same as: sed '/at/d'
+</span><span class="org-builtin">printf</span> <span class="org-string">'sea\neat\ndrop\n'</span> | sed -n <span class="org-string">'/at/!p'</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org320236c" class="outline-3">
-<h3 id="org320236c"><span class="section-number-3">3.4.</span> Quit commands</h3>
+<div id="outline-container-orge12fb53" class="outline-3">
+<h3 id="orge12fb53"><span class="section-number-3">3.4.</span> Quit commands</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Using q command wil exit sed immediately, without any further
@@ -337,8 +343,8 @@ processing.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">quits after an input line containing 'if' is found</span>
-sed <span style="font-style: italic;">'/if/q'</span> examples/sed/programming_quotes.txt 
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">quits after an input line containing 'if' is found
+</span>sed <span class="org-string">'/if/q'</span> examples/sed/programming_quotes.txt 
 </pre>
 </div>
 
@@ -347,7 +353,7 @@ Q command is similar to q but won't print the matching line.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">sed <span style="font-style: italic;">'/if/Q'</span> examples/sed/programming_quotes.txt 
+<pre class="src src-shell">sed <span class="org-string">'/if/Q'</span> examples/sed/programming_quotes.txt 
 </pre>
 </div>
 
@@ -357,7 +363,7 @@ string with respect to entire file content.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">tac examples/sed/programming_quotes.txt | sed <span style="font-style: italic;">'/not/q'</span> | tac
+<pre class="src src-shell">tac examples/sed/programming_quotes.txt | sed <span class="org-string">'/not/q'</span> | tac
 </pre>
 </div>
 
@@ -367,30 +373,30 @@ the quit commands.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">printf <span style="font-style: italic;">'sea\neat\ndrop\n'</span> | sed <span style="font-style: italic;">'/at/q2'</span>
+<pre class="src src-shell"><span class="org-builtin">printf</span> <span class="org-string">'sea\neat\ndrop\n'</span> | sed <span class="org-string">'/at/q2'</span>
 </pre>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org56a2aaa" class="outline-3">
-<h3 id="org56a2aaa"><span class="section-number-3">3.5.</span> Line addressing</h3>
+<div id="outline-container-org260c9fb" class="outline-3">
+<h3 id="org260c9fb"><span class="section-number-3">3.5.</span> Line addressing</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 Line numbers can also be used as a filtering criteria.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">here, 3 represents the address for the print command</span>
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as: head -n3 programming_quotes.txt | tail -n1 and sed '3!d'</span>
-sed -n <span style="font-style: italic;">'3p'</span> examples/sed/programming_quotes.txt
-<span style="font-weight: bold;">echo</span> <span style="font-style: italic;">'--------------------'</span>
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">print 2nd and 5th line</span>
-sed -n <span style="font-style: italic;">'2p; 5p'</span> examples/sed/programming_quotes.txt
-<span style="font-weight: bold;">echo</span> <span style="font-style: italic;">'--------------------'</span>
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">substitution only on 2nd line</span>
-printf <span style="font-style: italic;">'gates\nnot\nused\n'</span> | sed <span style="font-style: italic;">'2 s/t/*/g'</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">here, 3 represents the address for the print command
+</span><span class="org-comment-delimiter"># </span><span class="org-comment">same as: head -n3 programming_quotes.txt | tail -n1 and sed '3!d'
+</span>sed -n <span class="org-string">'3p'</span> examples/sed/programming_quotes.txt
+<span class="org-builtin">echo</span> <span class="org-string">'--------------------'</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">print 2nd and 5th line
+</span>sed -n <span class="org-string">'2p; 5p'</span> examples/sed/programming_quotes.txt
+<span class="org-builtin">echo</span> <span class="org-string">'--------------------'</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">substitution only on 2nd line
+</span><span class="org-builtin">printf</span> <span class="org-string">'gates\nnot\nused\n'</span> | sed <span class="org-string">'2 s/t/*/g'</span>
 </pre>
 </div>
 
@@ -399,8 +405,8 @@ As a special case, $ indicates the last line of the input
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as: tail -n1 programming_quotes.txt</span>
-sed -n <span style="font-style: italic;">'$p'</span> examples/sed/programming_quotes.txt
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">same as: tail -n1 programming_quotes.txt
+</span>sed -n <span class="org-string">'$p'</span> examples/sed/programming_quotes.txt
 </pre>
 </div>
 
@@ -410,14 +416,14 @@ input lines.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">seq 3542 4623452 | sed -n <span style="font-style: italic;">'2452{p; q}'</span>
-<span style="font-weight: bold;">echo</span> <span style="font-style: italic;">'--------------------'</span>
-seq 3542 4623452 | sed -n <span style="font-style: italic;">'250p; 2452{p; q}'</span>
-<span style="font-weight: bold;">echo</span> <span style="font-style: italic;">'--------------------'</span>
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">here is a sample time comparison</span>
-time seq 3542 4623452 | sed -n <span style="font-style: italic;">'2452{p; q}'</span> &gt; examples/sed/f1
-<span style="font-weight: bold;">echo</span> <span style="font-style: italic;">'--------------------'</span>
-time seq 3542 4623452 | sed -n <span style="font-style: italic;">'2452p'</span> &gt; examples/sed/f2
+<pre class="src src-shell">seq 3542 4623452 | sed -n <span class="org-string">'2452{p; q}'</span>
+<span class="org-builtin">echo</span> <span class="org-string">'--------------------'</span>
+seq 3542 4623452 | sed -n <span class="org-string">'250p; 2452{p; q}'</span>
+<span class="org-builtin">echo</span> <span class="org-string">'--------------------'</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">here is a sample time comparison
+</span><span class="org-keyword">time</span> seq 3542 4623452 | sed -n <span class="org-string">'2452{p; q}'</span> &gt; examples/sed/f1
+<span class="org-builtin">echo</span> <span class="org-string">'--------------------'</span>
+<span class="org-keyword">time</span> seq 3542 4623452 | sed -n <span class="org-string">'2452p'</span> &gt; examples/sed/f2
 </pre>
 </div>
 
@@ -426,26 +432,26 @@ Mimicking <code>head</code> command using line addressing and the <code>q</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">same as: seq 23 45 | head -n5</span>
-seq 23 45 | sed <span style="font-style: italic;">'5q'</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">same as: seq 23 45 | head -n5
+</span>seq 23 45 | sed <span class="org-string">'5q'</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgcba5039" class="outline-3">
-<h3 id="orgcba5039"><span class="section-number-3">3.6.</span> Print only line number</h3>
+<div id="outline-container-org1310149" class="outline-3">
+<h3 id="org1310149"><span class="section-number-3">3.6.</span> Print only line number</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 The = command will display the line numbers of matching lines.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">gives both line number and matching line</span>
-grep -n <span style="font-style: italic;">'not'</span> examples/sed/programming_quotes.txt
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">gives both line number and matching line
+</span>grep -n <span class="org-string">'not'</span> examples/sed/programming_quotes.txt
 
-<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">gives only line number of matching line</span>
-sed -n <span style="font-style: italic;">'/not/='</span> examples/sed/programming_quotes.txt 
+<span class="org-comment-delimiter"># </span><span class="org-comment">gives only line number of matching line
+</span>sed -n <span class="org-string">'/not/='</span> examples/sed/programming_quotes.txt 
 </pre>
 </div>
 
@@ -455,17 +461,17 @@ newline character between the matching line and line number.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">sed -n <span style="font-style: italic;">'/off/{=; p}'</span> examples/sed/programming_quotes.txt
-<span style="font-weight: bold;">echo</span> <span style="font-style: italic;">'--------------------'</span>
-sed -n <span style="font-style: italic;">'/off/{p; =}'</span> examples/sed/programming_quotes.txt 
+<pre class="src src-shell">sed -n <span class="org-string">'/off/{=; p}'</span> examples/sed/programming_quotes.txt
+<span class="org-builtin">echo</span> <span class="org-string">'--------------------'</span>
+sed -n <span class="org-string">'/off/{p; =}'</span> examples/sed/programming_quotes.txt 
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
+</main>
+<footer id="postamble" class="status">
 <p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.15)</p>
-</div>
+</footer>
 </body>
 </html>

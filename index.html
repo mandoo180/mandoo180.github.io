@@ -5,37 +5,77 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>KyeongSoo Org Site</title>
+<title>Personal Org Page</title>
 <meta name="generator" content="Org Mode" />
-<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style>
 </head>
 <body>
-<div id="content" class="content">
-<h1 class="title">KyeongSoo Org Site</h1>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Personal Org Page</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3c60521">1. Overview</a></li>
-<li><a href="#orgafde98f">2. How to run</a>
+<li><a href="#orgf0ec9c6">1. How to run</a>
 <ul>
-<li>
-<ul>
-<li><a href="#org1e135ea">2.0.1. Build html files</a></li>
-<li><a href="#org7e00a91">2.0.2. Run server in Emacs</a></li>
-<li><a href="#org9573877">2.0.3. Serve a Directory</a></li>
+<li><a href="#orge47394a">1.1. Build html files</a></li>
+<li><a href="#org513c3fa">1.2. Run server in Emacs</a></li>
+<li><a href="#org55a5814">1.3. Serve a Directory</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#orge82f829">3. Links</a></li>
+<li><a href="#org197264a">2. Pages</a></li>
+<li><a href="#orgf4df38e">3. Links</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org3c60521" class="outline-2">
-<h2 id="org3c60521"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-orgf0ec9c6" class="outline-2">
+<h2 id="orgf0ec9c6"><span class="section-number-2">1.</span> How to run</h2>
 <div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orge47394a" class="outline-3">
+<h3 id="orge47394a"><span class="section-number-3">1.1.</span> Build html files</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-shell">./build.sh
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org513c3fa" class="outline-3">
+<h3 id="org513c3fa"><span class="section-number-3">1.2.</span> Run server in Emacs</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Install <code>simple-httpd</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(package-install 'simple-httpd)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org55a5814" class="outline-3">
+<h3 id="org55a5814"><span class="section-number-3">1.3.</span> Serve a Directory</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Serve `./public' by <code>M-x httpd-serve-directory</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org197264a" class="outline-2">
+<h2 id="org197264a"><span class="section-number-2">2.</span> Pages</h2>
+<div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li><a href="./emacs-configs.html">Emacs configurations</a></li>
 <li><a href="./GNU-sed.html">Learning GNU Sed</a></li>
@@ -45,55 +85,17 @@
 </div>
 </div>
 
-<div id="outline-container-orgafde98f" class="outline-2">
-<h2 id="orgafde98f"><span class="section-number-2">2.</span> How to run</h2>
-<div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-org1e135ea" class="outline-4">
-<h4 id="org1e135ea"><span class="section-number-4">2.0.1.</span> Build html files</h4>
-<div class="outline-text-4" id="text-2-0-1">
-<div class="org-src-container">
-<pre class="src src-shell">./build.sh
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org7e00a91" class="outline-4">
-<h4 id="org7e00a91"><span class="section-number-4">2.0.2.</span> Run server in Emacs</h4>
-<div class="outline-text-4" id="text-2-0-2">
-<p>
-Install <code>simple-httpd</code>.<br />
-</p>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(package-install 'simple-httpd)
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org9573877" class="outline-4">
-<h4 id="org9573877"><span class="section-number-4">2.0.3.</span> Serve a Directory</h4>
-<div class="outline-text-4" id="text-2-0-3">
-<p>
-Serve `./public' by <code>M-x httpd-serve-directory</code>.
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orge82f829" class="outline-2">
-<h2 id="orge82f829"><span class="section-number-2">3.</span> Links</h2>
+<div id="outline-container-orgf4df38e" class="outline-2">
+<h2 id="orgf4df38e"><span class="section-number-2">3.</span> Links</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li><a href="https://github.com/mandoo180">My github repository</a></li>
-<li><a href="https://mandoo180.github.io/">My Github Page</a></li>
 </ul>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
+</main>
+<footer id="postamble" class="status">
 <p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.15)</p>
-</div>
+</footer>
 </body>
 </html>
