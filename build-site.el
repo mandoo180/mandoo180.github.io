@@ -1,8 +1,11 @@
+;;; build-site.el --- Summary:  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 ;; prepare for dependencies
 (require 'package)
 (setq package-user-dir (expand-file-name "./.packages"))
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages.")))
+                         ("elpa"  . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -10,15 +13,44 @@
 
 ;; requires org export publish
 (require 'ox-publish)
+(require 'ox-html)
 
-;; (setq-local k-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
-(setq-local k-html-head (concat "<link rel=\"stylesheet\" href=\"/assets/css/style.css\" />"
-                                "\n"
-                                "<script src=\"/assets/scripts/script.js\"></script>"))
-(setq org-html-validation-link nil
-      org-html-head-include-scripts nil
+(setq local/script-tag "<script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>")
+(setq local/style-tag "
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style>")
+(setq local/org-html-head (concat "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+                                  "<script src=\"https://cdn.tailwindcss.com?plugins=typography\"></script>"
+								  local/script-tag
+								  local/style-tag))
+(setq org-html-validation-link            nil
+	  org-html-htmlize-output-type        'css
+      org-html-head-include-scripts       nil
       org-html-head-include-default-style nil
-      org-html-head k-html-head)
+      org-html-head                       local/org-html-head
+	  org-html-divs                       '((preamble "header" "preamble")
+											(content "main" "content")
+											(postamble "footer" "postamble")))
+
+(with-eval-after-load 'ox-html
+  (setq org-html-use-infojs t)
+  (setq org-html-infojs-options
+        '((path    . "assets/scripts/org-info.js")
+		  (view    . "info")
+		  (toc     . :with-toc)
+		  (ftoc    . "0")
+		  (tdepth  . "max")
+		  (sdepth  . "max")
+		  (mouse   . "underline")
+		  (buttons . "0")
+		  (ltoc    . "1")
+		  (up      . :html-link-up)
+		  (home    . :html-link-home))))
+
 (setq org-hide-emphasis-markers t)
 (setq org-confirm-babel-evaluate nil)
 (setq org-use-property-inheritance t)
@@ -26,31 +58,34 @@
 (org-babel-do-load-languages 'org-babel-load-languages '((shell . t) (emacs-lisp . t)))
 (setq org-publish-project-alist
       (list (list "org-site:main"
-                  :recursive t
-                  :base-extension "org"
-                  :base-directory "./content"
+                  :recursive            t
+                  :base-extension       "org"
+                  :base-directory       "./content"
                   :publishing-directory "./public"
-                  :publishing-function 'org-html-publish-to-html
-                  :with-author nil
-                  :with-creator t
-                  :with-toc t
-                  :with-latex t
-                  :with-todo-keywords nil
-                  :section-number nil
-                  :time-stamp-file nil)))
+                  :publishing-function  'org-html-publish-to-html
+                  :with-author          nil
+                  :with-creator         nil
+                  :with-toc             t
+                  :with-latex           t
+                  :with-todo-keywords   nil
+                  :section-number       nil
+                  :time-stamp-file      nil)))
 
-(defun run-before-org-export-processing (backend)
-  (message "Testing %s" backend)
-  (dolist (li (org-babel-src-block-names))
-  (if (string-equal "startup" li)
-      (progn
-        (org-babel-goto-named-src-block li)
-        (org-babel-execute-src-block)))))
+(defun local/org-html-add-tailwind-container (output backend info)
+  "After-export filter to add Tailwind classes to the content wrapper."
+  (when (org-export-derived-backend-p backend 'html)
+    (replace-regexp-in-string
+     "<main id=\"content\" class=\"content\">"
+     "<main id=\"content\" class=\"prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8\">"
+     output t t)))
 
-;; for testing purpose
-(setq org-export-before-processing-functions #'run-before-org-export-processing)
+(add-to-list 'org-export-filter-final-output-functions #'local/org-html-add-tailwind-container)
 
-
-(org-publish-all t)
+(let ((content-dir (directory-file-name "content"))
+	  (public-dir  (directory-file-name "public")))
+  (delete-directory (expand-file-name public-dir) t)
+  (copy-directory (expand-file-name "assets" content-dir) (expand-file-name "assets" public-dir) t t t)
+  (org-publish-all t))
 
 (message "Build complete!")
+;;; build-site.el ends here
