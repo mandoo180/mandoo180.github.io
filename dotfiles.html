@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dot Files</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style>
+
+<script src="assets/scripts/org-info.js">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+// @license-end
+</script>
+
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+org_html_manager.set("TOC_DEPTH", "3");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+// @license-end
+</script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Dot Files</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org80fcd89">1. Ideavim</a></li>
+<li><a href="#orgec5c11d">2. Alacritty</a></li>
+<li><a href="#orgab83788">3. Zellij</a></li>
+<li><a href="#orga3f6c94">4. Powershell</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org80fcd89" class="outline-2">
+<h2 id="org80fcd89"><span class="section-number-2">1.</span> Ideavim</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-text">let mapleader = " "
+
+"" Source your .vimrc
+"source ~/.vimrc
+
+set ideajoin
+set NERDTree
+"set sneak
+"set quickscope
+set easymotion
+
+map s &lt;Plug&gt;(easymotion-f)
+map S &lt;Plug&gt;(easymotion-F)
+map &lt;Leader&gt;&lt;Leader&gt;w &lt;Plug&gt;(easymotion-w)
+map &lt;Leader&gt;&lt;Leader&gt;W &lt;Plug&gt;(easymotion-W)
+map &lt;Leader&gt;&lt;Leader&gt;b &lt;Plug&gt;(easymotion-b)
+map &lt;Leader&gt;&lt;Leader&gt;B &lt;Plug&gt;(easymotion-B)
+map &lt;Leader&gt;&lt;Leader&gt;e &lt;Plug&gt;(easymotion-e)
+map &lt;Leader&gt;&lt;Leader&gt;E &lt;Plug&gt;(easymotion-E)
+map &lt;Leader&gt;&lt;Leader&gt;ge &lt;Plug&gt;(easymotion-ge)
+map &lt;Leader&gt;&lt;Leader&gt;gE &lt;Plug&gt;(easymotion-gE)
+map &lt;Leader&gt;&lt;Leader&gt;j &lt;Plug&gt;(easymotion-j)
+map &lt;Leader&gt;&lt;Leader&gt;k &lt;Plug&gt;(easymotion-k)
+map &lt;Leader&gt;&lt;Leader&gt;n &lt;Plug&gt;(easymotion-n)
+map &lt;Leader&gt;&lt;Leader&gt;N &lt;Plug&gt;(easymotion-N)
+map &lt;Leader&gt;&lt;Leader&gt;s &lt;Plug&gt;(easymotion-s)
+map &lt;Leader&gt;s &lt;Plug&gt;(easymotion-jumptoanywhere)
+
+inoremap jj &lt;ESC&gt;
+
+" basic emacs navigation in insert mode, some cua mode
+inoremap &lt;C-f&gt; &lt;Right&gt;
+inoremap &lt;C-b&gt; &lt;Left&gt;
+inoremap &lt;C-n&gt; &lt;Down&gt;
+inoremap &lt;C-p&gt; &lt;Up&gt;
+inoremap &lt;C-e&gt; &lt;End&gt;
+inoremap &lt;C-a&gt; &lt;Home&gt;
+inoremap &lt;C-d&gt; &lt;Del&gt;
+inoremap &lt;M-f&gt; &lt;C-o&gt;w
+inoremap &lt;M-b&gt; &lt;C-o&gt;b
+inoremap &lt;M-d&gt; &lt;C-o&gt;dw
+inoremap &lt;M-BS&gt; &lt;C-o&gt;db
+inoremap &lt;C-y&gt; &lt;C-o&gt;P
+vnoremap &lt;C-c&gt; y
+inoremap &lt;C-v&gt; &lt;C-o&gt;P
+vnoremap &lt;C-w&gt; &lt;C-o&gt;d
+vnoremap &lt;M-w&gt; &lt;C-o&gt;y
+
+nnoremap &lt;Leader&gt;k :q&lt;CR&gt;
+
+vnoremap x "_x
+nnoremap x "_x
+vnoremap p "_dp
+vnoremap P "_dP
+
+nnoremap - &lt;C-x&gt;
+nnoremap + &lt;C-a&gt;
+
+set clipboard=unnamed
+set clipboard+=ideaput
+set showmode
+set showcmd
+set scrolloff=8
+
+vnoremap &gt; &gt;gv
+vnoremap &lt; &lt;gv
+
+"vnoremap ( c()&lt;ESC&gt;P
+"vnoremap [ c[]&lt;ESC&gt;P
+"vnoremap { c{}&lt;ESC&gt;P
+
+nnoremap &lt;C-3&gt; ciw#{}&lt;ESC&gt;P
+inoremap &lt;C-g&gt; &lt;ESC&gt;
+vnoremap &lt;C-g&gt; &lt;ESC&gt;
+nnoremap &lt;C-g&gt; &lt;ESC&gt;
+
+map &lt;M-g&gt; &lt;Action&gt;(Generate)
+map &lt;C-,&gt; &lt;Action&gt;(ShowSettings)
+map &lt;C-S-,&gt; &lt;Action&gt;(ShowProjectStructureSettings)
+map &lt;M-q&gt; &lt;Action&gt;(CloseEditor)
+map &lt;M-a&gt;&lt;M-q&gt; &lt;Action&gt;(CloseAllEditor)
+map &lt;M-n&gt; &lt;Action&gt;(MethodDown)
+map &lt;M-p&gt; &lt;Action&gt;(MethodUp)
+map &lt;M-S-j&gt; &lt;Action&gt;(MoveLineDown)
+map &lt;M-S-k&gt; &lt;Action&gt;(MoveLineUp)
+
+map gs &lt;Action&gt;(ActivateStructureToolWindow)
+map gr &lt;Action&gt;(FindUsages)
+
+vmap gc &lt;Action&gt;(CommentByLineComment)
+nmap gcc &lt;Action&gt;(CommentByLineComment)
+
+map &lt;Leader&gt;rr &lt;Action&gt;(UpdateRunningApplication)
+map &lt;Leader&gt;` &lt;Action&gt;(ActivateTerminalToolWindow)
+map &lt;Leader&gt;ns &lt;Action&gt;(NewScratchFile)
+map &lt;Leader&gt;fl &lt;Action&gt;(ReformatCode)
+map &lt;Leader&gt;8 &lt;Action&gt;(ToggleLineBreakpoint)
+map &lt;Leader&gt;rf &lt;Action&gt;(RenameFile)
+map &lt;Leader&gt;rn &lt;Action&gt;(RenameElement)
+map &lt;Leader&gt;&lt;Space&gt; &lt;Action&gt;(GotoAction)
+map &lt;M-x&gt; &lt;Action&gt;(GotoAction)
+map &lt;Leader&gt;ff &lt;Action&gt;(GotoFile)
+map &lt;Leader&gt;fc &lt;Action&gt;(GotoClass)
+map &lt;Leader&gt;fo &lt;Action&gt;(RecentFiles)
+map &lt;Leader&gt;fs &lt;Action&gt;(ActivateStructureToolWindow)
+map &lt;Leader&gt;e &lt;Action&gt;(ActivateProjectToolWindow)
+map &lt;Leader&gt;1 &lt;Action&gt;(SelectIn)
+map &lt;Leader&gt;] &lt;Action&gt;(NextTab)
+map &lt;Leader&gt;[ &lt;Action&gt;(PreviousTab)
+
+map &lt;Leader&gt;w &lt;Action&gt;(EditorSelectWord)
+map &lt;Leader&gt;W &lt;Action&gt;(EditorUnSelectWord)
+map &lt;M-h&gt; &lt;Action&gt;(EditorSelectWord)
+map &lt;M-S-h&gt; &lt;Action&gt;(EditorUnSelectWord)
+
+map &lt;C-s&gt; &lt;Action&gt;(Find)
+map &lt;M-S-5&gt; &lt;Action&gt;(Replace)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgec5c11d" class="outline-2">
+<h2 id="orgec5c11d"><span class="section-number-2">2.</span> Alacritty</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-toml"><span class="org-comment-delimiter"># </span><span class="org-comment">[terminal]
+</span><span class="org-comment-delimiter"># </span><span class="org-comment">shell = { program = "wsl", args = ["--cd ~"] }
+</span><span class="org-comment-delimiter"># </span><span class="org-comment">shell = { program = "pwsh" }
+</span>
+[<span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type">font</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>]
+<span class="org-variable-name">size</span> = 12
+
+[<span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type">font.normal</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>]
+<span class="org-variable-name">family</span> = <span class="org-string">"Iosevka Nerd Font Mono"</span>
+<span class="org-variable-name">style</span> = <span class="org-string">"Regular"</span>
+
+[<span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type">font.bold</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>]
+<span class="org-variable-name">family</span> = <span class="org-string">"Iosevka Nerd Font Mono"</span>
+<span class="org-variable-name">style</span> = <span class="org-string">"Semi Bold"</span>
+
+[<span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type">font.italic</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>]
+<span class="org-variable-name">family</span> = <span class="org-string">"Iosevka Nerd Font Mono"</span>
+<span class="org-variable-name">style</span> = <span class="org-string">"Italic"</span>
+
+[<span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type">window</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>]
+<span class="org-variable-name">dimensions</span> = { columns = 120, lines = 30 }
+<span class="org-variable-name">padding</span> = { x = 3, y = 3 }
+
+[<span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type">cursor</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>]
+<span class="org-variable-name">style</span> = { shape = <span class="org-string">"Block"</span>, blinking = <span class="org-string">"Always"</span> }
+
+[<span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type"><span class="org-type">mouse</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>]
+<span class="org-variable-name">hide_when_typing</span> = <span class="org-keyword">true</span>
+<span class="org-variable-name">bindings</span> = [
+  <span class="org-variable-name">{ mouse</span> = <span class="org-string">"Right"</span>, mods = <span class="org-string">"Shift"</span>, action = <span class="org-string">"Paste"</span> },
+  <span class="org-variable-name">{ mouse</span> = <span class="org-string">"Right"</span>, action = <span class="org-string">"Copy"</span> },
+  <span class="org-variable-name">{ mouse</span> = <span class="org-string">"Right"</span>, action = <span class="org-string">"ClearSelection"</span> },
+]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgab83788" class="outline-2">
+<h2 id="orgab83788"><span class="section-number-2">3.</span> Zellij</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-conf"><span class="org-variable-name">keybinds clear-defaults</span>=true {
+    <span class="org-type">locked</span> {
+        bind <span class="org-string">"Ctrl x"</span> { SwitchToMode <span class="org-string">"normal"</span>; }
+    }
+    <span class="org-type">normal</span> {
+        bind <span class="org-string">"Ctrl x"</span> { SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"|"</span> { NewPane <span class="org-string">"right"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"_"</span> { NewPane <span class="org-string">"down"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"t"</span> { NewTab; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"1"</span> { GoToTab 1; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"2"</span> { GoToTab 2; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"3"</span> { GoToTab 3; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"4"</span> { GoToTab 4; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"5"</span> { GoToTab 5; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"6"</span> { GoToTab 6; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"7"</span> { GoToTab 7; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"8"</span> { GoToTab 8; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"9"</span> { GoToTab 9; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"p"</span> { GoToPreviousTab; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"n"</span> { GoToNextTab; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"left"</span> { MoveFocus <span class="org-string">"left"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"down"</span> { MoveFocus <span class="org-string">"down"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"up"</span> { MoveFocus <span class="org-string">"up"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"right"</span> { MoveFocus <span class="org-string">"right"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"h"</span> { MoveFocus <span class="org-string">"left"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"j"</span> { MoveFocus <span class="org-string">"down"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"k"</span> { MoveFocus <span class="org-string">"up"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"l"</span> { MoveFocus <span class="org-string">"right"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"o"</span> { SwitchFocus; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"x"</span> { CloseFocus; SwitchToMode <span class="org-string">"locked"</span>; }
+    }
+    <span class="org-type">pane</span> {
+        bind <span class="org-string">"left"</span> { MoveFocus <span class="org-string">"left"</span>; }
+        bind <span class="org-string">"down"</span> { MoveFocus <span class="org-string">"down"</span>; }
+        bind <span class="org-string">"up"</span> { MoveFocus <span class="org-string">"up"</span>; }
+        bind <span class="org-string">"right"</span> { MoveFocus <span class="org-string">"right"</span>; }
+        bind <span class="org-string">"h"</span> { MoveFocus <span class="org-string">"left"</span>; }
+        bind <span class="org-string">"j"</span> { MoveFocus <span class="org-string">"down"</span>; }
+        bind <span class="org-string">"k"</span> { MoveFocus <span class="org-string">"up"</span>; }
+        bind <span class="org-string">"l"</span> { MoveFocus <span class="org-string">"right"</span>; }
+        bind <span class="org-string">"c"</span> { SwitchToMode <span class="org-string">"renamepane"</span>; PaneNameInput 0; }
+        bind <span class="org-string">"d"</span> { NewPane <span class="org-string">"down"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"e"</span> { TogglePaneEmbedOrFloating; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"f"</span> { ToggleFocusFullscreen; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"i"</span> { TogglePanePinned; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"n"</span> { NewPane; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"p"</span> { SwitchToMode <span class="org-string">"normal"</span>; }
+        bind <span class="org-string">"r"</span> { NewPane <span class="org-string">"right"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"w"</span> { ToggleFloatingPanes; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"x"</span> { CloseFocus; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"z"</span> { TogglePaneFrames; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"tab"</span> { SwitchFocus; }
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga3f6c94" class="outline-2">
+<h2 id="orga3f6c94"><span class="section-number-2">4.</span> Powershell</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Install <code>oh-my-posh</code> first.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-powershell">oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\amro.omp.json" | Invoke-Expression
+
+Set-Alias -Name "ll" ls
+Set-Alias -Name "l" ls
+Set-Alias -Name "vi" nvim
+
+Set-PSReadLineOption -EditMode Emacs
+
+$env:XDG_CONFIG_HOME = "$HOME\.config"
+$env:XDG_DATA_HOME = "$HOME\.local"
+</pre>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

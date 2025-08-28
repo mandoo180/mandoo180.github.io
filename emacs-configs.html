@@ -42,166 +42,422 @@ org_html_manager.setup();  // activate after the parameters are set
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1b05bce">1. Environment</a></li>
-<li><a href="#orgcfb8e73">2. Easy Editing</a></li>
-<li><a href="#org974c719">3. Completion</a></li>
-<li><a href="#org7e5d2b4">4. Theme</a></li>
-<li><a href="#orgfc7262d">5. Org Mode</a></li>
-<li><a href="#orga41ecdd">6. Note Taking</a></li>
-<li><a href="#orgffd2741">7. Programming Languages</a>
-<ul>
-<li><a href="#org9eba5fb">7.1. Python</a>
-<ul>
-<li><a href="#org7d62a4a">7.1.1. Ubuntu</a></li>
-<li><a href="#org322a3eb">7.1.2. macOS</a></li>
-<li><a href="#org3793c89">7.1.3. Windows</a></li>
-</ul>
-</li>
-<li><a href="#org5f78d06">7.2. JavaScript</a></li>
-<li><a href="#org626b3c8">7.3. C</a></li>
-<li><a href="#org0c56cf4">7.4. Powershell</a></li>
-</ul>
-</li>
-<li><a href="#org5dff9de">8. Eshell</a></li>
-<li><a href="#orga108806">9. Windows</a></li>
-<li><a href="#orga40761e">10. Gen AI</a></li>
-<li><a href="#orgf5158f3">11. Reading</a></li>
-<li><a href="#orgbf88532">12. Custom Functions</a>
-<ul>
-<li><a href="#orgb306c34">12.1. Scratch Buffers</a></li>
-</ul>
-</li>
-<li><a href="#orgb0f83a1">13. Local File Variables</a></li>
+<li><a href="#orgd69d590">1. Early Init</a></li>
+<li><a href="#orgde1a317">2. Init</a></li>
+<li><a href="#org33306d6">3. Theme</a></li>
+<li><a href="#org5824010">4. Window</a></li>
+<li><a href="#org6b70f2b">5. Completion</a></li>
+<li><a href="#org133642a">6. Dired</a></li>
+<li><a href="#org6fdc305">7. Note</a></li>
+<li><a href="#org1dea929">8. Shell</a></li>
+<li><a href="#orgbdc78c0">9. Programming</a></li>
+<li><a href="#orgc93359f">10. Miscellaneous</a></li>
+<li><a href="#orgb7768e4">11. Linux</a></li>
+<li><a href="#org0d5b792">12. MacOS</a></li>
+<li><a href="#org17198c6">13. Windows</a></li>
 </ul>
 </div>
 </div>
 
-
-<div id="outline-container-org1b05bce" class="outline-2">
-<h2 id="org1b05bce"><span class="section-number-2">1.</span> Environment</h2>
+<div id="outline-container-orgd69d590" class="outline-2">
+<h2 id="orgd69d590"><span class="section-number-2">1.</span> Early Init</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el --- Emacs-Solo (no external packages) Configuration  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Early init configuration for Emacs-Solo
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
 </span>
-(<span class="org-keyword">use-package</span> exec-path-from-shell
-  <span class="org-builtin">:config</span>
-  (exec-path-from-shell-initialize))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Startup hacks
+</span>(<span class="org-keyword">setq</span> gc-cons-threshold most-positive-fixnum
+        gc-cons-percentage 0.6
+        vc-handled-backends '(Git))
 
-(<span class="org-keyword">provide</span> '<span class="org-constant">environment-conf</span>)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Hack to avoid being flashbanged
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">emacs-solo/avoid-initial-flash-of-light</span> ()
+  <span class="org-doc">"Avoid flash of light when starting Emacs."</span>
+  (<span class="org-keyword">setq</span> mode-line-format nil)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">These colors should match your selected theme for maximum effect
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Note that for catppuccin whenever we create a new frame or open it on terminal
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">it is necessary to reload the theme.
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(set-face-attribute 'default nil :background "#292D3E" :foreground "#292D3E")
+</span>  )
+
+(emacs-solo/avoid-initial-flash-of-light)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Better Window Management handling
+</span>(<span class="org-keyword">setq</span> frame-resize-pixelwise t
+        frame-inhibit-implied-resize t
+        frame-title-format '(<span class="org-string">"Emacs"</span>))
+
+(<span class="org-keyword">setq</span> inhibit-compacting-font-caches t)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Disables unused UI Elements
+</span>(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(tooltip-mode 0)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Resizing the Emacs frame can be a terribly expensive part of changing the
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">font. By inhibiting this, we easily halve startup times with fonts that are
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">larger than the system default.
+</span>(<span class="org-keyword">setq</span> frame-inhibit-implied-resize t
+        frame-resize-pixelwise t)
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">early-init</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el ends here
+</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgcfb8e73" class="outline-2">
-<h2 id="orgcfb8e73"><span class="section-number-2">2.</span> Easy Editing</h2>
+<div id="outline-container-orgde1a317" class="outline-2">
+<h2 id="orgde1a317"><span class="section-number-2">2.</span> Init</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-elisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
-</span>
-(<span class="org-keyword">dolist</span> (mode '(text-mode-hook
-                prog-mode-hook
-                conf-mode-hook))
-  (add-hook mode (<span class="org-keyword">lambda</span> ()
-                   (<span class="org-keyword">setq</span> display-line-numbers-width 6)
-                   (display-line-numbers-mode 1)
-                   (display-fill-column-indicator-mode 0))))
-
-(add-hook 'after-init-hook 'electric-pair-mode)
-(add-hook 'after-init-hook 'electric-indent-mode)
-(add-hook 'after-init-hook 'global-auto-revert-mode)
-(add-hook 'after-init-hook 'delete-selection-mode)
-(add-hook 'after-init-hook 'transient-mark-mode)
-(add-hook 'after-init-hook 'subword-mode)
-
-(<span class="org-keyword">use-package</span> multiple-cursors
-  <span class="org-builtin">:config</span>
-  (global-set-key (kbd <span class="org-string">"C-&lt;"</span>) 'mc/mark-previous-like-this)
-  (global-set-key (kbd <span class="org-string">"C-&gt;"</span>) 'mc/mark-next-like-this)
-  (global-set-key (kbd <span class="org-string">"C-c C-&lt;"</span>) 'mc/mark-all-like-this)
-  (global-set-key (kbd <span class="org-string">"C-M-&lt;mouse-1&gt;"</span>) 'mc/add-cursor-on-click))
-
-(<span class="org-keyword">use-package</span> hungry-delete
-  <span class="org-builtin">:diminish</span>
-  <span class="org-builtin">:config</span>
-  (global-hungry-delete-mode t))
-
-(<span class="org-keyword">use-package</span> expand-region
-  <span class="org-builtin">:ensure</span> t
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">use-package</span> emacs
+  <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:bind</span>
-  (<span class="org-string">"M-h"</span> . er/expand-region)
-  (<span class="org-string">"M-H"</span> . er/contract-region))
+  ((<span class="org-string">"M-o"</span>         . other-window)
+   (<span class="org-string">"C-c c d"</span>     . duplicate-dwim)
+   (<span class="org-string">"C-x r e"</span>     . recentf)
+   (<span class="org-string">"C-x C-b"</span>     . ibuffer)
+   (<span class="org-string">"C-x k"</span>       . (<span class="org-keyword">lambda</span> ()
+            <span class="org-doc">"Kill current buffer."</span>
+            (<span class="org-keyword">interactive</span>)
+            (kill-buffer (buffer-name))))
+   (<span class="org-string">"RET"</span>         . newline-and-indent)
+   (<span class="org-string">"S-&lt;return&gt;"</span>  . (<span class="org-keyword">lambda</span> ()
+            <span class="org-doc">"New line and indent."</span>
+            (<span class="org-keyword">interactive</span>)
+            (end-of-line)
+            (newline-and-indent)))
+   (<span class="org-string">"C-z"</span>         . nil)
+   (<span class="org-string">"C-x C-z"</span>     . nil)
+   (<span class="org-string">"C-x C-k RET"</span> . nil)
+   (<span class="org-builtin">:map</span> lisp-interaction-mode-map
+         (<span class="org-string">"C-c C-c"</span> . eval-last-sexp))
+   (<span class="org-builtin">:map</span> emacs-lisp-mode-map
+         (<span class="org-string">"C-c C-c"</span> . eval-last-sexp)))
 
-(<span class="org-keyword">use-package</span> so-long
-  <span class="org-builtin">:config</span>
-  (global-so-long-mode 1))
+  <span class="org-builtin">:custom</span>
+  (cursor-type '(bar . 3))
+  (ad-redefinition-action 'accept)
+  (column-number-mode nil)
+  (line-number-mode nil)
+  (completion-ignore-case t)
+  (completions-detailed t)
+  (completions-format 'one-column)
+  (delete-by-moving-to-trash t)
+  (display-line-numbers-width 6)
+  (display-line-numbers-widen t)
+  (delete-selection-mode 1)
+  (enable-recursive minibuffers t)
+  (find-ls-option '(<span class="org-string">"-exec ls -ldh {} +"</span> . <span class="org-string">"-ldh"</span>))     <span class="org-comment-delimiter">; </span><span class="org-comment">find-dired results with human readable sizes
+</span>  (frame-resize-pixelwise t)
+  (global-auto-revert-non-file-buffers t)
+  (auto-revert-verbose nil)
+  (help-window-select t)
+  (history-length 300)
+  (inhibit-startup-message t)
+  (initial-buffer-choice 'remember-notes)
+  (initial-major-mode 'org-mode)
+  (initial-scratch-message nil)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">(ispell-dictionary "en_US")
+</span>  (kill-do-not-save-duplicates t)
+  (create-lockfiles nil)                                <span class="org-comment-delimiter">; </span><span class="org-comment">No backup files
+</span>  (make-backup-files nil)                               <span class="org-comment-delimiter">; </span><span class="org-comment">No backup files
+</span>  (backup-inhibited t)                                  <span class="org-comment-delimiter">; </span><span class="org-comment">No backup files
+</span>  (scroll-margin 0)
+  (scroll-step 1)
+  (scroll-conservatively 101)
+  (pixel-scroll-precision-mode t)
+  (pixel-scroll-precision-use-momentum nil)
+  (ring-bell-function 'ignore)
+  (read-answer-short t)
+  (recentf-max-saved-items 300)                 <span class="org-comment-delimiter">; </span><span class="org-comment">default is 20
+</span>  (recentf-max-menu-items 15)
+  (recentf-auto-cleanup (<span class="org-keyword">if</span> (daemonp) 300 'never))
+  (recentf-exclude (list <span class="org-string">"^/</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(?:</span></span><span class="org-string">ssh</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">su</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">sudo</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">?:"</span>))
+  (remote-file-name-inhibit-delete-by-moving-to-trash t)
+  (remote-file-name-inhibit-auto-save t)
+  (resize-mini-windows 'grow-only)
+  (ring-bell-function #'ignore)
+  (savehist-save-minibuffer-history t)  <span class="org-comment-delimiter">; </span><span class="org-comment">t is default
+</span>  (savehist-additional-variables
+   '(kill-ring                                                  <span class="org-comment-delimiter">; </span><span class="org-comment">clipboard
+</span>       register-alist                                           <span class="org-comment-delimiter">; </span><span class="org-comment">macros
+</span>       mark-ring global-mark-ring                       <span class="org-comment-delimiter">; </span><span class="org-comment">marks
+</span>       search-ring regexp-search-ring)) <span class="org-comment-delimiter">; </span><span class="org-comment">searches
+</span>  (save-place-file (expand-file-name <span class="org-string">"saveplace"</span> user-emacs-directory))
+  (save-place-limit 600)
+  (set-mark-command-repeat-pop t) <span class="org-comment-delimiter">; </span><span class="org-comment">So we can use C-u C-SPC C-SPC C-SPC... instead of C-u C-SPC C-u C-SPC...
+</span>  (split-width-threshold 170)     <span class="org-comment-delimiter">; </span><span class="org-comment">So vertical splits are preferred
+</span>  (split-height-threshold nil)
+  (shr-use-colors nil)
+  (switch-to-buffer-obey-display-actions t)
+  (tab-always-indent 'complete)
+  (tab-width 4)
+  (tab-bar-close-button-show nil)
+  (tab-bar-new-button-show nil)
+  (tab-bar-tab-hints t)
+  (treesit-font-lock-level 4)
+  (truncate-lines t)
+  (undo-limit (* 13 160000))
+  (undo-strong-limit (* 13 240000))
+  (undo-outer-limit (* 13 24000000))
+  (use-dialog-box nil)
+  (use-file-dialog nil)
+  (use-short-answers t)
+  (visible-bell nil)
+  (window-combination-resize t)
+  (window-resize-pixelwise nil)
+  (xref-search-program 'ripgrep)
+  (grep-command <span class="org-string">"grep --color=always -nH --null -e "</span>)
+  (grep-find-ignored-directories
+   '(<span class="org-string">"SCCS"</span> <span class="org-string">"RCS"</span> <span class="org-string">"CVS"</span> <span class="org-string">"MCVS"</span> <span class="org-string">".src"</span> <span class="org-string">".svn"</span> <span class="org-string">".git"</span> <span class="org-string">".hg"</span> <span class="org-string">".bzr"</span> <span class="org-string">"_MTN"</span> <span class="org-string">"_darcs"</span> <span class="org-string">"{arch}"</span> <span class="org-string">"node_modules"</span> <span class="org-string">"build"</span> <span class="org-string">"dist"</span>))
+  (locale-coding-system 'utf-8)
+  (keyboard-coding-system 'utf-8)
+  (savehist-coding-system 'utf-8)
+  (file-name-coding-system 'utf-8)
+  (buffer-file-coding-system 'utf-8)
+  (system-time-locale <span class="org-string">"C"</span>)
 
-(<span class="org-keyword">defun</span> <span class="org-function-name">kill-back-to-indentation</span> ()
-  <span class="org-doc">"Kill from point back to the first non-whitespace character on the line."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">let</span> ((prev-pos (point)))
-    (back-to-indentation)
-    (kill-region (point) prev-pos)))
-
-(global-set-key (kbd <span class="org-string">"C-M-&lt;backspace&gt;"</span>) 'kill-back-to-indentation)
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">kill-curr-buffer</span> ()
-  (<span class="org-keyword">interactive</span>)
-  (kill-buffer (current-buffer)))
-
-(global-set-key (kbd <span class="org-string">"C-x k"</span>) 'kill-curr-buffer)
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">next-open-line</span> ()
-  (<span class="org-keyword">interactive</span>)
-  (move-end-of-line 1)
-  (newline-and-indent))
-
-(global-set-key (kbd <span class="org-string">"S-&lt;return&gt;"</span>) 'next-open-line)
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">upcase-word-backwards</span> ()
-  <span class="org-doc">"Uppercase word backwards."</span>
-  (<span class="org-keyword">interactive</span>)
-  (backward-word)
-  (upcase-word 1)
-  (backward-word))
-
-(global-set-key (kbd <span class="org-string">"M-U"</span>) 'upcase-word-backwards)
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">downcase-word-backwards</span> ()
-  <span class="org-doc">"Lowercase word backwards."</span>
-  (<span class="org-keyword">interactive</span>)
-  (backward-word)
-  (downcase-word 1)
-  (backward-word))
-
-(global-set-key (kbd <span class="org-string">"M-L"</span>) 'downcase-word-backwards)
-
-(<span class="org-keyword">use-package</span> sudo-edit)
-
-(<span class="org-keyword">use-package</span> undo-tree
   <span class="org-builtin">:init</span>
-  (global-undo-tree-mode 1)
+  (add-to-list 'default-frame-alist '(alpha-background . 100))
+  (set-window-margins (selected-window) 2 0)
+  (select-frame-set-input-focus (selected-frame))
+  (global-auto-revert-mode 1)
+  (global-goto-address-mode 1) <span class="org-comment-delimiter">;; </span><span class="org-comment">C-c RET to go
+</span>  (indent-tabs-mode nil)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">While indent-tabs-mode nil prevents Emacs from inserting tabs for indentation, C-q TAB will always insert a literal tab character regardless of this setting.
+</span>  (recentf-mode 1)
+  (repeat-mode 1)
+  (savehist-mode 1)
+  (save-place-mode 1)
+  (winner-mode)
+  (xterm-mouse-mode 1)
+  (file-name-shadow-mode 1) <span class="org-comment-delimiter">; </span><span class="org-comment">allows us to type a new path without having to delete the current one
+</span>  (set-language-environment <span class="org-string">"Korean"</span>)
+  (prefer-coding-system 'utf-8)
+  (global-unset-key (kbd <span class="org-string">"S-SPC"</span>))
+  (put 'narrow-to-region 'disabled nil)
+  (message (emacs-init-time))
   <span class="org-builtin">:config</span>
-  (<span class="org-keyword">setq</span> undo-tree-history-directory-alist '((<span class="org-string">"."</span> . <span class="org-string">"~/.config/emacs/undo-tree-history"</span>)))
-  <span class="org-builtin">:bind</span> ((<span class="org-string">"C-/"</span> . undo-tree-undo)
-         (<span class="org-string">"C-?"</span> . undo-tree-redo)
-         (<span class="org-string">"C-z"</span> . undo-tree-undo)     <span class="org-comment-delimiter">; </span><span class="org-comment">Zap to character isn't helpful
-</span>         (<span class="org-string">"C-S-z"</span> . undo-tree-redo)))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Makes everything accept utf-8 as default, so buffers with tsx and so
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">won't ask for encoding (because undecided-unix) every single keystroke
+</span>  (modify-coding-system-alist 'file <span class="org-string">""</span> 'utf-8)
+  (<span class="org-keyword">setq</span> custom-file (locate-user-emacs-file <span class="org-string">"custom-vars.el"</span>))
+  (load custom-file 'noerror 'nomessage)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Set line-number-mode with relative numbering
+</span>  (<span class="org-keyword">setq</span> display-line-numbers-type 'absolute)
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Add option "d" to whenever using C-x s or C-x C-c, allowing a quick preview
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">of the diff of what you're asked to save.
+</span>  (add-to-list 'save-some-buffers-action-alist
+         (list <span class="org-string">"d"</span>
+               (<span class="org-keyword">lambda</span> (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
+               <span class="org-string">"show diff between the buffer and its file"</span>))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">On Terminal: changes the vertical separator to a full vertical line
+</span>  <span class="org-comment-delimiter">;;              </span><span class="org-comment">and truncation symbol to a right arrow
+</span>  (set-display-table-slot standard-display-table 'vertical-border ?\u2502)
+  (set-display-table-slot standard-display-table 'truncation ?\u2192)
 
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Ibuffer filters
+</span>  (<span class="org-keyword">setq</span> ibuffer-saved-filter-groups
+        '((<span class="org-string">"default"</span>
+           (<span class="org-string">"org"</span> (<span class="org-keyword">or</span>
+             (mode . org-mode)
+             (name . <span class="org-string">"^\\*Org Src"</span>)
+             (name . <span class="org-string">"^\\*Org Agenda\\*$"</span>)))
+           (<span class="org-string">"tramp"</span> (name . <span class="org-string">"^\\*tramp.*"</span>))
+           (<span class="org-string">"emacs"</span> (<span class="org-keyword">or</span>
+               (name . <span class="org-string">"^\\*scratch\\*$"</span>)
+               (name . <span class="org-string">"^\\*Messages\\*$"</span>)
+               (name . <span class="org-string">"^\\*Warnings\\*$"</span>)
+               (name . <span class="org-string">"^\\*Shell Command Output\\*$"</span>)
+               (name . <span class="org-string">"^\\*Async-native-compile-log\\*$"</span>)
+               (name . <span class="org-string">"^\\*straight-"</span>)))
+           (<span class="org-string">"ediff"</span> (<span class="org-keyword">or</span>
+               (name . <span class="org-string">"^\\*ediff.*"</span>)
+               (name . <span class="org-string">"^\\*Ediff.*"</span>)))
+           (<span class="org-string">"dired"</span> (mode . dired-mode))
+           (<span class="org-string">"terminal"</span> (<span class="org-keyword">or</span>
+              (mode . term-mode)
+              (mode . shell-mode)
+              (mode . eshell-mode)))
+           (<span class="org-string">"help"</span> (<span class="org-keyword">or</span>
+              (name . <span class="org-string">"^\\*Help\\*$"</span>)
+              (name . <span class="org-string">"^\\*info\\*$"</span>)
+              (name . <span class="org-string">"^\\*helpful"</span>))))))
+  (add-hook 'ibuffer-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+        (ibuffer-switch-to-saved-filter-groups <span class="org-string">"default"</span>)))
+  (<span class="org-keyword">setq</span> ibuffer-show-empty-filter-groups nil) <span class="org-comment-delimiter">; </span><span class="org-comment">don't show empty groups
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">So eshell git commands open an instance of THIS config of Emacs
+</span>  (setenv <span class="org-string">"GIT_EDITOR"</span> (format <span class="org-string">"emacs --init-dir=%s "</span> (shell-quote-argument user-emacs-directory)))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">So rebase from eshell opens with a bit of syntax highlight
+</span>  (add-to-list 'auto-mode-alist '(<span class="org-string">"/git-rebase-todo\\'"</span> . conf-mode))
 
-(<span class="org-keyword">provide</span> '<span class="org-constant">editing-conf</span>)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Runs '</span><span class="org-comment"><span class="org-constant">private.el</span></span><span class="org-comment">' after Emacs inits
+</span>  (add-hook 'after-init-hook
+            (<span class="org-keyword">lambda</span> ()
+        (<span class="org-keyword">let</span> ((private-file (expand-file-name <span class="org-string">"private.el"</span> user-emacs-directory)))
+          (<span class="org-keyword">when</span> (file-exists-p private-file)
+            (load private-file)))))
+
+  (<span class="org-keyword">use-package</span> use-package
+      <span class="org-builtin">:custom</span>
+      (package-archives '((<span class="org-string">"melpa"</span>  . <span class="org-string">"https://melpa.org/packages/"</span>)
+              (<span class="org-string">"org"</span>    . <span class="org-string">"https://orgmode.org/elpa/"</span>)
+              (<span class="org-string">"elpa"</span>   . <span class="org-string">"https://elpa.gnu.org/packages/"</span>)
+              (<span class="org-string">"nongnu"</span> . <span class="org-string">"https://elpa.nongnu.org/nongnu/"</span>)))
+      (use-package-always-ensure t)
+      (use-package-enable-at-startup nil)
+      (package-native-compile t)
+      (warning-minimun-level 'error))
+
+  (<span class="org-keyword">eval-and-compile</span>
+      (add-to-list 'load-path (expand-file-name <span class="org-string">"elisp/settings/"</span> user-emacs-directory)))
+
+  (<span class="org-keyword">cond</span> ((eq system-type 'windows-nt)
+         (<span class="org-keyword">require</span> '<span class="org-constant">windows-conf</span>))
+        ((eq system-type 'darwin)
+         (<span class="org-keyword">require</span> '<span class="org-constant">macos-conf</span>))
+        ((eq system-type 'gnu/linux)
+         (<span class="org-keyword">require</span> '<span class="org-constant">linux-conf</span>)))
+
+  (<span class="org-keyword">require</span> '<span class="org-constant">theme-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">window-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">completion-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">dired-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">note-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">shell-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">prog-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">misc-conf</span>)
+
+  (<span class="org-keyword">require</span> '<span class="org-constant">douzone-comet-config</span> (expand-file-name <span class="org-string">"elisp/douzone-comet-config.el"</span> user-emacs-directory) t)
+  (<span class="org-keyword">require</span> '<span class="org-constant">douzone-comet-service</span> (expand-file-name <span class="org-string">"elisp/douzone-comet-service.el"</span> user-emacs-directory) t)
+  (<span class="org-keyword">require</span> '<span class="org-constant">douzone-comet-ui</span> (expand-file-name <span class="org-string">"elisp/douzone-comet-ui.el"</span> user-emacs-directory) t)
+  (<span class="org-keyword">require</span> '<span class="org-constant">package-setup-function</span> (expand-file-name <span class="org-string">"elisp/package-setup-function.el"</span> user-emacs-directory) t))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">init</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el ends here</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org974c719" class="outline-2">
-<h2 id="org974c719"><span class="section-number-2">3.</span> Completion</h2>
+<div id="outline-container-org33306d6" class="outline-2">
+<h2 id="org33306d6"><span class="section-number-2">3.</span> Theme</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
-<pre class="src src-elisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
-</span>
-(<span class="org-keyword">use-package</span> vertico
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">use-package</span> doom-themes
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">if</span> (daemonp)
+        (add-hook 'server-after-make-frame-hook (<span class="org-keyword">lambda</span> () (load-theme 'doom-tokyo-night t)))
+      (load-theme 'doom-tokyo-night t)))
+
+(<span class="org-keyword">use-package</span> doom-modeline
+  <span class="org-builtin">:init</span>
+  (<span class="org-keyword">setq</span> mode-line-right-align-edge 'right-fringe) <span class="org-comment-delimiter">;; </span><span class="org-comment">or 'right-margin
+</span>  <span class="org-builtin">:custom</span>
+  (doom-modeline-height 40)
+  (doom-modeline-bar-width 8)
+  (doom-modeline-check-icon t)
+  (doom-modeline-check-simple-format t)
+  (doom-modeline-checker-simple-format t)
+  (doom-modeline-hud t)
+  (doom-modeline-window-width-limit nil)
+  (doom-modeline-spc-face-overrides t)
+  (doom-modeline-vcs-max-length 12)
+  (doom-modeline-checker-simple-format nil)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">if</span> (daemonp)
+        (add-hook 'server-after-make-frame-hook (<span class="org-keyword">lambda</span> () (doom-modeline-mode 1)))
+      (doom-modeline-mode 1)))
+
+(<span class="org-keyword">use-package</span> all-the-icons)
+(<span class="org-keyword">use-package</span> all-the-icons-dired
+  <span class="org-builtin">:config</span>
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
+(<span class="org-keyword">use-package</span> beacon
+  <span class="org-builtin">:config</span>
+  (beacon-mode 1))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">theme-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5824010" class="outline-2">
+<h2 id="org5824010"><span class="section-number-2">4.</span> Window</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">window-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">use-package</span> window
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (display-buffer-alist
+   '(
+       <span class="org-comment-delimiter">;; </span><span class="org-comment">("\\*.*e?shell\\*"
+</span>       <span class="org-comment-delimiter">;;  </span><span class="org-comment">(display-buffer-in-side-window)
+</span>       <span class="org-comment-delimiter">;;  </span><span class="org-comment">(window-height . 0.25)
+</span>       <span class="org-comment-delimiter">;;  </span><span class="org-comment">(side . bottom)
+</span>       <span class="org-comment-delimiter">;;  </span><span class="org-comment">(slot . -1))
+</span>       (<span class="org-string">"\\*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">Backtrace</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">Warnings</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">Compile-Log</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">Messages</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">Bookmark List</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">Occur</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">eldoc</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">\\*"</span>
+        (display-buffer-in-side-window)
+        (window-height . 0.25)
+        (side . bottom)
+        (slot . 0))
+       (<span class="org-string">"\\*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[Hh]elp</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">\\*"</span>
+        (display-buffer-in-side-window)
+        (window-width . 75)
+        (side . right)
+        (slot . 0))
+       (<span class="org-string">"\\*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">Ibuffer</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">\\*"</span>
+        (display-buffer-in-side-window)
+        (window-width . 100)
+        (side . right)
+        (slot . 1))
+       (<span class="org-string">"\\*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">Flymake diagnostics</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">xref</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">Completions</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">"</span>
+        (display-buffer-in-side-window)
+        (window-height . 0.25)
+        (side . bottom)
+        (slot . 1))
+       (<span class="org-string">"\\*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">grep</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">find</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">\\*"</span>
+        (display-buffer-in-side-window)
+        (window-height . 0.25)
+        (side . bottom)
+        (slot . 2))
+       )))
+(<span class="org-keyword">provide</span> '<span class="org-constant">window-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">window-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6b70f2b" class="outline-2">
+<h2 id="org6b70f2b"><span class="section-number-2">5.</span> Completion</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">use-package</span> vertico
   <span class="org-builtin">:init</span>
   (vertico-mode))
 
@@ -227,11 +483,8 @@ org_html_manager.setup();  // activate after the parameters are set
   <span class="org-builtin">:bind</span>
   <span class="org-comment-delimiter">;; </span><span class="org-comment">C-x bindings
 </span>  (<span class="org-string">"C-x C-r"</span> . consult-recent-file)
-  (<span class="org-string">"C-x r e"</span> . consult-recent-file)
   (<span class="org-string">"C-x b"</span> . consult-buffer)
-  (<span class="org-string">"C-x C-b"</span> . consult-buffer)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">("C-x 4 b" . consult-buffer-other-window)
-</span>  (<span class="org-string">"C-x 4 b"</span> . switch-to-buffer-other-window)
+  (<span class="org-string">"C-x 4 b"</span> . consult-buffer-other-window)
   (<span class="org-string">"C-x 5 b"</span> . consult-buffer-other-frame)
   (<span class="org-string">"C-x t b"</span> . consult-buffer-other-tab)
   (<span class="org-string">"C-x r b"</span> . consult-bookmark)
@@ -242,738 +495,882 @@ org_html_manager.setup();  // activate after the parameters are set
 </span>  (<span class="org-string">"C-M-#"</span> . consult-register)
   (<span class="org-string">"M-y"</span> . consult-yank-pop)
   <span class="org-comment-delimiter">;; </span><span class="org-comment">M-g bindings
-</span>  (<span class="org-string">"M-g e"</span> . consult-complie-error)
-  (<span class="org-string">"M-g f"</span> . consult-fly-make)
-  (<span class="org-string">"M-g g"</span> . consult-goto-line)
-  (<span class="org-string">"M-g M-g"</span> . consult-goto-line)
-  (<span class="org-string">"M-g o"</span> . consult-outline)
-  (<span class="org-string">"M-g m"</span> . consult-mark)
-  (<span class="org-string">"M-g k"</span> . consult-global-mark)
-  (<span class="org-string">"M-g i"</span> . consult-imenu)
-  (<span class="org-string">"M-g I"</span> . consult-imenu-multi)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">M-s bindings in `</span><span class="org-comment"><span class="org-constant">search-map</span></span><span class="org-comment">'
-</span>  (<span class="org-string">"M-s d"</span> . consult-find)                  <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: consult-fd
-</span>  (<span class="org-string">"M-s c"</span> . consult-locate)
-  (<span class="org-string">"M-s g"</span> . consult-grep)
-  (<span class="org-string">"M-s G"</span> . consult-git-grep)
-  (<span class="org-string">"M-s r"</span> . consult-ripgrep)
-  (<span class="org-string">"M-s l"</span> . consult-line)
-  (<span class="org-string">"M-s L"</span> . consult-line-multi)
-  (<span class="org-string">"M-s k"</span> . consult-keep-lines)
-  (<span class="org-string">"M-s h"</span> . consult-org-heading)
-  (<span class="org-string">"M-s u"</span> . consult-focus-lines))
+</span>  (<span class="org-string">"M-g M-g"</span> . consult-goto-line)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">C-c s bindings in `</span><span class="org-comment"><span class="org-constant">search-map</span></span><span class="org-comment">'
+</span>  (<span class="org-string">"C-c s e"</span> . consult-complie-error)
+  (<span class="org-string">"C-c s f"</span> . consult-flymake)
+  (<span class="org-string">"C-c s o"</span> . consult-outline)
+  (<span class="org-string">"C-c s m"</span> . consult-mark)
+  (<span class="org-string">"C-c s M"</span> . consult-global-mark)
+  (<span class="org-string">"C-c s i"</span> . consult-imenu)
+  (<span class="org-string">"C-c s I"</span> . consult-imenu-multi)
+  (<span class="org-string">"C-c s d"</span> . consult-find)                  <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: consult-fd
+</span>  (<span class="org-string">"C-c s c"</span> . consult-locate)
+  (<span class="org-string">"C-c s g"</span> . consult-grep)
+  (<span class="org-string">"C-c s v"</span> . consult-git-grep)
+  (<span class="org-string">"C-c s r"</span> . consult-ripgrep)
+  (<span class="org-string">"C-c s l"</span> . consult-line)
+  (<span class="org-string">"C-c s L"</span> . consult-line-multi)
+  (<span class="org-string">"C-c s k"</span> . consult-keep-lines)
+  (<span class="org-string">"C-c s u"</span> . consult-focus-lines)
+  (<span class="org-string">"C-c s h"</span> . consult-org-heading))
 
-(<span class="org-keyword">use-package</span> corfu
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Optional customizations
-</span>  <span class="org-builtin">:custom</span>
-  (corfu-cycle t)                <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable cycling for `</span><span class="org-comment"><span class="org-constant">corfu-next/previous</span></span><span class="org-comment">'
-</span>  (corfu-auto t)                 <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable auto completion
-</span>  (corfu-auto-delay 1)
-  (corfu-auto-prefix 3)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable Corfu only for certain modes. See also `</span><span class="org-comment"><span class="org-constant">global-corfu-modes</span></span><span class="org-comment">'.
-</span>  <span class="org-builtin">:hook</span>
-  ((prog-mode . corfu-mode)
-   (eshell-mode . corfu-mode))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package corfu
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; Optional customizations
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(corfu-cycle t)                   ;; Enable cycling for `</span><span class="org-comment"><span class="org-constant">corfu-next/previous</span></span><span class="org-comment">'
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(corfu-auto t)                    ;; Enable auto completion
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(corfu-auto-delay 0.1)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(corfu-auto-prefix 4)             ;; Minimum prefix length for auto completion
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-separator ?\s)          ;; Orderless field separator
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-preview-current nil)    ;; Disable current candidate preview
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-scroll-margin 5)        ;; Use scroll margin
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; Enable Corfu only for certain modes. See also `</span><span class="org-comment"><span class="org-constant">global-corfu-modes</span></span><span class="org-comment">'.
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook ((prog-mode . corfu-mode))
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(keymap-set corfu-map "RET" #'corfu-send))
+</span>
+(<span class="org-keyword">provide</span> '<span class="org-constant">completion-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org133642a" class="outline-2">
+<h2 id="org133642a"><span class="section-number-2">6.</span> Dired</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">use-package</span> dired
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (dired-listing-switches <span class="org-string">"-ahl"</span>))
+(<span class="org-keyword">use-package</span> dired-filter)
+(<span class="org-keyword">use-package</span> dired-subtree
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> dired-mode-map (<span class="org-string">"C-,"</span> . dired-subtree-toggle)))
+
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">dired-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6fdc305" class="outline-2">
+<h2 id="org6fdc305"><span class="section-number-2">7.</span> Note</h2>
+<div class="outline-text-2" id="text-7">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">note-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">use-package</span> org-contrib)
+(<span class="org-keyword">use-package</span> ob-typescript)
+(<span class="org-keyword">use-package</span> ob-powershell)
+(<span class="org-keyword">use-package</span> org
+  <span class="org-builtin">:pin</span> org
+  <span class="org-builtin">:commands</span> (org-capture org-agenda)
+  <span class="org-builtin">:custom</span>
+  (org-agenda-start-with-log-mode t)
+  (org-catch-invisible-edits 'show)
+  (org-edit-timestamp-down-means-later t)
+  (org-export-coding-system 'utf-8)
+  (org-export-kill-product-buffer-when-displayed t)
+  (org-fast-tag-selection-single-key 'expert)
+  (org-hide-emphasis-markers t)
+  (org-html-validation-link nil)
+  (org-image-actual-width '(450))
+  (org-log-done 'time)
+  (org-log-into-drawer t)
+  (org-pretty-entities nil)
+  (org-startup-indented nil)
+  (org-startup-with-inline-images t)
+  (org-tags-column 80)
+  (org-src-window-setup 'current-window)
   <span class="org-builtin">:config</span>
-  (keymap-set corfu-map <span class="org-string">"RET"</span> #'corfu-send))
+  (<span class="org-keyword">require</span> '<span class="org-constant">org-tempo</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">ob-js</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">ob-typescript</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">ob-ruby</span>)
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"txt"</span>  . <span class="org-string">"src text"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"sh"</span>   . <span class="org-string">"src shell"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"zsh"</span>  . <span class="org-string">"src zsh"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"bash"</span> . <span class="org-string">"src bash"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"posh"</span> . <span class="org-string">"src powershell"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"el"</span>   . <span class="org-string">"src emacs-lisp"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"py"</span>   . <span class="org-string">"src python"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"js"</span>   . <span class="org-string">"src js"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"ts"</span>   . <span class="org-string">"src typescript"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"java"</span> . <span class="org-string">"src java"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"scm"</span>  . <span class="org-string">"src scheme"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"sql"</span>  . <span class="org-string">"src sql"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"rust"</span> . <span class="org-string">"src rust"</span>))
+  (add-to-list 'org-structure-template-alist '(<span class="org-string">"rb"</span>   . <span class="org-string">"src ruby"</span>))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (seq-filter
+      (<span class="org-keyword">lambda</span> (pair)
+        (locate-library (concat <span class="org-string">"ob-"</span> (symbol-name (car pair)))))
+      '((dot        . t)
+        (gnuplot    . t)
+        (latex      . t)
+        (python     . t)
+        (js         . t)
+        (typescript . t)
+        (shell      . t)
+        (zsh        . t)
+        (bash       . t)
+        (posh       . t)
+        (powershell . t)
+        (scheme     . t)
+        (sql        . t)
+        (sqlite     . t)
+        (ruby       . t))))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">handle-electric-pair-inhibit</span> (c)
+      (<span class="org-keyword">if</span> (char-equal c ?&lt;) t (,electric-pair-inhibit-predicate c)))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">handle-org-mode-hook</span>()
+      (<span class="org-keyword">setq-local</span> electric-pair-inhibit-predicate #'handle-electric-pair-inhibit))
+  (add-hook 'org-mode-hook #'handle-org-mode-hook))
+
+(<span class="org-keyword">use-package</span> org-appear
+  <span class="org-builtin">:hook</span>
+  (org-mode . org-appear-mode)
+  <span class="org-builtin">:custom</span>
+  (org-appear-autoemphasis t)
+  (org-appear-autolinks t)
+  (org-appear-autosubmarkers t)
+  (org-appear-autoentities t)
+  (org-appear-autokeywords t)
+  (org-appear-inside-latex t)
+  (org-appear-delay 0.0)
+  (org-appear-trigger 'always))
+
+(<span class="org-keyword">use-package</span> markdown-mode
+  <span class="org-builtin">:custom</span>
+  (markdown-split-window-direction 'right))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">note-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">note-conf.el ends here</span>
+</pre>
+</div>
+
+<p>
+If want some PDF stuff.
+</p>
+
+<p>
+Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElements</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">pdf-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(pdf-tools-install)
+(<span class="org-keyword">use-package</span> saveplace-pdf-view)
+(global-goto-address-mode t)
+(<span class="org-keyword">provide</span> '<span class="org-constant">pdf-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">pdf-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1dea929" class="outline-2">
+<h2 id="org1dea929"><span class="section-number-2">8.</span> Shell</h2>
+<div class="outline-text-2" id="text-8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">when</span> (eq system-type 'gnu/linux)
+  (<span class="org-keyword">use-package</span> eat
+      <span class="org-builtin">:bind</span> ((<span class="org-string">"C-c `"</span> . eat))
+      <span class="org-builtin">:hook</span> ((eat-exit . pgm/kill-eat-buffer-on-exit))
+      <span class="org-builtin">:config</span>
+      (<span class="org-keyword">defun</span> <span class="org-function-name">pgm/kill-eat-buffer-on-exit</span> (process)
+        <span class="org-doc">"Kill the eat buffer when the shell process exits."</span>
+        (<span class="org-keyword">let</span> ((buf (process-buffer process)))
+        (<span class="org-keyword">when</span> (buffer-live-p buf)
+          (kill-buffer buf))))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Shell
+</span>(<span class="org-keyword">use-package</span> shell
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (comint-prompt-read-only t)
+  (comint-process-echoes t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Eshell
+</span>(<span class="org-keyword">use-package</span> eshell
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:custom</span>
+  (eshell-history-size 10000)
+  (eshell-buffer-maximum-lines 10000)
+  (eshell-hist-ignoredups t)
+  (eshell-scroll-to-bottom-on-input 'all)
+  (eshell-scroll-to-bottom-on-output t)
+  (eshell-error-if-no-glob t)
+  (eshell-save-history-on-exit t)
+  (eshell-prefer-lisp-functions t)
+  (eshell-destroy-buffer-when-process-dies t)
+  (eshell-visual-commands '(<span class="org-string">"vi"</span> <span class="org-string">"screen"</span> <span class="org-string">"top"</span>  <span class="org-string">"htop"</span> <span class="org-string">"btm"</span> <span class="org-string">"less"</span> <span class="org-string">"more"</span> <span class="org-string">"lynx"</span> <span class="org-string">"ncftp"</span> <span class="org-string">"pine"</span> <span class="org-string">"tin"</span> <span class="org-string">"trn"</span>
+                            <span class="org-string">"elm"</span> <span class="org-string">"irssi"</span> <span class="org-string">"nmtui-connect"</span> <span class="org-string">"nethack"</span> <span class="org-string">"vim"</span> <span class="org-string">"alsamixer"</span> <span class="org-string">"nvim"</span> <span class="org-string">"w3m"</span>
+                            <span class="org-string">"ncmpcpp"</span> <span class="org-string">"newsbeuter"</span> <span class="org-string">"nethack"</span> <span class="org-string">"mutt"</span> <span class="org-string">"fzf"</span>))
+  <span class="org-builtin">:hook</span>
+  (eshell-load . eat-eshell-mode)
+  (eshell-load . eat-eshell-visual-command-mode))
+
+(<span class="org-keyword">use-package</span> eshell-prompt-extras
+  <span class="org-builtin">:hook</span>
+  (eshell-first-time-mode . pgm/eshell-init)
+  <span class="org-builtin">:custom</span>
+  (eshell-highlight-prompt t)
+  (eshell-prompt-function 'epe-theme-lambda)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">pgm/eshell-init</span> ()
+      (eshell/alias <span class="org-string">"l"</span> <span class="org-string">"ls -hl"</span>)
+      (eshell/alias <span class="org-string">"ll"</span> <span class="org-string">"ls -hl"</span>)
+      (eshell/alias <span class="org-string">"la"</span> <span class="org-string">"ls -ahl"</span>)
+      (eshell/alias <span class="org-string">"gs"</span> <span class="org-string">"git status"</span>)
+      (eshell/alias <span class="org-string">"gd"</span> <span class="org-string">"git diff"</span>)
+      (eshell/alias <span class="org-string">"gl"</span> <span class="org-string">"git log --oneline"</span>)
+      (eshell/alias <span class="org-string">".."</span> <span class="org-string">"cd .."</span>)))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">shell-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbdc78c0" class="outline-2">
+<h2 id="orgbdc78c0"><span class="section-number-2">9.</span> Programming</h2>
+<div class="outline-text-2" id="text-9">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+(<span class="org-keyword">use-package</span> company
+  <span class="org-builtin">:hook</span>
+  (prog-mode . company-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> company-mode-map
+              (<span class="org-string">"TAB"</span> . company-indent-or-complete-common)
+              ([tab] . company-indent-or-complete-common)
+              <span class="org-builtin">:map</span> company-active-map
+              (<span class="org-string">"TAB"</span>       . company-complete-selection)
+              ([tab]       . company-complete-selection)
+              (<span class="org-string">"&lt;backtab&gt;"</span> . company-abort)
+              (<span class="org-string">"C-g"</span>       . company-abort)
+              (<span class="org-string">"C-h"</span>       . company-show-doc-buffer))
+  <span class="org-builtin">:custom</span>
+  (company-idle-delay                nil)
+  (company-minimum-prefix-length     1)
+  (company-require-match-p           'never)
+  (company-frontends                 '(company-preview-frontend company-echo-metadata-frontend))
+  (company-backends                  '(company-capf))
+  (company-tooltip-align-annotations t))
+
+(<span class="org-keyword">use-package</span> lsp-mode
+  <span class="org-builtin">:hook</span>
+  ((java-mode          . lsp)
+   (java-ts-mode       . lsp)
+   (bash-ts-mode       . lsp)
+   (mhtml-mode         . lsp)
+   (js-ts-mode         . lsp)
+   (json-ts-mode       . lsp)
+   (typescript-mode    . lsp)
+   (typescript-ts-mode . lsp)
+   (python-mode        . lsp)
+   (python-ts-mode     . lsp)
+   (c-mode             . lsp)
+   (c-ts-mode          . lsp)
+   (clojure-mode       . lsp)
+   (ruby-mode          . lsp-deferred)
+   (ruby-ts-mode       . lsp-deferred))
+  <span class="org-builtin">:custom</span>
+  (lsp-keymap-prefix <span class="org-string">"C-c l"</span>)
+  (lsp-enable-on-type-formatting nil)
+  (lsp-enable-indentation nil)
+  (lsp-completion-provider <span class="org-builtin">:none</span>)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">https://github.com/sqls-server/sqls?tab=readme-ov-file#installation
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">https://github.com/sqls-server/sqls?tab=readme-ov-file#db-configuration
+</span>  (lsp-sqls-workspace-config-path <span class="org-string">"workspace"</span>)
+  (lsp-sqls-connections nil)
+  (lsp-disabled-clients '(rubocop-ls solargraph sorbet-ls))
+  (lsp-ruby-use-bundler t)
+  <span class="org-builtin">:bind</span>
+  (<span class="org-builtin">:map</span> lsp-mode-map
+        (<span class="org-string">"C-c l r"</span> . lsp-rename)))
+
+(<span class="org-keyword">use-package</span> lsp-java
+  <span class="org-builtin">:after</span> lsp
+  <span class="org-builtin">:hook</span>
+  (java-mode . lsp))
+
+(<span class="org-keyword">use-package</span> compile
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">:hook
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(;; Not ideal, but I do not want this poluting the modeline
+</span>  <span class="org-comment-delimiter">;;  </span><span class="org-comment">(compilation-start . (lambda () (setq compilation-in-progress nil))))
+</span>  <span class="org-builtin">:custom</span>
+  (compilation-always-kill t)
+  (compilation-scroll-output t)
+  (ansi-color-for-compilation-mode t)
+  <span class="org-builtin">:config</span>
+  (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
+
+(<span class="org-keyword">use-package</span> makefile-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\Makefile.*\\'"</span>
+  <span class="org-builtin">:defer</span> 't
+  <span class="org-builtin">:config</span>
+  (add-to-list 'treesit-language-source-alist '(make <span class="org-string">"https://github.com/alemuller/tree-sitter-make"</span>)))
+
+(<span class="org-keyword">unless</span> (eq system-type 'windows-nt)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">TODO: finish https://clojure-doc.org/articles/tutorials/introduction/
+</span>  (<span class="org-keyword">use-package</span> cider
+      <span class="org-builtin">:custom</span>
+      (nrepl-use-ssh-fallback-for-remote-hosts t))
+  (<span class="org-keyword">use-package</span> ejc-sql
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Github: https://github.com/kostafey/ejc-sql?tab=readme-ov-file#mariadbconnection
+</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">M-x ejc-connect
+</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">M-x ejc-quit-connection -&gt; it refreshes the connection
+</span>      <span class="org-builtin">:config</span>
+      (load (expand-file-name <span class="org-string">".local/ejc-config.el"</span> user-emacs-directory) 'noerror 'nomessage))
+  (<span class="org-keyword">use-package</span> tree-sitter
+      <span class="org-builtin">:config</span>
+      (global-tree-sitter-mode 1))
+  (<span class="org-keyword">use-package</span> tree-sitter-langs)
+  (<span class="org-keyword">use-package</span> treesit-auto
+      <span class="org-builtin">:config</span>
+      (global-treesit-auto-mode 1)))
+
+(<span class="org-keyword">use-package</span> conf-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.env\\..*\\'"</span> <span class="org-string">"\\.env\\'"</span>)
+  <span class="org-builtin">:init</span>
+  (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.env\\'"</span> . conf-mode)))
+
+(<span class="org-keyword">use-package</span> sql-indent
+  <span class="org-builtin">:hook</span>
+  (sql-mode . sqlind-minor-mode))
+
+(<span class="org-keyword">use-package</span> typescript-mode <span class="org-builtin">:defer</span> t)
+(<span class="org-keyword">use-package</span> powershell <span class="org-builtin">:defer</span> t)
+(<span class="org-keyword">use-package</span> scss-mode <span class="org-builtin">:defer</span> t)
+(<span class="org-keyword">use-package</span> yaml-mode <span class="org-builtin">:defer</span> t)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package python-mode
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:ensure nil
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:mode "\\.py\\'"
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer 't
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; :config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; TODO: python related configs
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; TODO: python-ts-mode crashes when open .py files
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (add-to-list 'treesit-language-source-alist '(python "https://github.com/tree-sitter/tree-sitter-python" "master" "src"))
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">)
+</span>
+(<span class="org-keyword">use-package</span> magit)
+
+(<span class="org-keyword">use-package</span> project
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-x p C"</span> . project-recompile)))
+
+(<span class="org-keyword">use-package</span> smerge-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> smerge-mode-map
+              (<span class="org-string">"C-c ^ u"</span> . smerge-keep-upper)
+              (<span class="org-string">"C-c ^ l"</span> . smerge-keep-lower)
+              (<span class="org-string">"C-c ^ n"</span> . smerge-next)
+              (<span class="org-string">"C-c ^ p"</span> . smerge-previous)))
+
+(<span class="org-keyword">use-package</span> eldoc
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:init</span>
+  (global-eldoc-mode))
+
+(<span class="org-keyword">use-package</span> eldoc-box
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:custom</span>
+  (eldoc-box-border-width 1)
+  (eldoc-box-echo-area-use-multiline-p t)
+  (eldoc-box-scrollbar-width 8)
+  (eldoc-box-max-lines 10)
+  (eldoc-box-use-echo-area nil)
+  <span class="org-builtin">:bind</span>
+  (<span class="org-string">"C-c h ."</span> . eldoc-box-help-at-point)
+  <span class="org-builtin">:hook</span>
+  (eldoc-mode . eldoc-box-hover-mode))
+
+(<span class="org-keyword">use-package</span> dap-mode
+  <span class="org-builtin">:after</span> lsp-mode
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">:custom
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(dap-auto-configure-features '())
+</span>  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> dap-mode-map
+              (<span class="org-string">"C-c &lt;f9&gt;"</span> . dap-debug)
+              (<span class="org-string">"C-c &lt;f8&gt;"</span> . dap-breakpoint-toggle)
+              (<span class="org-string">"C-c d r"</span>  . dap-debug-restart)
+              (<span class="org-string">"&lt;f7&gt;"</span>     . dap-step-in)
+              (<span class="org-string">"&lt;f10&gt;"</span>    . dap-step-out)
+              (<span class="org-string">"&lt;f8&gt;"</span>     . dap-next)
+              (<span class="org-string">"&lt;f11&gt;"</span>    . dap-previous)
+              (<span class="org-string">"&lt;f9&gt;"</span>     . dap-continue)
+              (<span class="org-string">"C-c d q"</span>  . dap-disconnect)
+              (<span class="org-string">"C-c d e"</span>  . dap-eval)
+              (<span class="org-string">"C-c d v"</span>  . dap-eval-thing-at-point)
+              (<span class="org-string">"C-c d E"</span>  . dap-eval-region))
+  <span class="org-builtin">:config</span>
+  (dap-auto-configure-mode)
+  (<span class="org-keyword">require</span> '<span class="org-constant">dap-java</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">dap-lldb</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">dap-cpptools</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">dap-gdb</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">dap-gdb-lldb</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">(require 'dap-cpptools)
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(with-eval-after-load 'dap-mode
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">    (dap-register-debug-template
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">     "LLDB::Run"
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">     (list :type "lldb-vscode"
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">               :cwd  (expand-file-name (project-root (project-current)))
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">               :request "launch"
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">               :program (expand-file-name "bin/win32_game.exe" (project-root (project-current)))
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">               :name "LLDB::Run")))
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setq dap-lldb-debug-program '("C:/Users/douzone/.emacs.d/.extension/vscode/vadimcn.vscode-lldb/codelldb-win32-x64/extension/adapter/codelldb.exe"))
+</span>  )
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package evil
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:init
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(setq evil-disable-insert-state-bindings t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(setq evil-move-beyond-eol t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; :hook (prog-mode . evil-local-mode)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">)
+</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">EGLOT
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">pip install python-lsp-server flake8
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">npm install -g typescript teypscript-language-server
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">npm install -g vscode-langservers-extracted
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package eglot
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:ensure nil
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-autoshutdown t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-events-buffer-size 0)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-events-buffer-config '(:size 0 :format full))
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-prefer-plaintext t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(jsonrpc-event-hook nil)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-code-action-indications nil) ;; Emacs 31 -- annoying as hell
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:init
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(fset #'jsonrpc--log-event #'ignore)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">((mhtml-mode
+</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">css-mode
+</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">;; css-ts-mode
+</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">;; js-ts-mode
+</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">;; typescript-ts-mode
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">      js-mode
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">      typescript-mode
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">      python-mode
+</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">java-mode)
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">. eglot-ensure)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind (:map
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               eglot-mode-map
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l a" . eglot-code-actions)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l o" . eglot-code-actions-organize-imports)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l r" . eglot-rename)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l f" . eglot-format)))
+</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">EGLOT-JAVA
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package eglot-java
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">((java-mode java-ts-mode)  . eglot-java-mode)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind (:map
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               eglot-java-mode-map
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l n" . eglot-java-file-new)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l x" . eglot-java-run-main)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l t" . eglot-java-run-test)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l N" . eglot-java-project-new)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l T" . eglot-java-project-build-task)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l R" . eglot-java-project-build-refresh)))
+</span>
+(<span class="org-keyword">use-package</span> elec-pair
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span>
+  <span class="org-builtin">:hook</span>
+  (after-init-hook . electric-pair-mode))
+
+(<span class="org-keyword">use-package</span> paren
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:hook</span>
+  (after-init-hook . show-paren-mode)
+  <span class="org-builtin">:custom</span>
+  (show-paren-delay 0)
+  (show-paren-style 'mixed)
+  (show-paren-context-when-offscreen t))
+
+(<span class="org-keyword">use-package</span> inf-ruby)
+
+(<span class="org-keyword">use-package</span> tagedit
+  <span class="org-builtin">:hook</span>
+  ((mhtml-mode
+      sgml-mode
+      nxml-mode)
+   . (<span class="org-keyword">lambda</span> ()
+         (tagedit-add-paredit-like-keybindings)
+         (tagedit-mode 1))))
+
+(<span class="org-keyword">use-package</span> emmet-mode
+  <span class="org-builtin">:hook</span> (mhtml-mode sgml-mode nxml-mode))
+
+(<span class="org-keyword">use-package</span> flymake
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> ((prog-mode . flymake-mode)
+         (elisp-mode . flymake-mode))
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> flymake-mode-map
+              (<span class="org-string">"M-8"</span> . flymake-goto-next-error)
+              (<span class="org-string">"M-7"</span> . flymake-goto-prev-error)
+              (<span class="org-string">"C-c ! n"</span> . flymake-goto-next-error)
+              (<span class="org-string">"C-c ! p"</span> . flymake-goto-prev-error)
+              (<span class="org-string">"C-c ! l"</span> . flymake-show-buffer-diagnostics)
+              (<span class="org-string">"C-c ! t"</span> . toggle-flymake-diagnostics-at-eol))
+  <span class="org-builtin">:custom</span>
+  (flymake-show-diagnostics-at-end-of-line nil)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">(flymake-show-diagnostics-at-end-of-line 'short)
+</span>  (flymake-indicator-type 'margins)
+  (flymake-margin-indicators-string
+   `((<span class="org-warning">error</span>   <span class="org-string">"!"</span> compilation-error) <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternatives: &#187;, E, W, i, !, ?)
+</span>       (warning <span class="org-string">"?"</span> compilation-warning)
+       (note    <span class="org-string">"i"</span> compilation-info)))
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Define the toggle function
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">toggle-flymake-diagnostics-at-eol</span> ()
+      <span class="org-doc">"Toggle the display of Flymake diagnostics at the end of the line
+and restart Flymake to apply the changes."</span>
+      (<span class="org-keyword">interactive</span>)
+      (<span class="org-keyword">setq</span> flymake-show-diagnostics-at-end-of-line
+          (not flymake-show-diagnostics-at-end-of-line))
+      (flymake-mode -1) <span class="org-comment-delimiter">;; </span><span class="org-comment">Disable Flymake
+</span>      (flymake-mode 1)  <span class="org-comment-delimiter">;; </span><span class="org-comment">Re-enable Flymake
+</span>      (message <span class="org-string">"Flymake diagnostics at end of line: %s"</span>
+             (<span class="org-keyword">if</span> flymake-show-diagnostics-at-end-of-line
+                 <span class="org-string">"Enabled"</span> <span class="org-string">"Disabled"</span>))))
+
+(<span class="org-keyword">use-package</span> diff-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> diff-default-read-only t)
+  (<span class="org-keyword">setq</span> diff-advance-after-apply-hunk t)
+  (<span class="org-keyword">setq</span> diff-update-on-the-fly t)
+  (<span class="org-keyword">setq</span> diff-font-lock-syntax 'hunk-also)
+  (<span class="org-keyword">setq</span> diff-font-lock-prettify nil))
+
+(<span class="org-keyword">use-package</span> copilot
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">:hook (prog-mode . copilot-mode)
+</span>  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> copilot-completion-map
+              (<span class="org-string">"C-c C-n"</span>     . copilot-next-completion)
+              (<span class="org-string">"C-c n"</span>       . copilot-next-completion)
+              (<span class="org-string">"C-c C-p"</span>     . copilot-previous-completion)
+              (<span class="org-string">"C-c p"</span>       . copilot-previous-completion)
+              (<span class="org-string">"C-c c f"</span>     . copilot-accept-completion-by-word)
+              (<span class="org-string">"C-c c e"</span>     . copilot-accept-completion-by-line)
+              (<span class="org-string">"C-c &lt;SPC&gt;"</span>   . copilot-accept-completion)
+              (<span class="org-string">"C-c c &lt;SPC&gt;"</span> . copilot-accept-completion)
+              (<span class="org-string">"C-c C-&lt;SPC&gt;"</span> . copilot-accept-completion)
+              (<span class="org-string">"C-c c t"</span>     . copilot-toggle-auto-complete)))
+
+(<span class="org-keyword">use-package</span> ediff
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:commands</span> (ediff-buffers ediff-files ediff-buffers3 ediff-files3)
+  <span class="org-builtin">:init</span>
+  (<span class="org-keyword">setq</span> ediff-split-window-function 'split-window-horizontally)
+  (<span class="org-keyword">setq</span> ediff-window-setup-function 'ediff-setup-windows-plain)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> ediff-keep-variants nil)
+  (<span class="org-keyword">setq</span> ediff-make-buffers-readonly-at-startup nil)
+  (<span class="org-keyword">setq</span> ediff-merge-revisions-with-ancestor t)
+  (<span class="org-keyword">setq</span> ediff-show-clashes-only t))
 
 (<span class="org-keyword">use-package</span> yasnippet
   <span class="org-builtin">:hook</span>
   (prog-mode . yas-minor-mode))
 
-(<span class="org-keyword">use-package</span> yasnippet-snippets)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package smart-hungry-delete
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:ensure t
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind (([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ([remap delete-backward-char] . smart-hungry-delete-backward-char)
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ([remap delete-char] . smart-hungry-delete-forward-char))
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:init (smart-hungry-delete-add-default-hooks))
+</span>
+(<span class="org-keyword">use-package</span> whitespace
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (before-save . whitespace-cleanup))
 
-(<span class="org-keyword">use-package</span> wgrep
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc93359f" class="outline-2">
+<h2 id="orgc93359f"><span class="section-number-2">10.</span> Miscellaneous</h2>
+<div class="outline-text-2" id="text-10">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">use-package</span> notmuch
   <span class="org-builtin">:ensure</span> t
   <span class="org-builtin">:config</span>
-  (define-key grep-mode-map (kbd <span class="org-string">"C-c C-q"</span>) 'wgrep-change-to-wgrep-mode)
-  (define-key grep-mode-map (kbd <span class="org-string">"w"</span>) 'wgrep-change-to-wgrep-mode))
+  (<span class="org-keyword">setq</span> mail-user-agent 'notmuch-user-agent))
 
-(<span class="org-keyword">use-package</span> recentf
-  <span class="org-builtin">:ensure</span> t
-  <span class="org-builtin">:config</span>
-  (<span class="org-keyword">setq</span> recentf-max-saved-items 200)
-  (<span class="org-keyword">setq</span> recentf-filename-handlers
-        (append '(abbreviate-file-name) recentf-filename-handlers))
-  (recentf-mode))
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">completion-conf</span>)
+(<span class="org-keyword">setq</span> user-full-name (getenv <span class="org-string">"USER_FULL_NAME"</span>)
+        user-mail-address (getenv <span class="org-string">"USER_EMAIL"</span>)
+        auth-sources '(<span class="org-string">"~/.authinfo.gpg"</span>))
+(<span class="org-keyword">setq</span> send-mail-function 'sendmail-send-it
+        message-send-mail-function 'sendmail-send-it
+        sendmail-program (executable-find <span class="org-string">"msmtp"</span>)
+        message-send-mail-function 'message-send-mail-with-sendmail)
+(<span class="org-keyword">provide</span> '<span class="org-constant">misc-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el ends here</span>
 </pre>
 </div>
-</div>
-</div>
 
-<div id="outline-container-org7e5d2b4" class="outline-2">
-<h2 id="org7e5d2b4"><span class="section-number-2">4.</span> Theme</h2>
-<div class="outline-text-2" id="text-4">
+<p>
+Some extra stuff.
+</p>
+
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">autothemer</span>)
-
-(autothemer-deftheme simple
-                     <span class="org-string">"A simple theme."</span>
-
-                     ((((class color) (min-colors #xFFFFFF))) <span class="org-comment-delimiter">;; </span><span class="org-comment">We're only concerned with graphical Emacs
-</span>
-                      <span class="org-comment-delimiter">;; </span><span class="org-comment">Define our color palette
-</span>                      (paper-black        <span class="org-string">"#373A40"</span>)
-                      (paper-white        <span class="org-string">"#EEEEEE"</span>)
-                      (paper-orange       <span class="org-string">"#F7954A"</span>)
-                      (paper-dark-orange  <span class="org-string">"#DC5F00"</span>)
-                      (paper-light-orange <span class="org-string">"#FCDAC0"</span>)
-                      (paper-gray         <span class="org-string">"#D9D9D9"</span>)
-                      (paper-dark-gray    <span class="org-string">"#686D76"</span>))
-
-                     <span class="org-comment-delimiter">;; </span><span class="org-comment">Customize faces
-</span>                     ((default                      (<span class="org-builtin">:foreground</span> paper-white <span class="org-builtin">:background</span> paper-black))
-                      (cursor                       (<span class="org-builtin">:background</span> paper-dark-orange))
-                      (region                       (<span class="org-builtin">:background</span> paper-dark-gray))
-                      (fringe                       (<span class="org-builtin">:background</span> paper-black))
-                      (mode-line                    (<span class="org-builtin">:background</span> paper-black))
-
-                      (font-lock-keyword-face       (<span class="org-builtin">:foreground</span> paper-white <span class="org-builtin">:weight</span> 'regular))
-                      (font-lock-constant-face      (<span class="org-builtin">:foreground</span> paper-white <span class="org-builtin">:weight</span> 'regular))
-                      (font-lock-string-face        (<span class="org-builtin">:foreground</span> paper-gray))
-                      (font-lock-builtin-face       (<span class="org-builtin">:foreground</span> paper-white))
-                      (font-lock-comment-face       (<span class="org-builtin">:foreground</span> paper-dark-gray))
-                      (font-lock-type-face          (<span class="org-builtin">:foreground</span> paper-white))
-                      (font-lock-function-name-face (<span class="org-builtin">:foreground</span> paper-white <span class="org-builtin">:weight</span> 'light))
-                      (font-lock-variable-name-face (<span class="org-builtin">:foreground</span> paper-white <span class="org-builtin">:weight</span> 'light))
-                      (font-lock-warning-face       (<span class="org-builtin">:foreground</span> paper-white <span class="org-builtin">:weight</span> 'light))
-
-                      (link                         (<span class="org-builtin">:foreground</span> paper-light-orange <span class="org-builtin">:underline</span> t))
-                      (link-visited                 (<span class="org-builtin">:foreground</span> paper-gray <span class="org-builtin">:underline</span> t))
-                      (highlight                    (<span class="org-builtin">:foreground</span> paper-white <span class="org-builtin">:background</span> paper-dark-gray <span class="org-builtin">:underline</span> t))
-                      (isearch                      (<span class="org-builtin">:background</span> paper-gray))
-
-                      (org-ellipsis                 (<span class="org-builtin">:foreground</span> paper-dark-gray))
-                      (org-tag                      (<span class="org-builtin">:foreground</span> paper-dark-gray <span class="org-builtin">:height</span> 0.95))
-
-                      (org-block                    (<span class="org-builtin">:foreground</span> paper-gray))
-                      (org-table                    (<span class="org-builtin">:foreground</span> paper-white))
-
-                      ))
-
-(provide-theme 'simple)
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> ejc-sql
+  <span class="org-builtin">:custom</span>
+  (clomacs-httpd-default-port 8888)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">let</span> ((ojdbc-path <span class="org-string">"~/.m2/repository/com/oracle/ojdbc8/8/ojdbc8-8.jar"</span>)
+          (maria-path <span class="org-string">"~/.m2/repository/org/mariadb/jdbc/mariadb-java-client/2.6.2/mariadb-java-client-2.6.2.jar"</span>))
+    (ejc-create-connection
+     <span class="org-string">"ERP10 20419"</span>
+     <span class="org-builtin">:classpath</span>      ojdbc-path
+     <span class="org-builtin">:connection-uri</span> (concat <span class="org-string">"jdbc:oracle:thin:@"</span>
+                             (getenv <span class="org-string">"X20419_DB_HOST"</span>) <span class="org-string">":"</span>
+                             (getenv <span class="org-string">"X20419_DB_PORT"</span>) <span class="org-string">":"</span>
+                             (getenv <span class="org-string">"X20419_DB_NAME"</span>))
+     <span class="org-builtin">:user</span>           (getenv <span class="org-string">"X20419_DB_USERNAME"</span>)
+     <span class="org-builtin">:password</span>       (getenv <span class="org-string">"X20419_DB_PASSWORD"</span>)
+     <span class="org-builtin">:separator</span>      <span class="org-string">"/"</span>)
+    (ejc-create-connection
+     <span class="org-string">"ERP10 20313"</span>
+     <span class="org-builtin">:classpath</span>      maria-path
+     <span class="org-builtin">:connection-uri</span> <span class="org-string">"jdbc:mariadb://uri:port/dbname"</span>
+     <span class="org-builtin">:user</span>           <span class="org-string">"USER_ID"</span>
+     <span class="org-builtin">:password</span>       <span class="org-string">"PASSWORD"</span>
+     <span class="org-builtin">:separator</span>      <span class="org-string">"/"</span>)))
 </pre>
 </div>
-</div>
-</div>
 
-<div id="outline-container-orgfc7262d" class="outline-2">
-<h2 id="orgfc7262d"><span class="section-number-2">5.</span> Org Mode</h2>
-<div class="outline-text-2" id="text-5">
 <div class="org-src-container">
-<pre class="src src-elisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
-</span>
-(<span class="org-keyword">use-package</span> org
-  <span class="org-builtin">:pin</span> org
-  <span class="org-builtin">:commands</span> (org-capture org-agenda)
-  <span class="org-builtin">:config</span>
-  (display-line-numbers-mode 0)
-  (<span class="org-keyword">setq</span> org-agenda-start-with-log-mode t
-        org-catch-invisible-edits 'show
-        org-edit-timestamp-down-means-later t
-        org-export-coding-system 'utf-8
-        org-export-kill-product-buffer-when-displayed t
-        org-fast-tag-selection-single-key 'expert
-        org-hide-emphasis-markers t
-        org-html-validation-link nil
-        org-image-actual-width '(450)
-        org-log-done 'time
-        org-log-into-drawer t
-        org-pretty-entities nil
-        org-startup-indented nil
-        org-startup-with-inline-images t
-        org-tags-column 80
-        org-src-window-setup 'current-window))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Lots of stuff from http://doc.norang.ca/org-mode.html
-</span>(<span class="org-keyword">with-eval-after-load</span> 'org
-  (<span class="org-keyword">require</span> '<span class="org-constant">org-tempo</span>)
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"txt"</span> . <span class="org-string">"src text"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"sh"</span> . <span class="org-string">"src shell"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"el"</span> . <span class="org-string">"src emacs-lisp"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"py"</span> . <span class="org-string">"src python"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"js"</span> . <span class="org-string">"src javascript"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"ts"</span> . <span class="org-string">"src typescript"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"java"</span> . <span class="org-string">"src java"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"scm"</span> . <span class="org-string">"src scheme"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"sql"</span> . <span class="org-string">"src sql"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"rust"</span> . <span class="org-string">"src rust"</span>))
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   (seq-filter
-    (<span class="org-keyword">lambda</span> (pair)
-      (locate-library (concat <span class="org-string">"ob-"</span> (symbol-name (car pair)))))
-    '((dot . t)
-      (gnuplot . t)
-      (latex . t)
-      (python . t)
-      (javascript . t)
-      (typescript . t)
-      (shell . t)
-      (scheme . t)
-      (sql . t)
-      (sqlite . t)))))
-
-(<span class="org-keyword">use-package</span> org-appear
-  <span class="org-builtin">:hook</span>
-  (org-mode . org-appear-mode)
-  <span class="org-builtin">:config</span>
-  (<span class="org-keyword">setq</span> org-appear-autoemphasis t)
-  (<span class="org-keyword">setq</span> org-appear-autolinks t)
-  (<span class="org-keyword">setq</span> org-appear-autosubmarkers t)
-  (<span class="org-keyword">setq</span> org-appear-autoentities t)
-  (<span class="org-keyword">setq</span> org-appear-autokeywords t)
-  (<span class="org-keyword">setq</span> org-appear-inside-latex t)
-  (<span class="org-keyword">setq</span> org-appear-delay 0.0)
-  (<span class="org-keyword">setq</span> org-appear-trigger 'always))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package org-fragtog
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:after org
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(org-mode . org-fragtog-mode)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(org-startup-with-latex-preview nil)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(org-format-latex-options
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(plist-put org-format-latex-options :scale 2)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(plist-put org-format-latex-options :foreground 'auto)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(plist-put org-format-latex-options :background 'auto)))
-</span>
-(<span class="org-keyword">defun</span> <span class="org-function-name">handle-org-hook</span> ()
-  (<span class="org-keyword">setq-local</span> electric-pair-inhibit-predicate `(<span class="org-keyword">lambda</span> (c)
-                                                 (<span class="org-keyword">if</span> (char-equal c ?&lt;) t (,electric-pair-inhibit-predicate c)))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">handle-org-after-save-hook</span> ()
-  (message <span class="org-string">"%s"</span> (buffer-file-name))
-  (message <span class="org-string">"%s"</span> (expand-file-name <span class="org-string">"~/Projects/k-org-site/content/configs.org"</span>))
-  (<span class="org-keyword">if</span> (string-equal (buffer-file-name) (expand-file-name <span class="org-string">"~/Projects/k-org-site/content/configs.org"</span>))
-      (org-babel-tangle)))
-
-(add-hook 'org-mode-hook #'handle-org-hook)
-(add-hook 'after-save-hook #'handle-org-after-save-hook)
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">org-conf</span>)
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> gptel
+      <span class="org-builtin">:custom</span>
+      (gptel-default-mode 'org-mode)
+      (gptel-backend (gptel-make-gemini <span class="org-string">"Gemini"</span> <span class="org-builtin">:key</span> <span class="org-string">"Gemini_API_Key"</span> <span class="org-builtin">:stream</span> t)))
 </pre>
 </div>
-</div>
-</div>
 
-<div id="outline-container-orga41ecdd" class="outline-2">
-<h2 id="orga41ecdd"><span class="section-number-2">6.</span> Note Taking</h2>
-<div class="outline-text-2" id="text-6">
 <div class="org-src-container">
-<pre class="src src-elisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">package-setup-function.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">setup-eat</span> ()
+  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">eat</span></span><span class="org-doc">'."</span>
+  (<span class="org-keyword">use-package</span> eat))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">setup-dumb-jump</span> ()
+  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">dumb-jump</span></span><span class="org-doc">'."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">use-package</span> dumb-jump))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">set-up-restclient</span> ()
+  <span class="org-doc">"Usage:
+:header = &lt;&lt;
+Content-Type: application/json
+X-Authenticate-Token: :token
+#
+
+GET http://localhost:8080/api/list
+:header
+#
+
+POST http://localhost:8080/api/login
+Content-Type: application/x-www-form-urlencoded
+-&gt; jq-set-var :token .data.access_token
+
+userid=userid&amp;password=1111
+#
+
+for more details
+https://github.com/pashky/restclient.el/"</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">use-package</span> restclient)
+  (<span class="org-keyword">use-package</span> restclient-jq))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">restclient-scratch-buffer</span>()
+  <span class="org-doc">"Make `</span><span class="org-doc"><span class="org-constant">restclient-mode</span></span><span class="org-doc">' buffer."</span>
+  (<span class="org-keyword">interactive</span>)
+  (switch-to-buffer (get-buffer-create <span class="org-string">"*scratch-restclient*"</span>))
+  (restclient-mode))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">setup-request</span> ()
+  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">request</span></span><span class="org-doc">'."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">use-package</span> request))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(request "http://localhost:8080/api/CM/AccountService/login"
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:type "POST"
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; :headers '(("Content-Type" . "application/x-www-form-urlencoded"))
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:data '(("userid" . "userid") ("password" . "password"))
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:parser 'json-read
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:success (cl-function
+</span><span class="org-comment-delimiter">;;             </span><span class="org-comment">(lambda (&amp;key data &amp;allow-other-keys)
+</span><span class="org-comment-delimiter">;;               </span><span class="org-comment">(setq token (assoc-default 'access_token (assoc-default 'data data))))))
 </span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(request "http://localhost:8080/api/HR/Evarpt00400_Z20313Service/listMenu"
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:headers `(("Content-Type" . "application/json")
+</span><span class="org-comment-delimiter">;;              </span><span class="org-comment">("X-Authenticate-Token" . ,token))
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:parser 'json-read
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:success (cl-function
+</span><span class="org-comment-delimiter">;;             </span><span class="org-comment">(lambda (&amp;key data &amp;allow-other-keys)
+</span><span class="org-comment-delimiter">;;               </span><span class="org-comment">(message "%S" (recurse-alist (assoc-default 'data data))))))
+</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">setup-geiser-guile</span> ()
+  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">geiser-guile</span></span><span class="org-doc">'."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">use-package</span> geiser-guile
+      <span class="org-builtin">:config</span>
+      (<span class="org-keyword">setq</span> geiser-scheme-implementation 'guile)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">setup-pyvenv</span> ()
+  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">pyvenv</span></span><span class="org-doc">'."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">use-package</span> pyvenv))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">setup-emmet-mode</span> ()
+  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">emmet-mode</span></span><span class="org-doc">'."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">use-package</span> emmet-mode
+      <span class="org-builtin">:hook</span>
+      (mhtml-mode . emmet-mode)))
+
 (<span class="org-keyword">use-package</span> denote
   <span class="org-builtin">:custom</span>
   (denote-sort-keywords t)
+  (denote-directory (expand-file-name <span class="org-string">"~/Documents/notes/denote/"</span>))
+  (denote-prompts '(file-type subdirectory title keywords))
   <span class="org-builtin">:hook</span>
-  (dired-mode . denote-dired-mode)
-  <span class="org-builtin">:init</span>
-  (<span class="org-keyword">require</span> '<span class="org-constant">denote-org-extras</span>))
+  (dired-mode . denote-dired-mode))
 
-(<span class="org-keyword">use-package</span> consult-notes
-  <span class="org-builtin">:init</span>
-  (consult-notes-denote-mode))
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">note-conf</span>)
+(<span class="org-keyword">provide</span> '<span class="org-constant">package-setup-function</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">package-setup-function.el ends here</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgffd2741" class="outline-2">
-<h2 id="orgffd2741"><span class="section-number-2">7.</span> Programming Languages</h2>
-<div class="outline-text-2" id="text-7">
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
-</span>
-(<span class="org-keyword">use-package</span> eglot
-  <span class="org-builtin">:defer</span> t
-  <span class="org-builtin">:hook</span>
-  (c-mode . eglot-ensure)
-  (mhtml-mode . eglot-ensure)
-  (python-mode . eglot-ensure)
-  (javascript-mode . eglot-ensure)
-  (js-mode . eglot-ensure)
-  (typescript-ts-mode . eglot-ensure))
-
-(<span class="org-keyword">use-package</span> tree-sitter)
-
-(<span class="org-keyword">use-package</span> treesit-auto
-  <span class="org-builtin">:config</span>
-  (treesit-auto-add-to-auto-mode-alist 'all))
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package tree-sitter-langs)
-</span>
-(<span class="org-keyword">require</span> '<span class="org-constant">treesit</span>)
-(add-to-list 'treesit-language-source-alist '(python <span class="org-string">"https://github.com/tree-sitter/tree-sitter-python.git"</span>))
-(add-to-list 'treesit-language-source-alist '(c <span class="org-string">"https://github.com/tree-sitter/tree-sitter-c.git"</span>))
-(add-to-list 'treesit-language-source-alist '(java <span class="org-string">"https://github.com/tree-sitter/tree-sitter-java.git"</span>))
-(add-to-list 'treesit-language-source-alist '(typescript <span class="org-string">"https://github.com/tree-sitter/tree-sitter-typescript.git"</span>))
-(add-to-list 'treesit-language-source-alist '(javascript <span class="org-string">"https://github.com/tree-sitter/tree-sitter-javascript.git"</span>))
-(add-to-list 'treesit-language-source-alist '(css <span class="org-string">"https://github.com/tree-sitter/tree-sitter-css.git"</span>))
-(add-to-list 'treesit-language-source-alist '(html <span class="org-string">"https://github.com/tree-sitter/tree-sitter-html.git"</span>))
-(add-to-list 'treesit-language-source-alist '(bash <span class="org-string">"https://github.com/tree-sitter/tree-sitter-bash.git"</span>))
-
-(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
-(add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
-(add-to-list 'major-mode-remap-alist '(java-mode . java-ts-mode))
-(add-to-list 'major-mode-remap-alist '(tsx-mode . typescript-ts-mode))
-(add-to-list 'major-mode-remap-alist '(js-mode . js-ts-mode))
-(add-to-list 'major-mode-remap-alist '(css-mode . css-ts-mode))
-(add-to-list 'major-mode-remap-alist '(sh-mode . bash-ts-mode))
-(add-to-list 'major-mode-remap-alist '(lua-mode . lua-ts-mode))
-
-(<span class="org-keyword">use-package</span> ielm
-  <span class="org-builtin">:init</span>
-  (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode))
-
-(<span class="org-keyword">use-package</span> flycheck
-  <span class="org-builtin">:init</span>
-  (add-hook 'after-init-hook 'global-flycheck-mode)
-  <span class="org-builtin">:config</span>
-  (<span class="org-keyword">setq-default</span> flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-
-(<span class="org-keyword">use-package</span> eldoc
-  <span class="org-builtin">:init</span>  (<span class="org-keyword">setq</span> eldoc-idle-delay 0.1))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">use pyvenv-activate/deactivate
-</span>(<span class="org-keyword">use-package</span> pyvenv)
-
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">lang-conf</span>)
-</pre>
-</div>
-</div>
-
-<div id="outline-container-org9eba5fb" class="outline-3">
-<h3 id="org9eba5fb"><span class="section-number-3">7.1.</span> Python</h3>
-<div class="outline-text-3" id="text-7-1">
-</div>
-<div id="outline-container-org7d62a4a" class="outline-4">
-<h4 id="org7d62a4a"><span class="section-number-4">7.1.1.</span> Ubuntu</h4>
-<div class="outline-text-4" id="text-7-1-1">
-<div class="org-src-container">
-<pre class="src src-shell">sudo apt update
-sudo apt install python3-full
-<span class="org-builtin">cd</span> ~
-python3 -m venv venv
-<span class="org-builtin">export</span> <span class="org-variable-name">PATH</span>=<span class="org-string">"$HOME/venv/bin:$PATH"</span>
-pip install python-lsp-server flake8
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org322a3eb" class="outline-4">
-<h4 id="org322a3eb"><span class="section-number-4">7.1.2.</span> macOS</h4>
-<div class="outline-text-4" id="text-7-1-2">
-<div class="org-src-container">
-<pre class="src src-shell">
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org3793c89" class="outline-4">
-<h4 id="org3793c89"><span class="section-number-4">7.1.3.</span> Windows</h4>
-<div class="outline-text-4" id="text-7-1-3">
-<div class="org-src-container">
-<pre class="src src-text">
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org5f78d06" class="outline-3">
-<h3 id="org5f78d06"><span class="section-number-3">7.2.</span> JavaScript</h3>
-<div class="outline-text-3" id="text-7-2">
-<div class="org-src-container">
-<pre class="src src-shell">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-<span class="org-builtin">source</span> ~/.bashrc
-nvm install node
-nvm use node
-npm install typescript <span class="org-sh-escaped-newline">\</span>
-    typescript-language-server <span class="org-sh-escaped-newline">\</span>
-    vscode-langservers-extracted
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org626b3c8" class="outline-3">
-<h3 id="org626b3c8"><span class="section-number-3">7.3.</span> C</h3>
-</div>
-<div id="outline-container-org0c56cf4" class="outline-3">
-<h3 id="org0c56cf4"><span class="section-number-3">7.4.</span> Powershell</h3>
-</div>
-</div>
-
-<div id="outline-container-org5dff9de" class="outline-2">
-<h2 id="org5dff9de"><span class="section-number-2">8.</span> Eshell</h2>
-<div class="outline-text-2" id="text-8">
-<p>
-Redirect output to emacs buffer as below.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-shell">git log &gt; <span class="org-comment-delimiter">#</span><span class="org-comment">&lt;buffer *scratch*&gt;
-</span><span class="org-comment-delimiter"># </span><span class="org-comment">or
-</span>git log &gt;(get-buffer <span class="org-string">"*scratch*"</span>)
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">I don't need less in emacs
-</span>(setenv <span class="org-string">"PAGER"</span> <span class="org-string">"cat"</span>)
-<span class="org-comment-delimiter">;; </span><span class="org-comment">because using exec-path-from-shell
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(setenv "PATH" (concat (concat (getenv "HOME") "/venv/bin") ":" (getenv "PATH")))
-</span>
-(<span class="org-keyword">use-package</span> eshell-toggle
-  <span class="org-builtin">:custom</span>
-  (eshell-toggle-size-fraction 3)
-  (eshell-toggle-find-project-root-package t) <span class="org-comment-delimiter">;; </span><span class="org-comment">for projectile
-</span>  (eshell-toggle-use-projectile-root 'project) <span class="org-comment-delimiter">;; </span><span class="org-comment">for in-built project.el
-</span>  (eshell-toggle-run-command nil)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">(eshell-toggle-init-function #'eshell-toggle-init-ansi-term)
-</span>  <span class="org-builtin">:bind</span>
-  (<span class="org-string">"M-`"</span> . eshell-toggle))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">eshell-below</span>()
-  <span class="org-doc">"Split window below with eshell buffer."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">let*</span> ((height (/ (window-total-height) 3)))
-    (split-window-vertically (- height))
-    (other-window 1)
-    (eshell)))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">toggle-eshell</span>()
-  <span class="org-doc">"Toggle split window with eshell buffer below."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">let*</span> ((w (window-in-direction 'below)))
-    (<span class="org-keyword">with-current-buffer</span> (window-buffer w)
-      (<span class="org-keyword">if</span> (eq major-mode 'eshell-mode)
-          (delete-window w)
-        (eshell-below)))))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">no use but think it's good to know
-</span>(<span class="org-keyword">defun</span> <span class="org-function-name">eshell-buffers</span>()
-  <span class="org-doc">"Returns eshell buffer list."</span>
-  (delq nil (mapcar (<span class="org-keyword">lambda</span> (buf)
-                      (<span class="org-keyword">with-current-buffer</span> buf
-                        (<span class="org-keyword">if</span> (eq major-mode 'eshell-mode)
-                            buf)))
-                    (buffer-list))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">handle-eshell-exit</span>()
-  <span class="org-doc">"Deletes the window when eshell buffer exits."</span>
-  (<span class="org-keyword">if</span> (&gt; (count-windows 1))
-      (delete-window)))
-
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">k/configure-eshell</span> ()
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Save command history when commands are entered
-</span>  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Truncate buffer for performance
-</span>  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Prompt settings
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setq-default eshell-prompt-function #'eshell/eshell-local-prompt-function)
-</span>
-  (<span class="org-keyword">setq</span> eshell-history-size         10000
-        eshell-buffer-maximum-lines 10000
-        eshell-hist-ignoredups t
-        eshell-scroll-to-bottom-on-input 'all
-        eshell-error-if-no-glob t
-        eshell-save-history-on-exit t
-        eshell-prefer-lisp-functions nil
-        eshell-destroy-buffer-when-process-dies t)
-
-  (add-hook 'eshell-mode-hook
-            (<span class="org-keyword">lambda</span> ()
-              (add-to-list 'eshell-visual-commands <span class="org-string">"ssh"</span>)
-              (add-to-list 'eshell-visual-commands <span class="org-string">"tail"</span>)
-              (add-to-list 'eshell-visual-commands <span class="org-string">"top"</span>)
-              (add-to-list 'eshell-visual-commands <span class="org-string">"htop"</span>)
-              (add-to-list 'eshell-visual-commands <span class="org-string">"zsh"</span>)
-              (add-to-list 'eshell-visual-commands <span class="org-string">"vim"</span>)
-
-              (eshell/alias <span class="org-string">"l"</span> <span class="org-string">"ls -hl $1"</span>)
-              (eshell/alias <span class="org-string">"ll"</span> <span class="org-string">"ls -ahl $1"</span>)
-              (eshell/alias <span class="org-string">"ff"</span> <span class="org-string">"find-file $1"</span>)
-              (eshell/alias <span class="org-string">"emacs"</span> <span class="org-string">"find-file $1"</span>)
-              (eshell/alias <span class="org-string">"ffo"</span> <span class="org-string">"find-file-other-window $1"</span>)))
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">(add-hook 'eshell-exit-hook  #'handle-eshell-exit)
-</span>  )
-
-(<span class="org-keyword">use-package</span> eshell
-  <span class="org-builtin">:hook</span>
-  (eshell-first-time-mode . k/configure-eshell))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "C-`") #'toggle-eshell)
-</span>
-(<span class="org-keyword">if</span> (string-equal system-type <span class="org-string">"windows-nt"</span>)
-    (<span class="org-keyword">progn</span>
-      (<span class="org-keyword">setq</span> eshell-windows-shell-file (executable-find <span class="org-string">"bash"</span>))
-      (<span class="org-keyword">setq</span> explicit-shell-file-name (executable-find <span class="org-string">"bash"</span>))
-      (<span class="org-keyword">setq</span> shell-file-name (executable-find <span class="org-string">"bash"</span>))
-      (setenv <span class="org-string">"SHELL"</span> shell-file-name)
-      (setenv <span class="org-string">"BASH_ENV"</span> <span class="org-string">"~/.bashrc"</span>)))
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">eshell-conf</span>)
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orga108806" class="outline-2">
-<h2 id="orga108806"><span class="section-number-2">9.</span> Windows</h2>
-<div class="outline-text-2" id="text-9">
-<p>
-<a href="https://gitlab.com/axgfn/edwina">Edwina gitlab link</a>
-<a href="https://github.com/roman/golden-ratio.el">Golden ratio github link</a>
-<a href="https://github.com/emacsorphanage/popwin">Popwin github link</a>
-</p>
-
-<p>
-<b>Note: Critical Errors</b>
-</p>
-
-<ol class="org-ol">
-<li>When open a buffer in other window with consult-buffer,</li>
-</ol>
-<p>
-it shows all the buffers in sub-windows.
-</p>
-
-<ol class="org-ol">
-<li>Messages buffer windows keep stacking.</li>
-</ol>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Binding</th>
-<th scope="col" class="org-left">Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left"><code>r</code>, <code>C-r</code></td>
-<td class="org-left">Arrange windows</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>n</code>, <code>C-n</code>, <code>SPC</code></td>
-<td class="org-left">Move to next window</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>p</code>, <code>C-p</code></td>
-<td class="org-left">Move to previous window</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>N</code>, <code>C-S-n</code></td>
-<td class="org-left">Swap places with the next window</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>P</code>, <code>C-S-p</code></td>
-<td class="org-left">Swap places with the previous window</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>%</code>, <code>{</code>, <code>[</code></td>
-<td class="org-left">Decrease the size of the master area</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>^</code>, <code>}</code>, <code>]</code></td>
-<td class="org-left">Increase the size of the master area</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>d</code>, <code>C-d</code></td>
-<td class="org-left">Decrease number of windows in master</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>i</code></td>
-<td class="org-left">Increase number of windows in master</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>k</code>, <code>C-k</code></td>
-<td class="org-left">Delete window</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>RET</code></td>
-<td class="org-left">Cycle window to/from master area</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>c</code>, <code>C-c</code></td>
-<td class="org-left">Clone current window</td>
-</tr>
-</tbody>
-</table>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package edwina
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (setq display-buffer-base-action '(display-buffer-below-selected))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(edwina-mode 1))
-</span>
-(<span class="org-keyword">use-package</span> popper
-  <span class="org-builtin">:bind</span> ((<span class="org-string">"C-`"</span> . popper-toggle)
-         (<span class="org-string">"M-`"</span> . popper-cycle)
-         (<span class="org-string">"C-M-`"</span> . popper-toggle-type))
-  <span class="org-builtin">:init</span>
-  (<span class="org-keyword">setq</span> popper-reference-buffers
-        '(<span class="org-string">"\\*Messages\\*"</span>
-          <span class="org-string">"Output\\*$"</span>
-          <span class="org-string">"\\*Async Shell Command\\*"</span>
-          <span class="org-comment-delimiter">;; </span><span class="org-comment">eshell-mode
-</span>          help-mode
-          compliation-mode))
-  (popper-mode 1)
-  (popper-echo-mode 1))
-
-(<span class="org-keyword">use-package</span> ace-window
-  <span class="org-builtin">:config</span>
-  (global-set-key (kbd <span class="org-string">"M-o"</span>) #'ace-window))
-
-(<span class="org-keyword">use-package</span> winner
-  <span class="org-builtin">:config</span>
-  (winner-mode 1))
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">window-conf</span>)
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orga40761e" class="outline-2">
-<h2 id="orga40761e"><span class="section-number-2">10.</span> Gen AI</h2>
-<div class="outline-text-2" id="text-10">
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> gptel
-  <span class="org-builtin">:config</span>
-  (exec-path-from-shell-copy-env <span class="org-string">"GEMINI_API_KEY"</span>)
-  (exec-path-from-shell-copy-env <span class="org-string">"OPENAI_API_KEY"</span>)
-  (<span class="org-keyword">setq</span> gptel-api-key (getenv <span class="org-string">"OPENAI_API_KEY"</span>))
-  (<span class="org-keyword">setq</span> gptel-default-mode 'org-mode))
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(setq gptel-model 'gemini-pro
-</span><span class="org-comment-delimiter">;;         </span><span class="org-comment">gptel-backend (gptel-make-gemini "Gemini" :key (getenv "GEMINI_API_KEY") :stream t)))
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(setq gptel-model 'gpt-4o-mini
-</span><span class="org-comment-delimiter">;;       </span><span class="org-comment">gptel-backend (gptel-make-openai "ChatGPT" :key (getenv "OPENAI_API_KEY") :stream t)))
-</span>
-(<span class="org-keyword">provide</span> '<span class="org-constant">gptel-conf</span>)
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgf5158f3" class="outline-2">
-<h2 id="orgf5158f3"><span class="section-number-2">11.</span> Reading</h2>
+<div id="outline-container-orgb7768e4" class="outline-2">
+<h2 id="orgb7768e4"><span class="section-number-2">11.</span> Linux</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
-</span>
-(<span class="org-keyword">use-package</span> visual-fill-column)
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">linux-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">m180/font-set</span> ()
+  <span class="org-doc">"Font settings for linux."</span>
+  (set-face-attribute 'default nil <span class="org-builtin">:family</span> <span class="org-string">"Iosevka Nerd Font Mono"</span> <span class="org-builtin">:height</span> 120 <span class="org-builtin">:weight</span> 'light)
+  (set-fontset-font t 'hangul (font-spec <span class="org-builtin">:name</span> <span class="org-string">"NotoSansKR"</span>)))
 
-(<span class="org-keyword">use-package</span> nov
-  <span class="org-builtin">:init</span>
-  (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.epub\\'"</span> . nov-mode))
-  <span class="org-builtin">:config</span>
-  (<span class="org-keyword">setq</span> nov-text-width t)
-  (<span class="org-keyword">setq</span> visual-fill-column-center-text t)
-  (add-hook 'nov-mode-hook 'visual-line-mode)
-  (add-hook 'nov-mode-hook 'visual-fill-column-mode))
+(<span class="org-keyword">if</span> (daemonp)
+      (add-hook 'server-after-make-frame-hook #'m180/font-set)
+  (m180/font-set))
 
-(<span class="org-keyword">provide</span> '<span class="org-constant">reading-conf</span>)
+(<span class="org-keyword">provide</span> '<span class="org-constant">linux-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">linux-conf.el ends here</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbf88532" class="outline-2">
-<h2 id="orgbf88532"><span class="section-number-2">12.</span> Custom Functions</h2>
+<div id="outline-container-org0d5b792" class="outline-2">
+<h2 id="org0d5b792"><span class="section-number-2">12.</span> MacOS</h2>
 <div class="outline-text-2" id="text-12">
-</div>
-<div id="outline-container-orgb306c34" class="outline-3">
-<h3 id="orgb306c34"><span class="section-number-3">12.1.</span> Scratch Buffers</h3>
-<div class="outline-text-3" id="text-12-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">-*- lexical-binding: t; -*-
-</span>
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-buffer-string</span>(mode)
-  (<span class="org-keyword">with-current-buffer</span> (concat <span class="org-string">"*scratch "</span> mode <span class="org-string">"*"</span> ) (buffer-substring-no-properties (point-min) (point-max))))
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">macos-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">m180/font-set</span> ()
+  <span class="org-doc">"Font settings for MacOS."</span>
+  (set-face-attribute 'default nil <span class="org-builtin">:family</span> <span class="org-string">"Iosevka Nerd Font Mono"</span> <span class="org-builtin">:height</span> 160 <span class="org-builtin">:weight</span> 'extra-light)
+  (set-fontset-font t 'hangul (font-spec <span class="org-builtin">:name</span> <span class="org-string">"NotoSansKR"</span>)))
 
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-buffer-open</span>(mode)
-  (switch-to-buffer (get-buffer-create (concat <span class="org-string">"*scratch "</span> mode <span class="org-string">"*"</span>))))
+(<span class="org-keyword">if</span> (daemonp)
+      (add-hook 'server-after-make-frame-hook #'m180/font-set)
+  (m180/font-set))
 
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-pwsh-buffer-string</span>()
-  (scratch-buffer-string <span class="org-string">"pwsh"</span>))
+(<span class="org-keyword">setq</span> insert-directory-program <span class="org-string">"gls"</span>)
+(<span class="org-keyword">setq</span> mac-command-modifier 'meta)
 
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-pwsh</span>()
-  (<span class="org-keyword">interactive</span>)
-  (scratch-buffer-open <span class="org-string">"pwsh"</span>)
-  (<span class="org-keyword">if</span> (not (string-equal major-mode <span class="org-string">"powershell-mode"</span>))
-      (powershell-mode)))
+(<span class="org-keyword">when</span> (executable-find <span class="org-string">"zsh"</span>)
+  (setenv <span class="org-string">"SHELL"</span> (executable-find <span class="org-string">"zsh"</span>)))
 
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-buffer-run</span>(mode command)
-  (get-buffer-create (concat <span class="org-string">"*scratch "</span> mode <span class="org-string">" output*"</span>))
-  (<span class="org-keyword">with-current-buffer</span> (concat <span class="org-string">"*scratch "</span> mode <span class="org-string">" output*"</span>)
-    (goto-char (point-max))
-    (switch-to-buffer-other-window (concat <span class="org-string">"*scratch "</span> mode <span class="org-string">" output*"</span>))
-    (insert (eshell-command-result command))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-pwsh-buffer-run</span>()
-  (<span class="org-keyword">interactive</span>)
-  (scratch-buffer-run <span class="org-string">"pwsh"</span> <span class="org-string">"pwsh -Command (scratch-pwsh-buffer-string)"</span>))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-js-buffer-string</span>()
-  (scratch-buffer-string <span class="org-string">"js"</span>))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-js</span>()
-  (<span class="org-keyword">interactive</span>)
-  (scratch-buffer-open <span class="org-string">"js"</span>)
-  (<span class="org-keyword">if</span> (not (string-equal major-mode <span class="org-string">"js2-mode"</span>))
-      (js2-mode)))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">scratch-js-buffer-run</span>()
-  (<span class="org-keyword">interactive</span>)
-  (scratch-buffer-run <span class="org-string">"js"</span> <span class="org-string">"node -e (scratch-js-buffer-string)"</span>))
-
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">custom-functions</span>)
+(<span class="org-keyword">provide</span> '<span class="org-constant">macos-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">macos-conf.el ends here</span>
 </pre>
 </div>
 </div>
 </div>
-</div>
 
-<div id="outline-container-orgb0f83a1" class="outline-2">
-<h2 id="orgb0f83a1"><span class="section-number-2">13.</span> Local File Variables</h2>
+<div id="outline-container-org17198c6" class="outline-2">
+<h2 id="org17198c6"><span class="section-number-2">13.</span> Windows</h2>
 <div class="outline-text-2" id="text-13">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">windows-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">m180/font-set</span> ()
+  <span class="org-doc">"Font set for Windows."</span>
+  (set-face-attribute 'default nil <span class="org-builtin">:family</span> <span class="org-string">"Iosevka NFM"</span> <span class="org-builtin">:height</span> 120 <span class="org-builtin">:weight</span> 'light)
+  (set-fontset-font t 'hangul (font-spec <span class="org-builtin">:name</span> <span class="org-string">"Noto Sans KR"</span>)))
+
+(<span class="org-keyword">if</span> (daemonp)
+        (add-hook 'server-after-make-frame-hook #'m180/font-set)
+      (m180/font-set))
+
+(<span class="org-keyword">setq</span> explicit-shell-file-name (executable-find <span class="org-string">"pwsh"</span>))
+(<span class="org-keyword">setq</span> shell-file-name (executable-find <span class="org-string">"pwsh"</span>))
+(<span class="org-keyword">setq</span> grep-use-null-device nil)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(defun pwsh-shell-mode-setup ()
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">"Powershell setup for Windows."
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setq-local comint-prompt-read-only t)
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setq-local comint-process-echoes t))
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(add-hook 'shell-mode-hook #'pwsh-shell-mode-setup)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(setq eshell-windows-shell-file (executable-find "pwsh"))
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(setq explicit-shell-file-name (executable-find "pwsh"))
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(setq shell-file-name (executable-find "pwsh"))
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(setenv "SHELL" shell-file-name)
+</span>
+(<span class="org-keyword">provide</span> '<span class="org-constant">windows-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">windows-conf.el ends here</span>
+</pre>
+</div>
 </div>
 </div>
 </main>
