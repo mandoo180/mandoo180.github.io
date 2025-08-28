@@ -28,7 +28,8 @@ Serve `./public' by =M-x httpd-serve-directory=.
 - [[./GNU-sed.org][Learning GNU Sed]]
 - [[./c-programming-language-2nd.org][C Programming Language]]
 - [[./sicp/sicp.org][Structure and Interpretation of Computer Programs]]
-  
+- [[./dotfiles.org][Dot Files]]
+
 * Links
 
 - [[https://github.com/mandoo180][My github repository]]
