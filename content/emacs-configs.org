@@ -65,23 +65,35 @@
      ("C-c c d"     . duplicate-dwim)
      ("C-x r e"     . recentf)
      ("C-x C-b"     . ibuffer)
-     ("C-x k"       . (lambda ()
-	      "Kill current buffer."
-	      (interactive)
-	      (kill-buffer (buffer-name))))
+     ("C-x k"       .
+  	(lambda ()
+  	  "Kill current buffer."
+  	  (interactive)
+  	  (kill-buffer (buffer-name))))
      ("RET"         . newline-and-indent)
-     ("S-<return>"  . (lambda ()
-	      "New line and indent."
-	      (interactive)
-	      (end-of-line)
-	      (newline-and-indent)))
+     ("S-<return>"  .
+  	(lambda ()
+  	  "New line and indent."
+  	  (interactive)
+  	  (end-of-line)
+  	  (newline-and-indent)))
      ("C-z"         . nil)
      ("C-x C-z"     . nil)
      ("C-x C-k RET" . nil)
+     ("C-S-j"       .
+  	(lambda()
+  	  "Custom join line."
+  	  (interactive)
+  	  (let ((beg (pos-eol))
+  			(end (progn
+  				   (next-line)
+  				   (back-to-indentation)
+  				   (point))))
+  		(delete-region beg end))))
      (:map lisp-interaction-mode-map
-  	   ("C-c C-c" . eval-last-sexp))
+  		 ("C-c C-c" . eval-last-sexp))
      (:map emacs-lisp-mode-map
-  	   ("C-c C-c" . eval-last-sexp)))
+  		 ("C-c C-c" . eval-last-sexp)))
 
     :custom
     (cursor-type '(bar . 3))
@@ -198,9 +210,9 @@
     ;; Add option "d" to whenever using C-x s or C-x C-c, allowing a quick preview
     ;; of the diff of what you're asked to save.
     (add-to-list 'save-some-buffers-action-alist
-	   (list "d"
-		 (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
-		 "show diff between the buffer and its file"))
+  			   (list "d"
+  					 (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
+  					 "show diff between the buffer and its file"))
     ;; On Terminal: changes the vertical separator to a full vertical line
     ;;              and truncation symbol to a right arrow
     (set-display-table-slot standard-display-table 'vertical-border ?\u2502)
@@ -208,34 +220,34 @@
 
     ;; Ibuffer filters
     (setq ibuffer-saved-filter-groups
-  	  '(("default"
-  	     ("org" (or
-	       (mode . org-mode)
-	       (name . "^\\*Org Src")
-	       (name . "^\\*Org Agenda\\*$")))
-  	     ("tramp" (name . "^\\*tramp.*"))
-  	     ("emacs" (or
-		 (name . "^\\*scratch\\*$")
-		 (name . "^\\*Messages\\*$")
-		 (name . "^\\*Warnings\\*$")
-		 (name . "^\\*Shell Command Output\\*$")
-		 (name . "^\\*Async-native-compile-log\\*$")
-		 (name . "^\\*straight-")))
-  	     ("ediff" (or
-		 (name . "^\\*ediff.*")
-		 (name . "^\\*Ediff.*")))
-  	     ("dired" (mode . dired-mode))
-  	     ("terminal" (or
-		(mode . term-mode)
-		(mode . shell-mode)
-		(mode . eshell-mode)))
-  	     ("help" (or
-		(name . "^\\*Help\\*$")
-		(name . "^\\*info\\*$")
-		(name . "^\\*helpful"))))))
+  		'(("default"
+  	       ("org" (or
+  				   (mode . org-mode)
+  				   (name . "^\\*Org Src")
+  				   (name . "^\\*Org Agenda\\*$")))
+  	       ("tramp" (name . "^\\*tramp.*"))
+  	       ("emacs" (or
+  					 (name . "^\\*scratch\\*$")
+  					 (name . "^\\*Messages\\*$")
+  					 (name . "^\\*Warnings\\*$")
+  					 (name . "^\\*Shell Command Output\\*$")
+  					 (name . "^\\*Async-native-compile-log\\*$")
+  					 (name . "^\\*straight-")))
+  	       ("ediff" (or
+  					 (name . "^\\*ediff.*")
+  					 (name . "^\\*Ediff.*")))
+  	       ("dired" (mode . dired-mode))
+  	       ("terminal" (or
+  						(mode . term-mode)
+  						(mode . shell-mode)
+  						(mode . eshell-mode)))
+  	       ("help" (or
+  					(name . "^\\*Help\\*$")
+  					(name . "^\\*info\\*$")
+  					(name . "^\\*helpful"))))))
     (add-hook 'ibuffer-mode-hook
-  	      (lambda ()
-	  (ibuffer-switch-to-saved-filter-groups "default")))
+  			(lambda ()
+  			  (ibuffer-switch-to-saved-filter-groups "default")))
     (setq ibuffer-show-empty-filter-groups nil) ; don't show empty groups
     ;; So eshell git commands open an instance of THIS config of Emacs
     (setenv "GIT_EDITOR" (format "emacs --init-dir=%s " (shell-quote-argument user-emacs-directory)))
@@ -244,17 +256,17 @@
 
     ;; Runs 'private.el' after Emacs inits
     (add-hook 'after-init-hook
-  	      (lambda ()
-	  (let ((private-file (expand-file-name "private.el" user-emacs-directory)))
-	    (when (file-exists-p private-file)
-	      (load private-file)))))
+  			(lambda ()
+  			  (let ((private-file (expand-file-name "private.el" user-emacs-directory)))
+  				(when (file-exists-p private-file)
+  				  (load private-file)))))
 
     (use-package use-package
   	:custom
   	(package-archives '(("melpa"  . "https://melpa.org/packages/")
-		("org"    . "https://orgmode.org/elpa/")
-		("elpa"   . "https://elpa.gnu.org/packages/")
-		("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+  						("org"    . "https://orgmode.org/elpa/")
+  						("elpa"   . "https://elpa.gnu.org/packages/")
+  						("nongnu" . "https://elpa.nongnu.org/nongnu/")))
   	(use-package-always-ensure t)
   	(use-package-enable-at-startup nil)
   	(package-native-compile t)
@@ -264,11 +276,11 @@
   	(add-to-list 'load-path (expand-file-name "elisp/settings/" user-emacs-directory)))
 
     (cond ((eq system-type 'windows-nt)
-  	   (require 'windows-conf))
-  	  ((eq system-type 'darwin)
-  	   (require 'macos-conf))
-  	  ((eq system-type 'gnu/linux)
-  	   (require 'linux-conf)))
+  		 (require 'windows-conf))
+  		((eq system-type 'darwin)
+  		 (require 'macos-conf))
+  		((eq system-type 'gnu/linux)
+  		 (require 'linux-conf)))
 
     (require 'theme-conf)
     (require 'window-conf)
@@ -669,14 +681,14 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     :hook
     (prog-mode . company-mode)
     :bind (:map company-mode-map
-		("TAB" . company-indent-or-complete-common)
-		([tab] . company-indent-or-complete-common)
-		:map company-active-map
-		("TAB"       . company-complete-selection)
-		([tab]       . company-complete-selection)
-		("<backtab>" . company-abort)
-		("C-g"       . company-abort)
-		("C-h"       . company-show-doc-buffer))
+  		("TAB" . company-indent-or-complete-common)
+  		([tab] . company-indent-or-complete-common)
+  		:map company-active-map
+  		("TAB"       . company-complete-selection)
+  		([tab]       . company-complete-selection)
+  		("<backtab>" . company-abort)
+  		("C-g"       . company-abort)
+  		("C-h"       . company-show-doc-buffer))
     :custom
     (company-idle-delay                nil)
     (company-minimum-prefix-length     1)
@@ -715,7 +727,7 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     (lsp-ruby-use-bundler t)
     :bind
     (:map lsp-mode-map
-	  ("C-c l r" . lsp-rename)))
+  	  ("C-c l r" . lsp-rename)))
 
   (use-package lsp-java
     :after lsp
@@ -794,10 +806,10 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
   (use-package smerge-mode
     :ensure nil
     :bind (:map smerge-mode-map
-		("C-c ^ u" . smerge-keep-upper)
-		("C-c ^ l" . smerge-keep-lower)
-		("C-c ^ n" . smerge-next)
-		("C-c ^ p" . smerge-previous)))
+  		("C-c ^ u" . smerge-keep-upper)
+  		("C-c ^ l" . smerge-keep-lower)
+  		("C-c ^ n" . smerge-next)
+  		("C-c ^ p" . smerge-previous)))
 
   (use-package eldoc
     :ensure nil
@@ -822,18 +834,18 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     ;; :custom
     ;; (dap-auto-configure-features '())
     :bind (:map dap-mode-map
-		("C-c <f9>" . dap-debug)
-		("C-c <f8>" . dap-breakpoint-toggle)
-		("C-c d r"  . dap-debug-restart)
-		("<f7>"     . dap-step-in)
-		("<f10>"    . dap-step-out)
-		("<f8>"     . dap-next)
-		("<f11>"    . dap-previous)
-		("<f9>"     . dap-continue)
-		("C-c d q"  . dap-disconnect)
-		("C-c d e"  . dap-eval)
-		("C-c d v"  . dap-eval-thing-at-point)
-		("C-c d E"  . dap-eval-region))
+  		("C-c <f9>" . dap-debug)
+  		("C-c <f8>" . dap-breakpoint-toggle)
+  		("C-c d r"  . dap-debug-restart)
+  		("<f7>"     . dap-step-in)
+  		("<f10>"    . dap-step-out)
+  		("<f8>"     . dap-next)
+  		("<f11>"    . dap-previous)
+  		("<f9>"     . dap-continue)
+  		("C-c d q"  . dap-disconnect)
+  		("C-c d e"  . dap-eval)
+  		("C-c d v"  . dap-eval-thing-at-point)
+  		("C-c d E"  . dap-eval-region))
     :config
     (dap-auto-configure-mode)
     (require 'dap-java)
@@ -940,14 +952,14 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     :ensure nil
     :defer t
     :hook ((prog-mode . flymake-mode)
-	   (elisp-mode . flymake-mode))
+  	   (elisp-mode . flymake-mode))
     :bind (:map flymake-mode-map
-		("M-8" . flymake-goto-next-error)
-		("M-7" . flymake-goto-prev-error)
-		("C-c ! n" . flymake-goto-next-error)
-		("C-c ! p" . flymake-goto-prev-error)
-		("C-c ! l" . flymake-show-buffer-diagnostics)
-		("C-c ! t" . toggle-flymake-diagnostics-at-eol))
+  		("M-8" . flymake-goto-next-error)
+  		("M-7" . flymake-goto-prev-error)
+  		("C-c ! n" . flymake-goto-next-error)
+  		("C-c ! p" . flymake-goto-prev-error)
+  		("C-c ! l" . flymake-show-buffer-diagnostics)
+  		("C-c ! t" . toggle-flymake-diagnostics-at-eol))
     :custom
     (flymake-show-diagnostics-at-end-of-line nil)
     ;; (flymake-show-diagnostics-at-end-of-line 'short)
@@ -963,12 +975,12 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
   and restart Flymake to apply the changes."
   	(interactive)
   	(setq flymake-show-diagnostics-at-end-of-line
-	    (not flymake-show-diagnostics-at-end-of-line))
+  	    (not flymake-show-diagnostics-at-end-of-line))
   	(flymake-mode -1) ;; Disable Flymake
   	(flymake-mode 1)  ;; Re-enable Flymake
   	(message "Flymake diagnostics at end of line: %s"
-	       (if flymake-show-diagnostics-at-end-of-line
-		   "Enabled" "Disabled"))))
+  	       (if flymake-show-diagnostics-at-end-of-line
+  		   "Enabled" "Disabled"))))
 
   (use-package diff-mode
     :ensure nil
@@ -983,16 +995,16 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
   (use-package copilot
     ;; :hook (prog-mode . copilot-mode)
     :bind (:map copilot-completion-map
-		("C-c C-n"     . copilot-next-completion)
-		("C-c n"       . copilot-next-completion)
-		("C-c C-p"     . copilot-previous-completion)
-		("C-c p"       . copilot-previous-completion)
-		("C-c c f"     . copilot-accept-completion-by-word)
-		("C-c c e"     . copilot-accept-completion-by-line)
-		("C-c <SPC>"   . copilot-accept-completion)
-		("C-c c <SPC>" . copilot-accept-completion)
-		("C-c C-<SPC>" . copilot-accept-completion)
-		("C-c c t"     . copilot-toggle-auto-complete)))
+  		("C-c C-n"     . copilot-next-completion)
+  		("C-c n"       . copilot-next-completion)
+  		("C-c C-p"     . copilot-previous-completion)
+  		("C-c p"       . copilot-previous-completion)
+  		("C-c c f"     . copilot-accept-completion-by-word)
+  		("C-c c e"     . copilot-accept-completion-by-line)
+  		("C-c <SPC>"   . copilot-accept-completion)
+  		("C-c c <SPC>" . copilot-accept-completion)
+  		("C-c C-<SPC>" . copilot-accept-completion)
+  		("C-c c t"     . copilot-toggle-auto-complete)))
 
   (use-package ediff
     :ensure nil
@@ -1020,7 +1032,8 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
   (use-package whitespace
     :ensure nil
     :defer t
-    :hook (before-save . whitespace-cleanup))
+    ;; :hook (before-save . whitespace-cleanup)
+    )
 
   (provide 'prog-conf)
   ;;; prog-conf.el ends here
