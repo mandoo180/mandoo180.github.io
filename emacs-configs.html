@@ -42,25 +42,25 @@ org_html_manager.setup();  // activate after the parameters are set
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd69d590">1. Early Init</a></li>
-<li><a href="#orgde1a317">2. Init</a></li>
-<li><a href="#org33306d6">3. Theme</a></li>
-<li><a href="#org5824010">4. Window</a></li>
-<li><a href="#org6b70f2b">5. Completion</a></li>
-<li><a href="#org133642a">6. Dired</a></li>
-<li><a href="#org6fdc305">7. Note</a></li>
-<li><a href="#org1dea929">8. Shell</a></li>
-<li><a href="#orgbdc78c0">9. Programming</a></li>
-<li><a href="#orgc93359f">10. Miscellaneous</a></li>
-<li><a href="#orgb7768e4">11. Linux</a></li>
-<li><a href="#org0d5b792">12. MacOS</a></li>
-<li><a href="#org17198c6">13. Windows</a></li>
+<li><a href="#orgef1f260">1. Early Init</a></li>
+<li><a href="#org29fb8e2">2. Init</a></li>
+<li><a href="#org4d476e5">3. Theme</a></li>
+<li><a href="#orgde03f9b">4. Window</a></li>
+<li><a href="#orgec4fb25">5. Completion</a></li>
+<li><a href="#org8f7aaa0">6. Dired</a></li>
+<li><a href="#org235bda8">7. Note</a></li>
+<li><a href="#orgf2d5588">8. Shell</a></li>
+<li><a href="#org9321940">9. Programming</a></li>
+<li><a href="#org680ad3f">10. Miscellaneous</a></li>
+<li><a href="#org7db2ec4">11. Linux</a></li>
+<li><a href="#orgd49250d">12. MacOS</a></li>
+<li><a href="#org6b17a99">13. Windows</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgd69d590" class="outline-2">
-<h2 id="orgd69d590"><span class="section-number-2">1.</span> Early Init</h2>
+<div id="outline-container-orgef1f260" class="outline-2">
+<h2 id="orgef1f260"><span class="section-number-2">1.</span> Early Init</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el --- Emacs-Solo (no external packages) Configuration  -*- lexical-binding: t; -*-
@@ -112,8 +112,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-orgde1a317" class="outline-2">
-<h2 id="orgde1a317"><span class="section-number-2">2.</span> Init</h2>
+<div id="outline-container-org29fb8e2" class="outline-2">
+<h2 id="org29fb8e2"><span class="section-number-2">2.</span> Init</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el --- Summary  -*- lexical-binding: t; -*-
@@ -126,23 +126,35 @@ org_html_manager.setup();  // activate after the parameters are set
    (<span class="org-string">"C-c c d"</span>     . duplicate-dwim)
    (<span class="org-string">"C-x r e"</span>     . recentf)
    (<span class="org-string">"C-x C-b"</span>     . ibuffer)
-   (<span class="org-string">"C-x k"</span>       . (<span class="org-keyword">lambda</span> ()
-            <span class="org-doc">"Kill current buffer."</span>
-            (<span class="org-keyword">interactive</span>)
-            (kill-buffer (buffer-name))))
+   (<span class="org-string">"C-x k"</span>       .
+      (<span class="org-keyword">lambda</span> ()
+        <span class="org-doc">"Kill current buffer."</span>
+        (<span class="org-keyword">interactive</span>)
+        (kill-buffer (buffer-name))))
    (<span class="org-string">"RET"</span>         . newline-and-indent)
-   (<span class="org-string">"S-&lt;return&gt;"</span>  . (<span class="org-keyword">lambda</span> ()
-            <span class="org-doc">"New line and indent."</span>
-            (<span class="org-keyword">interactive</span>)
-            (end-of-line)
-            (newline-and-indent)))
+   (<span class="org-string">"S-&lt;return&gt;"</span>  .
+      (<span class="org-keyword">lambda</span> ()
+        <span class="org-doc">"New line and indent."</span>
+        (<span class="org-keyword">interactive</span>)
+        (end-of-line)
+        (newline-and-indent)))
    (<span class="org-string">"C-z"</span>         . nil)
    (<span class="org-string">"C-x C-z"</span>     . nil)
    (<span class="org-string">"C-x C-k RET"</span> . nil)
+   (<span class="org-string">"C-S-j"</span>       .
+      (<span class="org-keyword">lambda</span>()
+        <span class="org-doc">"Custom join line."</span>
+        (<span class="org-keyword">interactive</span>)
+        (<span class="org-keyword">let</span> ((beg (pos-eol))
+                      (end (<span class="org-keyword">progn</span>
+                                 (next-line)
+                                 (back-to-indentation)
+                                 (point))))
+              (delete-region beg end))))
    (<span class="org-builtin">:map</span> lisp-interaction-mode-map
-         (<span class="org-string">"C-c C-c"</span> . eval-last-sexp))
+               (<span class="org-string">"C-c C-c"</span> . eval-last-sexp))
    (<span class="org-builtin">:map</span> emacs-lisp-mode-map
-         (<span class="org-string">"C-c C-c"</span> . eval-last-sexp)))
+               (<span class="org-string">"C-c C-c"</span> . eval-last-sexp)))
 
   <span class="org-builtin">:custom</span>
   (cursor-type '(bar . 3))
@@ -259,9 +271,9 @@ org_html_manager.setup();  // activate after the parameters are set
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Add option "d" to whenever using C-x s or C-x C-c, allowing a quick preview
 </span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">of the diff of what you're asked to save.
 </span>  (add-to-list 'save-some-buffers-action-alist
-         (list <span class="org-string">"d"</span>
-               (<span class="org-keyword">lambda</span> (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
-               <span class="org-string">"show diff between the buffer and its file"</span>))
+                         (list <span class="org-string">"d"</span>
+                                       (<span class="org-keyword">lambda</span> (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
+                                       <span class="org-string">"show diff between the buffer and its file"</span>))
   <span class="org-comment-delimiter">;; </span><span class="org-comment">On Terminal: changes the vertical separator to a full vertical line
 </span>  <span class="org-comment-delimiter">;;              </span><span class="org-comment">and truncation symbol to a right arrow
 </span>  (set-display-table-slot standard-display-table 'vertical-border ?\u2502)
@@ -269,34 +281,34 @@ org_html_manager.setup();  // activate after the parameters are set
 
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Ibuffer filters
 </span>  (<span class="org-keyword">setq</span> ibuffer-saved-filter-groups
-        '((<span class="org-string">"default"</span>
-           (<span class="org-string">"org"</span> (<span class="org-keyword">or</span>
-             (mode . org-mode)
-             (name . <span class="org-string">"^\\*Org Src"</span>)
-             (name . <span class="org-string">"^\\*Org Agenda\\*$"</span>)))
-           (<span class="org-string">"tramp"</span> (name . <span class="org-string">"^\\*tramp.*"</span>))
-           (<span class="org-string">"emacs"</span> (<span class="org-keyword">or</span>
-               (name . <span class="org-string">"^\\*scratch\\*$"</span>)
-               (name . <span class="org-string">"^\\*Messages\\*$"</span>)
-               (name . <span class="org-string">"^\\*Warnings\\*$"</span>)
-               (name . <span class="org-string">"^\\*Shell Command Output\\*$"</span>)
-               (name . <span class="org-string">"^\\*Async-native-compile-log\\*$"</span>)
-               (name . <span class="org-string">"^\\*straight-"</span>)))
-           (<span class="org-string">"ediff"</span> (<span class="org-keyword">or</span>
-               (name . <span class="org-string">"^\\*ediff.*"</span>)
-               (name . <span class="org-string">"^\\*Ediff.*"</span>)))
-           (<span class="org-string">"dired"</span> (mode . dired-mode))
-           (<span class="org-string">"terminal"</span> (<span class="org-keyword">or</span>
-              (mode . term-mode)
-              (mode . shell-mode)
-              (mode . eshell-mode)))
-           (<span class="org-string">"help"</span> (<span class="org-keyword">or</span>
-              (name . <span class="org-string">"^\\*Help\\*$"</span>)
-              (name . <span class="org-string">"^\\*info\\*$"</span>)
-              (name . <span class="org-string">"^\\*helpful"</span>))))))
+              '((<span class="org-string">"default"</span>
+             (<span class="org-string">"org"</span> (<span class="org-keyword">or</span>
+                                 (mode . org-mode)
+                                 (name . <span class="org-string">"^\\*Org Src"</span>)
+                                 (name . <span class="org-string">"^\\*Org Agenda\\*$"</span>)))
+             (<span class="org-string">"tramp"</span> (name . <span class="org-string">"^\\*tramp.*"</span>))
+             (<span class="org-string">"emacs"</span> (<span class="org-keyword">or</span>
+                                       (name . <span class="org-string">"^\\*scratch\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*Messages\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*Warnings\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*Shell Command Output\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*Async-native-compile-log\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*straight-"</span>)))
+             (<span class="org-string">"ediff"</span> (<span class="org-keyword">or</span>
+                                       (name . <span class="org-string">"^\\*ediff.*"</span>)
+                                       (name . <span class="org-string">"^\\*Ediff.*"</span>)))
+             (<span class="org-string">"dired"</span> (mode . dired-mode))
+             (<span class="org-string">"terminal"</span> (<span class="org-keyword">or</span>
+                                              (mode . term-mode)
+                                              (mode . shell-mode)
+                                              (mode . eshell-mode)))
+             (<span class="org-string">"help"</span> (<span class="org-keyword">or</span>
+                                      (name . <span class="org-string">"^\\*Help\\*$"</span>)
+                                      (name . <span class="org-string">"^\\*info\\*$"</span>)
+                                      (name . <span class="org-string">"^\\*helpful"</span>))))))
   (add-hook 'ibuffer-mode-hook
-            (<span class="org-keyword">lambda</span> ()
-        (ibuffer-switch-to-saved-filter-groups <span class="org-string">"default"</span>)))
+                      (<span class="org-keyword">lambda</span> ()
+                        (ibuffer-switch-to-saved-filter-groups <span class="org-string">"default"</span>)))
   (<span class="org-keyword">setq</span> ibuffer-show-empty-filter-groups nil) <span class="org-comment-delimiter">; </span><span class="org-comment">don't show empty groups
 </span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">So eshell git commands open an instance of THIS config of Emacs
 </span>  (setenv <span class="org-string">"GIT_EDITOR"</span> (format <span class="org-string">"emacs --init-dir=%s "</span> (shell-quote-argument user-emacs-directory)))
@@ -305,17 +317,17 @@ org_html_manager.setup();  // activate after the parameters are set
 
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Runs '</span><span class="org-comment"><span class="org-constant">private.el</span></span><span class="org-comment">' after Emacs inits
 </span>  (add-hook 'after-init-hook
-            (<span class="org-keyword">lambda</span> ()
-        (<span class="org-keyword">let</span> ((private-file (expand-file-name <span class="org-string">"private.el"</span> user-emacs-directory)))
-          (<span class="org-keyword">when</span> (file-exists-p private-file)
-            (load private-file)))))
+                      (<span class="org-keyword">lambda</span> ()
+                        (<span class="org-keyword">let</span> ((private-file (expand-file-name <span class="org-string">"private.el"</span> user-emacs-directory)))
+                              (<span class="org-keyword">when</span> (file-exists-p private-file)
+                                (load private-file)))))
 
   (<span class="org-keyword">use-package</span> use-package
       <span class="org-builtin">:custom</span>
       (package-archives '((<span class="org-string">"melpa"</span>  . <span class="org-string">"https://melpa.org/packages/"</span>)
-              (<span class="org-string">"org"</span>    . <span class="org-string">"https://orgmode.org/elpa/"</span>)
-              (<span class="org-string">"elpa"</span>   . <span class="org-string">"https://elpa.gnu.org/packages/"</span>)
-              (<span class="org-string">"nongnu"</span> . <span class="org-string">"https://elpa.nongnu.org/nongnu/"</span>)))
+                                              (<span class="org-string">"org"</span>    . <span class="org-string">"https://orgmode.org/elpa/"</span>)
+                                              (<span class="org-string">"elpa"</span>   . <span class="org-string">"https://elpa.gnu.org/packages/"</span>)
+                                              (<span class="org-string">"nongnu"</span> . <span class="org-string">"https://elpa.nongnu.org/nongnu/"</span>)))
       (use-package-always-ensure t)
       (use-package-enable-at-startup nil)
       (package-native-compile t)
@@ -325,11 +337,11 @@ org_html_manager.setup();  // activate after the parameters are set
       (add-to-list 'load-path (expand-file-name <span class="org-string">"elisp/settings/"</span> user-emacs-directory)))
 
   (<span class="org-keyword">cond</span> ((eq system-type 'windows-nt)
-         (<span class="org-keyword">require</span> '<span class="org-constant">windows-conf</span>))
-        ((eq system-type 'darwin)
-         (<span class="org-keyword">require</span> '<span class="org-constant">macos-conf</span>))
-        ((eq system-type 'gnu/linux)
-         (<span class="org-keyword">require</span> '<span class="org-constant">linux-conf</span>)))
+               (<span class="org-keyword">require</span> '<span class="org-constant">windows-conf</span>))
+              ((eq system-type 'darwin)
+               (<span class="org-keyword">require</span> '<span class="org-constant">macos-conf</span>))
+              ((eq system-type 'gnu/linux)
+               (<span class="org-keyword">require</span> '<span class="org-constant">linux-conf</span>)))
 
   (<span class="org-keyword">require</span> '<span class="org-constant">theme-conf</span>)
   (<span class="org-keyword">require</span> '<span class="org-constant">window-conf</span>)
@@ -352,8 +364,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org33306d6" class="outline-2">
-<h2 id="org33306d6"><span class="section-number-2">3.</span> Theme</h2>
+<div id="outline-container-org4d476e5" class="outline-2">
+<h2 id="org4d476e5"><span class="section-number-2">3.</span> Theme</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -400,8 +412,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org5824010" class="outline-2">
-<h2 id="org5824010"><span class="section-number-2">4.</span> Window</h2>
+<div id="outline-container-orgde03f9b" class="outline-2">
+<h2 id="orgde03f9b"><span class="section-number-2">4.</span> Window</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">window-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -450,8 +462,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org6b70f2b" class="outline-2">
-<h2 id="org6b70f2b"><span class="section-number-2">5.</span> Completion</h2>
+<div id="outline-container-orgec4fb25" class="outline-2">
+<h2 id="orgec4fb25"><span class="section-number-2">5.</span> Completion</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -541,8 +553,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org133642a" class="outline-2">
-<h2 id="org133642a"><span class="section-number-2">6.</span> Dired</h2>
+<div id="outline-container-org8f7aaa0" class="outline-2">
+<h2 id="org8f7aaa0"><span class="section-number-2">6.</span> Dired</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -564,8 +576,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org6fdc305" class="outline-2">
-<h2 id="org6fdc305"><span class="section-number-2">7.</span> Note</h2>
+<div id="outline-container-org235bda8" class="outline-2">
+<h2 id="org235bda8"><span class="section-number-2">7.</span> Note</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">note-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -683,8 +695,8 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-org1dea929" class="outline-2">
-<h2 id="org1dea929"><span class="section-number-2">8.</span> Shell</h2>
+<div id="outline-container-orgf2d5588" class="outline-2">
+<h2 id="orgf2d5588"><span class="section-number-2">8.</span> Shell</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -751,8 +763,8 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-orgbdc78c0" class="outline-2">
-<h2 id="orgbdc78c0"><span class="section-number-2">9.</span> Programming</h2>
+<div id="outline-container-org9321940" class="outline-2">
+<h2 id="org9321940"><span class="section-number-2">9.</span> Programming</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1114,7 +1126,8 @@ and restart Flymake to apply the changes."</span>
 (<span class="org-keyword">use-package</span> whitespace
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:defer</span> t
-  <span class="org-builtin">:hook</span> (before-save . whitespace-cleanup))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">:hook (before-save . whitespace-cleanup)
+</span>  )
 
 (<span class="org-keyword">provide</span> '<span class="org-constant">prog-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el ends here</span>
@@ -1123,8 +1136,8 @@ and restart Flymake to apply the changes."</span>
 </div>
 </div>
 
-<div id="outline-container-orgc93359f" class="outline-2">
-<h2 id="orgc93359f"><span class="section-number-2">10.</span> Miscellaneous</h2>
+<div id="outline-container-org680ad3f" class="outline-2">
+<h2 id="org680ad3f"><span class="section-number-2">10.</span> Miscellaneous</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1285,8 +1298,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-orgb7768e4" class="outline-2">
-<h2 id="orgb7768e4"><span class="section-number-2">11.</span> Linux</h2>
+<div id="outline-container-org7db2ec4" class="outline-2">
+<h2 id="org7db2ec4"><span class="section-number-2">11.</span> Linux</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">linux-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1308,8 +1321,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org0d5b792" class="outline-2">
-<h2 id="org0d5b792"><span class="section-number-2">12.</span> MacOS</h2>
+<div id="outline-container-orgd49250d" class="outline-2">
+<h2 id="orgd49250d"><span class="section-number-2">12.</span> MacOS</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">macos-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1337,8 +1350,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org17198c6" class="outline-2">
-<h2 id="org17198c6"><span class="section-number-2">13.</span> Windows</h2>
+<div id="outline-container-org6b17a99" class="outline-2">
+<h2 id="org6b17a99"><span class="section-number-2">13.</span> Windows</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">windows-conf.el --- Summary  -*- lexical-binding: t; -*-
