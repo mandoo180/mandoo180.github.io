@@ -677,25 +677,40 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
   ;;; Commentary:
   ;;; Code:
 
-  (use-package company
-    :hook
-    (prog-mode . company-mode)
-    :bind (:map company-mode-map
-  		("TAB" . company-indent-or-complete-common)
-  		([tab] . company-indent-or-complete-common)
-  		:map company-active-map
-  		("TAB"       . company-complete-selection)
-  		([tab]       . company-complete-selection)
-  		("<backtab>" . company-abort)
-  		("C-g"       . company-abort)
-  		("C-h"       . company-show-doc-buffer))
+  ;; (use-package company
+  ;;   :hook
+  ;;   (prog-mode . company-mode)
+  ;;   :bind (:map company-mode-map
+  ;; 		("TAB" . company-indent-or-complete-common)
+  ;; 		([tab] . company-indent-or-complete-common)
+  ;; 		:map company-active-map
+  ;; 		("TAB"       . company-complete-selection)
+  ;; 		([tab]       . company-complete-selection)
+  ;; 		("<backtab>" . company-abort)
+  ;; 		("C-g"       . company-abort)
+  ;; 		("C-h"       . company-show-doc-buffer))
+  ;;   :custom
+  ;;   (company-idle-delay                nil)
+  ;;   (company-minimum-prefix-length     1)
+  ;;   (company-require-match-p           'never)
+  ;;   (company-frontends                 '(company-preview-frontend company-echo-metadata-frontend))
+  ;;   (company-backends                  '(company-capf))
+  ;;   (company-tooltip-align-annotations t))
+
+  (use-package corfu
     :custom
-    (company-idle-delay                nil)
-    (company-minimum-prefix-length     1)
-    (company-require-match-p           'never)
-    (company-frontends                 '(company-preview-frontend company-echo-metadata-frontend))
-    (company-backends                  '(company-capf))
-    (company-tooltip-align-annotations t))
+    (corfu-auto nil)
+    (corfu-auto-delay 0.3)
+    (corfu-auto-prefix 3)
+    (corfu-preview-current t))
+
+  (use-package corfu-candidate-overlay
+    :after corfu
+    :config
+    ;; enable corfu-candidate-overlay mode globally
+    ;; this relies on having corfu-auto set to nil
+    (corfu-candidate-overlay-mode 1)
+    (global-set-key (kbd "C-<tab>") 'completion-at-point))
 
   (use-package lsp-mode
     :hook
