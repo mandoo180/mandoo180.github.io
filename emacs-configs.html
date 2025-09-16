@@ -42,25 +42,25 @@ org_html_manager.setup();  // activate after the parameters are set
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbefeebe">1. Early Init</a></li>
-<li><a href="#org178b459">2. Init</a></li>
-<li><a href="#org03888fe">3. Theme</a></li>
-<li><a href="#org9d09468">4. Window</a></li>
-<li><a href="#orga6537ad">5. Completion</a></li>
-<li><a href="#org6f4a286">6. Dired</a></li>
-<li><a href="#org98fb813">7. Note</a></li>
-<li><a href="#org3e7950c">8. Shell</a></li>
-<li><a href="#org9c047ca">9. Programming</a></li>
-<li><a href="#orgeafdade">10. Miscellaneous</a></li>
-<li><a href="#orgc080022">11. Linux</a></li>
-<li><a href="#org853e61b">12. MacOS</a></li>
-<li><a href="#org3b111ef">13. Windows</a></li>
+<li><a href="#org2e8ee8d">1. Early Init</a></li>
+<li><a href="#org2a44cfe">2. Init</a></li>
+<li><a href="#orgd838546">3. Theme</a></li>
+<li><a href="#org5de1ab6">4. Window</a></li>
+<li><a href="#org45221c3">5. Completion</a></li>
+<li><a href="#org9d5d779">6. Dired</a></li>
+<li><a href="#org923c818">7. Note</a></li>
+<li><a href="#org77957ce">8. Shell</a></li>
+<li><a href="#org8e24319">9. Programming</a></li>
+<li><a href="#org69a9018">10. Miscellaneous</a></li>
+<li><a href="#orgfcd1ade">11. Linux</a></li>
+<li><a href="#orge43a76e">12. MacOS</a></li>
+<li><a href="#orgf207fe6">13. Windows</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgbefeebe" class="outline-2">
-<h2 id="orgbefeebe"><span class="section-number-2">1.</span> Early Init</h2>
+<div id="outline-container-org2e8ee8d" class="outline-2">
+<h2 id="org2e8ee8d"><span class="section-number-2">1.</span> Early Init</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el --- Emacs-Solo (no external packages) Configuration  -*- lexical-binding: t; -*-
@@ -112,8 +112,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org178b459" class="outline-2">
-<h2 id="org178b459"><span class="section-number-2">2.</span> Init</h2>
+<div id="outline-container-org2a44cfe" class="outline-2">
+<h2 id="org2a44cfe"><span class="section-number-2">2.</span> Init</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el --- Summary  -*- lexical-binding: t; -*-
@@ -123,7 +123,6 @@ org_html_manager.setup();  // activate after the parameters are set
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:bind</span>
   ((<span class="org-string">"M-o"</span>         . other-window)
-   (<span class="org-string">"C-c c d"</span>     . duplicate-dwim)
    (<span class="org-string">"C-x r e"</span>     . recentf)
    (<span class="org-string">"C-x C-b"</span>     . ibuffer)
    (<span class="org-string">"C-x k"</span>       .
@@ -364,18 +363,24 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org03888fe" class="outline-2">
-<h2 id="org03888fe"><span class="section-number-2">3.</span> Theme</h2>
+<div id="outline-container-orgd838546" class="outline-2">
+<h2 id="orgd838546"><span class="section-number-2">3.</span> Theme</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>(<span class="org-keyword">use-package</span> doom-themes
-  <span class="org-builtin">:config</span>
-  (<span class="org-keyword">if</span> (daemonp)
-        (add-hook 'server-after-make-frame-hook (<span class="org-keyword">lambda</span> () (load-theme 'doom-tokyo-night t)))
-      (load-theme 'doom-tokyo-night t)))
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package doom-themes
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(if (daemonp)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">       (add-hook 'server-after-make-frame-hook (lambda () (load-theme 'doom-tokyo-night t)))
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">     (load-theme 'doom-tokyo-night t)))
+</span>
+(<span class="org-keyword">let</span> ((theme-file (expand-file-name <span class="org-string">"themes/hasliberg-theme.el"</span> user-emacs-directory)))
+  (<span class="org-keyword">if</span> (file-exists-p theme-file)
+        (<span class="org-keyword">progn</span>
+              (load-file theme-file)
+              (load-theme 'hasliberg t))))
 
 (<span class="org-keyword">use-package</span> doom-modeline
   <span class="org-builtin">:init</span>
@@ -409,11 +414,762 @@ org_html_manager.setup();  // activate after the parameters are set
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el ends here</span>
 </pre>
 </div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Copyright (C) 2024  Free Software Foundation, Inc.
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Author: Ryota Sawada <a href="mailto:rytswd%40gmail.com">&lt;rytswd@gmail.com&gt;</a>
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Maintainer: Ryota Sawada <a href="mailto:rytswd%40gmail.com">&lt;rytswd@gmail.com&gt;</a>
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">URL: https://github.com/rytswd/hasliberg-theme
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Keywords: theme
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Version: 0.1
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This program is free software; you can redistribute it and/or modify
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">it under the terms of the GNU General Public License as published by
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">the Free Software Foundation, either version 3 of the License, or
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(at your option) any later version.
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This program is distributed in the hope that it will be useful,
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">but WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">GNU General Public License for more details.
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">You should have received a copy of the GNU General Public License
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">along with this program.  If not, see <a href="https://www.gnu.org/licenses/">&lt;https://www.gnu.org/licenses/&gt;</a>.
+</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">The theme is only meant to provide my own prefered colour setup.
+</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Acknowledgments:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">A lot of configurations were inspired by ef-themes by Prot.
+</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;;;</span><span class="org-comment">###</span><span class="org-comment"><span class="org-function-name">theme</span></span><span class="org-comment">-</span><span class="org-comment"><span class="org-warning">autoload</span></span><span class="org-comment">
+</span>(<span class="org-keyword">deftheme</span> <span class="org-type">hasliberg</span>
+  <span class="org-doc">"Theme inspired by Swiss alps"</span>
+  <span class="org-builtin">:background-mode</span> 'dark
+  <span class="org-builtin">:kind</span> 'color-scheme)
+
+<span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span><span class="org-comment-delimiter">;;;   </span><span class="org-comment">Configuration
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>(<span class="org-keyword">defgroup</span> <span class="org-type">hasliberg-theme</span> nil
+  <span class="org-doc">"Options for hasliberg-theme."</span>
+  <span class="org-builtin">:group</span> 'hasliberg-theme
+  <span class="org-builtin">:prefix</span> <span class="org-string">"hasliberg-theme-"</span>)
+(<span class="org-keyword">defconst</span> <span class="org-variable-name">hasliberg-theme-lch-type</span>
+  '(plist <span class="org-builtin">:options</span> ((<span class="org-builtin">:luminance</span> float)
+                                      (<span class="org-builtin">:chroma</span> float)
+                                      (<span class="org-builtin">:hue</span> float)))
+  <span class="org-doc">"A plist defining LuvLCh input."</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--validate-and-set-lch</span> (symbol value)
+  <span class="org-doc">"Set SYMBOL to VALUE if it is a valid LCH colour.
+VALUE must be a plist containing :luminance, :chroma, and :hue with float values.
+Luminance should be between 0 and 100, chroma should be non-negative, and hue should be between 0 and 360."</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">This assumes the use of `</span><span class="org-comment"><span class="org-constant">hasliberg-theme-lch-type</span></span><span class="org-comment">'.
+</span>  (<span class="org-keyword">let</span> ((luminance (plist-get value <span class="org-builtin">:luminance</span>))
+              (chroma (plist-get value <span class="org-builtin">:chroma</span>))
+              (hue (plist-get value <span class="org-builtin">:hue</span>))
+              (errors '()))
+      (<span class="org-keyword">unless</span> (<span class="org-keyword">and</span> luminance chroma hue)
+        (<span class="org-keyword">push</span> <span class="org-string">"LCH value must include :luminance, :chroma, and :hue"</span> errors))
+      (<span class="org-keyword">unless</span> (<span class="org-keyword">and</span> (floatp luminance) (floatp chroma) (floatp hue))
+        (<span class="org-keyword">push</span> (format <span class="org-string">"LCH components must be float values: %S"</span> value) errors))
+      (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> luminance (<span class="org-keyword">or</span> (&lt; luminance 0) (&gt; luminance 100)))
+        (<span class="org-keyword">push</span> (format <span class="org-string">"Luminance value %f must be between 0 and 100"</span> luminance) errors))
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">NOTE: I need to double check on the valid chroma value.
+</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">I took this value from https://facelessuser.github.io/coloraide/colors/lchuv/
+</span>      (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> chroma (<span class="org-keyword">or</span> (&lt; chroma 0) (&gt; chroma 220)))
+        (<span class="org-keyword">push</span> (format <span class="org-string">"Chroma value %f must be non-negative"</span> chroma) errors))
+      (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> hue (<span class="org-keyword">or</span> (&lt; hue 0) (&gt;= hue 360)))
+        (<span class="org-keyword">push</span> (format <span class="org-string">"Hue value %f must be between 0 and 360"</span> hue) errors))
+      (<span class="org-keyword">if</span> errors
+              (<span class="org-warning">error</span> <span class="org-string">"Invalid LuvLCh value: %s"</span> (string-join (reverse errors) <span class="org-string">"; "</span>))
+        (set-default symbol value))))
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">hasliberg-theme-dark-or-light</span> 'dark
+  <span class="org-doc">"The theme variant, only dark is supported."</span>
+  <span class="org-builtin">:type</span> '(const dark)
+  <span class="org-builtin">:group</span> 'hasliberg-theme)
+
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-background</span>         '(<span class="org-builtin">:luminance</span>  7.877 <span class="org-builtin">:chroma</span>  1.800 <span class="org-builtin">:hue</span> 236.421))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-background-variant</span> '(<span class="org-builtin">:luminance</span>  6.265 <span class="org-builtin">:chroma</span> 11.827 <span class="org-builtin">:hue</span> 252.428))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-neutral</span>            '(<span class="org-builtin">:luminance</span> 95.074 <span class="org-builtin">:chroma</span> 12.330 <span class="org-builtin">:hue</span> 252.652))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-primary</span>            '(<span class="org-builtin">:luminance</span> 93.380 <span class="org-builtin">:chroma</span>  2.848 <span class="org-builtin">:hue</span> 192.490))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-secondary</span>          '(<span class="org-builtin">:luminance</span> 93.535 <span class="org-builtin">:chroma</span>  3.844 <span class="org-builtin">:hue</span> 169.497))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-accent</span>             '(<span class="org-builtin">:luminance</span> 76.373 <span class="org-builtin">:chroma</span> 32.215 <span class="org-builtin">:hue</span> 238.249))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-accent-variant</span>     '(<span class="org-builtin">:luminance</span> 76.373 <span class="org-builtin">:chroma</span> 32.215 <span class="org-builtin">:hue</span> 238.249))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-subtle</span>             '(<span class="org-builtin">:luminance</span> 77.751 <span class="org-builtin">:chroma</span> 14.617 <span class="org-builtin">:hue</span>  35.776))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-subtle-variant</span>     '(<span class="org-builtin">:luminance</span> 73.823 <span class="org-builtin">:chroma</span> 11.749 <span class="org-builtin">:hue</span>  80.830))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-info</span>               '(<span class="org-builtin">:luminance</span> 67.245 <span class="org-builtin">:chroma</span> 10.890 <span class="org-builtin">:hue</span>  19.862))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-warning</span>            '(<span class="org-builtin">:luminance</span> 67.236 <span class="org-builtin">:chroma</span> 86.052 <span class="org-builtin">:hue</span>  35.603))
+
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme--load-path</span> nil
+  <span class="org-doc">"Variable to store the load path of Hasliberg Theme."</span>)
+(<span class="org-keyword">unless</span> hasliberg-theme--load-path
+  (<span class="org-keyword">setq</span> hasliberg-theme--load-path load-file-name))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme-reload</span> ()
+  <span class="org-doc">"Re-evaluate the file and reload the config."</span>
+  (<span class="org-keyword">interactive</span>)
+  (load-file hasliberg-theme--load-path)
+  (load-theme 'hasliberg t))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--lch-to-luv</span> (lch)
+  <span class="org-doc">"Convert a colour from LCH to Luv.
+LCH is a plist with properties :luminance, :chroma, and :hue."</span>
+  (<span class="org-keyword">let*</span> ((L (plist-get lch <span class="org-builtin">:luminance</span>))
+               (C (plist-get lch <span class="org-builtin">:chroma</span>))
+               (H-degree (plist-get lch <span class="org-builtin">:hue</span>))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Convert degrees to radians
+</span>               (H-radians (* pi (/ H-degree 180.0))))
+      (list <span class="org-builtin">:l</span> L
+                <span class="org-builtin">:u</span> (* C (cos H-radians))
+                <span class="org-builtin">:v</span> (* C (sin H-radians)))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--luv-to-xyz</span> (luv)
+  <span class="org-doc">"Convert a colour from Luv to XYZ.
+Luv is a plist with properties :l, :u and :v."</span>
+  (<span class="org-keyword">let*</span> ((L (plist-get luv <span class="org-builtin">:l</span>))
+               (u (plist-get luv <span class="org-builtin">:u</span>))
+               (v (plist-get luv <span class="org-builtin">:v</span>))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Constants for D65 illuminant
+</span>               (ref-u 0.19783000664283)
+               (ref-v 0.46831999493879)
+               (up (/ (+ u (* 13 L ref-u)) (* 13 L)))
+               (vp (/ (+ v (* 13 L ref-v)) (* 13 L)))
+
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Results
+</span>               (Y (<span class="org-keyword">if</span> (&gt; L 7.9996)
+                              (expt (/ (+ L 16) 116.0) 3)
+                        (/ L 903.3)))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Ensure `vp` is not zero to avoid division by zero
+</span>               (X (<span class="org-keyword">if</span> (zerop vp) 0
+                        (/ (* 9 Y up) (* 4 vp))))
+               (Z (<span class="org-keyword">if</span> (zerop vp) 0
+                        (/ (* (- 12 (* 3 up) (* 20 vp)) Y) (* 4 vp)))))
+      (list <span class="org-builtin">:x</span> (* 100 X) <span class="org-builtin">:y</span> (* 100 Y) <span class="org-builtin">:z</span> (* 100 Z))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--xyz-to-rgb</span> (xyz)
+  <span class="org-doc">"Convert a colour from XYZ to RGB.
+XYZ is a plist with properties :x, :y, and :z."</span>
+  (<span class="org-keyword">let*</span> ((X (/ (plist-get xyz <span class="org-builtin">:x</span>) 100.0))
+               (Y (/ (plist-get xyz <span class="org-builtin">:y</span>) 100.0))
+               (Z (/ (plist-get xyz <span class="org-builtin">:z</span>) 100.0))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Linear transformation matrix for sRGB D65
+</span>               (R-linear (+ (* X 3.2406) (* Y -1.5372) (* Z -0.4986)))
+               (G-linear (+ (* X -0.9689) (* Y 1.8758) (* Z 0.0415)))
+               (B-linear (+ (* X 0.0557) (* Y -0.2040) (* Z 1.0570)))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Apply gamma correction
+</span>               (R (<span class="org-keyword">if</span> (&lt;= R-linear 0.0031308)
+                              (* 12.92 R-linear)
+                        (- (* 1.055 (expt R-linear (/ 1.0 2.4))) 0.055)))
+               (G (<span class="org-keyword">if</span> (&lt;= G-linear 0.0031308)
+                              (* 12.92 G-linear)
+                        (- (* 1.055 (expt G-linear (/ 1.0 2.4))) 0.055)))
+               (B (<span class="org-keyword">if</span> (&lt;= B-linear 0.0031308)
+                              (* 12.92 B-linear)
+                        (- (* 1.055 (expt B-linear (/ 1.0 2.4))) 0.055))))
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Clamp the results to the range [0, 1]
+</span>      (list <span class="org-builtin">:r</span> (min (max R 0.0) 1.0)
+                <span class="org-builtin">:g</span> (min (max G 0.0) 1.0)
+                <span class="org-builtin">:b</span> (min (max B 0.0) 1.0))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--rgb-to-hex</span> (rgb)
+  <span class="org-doc">"Convert a colour from RGB to Hex.
+RGB is a plist with properties :r, :g, and :b, where each value is in the range [0, 1]."</span>
+  (<span class="org-keyword">let*</span> ((r (round (* (plist-get rgb <span class="org-builtin">:r</span>) 255)))
+               (g (round (* (plist-get rgb <span class="org-builtin">:g</span>) 255)))
+               (b (round (* (plist-get rgb <span class="org-builtin">:b</span>) 255))))
+      (format <span class="org-string">"#%02X%02X%02X"</span> r g b)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--lch-to-rgb</span> (lch)
+  <span class="org-doc">"Convert a colour from LCH to RGB in Hex.
+LCH is a plist with properties :luminance, :chroma, and :hue."</span>
+  (<span class="org-keyword">let*</span> ((luv (hasliberg-theme--lch-to-luv lch))
+               (xyz (hasliberg-theme--luv-to-xyz luv))
+               (rgb (hasliberg-theme--xyz-to-rgb xyz)))
+      (hasliberg-theme--rgb-to-hex rgb)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--hex-to-rgb</span> (hex)
+  <span class="org-doc">"Convert a colour from Hex to RGB.
+HEX can be a string in the form \"#RRGGBB\", \"RRGGBB\", \"#RGB\", or \"RGB\"."</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Normalize the hex string by removing a leading #
+</span>  (<span class="org-keyword">let*</span> ((normalized-hex (<span class="org-keyword">if</span> (eq (aref hex 0) ?#)
+                                                       (substring hex 1)
+                                                 hex))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Expand 3-digit color code to 6-digit format if necessary
+</span>               (expanded-hex (<span class="org-keyword">if</span> (= (length normalized-hex) 3)
+                                                 (apply 'concat (mapcar (<span class="org-keyword">lambda</span> (c) (make-string 2 c)) normalized-hex))
+                                               normalized-hex)))
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Ensure the string has the correct length of 6 characters
+</span>      (<span class="org-keyword">when</span> (not (= (length expanded-hex) 6))
+        (<span class="org-warning">error</span> <span class="org-string">"Invalid hex colour format, expected 3 or 6 characters"</span>))
+      (list <span class="org-builtin">:r</span> (/ (string-to-number (substring expanded-hex 0 2) 16) 255.0)
+                <span class="org-builtin">:g</span> (/ (string-to-number (substring expanded-hex 2 4) 16) 255.0)
+                <span class="org-builtin">:b</span> (/ (string-to-number (substring expanded-hex 4 6) 16) 255.0))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--rgb-to-xyz</span> (rgb)
+  <span class="org-doc">"Convert a colour from RGB to XYZ.
+RGB is a plist with properties :r, :g, and :b,
+where each value is in the range [0, 1]."</span>
+  (<span class="org-keyword">let*</span> ((linearize (<span class="org-keyword">lambda</span> (c)
+                                        (<span class="org-keyword">if</span> (&lt;= c 0.04045)
+                                                (/ c 12.92)
+                                              (expt (/ (+ c 0.055) 1.055) 2.4))))
+               (R-linear (funcall linearize (plist-get rgb <span class="org-builtin">:r</span>)))
+               (G-linear (funcall linearize (plist-get rgb <span class="org-builtin">:g</span>)))
+               (B-linear (funcall linearize (plist-get rgb <span class="org-builtin">:b</span>))))
+      (list <span class="org-builtin">:x</span> (* 100 (+ (* R-linear 0.4124) (* G-linear 0.3576) (* B-linear 0.1805)))
+                <span class="org-builtin">:y</span> (* 100 (+ (* R-linear 0.2126) (* G-linear 0.7152) (* B-linear 0.0722)))
+                <span class="org-builtin">:z</span> (* 100 (+ (* R-linear 0.0193) (* G-linear 0.1192) (* B-linear 0.9505))))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--xyz-to-luv</span> (xyz)
+  <span class="org-doc">"Convert a colour from XYZ to Luv.
+XYZ is a plist with properties :x, :y, and :z."</span>
+  (<span class="org-keyword">let*</span> ((X (/ (plist-get xyz <span class="org-builtin">:x</span>) 100.0))
+               (Y (/ (plist-get xyz <span class="org-builtin">:y</span>) 100.0))
+               (Z (/ (plist-get xyz <span class="org-builtin">:z</span>) 100.0))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Constants for D65 illuminant
+</span>               (ref-X 0.95047)
+               (ref-Y 1.00000)
+               (ref-Z 1.08883)
+               (ref-u (/ (* 4 ref-X) (+ ref-X (* 15 ref-Y) (* 3 ref-Z))))
+               (ref-v (/ (* 9 ref-Y) (+ ref-X (* 15 ref-Y) (* 3 ref-Z))))
+               (u (/ (* 4 X) (+ X (* 15 Y) (* 3 Z))))
+               (v (/ (* 9 Y) (+ X (* 15 Y) (* 3 Z))))
+               (L (<span class="org-keyword">if</span> (&gt; Y 0.008856)
+                              (- (* 116 (expt Y (/ 1.0 3))) 16)
+                        (* 903.3 Y)))
+               (u-prime (* 13 L (- u ref-u)))
+               (v-prime (* 13 L (- v ref-v))))
+      (list <span class="org-builtin">:l</span> L <span class="org-builtin">:u</span> u-prime <span class="org-builtin">:v</span> v-prime)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--xyz-to-luv</span> (xyz)
+  <span class="org-doc">"Convert a colour from XYZ to Luv.
+XYZ is a plist with properties :x, :y, and :z."</span>
+  (<span class="org-keyword">let*</span> ((X (/ (plist-get xyz <span class="org-builtin">:x</span>) 100.0))
+               (Y (/ (plist-get xyz <span class="org-builtin">:y</span>) 100.0))
+               (Z (/ (plist-get xyz <span class="org-builtin">:z</span>) 100.0))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Constants for D65 illuminant
+</span>               (ref-X 0.95047)
+               (ref-Y 1.00000)
+               (ref-Z 1.08883)
+               (ref-u (/ (* 4 ref-X) (+ ref-X (* 15 ref-Y) (* 3 ref-Z))))
+               (ref-v (/ (* 9 ref-Y) (+ ref-X (* 15 ref-Y) (* 3 ref-Z))))
+               (u (/ (* 4 X) (+ X (* 15 Y) (* 3 Z))))
+               (v (/ (* 9 Y) (+ X (* 15 Y) (* 3 Z))))
+               (L (<span class="org-keyword">if</span> (&gt; Y 0.008856)
+                              (- (* 116 (expt Y (/ 1.0 3))) 16)
+                        (* 903.3 Y)))
+               (u-prime (* 13 L (- u ref-u)))
+               (v-prime (* 13 L (- v ref-v))))
+      (list <span class="org-builtin">:l</span> L <span class="org-builtin">:u</span> u-prime <span class="org-builtin">:v</span> v-prime)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--luv-to-lch</span> (luv)
+  <span class="org-doc">"Convert a colour from Luv to LCH.
+LUV is a plist with properties :l, :u, and :v."</span>
+  (<span class="org-keyword">let*</span> ((L (plist-get luv <span class="org-builtin">:l</span>))
+               (u (plist-get luv <span class="org-builtin">:u</span>))
+               (v (plist-get luv <span class="org-builtin">:v</span>))
+               (C (sqrt (+ (* u u) (* v v))))
+               (H (atan v u))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">Convert radians to degrees and ensure the hue is positive
+</span>               (H-degree (mod (/ (* H 180.0) pi) 360.0))
+               (format-3dp (<span class="org-keyword">lambda</span> (num)
+                                         (string-to-number (format <span class="org-string">"%.3f"</span> num)))))
+      (list <span class="org-builtin">:luminance</span> (funcall format-3dp L)
+                <span class="org-builtin">:chroma</span> (funcall format-3dp C)
+                <span class="org-builtin">:hue</span> (funcall format-3dp H-degree))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--rgb-to-lch</span> (hex)
+  <span class="org-doc">"Convert a colour from RGB Hex to LCH in Luv space.
+HEX is a string in the form \"#RRGGBB\"."</span>
+  (<span class="org-keyword">let*</span> ((rgb (hasliberg-theme--hex-to-rgb hex))
+               (xyz (hasliberg-theme--rgb-to-xyz rgb))
+               (luv (hasliberg-theme--xyz-to-luv xyz)))
+      (hasliberg-theme--luv-to-lch luv)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme-convert-rgb-selection-to-lch</span> (start end)
+  <span class="org-doc">"Convert RGB Hex selection to LCH in Luv space,
+and insert after the selection. This can be helpful for setting up
+the new base colours, but not strictly necessary."</span>
+  (<span class="org-keyword">interactive</span> <span class="org-string">"r"</span>)
+  (<span class="org-keyword">let*</span> ((hex (buffer-substring-no-properties start end))
+               (lch (hasliberg-theme--rgb-to-lch hex)))
+      (goto-char end)
+      (insert
+       <span class="org-string">" "</span>
+       (format <span class="org-string">"'(:luminance %.3f :chroma %.3f :hue %.3f)"</span>
+                       (plist-get lch <span class="org-builtin">:luminance</span>)
+                       (plist-get lch <span class="org-builtin">:chroma</span>)
+                       (plist-get lch <span class="org-builtin">:hue</span>)))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme-convert-lch-selection-to-rgb</span> (start end)
+  <span class="org-doc">"Convert LCH value selection to RGB Hex,
+and insert after the selection. This can be helpful for setting up
+the new base colours, but not strictly necessary."</span>
+  (<span class="org-keyword">interactive</span> <span class="org-string">"r"</span>)
+  (<span class="org-keyword">let*</span> ((lch-selection (buffer-substring-no-properties start end))
+               (lch-string (<span class="org-keyword">if</span> (string-prefix-p <span class="org-string">"'"</span> lch-selection)
+                                               (substring lch-selection 1)
+                                         lch-selection))
+               (lch (read lch-string))
+               (hex (hasliberg-theme--lch-to-rgb lch)))
+      (goto-char end)
+      (insert <span class="org-string">" "</span> hex)))
+
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-shades</span> nil
+  <span class="org-doc">"All shades for the Hasliberg theme colours based on LuvLCh input.
+The values here are not meant to be updated manually."</span>)
+
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-shades-hash</span> (make-hash-table <span class="org-builtin">:test</span> 'equal)
+  <span class="org-doc">"Hash table of all Hasliberg theme shades for fast lookup.
+The values here are not meant to be updated manually."</span>)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--generate-lch-shades</span> (base-lch)
+  <span class="org-doc">"Generate a list of shades for a given LCH base colour. This takes in the
+dark / light theme variable into account, and changes the way it generates
+the shades. The higher values (e.g. 600, 700, so on) are meant to provide
+more contrast and appear brighter based on the background.
+
+In case of dark background, the higher values would result in brighter, more
+white colours. In case of light background, they would result in darker, more
+black colours."</span>
+  (<span class="org-keyword">let*</span> ((l (plist-get base-lch <span class="org-builtin">:luminance</span>))
+               (c (plist-get base-lch <span class="org-builtin">:chroma</span>))
+               (h (plist-get base-lch <span class="org-builtin">:hue</span>))
+               (shades '(50 100 200 300 400 500 600 700 800 900 950))
+               (dark-or-light hasliberg-theme-dark-or-light)
+               (luminance-steps
+                (mapcar (<span class="org-keyword">lambda</span> (step)
+                                      <span class="org-comment-delimiter">;; </span><span class="org-comment">Based on dark or light selection, flip the shades.
+</span>                                      (<span class="org-keyword">if</span> (eq dark-or-light 'dark)
+                                              (+ l (* (- step 500) 0.1))
+                                        (- l (* (- step 500) 0.1))))
+                                      shades)))
+      (mapcar
+       (<span class="org-keyword">lambda</span> (lum)
+         (hasliberg-theme--lch-to-rgb
+              (list <span class="org-builtin">:luminance</span> lum <span class="org-builtin">:chroma</span> c <span class="org-builtin">:hue</span> h)))
+       luminance-steps)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This is a bit manual but working.
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--generate-all-shades</span> ()
+  <span class="org-doc">"Generate all shades for the colours defined with customization with the prefix of `</span><span class="org-doc"><span class="org-constant">hasliberg-theme-colour-</span></span><span class="org-doc">'."</span>
+  (<span class="org-keyword">let*</span> ((prefix <span class="org-string">"hasliberg-theme-colour-"</span>)
+               (pflen (length prefix))
+               (customs '(hasliberg-theme-colour-background
+                                      hasliberg-theme-colour-background-variant
+                                      hasliberg-theme-colour-neutral
+                                      hasliberg-theme-colour-primary
+                                      hasliberg-theme-colour-secondary
+                                      hasliberg-theme-colour-accent
+                                      hasliberg-theme-colour-accent-variant
+                                      hasliberg-theme-colour-subtle
+                                      hasliberg-theme-colour-subtle-variant
+                                      hasliberg-theme-colour-info
+                                      hasliberg-theme-colour-warning))
+               (colours (<span class="org-keyword">cl-loop</span> for c in customs
+                                                 collect (cons (intern (substring (symbol-name c) pflen))
+                                                                               (symbol-value c)))))
+      (mapcar
+       (<span class="org-keyword">lambda</span> (colour)
+         (<span class="org-keyword">let*</span> ((name (car colour))
+                        (base-lch (cdr colour))
+                        (shades (hasliberg-theme--generate-lch-shades base-lch)))
+               `(,name . ,(cl-pairlis '(50 100 200 300 400 500 600 700 800 900 950) shades))))
+       colours)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-shades</span> ()
+  <span class="org-doc">"Update the shades and hash table based on the colour variables."</span>
+  (<span class="org-keyword">setq</span> hasliberg-theme-shades (hasliberg-theme--generate-all-shades))
+  (clrhash hasliberg-theme-shades-hash)
+  (<span class="org-keyword">cl-loop</span> for (name . shades) in hasliberg-theme-shades
+                 do (<span class="org-keyword">cl-loop</span> for (shade-name . shade-value) in shades
+                                         do (puthash (format <span class="org-string">"%s-%s"</span> name shade-name)
+                                                                 shade-value
+                                                                 hasliberg-theme-shades-hash))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme-hex-for</span> (key)
+  <span class="org-doc">"Retrieve the Hex colour using a hashed KEY."</span>
+  (gethash (symbol-name key) hasliberg-theme-shades-hash))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-standard-faces</span> ()
+  (custom-theme-set-faces
+   'hasliberg
+   <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>   <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Basic Faces
+</span>   <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>   `(default
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-500)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500))))
+   `(bold ((t <span class="org-builtin">:weight</span> bold)))
+   `(italic ((t <span class="org-builtin">:slant</span> italic)))
+   `(bold-italic ((t <span class="org-builtin">:inherit</span> (bold italic))))
+   `(link
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-400))))
+   `(highlight
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-variant-700))))
+
+   `(cursor ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'accent-700))))
+   `(region
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-700)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'subtle-600))))
+   `(secondary-selection
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-variant-600)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'subtle-600))))
+   `(whitespace-space ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'background-600))))
+   `(whitespace-tab ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'background-600))))
+
+   `(isearch ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'primary-300))))
+   `(success ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'info-700)
+                               )))
+   `(warning ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'warning-500)
+                               )))
+   `(minibuffer-prompt ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-500)
+                                                 <span class="org-builtin">:weight</span> semibold)))
+
+   <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>   <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Visual Elements
+</span>   <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>   <span class="org-comment-delimiter">;; </span><span class="org-comment">Configurations around some standard visual elements such as mode lines.
+</span>   <span class="org-comment-delimiter">;; </span><span class="org-comment">These tend to have more complicated configuration, and thus I'm making them
+</span>   <span class="org-comment-delimiter">;; </span><span class="org-comment">multiline and make it easier to edit later.
+</span>   `(fringe
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-500)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-100))))
+   `(menu
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-300)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500))))
+   `(scroll-bar
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-300)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500))))
+   `(tool-bar
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-300)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500))))
+   `(vertical-border
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'background-300))))
+   `(header-line
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-500)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-300))))
+   `(tab-bar
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500))))
+   `(tab-bar-tab
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500))))
+   `(tab-bar-inactive
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-700))))
+   `(tab-bar-tab-group-current
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500)
+               <span class="org-builtin">:underline</span> t)))
+   `(tab-bar-tab-group-inactive
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'secondary-400))))
+
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">Border used for posframe.
+</span>   `(child-frame-border ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'primary-300))))
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">Mode Line
+</span>   `(mode-line
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-500)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-300)
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">:overline   ,(hasliberg-theme-hex-for 'accent-500)
+</span>               <span class="org-comment-delimiter">;; </span><span class="org-comment">:underline (:color ,(hasliberg-theme-hex-for 'accent-500) :position 0)
+</span>               <span class="org-comment-delimiter">;; </span><span class="org-comment">:box nil
+</span>               )))
+   `(mode-line-active
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-500)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-300)
+               <span class="org-builtin">:overline</span>   ,(hasliberg-theme-hex-for 'neutral-500)
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">:underline (:color ,(hasliberg-theme-hex-for 'accent-500) :position 0)
+</span>               <span class="org-comment-delimiter">;; </span><span class="org-comment">:box nil
+</span>               )))
+   `(mode-line-inactive
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-500)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-200)
+               <span class="org-builtin">:underline</span>  nil
+               <span class="org-builtin">:overline</span>   nil
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">:box nil
+</span>               )))
+
+   <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>   <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Line Numbers
+</span>   <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>   <span class="org-comment-delimiter">;; </span><span class="org-comment">Includes display-line-numbers-mode and global variant.
+</span>
+   `(line-number
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-50))))
+   `(line-number-current-line
+       ((t <span class="org-builtin">:inherit</span> line-number
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-500)
+               <span class="org-builtin">:weight</span> semibold)))
+   `(line-number-major-tick
+       ((t <span class="org-builtin">:inherit</span> line-number
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-600))))
+   `(line-number-minor-tick
+       ((t <span class="org-builtin">:inherit</span> line-number)))
+
+   <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>   <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Font lock
+</span>   <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>   <span class="org-comment-delimiter">;; </span><span class="org-comment">Accent colour only used sparingly.
+</span>   `(font-lock-string-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-500)
+               <span class="org-builtin">:weight</span> thin)))
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">Any user defined fields are based on one variant.
+</span>   `(font-lock-function-name-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-400)
+               <span class="org-builtin">:weight</span> regular)))
+   `(font-lock-variable-name-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-400))))
+   `(font-lock-constant-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-700)
+               <span class="org-builtin">:weight</span> semibold)))
+   `(font-lock-type-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-600)
+               <span class="org-builtin">:weight</span> regular)))
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">Any basic fields are based on another variant.
+</span>   `(font-lock-keyword-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-700)
+               <span class="org-builtin">:weight</span> semibold)))
+   `(font-lock-builtin-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-400))))
+   `(font-lock-property-name-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'secondary-700))))
+
+   `(font-lock-negation-char-face
+       ((t <span class="org-builtin">:inherit</span> bold
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'secondary-500))))
+   `(font-lock-preprocessor-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-300))))
+
+   `(font-lock-comment-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-200))))
+   `(font-lock-comment-delimiter-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-200))))
+   `(font-lock-doc-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'info-700))))
+
+   `(font-lock-property-use-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-600))))
+   `(font-lock-regexp-grouping-backslash
+       ((t <span class="org-builtin">:inherit</span> bold
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'subtle-variant-500))))
+   `(font-lock-regexp-grouping-construct
+       ((t <span class="org-builtin">:inherit</span> bold
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'subtle-variant-500))))
+   `(font-lock-warning-face
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'warning-500))))
+
+   <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>   <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Org Mode
+</span>   <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>   `(org-document-title
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-700))))
+   `(org-level-1
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-500))))
+   `(org-level-2
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-600))))
+   `(org-level-3
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-700))))
+   `(org-level-4
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-variant-800))))
+   `(org-level-5
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-variant-900))))
+   `(org-level-6
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-variant-900))))
+   `(org-special-keyword
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-200))))
+   `(org-code
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-500))))
+   `(org-verbatim
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-400)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-400))))
+   `(org-ellipsis
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-700)
+               <span class="org-builtin">:underline</span> nil)))
+   `(org-hide ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'background-500))))
+   `(org-block
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'subtle-variant-500))))
+   `(org-block-begin-line
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-500)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-400)
+               <span class="org-builtin">:overline</span>   ,(hasliberg-theme-hex-for 'background-700))))
+   `(org-block-end-line
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-500)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-400)
+               <span class="org-builtin">:underline</span> (<span class="org-builtin">:color</span> ,(hasliberg-theme-hex-for 'background-700) <span class="org-builtin">:position</span> 0))))
+   `(org-quote
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-900) <span class="org-builtin">:slant</span> oblique)))
+   `(org-verse
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-600))))
+   `(org-table
+       ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-600)
+               <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-600))))
+
+   `(org-drawer ((t <span class="org-builtin">:inherit</span> font-lock-comment-face)))
+   `(org-property-value ((t <span class="org-builtin">:inherit</span> font-lock-comment-face)))
+   `(org-tag ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-300))))
+   `(org-document-info-keyword
+       ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-300))))
+   `(org-meta-line ((t <span class="org-builtin">:inherit</span> org-document-info-keyword)))
+   `(org-checkbox ((t <span class="org-builtin">:box</span> nil)))
+
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">Todo related handling
+</span>   `(org-headline-done ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-200))))
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">Agenda
+</span>   `(org-agenda-structure ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-500))))
+   `(org-agenda-done ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-100))))
+   `(org-upcoming-deadline ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'warning-800))))
+   `(org-scheduled-today ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500))))
+   `(org-scheduled-previously ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'warning-400))))
+   `(org-agenda-structure ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-200))))
+   `(org-agenda-current-time ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-variant-700))))
+   `(org-time-grid ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-100))))
+   `(org-habit-clear-face ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-variant-500))))
+   `(org-habit-clear-future-face ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-variant-600))))
+   `(org-habit-alert-face ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'accent-variant-400))))
+   `(org-habit-alert-future-face ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'primary-200))))
+   `(org-habit-overdue-face ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-600))))
+   `(org-habit-overdue-future-face ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-600))))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-echo-buffer</span> ()
+  (<span class="org-keyword">dolist</span> (buffer (list <span class="org-string">" *Minibuf-0*"</span> <span class="org-string">" *Echo Area 0*"</span>
+                                              <span class="org-string">" *Minibuf-1*"</span> <span class="org-string">" *Echo Area 1*"</span>))
+      (<span class="org-keyword">when</span> (get-buffer buffer)
+        (<span class="org-keyword">with-current-buffer</span> buffer
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">TODO: I should use colour definitions instead.
+</span>              (face-remap-add-relative 'default 'font-lock-preprocessor-face)))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Third party faces
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-mode-line-faces</span> ()
+ (custom-theme-set-faces
+  'hasliberg
+  <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>  <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Mode Line
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Doom Mode Line related
+</span>  `(doom-modeline-buffer-modified
+      ((t <span class="org-builtin">:inherit</span> (doom-modeline)
+              <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-600)
+              <span class="org-builtin">:weight</span> semibold)))
+  `(doom-modeline-project-parent-dir
+      ((t <span class="org-builtin">:inherit</span> (doom-modeline)
+              <span class="org-builtin">:slant</span> oblique)))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-dashboard-faces</span> ()
+ (custom-theme-set-faces
+  'hasliberg
+  <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>  <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Dashboard
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>  `(dashboard-banner-logo-title
+      ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-500)
+              <span class="org-builtin">:weight</span> semibold)))
+  `(dashboard-heading
+      ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-600)
+              <span class="org-builtin">:weight</span> semibold)))
+  `(dashboard-footer-face
+      ((t <span class="org-builtin">:slant</span> oblique
+              <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-800))))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-org-related-faces</span> ()
+ (custom-theme-set-faces
+  'hasliberg
+  <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>  <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Org Mode
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Other Org Mode related handling (third party)
+</span>  `(org-modern-todo ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'primary-600))))
+  `(org-modern-symbol ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'neutral-500))))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-markdown-faces</span> ()
+ (custom-theme-set-faces
+  'hasliberg
+  <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>  <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Markdown
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">I work with markdown only when I have to. Org Mode is my preference,
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">and thus all the configurations here are only to inherit from Org Mode.
+</span>  `(markdown-header-face-1 ((t <span class="org-builtin">:inherit</span> org-level-1)))
+  `(markdown-header-face-2 ((t <span class="org-builtin">:inherit</span> org-level-2)))
+  `(markdown-header-face-3 ((t <span class="org-builtin">:inherit</span> org-level-3)))
+  `(markdown-header-face-4 ((t <span class="org-builtin">:inherit</span> org-level-4)))
+  `(markdown-header-face-5 ((t <span class="org-builtin">:inherit</span> org-level-5)))
+  `(markdown-header-delimiter-face
+      ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-200))))
+  `(markdown-language-keyword-face ((t <span class="org-builtin">:inherit</span> org-block)))
+  `(markdown-table-face ((t <span class="org-builtin">:inherit</span> org-table)))
+  `(markdown-pre-face ((t <span class="org-builtin">:inherit</span> org-block)))
+  `(markdown-html-attr-name-face
+      ((t <span class="org-builtin">:inherit</span> org-block
+              <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-600))))
+  `(markdown-html-attr-value-face
+      ((t <span class="org-builtin">:inherit</span> org-block
+              <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-800))))
+  `(markdown-html-entity-face
+      ((t <span class="org-builtin">:inherit</span> org-block
+              <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-500))))
+  `(markdown-html-tag-delimiter-face
+      ((t <span class="org-builtin">:inherit</span> org-block
+              <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-300))))
+  `(markdown-html-tag-name-face
+      ((t <span class="org-builtin">:inherit</span> org-block
+              <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-700))))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-lsp-faces</span> ()
+ (custom-theme-set-faces
+  'hasliberg
+  <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>  <span class="org-comment-delimiter">;;;   </span><span class="org-comment">LSP
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>  `(lsp-face-highlight-textual
+      ((t <span class="org-builtin">:background</span> ,(hasliberg-theme-hex-for 'background-variant-700))))
+  `(lsp-headerline-breadcrumb-path-face
+      ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-500))))
+  `(lsp-headerline-breadcrumb-symbols-face
+      ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'primary-700)
+              <span class="org-builtin">:weight</span> semibold)))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-language-specific-faces</span> ()
+ (custom-theme-set-faces
+  'hasliberg
+  <span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span>  <span class="org-comment-delimiter">;;;   </span><span class="org-comment">Language Specific Ones
+</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>  `(sh-quoted-exec ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-600))))
+  `(sh-heredoc ((t <span class="org-builtin">:foreground</span> ,(hasliberg-theme-hex-for 'accent-700))))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">hasliberg-theme--update-all-faces</span> ()
+  <span class="org-doc">"Update all faces."</span>
+  (hasliberg-theme--update-standard-faces)
+  (hasliberg-theme--update-echo-buffer)
+  (hasliberg-theme--update-mode-line-faces)
+  (hasliberg-theme--update-dashboard-faces)
+  (hasliberg-theme--update-org-related-faces)
+  (hasliberg-theme--update-markdown-faces)
+  (hasliberg-theme--update-lsp-faces)
+  (hasliberg-theme--update-language-specific-faces))
+
+<span class="org-comment-delimiter">;;;;</span><span class="org-comment">----------------------------------------
+</span><span class="org-comment-delimiter">;;;   </span><span class="org-comment">Finalise
+</span><span class="org-comment-delimiter">;;</span><span class="org-comment">------------------------------------------
+</span>(hasliberg-theme--update-shades)
+(hasliberg-theme--update-all-faces)
+(<span class="org-keyword">when</span> load-file-name
+  (add-to-list 'custom-theme-load-path
+                         (file-name-as-directory (file-name-directory load-file-name))))
+
+(provide-theme 'hasliberg)
+</pre>
+</div>
 </div>
 </div>
 
-<div id="outline-container-org9d09468" class="outline-2">
-<h2 id="org9d09468"><span class="section-number-2">4.</span> Window</h2>
+<div id="outline-container-org5de1ab6" class="outline-2">
+<h2 id="org5de1ab6"><span class="section-number-2">4.</span> Window</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">window-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -462,8 +1218,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-orga6537ad" class="outline-2">
-<h2 id="orga6537ad"><span class="section-number-2">5.</span> Completion</h2>
+<div id="outline-container-org45221c3" class="outline-2">
+<h2 id="org45221c3"><span class="section-number-2">5.</span> Completion</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -553,8 +1309,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org6f4a286" class="outline-2">
-<h2 id="org6f4a286"><span class="section-number-2">6.</span> Dired</h2>
+<div id="outline-container-org9d5d779" class="outline-2">
+<h2 id="org9d5d779"><span class="section-number-2">6.</span> Dired</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -576,8 +1332,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org98fb813" class="outline-2">
-<h2 id="org98fb813"><span class="section-number-2">7.</span> Note</h2>
+<div id="outline-container-org923c818" class="outline-2">
+<h2 id="org923c818"><span class="section-number-2">7.</span> Note</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">note-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -695,8 +1451,8 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-org3e7950c" class="outline-2">
-<h2 id="org3e7950c"><span class="section-number-2">8.</span> Shell</h2>
+<div id="outline-container-org77957ce" class="outline-2">
+<h2 id="org77957ce"><span class="section-number-2">8.</span> Shell</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -763,8 +1519,8 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-org9c047ca" class="outline-2">
-<h2 id="org9c047ca"><span class="section-number-2">9.</span> Programming</h2>
+<div id="outline-container-org8e24319" class="outline-2">
+<h2 id="org8e24319"><span class="section-number-2">9.</span> Programming</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1151,8 +1907,8 @@ and restart Flymake to apply the changes."</span>
 </div>
 </div>
 
-<div id="outline-container-orgeafdade" class="outline-2">
-<h2 id="orgeafdade"><span class="section-number-2">10.</span> Miscellaneous</h2>
+<div id="outline-container-org69a9018" class="outline-2">
+<h2 id="org69a9018"><span class="section-number-2">10.</span> Miscellaneous</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1313,8 +2069,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-orgc080022" class="outline-2">
-<h2 id="orgc080022"><span class="section-number-2">11.</span> Linux</h2>
+<div id="outline-container-orgfcd1ade" class="outline-2">
+<h2 id="orgfcd1ade"><span class="section-number-2">11.</span> Linux</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">linux-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1336,8 +2092,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org853e61b" class="outline-2">
-<h2 id="org853e61b"><span class="section-number-2">12.</span> MacOS</h2>
+<div id="outline-container-orge43a76e" class="outline-2">
+<h2 id="orge43a76e"><span class="section-number-2">12.</span> MacOS</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">macos-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1365,8 +2121,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org3b111ef" class="outline-2">
-<h2 id="org3b111ef"><span class="section-number-2">13.</span> Windows</h2>
+<div id="outline-container-orgf207fe6" class="outline-2">
+<h2 id="orgf207fe6"><span class="section-number-2">13.</span> Windows</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">windows-conf.el --- Summary  -*- lexical-binding: t; -*-
