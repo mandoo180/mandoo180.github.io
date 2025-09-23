@@ -2018,17 +2018,20 @@ Some extra stuff.
     (set-fontset-font t 'hangul (font-spec :name "Noto Sans KR")))
 
   (if (daemonp)
-  	  (add-hook 'server-after-make-frame-hook #'m180/font-set)
-  	(m180/font-set))
+  	(add-hook 'server-after-make-frame-hook #'m180/font-set)
+    (m180/font-set))
 
   (setq explicit-shell-file-name (executable-find "pwsh"))
-  (setq shell-file-name (executable-find "pwsh"))
+  (setq shell-file-name (expand-file-name "cmdproxy.exe" exec-directory))
+  (setq org-babel-shell-command shell-file-name)
+  (setq org-babel-C-complier "gcc"
+  	  org-babel-C++-complier "g++")
   (setq grep-use-null-device nil)
 
   ;; (defun pwsh-shell-mode-setup ()
-    ;; "Powershell setup for Windows."
-    ;; (setq-local comint-prompt-read-only t)
-    ;; (setq-local comint-process-echoes t))
+  ;; "Powershell setup for Windows."
+  ;; (setq-local comint-prompt-read-only t)
+  ;; (setq-local comint-process-echoes t))
   ;; (add-hook 'shell-mode-hook #'pwsh-shell-mode-setup)
   ;; (setq eshell-windows-shell-file (executable-find "pwsh"))
   ;; (setq explicit-shell-file-name (executable-find "pwsh"))

@@ -98,7 +98,7 @@ should already exist for this to work.
 | -i'bkp.*'     | * here gets replaced with input filename thus providing a way to add a prefix instead of a suffix                                |
 | -i'backups/*' | this will place the backup copy in a different existing directory instead of source directory                                    |
 
-* Selective eiditing
+* Selective editing
 
 By default, sed acts on the entire input content. Many a times, you
 only want to act upon specific portions of the input. To that end, sed
