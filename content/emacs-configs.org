@@ -1467,42 +1467,82 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     (corfu-candidate-overlay-mode 1)
     (global-set-key (kbd "C-<tab>") 'completion-at-point))
 
-  (use-package lsp-mode
-    :hook
-    ((java-mode          . lsp)
-     (java-ts-mode       . lsp)
-     (bash-ts-mode       . lsp)
-     (mhtml-mode         . lsp)
-     (js-ts-mode         . lsp)
-     (json-ts-mode       . lsp)
-     (typescript-mode    . lsp)
-     (typescript-ts-mode . lsp)
-     (python-mode        . lsp)
-     (python-ts-mode     . lsp)
-     (c-mode             . lsp)
-     (c-ts-mode          . lsp)
-     (clojure-mode       . lsp)
-     (ruby-mode          . lsp-deferred)
-     (ruby-ts-mode       . lsp-deferred))
+  (use-package eglot
+    :ensure nil
     :custom
-    (lsp-keymap-prefix "C-c l")
-    (lsp-enable-on-type-formatting nil)
-    (lsp-enable-indentation nil)
-    (lsp-completion-provider :none)
-    ;; https://github.com/sqls-server/sqls?tab=readme-ov-file#installation
-    ;; https://github.com/sqls-server/sqls?tab=readme-ov-file#db-configuration
-    (lsp-sqls-workspace-config-path "workspace")
-    (lsp-sqls-connections nil)
-    (lsp-disabled-clients '(rubocop-ls solargraph sorbet-ls))
-    (lsp-ruby-use-bundler t)
-    :bind
-    (:map lsp-mode-map
-  	  ("C-c l r" . lsp-rename)))
-
-  (use-package lsp-java
-    :after lsp
+    (eglot-autoshutdown t)
+    (eglot-events-buffer-size 0)
+    (eglot-events-buffer-config '(:size 0 :format full))
+    (eglot-prefer-plaintext t)
+    (jsonrpc-event-hook nil)
+    (eglot-code-action-indications nil) ;; Emacs 31 -- annoying as hell
+    :init
+    (fset #'jsonrpc--log-event #'ignore)
     :hook
-    (java-mode . lsp))
+    (mhtml-mode         . eglot-ensure)
+    (css-mode           . eglot-ensure)
+    (ja-mode            . eglot-ensure)
+    (js-ts-mode         . eglot-ensure)
+    (typescript-mode    . eglot-ensure)
+    (typescript-ts-mode . eglot-ensure)
+    (python-mode        . eglot-ensure)
+    (ruby-mode          . eglot-ensure)
+    (ruby-ts-mode       . eglot-ensure)
+    ;; ((mhtml-mode
+    ;;   css-mode
+    ;;   ;; css-ts-mode
+    ;;   ;; js-ts-mode
+    ;;   ;; typescript-ts-mode
+    ;; 	js-mode
+    ;; 	typescript-mode
+    ;; 	python-mode
+    ;;   java-mode)
+    ;;  . eglot-ensure)
+    :bind (:map
+  		 eglot-mode-map
+  		 ("C-c l a" . eglot-code-actions)
+  		 ("C-c l o" . eglot-code-actions-organize-imports)
+  		 ("C-c l r" . eglot-rename)
+  		 ("C-c l f" . eglot-format))
+    :config
+    (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) "ruby-lsp")))
+
+  ;; (use-package lsp-mode
+  ;;   :hook
+  ;;   ((java-mode          . lsp)
+  ;;    (java-ts-mode       . lsp)
+  ;;    (bash-ts-mode       . lsp)
+  ;;    (mhtml-mode         . lsp)
+  ;;    (js-ts-mode         . lsp)
+  ;;    (json-ts-mode       . lsp)
+  ;;    (typescript-mode    . lsp)
+  ;;    (typescript-ts-mode . lsp)
+  ;;    (python-mode        . lsp)
+  ;;    (python-ts-mode     . lsp)
+  ;;    (c-mode             . lsp)
+  ;;    (c-ts-mode          . lsp)
+  ;;    (clojure-mode       . lsp)
+  ;;    (ruby-mode          . lsp-deferred)
+  ;;    (ruby-ts-mode       . lsp-deferred))
+  ;;   :custom
+  ;;   (lsp-keymap-prefix "C-c l")
+  ;;   (lsp-enable-on-type-formatting nil)
+  ;;   (lsp-enable-indentation nil)
+  ;;   (lsp-completion-provider :none)
+  ;;   ;; https://github.com/sqls-server/sqls?tab=readme-ov-file#installation
+  ;;   ;; https://github.com/sqls-server/sqls?tab=readme-ov-file#db-configuration
+  ;;   (lsp-sqls-workspace-config-path "workspace")
+  ;;   (lsp-sqls-connections nil)
+  ;;   (lsp-disabled-clients '(rubocop-ls solargraph sorbet-ls))
+  ;;   (lsp-ruby-use-bundler t)
+  ;;   :bind
+  ;;   (:map lsp-mode-map
+  ;; 	  ("C-c l r" . lsp-rename)))
+
+  ;; (use-package lsp-java
+  ;;   :after lsp
+  ;;   :hook
+  ;;   (java-mode . lsp))
 
   (use-package compile
     :ensure nil
