@@ -14,26 +14,6 @@
   @media (prefers-color-scheme: light) { body { background: #ffffff; } }
   @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
 </style>
-
-<script src="assets/scripts/org-info.js">
-// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
-// @license-end
-</script>
-
-<script>
-// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
-org_html_manager.set("TOC_DEPTH", "3");
-org_html_manager.set("LINK_HOME", "");
-org_html_manager.set("LINK_UP", "");
-org_html_manager.set("LOCAL_TOC", "1");
-org_html_manager.set("VIEW_BUTTONS", "0");
-org_html_manager.set("MOUSE_HINT", "underline");
-org_html_manager.set("FIXED_TOC", "0");
-org_html_manager.set("TOC", "1");
-org_html_manager.set("VIEW", "info");
-org_html_manager.setup();  // activate after the parameters are set
-// @license-end
-</script>
 </head>
 <body>
 <main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -42,15 +22,15 @@ org_html_manager.setup();  // activate after the parameters are set
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb8b5371">1. CHAPTER 4. Functions and Program Structure</a>
+<li><a href="#orgdf596cd">1. CHAPTER 4. Functions and Program Structure</a>
 <ul>
-<li><a href="#orgafa7fd6">1.1. Basics of Functions</a></li>
-<li><a href="#org193fa3b">1.2. Functions Returning Non-integers</a></li>
-<li><a href="#org4259e32">1.3. External Variables</a></li>
-<li><a href="#orgc444689">1.4. Recursion</a></li>
+<li><a href="#orgddc31df">1.1. Basics of Functions</a></li>
+<li><a href="#orge9e2996">1.2. Functions Returning Non-integers</a></li>
+<li><a href="#orgca8f71b">1.3. External Variables</a></li>
+<li><a href="#orgda4fdc0">1.4. Recursion</a></li>
 </ul>
 </li>
-<li><a href="#org2110ed5">2. CHAPTER 5. Pointers and Arrays</a></li>
+<li><a href="#org64ff206">2. CHAPTER 5. Pointers and Arrays</a></li>
 </ul>
 </div>
 </div>
@@ -60,12 +40,12 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 
 
-<div id="outline-container-orgb8b5371" class="outline-2">
-<h2 id="orgb8b5371"><span class="section-number-2">1.</span> CHAPTER 4. Functions and Program Structure</h2>
+<div id="outline-container-orgdf596cd" class="outline-2">
+<h2 id="orgdf596cd"><span class="section-number-2">1.</span> CHAPTER 4. Functions and Program Structure</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgafa7fd6" class="outline-3">
-<h3 id="orgafa7fd6"><span class="section-number-3">1.1.</span> Basics of Functions</h3>
+<div id="outline-container-orgddc31df" class="outline-3">
+<h3 id="orgddc31df"><span class="section-number-3">1.1.</span> Basics of Functions</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
@@ -141,8 +121,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org193fa3b" class="outline-3">
-<h3 id="org193fa3b"><span class="section-number-3">1.2.</span> Functions Returning Non-integers</h3>
+<div id="outline-container-orge9e2996" class="outline-3">
+<h3 id="orge9e2996"><span class="section-number-3">1.2.</span> Functions Returning Non-integers</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;ctype.h&gt;</span>
@@ -227,8 +207,8 @@ org_html_manager.setup();  // activate after the parameters are set
 </div>
 </div>
 
-<div id="outline-container-org4259e32" class="outline-3">
-<h3 id="org4259e32"><span class="section-number-3">1.3.</span> External Variables</h3>
+<div id="outline-container-orgca8f71b" class="outline-3">
+<h3 id="orgca8f71b"><span class="section-number-3">1.3.</span> External Variables</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#define</span> <span class="org-variable-name">NUMBER</span> <span class="org-string">'0'</span>              <span class="org-comment-delimiter">/* </span><span class="org-comment">signal that a number was found</span><span class="org-comment-delimiter"> */</span>
@@ -404,7 +384,7 @@ org_html_manager.setup();  // activate after the parameters are set
 <p>
 After execute program, input and output will be like below.
 </p>
-<pre class="example" id="org0decda3">
+<pre class="example" id="org3249145">
 IN: 1 1 +
 OUT: 2
 IN: 1 1 + 2 2 + *
@@ -414,8 +394,8 @@ OUT: 8
 </div>
 </div>
 
-<div id="outline-container-orgc444689" class="outline-3">
-<h3 id="orgc444689"><span class="section-number-3">1.4.</span> Recursion</h3>
+<div id="outline-container-orgda4fdc0" class="outline-3">
+<h3 id="orgda4fdc0"><span class="section-number-3">1.4.</span> Recursion</h3>
 <div class="outline-text-3" id="text-1-4">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
@@ -481,8 +461,8 @@ OUT: 8
 </div>
 </div>
 
-<div id="outline-container-org2110ed5" class="outline-2">
-<h2 id="org2110ed5"><span class="section-number-2">2.</span> CHAPTER 5. Pointers and Arrays</h2>
+<div id="outline-container-org64ff206" class="outline-2">
+<h2 id="org64ff206"><span class="section-number-2">2.</span> CHAPTER 5. Pointers and Arrays</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
