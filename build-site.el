@@ -36,21 +36,6 @@
 											(content "main" "content")
 											(postamble "footer" "postamble")))
 
-(with-eval-after-load 'ox-html
-  (setq org-html-use-infojs t)
-  (setq org-html-infojs-options
-        '((path    . "assets/scripts/org-info.js")
-		  (view    . "info")
-		  (toc     . :with-toc)
-		  (ftoc    . "0")
-		  (tdepth  . "max")
-		  (sdepth  . "max")
-		  (mouse   . "underline")
-		  (buttons . "0")
-		  (ltoc    . "1")
-		  (up      . :html-link-up)
-		  (home    . :html-link-home))))
-
 (setq org-hide-emphasis-markers t)
 (setq org-confirm-babel-evaluate nil)
 (setq org-use-property-inheritance t)
@@ -72,7 +57,8 @@
                   :time-stamp-file      nil)))
 
 (defun local/org-html-add-tailwind-container (output backend info)
-  "After-export filter to add Tailwind classes to the content wrapper."
+  "After-export filter to add Tailwind classes to the content wrapper.
+OUTPUT is the exported HTML, BACKEND is the export backend, INFO is the plist."
   (when (org-export-derived-backend-p backend 'html)
     (replace-regexp-in-string
      "<main id=\"content\" class=\"content\">"
