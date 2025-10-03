@@ -22,37 +22,37 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org642cd4e">1. The Metacircular Evaluator</a>
+<li><a href="#org2a15d8e">1. The Metacircular Evaluator</a>
 <ul>
-<li><a href="#org234bc3c">1.1. The Core of the Evaluator</a></li>
-<li><a href="#org32406d8">1.2. Representing Expressions</a></li>
-<li><a href="#org84d0e04">1.3. Evaluator Data Structures</a></li>
-<li><a href="#orgfdb0387">1.4. Running the Evaluator as a Program</a></li>
-<li><a href="#org33d5df3">1.5. Data as Programs</a></li>
-<li><a href="#orgc16da82">1.6. Internal Definitions</a></li>
-<li><a href="#orge22d521">1.7. Separating Syntactic Analysis from Execution</a></li>
+<li><a href="#org9c721f1">1.1. The Core of the Evaluator</a></li>
+<li><a href="#org8323e54">1.2. Representing Expressions</a></li>
+<li><a href="#org05cb3c4">1.3. Evaluator Data Structures</a></li>
+<li><a href="#orgfcf2876">1.4. Running the Evaluator as a Program</a></li>
+<li><a href="#org6fa4c57">1.5. Data as Programs</a></li>
+<li><a href="#org6449c2d">1.6. Internal Definitions</a></li>
+<li><a href="#orge09a588">1.7. Separating Syntactic Analysis from Execution</a></li>
 </ul>
 </li>
-<li><a href="#org00864f1">2. Variations on a Scheme - Lazy Evaluation</a>
+<li><a href="#orgda45785">2. Variations on a Scheme - Lazy Evaluation</a>
 <ul>
-<li><a href="#orgc75bd04">2.1. Normal Order and Applicative Order</a></li>
-<li><a href="#orgfbfff3f">2.2. An Interpreter with Lazy Evaluation</a></li>
-<li><a href="#org2e05607">2.3. Streams as Lazy Lists</a></li>
+<li><a href="#orgdbfb7e0">2.1. Normal Order and Applicative Order</a></li>
+<li><a href="#orgda0fbb6">2.2. An Interpreter with Lazy Evaluation</a></li>
+<li><a href="#org2e15e14">2.3. Streams as Lazy Lists</a></li>
 </ul>
 </li>
-<li><a href="#org696b3f0">3. Variations on a Scheme - Nondeterministic Computing</a>
+<li><a href="#org2aee69d">3. Variations on a Scheme - Nondeterministic Computing</a>
 <ul>
-<li><a href="#orgd12a8af">3.1. Amb and Search</a></li>
-<li><a href="#org86ca0df">3.2. Examples of Nondeterministic Programs</a></li>
-<li><a href="#org36b20d8">3.3. Implementing the `Amb' Evaluator</a></li>
+<li><a href="#orgbc8b0a7">3.1. Amb and Search</a></li>
+<li><a href="#org5ecf2b3">3.2. Examples of Nondeterministic Programs</a></li>
+<li><a href="#org7db8fe9">3.3. Implementing the `Amb' Evaluator</a></li>
 </ul>
 </li>
-<li><a href="#org7563b27">4. Logic Programming</a>
+<li><a href="#orgf7a8688">4. Logic Programming</a>
 <ul>
-<li><a href="#org077821a">4.1. Deductive Information Retrieval</a></li>
-<li><a href="#orgdb0257e">4.2. How the Query System Works</a></li>
-<li><a href="#org85365b6">4.3. Is Logic Programming Mathematical Logic?</a></li>
-<li><a href="#org5378daa">4.4. Implementing the Query System</a></li>
+<li><a href="#org7293fde">4.1. Deductive Information Retrieval</a></li>
+<li><a href="#org99f62d4">4.2. How the Query System Works</a></li>
+<li><a href="#org515101f">4.3. Is Logic Programming Mathematical Logic?</a></li>
+<li><a href="#org3ebff1c">4.4. Implementing the Query System</a></li>
 </ul>
 </li>
 </ul>
@@ -261,8 +261,8 @@ via a sequence of evaluators written in Scheme.
 </p>
 
 
-<div id="outline-container-org642cd4e" class="outline-2">
-<h2 id="org642cd4e"><span class="section-number-2">1.</span> The Metacircular Evaluator</h2>
+<div id="outline-container-org2a15d8e" class="outline-2">
+<h2 id="org2a15d8e"><span class="section-number-2">1.</span> The Metacircular Evaluator</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Our evaluator for Lisp will be implemented as a Lisp program.  It may
@@ -382,8 +382,8 @@ differently from procedure calls.</li>
 </div>
 
 
-<div id="outline-container-org234bc3c" class="outline-3">
-<h3 id="org234bc3c"><span class="section-number-3">1.1.</span> The Core of the Evaluator</h3>
+<div id="outline-container-org9c721f1" class="outline-3">
+<h3 id="org9c721f1"><span class="section-number-3">1.1.</span> The Core of the Evaluator</h3>
 <div class="outline-text-3" id="text-1-1">
 <hr />
 
@@ -391,7 +391,7 @@ differently from procedure calls.</li>
 <b>Figure 4.1:</b> The `eval'-`apply' cycle exposes the essence of a computer language.
 </p>
 
-<pre class="example" id="org7294148">
+<pre class="example" id="orgb2b8b16">
 
                            .,ad88888888baa,
                   _    ,d8P"""        ""9888ba.      _
@@ -736,8 +736,8 @@ choose what value to return.
 </div>
 
 
-<div id="outline-container-org32406d8" class="outline-3">
-<h3 id="org32406d8"><span class="section-number-3">1.2.</span> Representing Expressions</h3>
+<div id="outline-container-org8323e54" class="outline-3">
+<h3 id="org8323e54"><span class="section-number-3">1.2.</span> Representing Expressions</h3>
 <div class="outline-text-3" id="text-1-2">
 <hr />
 
@@ -1360,8 +1360,8 @@ difficulties.  See, for example, Kohlbecker 1986, Clinger and Rees
 </div>
 
 
-<div id="outline-container-org84d0e04" class="outline-3">
-<h3 id="org84d0e04"><span class="section-number-3">1.3.</span> Evaluator Data Structures</h3>
+<div id="outline-container-org05cb3c4" class="outline-3">
+<h3 id="org05cb3c4"><span class="section-number-3">1.3.</span> Evaluator Data Structures</h3>
 <div class="outline-text-3" id="text-1-3">
 <hr />
 
@@ -1705,8 +1705,8 @@ which will be discussed in section *Note 5-5-6::.
 </div>
 
 
-<div id="outline-container-orgfdb0387" class="outline-3">
-<h3 id="orgfdb0387"><span class="section-number-3">1.4.</span> Running the Evaluator as a Program</h3>
+<div id="outline-container-orgfcf2876" class="outline-3">
+<h3 id="orgfcf2876"><span class="section-number-3">1.4.</span> Running the Evaluator as a Program</h3>
 <div class="outline-text-3" id="text-1-4">
 <hr />
 
@@ -1953,8 +1953,8 @@ symbol `quote' and the symbol `x'.
 </div>
 
 
-<div id="outline-container-org33d5df3" class="outline-3">
-<h3 id="org33d5df3"><span class="section-number-3">1.5.</span> Data as Programs</h3>
+<div id="outline-container-org6fa4c57" class="outline-3">
+<h3 id="org6fa4c57"><span class="section-number-3">1.5.</span> Data as Programs</h3>
 <div class="outline-text-3" id="text-1-5">
 <hr />
 
@@ -1986,7 +1986,7 @@ factorial machine, showing how the parts are wired together.
 <b>Figure 4.2:</b> The factorial program, viewed as an abstract machine.
 </p>
 
-<pre class="example" id="orga326b4f">
+<pre class="example" id="org17560f2">
     +-----------------------------------+
     | factorial                   |1    |
     |              |1             V     |
@@ -2024,7 +2024,7 @@ to compute factorials.
 <b>Figure 4.3:</b> The evaluator emulating a factorial machine.
 </p>
 
-<pre class="example" id="orgd8a8908">
+<pre class="example" id="orge540243">
                 +--------+
          6 ----&gt;|  eval  |----&gt; 720
                 +--------+
@@ -2198,8 +2198,8 @@ cannot be carried out as a computational procedure.
 </div>
 
 
-<div id="outline-container-orgc16da82" class="outline-3">
-<h3 id="orgc16da82"><span class="section-number-3">1.6.</span> Internal Definitions</h3>
+<div id="outline-container-org6449c2d" class="outline-3">
+<h3 id="org6449c2d"><span class="section-number-3">1.6.</span> Internal Definitions</h3>
 <div class="outline-text-3" id="text-1-6">
 <hr />
 
@@ -2601,8 +2601,8 @@ the Y operator in Scheme.)
 </div>
 
 
-<div id="outline-container-orge22d521" class="outline-3">
-<h3 id="orge22d521"><span class="section-number-3">1.7.</span> Separating Syntactic Analysis from Execution</h3>
+<div id="outline-container-orge09a588" class="outline-3">
+<h3 id="orge09a588"><span class="section-number-3">1.7.</span> Separating Syntactic Analysis from Execution</h3>
 <div class="outline-text-3" id="text-1-7">
 <hr />
 
@@ -2922,8 +2922,8 @@ of sequences.
 </div>
 
 
-<div id="outline-container-org00864f1" class="outline-2">
-<h2 id="org00864f1"><span class="section-number-2">2.</span> Variations on a Scheme - Lazy Evaluation</h2>
+<div id="outline-container-orgda45785" class="outline-2">
+<h2 id="orgda45785"><span class="section-number-2">2.</span> Variations on a Scheme - Lazy Evaluation</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Now that we have an evaluator expressed as a Lisp program, we can
@@ -2964,8 +2964,8 @@ Steele et al. 1983.  See also Raymond 1993.)
 </div>
 
 
-<div id="outline-container-orgc75bd04" class="outline-3">
-<h3 id="orgc75bd04"><span class="section-number-3">2.1.</span> Normal Order and Applicative Order</h3>
+<div id="outline-container-orgdbfb7e0" class="outline-3">
+<h3 id="orgdbfb7e0"><span class="section-number-3">2.1.</span> Normal Order and Applicative Order</h3>
 <div class="outline-text-3" id="text-2-1">
 <hr />
 
@@ -3109,8 +3109,8 @@ evaluation."
 </div>
 
 
-<div id="outline-container-orgfbfff3f" class="outline-3">
-<h3 id="orgfbfff3f"><span class="section-number-3">2.2.</span> An Interpreter with Lazy Evaluation</h3>
+<div id="outline-container-orgda0fbb6" class="outline-3">
+<h3 id="orgda0fbb6"><span class="section-number-3">2.2.</span> An Interpreter with Lazy Evaluation</h3>
 <div class="outline-text-3" id="text-2-2">
 <hr />
 
@@ -3678,8 +3678,8 @@ you might expect from the discussion in *Note Chapter 3::.
 </div>
 
 
-<div id="outline-container-org2e05607" class="outline-3">
-<h3 id="org2e05607"><span class="section-number-3">2.3.</span> Streams as Lazy Lists</h3>
+<div id="outline-container-org2e15e14" class="outline-3">
+<h3 id="org2e15e14"><span class="section-number-3">2.3.</span> Streams as Lazy Lists</h3>
 <div class="outline-text-3" id="text-2-3">
 <hr />
 
@@ -3884,8 +3884,8 @@ applications of "lazy trees."
 </div>
 
 
-<div id="outline-container-org696b3f0" class="outline-2">
-<h2 id="org696b3f0"><span class="section-number-2">3.</span> Variations on a Scheme - Nondeterministic Computing</h2>
+<div id="outline-container-org2aee69d" class="outline-2">
+<h2 id="org2aee69d"><span class="section-number-2">3.</span> Variations on a Scheme - Nondeterministic Computing</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 In this section, we extend the Scheme evaluator to support a programming
@@ -4013,8 +4013,8 @@ We'll go even farther in this direction in section *Note 4-4::.
 </div>
 
 
-<div id="outline-container-orgd12a8af" class="outline-3">
-<h3 id="orgd12a8af"><span class="section-number-3">3.1.</span> Amb and Search</h3>
+<div id="outline-container-orgbc8b0a7" class="outline-3">
+<h3 id="orgbc8b0a7"><span class="section-number-3">3.1.</span> Amb and Search</h3>
 <div class="outline-text-3" id="text-3-1">
 <hr />
 
@@ -4320,8 +4320,8 @@ both kinds of backtracking.
 </div>
 
 
-<div id="outline-container-org86ca0df" class="outline-3">
-<h3 id="org86ca0df"><span class="section-number-3">3.2.</span> Examples of Nondeterministic Programs</h3>
+<div id="outline-container-org5ecf2b3" class="outline-3">
+<h3 id="org5ecf2b3"><span class="section-number-3">3.2.</span> Examples of Nondeterministic Programs</h3>
 <div class="outline-text-3" id="text-3-2">
 <hr />
 
@@ -4886,8 +4886,8 @@ See *Note Exercise 4-50:: for a way to deal with this.
 </div>
 
 
-<div id="outline-container-org36b20d8" class="outline-3">
-<h3 id="org36b20d8"><span class="section-number-3">3.3.</span> Implementing the `Amb' Evaluator</h3>
+<div id="outline-container-org7db8fe9" class="outline-3">
+<h3 id="org7db8fe9"><span class="section-number-3">3.3.</span> Implementing the `Amb' Evaluator</h3>
 <div class="outline-text-3" id="text-3-3">
 <hr />
 
@@ -5635,8 +5635,8 @@ that internal definitions are scanned out (section *Note 4-1-6::).
 </div>
 
 
-<div id="outline-container-org7563b27" class="outline-2">
-<h2 id="org7563b27"><span class="section-number-2">4.</span> Logic Programming</h2>
+<div id="outline-container-orgf7a8688" class="outline-2">
+<h2 id="orgf7a8688"><span class="section-number-2">4.</span> Logic Programming</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 In *Note Chapter 1:: we stressed that computer science deals with
@@ -5858,8 +5858,8 @@ constraint-propagation system of section *Note 3-3-5::.
 </div>
 
 
-<div id="outline-container-org077821a" class="outline-3">
-<h3 id="org077821a"><span class="section-number-3">4.1.</span> Deductive Information Retrieval</h3>
+<div id="outline-container-org7293fde" class="outline-3">
+<h3 id="org7293fde"><span class="section-number-3">4.1.</span> Deductive Information Retrieval</h3>
 <div class="outline-text-3" id="text-4-1">
 <hr />
 
@@ -6806,8 +6806,8 @@ satisfied by any values of the variables.
 </div>
 
 
-<div id="outline-container-orgdb0257e" class="outline-3">
-<h3 id="orgdb0257e"><span class="section-number-3">4.2.</span> How the Query System Works</h3>
+<div id="outline-container-org99f62d4" class="outline-3">
+<h3 id="org99f62d4"><span class="section-number-3">4.2.</span> How the Query System Works</h3>
 <div class="outline-text-3" id="text-4-2">
 <hr />
 
@@ -6930,7 +6930,7 @@ the output of the query.
 <b>Figure 4.4:</b> A query processes a stream of frames.
 </p>
 
-<pre class="example" id="orgfc4b7c3">
+<pre class="example" id="orgf1fdfcd">
                                   output stream
   input stream   +-------------+  of frames,
   of frames      |    query    |  filtered and extended
@@ -7004,7 +7004,7 @@ by the second query.
 operating on the stream of frames in series.
 </p>
 
-<pre class="example" id="orgfb753e8">
+<pre class="example" id="org8a13fe7">
                 +----------------------+
                 |       (and A B)      |
   input stream  |                      |  output stream
@@ -7033,7 +7033,7 @@ operating on the stream of frames in parallel and merging the
 results.
 </p>
 
-<pre class="example" id="org4db7419">
+<pre class="example" id="org65b759e">
            +---------------------------+
            |          (or A B)         |
            |    +---+                  |
@@ -7434,8 +7434,8 @@ infinite number of responses.
 </div>
 
 
-<div id="outline-container-org85365b6" class="outline-3">
-<h3 id="org85365b6"><span class="section-number-3">4.3.</span> Is Logic Programming Mathematical Logic?</h3>
+<div id="outline-container-org515101f" class="outline-3">
+<h3 id="org515101f"><span class="section-number-3">4.3.</span> Is Logic Programming Mathematical Logic?</h3>
 <div class="outline-text-3" id="text-4-3">
 <hr />
 
@@ -7846,8 +7846,8 @@ found in the article by Clark (1978).
 </div>
 
 
-<div id="outline-container-org5378daa" class="outline-3">
-<h3 id="org5378daa"><span class="section-number-3">4.4.</span> Implementing the Query System</h3>
+<div id="outline-container-org3ebff1c" class="outline-3">
+<h3 id="org3ebff1c"><span class="section-number-3">4.4.</span> Implementing the Query System</h3>
 <div class="outline-text-3" id="text-4-4">
 <hr />
 
