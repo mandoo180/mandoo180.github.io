@@ -1834,18 +1834,20 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     :hook
     (prog-mode . yas-minor-mode))
 
-  ;; (use-package smart-hungry-delete
-  ;;   :ensure t
-  ;;   :bind (([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
-  ;;		 ([remap delete-backward-char] . smart-hungry-delete-backward-char)
-  ;;		 ([remap delete-char] . smart-hungry-delete-forward-char))
-  ;;   :init (smart-hungry-delete-add-default-hooks))
-
   (use-package whitespace
     :ensure nil
     :defer t
     ;; :hook (before-save . whitespace-cleanup)
     )
+
+  (use-package vterm)
+  (use-package claude-code
+    :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
+    :bind-keymap ("C-c c" . claude-code-command-map)
+    :config
+    (setq claude-code-terminal-backend 'vterm)
+    :bind
+    (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode)))
 
   (provide 'prog-conf)
   ;;; prog-conf.el ends here
