@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Setting Up ArchLinux</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Setting Up ArchLinux</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org713a3f3">1. IBUS Hangul</a></li>
+<li><a href="#org0daf65b">2. Node &amp; NPM</a></li>
+<li><a href="#org46d61b0">3. Java &amp; Clojure</a></li>
+<li><a href="#orga721af7">4. Ruby &amp; Ruyb on Rails</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org713a3f3" class="outline-2">
+<h2 id="org713a3f3"><span class="section-number-2">1.</span> IBUS Hangul</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Easy way to type Korean on GNOME desktop environment.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo pacman -S ibus ibus-hangul
+ibus-setup
+ibus restart
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0daf65b" class="outline-2">
+<h2 id="org0daf65b"><span class="section-number-2">2.</span> Node &amp; NPM</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-bash"><span class="org-keyword">if</span> [ -z $(<span class="org-sh-quoted-exec">which node</span>) ]; <span class="org-keyword">then</span>
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+      <span class="org-builtin">source</span> ~/.zshrc
+      nvm install --lts
+      nvm use --lts
+<span class="org-keyword">fi</span>
+
+<span class="org-builtin">echo</span> <span class="org-string">'I am installing language servers and claude code.'</span>
+
+npm i -g <span class="org-sh-escaped-newline">\</span>
+      typescript <span class="org-sh-escaped-newline">\</span>
+      typescript-language-server <span class="org-sh-escaped-newline">\</span>
+      vscode-langservers-extracted <span class="org-sh-escaped-newline">\</span>
+      @anthropic-ai/claude-code
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org46d61b0" class="outline-2">
+<h2 id="org46d61b0"><span class="section-number-2">3.</span> Java &amp; Clojure</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-bash">sudo pacman -S jdk21-openjdk leiningen
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga721af7" class="outline-2">
+<h2 id="orga721af7"><span class="section-number-2">4.</span> Ruby &amp; Ruyb on Rails</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<pre class="src src-bash">sudo pacman -S ruby
+gem install rails
+</pre>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>
