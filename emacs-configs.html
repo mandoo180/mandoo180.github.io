@@ -22,25 +22,38 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org6ea930d">1. Early Init</a></li>
-<li><a href="#org5f71981">2. Init</a></li>
-<li><a href="#org4c44cfb">3. Theme</a></li>
-<li><a href="#org9b7c690">4. Window</a></li>
-<li><a href="#orgcbca057">5. Completion</a></li>
-<li><a href="#org61b1648">6. Dired</a></li>
-<li><a href="#org99180c0">7. Note</a></li>
-<li><a href="#orgde9be2b">8. Shell</a></li>
-<li><a href="#org39e9ab3">9. Programming</a></li>
-<li><a href="#orgafd3e97">10. Miscellaneous</a></li>
-<li><a href="#orgb5a895b">11. Linux</a></li>
-<li><a href="#orga1fceeb">12. MacOS</a></li>
-<li><a href="#org5181b16">13. Windows</a></li>
+<li><a href="#orga4e8438">1. Early Init</a></li>
+<li><a href="#org76e3a01">2. Init</a></li>
+<li><a href="#orgcbe42e4">3. Theme</a></li>
+<li><a href="#org99f4e2c">4. Window</a></li>
+<li><a href="#orgde08eab">5. Completion</a></li>
+<li><a href="#org8d92e71">6. Dired</a></li>
+<li><a href="#orgccc70cc">7. Note</a></li>
+<li><a href="#org8d150d8">8. Shell</a></li>
+<li><a href="#orga2ef536">9. Programming</a>
+<ul>
+<li><a href="#org602dd49">9.1. Common</a></li>
+<li><a href="#org987f030">9.2. Web</a>
+<ul>
+<li><a href="#orgfb1bf25">9.2.1. Required Local Dependencies</a></li>
+<li><a href="#org88f2624">9.2.2. Emacs Packages</a></li>
+<li><a href="#org4828309">9.2.3. Key Bindings</a></li>
+<li><a href="#org3d17122">9.2.4. Workflow Examples</a></li>
+<li><a href="#orgdfedeb8">9.2.5. Project Structure Recommendations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7f78102">10. Miscellaneous</a></li>
+<li><a href="#orgac8f280">11. Linux</a></li>
+<li><a href="#org843932d">12. MacOS</a></li>
+<li><a href="#org9346db9">13. Windows</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org6ea930d" class="outline-2">
-<h2 id="org6ea930d"><span class="section-number-2">1.</span> Early Init</h2>
+<div id="outline-container-orga4e8438" class="outline-2">
+<h2 id="orga4e8438"><span class="section-number-2">1.</span> Early Init</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el --- Emacs-Solo (no external packages) Configuration  -*- lexical-binding: t; -*-
@@ -48,6 +61,34 @@
 </span><span class="org-comment-delimiter">;; </span><span class="org-comment">Early init configuration for Emacs-Solo
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
 </span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Native compilation settings - must come before any packages load
+</span>(<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (fboundp 'native-comp-available-p)
+           (native-comp-available-p))
+  (<span class="org-keyword">when</span> (eq system-type 'darwin)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">macOS with Homebrew GCC: Set up library paths
+</span>    <span class="org-comment-delimiter">;; </span><span class="org-comment">The library is in: /opt/homebrew/lib/gcc/current/gcc/aarch64-apple-darwin24/VERSION/
+</span>    (<span class="org-keyword">let*</span> ((gcc-base <span class="org-string">"/opt/homebrew/lib/gcc/current/gcc"</span>)
+           (arch-dir (expand-file-name <span class="org-string">"aarch64-apple-darwin24"</span> gcc-base))
+           (version-dirs (<span class="org-keyword">when</span> (file-directory-p arch-dir)
+                          (directory-files arch-dir t <span class="org-string">"^[0-9]+"</span> t)))
+           (gcc-lib-dir (<span class="org-keyword">when</span> version-dirs (car version-dirs))))
+      (<span class="org-keyword">when</span> gcc-lib-dir
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Set LIBRARY_PATH for the linker
+</span>        (setenv <span class="org-string">"LIBRARY_PATH"</span>
+                (concat gcc-lib-dir <span class="org-string">":"</span>
+                        <span class="org-string">"/opt/homebrew/lib/gcc/current:"</span>
+                        (<span class="org-keyword">or</span> (getenv <span class="org-string">"LIBRARY_PATH"</span>) <span class="org-string">""</span>)))
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure native-comp to use this GCC
+</span>        (<span class="org-keyword">setq</span> native-comp-driver-options
+              (list (concat <span class="org-string">"-B"</span> gcc-lib-dir)
+                    (concat <span class="org-string">"-L"</span> gcc-lib-dir)
+                    <span class="org-string">"-B/opt/homebrew/lib/gcc/current"</span>
+                    <span class="org-string">"-L/opt/homebrew/lib/gcc/current"</span>)))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">General native compilation settings
+</span>  (<span class="org-keyword">setq</span> native-comp-async-report-warnings-errors nil
+        native-comp-deferred-compilation t))
+
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Startup hacks
 </span>(<span class="org-keyword">setq</span> gc-cons-threshold most-positive-fixnum
         gc-cons-percentage 0.6
@@ -85,15 +126,14 @@
         frame-resize-pixelwise t)
 
 (<span class="org-keyword">provide</span> '<span class="org-constant">early-init</span>)
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el ends here
-</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el ends here</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5f71981" class="outline-2">
-<h2 id="org5f71981"><span class="section-number-2">2.</span> Init</h2>
+<div id="outline-container-org76e3a01" class="outline-2">
+<h2 id="org76e3a01"><span class="section-number-2">2.</span> Init</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el --- Summary  -*- lexical-binding: t; -*-
@@ -343,8 +383,8 @@
 </div>
 </div>
 
-<div id="outline-container-org4c44cfb" class="outline-2">
-<h2 id="org4c44cfb"><span class="section-number-2">3.</span> Theme</h2>
+<div id="outline-container-orgcbe42e4" class="outline-2">
+<h2 id="orgcbe42e4"><span class="section-number-2">3.</span> Theme</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1148,8 +1188,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-org9b7c690" class="outline-2">
-<h2 id="org9b7c690"><span class="section-number-2">4.</span> Window</h2>
+<div id="outline-container-org99f4e2c" class="outline-2">
+<h2 id="org99f4e2c"><span class="section-number-2">4.</span> Window</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">window-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1198,8 +1238,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-orgcbca057" class="outline-2">
-<h2 id="orgcbca057"><span class="section-number-2">5.</span> Completion</h2>
+<div id="outline-container-orgde08eab" class="outline-2">
+<h2 id="orgde08eab"><span class="section-number-2">5.</span> Completion</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1289,8 +1329,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-org61b1648" class="outline-2">
-<h2 id="org61b1648"><span class="section-number-2">6.</span> Dired</h2>
+<div id="outline-container-org8d92e71" class="outline-2">
+<h2 id="org8d92e71"><span class="section-number-2">6.</span> Dired</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1312,8 +1352,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-org99180c0" class="outline-2">
-<h2 id="org99180c0"><span class="section-number-2">7.</span> Note</h2>
+<div id="outline-container-orgccc70cc" class="outline-2">
+<h2 id="orgccc70cc"><span class="section-number-2">7.</span> Note</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">note-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1402,9 +1442,75 @@ black colours."</span>
   (org-appear-delay 0.0)
   (org-appear-trigger 'always))
 
-(<span class="org-keyword">use-package</span> markdown-mode
+(<span class="org-keyword">use-package</span> org-gcal
+  <span class="org-builtin">:after</span> org
   <span class="org-builtin">:custom</span>
-  (markdown-split-window-direction 'right))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">IMPORTANT: Set these variables in your private.el or custom-vars.el:
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setq org-gcal-client-id "your-client-id-from-google-console.apps.googleusercontent.com")
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setq org-gcal-client-secret "your-client-secret-from-google-console")
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setq org-gcal-file-alist '(("your-email@gmail.com" . "~/org/gcal.org")
+</span>  <span class="org-comment-delimiter">;;                              </span><span class="org-comment">("another-calendar@gmail.com" . "~/org/work-gcal.org")))
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Directory to store OAuth token and sync metadata
+</span>  (org-gcal-dir (expand-file-name <span class="org-string">".org-gcal/"</span> user-emacs-directory))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Token storage - use plain text file (no .gpg extension) to avoid encryption
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">The token file will have restricted file permissions (600) for security
+</span>  (org-gcal-token-file (expand-file-name <span class="org-string">".org-gcal/token"</span> user-emacs-directory))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Automatically fetch events when opening org-agenda
+</span>  (org-gcal-auto-archive nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Notify on sync
+</span>  (org-gcal-notify-p t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Update events if they already exist (bidirectional sync)
+</span>  (org-gcal-update-cancelled-events-with-todo t)
+
+  <span class="org-builtin">:init</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">CRITICAL: Disable plstore encryption BEFORE org-gcal loads
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">This must be in :init, not :config
+</span>  (<span class="org-keyword">setq</span> plstore-cache-passphrase-for-symmetric-encryption t)
+  (<span class="org-keyword">setq</span> plstore-encrypt-to nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Ensure EPG context doesn't prompt for passphrase
+</span>  (<span class="org-keyword">setq</span> epg-pinentry-mode 'loopback)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-provide a passphrase if encryption can't be disabled
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">This prevents repeated prompts
+</span>  (<span class="org-keyword">defvar</span> <span class="org-variable-name">my/org-gcal-passphrase</span> <span class="org-string">"emacs-gcal-token"</span>)
+  (<span class="org-keyword">defun</span> <span class="org-function-name">my/org-gcal-passphrase-callback</span> (context key-id handback)
+    <span class="org-doc">"Automatically provide passphrase for org-gcal token encryption."</span>
+    my/org-gcal-passphrase)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Override EPG passphrase callback
+</span>  (<span class="org-keyword">setq</span> epg-passphrase-callback-function #'my/org-gcal-passphrase-callback)
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Additional workaround: advice plstore to disable encryption
+</span>  (<span class="org-keyword">when</span> (fboundp 'plstore-open)
+    (advice-add 'plstore-open <span class="org-builtin">:around</span>
+                (<span class="org-keyword">lambda</span> (orig-fun file)
+                  (<span class="org-keyword">let</span> ((plstore-encrypt-to nil))
+                    (funcall orig-fun file)))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Add org-gcal files to org-agenda-files if configured
+</span>  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (boundp 'org-gcal-file-alist) org-gcal-file-alist)
+    (<span class="org-keyword">dolist</span> (calendar org-gcal-file-alist)
+      (<span class="org-keyword">let</span> ((gcal-file (cdr calendar)))
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Create the file if it doesn't exist
+</span>        (<span class="org-keyword">unless</span> (file-exists-p gcal-file)
+          (make-directory (file-name-directory gcal-file) t)
+          (write-region <span class="org-string">""</span> nil gcal-file))
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Add to org-agenda-files if not already there
+</span>        (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (boundp 'org-agenda-files)
+                   (not (member gcal-file org-agenda-files)))
+          (add-to-list 'org-agenda-files gcal-file)))))
+
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-c g p"</span> . org-gcal-post-at-point)
+   (<span class="org-string">"C-c g d"</span> . org-gcal-delete-at-point)
+   (<span class="org-string">"C-c g r"</span> . org-gcal-refresh-token)))
 
 (<span class="org-keyword">provide</span> '<span class="org-constant">note-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">note-conf.el ends here</span>
@@ -1433,8 +1539,8 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-orgde9be2b" class="outline-2">
-<h2 id="orgde9be2b"><span class="section-number-2">8.</span> Shell</h2>
+<div id="outline-container-org8d150d8" class="outline-2">
+<h2 id="org8d150d8"><span class="section-number-2">8.</span> Shell</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1501,33 +1607,17 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-org39e9ab3" class="outline-2">
-<h2 id="org39e9ab3"><span class="section-number-2">9.</span> Programming</h2>
+<div id="outline-container-orga2ef536" class="outline-2">
+<h2 id="orga2ef536"><span class="section-number-2">9.</span> Programming</h2>
 <div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-org602dd49" class="outline-3">
+<h3 id="org602dd49"><span class="section-number-3">9.1.</span> Common</h3>
+<div class="outline-text-3" id="text-9-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Summary  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package company
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(prog-mode . company-mode)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind (:map company-mode-map
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">             ("TAB" . company-indent-or-complete-common)
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">             ([tab] . company-indent-or-complete-common)
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">             :map company-active-map
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">             ("TAB"       . company-complete-selection)
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">             ([tab]       . company-complete-selection)
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">             ("&lt;backtab&gt;" . company-abort)
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">             ("C-g"       . company-abort)
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">             ("C-h"       . company-show-doc-buffer))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(company-idle-delay                nil)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(company-minimum-prefix-length     1)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(company-require-match-p           'never)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(company-frontends                 '(company-preview-frontend company-echo-metadata-frontend))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(company-backends                  '(company-capf))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(company-tooltip-align-annotations t))
 </span>
 (<span class="org-keyword">use-package</span> corfu
   <span class="org-builtin">:custom</span>
@@ -1544,83 +1634,6 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </span>  (corfu-candidate-overlay-mode 1)
   (global-set-key (kbd <span class="org-string">"C-&lt;tab&gt;"</span>) 'completion-at-point))
 
-(<span class="org-keyword">use-package</span> eglot
-  <span class="org-builtin">:ensure</span> nil
-  <span class="org-builtin">:custom</span>
-  (eglot-autoshutdown t)
-  (eglot-events-buffer-size 0)
-  (eglot-events-buffer-config '(<span class="org-builtin">:size</span> 0 <span class="org-builtin">:format</span> full))
-  (eglot-prefer-plaintext t)
-  (jsonrpc-event-hook nil)
-  (eglot-code-action-indications nil) <span class="org-comment-delimiter">;; </span><span class="org-comment">Emacs 31 -- annoying as hell
-</span>  <span class="org-builtin">:init</span>
-  (fset #'jsonrpc--log-event #'ignore)
-  <span class="org-builtin">:hook</span>
-  (mhtml-mode         . eglot-ensure)
-  (css-mode           . eglot-ensure)
-  (ja-mode            . eglot-ensure)
-  (js-ts-mode         . eglot-ensure)
-  (typescript-mode    . eglot-ensure)
-  (typescript-ts-mode . eglot-ensure)
-  (python-mode        . eglot-ensure)
-  (ruby-mode          . eglot-ensure)
-  (ruby-ts-mode       . eglot-ensure)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">((mhtml-mode
-</span>  <span class="org-comment-delimiter">;;   </span><span class="org-comment">css-mode
-</span>  <span class="org-comment-delimiter">;;   </span><span class="org-comment">;; css-ts-mode
-</span>  <span class="org-comment-delimiter">;;   </span><span class="org-comment">;; js-ts-mode
-</span>  <span class="org-comment-delimiter">;;   </span><span class="org-comment">;; typescript-ts-mode
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">   js-mode
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">   typescript-mode
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">   python-mode
-</span>  <span class="org-comment-delimiter">;;   </span><span class="org-comment">java-mode)
-</span>  <span class="org-comment-delimiter">;;  </span><span class="org-comment">. eglot-ensure)
-</span>  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span>
-               eglot-mode-map
-               (<span class="org-string">"C-c l a"</span> . eglot-code-actions)
-               (<span class="org-string">"C-c l o"</span> . eglot-code-actions-organize-imports)
-               (<span class="org-string">"C-c l r"</span> . eglot-rename)
-               (<span class="org-string">"C-c l f"</span> . eglot-format))
-  <span class="org-builtin">:config</span>
-  (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) <span class="org-string">"ruby-lsp"</span>)))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package lsp-mode
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">((java-mode          . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(java-ts-mode       . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(bash-ts-mode       . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(mhtml-mode         . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(js-ts-mode         . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(json-ts-mode       . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(typescript-mode    . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(typescript-ts-mode . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(python-mode        . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(python-ts-mode     . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(c-mode             . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(c-ts-mode          . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(clojure-mode       . lsp)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(ruby-mode          . lsp-deferred)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">(ruby-ts-mode       . lsp-deferred))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(lsp-keymap-prefix "C-c l")
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(lsp-enable-on-type-formatting nil)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(lsp-enable-indentation nil)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(lsp-completion-provider :none)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; https://github.com/sqls-server/sqls?tab=readme-ov-file#installation
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; https://github.com/sqls-server/sqls?tab=readme-ov-file#db-configuration
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(lsp-sqls-workspace-config-path "workspace")
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(lsp-sqls-connections nil)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(lsp-disabled-clients '(rubocop-ls solargraph sorbet-ls))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(lsp-ruby-use-bundler t)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(:map lsp-mode-map
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">       ("C-c l r" . lsp-rename)))
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package lsp-java
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:after lsp
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(java-mode . lsp))
-</span>
 (<span class="org-keyword">use-package</span> compile
   <span class="org-builtin">:ensure</span> nil
   <span class="org-comment-delimiter">;; </span><span class="org-comment">:hook
@@ -1677,21 +1690,9 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
   <span class="org-builtin">:hook</span>
   (sql-mode . sqlind-minor-mode))
 
-(<span class="org-keyword">use-package</span> typescript-mode <span class="org-builtin">:defer</span> t)
 (<span class="org-keyword">use-package</span> powershell <span class="org-builtin">:defer</span> t)
-(<span class="org-keyword">use-package</span> scss-mode <span class="org-builtin">:defer</span> t)
 (<span class="org-keyword">use-package</span> yaml-mode <span class="org-builtin">:defer</span> t)
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package python-mode
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:ensure nil
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:mode "\\.py\\'"
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer 't
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; :config
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; TODO: python related configs
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; TODO: python-ts-mode crashes when open .py files
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (add-to-list 'treesit-language-source-alist '(python "https://github.com/tree-sitter/tree-sitter-python" "master" "src"))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">)
-</span>
 (<span class="org-keyword">use-package</span> magit)
 
 (<span class="org-keyword">use-package</span> project
@@ -1724,96 +1725,6 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
   <span class="org-builtin">:hook</span>
   (eldoc-mode . eldoc-box-hover-mode))
 
-(<span class="org-keyword">use-package</span> dap-mode
-  <span class="org-builtin">:after</span> lsp-mode
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">:custom
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(dap-auto-configure-features '())
-</span>  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> dap-mode-map
-              (<span class="org-string">"C-c &lt;f9&gt;"</span> . dap-debug)
-              (<span class="org-string">"C-c &lt;f8&gt;"</span> . dap-breakpoint-toggle)
-              (<span class="org-string">"C-c d r"</span>  . dap-debug-restart)
-              (<span class="org-string">"&lt;f7&gt;"</span>     . dap-step-in)
-              (<span class="org-string">"&lt;f10&gt;"</span>    . dap-step-out)
-              (<span class="org-string">"&lt;f8&gt;"</span>     . dap-next)
-              (<span class="org-string">"&lt;f11&gt;"</span>    . dap-previous)
-              (<span class="org-string">"&lt;f9&gt;"</span>     . dap-continue)
-              (<span class="org-string">"C-c d q"</span>  . dap-disconnect)
-              (<span class="org-string">"C-c d e"</span>  . dap-eval)
-              (<span class="org-string">"C-c d v"</span>  . dap-eval-thing-at-point)
-              (<span class="org-string">"C-c d E"</span>  . dap-eval-region))
-  <span class="org-builtin">:config</span>
-  (dap-auto-configure-mode)
-  (<span class="org-keyword">require</span> '<span class="org-constant">dap-java</span>)
-  (<span class="org-keyword">require</span> '<span class="org-constant">dap-lldb</span>)
-  (<span class="org-keyword">require</span> '<span class="org-constant">dap-cpptools</span>)
-  (<span class="org-keyword">require</span> '<span class="org-constant">dap-gdb</span>)
-  (<span class="org-keyword">require</span> '<span class="org-constant">dap-gdb-lldb</span>)
-
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">(require 'dap-cpptools)
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(with-eval-after-load 'dap-mode
-</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">    (dap-register-debug-template
-</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">     "LLDB::Run"
-</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">     (list :type "lldb-vscode"
-</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">               :cwd  (expand-file-name (project-root (project-current)))
-</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">               :request "launch"
-</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">               :program (expand-file-name "bin/win32_game.exe" (project-root (project-current)))
-</span>  <span class="org-comment-delimiter">;;</span><span class="org-comment">               :name "LLDB::Run")))
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setq dap-lldb-debug-program '("C:/Users/douzone/.emacs.d/.extension/vscode/vadimcn.vscode-lldb/codelldb-win32-x64/extension/adapter/codelldb.exe"))
-</span>  )
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package evil
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:init
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(setq evil-disable-insert-state-bindings t)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(setq evil-move-beyond-eol t)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; :hook (prog-mode . evil-local-mode)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">)
-</span>
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">EGLOT
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">pip install python-lsp-server flake8
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">npm install -g typescript teypscript-language-server
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">npm install -g vscode-langservers-extracted
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package eglot
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:ensure nil
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-autoshutdown t)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-events-buffer-size 0)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-events-buffer-config '(:size 0 :format full))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-prefer-plaintext t)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(jsonrpc-event-hook nil)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eglot-code-action-indications nil) ;; Emacs 31 -- annoying as hell
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:init
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(fset #'jsonrpc--log-event #'ignore)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">((mhtml-mode
-</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">css-mode
-</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">;; css-ts-mode
-</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">;; js-ts-mode
-</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">;; typescript-ts-mode
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">      js-mode
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">      typescript-mode
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">      python-mode
-</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">java-mode)
-</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">. eglot-ensure)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind (:map
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               eglot-mode-map
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l a" . eglot-code-actions)
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l o" . eglot-code-actions-organize-imports)
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l r" . eglot-rename)
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l f" . eglot-format)))
-</span>
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">EGLOT-JAVA
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package eglot-java
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">((java-mode java-ts-mode)  . eglot-java-mode)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind (:map
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               eglot-java-mode-map
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l n" . eglot-java-file-new)
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l x" . eglot-java-run-main)
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l t" . eglot-java-run-test)
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l N" . eglot-java-project-new)
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l T" . eglot-java-project-build-task)
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">               ("C-c l R" . eglot-java-project-build-refresh)))
-</span>
 (<span class="org-keyword">use-package</span> elec-pair
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:defer</span>
@@ -1923,15 +1834,600 @@ and restart Flymake to apply the changes."</span>
   <span class="org-comment-delimiter">;; </span><span class="org-comment">:hook (before-save . whitespace-cleanup)
 </span>  )
 
-(<span class="org-keyword">provide</span> '<span class="org-constant">prog-conf</span>)
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el ends here</span>
+(<span class="org-keyword">use-package</span> vterm)
+(<span class="org-keyword">use-package</span> claude-code
+  <span class="org-builtin">:vc</span> (<span class="org-builtin">:url</span> <span class="org-string">"https://github.com/stevemolitor/claude-code.el"</span> <span class="org-builtin">:rev</span> <span class="org-builtin">:newest</span>)
+  <span class="org-builtin">:bind-keymap</span> (<span class="org-string">"C-c c"</span> . claude-code-command-map)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> claude-code-terminal-backend 'vterm)
+  <span class="org-builtin">:bind</span>
+  (<span class="org-builtin">:repeat-map</span> my-claude-code-map (<span class="org-string">"M"</span> . claude-code-cycle-mode)))
+
+(<span class="org-keyword">use-package</span> eglot
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 0)
+  (eglot-events-buffer-config '(<span class="org-builtin">:size</span> 0 <span class="org-builtin">:format</span> full))
+  (eglot-prefer-plaintext t)
+  (jsonrpc-event-hook nil)
+  (eglot-code-action-indications nil) <span class="org-comment-delimiter">;; </span><span class="org-comment">Emacs 31 -- annoying as hell
+</span>  (eglot-ignored-server-capabilities '(<span class="org-builtin">:workspaceFolders</span>))
+  <span class="org-builtin">:init</span>
+  (fset #'jsonrpc--log-event #'ignore)
+  <span class="org-builtin">:hook</span>
+  (mhtml-mode         . eglot-ensure)
+  (web-mode           . eglot-ensure)
+  (css-mode           . eglot-ensure)
+  (scss-mode          . eglot-ensure)
+  (ja-mode            . eglot-ensure)
+  (js-mode            . eglot-ensure)
+  (js2-mode           . eglot-ensure)
+  (js-ts-mode         . eglot-ensure)
+  (rjsx-mode          . eglot-ensure)
+  (typescript-mode    . eglot-ensure)
+  (typescript-ts-mode . eglot-ensure)
+  (tsx-ts-mode        . eglot-ensure)
+  (json-mode          . eglot-ensure)
+  (python-mode        . eglot-ensure)
+  (ruby-mode          . eglot-ensure)
+  (ruby-ts-mode       . eglot-ensure)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span>
+               eglot-mode-map
+               (<span class="org-string">"C-c l a"</span> . eglot-code-actions)
+               (<span class="org-string">"C-c l o"</span> . eglot-code-actions-organize-imports)
+               (<span class="org-string">"C-c l r"</span> . eglot-rename)
+               (<span class="org-string">"C-c l f"</span> . eglot-format))
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure language servers for web development
+</span>  (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) <span class="org-string">"ruby-lsp"</span>))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">web-mode: detect content type and use appropriate language server
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Eglot server functions receive (interactive) and optional contact args
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/eglot-web-mode-server</span> (<span class="org-type">&amp;optional</span> interactive)
+    <span class="org-doc">"Return appropriate language server for web-mode based on file extension.
+INTERACTIVE is passed by Eglot but not used here."</span>
+    (<span class="org-keyword">let</span> ((file (buffer-file-name)))
+      (<span class="org-keyword">cond</span>
+       ((<span class="org-keyword">and</span> file (string-match-p <span class="org-string">"\\.tsx?\\'"</span> file))
+        '(<span class="org-string">"typescript-language-server"</span> <span class="org-string">"--stdio"</span>))
+       ((<span class="org-keyword">and</span> file (string-match-p <span class="org-string">"\\.jsx?\\'"</span> file))
+        '(<span class="org-string">"typescript-language-server"</span> <span class="org-string">"--stdio"</span>))
+       (t
+        '(<span class="org-string">"vscode-html-language-server"</span> <span class="org-string">"--stdio"</span>)))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure web-mode server selection with smart detection
+</span>  (add-to-list 'eglot-server-programs
+               '(web-mode . fu/eglot-web-mode-server)))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgafd3e97" class="outline-2">
-<h2 id="orgafd3e97"><span class="section-number-2">10.</span> Miscellaneous</h2>
+<div id="outline-container-org987f030" class="outline-3">
+<h3 id="org987f030"><span class="section-number-3">9.2.</span> Web</h3>
+<div class="outline-text-3" id="text-9-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">web-mode: powerful mode for HTML, JSX, TSX, Vue, etc.
+</span>(<span class="org-keyword">use-package</span> web-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.html?\\'"</span> . web-mode)
+         (<span class="org-string">"\\.jsx?\\'"</span> . web-mode)
+         (<span class="org-string">"\\.tsx?\\'"</span> . web-mode)
+         (<span class="org-string">"\\.vue\\'"</span> . web-mode)
+         (<span class="org-string">"\\.njk\\'"</span> . web-mode)
+         (<span class="org-string">"\\.hbs\\'"</span> . web-mode)
+         (<span class="org-string">"\\.mustache\\'"</span> . web-mode))
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Indentation
+</span>  (web-mode-markup-indent-offset 2)
+  (web-mode-css-indent-offset 2)
+  (web-mode-code-indent-offset 2)
+  (web-mode-style-padding 2)
+  (web-mode-script-padding 2)
+  (web-mode-block-padding 0)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Syntax highlighting
+</span>  (web-mode-enable-css-colorization t)
+  (web-mode-enable-auto-pairing t)
+  (web-mode-enable-comment-keywords t)
+  (web-mode-enable-current-element-highlight t)
+  (web-mode-enable-current-column-highlight nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Content types
+</span>  (web-mode-content-types-alist
+   '((<span class="org-string">"jsx"</span> . <span class="org-string">"\\.js[x]?\\'"</span>)
+     (<span class="org-string">"tsx"</span> . <span class="org-string">"\\.ts[x]?\\'"</span>)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-close tags
+</span>  (web-mode-enable-auto-closing t)
+  (web-mode-enable-auto-quoting t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Comments
+</span>  (web-mode-comment-style 2)
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Better JSX/TSX detection
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">my-web-mode-hook</span> ()
+    <span class="org-doc">"Hooks for Web mode."</span>
+    (<span class="org-keyword">setq</span> web-mode-enable-part-face t)
+    (<span class="org-keyword">when</span> (string-match-p <span class="org-string">"\\.[jt]sx?\\'"</span> (buffer-file-name))
+      (<span class="org-keyword">setq-local</span> web-mode-content-type <span class="org-string">"jsx"</span>)
+      (<span class="org-keyword">setq-local</span> web-mode-enable-auto-indentation t)))
+
+  (add-hook 'web-mode-hook #'my-web-mode-hook))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">js2-mode: enhanced JavaScript editing
+</span>(<span class="org-keyword">use-package</span> js2-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.m?js\\'"</span>
+  <span class="org-builtin">:interpreter</span> <span class="org-string">"node"</span>
+  <span class="org-builtin">:custom</span>
+  (js2-basic-offset 2)
+  (js2-bounce-indent-p nil)
+  (js2-strict-missing-semi-warning nil)
+  (js2-missing-semi-one-line-override t)
+  (js-indent-level 2)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Disable js2-mode's syntax checking in favor of Flymake/LSP
+</span>  (<span class="org-keyword">setq</span> js2-mode-show-parse-errors nil)
+  (<span class="org-keyword">setq</span> js2-mode-show-strict-warnings nil))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">rjsx-mode: React JSX support
+</span>(<span class="org-keyword">use-package</span> rjsx-mode
+  <span class="org-builtin">:mode</span> (<span class="org-string">"components/.*\\.js\\'"</span> <span class="org-string">"\\.jsx\\'"</span>)
+  <span class="org-builtin">:custom</span>
+  (js2-basic-offset 2)
+  (js2-strict-missing-semi-warning nil))
+
+(<span class="org-keyword">use-package</span> typescript-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.ts\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (typescript-indent-level 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">TypeScript TSX mode
+</span>(<span class="org-keyword">use-package</span> tsx-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.tsx\\'"</span>
+  <span class="org-builtin">:config</span>
+  (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.tsx\\'"</span> . tsx-ts-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">JSON mode
+</span>(<span class="org-keyword">use-package</span> json-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.json\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (json-reformat:indent-width 2)
+  (js-indent-level 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">CSS/SCSS modes with modern features
+</span>(<span class="org-keyword">use-package</span> css-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.css\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (css-indent-offset 2))
+
+(<span class="org-keyword">use-package</span> scss-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.scss\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (css-indent-offset 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Add node_modules/.bin to exec-path (for project-local tools)
+</span>(<span class="org-keyword">use-package</span> add-node-modules-path
+  <span class="org-builtin">:hook</span> ((web-mode . add-node-modules-path)
+         (js-mode . add-node-modules-path)
+         (js2-mode . add-node-modules-path)
+         (rjsx-mode . add-node-modules-path)
+         (typescript-mode . add-node-modules-path)
+         (typescript-ts-mode . add-node-modules-path)
+         (tsx-ts-mode . add-node-modules-path)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">npm/yarn integration
+</span>(<span class="org-keyword">use-package</span> npm-mode
+  <span class="org-builtin">:commands</span> (npm-mode)
+  <span class="org-builtin">:hook</span> ((web-mode . npm-mode)
+         (js-mode . npm-mode)
+         (js2-mode . npm-mode)
+         (typescript-mode . npm-mode))
+  <span class="org-builtin">:init</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Set up keybindings after npm-mode loads
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">my-npm-mode-keybindings</span> ()
+    <span class="org-doc">"Set up npm-mode keybindings."</span>
+    (<span class="org-keyword">when</span> (boundp 'npm-mode-command-keymap)
+      (define-key npm-mode-command-keymap <span class="org-string">"n"</span> 'npm-mode-npm-run)
+      (define-key npm-mode-command-keymap <span class="org-string">"i"</span> 'npm-mode-npm-install)
+      (define-key npm-mode-command-keymap <span class="org-string">"t"</span> 'npm-mode-npm-test)
+      (define-key npm-mode-command-keymap <span class="org-string">"b"</span> 'npm-mode-npm-build)))
+  (add-hook 'npm-mode-hook 'my-npm-mode-keybindings))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Prettier formatting
+</span>(<span class="org-keyword">use-package</span> prettier
+  <span class="org-builtin">:commands</span> (prettier-prettify)
+  <span class="org-builtin">:hook</span> ((web-mode . prettier-mode)
+         (js-mode . prettier-mode)
+         (js2-mode . prettier-mode)
+         (rjsx-mode . prettier-mode)
+         (typescript-mode . prettier-mode)
+         (typescript-ts-mode . prettier-mode)
+         (tsx-ts-mode . prettier-mode)
+         (json-mode . prettier-mode)
+         (css-mode . prettier-mode)
+         (scss-mode . prettier-mode))
+  <span class="org-builtin">:custom</span>
+  (prettier-pre-warm 'full))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">ESLint integration via Flymake
+</span>(<span class="org-keyword">use-package</span> flymake-eslint
+  <span class="org-builtin">:hook</span> ((js-mode . flymake-eslint-enable)
+         (js2-mode . flymake-eslint-enable)
+         (rjsx-mode . flymake-eslint-enable)
+         (typescript-mode . flymake-eslint-enable)
+         (typescript-ts-mode . flymake-eslint-enable)
+         (tsx-ts-mode . flymake-eslint-enable)
+         (web-mode . flymake-eslint-enable)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Import JavaScript modules
+</span>(<span class="org-keyword">use-package</span> js-import
+  <span class="org-builtin">:after</span> js
+  <span class="org-builtin">:config</span>
+  (define-key js-mode-map (kbd <span class="org-string">"C-c i i"</span>) 'js-import)
+  (define-key js-mode-map (kbd <span class="org-string">"C-c i f"</span>) 'js-import-from-file))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">REST client for API testing
+</span>(<span class="org-keyword">use-package</span> restclient
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.rest\\'"</span> . restclient-mode)
+  <span class="org-builtin">:commands</span> (restclient-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Run Jest tests from Emacs
+</span>(<span class="org-keyword">use-package</span> jest
+  <span class="org-builtin">:commands</span> (jest jest-popup)
+  <span class="org-builtin">:custom</span>
+  (jest-executable <span class="org-string">"npx jest"</span>)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'js
+    (define-key js-mode-map (kbd <span class="org-string">"C-c t j"</span>) 'jest)
+    (define-key js-mode-map (kbd <span class="org-string">"C-c t p"</span>) 'jest-popup)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Indium: JavaScript debugging via Chrome DevTools Protocol
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative to dap-mode for web development
+</span>(<span class="org-keyword">use-package</span> indium
+  <span class="org-builtin">:commands</span> (indium-connect indium-launch indium-interaction-mode)
+  <span class="org-builtin">:hook</span> ((js-mode . indium-interaction-mode)
+         (js2-mode . indium-interaction-mode)
+         (rjsx-mode . indium-interaction-mode))
+  <span class="org-builtin">:custom</span>
+  (indium-chrome-executable
+   (<span class="org-keyword">cond</span>
+    ((eq system-type 'darwin)
+     <span class="org-string">"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"</span>)
+    ((eq system-type 'windows-nt)
+     <span class="org-string">"C:/Program Files/Google/Chrome/Application/chrome.exe"</span>)
+    (t <span class="org-string">"google-chrome"</span>)))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'indium-interaction
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-c"</span>) 'indium-eval-defun)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-e"</span>) 'indium-eval-last-node)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-r"</span>) 'indium-eval-region)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-b"</span>) 'indium-toggle-breakpoint)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-l"</span>) 'indium-list-breakpoints)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Skewer: Live web development with browser interaction
+</span>(<span class="org-keyword">use-package</span> skewer-mode
+  <span class="org-builtin">:commands</span> (skewer-mode run-skewer skewer-css-mode skewer-html-mode)
+  <span class="org-builtin">:hook</span> ((js-mode . skewer-mode)
+         (css-mode . skewer-css-mode)
+         (web-mode . skewer-html-mode))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'skewer-mode
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-k"</span>) 'skewer-load-buffer)
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-e"</span>) 'skewer-eval-last-expression)
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-r"</span>) 'skewer-eval-region)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Simple-httpd: built-in web server for testing
+</span>(<span class="org-keyword">use-package</span> simple-httpd
+  <span class="org-builtin">:commands</span> (httpd-start httpd-stop)
+  <span class="org-builtin">:custom</span>
+  (httpd-port 8000)
+  (httpd-host <span class="org-string">"localhost"</span>))
+
+(<span class="org-keyword">use-package</span> markdown-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"README\\.md\\'"</span> . gfm-mode)
+         (<span class="org-string">"\\.md\\'"</span> . markdown-mode)
+         (<span class="org-string">"\\.markdown\\'"</span> . markdown-mode))
+  <span class="org-builtin">:custom</span>
+  (markdown-split-window-direction 'right)
+  (markdown-command <span class="org-string">"multimarkdown"</span>)
+  (markdown-fontify-code-blocks-natively t))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el ends here</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgfb1bf25" class="outline-4">
+<h4 id="orgfb1bf25"><span class="section-number-4">9.2.1.</span> Required Local Dependencies</h4>
+<div class="outline-text-4" id="text-9-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgca324c2"></a>Language Servers for Eglot<br />
+<div class="outline-text-5" id="text-9-2-1-1">
+<pre class="example" id="orgec140b7">
+# TypeScript/JavaScript Language Server
+npm install -g typescript typescript-language-server
+
+# HTML/CSS/JSON Language Servers (vscode-langservers-extracted)
+npm install -g vscode-langservers-extracted
+
+# Tailwind CSS Language Server (optional, for Tailwind projects)
+npm install -g @tailwindcss/language-server
+</pre>
+</div>
+</li>
+
+<li><a id="org20bf895"></a>Code Formatting and Linting<br />
+<div class="outline-text-5" id="text-9-2-1-2">
+<pre class="example" id="org2cf2f68">
+# Prettier (code formatter)
+npm install -g prettier
+
+# ESLint (JavaScript/TypeScript linter)
+npm install -g eslint
+
+# For project-specific configs, install locally:
+# npm install --save-dev prettier eslint eslint-config-prettier
+</pre>
+</div>
+</li>
+
+<li><a id="orgb8b2a3f"></a>Debugging Tools<br />
+<div class="outline-text-5" id="text-9-2-1-3">
+<pre class="example" id="org7b5f0fd">
+# Chrome/Chromium browser for Indium debugging
+# macOS: Install Google Chrome from https://www.google.com/chrome/
+# Windows: Install Google Chrome from https://www.google.com/chrome/
+# Linux: sudo apt install google-chrome-stable
+</pre>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org88f2624" class="outline-4">
+<h4 id="org88f2624"><span class="section-number-4">9.2.2.</span> Emacs Packages</h4>
+<div class="outline-text-4" id="text-9-2-2">
+<p>
+All packages are installed automatically via use-package. Key packages include:
+</p>
+
+<ul class="org-ul">
+<li><b>web-mode</b>: Universal mode for HTML, JSX, TSX, Vue</li>
+<li><b>js2-mode</b>: Enhanced JavaScript editing</li>
+<li><b>rjsx-mode</b>: React JSX support</li>
+<li><b>typescript-mode</b>: TypeScript support</li>
+<li><b>prettier</b>: Code formatting</li>
+<li><b>flymake-eslint</b>: ESLint integration</li>
+<li><b>npm-mode</b>: npm/yarn command integration</li>
+<li><b>add-node-modules-path</b>: Automatic project-local tool detection</li>
+<li><b>indium</b>: Chrome DevTools debugging (alternative to dap-mode)</li>
+<li><b>skewer-mode</b>: Live browser interaction</li>
+<li><b>restclient</b>: HTTP API testing</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4828309" class="outline-4">
+<h4 id="org4828309"><span class="section-number-4">9.2.3.</span> Key Bindings</h4>
+<div class="outline-text-4" id="text-9-2-3">
+</div>
+<ol class="org-ol">
+<li><a id="org9ef303e"></a>Eglot (LSP) - Available in all web modes<br />
+<div class="outline-text-5" id="text-9-2-3-1">
+<ul class="org-ul">
+<li><code>C-c l a</code> - Code actions</li>
+<li><code>C-c l o</code> - Organize imports</li>
+<li><code>C-c l r</code> - Rename symbol</li>
+<li><code>C-c l f</code> - Format buffer/region</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org6c2d4d3"></a>npm-mode<br />
+<div class="outline-text-5" id="text-9-2-3-2">
+<p>
+npm-mode provides a prefix keymap for npm commands. Use <code>M-x npm-mode-npm-run</code> or access via the command keymap:
+</p>
+<ul class="org-ul">
+<li><code>n</code> (in npm-mode-command-keymap) - Run npm script</li>
+<li><code>i</code> (in npm-mode-command-keymap) - npm install</li>
+<li><code>t</code> (in npm-mode-command-keymap) - npm test</li>
+<li><code>b</code> (in npm-mode-command-keymap) - npm build</li>
+</ul>
+<p>
+Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>, etc. directly
+</p>
+</div>
+</li>
+
+<li><a id="orgca90ac2"></a>Jest Testing<br />
+<div class="outline-text-5" id="text-9-2-3-3">
+<ul class="org-ul">
+<li><code>C-c t j</code> - Run Jest tests</li>
+<li><code>C-c t p</code> - Jest test popup</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org864b6db"></a>JavaScript Import<br />
+<div class="outline-text-5" id="text-9-2-3-4">
+<ul class="org-ul">
+<li><code>C-c i i</code> - Import module</li>
+<li><code>C-c i f</code> - Import from file</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgefb9b7a"></a>Indium Debugging<br />
+<div class="outline-text-5" id="text-9-2-3-5">
+<ul class="org-ul">
+<li><code>C-c C-b</code> - Toggle breakpoint</li>
+<li><code>C-c C-c</code> - Evaluate function</li>
+<li><code>C-c C-e</code> - Evaluate expression</li>
+<li><code>C-c C-r</code> - Evaluate region</li>
+<li><code>C-c C-l</code> - List breakpoints</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgdeed39e"></a>Skewer (Live Development)<br />
+<div class="outline-text-5" id="text-9-2-3-6">
+<ul class="org-ul">
+<li><code>C-c C-k</code> - Load buffer to browser</li>
+<li><code>C-c C-e</code> - Evaluate expression in browser</li>
+<li><code>C-c C-r</code> - Evaluate region in browser</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org3d17122" class="outline-4">
+<h4 id="org3d17122"><span class="section-number-4">9.2.4.</span> Workflow Examples</h4>
+<div class="outline-text-4" id="text-9-2-4">
+</div>
+<ol class="org-ol">
+<li><a id="org6b4f278"></a>Starting a React/Next.js Project<br />
+<div class="outline-text-5" id="text-9-2-4-1">
+<ol class="org-ol">
+<li>Open project in Emacs</li>
+<li><code>M-x npm-mode-npm-install</code> (or <code>C-c n i</code>) to install dependencies</li>
+<li><code>M-x npm-mode-npm-run</code> (or <code>C-c n n</code>) and select "dev" to start dev server</li>
+<li>Open .jsx or .tsx files - web-mode will activate automatically</li>
+<li>Eglot will connect to typescript-language-server automatically</li>
+<li>Prettier will format on save (if enabled in project)</li>
+</ol>
+</div>
+</li>
+
+<li><a id="org5f4e62f"></a>Debugging with Indium<br />
+<div class="outline-text-5" id="text-9-2-4-2">
+<ol class="org-ol">
+<li>Start your dev server (e.g., <code>npm run dev</code>)</li>
+<li><code>M-x indium-launch</code> to start Chrome with debugging enabled</li>
+<li>Set breakpoints with <code>C-c C-b</code></li>
+<li>Interact with page, debugger will pause at breakpoints</li>
+<li>Evaluate expressions in context with <code>C-c C-e</code></li>
+</ol>
+</div>
+</li>
+
+<li><a id="org5c5d632"></a>Live Development with Skewer<br />
+<div class="outline-text-5" id="text-9-2-4-3">
+<ol class="org-ol">
+<li><code>M-x run-skewer</code> to start the server</li>
+<li>Open <code>http://localhost:8080</code> in browser</li>
+<li>Edit HTML/CSS/JS files</li>
+<li><code>C-c C-k</code> to instantly reload changes in browser</li>
+</ol>
+</div>
+</li>
+
+<li><a id="orgd55addd"></a>Testing APIs with restclient<br />
+<div class="outline-text-5" id="text-9-2-4-4">
+<ol class="org-ol">
+<li>Create a .rest file</li>
+<li><p>
+Write HTTP requests:
+</p>
+<pre class="example" id="org12dfa22">
+GET https://api.example.com/users
+Content-Type: application/json
+
+###
+
+POST https://api.example.com/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+</pre></li>
+<li><code>C-c C-c</code> on a request to execute it</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgdfedeb8" class="outline-4">
+<h4 id="orgdfedeb8"><span class="section-number-4">9.2.5.</span> Project Structure Recommendations</h4>
+<div class="outline-text-4" id="text-9-2-5">
+<p>
+For optimal Emacs integration, use these files in your projects:
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgf7ea29b"></a>.prettierrc.json<br />
+<div class="outline-text-5" id="text-9-2-5-1">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2
+}
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org81a8117"></a>.eslintrc.json<br />
+<div class="outline-text-5" id="text-9-2-5-2">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
+}
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org757f235"></a>tsconfig.json (for TypeScript projects)<br />
+<div class="outline-text-5" id="text-9-2-5-3">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7f78102" class="outline-2">
+<h2 id="org7f78102"><span class="section-number-2">10.</span> Miscellaneous</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2092,8 +2588,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-orgb5a895b" class="outline-2">
-<h2 id="orgb5a895b"><span class="section-number-2">11.</span> Linux</h2>
+<div id="outline-container-orgac8f280" class="outline-2">
+<h2 id="orgac8f280"><span class="section-number-2">11.</span> Linux</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">linux-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2115,8 +2611,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-orga1fceeb" class="outline-2">
-<h2 id="orga1fceeb"><span class="section-number-2">12.</span> MacOS</h2>
+<div id="outline-container-org843932d" class="outline-2">
+<h2 id="org843932d"><span class="section-number-2">12.</span> MacOS</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">macos-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2144,8 +2640,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org5181b16" class="outline-2">
-<h2 id="org5181b16"><span class="section-number-2">13.</span> Windows</h2>
+<div id="outline-container-org9346db9" class="outline-2">
+<h2 id="org9346db9"><span class="section-number-2">13.</span> Windows</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">windows-conf.el --- Summary  -*- lexical-binding: t; -*-

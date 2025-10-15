@@ -1,0 +1,1690 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs Lisp for Experienced Developers</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Emacs Lisp for Experienced Developers</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0c675bc">1. Introduction</a></li>
+<li><a href="#org04e4920">2. Basic Syntax and Evaluation</a>
+<ul>
+<li><a href="#org260f08c">2.1. S-expressions (Symbolic Expressions)</a></li>
+<li><a href="#org785e42e">2.2. Variables</a></li>
+</ul>
+</li>
+<li><a href="#org6eba3b5">3. Control Flow</a>
+<ul>
+<li><a href="#org72f237a">3.1. Conditionals</a>
+<ul>
+<li><a href="#orgf17891a">3.1.1. if/else</a></li>
+<li><a href="#orgb2a46f5">3.1.2. when and unless</a></li>
+<li><a href="#orgd0da749">3.1.3. cond (switch/case equivalent)</a></li>
+<li><a href="#orgd31e7ae">3.1.4. pcase (pattern matching)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org1018e00">4. Loops and Iteration</a>
+<ul>
+<li><a href="#org60d31f7">4.1. while loop</a></li>
+<li><a href="#org8a9a693">4.2. dotimes (for loop with counter)</a></li>
+<li><a href="#orgc45541b">4.3. dolist (foreach loop)</a></li>
+<li><a href="#orgc71d20e">4.4. cl-loop (powerful iteration macro)</a></li>
+<li><a href="#org135d5c7">4.5. mapcar (map/transform)</a></li>
+<li><a href="#org7cef91d">4.6. seq-filter (filter)</a></li>
+</ul>
+</li>
+<li><a href="#org19335ea">5. Recursion</a>
+<ul>
+<li><a href="#org556dbab">5.1. Understanding Tail-Call Optimization</a></li>
+<li><a href="#orgdb5c181">5.2. Simple Recursion</a></li>
+<li><a href="#org2232379">5.3. Tail Recursion with Named let</a></li>
+<li><a href="#orgc7a86ed">5.4. List Recursion</a></li>
+<li><a href="#org340f86b">5.5. Tree Recursion</a></li>
+</ul>
+</li>
+<li><a href="#org1d7eb00">6. Functions</a>
+<ul>
+<li><a href="#orgb64fd2e">6.1. Defining Functions</a></li>
+<li><a href="#org788e252">6.2. Lambda Functions (Anonymous Functions)</a></li>
+<li><a href="#org6ac8de6">6.3. Interactive Functions (Commands)</a></li>
+</ul>
+</li>
+<li><a href="#orgb53d9fe">7. Data Structures</a>
+<ul>
+<li><a href="#org8dfbb0f">7.1. Lists</a></li>
+<li><a href="#org20c1d94">7.2. Association Lists (alists)</a></li>
+<li><a href="#orgb960cbb">7.3. Hash Tables</a></li>
+<li><a href="#orgf2614f8">7.4. Vectors (Arrays)</a></li>
+</ul>
+</li>
+<li><a href="#org41971fa">8. String Operations</a></li>
+<li><a href="#org8c53c4b">9. Practical Emacs Functions</a>
+<ul>
+<li><a href="#org128720a">9.1. Buffer and File Manipulation</a>
+<ul>
+<li><a href="#org832e78d">9.1.1. Quick File Opening</a></li>
+<li><a href="#org855f5df">9.1.2. Duplicate Current Line</a></li>
+<li><a href="#org709adb0">9.1.3. Move Line Up/Down</a></li>
+</ul>
+</li>
+<li><a href="#org8d47d06">9.2. Text Processing</a>
+<ul>
+<li><a href="#org693496d">9.2.1. Sort Lines by Length</a></li>
+<li><a href="#org02e2a06">9.2.2. Insert UUID</a></li>
+<li><a href="#org6df682d">9.2.3. Count Words in Region</a></li>
+</ul>
+</li>
+<li><a href="#org7db26ae">9.3. Window and Buffer Management</a>
+<ul>
+<li><a href="#orgf6c9e90">9.3.1. Split Window and Move to It</a></li>
+<li><a href="#org51a06ed">9.3.2. Kill Other Buffers</a></li>
+<li><a href="#orge1acde5">9.3.3. Toggle Between Most Recent Buffers</a></li>
+</ul>
+</li>
+<li><a href="#orge52e908">9.4. Search and Navigation</a>
+<ul>
+<li><a href="#org0aefcd4">9.4.1. Search in Project</a></li>
+<li><a href="#org74610e4">9.4.2. Jump to Previous/Next Blank Line</a></li>
+</ul>
+</li>
+<li><a href="#org26a1e4d">9.5. Development Helpers</a>
+<ul>
+<li><a href="#org23c4981">9.5.1. Insert Current Timestamp</a></li>
+<li><a href="#orgde281ff">9.5.2. Comment or Uncomment Region with Repeat</a></li>
+<li><a href="#orgc921a75">9.5.3. Open URL at Point</a></li>
+</ul>
+</li>
+<li><a href="#orgfcb25ce">9.6. Automation and Workflow</a>
+<ul>
+<li><a href="#org23fbf3a">9.6.1. Auto-Insert File Headers</a></li>
+<li><a href="#org5e3199a">9.6.2. Quick Scratch Buffer</a></li>
+</ul>
+</li>
+<li><a href="#org8088085">9.7. Advanced: Macros and Code Generation</a>
+<ul>
+<li><a href="#org1d92975">9.7.1. Create Getters and Setters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org5823330">10. Error Handling</a></li>
+<li><a href="#org9dfef9f">11. Common Pitfalls for New Users</a>
+<ul>
+<li><a href="#org38499e8">11.1. 1. nil vs '()</a></li>
+<li><a href="#org0a632a1">11.2. 2. t vs non-nil</a></li>
+<li><a href="#orgd3b8969">11.3. 3. setq vs setf vs let</a></li>
+<li><a href="#org30959b5">11.4. 4. Quote vs Backquote</a></li>
+</ul>
+</li>
+<li><a href="#orgcff5fdb">12. Resources and Next Steps</a>
+<ul>
+<li><a href="#orgcc277d4">12.1. Learning More</a></li>
+<li><a href="#org3bc631d">12.2. Practice Exercises</a></li>
+<li><a href="#org54a2be7">12.3. Common Libraries</a></li>
+</ul>
+</li>
+<li><a href="#orgfcb5c41">13. Conclusion</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0c675bc" class="outline-2">
+<h2 id="org0c675bc"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+If you're coming from Python, JavaScript, Java, or similar languages, Emacs Lisp (Elisp) might look unfamiliar with its parentheses-heavy syntax. But don't worry the concepts are the same. This guide will help you map what you already know to Elisp idioms.
+</p>
+
+<p>
+Emacs Lisp is a dialect of Lisp that powers Emacs. It's dynamically typed, has first-class functions, and everything is built around S-expressions (symbolic expressions). The power of Elisp lies in its ability to extend and customize Emacs itself.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org04e4920" class="outline-2">
+<h2 id="org04e4920"><span class="section-number-2">2.</span> Basic Syntax and Evaluation</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org260f08c" class="outline-3">
+<h3 id="org260f08c"><span class="section-number-3">2.1.</span> S-expressions (Symbolic Expressions)</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+In Lisp, code and data share the same structure: lists enclosed in parentheses.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Function call: (function-name arg1 arg2 ...)
+</span>(+ 2 3)  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 5
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Compare to other languages:
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Python:     2 + 3
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">JavaScript: 2 + 3
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Java:       2 + 3</span>
+</pre>
+</div>
+
+<p>
+The first element in a list is the function, followed by its arguments. This is called "prefix notation."
+</p>
+</div>
+</div>
+
+<div id="outline-container-org785e42e" class="outline-3">
+<h3 id="org785e42e"><span class="section-number-3">2.2.</span> Variables</h3>
+<div class="outline-text-3" id="text-2-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Local variable (lexically scoped)
+</span>(<span class="org-keyword">let</span> ((name <span class="org-string">"Alice"</span>)
+      (age 30))
+  (message <span class="org-string">"Name: %s, Age: %d"</span> name age))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Global variable
+</span>(<span class="org-keyword">defvar</span> <span class="org-variable-name">my-global-var</span> 42
+  <span class="org-doc">"A global variable with documentation."</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Custom variable (user-configurable)
+</span>(<span class="org-keyword">defcustom</span> <span class="org-variable-name">my-custom-var</span> 100
+  <span class="org-doc">"A customizable variable."</span>
+  <span class="org-builtin">:type</span> 'integer
+  <span class="org-builtin">:group</span> 'my-package)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Set a variable
+</span>(<span class="org-keyword">setq</span> my-var 10)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Set multiple variables
+</span>(<span class="org-keyword">setq</span> x 1
+      y 2
+      z 3)
+</pre>
+</div>
+
+<p>
+Compare to other languages:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-variable-name">name</span> <span class="org-operator">=</span> <span class="org-string">"Alice"</span>
+<span class="org-variable-name">age</span> <span class="org-operator">=</span> 30
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript
+</span><span class="org-keyword">let</span> <span class="org-variable-name">name</span> = <span class="org-string">"Alice"</span>;
+<span class="org-keyword">let</span> <span class="org-variable-name">age</span> = 30;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6eba3b5" class="outline-2">
+<h2 id="org6eba3b5"><span class="section-number-2">3.</span> Control Flow</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org72f237a" class="outline-3">
+<h3 id="org72f237a"><span class="section-number-3">3.1.</span> Conditionals</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-orgf17891a" class="outline-4">
+<h4 id="orgf17891a"><span class="section-number-4">3.1.1.</span> if/else</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Basic if
+</span>(<span class="org-keyword">if</span> (&gt; x 10)
+    (message <span class="org-string">"x is greater than 10"</span>)
+  (message <span class="org-string">"x is 10 or less"</span>))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">if with multiple statements in then-branch
+</span>(<span class="org-keyword">if</span> (&lt; x 0)
+    (<span class="org-keyword">progn</span>
+      (message <span class="org-string">"x is negative"</span>)
+      (<span class="org-keyword">setq</span> x 0))
+  (message <span class="org-string">"x is non-negative"</span>))
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-keyword">if</span> x <span class="org-operator">&gt;</span> 10:
+    <span class="org-builtin">print</span>(<span class="org-string">"x is greater than 10"</span>)
+<span class="org-keyword">else</span>:
+    <span class="org-builtin">print</span>(<span class="org-string">"x is 10 or less"</span>)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript
+</span><span class="org-keyword">if</span> (x &gt; 10) {
+    console.log(<span class="org-string">"x is greater than 10"</span>);
+} <span class="org-keyword">else</span> {
+    console.log(<span class="org-string">"x is 10 or less"</span>);
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb2a46f5" class="outline-4">
+<h4 id="orgb2a46f5"><span class="section-number-4">3.1.2.</span> when and unless</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+These are cleaner for single-branch conditions:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">when: execute when condition is true
+</span>(<span class="org-keyword">when</span> (&gt; x 10)
+  (message <span class="org-string">"x is big"</span>)
+  (<span class="org-keyword">setq</span> x 0))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">unless: execute when condition is false
+</span>(<span class="org-keyword">unless</span> (file-exists-p <span class="org-string">"config.el"</span>)
+  (message <span class="org-string">"Config file not found"</span>)
+  (create-default-config))
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-keyword">if</span> x <span class="org-operator">&gt;</span> 10:
+    <span class="org-builtin">print</span>(<span class="org-string">"x is big"</span>)
+    <span class="org-variable-name">x</span> <span class="org-operator">=</span> 0
+
+<span class="org-keyword">if</span> <span class="org-keyword">not</span> os.path.exists(<span class="org-string">"config.el"</span>):
+    <span class="org-builtin">print</span>(<span class="org-string">"Config file not found"</span>)
+    create_default_config()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd0da749" class="outline-4">
+<h4 id="orgd0da749"><span class="section-number-4">3.1.3.</span> cond (switch/case equivalent)</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">cond</span>
+ ((&lt; x 0) (message <span class="org-string">"negative"</span>))
+ ((= x 0) (message <span class="org-string">"zero"</span>))
+ ((&lt; x 10) (message <span class="org-string">"small positive"</span>))
+ ((&lt; x 100) (message <span class="org-string">"medium positive"</span>))
+ (t (message <span class="org-string">"large positive"</span>)))  <span class="org-comment-delimiter">; </span><span class="org-comment">t is the default case (like "else")</span>
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-keyword">if</span> x <span class="org-operator">&lt;</span> 0:
+    <span class="org-builtin">print</span>(<span class="org-string">"negative"</span>)
+<span class="org-keyword">elif</span> x <span class="org-operator">==</span> 0:
+    <span class="org-builtin">print</span>(<span class="org-string">"zero"</span>)
+<span class="org-keyword">elif</span> x <span class="org-operator">&lt;</span> 10:
+    <span class="org-builtin">print</span>(<span class="org-string">"small positive"</span>)
+<span class="org-keyword">elif</span> x <span class="org-operator">&lt;</span> 100:
+    <span class="org-builtin">print</span>(<span class="org-string">"medium positive"</span>)
+<span class="org-keyword">else</span>:
+    <span class="org-builtin">print</span>(<span class="org-string">"large positive"</span>)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript (modern switch with fall-through prevention)
+</span><span class="org-keyword">switch</span> (<span class="org-constant">true</span>) {
+    <span class="org-keyword">case</span> x &lt; 0:
+        console.log(<span class="org-string">"negative"</span>);
+        <span class="org-keyword">break</span>;
+    <span class="org-keyword">case</span> x === 0:
+        console.log(<span class="org-string">"zero"</span>);
+        <span class="org-keyword">break</span>;
+    <span class="org-keyword">case</span> x &lt; 10:
+        console.log(<span class="org-string">"small positive"</span>);
+        <span class="org-keyword">break</span>;
+    <span class="org-keyword">case</span> x &lt; 100:
+        console.log(<span class="org-string">"medium positive"</span>);
+        <span class="org-keyword">break</span>;
+    <span class="org-keyword">default</span>:
+        console.log(<span class="org-string">"large positive"</span>);
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd31e7ae" class="outline-4">
+<h4 id="orgd31e7ae"><span class="section-number-4">3.1.4.</span> pcase (pattern matching)</h4>
+<div class="outline-text-4" id="text-3-1-4">
+<p>
+Modern Elisp has powerful pattern matching:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">pcase</span> value
+  ('nil (message <span class="org-string">"It's nil"</span>))
+  ('t (message <span class="org-string">"It's t"</span>))
+  (0 (message <span class="org-string">"It's zero"</span>))
+  ((pred stringp) (message <span class="org-string">"It's a string: %s"</span> value))
+  ((pred numberp) (message <span class="org-string">"It's a number: %d"</span> value))
+  (`(,a ,b) (message <span class="org-string">"It's a two-element list: %s, %s"</span> a b))
+  (_ (message <span class="org-string">"Something else"</span>)))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1018e00" class="outline-2">
+<h2 id="org1018e00"><span class="section-number-2">4.</span> Loops and Iteration</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org60d31f7" class="outline-3">
+<h3 id="org60d31f7"><span class="section-number-3">4.1.</span> while loop</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">let</span> ((i 0))
+  (<span class="org-keyword">while</span> (&lt; i 5)
+    (message <span class="org-string">"i = %d"</span> i)
+    (<span class="org-keyword">setq</span> i (1+ i))))
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-variable-name">i</span> <span class="org-operator">=</span> 0
+<span class="org-keyword">while</span> i <span class="org-operator">&lt;</span> 5:
+    <span class="org-builtin">print</span>(f<span class="org-string">"i = </span>{i}<span class="org-string">"</span>)
+    <span class="org-variable-name">i</span> <span class="org-operator">+=</span> 1
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8a9a693" class="outline-3">
+<h3 id="org8a9a693"><span class="section-number-3">4.2.</span> dotimes (for loop with counter)</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Loop from 0 to 4
+</span>(<span class="org-keyword">dotimes</span> (i 5)
+  (message <span class="org-string">"i = %d"</span> i))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">With result value
+</span>(<span class="org-keyword">dotimes</span> (i 5 <span class="org-string">"done"</span>)
+  (message <span class="org-string">"i = %d"</span> i))
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(5):
+    <span class="org-builtin">print</span>(f<span class="org-string">"i = </span>{i}<span class="org-string">"</span>)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript
+</span><span class="org-keyword">for</span> (<span class="org-keyword">let</span> <span class="org-variable-name">i</span> = 0; i &lt; 5; i++) {
+    console.log(<span class="org-string">`i = ${i}`</span>);
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc45541b" class="outline-3">
+<h3 id="orgc45541b"><span class="section-number-3">4.3.</span> dolist (foreach loop)</h3>
+<div class="outline-text-3" id="text-4-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">dolist</span> (item '(apple banana cherry))
+  (message <span class="org-string">"Fruit: %s"</span> item))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">With index using cl-loop
+</span>(<span class="org-keyword">require</span> '<span class="org-constant">cl-lib</span>)
+(<span class="org-keyword">cl-loop</span> for item in '(apple banana cherry)
+         for i from 0
+         do (message <span class="org-string">"%d: %s"</span> i item))
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-keyword">for</span> item <span class="org-keyword">in</span> [<span class="org-string">'apple'</span>, <span class="org-string">'banana'</span>, <span class="org-string">'cherry'</span>]:
+    <span class="org-builtin">print</span>(f<span class="org-string">"Fruit: </span>{item}<span class="org-string">"</span>)
+
+<span class="org-keyword">for</span> i, item <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>([<span class="org-string">'apple'</span>, <span class="org-string">'banana'</span>, <span class="org-string">'cherry'</span>]):
+    <span class="org-builtin">print</span>(f<span class="org-string">"</span>{i}<span class="org-string">: </span>{item}<span class="org-string">"</span>)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript
+</span>[<span class="org-string">'apple'</span>, <span class="org-string">'banana'</span>, <span class="org-string">'cherry'</span>].forEach(item =&gt; {
+    console.log(<span class="org-string">`Fruit: ${item}`</span>);
+});
+
+[<span class="org-string">'apple'</span>, <span class="org-string">'banana'</span>, <span class="org-string">'cherry'</span>].forEach((item, i) =&gt; {
+    console.log(<span class="org-string">`${i}: ${item}`</span>);
+});
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc71d20e" class="outline-3">
+<h3 id="orgc71d20e"><span class="section-number-3">4.4.</span> cl-loop (powerful iteration macro)</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+The <code>cl-loop</code> macro from Common Lisp is very powerful:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">cl-lib</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Collect squares
+</span>(<span class="org-keyword">cl-loop</span> for i from 1 to 5
+         collect (* i i))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; (1 4 9 16 25)
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Sum numbers
+</span>(<span class="org-keyword">cl-loop</span> for i from 1 to 10
+         sum i)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; 55
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Filter and transform
+</span>(<span class="org-keyword">cl-loop</span> for i from 1 to 10
+         when (cl-evenp i)
+         collect (* i 2))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; (4 8 12 16 20)
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Iterate over lists
+</span>(<span class="org-keyword">cl-loop</span> for item in '(1 2 3 4 5)
+         when (&gt; item 2)
+         collect item)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; (3 4 5)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org135d5c7" class="outline-3">
+<h3 id="org135d5c7"><span class="section-number-3">4.5.</span> mapcar (map/transform)</h3>
+<div class="outline-text-3" id="text-4-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Square each number
+</span>(mapcar (<span class="org-keyword">lambda</span> (x) (* x x)) '(1 2 3 4 5))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; (1 4 9 16 25)
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Convert to strings
+</span>(mapcar #'number-to-string '(1 2 3))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; ("1" "2" "3")</span>
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-builtin">list</span>(<span class="org-builtin">map</span>(<span class="org-keyword">lambda</span> x: x <span class="org-operator">*</span> x, [1, 2, 3, 4, 5]))
+<span class="org-comment-delimiter"># </span><span class="org-comment">or
+</span>[x <span class="org-operator">*</span> x <span class="org-keyword">for</span> x <span class="org-keyword">in</span> [1, 2, 3, 4, 5]]
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript
+</span>[1, 2, 3, 4, 5].map(x =&gt; x * x);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7cef91d" class="outline-3">
+<h3 id="org7cef91d"><span class="section-number-3">4.6.</span> seq-filter (filter)</h3>
+<div class="outline-text-3" id="text-4-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">seq</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Filter even numbers
+</span>(seq-filter (<span class="org-keyword">lambda</span> (x) (= (mod x 2) 0)) '(1 2 3 4 5 6))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; (2 4 6)
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Using cl-lib
+</span>(<span class="org-keyword">require</span> '<span class="org-constant">cl-lib</span>)
+(cl-remove-if-not #'cl-evenp '(1 2 3 4 5 6))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; (2 4 6)</span>
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-builtin">list</span>(<span class="org-builtin">filter</span>(<span class="org-keyword">lambda</span> x: x <span class="org-operator">%</span> 2 <span class="org-operator">==</span> 0, [1, 2, 3, 4, 5, 6]))
+<span class="org-comment-delimiter"># </span><span class="org-comment">or
+</span>[x <span class="org-keyword">for</span> x <span class="org-keyword">in</span> [1, 2, 3, 4, 5, 6] <span class="org-keyword">if</span> x <span class="org-operator">%</span> 2 <span class="org-operator">==</span> 0]
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org19335ea" class="outline-2">
+<h2 id="org19335ea"><span class="section-number-2">5.</span> Recursion</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Recursion in Elisp works just like other languages, but be aware that Elisp doesn't have tail-call optimization by default.
+</p>
+</div>
+
+<div id="outline-container-org556dbab" class="outline-3">
+<h3 id="org556dbab"><span class="section-number-3">5.1.</span> Understanding Tail-Call Optimization</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+In many functional programming languages, <b>tail-call optimization</b> (TCO) allows recursive functions to run without consuming stack space when the recursive call is in "tail position" (the last operation before returning). This means you can write recursive functions that iterate millions of times without stack overflow.
+</p>
+
+<p>
+Compare to other languages:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python - NO tail-call optimization
+</span><span class="org-comment-delimiter"># </span><span class="org-comment">This will cause a stack overflow with large n
+</span><span class="org-keyword">def</span> <span class="org-function-name">factorial</span>(n):
+    <span class="org-keyword">if</span> n <span class="org-operator">&lt;=</span> 1:
+        <span class="org-keyword">return</span> 1
+    <span class="org-keyword">return</span> n <span class="org-operator">*</span> factorial(n <span class="org-operator">-</span> 1)  <span class="org-comment-delimiter"># </span><span class="org-comment">NOT tail-recursive (multiplication happens after)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript - NO tail-call optimization in most engines
+</span><span class="org-comment-delimiter">// </span><span class="org-comment">(ES6 spec includes it, but most browsers don't implement it)
+</span><span class="org-keyword">function</span> <span class="org-function-name">factorial</span>(<span class="org-variable-name">n</span>, <span class="org-variable-name">acc</span> = 1) {
+    <span class="org-keyword">if</span> (n &lt;= 1) <span class="org-keyword">return</span> acc;
+    <span class="org-keyword">return</span> factorial(n - 1, n * acc);  <span class="org-comment-delimiter">// </span><span class="org-comment">tail-recursive, but not optimized
+</span>}
+</pre>
+</div>
+
+<p>
+<b>In Emacs Lisp</b>: By default, there is NO tail-call optimization. This means deeply recursive functions can exhaust the stack (<code>max-lisp-eval-depth</code>, default is around 800-1600). You have a few options:
+</p>
+
+<ol class="org-ol">
+<li><b>Use iteration instead</b> (while, dotimes, dolist) - most common approach</li>
+<li><b>Use <code>cl-labels</code></b> with tail recursion - not truly optimized, but cleaner code</li>
+<li><b>Increase <code>max-lisp-eval-depth</code></b> - temporary workaround, not recommended</li>
+<li><b>Use trampolining</b> - advanced technique to simulate TCO</li>
+</ol>
+
+<p>
+For most Emacs Lisp programming, prefer iteration over deep recursion. Recursion is great for tree structures and small problem sizes, but use loops for large datasets.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdb5c181" class="outline-3">
+<h3 id="orgdb5c181"><span class="section-number-3">5.2.</span> Simple Recursion</h3>
+<div class="outline-text-3" id="text-5-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Factorial
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">factorial</span> (n)
+  <span class="org-doc">"Calculate factorial of N."</span>
+  (<span class="org-keyword">if</span> (&lt;= n 1)
+      1
+    (* n (factorial (1- n)))))
+
+(factorial 5)  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 120
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Fibonacci
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fibonacci</span> (n)
+  <span class="org-doc">"Calculate the Nth Fibonacci number."</span>
+  (<span class="org-keyword">cond</span>
+   ((&lt;= n 0) 0)
+   ((= n 1) 1)
+   (t (+ (fibonacci (1- n))
+         (fibonacci (- n 2))))))
+
+(fibonacci 10)  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 55</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2232379" class="outline-3">
+<h3 id="org2232379"><span class="section-number-3">5.3.</span> Tail Recursion with Named let</h3>
+<div class="outline-text-3" id="text-5-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">cl-lib</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Tail-recursive factorial
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">factorial-tail</span> (n)
+  <span class="org-doc">"Calculate factorial using tail recursion."</span>
+  (<span class="org-keyword">cl-labels</span> ((fact-helper (n acc)
+                (<span class="org-keyword">if</span> (&lt;= n 1)
+                    acc
+                  (fact-helper (1- n) (* n acc)))))
+    (fact-helper n 1)))
+
+(factorial-tail 5)  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 120</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc7a86ed" class="outline-3">
+<h3 id="orgc7a86ed"><span class="section-number-3">5.4.</span> List Recursion</h3>
+<div class="outline-text-3" id="text-5-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Sum a list recursively
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">sum-list</span> (lst)
+  <span class="org-doc">"Sum all numbers in LST."</span>
+  (<span class="org-keyword">if</span> (null lst)
+      0
+    (+ (car lst) (sum-list (cdr lst)))))
+
+(sum-list '(1 2 3 4 5))  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 15
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Reverse a list
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">my-reverse</span> (lst)
+  <span class="org-doc">"Reverse LST recursively."</span>
+  (<span class="org-keyword">if</span> (null lst)
+      nil
+    (append (my-reverse (cdr lst)) (list (car lst)))))
+
+(my-reverse '(1 2 3 4 5))  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; (5 4 3 2 1)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org340f86b" class="outline-3">
+<h3 id="org340f86b"><span class="section-number-3">5.5.</span> Tree Recursion</h3>
+<div class="outline-text-3" id="text-5-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Flatten a nested list
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">flatten</span> (lst)
+  <span class="org-doc">"Flatten a nested list LST."</span>
+  (<span class="org-keyword">cond</span>
+   ((null lst) nil)
+   ((listp (car lst))
+    (append (flatten (car lst))
+            (flatten (cdr lst))))
+   (t (cons (car lst)
+            (flatten (cdr lst))))))
+
+(flatten '(1 (2 3) ((4) 5) 6))  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; (1 2 3 4 5 6)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1d7eb00" class="outline-2">
+<h2 id="org1d7eb00"><span class="section-number-2">6.</span> Functions</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgb64fd2e" class="outline-3">
+<h3 id="orgb64fd2e"><span class="section-number-3">6.1.</span> Defining Functions</h3>
+<div class="outline-text-3" id="text-6-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Basic function
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">greet</span> (name)
+  <span class="org-doc">"Greet NAME with a message."</span>
+  (message <span class="org-string">"Hello, %s!"</span> name))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Function with multiple parameters
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">add-numbers</span> (a b)
+  <span class="org-doc">"Add A and B and return the result."</span>
+  (+ a b))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Function with optional parameters
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">greet-optional</span> (name <span class="org-type">&amp;optional</span> title)
+  <span class="org-doc">"Greet NAME with optional TITLE."</span>
+  (<span class="org-keyword">if</span> title
+      (message <span class="org-string">"Hello, %s %s!"</span> title name)
+    (message <span class="org-string">"Hello, %s!"</span> name)))
+
+(greet-optional <span class="org-string">"Alice"</span>)          <span class="org-comment-delimiter">; </span><span class="org-comment">"Hello, Alice!"
+</span>(greet-optional <span class="org-string">"Alice"</span> <span class="org-string">"Dr."</span>)    <span class="org-comment-delimiter">; </span><span class="org-comment">"Hello, Dr. Alice!"
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Function with rest parameters
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">sum-all</span> (<span class="org-type">&amp;rest</span> numbers)
+  <span class="org-doc">"Sum all NUMBERS."</span>
+  (apply #'+ numbers))
+
+(sum-all 1 2 3 4 5)  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 15</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org788e252" class="outline-3">
+<h3 id="org788e252"><span class="section-number-3">6.2.</span> Lambda Functions (Anonymous Functions)</h3>
+<div class="outline-text-3" id="text-6-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Lambda function
+</span>(<span class="org-keyword">lambda</span> (x) (* x x))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Using lambda with funcall
+</span>(funcall (<span class="org-keyword">lambda</span> (x) (* x x)) 5)  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 25
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Using lambda with mapcar
+</span>(mapcar (<span class="org-keyword">lambda</span> (x) (* x 2)) '(1 2 3 4 5))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; (2 4 6 8 10)
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Storing lambda in a variable
+</span>(<span class="org-keyword">setq</span> square (<span class="org-keyword">lambda</span> (x) (* x x)))
+(funcall square 5)  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 25</span>
+</pre>
+</div>
+
+<p>
+Compare to:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Python
+</span><span class="org-variable-name">square</span> <span class="org-operator">=</span> <span class="org-keyword">lambda</span> x: x <span class="org-operator">*</span> x
+square(5)  <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; 25
+</span>
+<span class="org-builtin">list</span>(<span class="org-builtin">map</span>(<span class="org-keyword">lambda</span> x: x <span class="org-operator">*</span> 2, [1, 2, 3, 4, 5]))
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript
+</span><span class="org-keyword">const</span> <span class="org-variable-name">square</span> = x =&gt; x * x;
+square(5);  <span class="org-comment-delimiter">// </span><span class="org-comment">=&gt; 25
+</span>
+[1, 2, 3, 4, 5].map(x =&gt; x * 2);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6ac8de6" class="outline-3">
+<h3 id="org6ac8de6"><span class="section-number-3">6.3.</span> Interactive Functions (Commands)</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Interactive functions can be called with <code>M-x</code> or bound to keys:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">insert-current-date</span> ()
+  <span class="org-doc">"Insert the current date at point."</span>
+  (<span class="org-keyword">interactive</span>)
+  (insert (format-time-string <span class="org-string">"%Y-%m-%d"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">With prefix argument
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">insert-date</span> (arg)
+  <span class="org-doc">"Insert date. With ARG, include time."</span>
+  (<span class="org-keyword">interactive</span> <span class="org-string">"P"</span>)
+  (insert (format-time-string
+           (<span class="org-keyword">if</span> arg <span class="org-string">"%Y-%m-%d %H:%M:%S"</span> <span class="org-string">"%Y-%m-%d"</span>))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Reading from minibuffer
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">greet-user</span> (name)
+  <span class="org-doc">"Greet user by NAME."</span>
+  (<span class="org-keyword">interactive</span> <span class="org-string">"sEnter your name: "</span>)
+  (message <span class="org-string">"Hello, %s!"</span> name))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb53d9fe" class="outline-2">
+<h2 id="orgb53d9fe"><span class="section-number-2">7.</span> Data Structures</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org8dfbb0f" class="outline-3">
+<h3 id="org8dfbb0f"><span class="section-number-3">7.1.</span> Lists</h3>
+<div class="outline-text-3" id="text-7-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Creating lists
+</span>(<span class="org-keyword">setq</span> my-list '(1 2 3 4 5))
+(<span class="org-keyword">setq</span> my-list (list 1 2 3 4 5))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Accessing elements
+</span>(car my-list)     <span class="org-comment-delimiter">; </span><span class="org-comment">First element =&gt; 1
+</span>(cdr my-list)     <span class="org-comment-delimiter">; </span><span class="org-comment">Rest of list =&gt; (2 3 4 5)
+</span>(nth 2 my-list)   <span class="org-comment-delimiter">; </span><span class="org-comment">Third element (0-indexed) =&gt; 3
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Adding elements
+</span>(cons 0 my-list)              <span class="org-comment-delimiter">; </span><span class="org-comment">Add to front =&gt; (0 1 2 3 4 5)
+</span>(append my-list '(6 7))       <span class="org-comment-delimiter">; </span><span class="org-comment">Concatenate =&gt; (1 2 3 4 5 6 7)
+</span>(<span class="org-keyword">push</span> 0 my-list)              <span class="org-comment-delimiter">; </span><span class="org-comment">Modify my-list, add to front
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Length
+</span>(length my-list)              <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 5
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Checking membership
+</span>(member 3 my-list)            <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; (3 4 5)
+</span>(memq 'a '(a b c))            <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; (a b c)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org20c1d94" class="outline-3">
+<h3 id="org20c1d94"><span class="section-number-3">7.2.</span> Association Lists (alists)</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+Like dictionaries or hash maps:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Creating an alist
+</span>(<span class="org-keyword">setq</span> person '((name . <span class="org-string">"Alice"</span>)
+               (age . 30)
+               (city . <span class="org-string">"New York"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Accessing values
+</span>(alist-get 'name person)           <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "Alice"
+</span>(cdr (assq 'age person))           <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 30
+</span>(assoc-default 'city person)       <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "New York"
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Adding/updating entries
+</span>(<span class="org-keyword">push</span> '(job . <span class="org-string">"Engineer"</span>) person)
+(<span class="org-keyword">setf</span> (alist-get 'age person) 31)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb960cbb" class="outline-3">
+<h3 id="orgb960cbb"><span class="section-number-3">7.3.</span> Hash Tables</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+For large datasets, hash tables are more efficient:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Creating a hash table
+</span>(<span class="org-keyword">setq</span> my-table (make-hash-table <span class="org-builtin">:test</span> 'equal))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Adding values
+</span>(puthash <span class="org-string">"name"</span> <span class="org-string">"Alice"</span> my-table)
+(puthash <span class="org-string">"age"</span> 30 my-table)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Getting values
+</span>(gethash <span class="org-string">"name"</span> my-table)          <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "Alice"
+</span>(gethash <span class="org-string">"job"</span> my-table <span class="org-string">"Unknown"</span>) <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "Unknown" (default)
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Checking if key exists
+</span>(gethash <span class="org-string">"age"</span> my-table)           <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 30
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Iterating
+</span>(maphash (<span class="org-keyword">lambda</span> (key value)
+           (message <span class="org-string">"%s: %s"</span> key value))
+         my-table)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Number of entries
+</span>(hash-table-count my-table)        <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 2</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf2614f8" class="outline-3">
+<h3 id="orgf2614f8"><span class="section-number-3">7.4.</span> Vectors (Arrays)</h3>
+<div class="outline-text-3" id="text-7-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Creating vectors
+</span>(<span class="org-keyword">setq</span> my-vector [1 2 3 4 5])
+(<span class="org-keyword">setq</span> my-vector (vector 1 2 3 4 5))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Accessing elements
+</span>(aref my-vector 0)                 <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 1
+</span>(elt my-vector 2)                  <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 3
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Setting elements
+</span>(aset my-vector 0 10)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Length
+</span>(length my-vector)                 <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 5
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Converting between lists and vectors
+</span>(vconcat '(1 2 3))                <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; [1 2 3]
+</span>(append [1 2 3] nil)              <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; (1 2 3)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org41971fa" class="outline-2">
+<h2 id="org41971fa"><span class="section-number-2">8.</span> String Operations</h2>
+<div class="outline-text-2" id="text-8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">String concatenation
+</span>(concat <span class="org-string">"Hello"</span> <span class="org-string">", "</span> <span class="org-string">"World!"</span>)     <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "Hello, World!"
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Format strings
+</span>(format <span class="org-string">"Name: %s, Age: %d"</span> <span class="org-string">"Alice"</span> 30)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; "Name: Alice, Age: 30"
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">String length
+</span>(length <span class="org-string">"hello"</span>)                   <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; 5
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Substring
+</span>(substring <span class="org-string">"hello world"</span> 0 5)      <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "hello"
+</span>(substring <span class="org-string">"hello world"</span> 6)        <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "world"
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">String comparison
+</span>(string= <span class="org-string">"abc"</span> <span class="org-string">"abc"</span>)              <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; t
+</span>(string&lt; <span class="org-string">"abc"</span> <span class="org-string">"def"</span>)              <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; t
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Case conversion
+</span>(upcase <span class="org-string">"hello"</span>)                   <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "HELLO"
+</span>(downcase <span class="org-string">"HELLO"</span>)                 <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "hello"
+</span>(capitalize <span class="org-string">"hello world"</span>)         <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "Hello World"
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Split string
+</span>(split-string <span class="org-string">"one,two,three"</span> <span class="org-string">","</span>) <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; ("one" "two" "three")
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Join strings
+</span>(mapconcat #'identity '(<span class="org-string">"a"</span> <span class="org-string">"b"</span> <span class="org-string">"c"</span>) <span class="org-string">","</span>)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; "a,b,c"
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">String replacement
+</span>(replace-regexp-in-string <span class="org-string">"world"</span> <span class="org-string">"Emacs"</span> <span class="org-string">"hello world"</span>)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; "hello Emacs"
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Trimming whitespace
+</span>(string-trim <span class="org-string">"  hello  "</span>)          <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "hello"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8c53c4b" class="outline-2">
+<h2 id="org8c53c4b"><span class="section-number-2">9.</span> Practical Emacs Functions</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Here are some useful functions that demonstrate real-world Elisp usage and can inspire your own customizations.
+</p>
+</div>
+
+<div id="outline-container-org128720a" class="outline-3">
+<h3 id="org128720a"><span class="section-number-3">9.1.</span> Buffer and File Manipulation</h3>
+<div class="outline-text-3" id="text-9-1">
+</div>
+<div id="outline-container-org832e78d" class="outline-4">
+<h4 id="org832e78d"><span class="section-number-4">9.1.1.</span> Quick File Opening</h4>
+<div class="outline-text-4" id="text-9-1-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">open-config-file</span> ()
+  <span class="org-doc">"Quickly open the Emacs configuration file."</span>
+  (<span class="org-keyword">interactive</span>)
+  (find-file user-init-file))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bind it to a key
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "C-c e c") #'open-config-file)</span>
+</pre>
+</div>
+
+<p>
+Why this is useful: Instead of navigating through directories, you can instantly open your config file. This pattern works for any frequently-accessed file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org855f5df" class="outline-4">
+<h4 id="org855f5df"><span class="section-number-4">9.1.2.</span> Duplicate Current Line</h4>
+<div class="outline-text-4" id="text-9-1-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">duplicate-line</span> ()
+  <span class="org-doc">"Duplicate the current line."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((line-content (buffer-substring-no-properties
+                       (line-beginning-position)
+                       (line-end-position))))
+    (end-of-line)
+    (newline)
+    (insert line-content)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bind to C-c d
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "C-c d") #'duplicate-line)</span>
+</pre>
+</div>
+
+<p>
+Why this is useful: Many modern editors have this feature built-in. This shows how to work with buffer positions and text manipulation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org709adb0" class="outline-4">
+<h4 id="org709adb0"><span class="section-number-4">9.1.3.</span> Move Line Up/Down</h4>
+<div class="outline-text-4" id="text-9-1-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">move-line-up</span> ()
+  <span class="org-doc">"Move the current line up."</span>
+  (<span class="org-keyword">interactive</span>)
+  (transpose-lines 1)
+  (forward-line -2))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">move-line-down</span> ()
+  <span class="org-doc">"Move the current line down."</span>
+  (<span class="org-keyword">interactive</span>)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bind to M-up and M-down
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "M-&lt;up&gt;") #'move-line-up)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "M-&lt;down&gt;") #'move-line-down)</span>
+</pre>
+</div>
+
+<p>
+Why this is useful: Quick line reordering without cut-paste. Demonstrates cursor movement and line manipulation.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8d47d06" class="outline-3">
+<h3 id="org8d47d06"><span class="section-number-3">9.2.</span> Text Processing</h3>
+<div class="outline-text-3" id="text-9-2">
+</div>
+<div id="outline-container-org693496d" class="outline-4">
+<h4 id="org693496d"><span class="section-number-4">9.2.1.</span> Sort Lines by Length</h4>
+<div class="outline-text-4" id="text-9-2-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">sort-lines-by-length</span> (reverse beg end)
+  <span class="org-doc">"Sort lines in region by length.
+With prefix arg REVERSE, sort in descending order."</span>
+  (<span class="org-keyword">interactive</span> <span class="org-string">"P\nr"</span>)
+  (<span class="org-keyword">save-excursion</span>
+    (<span class="org-keyword">save-restriction</span>
+      (narrow-to-region beg end)
+      (goto-char (point-min))
+      (<span class="org-keyword">let</span> ((inhibit-field-text-motion t))
+        (sort-subr reverse
+                   #'forward-line
+                   #'end-of-line
+                   nil nil
+                   (<span class="org-keyword">lambda</span> (l1 l2)
+                     (&lt; (length (buffer-substring-no-properties
+                                 (car l1) (cdr l1)))
+                        (length (buffer-substring-no-properties
+                                 (car l2) (cdr l2))))))))))
+</pre>
+</div>
+
+<p>
+Why this is useful: Shows advanced region manipulation and custom sorting. Useful for organizing imports or data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org02e2a06" class="outline-4">
+<h4 id="org02e2a06"><span class="section-number-4">9.2.2.</span> Insert UUID</h4>
+<div class="outline-text-4" id="text-9-2-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">insert-uuid</span> ()
+  <span class="org-doc">"Insert a UUID at point."</span>
+  (<span class="org-keyword">interactive</span>)
+  (insert (string-trim (shell-command-to-string <span class="org-string">"uuidgen"</span>))))
+</pre>
+</div>
+
+<p>
+Why this is useful: Demonstrates calling external commands and inserting their output.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6df682d" class="outline-4">
+<h4 id="org6df682d"><span class="section-number-4">9.2.3.</span> Count Words in Region</h4>
+<div class="outline-text-4" id="text-9-2-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">count-words-region</span> (beg end)
+  <span class="org-doc">"Count words in region and display in minibuffer."</span>
+  (<span class="org-keyword">interactive</span> <span class="org-string">"r"</span>)
+  (<span class="org-keyword">let</span> ((words (count-words beg end))
+        (chars (- end beg))
+        (lines (count-lines beg end)))
+    (message <span class="org-string">"Region has %d words, %d characters, %d lines"</span>
+             words chars lines)))
+</pre>
+</div>
+
+<p>
+Why this is useful: Provides quick statistics about selected text. Shows how to work with regions.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7db26ae" class="outline-3">
+<h3 id="org7db26ae"><span class="section-number-3">9.3.</span> Window and Buffer Management</h3>
+<div class="outline-text-3" id="text-9-3">
+</div>
+<div id="outline-container-orgf6c9e90" class="outline-4">
+<h4 id="orgf6c9e90"><span class="section-number-4">9.3.1.</span> Split Window and Move to It</h4>
+<div class="outline-text-4" id="text-9-3-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">split-window-below-and-focus</span> ()
+  <span class="org-doc">"Split window horizontally and move to the new window."</span>
+  (<span class="org-keyword">interactive</span>)
+  (split-window-below)
+  (other-window 1))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">split-window-right-and-focus</span> ()
+  <span class="org-doc">"Split window vertically and move to the new window."</span>
+  (<span class="org-keyword">interactive</span>)
+  (split-window-right)
+  (other-window 1))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bind them
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "C-x 2") #'split-window-below-and-focus)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "C-x 3") #'split-window-right-and-focus)</span>
+</pre>
+</div>
+
+<p>
+Why this is useful: Improves the default split behavior by automatically moving focus. Small quality-of-life improvement.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org51a06ed" class="outline-4">
+<h4 id="org51a06ed"><span class="section-number-4">9.3.2.</span> Kill Other Buffers</h4>
+<div class="outline-text-4" id="text-9-3-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">kill-other-buffers</span> ()
+  <span class="org-doc">"Kill all buffers except the current one."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">when</span> (yes-or-no-p <span class="org-string">"Kill all other buffers? "</span>)
+    (<span class="org-keyword">let</span> ((current-buf (current-buffer)))
+      (<span class="org-keyword">dolist</span> (buffer (buffer-list))
+        (<span class="org-keyword">unless</span> (<span class="org-keyword">or</span> (eq buffer current-buf)
+                    (string-prefix-p <span class="org-string">" "</span> (buffer-name buffer)))
+          (kill-buffer buffer))))
+    (message <span class="org-string">"Killed all other buffers"</span>)))
+</pre>
+</div>
+
+<p>
+Why this is useful: Clean workspace quickly. Shows buffer iteration and filtering.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge1acde5" class="outline-4">
+<h4 id="orge1acde5"><span class="section-number-4">9.3.3.</span> Toggle Between Most Recent Buffers</h4>
+<div class="outline-text-4" id="text-9-3-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">switch-to-previous-buffer</span> ()
+  <span class="org-doc">"Switch to the most recently used buffer."</span>
+  (<span class="org-keyword">interactive</span>)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bind to C-c b
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "C-c b") #'switch-to-previous-buffer)</span>
+</pre>
+</div>
+
+<p>
+Why this is useful: Quick toggling between two files, like Alt+Tab for buffers.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge52e908" class="outline-3">
+<h3 id="orge52e908"><span class="section-number-3">9.4.</span> Search and Navigation</h3>
+<div class="outline-text-3" id="text-9-4">
+</div>
+<div id="outline-container-org0aefcd4" class="outline-4">
+<h4 id="org0aefcd4"><span class="section-number-4">9.4.1.</span> Search in Project</h4>
+<div class="outline-text-4" id="text-9-4-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">search-in-project</span> (search-term)
+  <span class="org-doc">"Search for SEARCH-TERM in project using grep."</span>
+  (<span class="org-keyword">interactive</span> <span class="org-string">"sSearch term: "</span>)
+  (<span class="org-keyword">let</span> ((default-directory (project-root (project-current t))))
+    (grep-find (format <span class="org-string">"find . -type f -not -path '</span><span class="org-string"><span class="org-constant">*/\\.*</span></span><span class="org-string">' -exec grep -nH '</span><span class="org-string"><span class="org-constant">%s</span></span><span class="org-string">' {} +"</span>
+                       search-term))))
+</pre>
+</div>
+
+<p>
+Why this is useful: Quick project-wide search. Shows integration with external tools and project handling.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org74610e4" class="outline-4">
+<h4 id="org74610e4"><span class="section-number-4">9.4.2.</span> Jump to Previous/Next Blank Line</h4>
+<div class="outline-text-4" id="text-9-4-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">jump-to-previous-blank-line</span> ()
+  <span class="org-doc">"Jump to the previous blank line."</span>
+  (<span class="org-keyword">interactive</span>)
+  (re-search-backward <span class="org-string">"^[[:space:]]*$"</span> nil t))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">jump-to-next-blank-line</span> ()
+  <span class="org-doc">"Jump to the next blank line."</span>
+  (<span class="org-keyword">interactive</span>)
+  (forward-line 1)
+  (re-search-forward <span class="org-string">"^[[:space:]]*$"</span> nil t)
+  (beginning-of-line))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bind them
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "M-p") #'jump-to-previous-blank-line)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "M-n") #'jump-to-next-blank-line)</span>
+</pre>
+</div>
+
+<p>
+Why this is useful: Navigate by logical blocks instead of lines. Shows regex searching in buffers.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org26a1e4d" class="outline-3">
+<h3 id="org26a1e4d"><span class="section-number-3">9.5.</span> Development Helpers</h3>
+<div class="outline-text-3" id="text-9-5">
+</div>
+<div id="outline-container-org23c4981" class="outline-4">
+<h4 id="org23c4981"><span class="section-number-4">9.5.1.</span> Insert Current Timestamp</h4>
+<div class="outline-text-4" id="text-9-5-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">insert-timestamp</span> ()
+  <span class="org-doc">"Insert current timestamp in ISO 8601 format."</span>
+  (<span class="org-keyword">interactive</span>)
+  (insert (format-time-string <span class="org-string">"%Y-%m-%d %H:%M:%S"</span>)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">insert-date</span> ()
+  <span class="org-doc">"Insert current date."</span>
+  (<span class="org-keyword">interactive</span>)
+  (insert (format-time-string <span class="org-string">"%Y-%m-%d"</span>)))
+</pre>
+</div>
+
+<p>
+Why this is useful: Quick logging and note-taking. Shows time formatting.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgde281ff" class="outline-4">
+<h4 id="orgde281ff"><span class="section-number-4">9.5.2.</span> Comment or Uncomment Region with Repeat</h4>
+<div class="outline-text-4" id="text-9-5-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">toggle-comment-line-or-region</span> ()
+  <span class="org-doc">"Comment or uncomment the current line or region."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">if</span> (use-region-p)
+      (comment-or-uncomment-region (region-beginning) (region-end))
+    (comment-or-uncomment-region (line-beginning-position) (line-end-position))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bind to C-c c
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(global-set-key (kbd "C-c c") #'toggle-comment-line-or-region)</span>
+</pre>
+</div>
+
+<p>
+Why this is useful: Unified commenting that works on both regions and lines. Shows region detection.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc921a75" class="outline-4">
+<h4 id="orgc921a75"><span class="section-number-4">9.5.3.</span> Open URL at Point</h4>
+<div class="outline-text-4" id="text-9-5-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">open-url-at-point</span> ()
+  <span class="org-doc">"Open URL at point in default browser."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((url (thing-at-point 'url)))
+    (<span class="org-keyword">if</span> url
+        (browse-url url)
+      (message <span class="org-string">"No URL found at point"</span>))))
+</pre>
+</div>
+
+<p>
+Why this is useful: Quick link opening from any buffer. Shows text property detection.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfcb25ce" class="outline-3">
+<h3 id="orgfcb25ce"><span class="section-number-3">9.6.</span> Automation and Workflow</h3>
+<div class="outline-text-3" id="text-9-6">
+</div>
+<div id="outline-container-org23fbf3a" class="outline-4">
+<h4 id="org23fbf3a"><span class="section-number-4">9.6.1.</span> Auto-Insert File Headers</h4>
+<div class="outline-text-4" id="text-9-6-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">insert-elisp-header</span> ()
+  <span class="org-doc">"Insert a standard header for Emacs Lisp files."</span>
+  (<span class="org-keyword">interactive</span>)
+  (goto-char (point-min))
+  (insert (format <span class="org-string">";;; %s --- Summary -*- lexical-binding: t -*-\n\n"</span>
+                  (file-name-nondirectory buffer-file-name)))
+  (insert <span class="org-string">";;; Commentary:\n\n"</span>)
+  (insert <span class="org-string">";; Description here\n\n"</span>)
+  (insert <span class="org-string">";;; Code:\n\n\n\n"</span>)
+  (insert (format <span class="org-string">"(provide '%s)\n"</span>
+                  (file-name-base buffer-file-name)))
+  (insert (format <span class="org-string">";;; %s ends here\n"</span>
+                  (file-name-nondirectory buffer-file-name)))
+  (goto-char (point-min))
+  (search-forward <span class="org-string">";;; Code:\n\n"</span>))
+</pre>
+</div>
+
+<p>
+Why this is useful: Standardizes file structure. Shows file name manipulation and cursor positioning.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5e3199a" class="outline-4">
+<h4 id="org5e3199a"><span class="section-number-4">9.6.2.</span> Quick Scratch Buffer</h4>
+<div class="outline-text-4" id="text-9-6-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">create-scratch-buffer</span> ()
+  <span class="org-doc">"Create a new scratch buffer."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((buffer-name (format <span class="org-string">"*scratch-%s*"</span>
+                             (format-time-string <span class="org-string">"%Y%m%d-%H%M%S"</span>))))
+    (switch-to-buffer (get-buffer-create buffer-name))
+    (emacs-lisp-mode)))
+</pre>
+</div>
+
+<p>
+Why this is useful: Create temporary workspaces without affecting the main scratch buffer.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8088085" class="outline-3">
+<h3 id="org8088085"><span class="section-number-3">9.7.</span> Advanced: Macros and Code Generation</h3>
+<div class="outline-text-3" id="text-9-7">
+</div>
+<div id="outline-container-org1d92975" class="outline-4">
+<h4 id="org1d92975"><span class="section-number-4">9.7.1.</span> Create Getters and Setters</h4>
+<div class="outline-text-4" id="text-9-7-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">create-accessor-functions</span> (struct-name fields)
+  <span class="org-doc">"Generate getter/setter functions for STRUCT-NAME with FIELDS."</span>
+  (<span class="org-keyword">dolist</span> (field fields)
+    (<span class="org-keyword">let</span> ((getter-name (intern (format <span class="org-string">"%s-%s"</span> struct-name field)))
+          (setter-name (intern (format <span class="org-string">"%s-set-%s"</span> struct-name field))))
+      (fset getter-name
+            `(<span class="org-keyword">lambda</span> (obj)
+               ,(format <span class="org-string">"Get %s from OBJ."</span> field)
+               (plist-get obj ,(intern (format <span class="org-string">":%s"</span> field)))))
+      (fset setter-name
+            `(<span class="org-keyword">lambda</span> (obj value)
+               ,(format <span class="org-string">"Set %s in OBJ to VALUE."</span> field)
+               (plist-put obj ,(intern (format <span class="org-string">":%s"</span> field)) value))))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Usage:
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(create-accessor-functions "person" '(name age email))
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Now you have: person-name, person-set-name, etc.</span>
+</pre>
+</div>
+
+<p>
+Why this is useful: Demonstrates metaprogramming and code generation. Shows how Lisp can write Lisp.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5823330" class="outline-2">
+<h2 id="org5823330"><span class="section-number-2">10.</span> Error Handling</h2>
+<div class="outline-text-2" id="text-10">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Basic error handling with condition-case
+</span>(<span class="org-keyword">condition-case</span> err
+    (/ 1 0)
+  (arith-error (message <span class="org-string">"Arithmetic error: %s"</span> err))
+  (<span class="org-warning">error</span> (message <span class="org-string">"General error: %s"</span> err)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ignore errors
+</span>(<span class="org-keyword">ignore-errors</span>
+  (delete-file <span class="org-string">"nonexistent-file.txt"</span>))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Signal an error
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">safe-divide</span> (a b)
+  <span class="org-doc">"Divide A by B safely."</span>
+  (<span class="org-keyword">if</span> (= b 0)
+      (<span class="org-warning">error</span> <span class="org-string">"Cannot divide by zero"</span>)
+    (/ a b)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Using signals for flow control
+</span>(<span class="org-keyword">catch</span> '<span class="org-constant">found</span>
+  (<span class="org-keyword">dolist</span> (item '(1 2 3 4 5))
+    (<span class="org-keyword">when</span> (&gt; item 3)
+      (<span class="org-keyword">throw</span> '<span class="org-constant">found</span> item))))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">=&gt; 4</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9dfef9f" class="outline-2">
+<h2 id="org9dfef9f"><span class="section-number-2">11.</span> Common Pitfalls for New Users</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+<div id="outline-container-org38499e8" class="outline-3">
+<h3 id="org38499e8"><span class="section-number-3">11.1.</span> 1. nil vs '()</h3>
+<div class="outline-text-3" id="text-11-1">
+<p>
+In Elisp, <code>nil</code> and <code>'()</code> are equivalent (both represent false and empty list):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(eq nil '())        <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; t
+</span>(not nil)           <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; t
+</span>(not '())           <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; t</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0a632a1" class="outline-3">
+<h3 id="org0a632a1"><span class="section-number-3">11.2.</span> 2. t vs non-nil</h3>
+<div class="outline-text-3" id="text-11-2">
+<p>
+Any non-nil value is considered true:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">if</span> 0 <span class="org-string">"true"</span> <span class="org-string">"false"</span>)       <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "true" (0 is not nil)
+</span>(<span class="org-keyword">if</span> <span class="org-string">""</span> <span class="org-string">"true"</span> <span class="org-string">"false"</span>)      <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "true" (empty string is not nil)
+</span>(<span class="org-keyword">if</span> '() <span class="org-string">"true"</span> <span class="org-string">"false"</span>)     <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; "false" (empty list is nil)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3b8969" class="outline-3">
+<h3 id="orgd3b8969"><span class="section-number-3">11.3.</span> 3. setq vs setf vs let</h3>
+<div class="outline-text-3" id="text-11-3">
+<ul class="org-ul">
+<li><code>setq</code>: Set a variable (quote the variable name)</li>
+<li><code>setf</code>: Generalized assignment (can set places like alist entries)</li>
+<li><code>let</code>: Create local bindings</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">setq</span> x 10)                          <span class="org-comment-delimiter">; </span><span class="org-comment">Set x globally
+</span>(<span class="org-keyword">let</span> ((x 20)) x)                     <span class="org-comment-delimiter">; </span><span class="org-comment">x is 20 in this scope
+</span>x                                    <span class="org-comment-delimiter">; </span><span class="org-comment">x is still 10 outside
+</span>
+(<span class="org-keyword">setq</span> alist '((a . 1) (b . 2)))
+(<span class="org-keyword">setf</span> (alist-get 'a alist) 99)      <span class="org-comment-delimiter">; </span><span class="org-comment">Modify alist entry</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org30959b5" class="outline-3">
+<h3 id="org30959b5"><span class="section-number-3">11.4.</span> 4. Quote vs Backquote</h3>
+<div class="outline-text-3" id="text-11-4">
+<ul class="org-ul">
+<li><code>'</code> (quote): Everything is literal</li>
+<li><code>`</code> (backquote): Allows interpolation with <code>,</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">setq</span> x 10)
+
+'(x is x)                           <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; (x is x)
+</span>`(x is ,x)                          <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; (x is 10)
+</span>`(list of ,x and ,(+ x 5))          <span class="org-comment-delimiter">; </span><span class="org-comment">=&gt; (list of 10 and 15)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcff5fdb" class="outline-2">
+<h2 id="orgcff5fdb"><span class="section-number-2">12.</span> Resources and Next Steps</h2>
+<div class="outline-text-2" id="text-12">
+</div>
+<div id="outline-container-orgcc277d4" class="outline-3">
+<h3 id="orgcc277d4"><span class="section-number-3">12.1.</span> Learning More</h3>
+<div class="outline-text-3" id="text-12-1">
+<ul class="org-ul">
+<li><b>Info Manual</b>: Press <code>C-h i</code> and select "Elisp" to read the comprehensive Emacs Lisp manual</li>
+<li><b>Describe Function</b>: <code>C-h f</code> shows documentation for any function</li>
+<li><b>Describe Variable</b>: <code>C-h v</code> shows documentation for any variable</li>
+<li><b>Apropos</b>: <code>C-h a</code> searches for functions/variables by keyword</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3bc631d" class="outline-3">
+<h3 id="org3bc631d"><span class="section-number-3">12.2.</span> Practice Exercises</h3>
+<div class="outline-text-3" id="text-12-2">
+<ol class="org-ol">
+<li>Write a function that reverses words in a sentence (but not the sentence itself)
+<ul class="org-ul">
+<li>Input: "Hello World from Emacs"</li>
+<li>Output: "olleH dlroW morf scamE"</li>
+</ul></li>
+
+<li>Create a function that finds all TODO comments in the current buffer and lists them</li>
+
+<li>Build a simple timer that displays elapsed time in the mode line</li>
+
+<li>Write a function that converts between camelCase and snake<sub>case</sub></li>
+
+<li>Create a command that swaps the contents of two windows</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org54a2be7" class="outline-3">
+<h3 id="org54a2be7"><span class="section-number-3">12.3.</span> Common Libraries</h3>
+<div class="outline-text-3" id="text-12-3">
+<ul class="org-ul">
+<li><code>cl-lib</code>: Common Lisp extensions (more powerful iteration, data structures)</li>
+<li><code>seq</code>: Sequence manipulation functions (works on lists, vectors, strings)</li>
+<li><code>map</code>: Unified map operations (works on alists, plists, hash tables)</li>
+<li><code>subr-x</code>: Additional string and list utilities</li>
+<li><code>rx</code>: Readable regex construction</li>
+</ul>
+
+<p>
+Example using <code>rx</code> for regex:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">rx</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Instead of: "\\([0-9]+\\)-\\([0-9]+\\)-\\([0-9]+\\)"
+</span>(<span class="org-keyword">rx</span> (group (one-or-more digit)) <span class="org-string">"-"</span>
+    (group (one-or-more digit)) <span class="org-string">"-"</span>
+    (group (one-or-more digit)))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfcb5c41" class="outline-2">
+<h2 id="orgfcb5c41"><span class="section-number-2">13.</span> Conclusion</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+Emacs Lisp is a powerful language for customizing and extending your editor. The key differences from other languages are:
+</p>
+
+<ol class="org-ol">
+<li><b>Prefix notation</b>: Functions come first, then arguments</li>
+<li><b>Everything is a list</b>: Code and data use the same structure</li>
+<li><b>Dynamic typing</b>: No type declarations needed</li>
+<li><b>Interactive development</b>: Evaluate code immediately with <code>C-x C-e</code></li>
+<li><b>Self-documenting</b>: Built-in help for all functions and variables</li>
+<li><b>Editor integration</b>: Direct access to buffers, windows, files</li>
+</ol>
+
+<p>
+Start small: write simple functions to automate repetitive tasks in your workflow. As you get comfortable, you'll find yourself customizing Emacs to perfectly fit your needs.
+</p>
+
+<p>
+Happy Hacking!
+</p>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<p class="date">Date: 2025-10-14</p>
+</footer>
+</body>
+</html>
