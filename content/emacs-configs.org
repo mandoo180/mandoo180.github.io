@@ -11,6 +11,34 @@
   ;; Early init configuration for Emacs-Solo
   ;;; Code:
 
+  ;; Native compilation settings - must come before any packages load
+  (when (and (fboundp 'native-comp-available-p)
+             (native-comp-available-p))
+    (when (eq system-type 'darwin)
+      ;; macOS with Homebrew GCC: Set up library paths
+      ;; The library is in: /opt/homebrew/lib/gcc/current/gcc/aarch64-apple-darwin24/VERSION/
+      (let* ((gcc-base "/opt/homebrew/lib/gcc/current/gcc")
+             (arch-dir (expand-file-name "aarch64-apple-darwin24" gcc-base))
+             (version-dirs (when (file-directory-p arch-dir)
+                            (directory-files arch-dir t "^[0-9]+" t)))
+             (gcc-lib-dir (when version-dirs (car version-dirs))))
+        (when gcc-lib-dir
+          ;; Set LIBRARY_PATH for the linker
+          (setenv "LIBRARY_PATH"
+                  (concat gcc-lib-dir ":"
+                          "/opt/homebrew/lib/gcc/current:"
+                          (or (getenv "LIBRARY_PATH") "")))
+          ;; Configure native-comp to use this GCC
+          (setq native-comp-driver-options
+                (list (concat "-B" gcc-lib-dir)
+                      (concat "-L" gcc-lib-dir)
+                      "-B/opt/homebrew/lib/gcc/current"
+                      "-L/opt/homebrew/lib/gcc/current")))))
+
+    ;; General native compilation settings
+    (setq native-comp-async-report-warnings-errors nil
+          native-comp-deferred-compilation t))
+
   ;; Startup hacks
   (setq gc-cons-threshold most-positive-fixnum
   	  gc-cons-percentage 0.6
@@ -49,7 +77,6 @@
 
   (provide 'early-init)
   ;;; early-init.el ends here
-
 #+end_src
 
 * Init
@@ -1340,9 +1367,75 @@
     (org-appear-delay 0.0)
     (org-appear-trigger 'always))
 
-  (use-package markdown-mode
+  (use-package org-gcal
+    :after org
     :custom
-    (markdown-split-window-direction 'right))
+    ;; IMPORTANT: Set these variables in your private.el or custom-vars.el:
+    ;; (setq org-gcal-client-id "your-client-id-from-google-console.apps.googleusercontent.com")
+    ;; (setq org-gcal-client-secret "your-client-secret-from-google-console")
+    ;; (setq org-gcal-file-alist '(("your-email@gmail.com" . "~/org/gcal.org")
+    ;;                              ("another-calendar@gmail.com" . "~/org/work-gcal.org")))
+
+    ;; Directory to store OAuth token and sync metadata
+    (org-gcal-dir (expand-file-name ".org-gcal/" user-emacs-directory))
+
+    ;; Token storage - use plain text file (no .gpg extension) to avoid encryption
+    ;; The token file will have restricted file permissions (600) for security
+    (org-gcal-token-file (expand-file-name ".org-gcal/token" user-emacs-directory))
+
+    ;; Automatically fetch events when opening org-agenda
+    (org-gcal-auto-archive nil)
+
+    ;; Notify on sync
+    (org-gcal-notify-p t)
+
+    ;; Update events if they already exist (bidirectional sync)
+    (org-gcal-update-cancelled-events-with-todo t)
+
+    :init
+    ;; CRITICAL: Disable plstore encryption BEFORE org-gcal loads
+    ;; This must be in :init, not :config
+    (setq plstore-cache-passphrase-for-symmetric-encryption t)
+    (setq plstore-encrypt-to nil)
+
+    ;; Ensure EPG context doesn't prompt for passphrase
+    (setq epg-pinentry-mode 'loopback)
+
+    ;; Auto-provide a passphrase if encryption can't be disabled
+    ;; This prevents repeated prompts
+    (defvar my/org-gcal-passphrase "emacs-gcal-token")
+    (defun my/org-gcal-passphrase-callback (context key-id handback)
+      "Automatically provide passphrase for org-gcal token encryption."
+      my/org-gcal-passphrase)
+
+    ;; Override EPG passphrase callback
+    (setq epg-passphrase-callback-function #'my/org-gcal-passphrase-callback)
+
+    :config
+    ;; Additional workaround: advice plstore to disable encryption
+    (when (fboundp 'plstore-open)
+      (advice-add 'plstore-open :around
+                  (lambda (orig-fun file)
+                    (let ((plstore-encrypt-to nil))
+                      (funcall orig-fun file)))))
+    
+    ;; Add org-gcal files to org-agenda-files if configured
+    (when (and (boundp 'org-gcal-file-alist) org-gcal-file-alist)
+      (dolist (calendar org-gcal-file-alist)
+        (let ((gcal-file (cdr calendar)))
+          ;; Create the file if it doesn't exist
+          (unless (file-exists-p gcal-file)
+            (make-directory (file-name-directory gcal-file) t)
+            (write-region "" nil gcal-file))
+          ;; Add to org-agenda-files if not already there
+          (when (and (boundp 'org-agenda-files)
+                     (not (member gcal-file org-agenda-files)))
+            (add-to-list 'org-agenda-files gcal-file)))))
+
+    :bind
+    (("C-c g p" . org-gcal-post-at-point)
+     ("C-c g d" . org-gcal-delete-at-point)
+     ("C-c g r" . org-gcal-refresh-token)))
 
   (provide 'note-conf)
   ;;; note-conf.el ends here
@@ -1429,30 +1522,12 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
 
 * Programming
 
+** Common
+
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-conf.el
   ;;; prog-conf.el --- Summary  -*- lexical-binding: t; -*-
   ;;; Commentary:
   ;;; Code:
-
-  ;; (use-package company
-  ;;   :hook
-  ;;   (prog-mode . company-mode)
-  ;;   :bind (:map company-mode-map
-  ;; 		("TAB" . company-indent-or-complete-common)
-  ;; 		([tab] . company-indent-or-complete-common)
-  ;; 		:map company-active-map
-  ;; 		("TAB"       . company-complete-selection)
-  ;; 		([tab]       . company-complete-selection)
-  ;; 		("<backtab>" . company-abort)
-  ;; 		("C-g"       . company-abort)
-  ;; 		("C-h"       . company-show-doc-buffer))
-  ;;   :custom
-  ;;   (company-idle-delay                nil)
-  ;;   (company-minimum-prefix-length     1)
-  ;;   (company-require-match-p           'never)
-  ;;   (company-frontends                 '(company-preview-frontend company-echo-metadata-frontend))
-  ;;   (company-backends                  '(company-capf))
-  ;;   (company-tooltip-align-annotations t))
 
   (use-package corfu
     :custom
@@ -1468,83 +1543,6 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     ;; this relies on having corfu-auto set to nil
     (corfu-candidate-overlay-mode 1)
     (global-set-key (kbd "C-<tab>") 'completion-at-point))
-
-  (use-package eglot
-    :ensure nil
-    :custom
-    (eglot-autoshutdown t)
-    (eglot-events-buffer-size 0)
-    (eglot-events-buffer-config '(:size 0 :format full))
-    (eglot-prefer-plaintext t)
-    (jsonrpc-event-hook nil)
-    (eglot-code-action-indications nil) ;; Emacs 31 -- annoying as hell
-    :init
-    (fset #'jsonrpc--log-event #'ignore)
-    :hook
-    (mhtml-mode         . eglot-ensure)
-    (css-mode           . eglot-ensure)
-    (ja-mode            . eglot-ensure)
-    (js-ts-mode         . eglot-ensure)
-    (typescript-mode    . eglot-ensure)
-    (typescript-ts-mode . eglot-ensure)
-    (python-mode        . eglot-ensure)
-    (ruby-mode          . eglot-ensure)
-    (ruby-ts-mode       . eglot-ensure)
-    ;; ((mhtml-mode
-    ;;   css-mode
-    ;;   ;; css-ts-mode
-    ;;   ;; js-ts-mode
-    ;;   ;; typescript-ts-mode
-    ;; 	js-mode
-    ;; 	typescript-mode
-    ;; 	python-mode
-    ;;   java-mode)
-    ;;  . eglot-ensure)
-    :bind (:map
-  		 eglot-mode-map
-  		 ("C-c l a" . eglot-code-actions)
-  		 ("C-c l o" . eglot-code-actions-organize-imports)
-  		 ("C-c l r" . eglot-rename)
-  		 ("C-c l f" . eglot-format))
-    :config
-    (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) "ruby-lsp")))
-
-  ;; (use-package lsp-mode
-  ;;   :hook
-  ;;   ((java-mode          . lsp)
-  ;;    (java-ts-mode       . lsp)
-  ;;    (bash-ts-mode       . lsp)
-  ;;    (mhtml-mode         . lsp)
-  ;;    (js-ts-mode         . lsp)
-  ;;    (json-ts-mode       . lsp)
-  ;;    (typescript-mode    . lsp)
-  ;;    (typescript-ts-mode . lsp)
-  ;;    (python-mode        . lsp)
-  ;;    (python-ts-mode     . lsp)
-  ;;    (c-mode             . lsp)
-  ;;    (c-ts-mode          . lsp)
-  ;;    (clojure-mode       . lsp)
-  ;;    (ruby-mode          . lsp-deferred)
-  ;;    (ruby-ts-mode       . lsp-deferred))
-  ;;   :custom
-  ;;   (lsp-keymap-prefix "C-c l")
-  ;;   (lsp-enable-on-type-formatting nil)
-  ;;   (lsp-enable-indentation nil)
-  ;;   (lsp-completion-provider :none)
-  ;;   ;; https://github.com/sqls-server/sqls?tab=readme-ov-file#installation
-  ;;   ;; https://github.com/sqls-server/sqls?tab=readme-ov-file#db-configuration
-  ;;   (lsp-sqls-workspace-config-path "workspace")
-  ;;   (lsp-sqls-connections nil)
-  ;;   (lsp-disabled-clients '(rubocop-ls solargraph sorbet-ls))
-  ;;   (lsp-ruby-use-bundler t)
-  ;;   :bind
-  ;;   (:map lsp-mode-map
-  ;; 	  ("C-c l r" . lsp-rename)))
-
-  ;; (use-package lsp-java
-  ;;   :after lsp
-  ;;   :hook
-  ;;   (java-mode . lsp))
 
   (use-package compile
     :ensure nil
@@ -1602,20 +1600,8 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     :hook
     (sql-mode . sqlind-minor-mode))
 
-  (use-package typescript-mode :defer t)
   (use-package powershell :defer t)
-  (use-package scss-mode :defer t)
   (use-package yaml-mode :defer t)
-
-  ;; (use-package python-mode
-  ;;   :ensure nil
-  ;;   :mode "\\.py\\'"
-  ;;   :defer 't
-  ;;   ;; :config
-  ;;   ;; TODO: python related configs
-  ;;   ;; TODO: python-ts-mode crashes when open .py files
-  ;;   ;; (add-to-list 'treesit-language-source-alist '(python "https://github.com/tree-sitter/tree-sitter-python" "master" "src"))
-  ;;   )
 
   (use-package magit)
 
@@ -1648,96 +1634,6 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     ("C-c h ." . eldoc-box-help-at-point)
     :hook
     (eldoc-mode . eldoc-box-hover-mode))
-
-  (use-package dap-mode
-    :after lsp-mode
-    ;; :custom
-    ;; (dap-auto-configure-features '())
-    :bind (:map dap-mode-map
-  		("C-c <f9>" . dap-debug)
-  		("C-c <f8>" . dap-breakpoint-toggle)
-  		("C-c d r"  . dap-debug-restart)
-  		("<f7>"     . dap-step-in)
-  		("<f10>"    . dap-step-out)
-  		("<f8>"     . dap-next)
-  		("<f11>"    . dap-previous)
-  		("<f9>"     . dap-continue)
-  		("C-c d q"  . dap-disconnect)
-  		("C-c d e"  . dap-eval)
-  		("C-c d v"  . dap-eval-thing-at-point)
-  		("C-c d E"  . dap-eval-region))
-    :config
-    (dap-auto-configure-mode)
-    (require 'dap-java)
-    (require 'dap-lldb)
-    (require 'dap-cpptools)
-    (require 'dap-gdb)
-    (require 'dap-gdb-lldb)
-
-    ;; (require 'dap-cpptools)
-    ;; (with-eval-after-load 'dap-mode
-    ;;	(dap-register-debug-template
-    ;;	 "LLDB::Run"
-    ;;	 (list :type "lldb-vscode"
-    ;;		   :cwd  (expand-file-name (project-root (project-current)))
-    ;;		   :request "launch"
-    ;;		   :program (expand-file-name "bin/win32_game.exe" (project-root (project-current)))
-    ;;		   :name "LLDB::Run")))
-    ;; (setq dap-lldb-debug-program '("C:/Users/douzone/.emacs.d/.extension/vscode/vadimcn.vscode-lldb/codelldb-win32-x64/extension/adapter/codelldb.exe"))
-    )
-
-  ;; (use-package evil
-  ;;   :init
-  ;;   (setq evil-disable-insert-state-bindings t)
-  ;;   (setq evil-move-beyond-eol t)
-  ;;   ;; :hook (prog-mode . evil-local-mode)
-  ;;   )
-
-  ;;; EGLOT
-  ;; pip install python-lsp-server flake8
-  ;; npm install -g typescript teypscript-language-server
-  ;; npm install -g vscode-langservers-extracted
-  ;; (use-package eglot
-  ;;   :ensure nil
-  ;;   :custom
-  ;;   (eglot-autoshutdown t)
-  ;;   (eglot-events-buffer-size 0)
-  ;;   (eglot-events-buffer-config '(:size 0 :format full))
-  ;;   (eglot-prefer-plaintext t)
-  ;;   (jsonrpc-event-hook nil)
-  ;;   (eglot-code-action-indications nil) ;; Emacs 31 -- annoying as hell
-  ;;   :init
-  ;;   (fset #'jsonrpc--log-event #'ignore)
-  ;;   :hook
-  ;;   ((mhtml-mode
-  ;;     css-mode
-  ;;     ;; css-ts-mode
-  ;;     ;; js-ts-mode
-  ;;     ;; typescript-ts-mode
-  ;;	js-mode
-  ;;	typescript-mode
-  ;;	python-mode
-  ;;     java-mode)
-  ;;    . eglot-ensure)
-  ;;   :bind (:map
-  ;;		 eglot-mode-map
-  ;;		 ("C-c l a" . eglot-code-actions)
-  ;;		 ("C-c l o" . eglot-code-actions-organize-imports)
-  ;;		 ("C-c l r" . eglot-rename)
-  ;;		 ("C-c l f" . eglot-format)))
-
-  ;;; EGLOT-JAVA
-  ;; (use-package eglot-java
-  ;;   :hook
-  ;;   ((java-mode java-ts-mode)  . eglot-java-mode)
-  ;;   :bind (:map
-  ;;		 eglot-java-mode-map
-  ;;		 ("C-c l n" . eglot-java-file-new)
-  ;;		 ("C-c l x" . eglot-java-run-main)
-  ;;		 ("C-c l t" . eglot-java-run-test)
-  ;;		 ("C-c l N" . eglot-java-project-new)
-  ;;		 ("C-c l T" . eglot-java-project-build-task)
-  ;;		 ("C-c l R" . eglot-java-project-build-refresh)))
 
   (use-package elec-pair
     :ensure nil
@@ -1848,8 +1744,479 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     ;; :hook (before-save . whitespace-cleanup)
     )
 
+  (use-package vterm)
+  (use-package claude-code
+    :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
+    :bind-keymap ("C-c c" . claude-code-command-map)
+    :config
+    (setq claude-code-terminal-backend 'vterm)
+    :bind
+    (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode)))
+
+  (use-package eglot
+    :ensure nil
+    :custom
+    (eglot-autoshutdown t)
+    (eglot-events-buffer-size 0)
+    (eglot-events-buffer-config '(:size 0 :format full))
+    (eglot-prefer-plaintext t)
+    (jsonrpc-event-hook nil)
+    (eglot-code-action-indications nil) ;; Emacs 31 -- annoying as hell
+    (eglot-ignored-server-capabilities '(:workspaceFolders))
+    :init
+    (fset #'jsonrpc--log-event #'ignore)
+    :hook
+    (mhtml-mode         . eglot-ensure)
+    (web-mode           . eglot-ensure)
+    (css-mode           . eglot-ensure)
+    (scss-mode          . eglot-ensure)
+    (ja-mode            . eglot-ensure)
+    (js-mode            . eglot-ensure)
+    (js2-mode           . eglot-ensure)
+    (js-ts-mode         . eglot-ensure)
+    (rjsx-mode          . eglot-ensure)
+    (typescript-mode    . eglot-ensure)
+    (typescript-ts-mode . eglot-ensure)
+    (tsx-ts-mode        . eglot-ensure)
+    (json-mode          . eglot-ensure)
+    (python-mode        . eglot-ensure)
+    (ruby-mode          . eglot-ensure)
+    (ruby-ts-mode       . eglot-ensure)
+    :bind (:map
+  		 eglot-mode-map
+  		 ("C-c l a" . eglot-code-actions)
+  		 ("C-c l o" . eglot-code-actions-organize-imports)
+  		 ("C-c l r" . eglot-rename)
+  		 ("C-c l f" . eglot-format))
+    :config
+    ;; Configure language servers for web development
+    (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) "ruby-lsp"))
+
+    ;; web-mode: detect content type and use appropriate language server
+    ;; Eglot server functions receive (interactive) and optional contact args
+    (defun fu/eglot-web-mode-server (&optional interactive)
+      "Return appropriate language server for web-mode based on file extension.
+  INTERACTIVE is passed by Eglot but not used here."
+      (let ((file (buffer-file-name)))
+        (cond
+         ((and file (string-match-p "\\.tsx?\\'" file))
+          '("typescript-language-server" "--stdio"))
+         ((and file (string-match-p "\\.jsx?\\'" file))
+          '("typescript-language-server" "--stdio"))
+         (t
+          '("vscode-html-language-server" "--stdio")))))
+
+    ;; Configure web-mode server selection with smart detection
+    (add-to-list 'eglot-server-programs
+                 '(web-mode . fu/eglot-web-mode-server)))
+#+end_src
+
+** Web
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-conf.el
+  ;; web-mode: powerful mode for HTML, JSX, TSX, Vue, etc.
+  (use-package web-mode
+    :mode (("\\.html?\\'" . web-mode)
+           ("\\.jsx?\\'" . web-mode)
+           ("\\.tsx?\\'" . web-mode)
+           ("\\.vue\\'" . web-mode)
+           ("\\.njk\\'" . web-mode)
+           ("\\.hbs\\'" . web-mode)
+           ("\\.mustache\\'" . web-mode))
+    :custom
+    ;; Indentation
+    (web-mode-markup-indent-offset 2)
+    (web-mode-css-indent-offset 2)
+    (web-mode-code-indent-offset 2)
+    (web-mode-style-padding 2)
+    (web-mode-script-padding 2)
+    (web-mode-block-padding 0)
+
+    ;; Syntax highlighting
+    (web-mode-enable-css-colorization t)
+    (web-mode-enable-auto-pairing t)
+    (web-mode-enable-comment-keywords t)
+    (web-mode-enable-current-element-highlight t)
+    (web-mode-enable-current-column-highlight nil)
+
+    ;; Content types
+    (web-mode-content-types-alist
+     '(("jsx" . "\\.js[x]?\\'")
+       ("tsx" . "\\.ts[x]?\\'")))
+
+    ;; Auto-close tags
+    (web-mode-enable-auto-closing t)
+    (web-mode-enable-auto-quoting t)
+
+    ;; Comments
+    (web-mode-comment-style 2)
+
+    :config
+    ;; Better JSX/TSX detection
+    (defun my-web-mode-hook ()
+      "Hooks for Web mode."
+      (setq web-mode-enable-part-face t)
+      (when (string-match-p "\\.[jt]sx?\\'" (buffer-file-name))
+        (setq-local web-mode-content-type "jsx")
+        (setq-local web-mode-enable-auto-indentation t)))
+
+    (add-hook 'web-mode-hook #'my-web-mode-hook))
+
+  ;; js2-mode: enhanced JavaScript editing
+  (use-package js2-mode
+    :mode "\\.m?js\\'"
+    :interpreter "node"
+    :custom
+    (js2-basic-offset 2)
+    (js2-bounce-indent-p nil)
+    (js2-strict-missing-semi-warning nil)
+    (js2-missing-semi-one-line-override t)
+    (js-indent-level 2)
+    :config
+    ;; Disable js2-mode's syntax checking in favor of Flymake/LSP
+    (setq js2-mode-show-parse-errors nil)
+    (setq js2-mode-show-strict-warnings nil))
+
+  ;; rjsx-mode: React JSX support
+  (use-package rjsx-mode
+    :mode ("components/.*\\.js\\'" "\\.jsx\\'")
+    :custom
+    (js2-basic-offset 2)
+    (js2-strict-missing-semi-warning nil))
+
+  (use-package typescript-mode
+    :mode "\\.ts\\'"
+    :custom
+    (typescript-indent-level 2))
+
+  ;; TypeScript TSX mode
+  (use-package tsx-mode
+    :ensure nil
+    :mode "\\.tsx\\'"
+    :config
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode)))
+
+  ;; JSON mode
+  (use-package json-mode
+    :mode "\\.json\\'"
+    :custom
+    (json-reformat:indent-width 2)
+    (js-indent-level 2))
+
+  ;; CSS/SCSS modes with modern features
+  (use-package css-mode
+    :ensure nil
+    :mode "\\.css\\'"
+    :custom
+    (css-indent-offset 2))
+
+  (use-package scss-mode
+    :mode "\\.scss\\'"
+    :custom
+    (css-indent-offset 2))
+
+  ;; Add node_modules/.bin to exec-path (for project-local tools)
+  (use-package add-node-modules-path
+    :hook ((web-mode . add-node-modules-path)
+           (js-mode . add-node-modules-path)
+           (js2-mode . add-node-modules-path)
+           (rjsx-mode . add-node-modules-path)
+           (typescript-mode . add-node-modules-path)
+           (typescript-ts-mode . add-node-modules-path)
+           (tsx-ts-mode . add-node-modules-path)))
+
+  ;; npm/yarn integration
+  (use-package npm-mode
+    :commands (npm-mode)
+    :hook ((web-mode . npm-mode)
+           (js-mode . npm-mode)
+           (js2-mode . npm-mode)
+           (typescript-mode . npm-mode))
+    :init
+    ;; Set up keybindings after npm-mode loads
+    (defun my-npm-mode-keybindings ()
+      "Set up npm-mode keybindings."
+      (when (boundp 'npm-mode-command-keymap)
+        (define-key npm-mode-command-keymap "n" 'npm-mode-npm-run)
+        (define-key npm-mode-command-keymap "i" 'npm-mode-npm-install)
+        (define-key npm-mode-command-keymap "t" 'npm-mode-npm-test)
+        (define-key npm-mode-command-keymap "b" 'npm-mode-npm-build)))
+    (add-hook 'npm-mode-hook 'my-npm-mode-keybindings))
+
+  ;; Prettier formatting
+  (use-package prettier
+    :commands (prettier-prettify)
+    :hook ((web-mode . prettier-mode)
+           (js-mode . prettier-mode)
+           (js2-mode . prettier-mode)
+           (rjsx-mode . prettier-mode)
+           (typescript-mode . prettier-mode)
+           (typescript-ts-mode . prettier-mode)
+           (tsx-ts-mode . prettier-mode)
+           (json-mode . prettier-mode)
+           (css-mode . prettier-mode)
+           (scss-mode . prettier-mode))
+    :custom
+    (prettier-pre-warm 'full))
+
+  ;; ESLint integration via Flymake
+  (use-package flymake-eslint
+    :hook ((js-mode . flymake-eslint-enable)
+           (js2-mode . flymake-eslint-enable)
+           (rjsx-mode . flymake-eslint-enable)
+           (typescript-mode . flymake-eslint-enable)
+           (typescript-ts-mode . flymake-eslint-enable)
+           (tsx-ts-mode . flymake-eslint-enable)
+           (web-mode . flymake-eslint-enable)))
+
+  ;; Import JavaScript modules
+  (use-package js-import
+    :after js
+    :config
+    (define-key js-mode-map (kbd "C-c i i") 'js-import)
+    (define-key js-mode-map (kbd "C-c i f") 'js-import-from-file))
+
+  ;; REST client for API testing
+  (use-package restclient
+    :mode ("\\.rest\\'" . restclient-mode)
+    :commands (restclient-mode))
+
+  ;; Run Jest tests from Emacs
+  (use-package jest
+    :commands (jest jest-popup)
+    :custom
+    (jest-executable "npx jest")
+    :config
+    (with-eval-after-load 'js
+      (define-key js-mode-map (kbd "C-c t j") 'jest)
+      (define-key js-mode-map (kbd "C-c t p") 'jest-popup)))
+
+  ;; Indium: JavaScript debugging via Chrome DevTools Protocol
+  ;; Alternative to dap-mode for web development
+  (use-package indium
+    :commands (indium-connect indium-launch indium-interaction-mode)
+    :hook ((js-mode . indium-interaction-mode)
+           (js2-mode . indium-interaction-mode)
+           (rjsx-mode . indium-interaction-mode))
+    :custom
+    (indium-chrome-executable
+     (cond
+      ((eq system-type 'darwin)
+       "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+      ((eq system-type 'windows-nt)
+       "C:/Program Files/Google/Chrome/Application/chrome.exe")
+      (t "google-chrome")))
+    :config
+    (with-eval-after-load 'indium-interaction
+      (define-key indium-interaction-mode-map (kbd "C-c C-c") 'indium-eval-defun)
+      (define-key indium-interaction-mode-map (kbd "C-c C-e") 'indium-eval-last-node)
+      (define-key indium-interaction-mode-map (kbd "C-c C-r") 'indium-eval-region)
+      (define-key indium-interaction-mode-map (kbd "C-c C-b") 'indium-toggle-breakpoint)
+      (define-key indium-interaction-mode-map (kbd "C-c C-l") 'indium-list-breakpoints)))
+
+  ;; Skewer: Live web development with browser interaction
+  (use-package skewer-mode
+    :commands (skewer-mode run-skewer skewer-css-mode skewer-html-mode)
+    :hook ((js-mode . skewer-mode)
+           (css-mode . skewer-css-mode)
+           (web-mode . skewer-html-mode))
+    :config
+    (with-eval-after-load 'skewer-mode
+      (define-key skewer-mode-map (kbd "C-c C-k") 'skewer-load-buffer)
+      (define-key skewer-mode-map (kbd "C-c C-e") 'skewer-eval-last-expression)
+      (define-key skewer-mode-map (kbd "C-c C-r") 'skewer-eval-region)))
+
+  ;; Simple-httpd: built-in web server for testing
+  (use-package simple-httpd
+    :commands (httpd-start httpd-stop)
+    :custom
+    (httpd-port 8000)
+    (httpd-host "localhost"))
+
+  (use-package markdown-mode
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode))
+    :custom
+    (markdown-split-window-direction 'right)
+    (markdown-command "multimarkdown")
+    (markdown-fontify-code-blocks-natively t))
+
   (provide 'prog-conf)
   ;;; prog-conf.el ends here
+#+end_src
+
+*** Required Local Dependencies
+**** Language Servers for Eglot
+#+begin_example
+  # TypeScript/JavaScript Language Server
+  npm install -g typescript typescript-language-server
+
+  # HTML/CSS/JSON Language Servers (vscode-langservers-extracted)
+  npm install -g vscode-langservers-extracted
+
+  # Tailwind CSS Language Server (optional, for Tailwind projects)
+  npm install -g @tailwindcss/language-server
+#+end_example
+
+**** Code Formatting and Linting
+#+begin_example
+  # Prettier (code formatter)
+  npm install -g prettier
+
+  # ESLint (JavaScript/TypeScript linter)
+  npm install -g eslint
+
+  # For project-specific configs, install locally:
+  # npm install --save-dev prettier eslint eslint-config-prettier
+#+end_example
+
+**** Debugging Tools
+#+begin_example
+  # Chrome/Chromium browser for Indium debugging
+  # macOS: Install Google Chrome from https://www.google.com/chrome/
+  # Windows: Install Google Chrome from https://www.google.com/chrome/
+  # Linux: sudo apt install google-chrome-stable
+#+end_example
+
+*** Emacs Packages
+
+All packages are installed automatically via use-package. Key packages include:
+
+- *web-mode*: Universal mode for HTML, JSX, TSX, Vue
+- *js2-mode*: Enhanced JavaScript editing
+- *rjsx-mode*: React JSX support
+- *typescript-mode*: TypeScript support
+- *prettier*: Code formatting
+- *flymake-eslint*: ESLint integration
+- *npm-mode*: npm/yarn command integration
+- *add-node-modules-path*: Automatic project-local tool detection
+- *indium*: Chrome DevTools debugging (alternative to dap-mode)
+- *skewer-mode*: Live browser interaction
+- *restclient*: HTTP API testing
+
+*** Key Bindings
+**** Eglot (LSP) - Available in all web modes
+- =C-c l a= - Code actions
+- =C-c l o= - Organize imports
+- =C-c l r= - Rename symbol
+- =C-c l f= - Format buffer/region
+
+**** npm-mode
+npm-mode provides a prefix keymap for npm commands. Use =M-x npm-mode-npm-run= or access via the command keymap:
+- =n= (in npm-mode-command-keymap) - Run npm script
+- =i= (in npm-mode-command-keymap) - npm install
+- =t= (in npm-mode-command-keymap) - npm test
+- =b= (in npm-mode-command-keymap) - npm build
+Or use =M-x npm-mode-npm-run=, =M-x npm-mode-npm-install=, etc. directly
+
+**** Jest Testing
+- =C-c t j= - Run Jest tests
+- =C-c t p= - Jest test popup
+
+**** JavaScript Import
+- =C-c i i= - Import module
+- =C-c i f= - Import from file
+
+**** Indium Debugging
+- =C-c C-b= - Toggle breakpoint
+- =C-c C-c= - Evaluate function
+- =C-c C-e= - Evaluate expression
+- =C-c C-r= - Evaluate region
+- =C-c C-l= - List breakpoints
+
+**** Skewer (Live Development)
+- =C-c C-k= - Load buffer to browser
+- =C-c C-e= - Evaluate expression in browser
+- =C-c C-r= - Evaluate region in browser
+
+*** Workflow Examples
+**** Starting a React/Next.js Project
+1. Open project in Emacs
+2. =M-x npm-mode-npm-install= (or =C-c n i=) to install dependencies
+3. =M-x npm-mode-npm-run= (or =C-c n n=) and select "dev" to start dev server
+4. Open .jsx or .tsx files - web-mode will activate automatically
+5. Eglot will connect to typescript-language-server automatically
+6. Prettier will format on save (if enabled in project)
+
+**** Debugging with Indium
+1. Start your dev server (e.g., =npm run dev=)
+2. =M-x indium-launch= to start Chrome with debugging enabled
+3. Set breakpoints with =C-c C-b=
+4. Interact with page, debugger will pause at breakpoints
+5. Evaluate expressions in context with =C-c C-e=
+
+**** Live Development with Skewer
+1. =M-x run-skewer= to start the server
+2. Open =http://localhost:8080= in browser
+3. Edit HTML/CSS/JS files
+4. =C-c C-k= to instantly reload changes in browser
+
+**** Testing APIs with restclient
+1. Create a .rest file
+2. Write HTTP requests:
+   #+begin_example
+   GET https://api.example.com/users
+   Content-Type: application/json
+
+   ###
+
+   POST https://api.example.com/users
+   Content-Type: application/json
+
+   {
+     "name": "John Doe",
+     "email": "john@example.com"
+   }
+   #+end_example
+3. =C-c C-c= on a request to execute it
+
+*** Project Structure Recommendations
+
+For optimal Emacs integration, use these files in your projects:
+
+**** .prettierrc.json
+#+begin_src json
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2
+}
+#+end_src
+
+**** .eslintrc.json
+#+begin_src json
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
+}
+#+end_src
+
+**** tsconfig.json (for TypeScript projects)
+#+begin_src json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
 #+end_src
 
 * Miscellaneous

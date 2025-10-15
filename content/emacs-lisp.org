@@ -1,0 +1,1154 @@
+#+TITLE: Emacs Lisp for Experienced Developers
+#+DATE: 2025-10-14
+#+AUTHOR: Kyeongsoo
+#+OPTIONS: toc:t num:t
+
+* Introduction
+
+If you're coming from Python, JavaScript, Java, or similar languages, Emacs Lisp (Elisp) might look unfamiliar with its parentheses-heavy syntax. But don't worry the concepts are the same. This guide will help you map what you already know to Elisp idioms.
+
+Emacs Lisp is a dialect of Lisp that powers Emacs. It's dynamically typed, has first-class functions, and everything is built around S-expressions (symbolic expressions). The power of Elisp lies in its ability to extend and customize Emacs itself.
+
+* Basic Syntax and Evaluation
+
+** S-expressions (Symbolic Expressions)
+
+In Lisp, code and data share the same structure: lists enclosed in parentheses.
+
+#+BEGIN_SRC emacs-lisp
+;; Function call: (function-name arg1 arg2 ...)
+(+ 2 3)  ; => 5
+
+;; Compare to other languages:
+;; Python:     2 + 3
+;; JavaScript: 2 + 3
+;; Java:       2 + 3
+#+END_SRC
+
+The first element in a list is the function, followed by its arguments. This is called "prefix notation."
+
+** Variables
+
+#+BEGIN_SRC emacs-lisp
+;; Local variable (lexically scoped)
+(let ((name "Alice")
+      (age 30))
+  (message "Name: %s, Age: %d" name age))
+
+;; Global variable
+(defvar my-global-var 42
+  "A global variable with documentation.")
+
+;; Custom variable (user-configurable)
+(defcustom my-custom-var 100
+  "A customizable variable."
+  :type 'integer
+  :group 'my-package)
+
+;; Set a variable
+(setq my-var 10)
+
+;; Set multiple variables
+(setq x 1
+      y 2
+      z 3)
+#+END_SRC
+
+Compare to other languages:
+#+BEGIN_SRC python
+# Python
+name = "Alice"
+age = 30
+#+END_SRC
+
+#+BEGIN_SRC javascript
+// JavaScript
+let name = "Alice";
+let age = 30;
+#+END_SRC
+
+* Control Flow
+
+** Conditionals
+
+*** if/else
+
+#+BEGIN_SRC emacs-lisp
+;; Basic if
+(if (> x 10)
+    (message "x is greater than 10")
+  (message "x is 10 or less"))
+
+;; if with multiple statements in then-branch
+(if (< x 0)
+    (progn
+      (message "x is negative")
+      (setq x 0))
+  (message "x is non-negative"))
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+if x > 10:
+    print("x is greater than 10")
+else:
+    print("x is 10 or less")
+#+END_SRC
+
+#+BEGIN_SRC javascript
+// JavaScript
+if (x > 10) {
+    console.log("x is greater than 10");
+} else {
+    console.log("x is 10 or less");
+}
+#+END_SRC
+
+*** when and unless
+
+These are cleaner for single-branch conditions:
+
+#+BEGIN_SRC emacs-lisp
+;; when: execute when condition is true
+(when (> x 10)
+  (message "x is big")
+  (setq x 0))
+
+;; unless: execute when condition is false
+(unless (file-exists-p "config.el")
+  (message "Config file not found")
+  (create-default-config))
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+if x > 10:
+    print("x is big")
+    x = 0
+
+if not os.path.exists("config.el"):
+    print("Config file not found")
+    create_default_config()
+#+END_SRC
+
+*** cond (switch/case equivalent)
+
+#+BEGIN_SRC emacs-lisp
+(cond
+ ((< x 0) (message "negative"))
+ ((= x 0) (message "zero"))
+ ((< x 10) (message "small positive"))
+ ((< x 100) (message "medium positive"))
+ (t (message "large positive")))  ; t is the default case (like "else")
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+if x < 0:
+    print("negative")
+elif x == 0:
+    print("zero")
+elif x < 10:
+    print("small positive")
+elif x < 100:
+    print("medium positive")
+else:
+    print("large positive")
+#+END_SRC
+
+#+BEGIN_SRC javascript
+// JavaScript (modern switch with fall-through prevention)
+switch (true) {
+    case x < 0:
+        console.log("negative");
+        break;
+    case x === 0:
+        console.log("zero");
+        break;
+    case x < 10:
+        console.log("small positive");
+        break;
+    case x < 100:
+        console.log("medium positive");
+        break;
+    default:
+        console.log("large positive");
+}
+#+END_SRC
+
+*** pcase (pattern matching)
+
+Modern Elisp has powerful pattern matching:
+
+#+BEGIN_SRC emacs-lisp
+(pcase value
+  ('nil (message "It's nil"))
+  ('t (message "It's t"))
+  (0 (message "It's zero"))
+  ((pred stringp) (message "It's a string: %s" value))
+  ((pred numberp) (message "It's a number: %d" value))
+  (`(,a ,b) (message "It's a two-element list: %s, %s" a b))
+  (_ (message "Something else")))
+#+END_SRC
+
+* Loops and Iteration
+
+** while loop
+
+#+BEGIN_SRC emacs-lisp
+(let ((i 0))
+  (while (< i 5)
+    (message "i = %d" i)
+    (setq i (1+ i))))
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+i = 0
+while i < 5:
+    print(f"i = {i}")
+    i += 1
+#+END_SRC
+
+** dotimes (for loop with counter)
+
+#+BEGIN_SRC emacs-lisp
+;; Loop from 0 to 4
+(dotimes (i 5)
+  (message "i = %d" i))
+
+;; With result value
+(dotimes (i 5 "done")
+  (message "i = %d" i))
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+for i in range(5):
+    print(f"i = {i}")
+#+END_SRC
+
+#+BEGIN_SRC javascript
+// JavaScript
+for (let i = 0; i < 5; i++) {
+    console.log(`i = ${i}`);
+}
+#+END_SRC
+
+** dolist (foreach loop)
+
+#+BEGIN_SRC emacs-lisp
+(dolist (item '(apple banana cherry))
+  (message "Fruit: %s" item))
+
+;; With index using cl-loop
+(require 'cl-lib)
+(cl-loop for item in '(apple banana cherry)
+         for i from 0
+         do (message "%d: %s" i item))
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+for item in ['apple', 'banana', 'cherry']:
+    print(f"Fruit: {item}")
+
+for i, item in enumerate(['apple', 'banana', 'cherry']):
+    print(f"{i}: {item}")
+#+END_SRC
+
+#+BEGIN_SRC javascript
+// JavaScript
+['apple', 'banana', 'cherry'].forEach(item => {
+    console.log(`Fruit: ${item}`);
+});
+
+['apple', 'banana', 'cherry'].forEach((item, i) => {
+    console.log(`${i}: ${item}`);
+});
+#+END_SRC
+
+** cl-loop (powerful iteration macro)
+
+The ~cl-loop~ macro from Common Lisp is very powerful:
+
+#+BEGIN_SRC emacs-lisp
+(require 'cl-lib)
+
+;; Collect squares
+(cl-loop for i from 1 to 5
+         collect (* i i))
+;; => (1 4 9 16 25)
+
+;; Sum numbers
+(cl-loop for i from 1 to 10
+         sum i)
+;; => 55
+
+;; Filter and transform
+(cl-loop for i from 1 to 10
+         when (cl-evenp i)
+         collect (* i 2))
+;; => (4 8 12 16 20)
+
+;; Iterate over lists
+(cl-loop for item in '(1 2 3 4 5)
+         when (> item 2)
+         collect item)
+;; => (3 4 5)
+#+END_SRC
+
+** mapcar (map/transform)
+
+#+BEGIN_SRC emacs-lisp
+;; Square each number
+(mapcar (lambda (x) (* x x)) '(1 2 3 4 5))
+;; => (1 4 9 16 25)
+
+;; Convert to strings
+(mapcar #'number-to-string '(1 2 3))
+;; => ("1" "2" "3")
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+list(map(lambda x: x * x, [1, 2, 3, 4, 5]))
+# or
+[x * x for x in [1, 2, 3, 4, 5]]
+#+END_SRC
+
+#+BEGIN_SRC javascript
+// JavaScript
+[1, 2, 3, 4, 5].map(x => x * x);
+#+END_SRC
+
+** seq-filter (filter)
+
+#+BEGIN_SRC emacs-lisp
+(require 'seq)
+
+;; Filter even numbers
+(seq-filter (lambda (x) (= (mod x 2) 0)) '(1 2 3 4 5 6))
+;; => (2 4 6)
+
+;; Using cl-lib
+(require 'cl-lib)
+(cl-remove-if-not #'cl-evenp '(1 2 3 4 5 6))
+;; => (2 4 6)
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+list(filter(lambda x: x % 2 == 0, [1, 2, 3, 4, 5, 6]))
+# or
+[x for x in [1, 2, 3, 4, 5, 6] if x % 2 == 0]
+#+END_SRC
+
+* Recursion
+
+Recursion in Elisp works just like other languages, but be aware that Elisp doesn't have tail-call optimization by default.
+
+** Understanding Tail-Call Optimization
+
+In many functional programming languages, *tail-call optimization* (TCO) allows recursive functions to run without consuming stack space when the recursive call is in "tail position" (the last operation before returning). This means you can write recursive functions that iterate millions of times without stack overflow.
+
+Compare to other languages:
+
+#+BEGIN_SRC python
+# Python - NO tail-call optimization
+# This will cause a stack overflow with large n
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)  # NOT tail-recursive (multiplication happens after)
+#+END_SRC
+
+#+BEGIN_SRC javascript
+// JavaScript - NO tail-call optimization in most engines
+// (ES6 spec includes it, but most browsers don't implement it)
+function factorial(n, acc = 1) {
+    if (n <= 1) return acc;
+    return factorial(n - 1, n * acc);  // tail-recursive, but not optimized
+}
+#+END_SRC
+
+*In Emacs Lisp*: By default, there is NO tail-call optimization. This means deeply recursive functions can exhaust the stack (~max-lisp-eval-depth~, default is around 800-1600). You have a few options:
+
+1. *Use iteration instead* (while, dotimes, dolist) - most common approach
+2. *Use ~cl-labels~* with tail recursion - not truly optimized, but cleaner code
+3. *Increase ~max-lisp-eval-depth~* - temporary workaround, not recommended
+4. *Use trampolining* - advanced technique to simulate TCO
+
+For most Emacs Lisp programming, prefer iteration over deep recursion. Recursion is great for tree structures and small problem sizes, but use loops for large datasets.
+
+** Simple Recursion
+
+#+BEGIN_SRC emacs-lisp
+;; Factorial
+(defun factorial (n)
+  "Calculate factorial of N."
+  (if (<= n 1)
+      1
+    (* n (factorial (1- n)))))
+
+(factorial 5)  ; => 120
+
+;; Fibonacci
+(defun fibonacci (n)
+  "Calculate the Nth Fibonacci number."
+  (cond
+   ((<= n 0) 0)
+   ((= n 1) 1)
+   (t (+ (fibonacci (1- n))
+         (fibonacci (- n 2))))))
+
+(fibonacci 10)  ; => 55
+#+END_SRC
+
+** Tail Recursion with Named let
+
+#+BEGIN_SRC emacs-lisp
+(require 'cl-lib)
+
+;; Tail-recursive factorial
+(defun factorial-tail (n)
+  "Calculate factorial using tail recursion."
+  (cl-labels ((fact-helper (n acc)
+                (if (<= n 1)
+                    acc
+                  (fact-helper (1- n) (* n acc)))))
+    (fact-helper n 1)))
+
+(factorial-tail 5)  ; => 120
+#+END_SRC
+
+** List Recursion
+
+#+BEGIN_SRC emacs-lisp
+;; Sum a list recursively
+(defun sum-list (lst)
+  "Sum all numbers in LST."
+  (if (null lst)
+      0
+    (+ (car lst) (sum-list (cdr lst)))))
+
+(sum-list '(1 2 3 4 5))  ; => 15
+
+;; Reverse a list
+(defun my-reverse (lst)
+  "Reverse LST recursively."
+  (if (null lst)
+      nil
+    (append (my-reverse (cdr lst)) (list (car lst)))))
+
+(my-reverse '(1 2 3 4 5))  ; => (5 4 3 2 1)
+#+END_SRC
+
+** Tree Recursion
+
+#+BEGIN_SRC emacs-lisp
+;; Flatten a nested list
+(defun flatten (lst)
+  "Flatten a nested list LST."
+  (cond
+   ((null lst) nil)
+   ((listp (car lst))
+    (append (flatten (car lst))
+            (flatten (cdr lst))))
+   (t (cons (car lst)
+            (flatten (cdr lst))))))
+
+(flatten '(1 (2 3) ((4) 5) 6))  ; => (1 2 3 4 5 6)
+#+END_SRC
+
+* Functions
+
+** Defining Functions
+
+#+BEGIN_SRC emacs-lisp
+;; Basic function
+(defun greet (name)
+  "Greet NAME with a message."
+  (message "Hello, %s!" name))
+
+;; Function with multiple parameters
+(defun add-numbers (a b)
+  "Add A and B and return the result."
+  (+ a b))
+
+;; Function with optional parameters
+(defun greet-optional (name &optional title)
+  "Greet NAME with optional TITLE."
+  (if title
+      (message "Hello, %s %s!" title name)
+    (message "Hello, %s!" name)))
+
+(greet-optional "Alice")          ; "Hello, Alice!"
+(greet-optional "Alice" "Dr.")    ; "Hello, Dr. Alice!"
+
+;; Function with rest parameters
+(defun sum-all (&rest numbers)
+  "Sum all NUMBERS."
+  (apply #'+ numbers))
+
+(sum-all 1 2 3 4 5)  ; => 15
+#+END_SRC
+
+** Lambda Functions (Anonymous Functions)
+
+#+BEGIN_SRC emacs-lisp
+;; Lambda function
+(lambda (x) (* x x))
+
+;; Using lambda with funcall
+(funcall (lambda (x) (* x x)) 5)  ; => 25
+
+;; Using lambda with mapcar
+(mapcar (lambda (x) (* x 2)) '(1 2 3 4 5))
+;; => (2 4 6 8 10)
+
+;; Storing lambda in a variable
+(setq square (lambda (x) (* x x)))
+(funcall square 5)  ; => 25
+#+END_SRC
+
+Compare to:
+#+BEGIN_SRC python
+# Python
+square = lambda x: x * x
+square(5)  # => 25
+
+list(map(lambda x: x * 2, [1, 2, 3, 4, 5]))
+#+END_SRC
+
+#+BEGIN_SRC javascript
+// JavaScript
+const square = x => x * x;
+square(5);  // => 25
+
+[1, 2, 3, 4, 5].map(x => x * 2);
+#+END_SRC
+
+** Interactive Functions (Commands)
+
+Interactive functions can be called with ~M-x~ or bound to keys:
+
+#+BEGIN_SRC emacs-lisp
+(defun insert-current-date ()
+  "Insert the current date at point."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d")))
+
+;; With prefix argument
+(defun insert-date (arg)
+  "Insert date. With ARG, include time."
+  (interactive "P")
+  (insert (format-time-string
+           (if arg "%Y-%m-%d %H:%M:%S" "%Y-%m-%d"))))
+
+;; Reading from minibuffer
+(defun greet-user (name)
+  "Greet user by NAME."
+  (interactive "sEnter your name: ")
+  (message "Hello, %s!" name))
+#+END_SRC
+
+* Data Structures
+
+** Lists
+
+#+BEGIN_SRC emacs-lisp
+;; Creating lists
+(setq my-list '(1 2 3 4 5))
+(setq my-list (list 1 2 3 4 5))
+
+;; Accessing elements
+(car my-list)     ; First element => 1
+(cdr my-list)     ; Rest of list => (2 3 4 5)
+(nth 2 my-list)   ; Third element (0-indexed) => 3
+
+;; Adding elements
+(cons 0 my-list)              ; Add to front => (0 1 2 3 4 5)
+(append my-list '(6 7))       ; Concatenate => (1 2 3 4 5 6 7)
+(push 0 my-list)              ; Modify my-list, add to front
+
+;; Length
+(length my-list)              ; => 5
+
+;; Checking membership
+(member 3 my-list)            ; => (3 4 5)
+(memq 'a '(a b c))            ; => (a b c)
+#+END_SRC
+
+** Association Lists (alists)
+
+Like dictionaries or hash maps:
+
+#+BEGIN_SRC emacs-lisp
+;; Creating an alist
+(setq person '((name . "Alice")
+               (age . 30)
+               (city . "New York")))
+
+;; Accessing values
+(alist-get 'name person)           ; => "Alice"
+(cdr (assq 'age person))           ; => 30
+(assoc-default 'city person)       ; => "New York"
+
+;; Adding/updating entries
+(push '(job . "Engineer") person)
+(setf (alist-get 'age person) 31)
+#+END_SRC
+
+** Hash Tables
+
+For large datasets, hash tables are more efficient:
+
+#+BEGIN_SRC emacs-lisp
+;; Creating a hash table
+(setq my-table (make-hash-table :test 'equal))
+
+;; Adding values
+(puthash "name" "Alice" my-table)
+(puthash "age" 30 my-table)
+
+;; Getting values
+(gethash "name" my-table)          ; => "Alice"
+(gethash "job" my-table "Unknown") ; => "Unknown" (default)
+
+;; Checking if key exists
+(gethash "age" my-table)           ; => 30
+
+;; Iterating
+(maphash (lambda (key value)
+           (message "%s: %s" key value))
+         my-table)
+
+;; Number of entries
+(hash-table-count my-table)        ; => 2
+#+END_SRC
+
+** Vectors (Arrays)
+
+#+BEGIN_SRC emacs-lisp
+;; Creating vectors
+(setq my-vector [1 2 3 4 5])
+(setq my-vector (vector 1 2 3 4 5))
+
+;; Accessing elements
+(aref my-vector 0)                 ; => 1
+(elt my-vector 2)                  ; => 3
+
+;; Setting elements
+(aset my-vector 0 10)
+
+;; Length
+(length my-vector)                 ; => 5
+
+;; Converting between lists and vectors
+(vconcat '(1 2 3))                ; => [1 2 3]
+(append [1 2 3] nil)              ; => (1 2 3)
+#+END_SRC
+
+* String Operations
+
+#+BEGIN_SRC emacs-lisp
+;; String concatenation
+(concat "Hello" ", " "World!")     ; => "Hello, World!"
+
+;; Format strings
+(format "Name: %s, Age: %d" "Alice" 30)
+;; => "Name: Alice, Age: 30"
+
+;; String length
+(length "hello")                   ; => 5
+
+;; Substring
+(substring "hello world" 0 5)      ; => "hello"
+(substring "hello world" 6)        ; => "world"
+
+;; String comparison
+(string= "abc" "abc")              ; => t
+(string< "abc" "def")              ; => t
+
+;; Case conversion
+(upcase "hello")                   ; => "HELLO"
+(downcase "HELLO")                 ; => "hello"
+(capitalize "hello world")         ; => "Hello World"
+
+;; Split string
+(split-string "one,two,three" ",") ; => ("one" "two" "three")
+
+;; Join strings
+(mapconcat #'identity '("a" "b" "c") ",")
+;; => "a,b,c"
+
+;; String replacement
+(replace-regexp-in-string "world" "Emacs" "hello world")
+;; => "hello Emacs"
+
+;; Trimming whitespace
+(string-trim "  hello  ")          ; => "hello"
+#+END_SRC
+
+* Practical Emacs Functions
+
+Here are some useful functions that demonstrate real-world Elisp usage and can inspire your own customizations.
+
+** Buffer and File Manipulation
+
+*** Quick File Opening
+
+#+BEGIN_SRC emacs-lisp
+(defun open-config-file ()
+  "Quickly open the Emacs configuration file."
+  (interactive)
+  (find-file user-init-file))
+
+;; Bind it to a key
+;; (global-set-key (kbd "C-c e c") #'open-config-file)
+#+END_SRC
+
+Why this is useful: Instead of navigating through directories, you can instantly open your config file. This pattern works for any frequently-accessed file.
+
+*** Duplicate Current Line
+
+#+BEGIN_SRC emacs-lisp
+(defun duplicate-line ()
+  "Duplicate the current line."
+  (interactive)
+  (let ((line-content (buffer-substring-no-properties
+                       (line-beginning-position)
+                       (line-end-position))))
+    (end-of-line)
+    (newline)
+    (insert line-content)))
+
+;; Bind to C-c d
+;; (global-set-key (kbd "C-c d") #'duplicate-line)
+#+END_SRC
+
+Why this is useful: Many modern editors have this feature built-in. This shows how to work with buffer positions and text manipulation.
+
+*** Move Line Up/Down
+
+#+BEGIN_SRC emacs-lisp
+(defun move-line-up ()
+  "Move the current line up."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2))
+
+(defun move-line-down ()
+  "Move the current line down."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1))
+
+;; Bind to M-up and M-down
+;; (global-set-key (kbd "M-<up>") #'move-line-up)
+;; (global-set-key (kbd "M-<down>") #'move-line-down)
+#+END_SRC
+
+Why this is useful: Quick line reordering without cut-paste. Demonstrates cursor movement and line manipulation.
+
+** Text Processing
+
+*** Sort Lines by Length
+
+#+BEGIN_SRC emacs-lisp
+(defun sort-lines-by-length (reverse beg end)
+  "Sort lines in region by length.
+With prefix arg REVERSE, sort in descending order."
+  (interactive "P\nr")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region beg end)
+      (goto-char (point-min))
+      (let ((inhibit-field-text-motion t))
+        (sort-subr reverse
+                   #'forward-line
+                   #'end-of-line
+                   nil nil
+                   (lambda (l1 l2)
+                     (< (length (buffer-substring-no-properties
+                                 (car l1) (cdr l1)))
+                        (length (buffer-substring-no-properties
+                                 (car l2) (cdr l2))))))))))
+#+END_SRC
+
+Why this is useful: Shows advanced region manipulation and custom sorting. Useful for organizing imports or data.
+
+*** Insert UUID
+
+#+BEGIN_SRC emacs-lisp
+(defun insert-uuid ()
+  "Insert a UUID at point."
+  (interactive)
+  (insert (string-trim (shell-command-to-string "uuidgen"))))
+#+END_SRC
+
+Why this is useful: Demonstrates calling external commands and inserting their output.
+
+*** Count Words in Region
+
+#+BEGIN_SRC emacs-lisp
+(defun count-words-region (beg end)
+  "Count words in region and display in minibuffer."
+  (interactive "r")
+  (let ((words (count-words beg end))
+        (chars (- end beg))
+        (lines (count-lines beg end)))
+    (message "Region has %d words, %d characters, %d lines"
+             words chars lines)))
+#+END_SRC
+
+Why this is useful: Provides quick statistics about selected text. Shows how to work with regions.
+
+** Window and Buffer Management
+
+*** Split Window and Move to It
+
+#+BEGIN_SRC emacs-lisp
+(defun split-window-below-and-focus ()
+  "Split window horizontally and move to the new window."
+  (interactive)
+  (split-window-below)
+  (other-window 1))
+
+(defun split-window-right-and-focus ()
+  "Split window vertically and move to the new window."
+  (interactive)
+  (split-window-right)
+  (other-window 1))
+
+;; Bind them
+;; (global-set-key (kbd "C-x 2") #'split-window-below-and-focus)
+;; (global-set-key (kbd "C-x 3") #'split-window-right-and-focus)
+#+END_SRC
+
+Why this is useful: Improves the default split behavior by automatically moving focus. Small quality-of-life improvement.
+
+*** Kill Other Buffers
+
+#+BEGIN_SRC emacs-lisp
+(defun kill-other-buffers ()
+  "Kill all buffers except the current one."
+  (interactive)
+  (when (yes-or-no-p "Kill all other buffers? ")
+    (let ((current-buf (current-buffer)))
+      (dolist (buffer (buffer-list))
+        (unless (or (eq buffer current-buf)
+                    (string-prefix-p " " (buffer-name buffer)))
+          (kill-buffer buffer))))
+    (message "Killed all other buffers")))
+#+END_SRC
+
+Why this is useful: Clean workspace quickly. Shows buffer iteration and filtering.
+
+*** Toggle Between Most Recent Buffers
+
+#+BEGIN_SRC emacs-lisp
+(defun switch-to-previous-buffer ()
+  "Switch to the most recently used buffer."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+;; Bind to C-c b
+;; (global-set-key (kbd "C-c b") #'switch-to-previous-buffer)
+#+END_SRC
+
+Why this is useful: Quick toggling between two files, like Alt+Tab for buffers.
+
+** Search and Navigation
+
+*** Search in Project
+
+#+BEGIN_SRC emacs-lisp
+(defun search-in-project (search-term)
+  "Search for SEARCH-TERM in project using grep."
+  (interactive "sSearch term: ")
+  (let ((default-directory (project-root (project-current t))))
+    (grep-find (format "find . -type f -not -path '*/\\.*' -exec grep -nH '%s' {} +"
+                       search-term))))
+#+END_SRC
+
+Why this is useful: Quick project-wide search. Shows integration with external tools and project handling.
+
+*** Jump to Previous/Next Blank Line
+
+#+BEGIN_SRC emacs-lisp
+(defun jump-to-previous-blank-line ()
+  "Jump to the previous blank line."
+  (interactive)
+  (re-search-backward "^[[:space:]]*$" nil t))
+
+(defun jump-to-next-blank-line ()
+  "Jump to the next blank line."
+  (interactive)
+  (forward-line 1)
+  (re-search-forward "^[[:space:]]*$" nil t)
+  (beginning-of-line))
+
+;; Bind them
+;; (global-set-key (kbd "M-p") #'jump-to-previous-blank-line)
+;; (global-set-key (kbd "M-n") #'jump-to-next-blank-line)
+#+END_SRC
+
+Why this is useful: Navigate by logical blocks instead of lines. Shows regex searching in buffers.
+
+** Development Helpers
+
+*** Insert Current Timestamp
+
+#+BEGIN_SRC emacs-lisp
+(defun insert-timestamp ()
+  "Insert current timestamp in ISO 8601 format."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d %H:%M:%S")))
+
+(defun insert-date ()
+  "Insert current date."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d")))
+#+END_SRC
+
+Why this is useful: Quick logging and note-taking. Shows time formatting.
+
+*** Comment or Uncomment Region with Repeat
+
+#+BEGIN_SRC emacs-lisp
+(defun toggle-comment-line-or-region ()
+  "Comment or uncomment the current line or region."
+  (interactive)
+  (if (use-region-p)
+      (comment-or-uncomment-region (region-beginning) (region-end))
+    (comment-or-uncomment-region (line-beginning-position) (line-end-position))))
+
+;; Bind to C-c c
+;; (global-set-key (kbd "C-c c") #'toggle-comment-line-or-region)
+#+END_SRC
+
+Why this is useful: Unified commenting that works on both regions and lines. Shows region detection.
+
+*** Open URL at Point
+
+#+BEGIN_SRC emacs-lisp
+(defun open-url-at-point ()
+  "Open URL at point in default browser."
+  (interactive)
+  (let ((url (thing-at-point 'url)))
+    (if url
+        (browse-url url)
+      (message "No URL found at point"))))
+#+END_SRC
+
+Why this is useful: Quick link opening from any buffer. Shows text property detection.
+
+** Automation and Workflow
+
+*** Auto-Insert File Headers
+
+#+BEGIN_SRC emacs-lisp
+(defun insert-elisp-header ()
+  "Insert a standard header for Emacs Lisp files."
+  (interactive)
+  (goto-char (point-min))
+  (insert (format ";;; %s --- Summary -*- lexical-binding: t -*-\n\n"
+                  (file-name-nondirectory buffer-file-name)))
+  (insert ";;; Commentary:\n\n")
+  (insert ";; Description here\n\n")
+  (insert ";;; Code:\n\n\n\n")
+  (insert (format "(provide '%s)\n"
+                  (file-name-base buffer-file-name)))
+  (insert (format ";;; %s ends here\n"
+                  (file-name-nondirectory buffer-file-name)))
+  (goto-char (point-min))
+  (search-forward ";;; Code:\n\n"))
+#+END_SRC
+
+Why this is useful: Standardizes file structure. Shows file name manipulation and cursor positioning.
+
+*** Quick Scratch Buffer
+
+#+BEGIN_SRC emacs-lisp
+(defun create-scratch-buffer ()
+  "Create a new scratch buffer."
+  (interactive)
+  (let ((buffer-name (format "*scratch-%s*"
+                             (format-time-string "%Y%m%d-%H%M%S"))))
+    (switch-to-buffer (get-buffer-create buffer-name))
+    (emacs-lisp-mode)))
+#+END_SRC
+
+Why this is useful: Create temporary workspaces without affecting the main scratch buffer.
+
+** Advanced: Macros and Code Generation
+
+*** Create Getters and Setters
+
+#+BEGIN_SRC emacs-lisp
+(defun create-accessor-functions (struct-name fields)
+  "Generate getter/setter functions for STRUCT-NAME with FIELDS."
+  (dolist (field fields)
+    (let ((getter-name (intern (format "%s-%s" struct-name field)))
+          (setter-name (intern (format "%s-set-%s" struct-name field))))
+      (fset getter-name
+            `(lambda (obj)
+               ,(format "Get %s from OBJ." field)
+               (plist-get obj ,(intern (format ":%s" field)))))
+      (fset setter-name
+            `(lambda (obj value)
+               ,(format "Set %s in OBJ to VALUE." field)
+               (plist-put obj ,(intern (format ":%s" field)) value))))))
+
+;; Usage:
+;; (create-accessor-functions "person" '(name age email))
+;; Now you have: person-name, person-set-name, etc.
+#+END_SRC
+
+Why this is useful: Demonstrates metaprogramming and code generation. Shows how Lisp can write Lisp.
+
+* Error Handling
+
+#+BEGIN_SRC emacs-lisp
+;; Basic error handling with condition-case
+(condition-case err
+    (/ 1 0)
+  (arith-error (message "Arithmetic error: %s" err))
+  (error (message "General error: %s" err)))
+
+;; Ignore errors
+(ignore-errors
+  (delete-file "nonexistent-file.txt"))
+
+;; Signal an error
+(defun safe-divide (a b)
+  "Divide A by B safely."
+  (if (= b 0)
+      (error "Cannot divide by zero")
+    (/ a b)))
+
+;; Using signals for flow control
+(catch 'found
+  (dolist (item '(1 2 3 4 5))
+    (when (> item 3)
+      (throw 'found item))))
+;; => 4
+#+END_SRC
+
+* Common Pitfalls for New Users
+
+** 1. nil vs '()
+
+In Elisp, ~nil~ and ~'()~ are equivalent (both represent false and empty list):
+
+#+BEGIN_SRC emacs-lisp
+(eq nil '())        ; => t
+(not nil)           ; => t
+(not '())           ; => t
+#+END_SRC
+
+** 2. t vs non-nil
+
+Any non-nil value is considered true:
+
+#+BEGIN_SRC emacs-lisp
+(if 0 "true" "false")       ; => "true" (0 is not nil)
+(if "" "true" "false")      ; => "true" (empty string is not nil)
+(if '() "true" "false")     ; => "false" (empty list is nil)
+#+END_SRC
+
+** 3. setq vs setf vs let
+
+- ~setq~: Set a variable (quote the variable name)
+- ~setf~: Generalized assignment (can set places like alist entries)
+- ~let~: Create local bindings
+
+#+BEGIN_SRC emacs-lisp
+(setq x 10)                          ; Set x globally
+(let ((x 20)) x)                     ; x is 20 in this scope
+x                                    ; x is still 10 outside
+
+(setq alist '((a . 1) (b . 2)))
+(setf (alist-get 'a alist) 99)      ; Modify alist entry
+#+END_SRC
+
+** 4. Quote vs Backquote
+
+- ~'~ (quote): Everything is literal
+- ~`~ (backquote): Allows interpolation with ~,~
+
+#+BEGIN_SRC emacs-lisp
+(setq x 10)
+
+'(x is x)                           ; => (x is x)
+`(x is ,x)                          ; => (x is 10)
+`(list of ,x and ,(+ x 5))          ; => (list of 10 and 15)
+#+END_SRC
+
+* Resources and Next Steps
+
+** Learning More
+
+- *Info Manual*: Press ~C-h i~ and select "Elisp" to read the comprehensive Emacs Lisp manual
+- *Describe Function*: ~C-h f~ shows documentation for any function
+- *Describe Variable*: ~C-h v~ shows documentation for any variable
+- *Apropos*: ~C-h a~ searches for functions/variables by keyword
+
+** Practice Exercises
+
+1. Write a function that reverses words in a sentence (but not the sentence itself)
+   - Input: "Hello World from Emacs"
+   - Output: "olleH dlroW morf scamE"
+
+2. Create a function that finds all TODO comments in the current buffer and lists them
+
+3. Build a simple timer that displays elapsed time in the mode line
+
+4. Write a function that converts between camelCase and snake_case
+
+5. Create a command that swaps the contents of two windows
+
+** Common Libraries
+
+- ~cl-lib~: Common Lisp extensions (more powerful iteration, data structures)
+- ~seq~: Sequence manipulation functions (works on lists, vectors, strings)
+- ~map~: Unified map operations (works on alists, plists, hash tables)
+- ~subr-x~: Additional string and list utilities
+- ~rx~: Readable regex construction
+
+Example using ~rx~ for regex:
+
+#+BEGIN_SRC emacs-lisp
+(require 'rx)
+
+;; Instead of: "\\([0-9]+\\)-\\([0-9]+\\)-\\([0-9]+\\)"
+(rx (group (one-or-more digit)) "-"
+    (group (one-or-more digit)) "-"
+    (group (one-or-more digit)))
+#+END_SRC
+
+* Conclusion
+
+Emacs Lisp is a powerful language for customizing and extending your editor. The key differences from other languages are:
+
+1. *Prefix notation*: Functions come first, then arguments
+2. *Everything is a list*: Code and data use the same structure
+3. *Dynamic typing*: No type declarations needed
+4. *Interactive development*: Evaluate code immediately with ~C-x C-e~
+5. *Self-documenting*: Built-in help for all functions and variables
+6. *Editor integration*: Direct access to buffers, windows, files
+
+Start small: write simple functions to automate repetitive tasks in your workflow. As you get comfortable, you'll find yourself customizing Emacs to perfectly fit your needs.
+
+Happy Hacking!
