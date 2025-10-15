@@ -1,0 +1,21 @@
+#+TITLE: Building Emacs from Source
+#+Author: 최경수
+
+
+* Cloning Emacs Source
+
+Cloning from [[https://git.savannah.gnu.org/git/emacs.git][GNU Savvanah]] is slow as hell, so just use [[https://github.com/emacs-mirror/emacs.git][Github mirror]].
+
+* Quick Start
+
+#+begin_src bash
+  git clone https://github.com/emacs-mirror/emacs.git
+  cd emacs
+
+  ./autogen.sh					# Generate configure script
+  ./configure						# Detect system configuration
+  make							# Build emacs
+  src/emacs						# Test emacs executable file
+  make install 					# Install emacs globally
+#+end_src
+

@@ -1,0 +1,44 @@
+#+TITLE: Setting Up ArchLinux
+#+Author: 최경수
+
+* IBUS Hangul
+
+Easy way to type Korean on GNOME desktop environment.
+
+#+begin_src bash
+  sudo pacman -S ibus ibus-hangul
+  ibus-setup
+  ibus restart
+#+end_src
+
+* Node & NPM
+
+#+begin_src bash
+  if [ -z $(which node) ]; then
+  	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+  	source ~/.zshrc
+  	nvm install --lts
+  	nvm use --lts
+  fi
+
+  echo 'I am installing language servers and claude code.'
+
+  npm i -g \
+  	typescript \
+  	typescript-language-server \
+  	vscode-langservers-extracted \
+  	@anthropic-ai/claude-code
+#+end_src
+
+* Java & Clojure
+
+#+begin_src bash
+  sudo pacman -S jdk21-openjdk leiningen
+#+end_src
+
+* Ruby & Ruyb on Rails
+
+#+begin_src bash
+  sudo pacman -S ruby
+  gem install rails
+#+end_src

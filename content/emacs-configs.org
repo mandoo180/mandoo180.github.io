@@ -1582,7 +1582,15 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     (use-package tree-sitter-langs)
     (use-package treesit-auto
   	:config
-  	(global-treesit-auto-mode 1)))
+  	(global-treesit-auto-mode 1))
+    (use-package vterm)
+    (use-package claude-code
+  	:vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
+  	:bind-keymap ("C-c c" . claude-code-command-map)
+  	:config
+  	(setq claude-code-terminal-backend 'vterm)
+  	:bind
+  	(:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode))))
 
   (use-package conf-mode
     :ensure nil
@@ -1839,15 +1847,6 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
     :defer t
     ;; :hook (before-save . whitespace-cleanup)
     )
-
-  (use-package vterm)
-  (use-package claude-code
-    :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
-    :bind-keymap ("C-c c" . claude-code-command-map)
-    :config
-    (setq claude-code-terminal-backend 'vterm)
-    :bind
-    (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode)))
 
   (provide 'prog-conf)
   ;;; prog-conf.el ends here
