@@ -327,7 +327,7 @@
 #+end_src
 
 * Theme
-
+** Basic Settings
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/theme-conf.el
   ;;; theme-conf.el --- Summary  -*- lexical-binding: t; -*-
   ;;; Commentary:
@@ -375,7 +375,7 @@
   (provide 'theme-conf)
   ;;; theme-conf.el ends here
 #+end_src
-
+** Hasliberg Theme
 #+begin_src emacs-lisp :tangle ~/.emacs.d/themes/hasliberg-theme.el
   ;;; hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
 
@@ -457,7 +457,7 @@
     :type '(const dark)
     :group 'hasliberg-theme)
 
-  (defvar hasliberg-theme-colour-background         '(:luminance  7.877 :chroma  1.800 :hue 236.421))
+  (defvar hasliberg-theme-colour-background         '(:luminance  1.877 :chroma  1.800 :hue 236.421))
   (defvar hasliberg-theme-colour-background-variant '(:luminance  6.265 :chroma 11.827 :hue 252.428))
   (defvar hasliberg-theme-colour-neutral            '(:luminance 95.074 :chroma 12.330 :hue 252.652))
   (defvar hasliberg-theme-colour-primary            '(:luminance 93.380 :chroma  2.848 :hue 192.490))
@@ -1528,6 +1528,40 @@ Reference some ideas: [[https://emacselements.com/pdf-tools-settings.html][Emacs
   ;;; prog-conf.el --- Summary  -*- lexical-binding: t; -*-
   ;;; Commentary:
   ;;; Code:
+
+  (defun move-line-up ()
+    "Move the current line up."
+    (interactive)
+    (transpose-lines 1)
+    (forward-line -2))
+
+  (defun move-line-down ()
+    "Move the current line down."
+    (interactive)
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1))
+
+  (defun insert-elisp-header ()
+    "Insert a standard header for Emacs Lisp files."
+    (interactive)
+    (goto-char (point-min))
+    (insert (format ";;; %s --- Summary -*- lexical-binding: t -*-\n\n"
+  				  (file-name-nondirectory buffer-file-name)))
+    (insert ";;; Commentary:\n\n")
+    (insert ";;; Code:\n\n\n\n")
+    (insert (format "(provide '%s)\n"
+  				  (file-name-base buffer-file-name)))
+    (insert (format ";;; %s ends here\n"
+  				  (file-name-nondirectory buffer-file-name)))
+    (goto-char (point-min))
+    (search-forward ";;; Code:\n\n"))
+
+  (use-package prog-mode
+    :ensure nil
+    :bind (:map prog-mode-map
+  			  ("M-<down>" . move-line-down)
+  			  ("M-<up>"   . move-line-up)))
 
   (use-package corfu
     :custom

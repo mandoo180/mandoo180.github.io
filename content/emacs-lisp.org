@@ -5,7 +5,7 @@
 
 * Introduction
 
-If you're coming from Python, JavaScript, Java, or similar languages, Emacs Lisp (Elisp) might look unfamiliar with its parentheses-heavy syntax. But don't worry the concepts are the same. This guide will help you map what you already know to Elisp idioms.
+If you're coming from Python, JavaScript, Java, or similar languages, Emacs Lisp (Elisp) might look unfamiliar with its parentheses-heavy syntax. But the concepts are the same. This guide will help you map what you already know to Elisp idioms.
 
 Emacs Lisp is a dialect of Lisp that powers Emacs. It's dynamically typed, has first-class functions, and everything is built around S-expressions (symbolic expressions). The power of Elisp lies in its ability to extend and customize Emacs itself.
 

@@ -29,6 +29,7 @@ Serve `./public' by =M-x httpd-serve-directory=.
 - [[./c-programming-language-2nd.org][C Programming Language]]
 - [[./sicp/sicp.org][Structure and Interpretation of Computer Programs]]
 - [[./dotfiles.org][Dot Files]]
+- [[./emacs-lisp.org][Learning Emacs Lisp]]
 
 * Links
 
