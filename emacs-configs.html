@@ -22,38 +22,43 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga4e8438">1. Early Init</a></li>
-<li><a href="#org76e3a01">2. Init</a></li>
-<li><a href="#orgcbe42e4">3. Theme</a></li>
-<li><a href="#org99f4e2c">4. Window</a></li>
-<li><a href="#orgde08eab">5. Completion</a></li>
-<li><a href="#org8d92e71">6. Dired</a></li>
-<li><a href="#orgccc70cc">7. Note</a></li>
-<li><a href="#org8d150d8">8. Shell</a></li>
-<li><a href="#orga2ef536">9. Programming</a>
+<li><a href="#org9e46863">1. Early Init</a></li>
+<li><a href="#orga1e977f">2. Init</a></li>
+<li><a href="#org8aa8aaf">3. Theme</a>
 <ul>
-<li><a href="#org602dd49">9.1. Common</a></li>
-<li><a href="#org987f030">9.2. Web</a>
+<li><a href="#org0172861">3.1. Basic Settings</a></li>
+<li><a href="#orgaf5b881">3.2. Hasliberg Theme</a></li>
+</ul>
+</li>
+<li><a href="#org6ea6109">4. Window</a></li>
+<li><a href="#org28a1368">5. Completion</a></li>
+<li><a href="#org30b8c67">6. Dired</a></li>
+<li><a href="#orgf644fd8">7. Note</a></li>
+<li><a href="#org8d9d981">8. Shell</a></li>
+<li><a href="#org8be1217">9. Programming</a>
 <ul>
-<li><a href="#orgfb1bf25">9.2.1. Required Local Dependencies</a></li>
-<li><a href="#org88f2624">9.2.2. Emacs Packages</a></li>
-<li><a href="#org4828309">9.2.3. Key Bindings</a></li>
-<li><a href="#org3d17122">9.2.4. Workflow Examples</a></li>
-<li><a href="#orgdfedeb8">9.2.5. Project Structure Recommendations</a></li>
+<li><a href="#orge14bdfc">9.1. Common</a></li>
+<li><a href="#org9215ca3">9.2. Web</a>
+<ul>
+<li><a href="#org0242efc">9.2.1. Required Local Dependencies</a></li>
+<li><a href="#org27dfe87">9.2.2. Emacs Packages</a></li>
+<li><a href="#org6ab145c">9.2.3. Key Bindings</a></li>
+<li><a href="#org3a83a0d">9.2.4. Workflow Examples</a></li>
+<li><a href="#org5821040">9.2.5. Project Structure Recommendations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org7f78102">10. Miscellaneous</a></li>
-<li><a href="#orgac8f280">11. Linux</a></li>
-<li><a href="#org843932d">12. MacOS</a></li>
-<li><a href="#org9346db9">13. Windows</a></li>
+<li><a href="#org8d35565">10. Miscellaneous</a></li>
+<li><a href="#orge37ac8d">11. Linux</a></li>
+<li><a href="#org40ef687">12. MacOS</a></li>
+<li><a href="#org699c8cb">13. Windows</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga4e8438" class="outline-2">
-<h2 id="orga4e8438"><span class="section-number-2">1.</span> Early Init</h2>
+<div id="outline-container-org9e46863" class="outline-2">
+<h2 id="org9e46863"><span class="section-number-2">1.</span> Early Init</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el --- Emacs-Solo (no external packages) Configuration  -*- lexical-binding: t; -*-
@@ -132,8 +137,8 @@
 </div>
 </div>
 
-<div id="outline-container-org76e3a01" class="outline-2">
-<h2 id="org76e3a01"><span class="section-number-2">2.</span> Init</h2>
+<div id="outline-container-orga1e977f" class="outline-2">
+<h2 id="orga1e977f"><span class="section-number-2">2.</span> Init</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el --- Summary  -*- lexical-binding: t; -*-
@@ -383,9 +388,13 @@
 </div>
 </div>
 
-<div id="outline-container-orgcbe42e4" class="outline-2">
-<h2 id="orgcbe42e4"><span class="section-number-2">3.</span> Theme</h2>
+<div id="outline-container-org8aa8aaf" class="outline-2">
+<h2 id="org8aa8aaf"><span class="section-number-2">3.</span> Theme</h2>
 <div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org0172861" class="outline-3">
+<h3 id="org0172861"><span class="section-number-3">3.1.</span> Basic Settings</h3>
+<div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
@@ -434,7 +443,11 @@
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el ends here</span>
 </pre>
 </div>
-
+</div>
+</div>
+<div id="outline-container-orgaf5b881" class="outline-3">
+<h3 id="orgaf5b881"><span class="section-number-3">3.2.</span> Hasliberg Theme</h3>
+<div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
 </span>
@@ -516,7 +529,7 @@ Luminance should be between 0 and 100, chroma should be non-negative, and hue sh
   <span class="org-builtin">:type</span> '(const dark)
   <span class="org-builtin">:group</span> 'hasliberg-theme)
 
-(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-background</span>         '(<span class="org-builtin">:luminance</span>  7.877 <span class="org-builtin">:chroma</span>  1.800 <span class="org-builtin">:hue</span> 236.421))
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-background</span>         '(<span class="org-builtin">:luminance</span>  1.877 <span class="org-builtin">:chroma</span>  1.800 <span class="org-builtin">:hue</span> 236.421))
 (<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-background-variant</span> '(<span class="org-builtin">:luminance</span>  6.265 <span class="org-builtin">:chroma</span> 11.827 <span class="org-builtin">:hue</span> 252.428))
 (<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-neutral</span>            '(<span class="org-builtin">:luminance</span> 95.074 <span class="org-builtin">:chroma</span> 12.330 <span class="org-builtin">:hue</span> 252.652))
 (<span class="org-keyword">defvar</span> <span class="org-variable-name">hasliberg-theme-colour-primary</span>            '(<span class="org-builtin">:luminance</span> 93.380 <span class="org-builtin">:chroma</span>  2.848 <span class="org-builtin">:hue</span> 192.490))
@@ -1187,9 +1200,10 @@ black colours."</span>
 </div>
 </div>
 </div>
+</div>
 
-<div id="outline-container-org99f4e2c" class="outline-2">
-<h2 id="org99f4e2c"><span class="section-number-2">4.</span> Window</h2>
+<div id="outline-container-org6ea6109" class="outline-2">
+<h2 id="org6ea6109"><span class="section-number-2">4.</span> Window</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">window-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1238,8 +1252,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-orgde08eab" class="outline-2">
-<h2 id="orgde08eab"><span class="section-number-2">5.</span> Completion</h2>
+<div id="outline-container-org28a1368" class="outline-2">
+<h2 id="org28a1368"><span class="section-number-2">5.</span> Completion</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1329,8 +1343,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-org8d92e71" class="outline-2">
-<h2 id="org8d92e71"><span class="section-number-2">6.</span> Dired</h2>
+<div id="outline-container-org30b8c67" class="outline-2">
+<h2 id="org30b8c67"><span class="section-number-2">6.</span> Dired</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1352,8 +1366,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-orgccc70cc" class="outline-2">
-<h2 id="orgccc70cc"><span class="section-number-2">7.</span> Note</h2>
+<div id="outline-container-orgf644fd8" class="outline-2">
+<h2 id="orgf644fd8"><span class="section-number-2">7.</span> Note</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">note-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1539,8 +1553,8 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-org8d150d8" class="outline-2">
-<h2 id="org8d150d8"><span class="section-number-2">8.</span> Shell</h2>
+<div id="outline-container-org8d9d981" class="outline-2">
+<h2 id="org8d9d981"><span class="section-number-2">8.</span> Shell</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1607,18 +1621,52 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-orga2ef536" class="outline-2">
-<h2 id="orga2ef536"><span class="section-number-2">9.</span> Programming</h2>
+<div id="outline-container-org8be1217" class="outline-2">
+<h2 id="org8be1217"><span class="section-number-2">9.</span> Programming</h2>
 <div class="outline-text-2" id="text-9">
 </div>
-<div id="outline-container-org602dd49" class="outline-3">
-<h3 id="org602dd49"><span class="section-number-3">9.1.</span> Common</h3>
+<div id="outline-container-orge14bdfc" class="outline-3">
+<h3 id="orge14bdfc"><span class="section-number-3">9.1.</span> Common</h3>
 <div class="outline-text-3" id="text-9-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Summary  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
 </span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">move-line-up</span> ()
+  <span class="org-doc">"Move the current line up."</span>
+  (<span class="org-keyword">interactive</span>)
+  (transpose-lines 1)
+  (forward-line -2))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">move-line-down</span> ()
+  <span class="org-doc">"Move the current line down."</span>
+  (<span class="org-keyword">interactive</span>)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">insert-elisp-header</span> ()
+  <span class="org-doc">"Insert a standard header for Emacs Lisp files."</span>
+  (<span class="org-keyword">interactive</span>)
+  (goto-char (point-min))
+  (insert (format <span class="org-string">";;; %s --- Summary -*- lexical-binding: t -*-\n\n"</span>
+                                (file-name-nondirectory buffer-file-name)))
+  (insert <span class="org-string">";;; Commentary:\n\n"</span>)
+  (insert <span class="org-string">";;; Code:\n\n\n\n"</span>)
+  (insert (format <span class="org-string">"(provide '%s)\n"</span>
+                                (file-name-base buffer-file-name)))
+  (insert (format <span class="org-string">";;; %s ends here\n"</span>
+                                (file-name-nondirectory buffer-file-name)))
+  (goto-char (point-min))
+  (search-forward <span class="org-string">";;; Code:\n\n"</span>))
+
+(<span class="org-keyword">use-package</span> prog-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> prog-mode-map
+                        (<span class="org-string">"M-&lt;down&gt;"</span> . move-line-down)
+                        (<span class="org-string">"M-&lt;up&gt;"</span>   . move-line-up)))
+
 (<span class="org-keyword">use-package</span> corfu
   <span class="org-builtin">:custom</span>
   (corfu-auto nil)
@@ -1904,8 +1952,8 @@ INTERACTIVE is passed by Eglot but not used here."</span>
 </div>
 </div>
 
-<div id="outline-container-org987f030" class="outline-3">
-<h3 id="org987f030"><span class="section-number-3">9.2.</span> Web</h3>
+<div id="outline-container-org9215ca3" class="outline-3">
+<h3 id="org9215ca3"><span class="section-number-3">9.2.</span> Web</h3>
 <div class="outline-text-3" id="text-9-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">web-mode: powerful mode for HTML, JSX, TSX, Vue, etc.
@@ -2142,14 +2190,14 @@ INTERACTIVE is passed by Eglot but not used here."</span>
 </div>
 </div>
 
-<div id="outline-container-orgfb1bf25" class="outline-4">
-<h4 id="orgfb1bf25"><span class="section-number-4">9.2.1.</span> Required Local Dependencies</h4>
+<div id="outline-container-org0242efc" class="outline-4">
+<h4 id="org0242efc"><span class="section-number-4">9.2.1.</span> Required Local Dependencies</h4>
 <div class="outline-text-4" id="text-9-2-1">
 </div>
 <ol class="org-ol">
-<li><a id="orgca324c2"></a>Language Servers for Eglot<br />
+<li><a id="orgb97a5ce"></a>Language Servers for Eglot<br />
 <div class="outline-text-5" id="text-9-2-1-1">
-<pre class="example" id="orgec140b7">
+<pre class="example" id="orga7f98fc">
 # TypeScript/JavaScript Language Server
 npm install -g typescript typescript-language-server
 
@@ -2162,9 +2210,9 @@ npm install -g @tailwindcss/language-server
 </div>
 </li>
 
-<li><a id="org20bf895"></a>Code Formatting and Linting<br />
+<li><a id="orga37906d"></a>Code Formatting and Linting<br />
 <div class="outline-text-5" id="text-9-2-1-2">
-<pre class="example" id="org2cf2f68">
+<pre class="example" id="orge0d07cc">
 # Prettier (code formatter)
 npm install -g prettier
 
@@ -2177,9 +2225,9 @@ npm install -g eslint
 </div>
 </li>
 
-<li><a id="orgb8b2a3f"></a>Debugging Tools<br />
+<li><a id="orge183d1c"></a>Debugging Tools<br />
 <div class="outline-text-5" id="text-9-2-1-3">
-<pre class="example" id="org7b5f0fd">
+<pre class="example" id="orge524829">
 # Chrome/Chromium browser for Indium debugging
 # macOS: Install Google Chrome from https://www.google.com/chrome/
 # Windows: Install Google Chrome from https://www.google.com/chrome/
@@ -2190,8 +2238,8 @@ npm install -g eslint
 </ol>
 </div>
 
-<div id="outline-container-org88f2624" class="outline-4">
-<h4 id="org88f2624"><span class="section-number-4">9.2.2.</span> Emacs Packages</h4>
+<div id="outline-container-org27dfe87" class="outline-4">
+<h4 id="org27dfe87"><span class="section-number-4">9.2.2.</span> Emacs Packages</h4>
 <div class="outline-text-4" id="text-9-2-2">
 <p>
 All packages are installed automatically via use-package. Key packages include:
@@ -2213,12 +2261,12 @@ All packages are installed automatically via use-package. Key packages include:
 </div>
 </div>
 
-<div id="outline-container-org4828309" class="outline-4">
-<h4 id="org4828309"><span class="section-number-4">9.2.3.</span> Key Bindings</h4>
+<div id="outline-container-org6ab145c" class="outline-4">
+<h4 id="org6ab145c"><span class="section-number-4">9.2.3.</span> Key Bindings</h4>
 <div class="outline-text-4" id="text-9-2-3">
 </div>
 <ol class="org-ol">
-<li><a id="org9ef303e"></a>Eglot (LSP) - Available in all web modes<br />
+<li><a id="orgc270d8b"></a>Eglot (LSP) - Available in all web modes<br />
 <div class="outline-text-5" id="text-9-2-3-1">
 <ul class="org-ul">
 <li><code>C-c l a</code> - Code actions</li>
@@ -2229,7 +2277,7 @@ All packages are installed automatically via use-package. Key packages include:
 </div>
 </li>
 
-<li><a id="org6c2d4d3"></a>npm-mode<br />
+<li><a id="org2105e9d"></a>npm-mode<br />
 <div class="outline-text-5" id="text-9-2-3-2">
 <p>
 npm-mode provides a prefix keymap for npm commands. Use <code>M-x npm-mode-npm-run</code> or access via the command keymap:
@@ -2246,7 +2294,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="orgca90ac2"></a>Jest Testing<br />
+<li><a id="org31a7552"></a>Jest Testing<br />
 <div class="outline-text-5" id="text-9-2-3-3">
 <ul class="org-ul">
 <li><code>C-c t j</code> - Run Jest tests</li>
@@ -2255,7 +2303,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="org864b6db"></a>JavaScript Import<br />
+<li><a id="org80d396c"></a>JavaScript Import<br />
 <div class="outline-text-5" id="text-9-2-3-4">
 <ul class="org-ul">
 <li><code>C-c i i</code> - Import module</li>
@@ -2264,7 +2312,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="orgefb9b7a"></a>Indium Debugging<br />
+<li><a id="org0aa9d2b"></a>Indium Debugging<br />
 <div class="outline-text-5" id="text-9-2-3-5">
 <ul class="org-ul">
 <li><code>C-c C-b</code> - Toggle breakpoint</li>
@@ -2276,7 +2324,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="orgdeed39e"></a>Skewer (Live Development)<br />
+<li><a id="org4f68293"></a>Skewer (Live Development)<br />
 <div class="outline-text-5" id="text-9-2-3-6">
 <ul class="org-ul">
 <li><code>C-c C-k</code> - Load buffer to browser</li>
@@ -2288,12 +2336,12 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </ol>
 </div>
 
-<div id="outline-container-org3d17122" class="outline-4">
-<h4 id="org3d17122"><span class="section-number-4">9.2.4.</span> Workflow Examples</h4>
+<div id="outline-container-org3a83a0d" class="outline-4">
+<h4 id="org3a83a0d"><span class="section-number-4">9.2.4.</span> Workflow Examples</h4>
 <div class="outline-text-4" id="text-9-2-4">
 </div>
 <ol class="org-ol">
-<li><a id="org6b4f278"></a>Starting a React/Next.js Project<br />
+<li><a id="org39dea35"></a>Starting a React/Next.js Project<br />
 <div class="outline-text-5" id="text-9-2-4-1">
 <ol class="org-ol">
 <li>Open project in Emacs</li>
@@ -2306,7 +2354,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="org5f4e62f"></a>Debugging with Indium<br />
+<li><a id="orgdf611a7"></a>Debugging with Indium<br />
 <div class="outline-text-5" id="text-9-2-4-2">
 <ol class="org-ol">
 <li>Start your dev server (e.g., <code>npm run dev</code>)</li>
@@ -2318,7 +2366,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="org5c5d632"></a>Live Development with Skewer<br />
+<li><a id="org5996925"></a>Live Development with Skewer<br />
 <div class="outline-text-5" id="text-9-2-4-3">
 <ol class="org-ol">
 <li><code>M-x run-skewer</code> to start the server</li>
@@ -2329,14 +2377,14 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="orgd55addd"></a>Testing APIs with restclient<br />
+<li><a id="orgd1e242d"></a>Testing APIs with restclient<br />
 <div class="outline-text-5" id="text-9-2-4-4">
 <ol class="org-ol">
 <li>Create a .rest file</li>
 <li><p>
 Write HTTP requests:
 </p>
-<pre class="example" id="org12dfa22">
+<pre class="example" id="orgb3e5197">
 GET https://api.example.com/users
 Content-Type: application/json
 
@@ -2357,8 +2405,8 @@ Content-Type: application/json
 </ol>
 </div>
 
-<div id="outline-container-orgdfedeb8" class="outline-4">
-<h4 id="orgdfedeb8"><span class="section-number-4">9.2.5.</span> Project Structure Recommendations</h4>
+<div id="outline-container-org5821040" class="outline-4">
+<h4 id="org5821040"><span class="section-number-4">9.2.5.</span> Project Structure Recommendations</h4>
 <div class="outline-text-4" id="text-9-2-5">
 <p>
 For optimal Emacs integration, use these files in your projects:
@@ -2366,7 +2414,7 @@ For optimal Emacs integration, use these files in your projects:
 </div>
 
 <ol class="org-ol">
-<li><a id="orgf7ea29b"></a>.prettierrc.json<br />
+<li><a id="org2ae1920"></a>.prettierrc.json<br />
 <div class="outline-text-5" id="text-9-2-5-1">
 <div class="org-src-container">
 <pre class="src src-json">{
@@ -2381,7 +2429,7 @@ For optimal Emacs integration, use these files in your projects:
 </div>
 </li>
 
-<li><a id="org81a8117"></a>.eslintrc.json<br />
+<li><a id="org20baae6"></a>.eslintrc.json<br />
 <div class="outline-text-5" id="text-9-2-5-2">
 <div class="org-src-container">
 <pre class="src src-json">{
@@ -2402,7 +2450,7 @@ For optimal Emacs integration, use these files in your projects:
 </div>
 </li>
 
-<li><a id="org757f235"></a>tsconfig.json (for TypeScript projects)<br />
+<li><a id="org3e82800"></a>tsconfig.json (for TypeScript projects)<br />
 <div class="outline-text-5" id="text-9-2-5-3">
 <div class="org-src-container">
 <pre class="src src-json">{
@@ -2426,8 +2474,8 @@ For optimal Emacs integration, use these files in your projects:
 </div>
 </div>
 
-<div id="outline-container-org7f78102" class="outline-2">
-<h2 id="org7f78102"><span class="section-number-2">10.</span> Miscellaneous</h2>
+<div id="outline-container-org8d35565" class="outline-2">
+<h2 id="org8d35565"><span class="section-number-2">10.</span> Miscellaneous</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2588,8 +2636,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-orgac8f280" class="outline-2">
-<h2 id="orgac8f280"><span class="section-number-2">11.</span> Linux</h2>
+<div id="outline-container-orge37ac8d" class="outline-2">
+<h2 id="orge37ac8d"><span class="section-number-2">11.</span> Linux</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">linux-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2611,8 +2659,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org843932d" class="outline-2">
-<h2 id="org843932d"><span class="section-number-2">12.</span> MacOS</h2>
+<div id="outline-container-org40ef687" class="outline-2">
+<h2 id="org40ef687"><span class="section-number-2">12.</span> MacOS</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">macos-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2640,8 +2688,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org9346db9" class="outline-2">
-<h2 id="org9346db9"><span class="section-number-2">13.</span> Windows</h2>
+<div id="outline-container-org699c8cb" class="outline-2">
+<h2 id="org699c8cb"><span class="section-number-2">13.</span> Windows</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">windows-conf.el --- Summary  -*- lexical-binding: t; -*-
