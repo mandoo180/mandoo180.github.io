@@ -13,51 +13,51 @@
   body { margin:0; }
   @media (prefers-color-scheme: light) { body { background: #ffffff; } }
   @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style>
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
 <h1 class="title">Building Abstractions with Data</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga1fff26">1. Introduction to Data Abstraction</a>
+<li><a href="#org7492cff">1. Introduction to Data Abstraction</a>
 <ul>
-<li><a href="#orgdc9e86c">1.1. Example: Arithmetic Operations for Rational Numbers</a></li>
-<li><a href="#org3a8b42a">1.2. Abstraction Barriers</a></li>
-<li><a href="#org76da727">1.3. What Is Meant by Data?</a></li>
-<li><a href="#org1fb49e6">1.4. Extended Exercise: Interval Arithmetic</a></li>
+<li><a href="#org9166868">1.1. Example: Arithmetic Operations for Rational Numbers</a></li>
+<li><a href="#orga1f9b4e">1.2. Abstraction Barriers</a></li>
+<li><a href="#org2044441">1.3. What Is Meant by Data?</a></li>
+<li><a href="#orgb41e9f5">1.4. Extended Exercise: Interval Arithmetic</a></li>
 </ul>
 </li>
-<li><a href="#org4f20a58">2. Hierarchical Data and the Closure Property</a>
+<li><a href="#org72851ad">2. Hierarchical Data and the Closure Property</a>
 <ul>
-<li><a href="#org19d53bd">2.1. Representing Sequences</a></li>
-<li><a href="#orgd56d9b7">2.2. Hierarchical Structures</a></li>
-<li><a href="#orgd883602">2.3. Sequences as Conventional Interfaces</a></li>
-<li><a href="#org3d6d950">2.4. Example: A Picture Language</a></li>
+<li><a href="#orga38f486">2.1. Representing Sequences</a></li>
+<li><a href="#org08b8d0d">2.2. Hierarchical Structures</a></li>
+<li><a href="#orgac71301">2.3. Sequences as Conventional Interfaces</a></li>
+<li><a href="#orgeeff226">2.4. Example: A Picture Language</a></li>
 </ul>
 </li>
-<li><a href="#orgf91c6b5">3. Symbolic Data</a>
+<li><a href="#org8ebe48b">3. Symbolic Data</a>
 <ul>
-<li><a href="#orgec77f46">3.1. Quotation</a></li>
-<li><a href="#org5c16073">3.2. Example: Symbolic Differentiation</a></li>
-<li><a href="#orgc69863f">3.3. Example: Representing Sets</a></li>
-<li><a href="#org113c520">3.4. Example: Huffman Encoding Trees</a></li>
+<li><a href="#org876992e">3.1. Quotation</a></li>
+<li><a href="#org26abc5b">3.2. Example: Symbolic Differentiation</a></li>
+<li><a href="#org4cd5598">3.3. Example: Representing Sets</a></li>
+<li><a href="#org9eeec94">3.4. Example: Huffman Encoding Trees</a></li>
 </ul>
 </li>
-<li><a href="#orgaa0a8b7">4. Multiple Representations for Abstract Data</a>
+<li><a href="#org162d800">4. Multiple Representations for Abstract Data</a>
 <ul>
-<li><a href="#org725885f">4.1. Representations for Complex Numbers</a></li>
-<li><a href="#org10d90d1">4.2. Tagged data</a></li>
-<li><a href="#orgdd7c980">4.3. Data-Directed Programming and Additivity</a></li>
+<li><a href="#orgc3e3192">4.1. Representations for Complex Numbers</a></li>
+<li><a href="#org5671ad0">4.2. Tagged data</a></li>
+<li><a href="#orgc4c0dc0">4.3. Data-Directed Programming and Additivity</a></li>
 </ul>
 </li>
-<li><a href="#org98b00e3">5. Systems with Generic Operations</a>
+<li><a href="#org824513d">5. Systems with Generic Operations</a>
 <ul>
-<li><a href="#orgdd94882">5.1. Generic Arithmetic Operations</a></li>
-<li><a href="#org63bc024">5.2. Combining Data of Different Types</a></li>
-<li><a href="#org2aa5078">5.3. Example: Symbolic Algebra</a></li>
+<li><a href="#orgf73dca1">5.1. Generic Arithmetic Operations</a></li>
+<li><a href="#org0dd6c42">5.2. Combining Data of Different Types</a></li>
+<li><a href="#org5ccdf72">5.3. Example: Symbolic Algebra</a></li>
 </ul>
 </li>
 </ul>
@@ -282,8 +282,8 @@ operations are irrelevant.
 </p>
 
 
-<div id="outline-container-orga1fff26" class="outline-2">
-<h2 id="orga1fff26"><span class="section-number-2">1.</span> Introduction to Data Abstraction</h2>
+<div id="outline-container-org7492cff" class="outline-2">
+<h2 id="org7492cff"><span class="section-number-2">1.</span> Introduction to Data Abstraction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In section *Note 1-1-8::, we noted that a procedure used as an element
@@ -322,8 +322,8 @@ procedures for manipulating rational numbers.
 </div>
 
 
-<div id="outline-container-orgdc9e86c" class="outline-3">
-<h3 id="orgdc9e86c"><span class="section-number-3">1.1.</span> Example: Arithmetic Operations for Rational Numbers</h3>
+<div id="outline-container-org9166868" class="outline-3">
+<h3 id="org9166868"><span class="section-number-3">1.1.</span> Example: Arithmetic Operations for Rational Numbers</h3>
 <div class="outline-text-3" id="text-1-1">
 <hr />
 
@@ -667,8 +667,8 @@ as the value returned by `print-rat'.
 </div>
 
 
-<div id="outline-container-org3a8b42a" class="outline-3">
-<h3 id="org3a8b42a"><span class="section-number-3">1.2.</span> Abstraction Barriers</h3>
+<div id="outline-container-orga1f9b4e" class="outline-3">
+<h3 id="orga1f9b4e"><span class="section-number-3">1.2.</span> Abstraction Barriers</h3>
 <div class="outline-text-3" id="text-1-2">
 <hr />
 
@@ -844,8 +844,8 @@ representation?
 </div>
 
 
-<div id="outline-container-org76da727" class="outline-3">
-<h3 id="org76da727"><span class="section-number-3">1.3.</span> What Is Meant by Data?</h3>
+<div id="outline-container-org2044441" class="outline-3">
+<h3 id="org2044441"><span class="section-number-3">1.3.</span> What Is Meant by Data?</h3>
 <div class="outline-text-3" id="text-1-3">
 <hr />
 
@@ -1052,8 +1052,8 @@ paper by Liskov and Zilles (1975).
 </div>
 
 
-<div id="outline-container-org1fb49e6" class="outline-3">
-<h3 id="org1fb49e6"><span class="section-number-3">1.4.</span> Extended Exercise: Interval Arithmetic</h3>
+<div id="outline-container-orgb41e9f5" class="outline-3">
+<h3 id="orgb41e9f5"><span class="section-number-3">1.4.</span> Extended Exercise: Interval Arithmetic</h3>
 <div class="outline-text-3" id="text-1-4">
 <hr />
 
@@ -1337,8 +1337,8 @@ difficult.)
 </div>
 
 
-<div id="outline-container-org4f20a58" class="outline-2">
-<h2 id="org4f20a58"><span class="section-number-2">2.</span> Hierarchical Data and the Closure Property</h2>
+<div id="outline-container-org72851ad" class="outline-2">
+<h2 id="org72851ad"><span class="section-number-2">2.</span> Hierarchical Data and the Closure Property</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 As we have seen, pairs provide a primitive "glue" that we can use to
@@ -1601,8 +1601,8 @@ operate on 10 data structures."
 </div>
 
 
-<div id="outline-container-org19d53bd" class="outline-3">
-<h3 id="org19d53bd"><span class="section-number-3">2.1.</span> Representing Sequences</h3>
+<div id="outline-container-orga38f486" class="outline-3">
+<h3 id="orga38f486"><span class="section-number-3">2.1.</span> Representing Sequences</h3>
 <div class="outline-text-3" id="text-2-1">
 <hr />
 
@@ -2313,8 +2313,8 @@ example:
 </div>
 
 
-<div id="outline-container-orgd56d9b7" class="outline-3">
-<h3 id="orgd56d9b7"><span class="section-number-3">2.2.</span> Hierarchical Structures</h3>
+<div id="outline-container-org08b8d0d" class="outline-3">
+<h3 id="org08b8d0d"><span class="section-number-3">2.2.</span> Hierarchical Structures</h3>
 <div class="outline-text-3" id="text-2-2">
 <hr />
 
@@ -2817,8 +2817,8 @@ the empty list satisfies `null?' and also is not a pair.
 </div>
 
 
-<div id="outline-container-orgd883602" class="outline-3">
-<h3 id="orgd883602"><span class="section-number-3">2.3.</span> Sequences as Conventional Interfaces</h3>
+<div id="outline-container-orgac71301" class="outline-3">
+<h3 id="orgac71301"><span class="section-number-3">2.3.</span> Sequences as Conventional Interfaces</h3>
 <div class="outline-text-3" id="text-2-3">
 <hr />
 
@@ -4048,8 +4048,8 @@ File: sicp.info,  Node: 2-2-4,  Prev: 2-2-3,  Up: 2-2
 </div>
 </div>
 
-<div id="outline-container-org3d6d950" class="outline-3">
-<h3 id="org3d6d950"><span class="section-number-3">2.4.</span> Example: A Picture Language</h3>
+<div id="outline-container-orgeeff226" class="outline-3">
+<h3 id="orgeeff226"><span class="section-number-3">2.4.</span> Example: A Picture Language</h3>
 <div class="outline-text-3" id="text-2-4">
 <hr />
 
@@ -5074,8 +5074,8 @@ also stretches and shrinks the image to fit into the rotated frame.
 </div>
 
 
-<div id="outline-container-orgf91c6b5" class="outline-2">
-<h2 id="orgf91c6b5"><span class="section-number-2">3.</span> Symbolic Data</h2>
+<div id="outline-container-org8ebe48b" class="outline-2">
+<h2 id="org8ebe48b"><span class="section-number-2">3.</span> Symbolic Data</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 All the compound data objects we have used so far were constructed
@@ -5091,8 +5091,8 @@ to work with arbitrary symbols as data.
 </div>
 
 
-<div id="outline-container-orgec77f46" class="outline-3">
-<h3 id="orgec77f46"><span class="section-number-3">3.1.</span> Quotation</h3>
+<div id="outline-container-org876992e" class="outline-3">
+<h3 id="org876992e"><span class="section-number-3">3.1.</span> Quotation</h3>
 <div class="outline-text-3" id="text-3-1">
 <hr />
 
@@ -5374,8 +5374,8 @@ numbers, then `a' and `b' are `equal?' if they are numerically equal.
 </div>
 
 
-<div id="outline-container-org5c16073" class="outline-3">
-<h3 id="org5c16073"><span class="section-number-3">3.2.</span> Example: Symbolic Differentiation</h3>
+<div id="outline-container-org26abc5b" class="outline-3">
+<h3 id="org26abc5b"><span class="section-number-3">3.2.</span> Example: Symbolic Differentiation</h3>
 <div class="outline-text-3" id="text-3-2">
 <hr />
 
@@ -5796,8 +5796,8 @@ b. The problem becomes substantially harder if we allow standard
 </div>
 
 
-<div id="outline-container-orgc69863f" class="outline-3">
-<h3 id="orgc69863f"><span class="section-number-3">3.3.</span> Example: Representing Sets</h3>
+<div id="outline-container-org4cd5598" class="outline-3">
+<h3 id="org4cd5598"><span class="section-number-3">3.3.</span> Example: Representing Sets</h3>
 <div class="outline-text-3" id="text-3-3">
 <hr />
 
@@ -6396,8 +6396,8 @@ Paul Hilfinger.
 </div>
 
 
-<div id="outline-container-org113c520" class="outline-3">
-<h3 id="org113c520"><span class="section-number-3">3.4.</span> Example: Huffman Encoding Trees</h3>
+<div id="outline-container-org9eeec94" class="outline-3">
+<h3 id="org9eeec94"><span class="section-number-3">3.4.</span> Example: Huffman Encoding Trees</h3>
 <div class="outline-text-3" id="text-3-4">
 <hr />
 
@@ -6953,8 +6953,8 @@ of Huffman codes.
 </div>
 
 
-<div id="outline-container-orgaa0a8b7" class="outline-2">
-<h2 id="orgaa0a8b7"><span class="section-number-2">4.</span> Multiple Representations for Abstract Data</h2>
+<div id="outline-container-org162d800" class="outline-2">
+<h2 id="org162d800"><span class="section-number-2">4.</span> Multiple Representations for Abstract Data</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 We have introduced data abstraction, a methodology for structuring
@@ -7081,8 +7081,8 @@ use generic arithmetic in a system that performs symbolic algebra.
 </div>
 
 
-<div id="outline-container-org725885f" class="outline-3">
-<h3 id="org725885f"><span class="section-number-3">4.1.</span> Representations for Complex Numbers</h3>
+<div id="outline-container-orgc3e3192" class="outline-3">
+<h3 id="orgc3e3192"><span class="section-number-3">4.1.</span> Representations for Complex Numbers</h3>
 <div class="outline-text-3" id="text-4-1">
 <hr />
 
@@ -7398,8 +7398,8 @@ determine the quadrant of the angle.
 </div>
 
 
-<div id="outline-container-org10d90d1" class="outline-3">
-<h3 id="org10d90d1"><span class="section-number-3">4.2.</span> Tagged data</h3>
+<div id="outline-container-org5671ad0" class="outline-3">
+<h3 id="org5671ad0"><span class="section-number-3">4.2.</span> Tagged data</h3>
 <div class="outline-text-3" id="text-4-2">
 <hr />
 
@@ -7712,8 +7712,8 @@ in section *Note 2-5::.
 </div>
 
 
-<div id="outline-container-orgdd7c980" class="outline-3">
-<h3 id="orgdd7c980"><span class="section-number-3">4.3.</span> Data-Directed Programming and Additivity</h3>
+<div id="outline-container-orgc4c0dc0" class="outline-3">
+<h3 id="orgc4c0dc0"><span class="section-number-3">4.3.</span> Data-Directed Programming and Additivity</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 The general strategy of checking the type of a datum and calling an
@@ -7791,7 +7791,7 @@ table.
 <b>Figure 2.22:</b> Table of operations for the complex-number system.
 </p>
 
-<table id="orgd3ceb7d" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org0976b07" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -8288,8 +8288,8 @@ procedures of one argument.
 </div>
 
 
-<div id="outline-container-org98b00e3" class="outline-2">
-<h2 id="org98b00e3"><span class="section-number-2">5.</span> Systems with Generic Operations</h2>
+<div id="outline-container-org824513d" class="outline-2">
+<h2 id="org824513d"><span class="section-number-2">5.</span> Systems with Generic Operations</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 In the previous section, we saw how to design systems in which data
@@ -8328,7 +8328,7 @@ to produce a generic arithmetic system.
 <b>Figure 2.23:</b> Generic arithmetic system.
 </p>
 
-<pre class="example" id="org94e070f">
+<pre class="example" id="orgba5e0c9">
                         Programs that use numbers
                            +-----------------+
 ---------------------------| add sub mul div |-------------------
@@ -8347,8 +8347,8 @@ to produce a generic arithmetic system.
 </div>
 
 
-<div id="outline-container-orgdd94882" class="outline-3">
-<h3 id="orgdd94882"><span class="section-number-3">5.1.</span> Generic Arithmetic Operations</h3>
+<div id="outline-container-orgf73dca1" class="outline-3">
+<h3 id="orgf73dca1"><span class="section-number-3">5.1.</span> Generic Arithmetic Operations</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 The task of designing generic arithmetic operations is analogous to
@@ -8557,7 +8557,7 @@ to be used for further dispatching.
 <b>Figure 2.24:</b> Representation of 3 + 4i in rectangular form.
 </p>
 
-<pre class="example" id="orge17b425">
+<pre class="example" id="org453da60">
      +---+---+     +---+---+     +---+---+
 ----&gt;| * | *-+----&gt;| * | *-+----&gt;| * | * |
      +-|-+---+     +-|-+---+     +-|-+-|-+
@@ -8641,8 +8641,8 @@ numbers, and complex numbers.
 </div>
 
 
-<div id="outline-container-org63bc024" class="outline-3">
-<h3 id="org63bc024"><span class="section-number-3">5.2.</span> Combining Data of Different Types</h3>
+<div id="outline-container-org0dd6c42" class="outline-3">
+<h3 id="org0dd6c42"><span class="section-number-3">5.2.</span> Combining Data of Different Types</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 We have seen how to define a unified arithmetic system that encompasses
@@ -8845,7 +8845,7 @@ Figure 2-25::.
 <p>
 <b>Figure 2.25:</b> A tower of types.
 </p>
-<pre class="example" id="org38d1bb6">
+<pre class="example" id="org6c8ace8">
  complex
    ^
    |
@@ -8911,7 +8911,7 @@ those that cannot, such as 6 + 2i.)
 <p>
 <b>Figure 2.26:</b> Relations among types of geometric figures.
 </p>
-<pre class="example" id="orgc2fc8c7">
+<pre class="example" id="org23fa324">
                      polygon
                     /       \
                    /         \
@@ -9142,8 +9142,8 @@ primitive, which returns the closest integer to its argument.
 </div>
 
 
-<div id="outline-container-org2aa5078" class="outline-3">
-<h3 id="org2aa5078"><span class="section-number-3">5.3.</span> Example: Symbolic Algebra</h3>
+<div id="outline-container-org5ccdf72" class="outline-3">
+<h3 id="org5ccdf72"><span class="section-number-3">5.3.</span> Example: Symbolic Algebra</h3>
 <div class="outline-text-3" id="text-5-3">
 <hr />
 
@@ -9417,7 +9417,7 @@ we also are automatically able to handle operations on polynomials of
 different coefficient types, such as
 </p>
 
-<pre class="example" id="org9bf5a29">
+<pre class="example" id="orgb97f0df">
 
                          /        2                 \
 [3x^2 + (2 + 3i)x + 7] * | x^4 + --- x^2 + (5 + 3i) |
@@ -9431,7 +9431,7 @@ as the `add' and `mul' operations for type `polynomial', our system is
 also automatically able to handle polynomial operations such as
 </p>
 
-<pre class="example" id="org767c861">
+<pre class="example" id="orgacc4e6c">
 [(y + 1)x^2 + (y^2 + 1)x + (y - 1)] * [(y - 2)x + (y^3 + 7)]
 </pre>
 

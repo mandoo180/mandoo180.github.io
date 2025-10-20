@@ -13,24 +13,24 @@
   body { margin:0; }
   @media (prefers-color-scheme: light) { body { background: #ffffff; } }
   @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style>
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
 <h1 class="title">C Programming Language</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf9e2dac">1. CHAPTER 4. Functions and Program Structure</a>
+<li><a href="#orgd4f17b3">1. CHAPTER 4. Functions and Program Structure</a>
 <ul>
-<li><a href="#orgc320753">1.1. Basics of Functions</a></li>
-<li><a href="#orgf44345d">1.2. Functions Returning Non-integers</a></li>
-<li><a href="#org99abda3">1.3. External Variables</a></li>
-<li><a href="#org737c6dd">1.4. Recursion</a></li>
+<li><a href="#org1af24e1">1.1. Basics of Functions</a></li>
+<li><a href="#orgac2c6b4">1.2. Functions Returning Non-integers</a></li>
+<li><a href="#org365b917">1.3. External Variables</a></li>
+<li><a href="#org9b57795">1.4. Recursion</a></li>
 </ul>
 </li>
-<li><a href="#org3825b13">2. CHAPTER 5. Pointers and Arrays</a></li>
+<li><a href="#org9bbb96a">2. CHAPTER 5. Pointers and Arrays</a></li>
 </ul>
 </div>
 </div>
@@ -40,12 +40,12 @@
 </div>
 
 
-<div id="outline-container-orgf9e2dac" class="outline-2">
-<h2 id="orgf9e2dac"><span class="section-number-2">1.</span> CHAPTER 4. Functions and Program Structure</h2>
+<div id="outline-container-orgd4f17b3" class="outline-2">
+<h2 id="orgd4f17b3"><span class="section-number-2">1.</span> CHAPTER 4. Functions and Program Structure</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgc320753" class="outline-3">
-<h3 id="orgc320753"><span class="section-number-3">1.1.</span> Basics of Functions</h3>
+<div id="outline-container-org1af24e1" class="outline-3">
+<h3 id="org1af24e1"><span class="section-number-3">1.1.</span> Basics of Functions</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
@@ -121,8 +121,8 @@
 </div>
 </div>
 
-<div id="outline-container-orgf44345d" class="outline-3">
-<h3 id="orgf44345d"><span class="section-number-3">1.2.</span> Functions Returning Non-integers</h3>
+<div id="outline-container-orgac2c6b4" class="outline-3">
+<h3 id="orgac2c6b4"><span class="section-number-3">1.2.</span> Functions Returning Non-integers</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;ctype.h&gt;</span>
@@ -207,8 +207,8 @@
 </div>
 </div>
 
-<div id="outline-container-org99abda3" class="outline-3">
-<h3 id="org99abda3"><span class="section-number-3">1.3.</span> External Variables</h3>
+<div id="outline-container-org365b917" class="outline-3">
+<h3 id="org365b917"><span class="section-number-3">1.3.</span> External Variables</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#define</span> <span class="org-variable-name">NUMBER</span> <span class="org-string">'0'</span>              <span class="org-comment-delimiter">/* </span><span class="org-comment">signal that a number was found</span><span class="org-comment-delimiter"> */</span>
@@ -384,7 +384,7 @@
 <p>
 After execute program, input and output will be like below.
 </p>
-<pre class="example" id="orgf126e50">
+<pre class="example" id="orge1d5891">
 IN: 1 1 +
 OUT: 2
 IN: 1 1 + 2 2 + *
@@ -394,8 +394,8 @@ OUT: 8
 </div>
 </div>
 
-<div id="outline-container-org737c6dd" class="outline-3">
-<h3 id="org737c6dd"><span class="section-number-3">1.4.</span> Recursion</h3>
+<div id="outline-container-org9b57795" class="outline-3">
+<h3 id="org9b57795"><span class="section-number-3">1.4.</span> Recursion</h3>
 <div class="outline-text-3" id="text-1-4">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
@@ -461,8 +461,8 @@ OUT: 8
 </div>
 </div>
 
-<div id="outline-container-org3825b13" class="outline-2">
-<h2 id="org3825b13"><span class="section-number-2">2.</span> CHAPTER 5. Pointers and Arrays</h2>
+<div id="outline-container-org9bbb96a" class="outline-2">
+<h2 id="org9bbb96a"><span class="section-number-2">2.</span> CHAPTER 5. Pointers and Arrays</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-c"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;stdio.h&gt;</span>
