@@ -22,34 +22,34 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2e0b9b0">1. The Elements of Programming</a>
+<li><a href="#orgbcef389">1. The Elements of Programming</a>
 <ul>
-<li><a href="#org86ad239">1.1. Expressions</a></li>
-<li><a href="#org9da0988">1.2. Naming and the Environment</a></li>
-<li><a href="#org81b7a57">1.3. Evaluating Combinations</a></li>
-<li><a href="#orgf060ce3">1.4. Compound Procedures</a></li>
-<li><a href="#org68d8dc6">1.5. The Substitution Model for Procedure Application</a></li>
-<li><a href="#org20934cf">1.6. Conditional Expressions and Predicates</a></li>
-<li><a href="#org5944e19">1.7. Example: Square Roots by Newton's Method</a></li>
-<li><a href="#org21ea35b">1.8. Procedures as Black-Box Abstractions</a></li>
+<li><a href="#org56551fa">1.1. Expressions</a></li>
+<li><a href="#org29fd874">1.2. Naming and the Environment</a></li>
+<li><a href="#org4ddddf4">1.3. Evaluating Combinations</a></li>
+<li><a href="#orga0f4fba">1.4. Compound Procedures</a></li>
+<li><a href="#org8d01789">1.5. The Substitution Model for Procedure Application</a></li>
+<li><a href="#org2f8c57b">1.6. Conditional Expressions and Predicates</a></li>
+<li><a href="#orgb1ae866">1.7. Example: Square Roots by Newton's Method</a></li>
+<li><a href="#org549ebda">1.8. Procedures as Black-Box Abstractions</a></li>
 </ul>
 </li>
-<li><a href="#org17ec8e7">2. Procedures and the Processes They Generate</a>
+<li><a href="#org0543a36">2. Procedures and the Processes They Generate</a>
 <ul>
-<li><a href="#org52f7f94">2.1. Linear Recursion and Iteration</a></li>
-<li><a href="#org8c64415">2.2. Tree Recursion</a></li>
-<li><a href="#orga6b3358">2.3. Orders of Growth</a></li>
-<li><a href="#org6b2ffaa">2.4. Exponentiation</a></li>
-<li><a href="#orgef321eb">2.5. Greatest Common Divisors</a></li>
-<li><a href="#orgbdb64ec">2.6. Example: Testing for Primality</a></li>
+<li><a href="#org16bbb31">2.1. Linear Recursion and Iteration</a></li>
+<li><a href="#org6da47e9">2.2. Tree Recursion</a></li>
+<li><a href="#orgd2adee9">2.3. Orders of Growth</a></li>
+<li><a href="#orgf682193">2.4. Exponentiation</a></li>
+<li><a href="#orga8292f3">2.5. Greatest Common Divisors</a></li>
+<li><a href="#org7dfc54d">2.6. Example: Testing for Primality</a></li>
 </ul>
 </li>
-<li><a href="#orged3bb86">3. Formulating Abstractions with Higher-Order Procedures</a>
+<li><a href="#orge89498d">3. Formulating Abstractions with Higher-Order Procedures</a>
 <ul>
-<li><a href="#orgeabafcc">3.1. Procedures as Arguments</a></li>
-<li><a href="#org1a3c0d8">3.2. Constructing Procedures Using `Lambda'</a></li>
-<li><a href="#orgd2fa9c5">3.3. Procedures as General Methods</a></li>
-<li><a href="#org57cd0cd">3.4. Procedures as Returned Values</a></li>
+<li><a href="#org387d5c7">3.1. Procedures as Arguments</a></li>
+<li><a href="#orgcae5aea">3.2. Constructing Procedures Using `Lambda'</a></li>
+<li><a href="#org3ca0989">3.3. Procedures as General Methods</a></li>
+<li><a href="#orgddd3b96">3.4. Procedures as Returned Values</a></li>
 </ul>
 </li>
 </ul>
@@ -252,8 +252,8 @@ al. 1992; Sussman and Wisdom 1992).
 </p>
 
 
-<div id="outline-container-org2e0b9b0" class="outline-2">
-<h2 id="org2e0b9b0"><span class="section-number-2">1.</span> The Elements of Programming</h2>
+<div id="outline-container-orgbcef389" class="outline-2">
+<h2 id="orgbcef389"><span class="section-number-2">1.</span> The Elements of Programming</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 A powerful programming language is more than just a means for
@@ -327,8 +327,8 @@ operations.
 </div>
 
 
-<div id="outline-container-org86ad239" class="outline-3">
-<h3 id="org86ad239"><span class="section-number-3">1.1.</span> Expressions</h3>
+<div id="outline-container-org56551fa" class="outline-3">
+<h3 id="org56551fa"><span class="section-number-3">1.1.</span> Expressions</h3>
 <div class="outline-text-3" id="text-1-1">
 <hr />
 
@@ -345,14 +345,14 @@ One kind of primitive expression you might type is a number.  (More
 precisely, the expression that you type consists of the numerals that
 represent the number in base 10.)  If you present Lisp with a number
 </p>
-<pre class="example" id="org7f1be4a">
+<pre class="example" id="org25f71cd">
 486
 </pre>
 
 <p>
 the interpreter will respond by printing (1)
 </p>
-<pre class="example" id="org414b0a8">
+<pre class="example" id="org19ec72d">
 486
 </pre>
 
@@ -363,7 +363,7 @@ compound expression that represents the application of the procedure to
 those numbers.  For example:
 </p>
 
-<pre class="example" id="org8380b23">
+<pre class="example" id="orgfdb35cf">
 (+ 137 349)
 486
 
@@ -399,7 +399,7 @@ them is that it can accommodate procedures that may take an arbitrary
 number of arguments, as in the following examples:
 </p>
 
-<pre class="example" id="org6b09455">
+<pre class="example" id="org90989fd">
 (+ 21 35 12 7)
 75
 
@@ -418,7 +418,7 @@ straightforward way to allow combinations to be nested, that is, to
 have combinations whose elements are themselves combinations:
 </p>
 
-<pre class="example" id="org355df45">
+<pre class="example" id="org23411ef">
 (+ (* 3 5) (- 10 6))
 19
 </pre>
@@ -430,7 +430,7 @@ evaluate.  It is we humans who get confused by still relatively simple
 expressions such as
 </p>
 
-<pre class="example" id="org9279362">
+<pre class="example" id="org8906635">
 (+ (* 3 (+ (* 2 4) (+ 3 5))) (+ (- 10 7) 6))
 </pre>
 
@@ -439,7 +439,7 @@ which the interpreter would readily evaluate to be 57.  We can help
 ourselves by writing such an expression in the form
 </p>
 
-<pre class="example" id="org6b8b2bd">
+<pre class="example" id="orgc1450f7">
 (+ (* 3
       (+ (* 2 4)
          (+ 3 5)))
@@ -492,8 +492,8 @@ everything but the cost of nothing."
 </div>
 
 
-<div id="outline-container-org9da0988" class="outline-3">
-<h3 id="org9da0988"><span class="section-number-3">1.2.</span> Naming and the Environment</h3>
+<div id="outline-container-org29fd874" class="outline-3">
+<h3 id="org29fd874"><span class="section-number-3">1.2.</span> Naming and the Environment</h3>
 <div class="outline-text-3" id="text-1-2">
 <hr />
 
@@ -518,7 +518,7 @@ causes the interpreter to associate the value 2 with the name
 we can refer to the value 2 by name:
 </p>
 
-<pre class="example" id="orgdf4d727">
+<pre class="example" id="org736da65">
 size
 2
 
@@ -530,7 +530,7 @@ size
 Here are further examples of the use of `define':
 </p>
 
-<pre class="example" id="orgf5644ea">
+<pre class="example" id="org99d87be">
 (define pi 3.14159)
 
 (define radius 10)
@@ -587,8 +587,8 @@ implementing interpreters.
 </div>
 
 
-<div id="outline-container-org81b7a57" class="outline-3">
-<h3 id="org81b7a57"><span class="section-number-3">1.3.</span> Evaluating Combinations</h3>
+<div id="outline-container-org4ddddf4" class="outline-3">
+<h3 id="org4ddddf4"><span class="section-number-3">1.3.</span> Evaluating Combinations</h3>
 <div class="outline-text-3" id="text-1-3">
 <hr />
 
@@ -627,7 +627,7 @@ what, in the case of a deeply nested combination, would otherwise be
 viewed as a rather complicated process.  For example, evaluating
 </p>
 
-<pre class="example" id="org4762d90">
+<pre class="example" id="orgb7a6ffa">
 (* (+ 2 (* 4 6))
    (+ 3 5 7))
 </pre>
@@ -652,7 +652,7 @@ example of a general kind of process known as "tree accumulation".
 <b>Figure 1.1:</b> Tree representation, showing the value of each subcombination.
 </p>
 
-<pre class="example" id="org19df0e3">
+<pre class="example" id="orgb541741">
   390
   /|\____________
  / |             \
@@ -751,8 +751,8 @@ Alan Perlis, "Syntactic sugar causes cancer of the semicolon."
 </div>
 
 
-<div id="outline-container-orgf060ce3" class="outline-3">
-<h3 id="orgf060ce3"><span class="section-number-3">1.4.</span> Compound Procedures</h3>
+<div id="outline-container-orga0f4fba" class="outline-3">
+<h3 id="orga0f4fba"><span class="section-number-3">1.4.</span> Compound Procedures</h3>
 <div class="outline-text-3" id="text-1-4">
 <hr />
 
@@ -794,7 +794,7 @@ expressed in our language as
 We can understand this in the following way:
 </p>
 
-<pre class="example" id="orgbdd1cab">
+<pre class="example" id="org2b823fa">
 (define (square    x)         (*      x         x))
   |        |       |           |      |         |
  To     square  something,  multiply  it  by  itself.
@@ -813,7 +813,7 @@ and associates it with the name `square'.(1)
 The general form of a procedure definition is
 </p>
 
-<pre class="example" id="org69b9f4f">
+<pre class="example" id="orgc2729a6">
 (define (&lt;NAME&gt; &lt;FORMAL PARAMETERS&gt;) &lt;BODY&gt;)
 </pre>
 
@@ -833,7 +833,7 @@ being defined.
 Having defined `square', we can now use it:
 </p>
 
-<pre class="example" id="orgceecdad">
+<pre class="example" id="orgeddf274">
 (square 21)
 441
 
@@ -849,7 +849,7 @@ We can also use `square' as a building block in defining other
 procedures.  For example, <code>x^2 + y^2</code> can be expressed as
 </p>
 
-<pre class="example" id="orgaf4dc42">
+<pre class="example" id="orgab1060b">
 (+ (square x) (square y))
 </pre>
 
@@ -859,7 +859,7 @@ We can easily define a procedure `sum-of-squares' that, given any two
 numbers as arguments, produces the sum of their squares:
 </p>
 
-<pre class="example" id="org9796742">
+<pre class="example" id="org4207543">
 (define (sum-of-squares x y)
   (+ (square x) (square y)))
 (sum-of-squares 3 4)
@@ -871,7 +871,7 @@ Now we can use `sum-of-squares' as a building block in constructing
 further procedures:
 </p>
 
-<pre class="example" id="orgcbbd24e">
+<pre class="example" id="org5ca9845">
 (define (f a)
   (sum-of-squares (+ a 1) (* a 2)))
 
@@ -916,8 +916,8 @@ as the value of the procedure application.
 </div>
 
 
-<div id="outline-container-org68d8dc6" class="outline-3">
-<h3 id="org68d8dc6"><span class="section-number-3">1.5.</span> The Substitution Model for Procedure Application</h3>
+<div id="outline-container-org8d01789" class="outline-3">
+<h3 id="org8d01789"><span class="section-number-3">1.5.</span> The Substitution Model for Procedure Application</h3>
 <div class="outline-text-3" id="text-1-5">
 <hr />
 
@@ -947,7 +947,7 @@ corresponding argument.
 To illustrate this process, let's evaluate the combination
 </p>
 
-<pre class="example" id="org4cf7ffc">
+<pre class="example" id="orgc39c51a">
 (f 5)
 </pre>
 
@@ -956,7 +956,7 @@ where `f' is the procedure defined in section *Note 1-1-4::.  We begin
 by retrieving the body of `f':
 </p>
 
-<pre class="example" id="org4546d00">
+<pre class="example" id="orgb6bc8aa">
 (sum-of-squares (+ a 1) (* a 2))
 </pre>
 
@@ -964,7 +964,7 @@ by retrieving the body of `f':
 Then we replace the formal parameter `a' by the argument 5:
 </p>
 
-<pre class="example" id="orgcfc27d8">
+<pre class="example" id="org3c31dc5">
 (sum-of-squares (+ 5 1) (* 5 2))
 </pre>
 
@@ -979,14 +979,14 @@ are substituted for the formal parameters `x' and `y' in the body of
 `sum-of-squares', reducing the expression to
 </p>
 
-<pre class="example" id="org14f50b8">
+<pre class="example" id="org59610fb">
 (+ (square 6) (square 10))
 </pre>
 
 <p>
 If we use the definition of `square', this reduces to
 </p>
-<pre class="example" id="orgab58cc1">
+<pre class="example" id="orgf0254b6">
 (+ (* 6 6) (* 10 10))
 </pre>
 
@@ -994,14 +994,14 @@ If we use the definition of `square', this reduces to
 which reduces by multiplication to
 </p>
 
-<pre class="example" id="org0cbd234">
+<pre class="example" id="orgeb065a9">
 (+ 36 100)
 </pre>
 
 <p>
 and finally to
 </p>
-<pre class="example" id="org411e522">
+<pre class="example" id="orgf8caad3">
 136
 </pre>
 
@@ -1059,7 +1059,7 @@ evaluation of `(f 5)' would proceed according to the sequence of
 expansions
 </p>
 
-<pre class="example" id="org049b146">
+<pre class="example" id="org6ae91c7">
 (sum-of-squares (+ 5 1) (* 5 2))
 
 (+    (square (+ 5 1))      (square (* 5 2))  )
@@ -1071,7 +1071,7 @@ expansions
 followed by the reductions
 </p>
 
-<pre class="example" id="orgcac6885">
+<pre class="example" id="org34c0c53">
 (+         (* 6 6)             (* 10 10))
 
 (+           36                   100)
@@ -1139,8 +1139,8 @@ normal-order variant of Scheme.
 </div>
 
 
-<div id="outline-container-org20934cf" class="outline-3">
-<h3 id="org20934cf"><span class="section-number-3">1.6.</span> Conditional Expressions and Predicates</h3>
+<div id="outline-container-org2f8c57b" class="outline-3">
+<h3 id="org2f8c57b"><span class="section-number-3">1.6.</span> Conditional Expressions and Predicates</h3>
 <div class="outline-text-3" id="text-1-6">
 <hr />
 
@@ -1154,7 +1154,7 @@ zero and taking different actions in the different cases according to
 the rule
 </p>
 
-<pre class="example" id="org5f7f3b1">
+<pre class="example" id="org3d3a66e">
       /
       |   x  if x &gt; 0
 |x| = &lt;   0  if x = 0
@@ -1180,7 +1180,7 @@ form in Lisp for notating such a case analysis.  It is called `cond'
 The general form of a conditional expression is
 </p>
 
-<pre class="example" id="org698eb55">
+<pre class="example" id="orga1fff49">
 (cond (&lt;P1&gt; &lt;E1&gt;)
       (&lt;P2&gt; &lt;E2&gt;)
       ...
@@ -1192,7 +1192,7 @@ consisting of the symbol `cond' followed by parenthesized pairs of
 expressions
 </p>
 
-<pre class="example" id="org0cddfb7">
+<pre class="example" id="org9c7b021">
 (&lt;P&gt; &lt;E&gt;)
 </pre>
 
@@ -1259,7 +1259,7 @@ that can be used when there are precisely two cases in the case
 analysis.  The general form of an `if' expression is
 </p>
 
-<pre class="example" id="orgebeb1f4">
+<pre class="example" id="org369db7c">
 (if &lt;PREDICATE&gt; &lt;CONSEQUENT&gt; &lt;ALTERNATIVE&gt;)
 </pre>
 
@@ -1324,7 +1324,7 @@ As an example of how these are used, the condition that a number x
 be in the range 5 &lt; x &lt; 10 may be expressed as
 </p>
 
-<pre class="example" id="org5d301ba">
+<pre class="example" id="org5d225a1">
 (and (&gt; x 5) (&lt; x 10))
 </pre>
 
@@ -1332,7 +1332,7 @@ be in the range 5 &lt; x &lt; 10 may be expressed as
 As another example, we can define a predicate to test whether one
 number is greater than or equal to another as
 </p>
-<pre class="example" id="org9f0cffb">
+<pre class="example" id="orgafeda85">
 (define (&gt;= x y)
   (or (&gt; x y) (= x y)))
 </pre>
@@ -1340,7 +1340,7 @@ number is greater than or equal to another as
 <p>
 or alternatively as
 </p>
-<pre class="example" id="org141776c">
+<pre class="example" id="org5b3fa7e">
 (define (&gt;= x y)
   (not (&lt; x y)))
 </pre>
@@ -1352,7 +1352,7 @@ Assume that the sequence is to be evaluated in the order in which
 it is presented.
 </p>
 
-<pre class="example" id="org3bed55a">
+<pre class="example" id="orgd7c7f60">
 10
 
 (+ 5 3 4)
@@ -1391,7 +1391,7 @@ it is presented.
 <b>Exercise 1.2:</b> Translate the following expression into prefix form.
 </p>
 
-<pre class="example" id="org8c35e36">
+<pre class="example" id="org3a254a2">
 5 + 4 + (2 - (3 - (6 + 4/5)))
 -----------------------------
        3(6 - 2)(2 - 7)
@@ -1409,7 +1409,7 @@ combinations whose operators are compound expressions.  Use this
 observation to describe the behavior of the following procedure:
 </p>
 
-<pre class="example" id="orgacdaf86">
+<pre class="example" id="org784c480">
 (define (a-plus-abs-b a b)
   ((if (&gt; b 0) + -) a b))
 </pre>
@@ -1421,7 +1421,7 @@ applicative-order evaluation or normal-order evaluation.  He
 defines the following two procedures:
 </p>
 
-<pre class="example" id="orgb42e2c4">
+<pre class="example" id="org9843f2f">
 (define (p) (p))
 
 (define (test x y)
@@ -1434,7 +1434,7 @@ defines the following two procedures:
 Then he evaluates the expression
 </p>
 
-<pre class="example" id="org13bdce1">
+<pre class="example" id="orga7693cd">
 (test 0 (p))
 </pre>
 
@@ -1481,8 +1481,8 @@ expressions.
 </div>
 
 
-<div id="outline-container-org5944e19" class="outline-3">
-<h3 id="org5944e19"><span class="section-number-3">1.7.</span> Example: Square Roots by Newton's Method</h3>
+<div id="outline-container-orgb1ae866" class="outline-3">
+<h3 id="orgb1ae866"><span class="section-number-3">1.7.</span> Example: Square Roots by Newton's Method</h3>
 <div class="outline-text-3" id="text-1-7">
 <hr />
 
@@ -1498,7 +1498,7 @@ functions and computer procedures.  Procedures must be effective.
 We can define the square-root function as
 </p>
 
-<pre class="example" id="orgc7cc734">
+<pre class="example" id="org2e74261">
 sqrt(x) = the y such that y &gt;= 0 and y^2 = x
 </pre>
 
@@ -1512,7 +1512,7 @@ given number.  It will not help matters to rephrase this definition in
 pseudo-Lisp:
 </p>
 
-<pre class="example" id="org0bd0a87">
+<pre class="example" id="orgde64c07">
 (define (sqrt x)
   (the y (and (&gt;= y 0)
               (= (square y) x))))
@@ -1542,7 +1542,7 @@ compute the square root of 2 as follows.  Suppose our initial guess is
 1:
 </p>
 
-<pre class="example" id="orgf1034dc">
+<pre class="example" id="org2f484a4">
 Guess  Quotient             Average
 1      (2/1) = 2            ((2 + 1)/2) = 1.5
 1.5    (2/1.5) = 1.3333     ((1.3333 + 1.5)/2) = 1.4167
@@ -1623,7 +1623,7 @@ If we type these definitions to the interpreter, we can use `sqrt'
 just as we can use any procedure:
 </p>
 
-<pre class="example" id="orgf82f3ba">
+<pre class="example" id="org08c2f9e">
 (sqrt 9)
 3.00009155413138
 
@@ -1656,7 +1656,7 @@ Eva Lu Ator claims this can indeed be done, and she defines a new
 version of `if':
 </p>
 
-<pre class="example" id="org98a472b">
+<pre class="example" id="org10dfb6e">
 (define (new-if predicate then-clause else-clause)
   (cond (predicate then-clause)
         (else else-clause)))
@@ -1666,7 +1666,7 @@ version of `if':
 Eva demonstrates the program for Alyssa:
 </p>
 
-<pre class="example" id="org17a5ca3">
+<pre class="example" id="org126f4bf">
 (new-if (= 2 3) 0 5)
 5
 
@@ -1678,7 +1678,7 @@ Eva demonstrates the program for Alyssa:
 Delighted, Alyssa uses `new-if' to rewrite the square-root program:
 </p>
 
-<pre class="example" id="org3ba9128">
+<pre class="example" id="org691848a">
 (define (sqrt-iter guess x)
   (new-if (good-enough? guess x)
           guess
@@ -1711,7 +1711,7 @@ fact that if y is an approximation to the cube root of x, then a
 better approximation is given by the value
 </p>
 
-<pre class="example" id="orgedf184d">
+<pre class="example" id="org773f47e">
 x/y^2 + 2y
 ----------
     3
@@ -1787,8 +1787,8 @@ using procedure calls to implement iteration should note the remarks on
 </div>
 
 
-<div id="outline-container-org21ea35b" class="outline-3">
-<h3 id="org21ea35b"><span class="section-number-3">1.8.</span> Procedures as Black-Box Abstractions</h3>
+<div id="outline-container-org549ebda" class="outline-3">
+<h3 id="org549ebda"><span class="section-number-3">1.8.</span> Procedures as Black-Box Abstractions</h3>
 <div class="outline-text-3" id="text-1-8">
 <hr />
 
@@ -1817,7 +1817,7 @@ mirrors the decomposition of the problem into subproblems.
 <b>Figure 1.2:</b> Procedural decomposition of the `sqrt' program.
 </p>
 
-<pre class="example" id="orgd99e973">
+<pre class="example" id="org638ca5b">
             sqrt
              |
          sqrt-iter
@@ -2090,8 +2090,8 @@ that intertwine definition and use.
 </div>
 
 
-<div id="outline-container-org17ec8e7" class="outline-2">
-<h2 id="org17ec8e7"><span class="section-number-2">2.</span> Procedures and the Processes They Generate</h2>
+<div id="outline-container-org0543a36" class="outline-2">
+<h2 id="org0543a36"><span class="section-number-2">2.</span> Procedures and the Processes They Generate</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We have now considered the elements of programming: We have used
@@ -2145,14 +2145,14 @@ their own right.
 </div>
 
 
-<div id="outline-container-org52f7f94" class="outline-3">
-<h3 id="org52f7f94"><span class="section-number-3">2.1.</span> Linear Recursion and Iteration</h3>
+<div id="outline-container-org16bbb31" class="outline-3">
+<h3 id="org16bbb31"><span class="section-number-3">2.1.</span> Linear Recursion and Iteration</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 <b>Figure 1.3:</b> A linear recursive process for computing 6!.
 </p>
 
-<pre class="example" id="orgf0cda10">
+<pre class="example" id="org6a57216">
 
 (factorial 6)        ------------------------.
 (* 6 (factorial 5))                          |
@@ -2174,7 +2174,7 @@ their own right.
 We begin by considering the factorial function, defined by
 </p>
 
-<pre class="example" id="org264c82c">
+<pre class="example" id="org14268a5">
 n! = n * (n - 1) * (n - 2) ... 3 * 2 * 1
 </pre>
 
@@ -2184,7 +2184,7 @@ of the observation that n! is equal to n times (n - 1)! for any positive
 integer n:
 </p>
 
-<pre class="example" id="org4edfb9e">
+<pre class="example" id="orgf87d0d2">
 n! = n * [(n - 1) * (n - 2) ... 3 * 2 * 1] = n * (n - 1)!
 </pre>
 
@@ -2217,7 +2217,7 @@ the computation by saying that the counter and the product
 simultaneously change from one step to the next according to the rule
 </p>
 
-<pre class="example" id="orga424354">
+<pre class="example" id="orgc8b17cf">
 product  &lt;-  counter  ...  product
 
 counter  &lt;-  counter  +  1
@@ -2232,7 +2232,7 @@ exceeds n.
 <b>Figure 1.4:</b> A linear iterative process for computing 6!.
 </p>
 
-<pre class="example" id="org283d9a8">
+<pre class="example" id="orga7f8247">
 (factorial 6)   -----.
 (fact-iter   1 1 6)  |
 (fact-iter   1 2 6)  |
@@ -2397,7 +2397,7 @@ function called Ackermann's function.
 What are the values of the following expressions?
 </p>
 
-<pre class="example" id="org3b3c4d9">
+<pre class="example" id="orgfe844e1">
 (A 1 10)
 
 (A 2 4)
@@ -2476,8 +2476,8 @@ Scheme requires that Scheme implementations be tail-recursive.
 </div>
 
 
-<div id="outline-container-org8c64415" class="outline-3">
-<h3 id="org8c64415"><span class="section-number-3">2.2.</span> Tree Recursion</h3>
+<div id="outline-container-org6da47e9" class="outline-3">
+<h3 id="org6da47e9"><span class="section-number-3">2.2.</span> Tree Recursion</h3>
 <div class="outline-text-3" id="text-2-2">
 <hr />
 
@@ -2487,14 +2487,14 @@ an example, consider computing the sequence of Fibonacci numbers, in
 which each number is the sum of the preceding two:
 </p>
 
-<pre class="example" id="orgdc66618">
+<pre class="example" id="orge6f1484">
 0, 1, 1, 2, 3, 5, 8, 13, 21, ...
 </pre>
 
 <p>
 In general, the Fibonacci numbers can be defined by the rule
 </p>
-<pre class="example" id="org1d1271e">
+<pre class="example" id="org80ebf4e">
          /
          |  0                        if n = 0
 Fib(n) = &lt;  1                        if n = 1
@@ -2521,7 +2521,7 @@ procedure for computing Fibonacci numbers:
 <b>Figure 1.5:</b> The tree-recursive process generated in computing `(fib 5)'.
 </p>
 
-<pre class="example" id="org401e662">
+<pre class="example" id="org96091e1">
                    ..&lt;............ fib5   &lt;..........
                 ...     ___________/  \___________   .
              ...       /       . .....            \    .
@@ -2563,7 +2563,7 @@ with n.  More precisely (see *Note Exercise 1-13::), _Fib<sub>(n)</sub> is the
 closest integer to [phi]<sup>n</sup> /[sqrt](5), where
 </p>
 
-<pre class="example" id="orgd2cb669">
+<pre class="example" id="org4f43ff0">
 [phi] = (1 + [sqrt]5)/2 ~= 1.6180
 </pre>
 
@@ -2571,7 +2571,7 @@ closest integer to [phi]<sup>n</sup> /[sqrt](5), where
 is the "golden ratio", which satisfies the equation
 </p>
 
-<pre class="example" id="org059f0ea">
+<pre class="example" id="orga967f09">
 [phi]^2 = [phi] + 1
 </pre>
 
@@ -2592,7 +2592,7 @@ initialized to _Fib<sub>(1)</sub> = 1 and _Fib<sub>(0)</sub> = 0, and to repeate
 the simultaneous transformations
 </p>
 
-<pre class="example" id="org9207ab0">
+<pre class="example" id="org6749b4d">
 a &lt;- a + b
 b &lt;- a
 </pre>
@@ -2730,7 +2730,7 @@ largest to smallest, but any order would do as well.)  We can now
 answer our original question about changing a dollar:
 </p>
 
-<pre class="example" id="org28eb050">
+<pre class="example" id="org43ab899">
 (count-change 100)
 292
 </pre>
@@ -2760,7 +2760,7 @@ process.
 <b>Exercise 1.12:</b> The following pattern of numbers is called "Pascal's
 triangle".
 </p>
-<pre class="example" id="org4d32d8a">
+<pre class="example" id="orgeb3245b">
         1
       1   1
     1   2   1
@@ -2827,8 +2827,8 @@ works of the twelfth-century Hindu mathematician Bha'scara A'cha'rya.
 </div>
 
 
-<div id="outline-container-orga6b3358" class="outline-3">
-<h3 id="orga6b3358"><span class="section-number-3">2.3.</span> Orders of Growth</h3>
+<div id="outline-container-orgd2adee9" class="outline-3">
+<h3 id="orgd2adee9"><span class="section-number-3">2.3.</span> Orders of Growth</h3>
 <div class="outline-text-3" id="text-2-3">
 <hr />
 
@@ -2863,7 +2863,7 @@ We say that R(n) has order of growth [theta](f(n)), written R(n) =
 constants k<sub>1</sub> and k<sub>2</sub> independent of n such that
 </p>
 
-<pre class="example" id="orgd75d9d5">
+<pre class="example" id="orgf2ca285">
 k_1 f(n) &lt;= R(n) &lt;= k_2 f(n)
 </pre>
 
@@ -2913,7 +2913,7 @@ be computed by making use of the approximation `sin' xapprox x if
 x is sufficiently small, and the trigonometric identity
 </p>
 
-<pre class="example" id="org8beca61">
+<pre class="example" id="org0e83073">
                x             x
 sin x = 3 sin --- - 4 sin^3 ---
                3             3
@@ -2968,8 +2968,8 @@ can be carried out at various levels of abstraction.
 </div>
 
 
-<div id="outline-container-org6b2ffaa" class="outline-3">
-<h3 id="org6b2ffaa"><span class="section-number-3">2.4.</span> Exponentiation</h3>
+<div id="outline-container-orgf682193" class="outline-3">
+<h3 id="orgf682193"><span class="section-number-3">2.4.</span> Exponentiation</h3>
 <div class="outline-text-3" id="text-2-4">
 <hr />
 
@@ -2980,7 +2980,7 @@ positive integer exponent n and computes b<sup>n</sup>.  One way to do this is
 via the recursive definition
 </p>
 
-<pre class="example" id="org07e9851">
+<pre class="example" id="org631289b">
 b^n = b * b^(n - 1)
 b^0 = 1
 </pre>
@@ -3025,7 +3025,7 @@ We can compute exponentials in fewer steps by using successive
 squaring.  For instance, rather than computing b<sup>8</sup> as
 </p>
 
-<pre class="example" id="org95a9b9d">
+<pre class="example" id="org69c7187">
 b * (b * (b * (b * (b * (b * (b * b))))))
 </pre>
 
@@ -3033,7 +3033,7 @@ b * (b * (b * (b * (b * (b * (b * b))))))
 we can compute it using three multiplications:
 </p>
 
-<pre class="example" id="org50eda6e">
+<pre class="example" id="orga508516">
 b^2 = b * b
 b^4 = b^2 * b^2
 b^8 = b^4 * b^4
@@ -3045,7 +3045,7 @@ also take advantage of successive squaring in computing exponentials in
 general if we use the rule
 </p>
 
-<pre class="example" id="orgc860352">
+<pre class="example" id="orge156ca7">
 b^n = (b^(b/2))^2    if n is even
 b^n = b * b^(n - 1)  if n is odd
 </pre>
@@ -3226,8 +3226,8 @@ example in Kaldewaij 1990.
 </div>
 
 
-<div id="outline-container-orgef321eb" class="outline-3">
-<h3 id="orgef321eb"><span class="section-number-3">2.5.</span> Greatest Common Divisors</h3>
+<div id="outline-container-orga8292f3" class="outline-3">
+<h3 id="orga8292f3"><span class="section-number-3">2.5.</span> Greatest Common Divisors</h3>
 <div class="outline-text-3" id="text-2-5">
 <hr />
 
@@ -3251,7 +3251,7 @@ b are precisely the same as the common divisors of b and r.  Thus, we
 can use the equation
 </p>
 
-<pre class="example" id="orgfaa8abd">
+<pre class="example" id="org9ee2659">
 GCD(a,b) = GCD(b,r)
 </pre>
 
@@ -3261,7 +3261,7 @@ computing the GCD of smaller and smaller pairs of integers.  For
 example,
 </p>
 
-<pre class="example" id="orgd7c3019">
+<pre class="example" id="org3d5f98f">
 GCD(206,40) = GCD(40,6)
             = GCD(6,4)
             = GCD(4,2)
@@ -3381,8 +3381,8 @@ gives b<sub>(k+1)</sub> &gt;= b<sub>k</sub> + b<sub>(k-1)</sub> &gt;= _Fib<sub>(
 </div>
 
 
-<div id="outline-container-orgbdb64ec" class="outline-3">
-<h3 id="orgbdb64ec"><span class="section-number-3">2.6.</span> Example: Testing for Primality</h3>
+<div id="outline-container-org7dfc54d" class="outline-3">
+<h3 id="org7dfc54d"><span class="section-number-3">2.6.</span> Example: Testing for Primality</h3>
 <div class="outline-text-3" id="text-2-6">
 <hr />
 
@@ -3818,8 +3818,8 @@ cryptography, electronic funds transfer, and information retrieval.
 </div>
 
 
-<div id="outline-container-orged3bb86" class="outline-2">
-<h2 id="orged3bb86"><span class="section-number-2">3.</span> Formulating Abstractions with Higher-Order Procedures</h2>
+<div id="outline-container-orge89498d" class="outline-2">
+<h2 id="orge89498d"><span class="section-number-2">3.</span> Formulating Abstractions with Higher-Order Procedures</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 We have seen that procedures are, in effect, abstractions that describe
@@ -3875,8 +3875,8 @@ language.
 </div>
 
 
-<div id="outline-container-orgeabafcc" class="outline-3">
-<h3 id="orgeabafcc"><span class="section-number-3">3.1.</span> Procedures as Arguments</h3>
+<div id="outline-container-org387d5c7" class="outline-3">
+<h3 id="org387d5c7"><span class="section-number-3">3.1.</span> Procedures as Arguments</h3>
 <div class="outline-text-3" id="text-3-1">
 <hr />
 
@@ -3910,7 +3910,7 @@ given range:
 The third computes the sum of a sequence of terms in the series
 </p>
 
-<pre class="example" id="orgbf54f87">
+<pre class="example" id="orgc33e4e5">
   1       1       1
 ----- + ----- + ------ + ...
 1 * 3   5 * 7   9 * 11
@@ -3937,7 +3937,7 @@ generate each of the procedures by filling in slots in the same
 template:
 </p>
 
-<pre class="example" id="orga16b42c">
+<pre class="example" id="org6379a8f">
 (define (&lt;NAME&gt; a b)
   (if (&gt; a b)
       0
@@ -3952,7 +3952,7 @@ mathematicians long ago identified the abstraction of "summation of a
 series" and invented "sigma notation," for example
 </p>
 
-<pre class="example" id="orgdcc9dad">
+<pre class="example" id="org1c5fb9e">
  b
 ---
 &gt;    f(n) = f(a) + ... + f(b)
@@ -4006,7 +4006,7 @@ Using this, we can compute the sum of the cubes of the integers from
 1 to 10:
 </p>
 
-<pre class="example" id="org5a06158">
+<pre class="example" id="orgd61f9b1">
 (sum-cubes 1 10)
 3025
 </pre>
@@ -4028,7 +4028,7 @@ define `sum-integers' in terms of `sum':
 Then we can add up the integers from 1 to 10:
 </p>
 
-<pre class="example" id="org49adb16">
+<pre class="example" id="org87dd7c4">
 (sum-integers 1 10)
 55
 </pre>
@@ -4051,7 +4051,7 @@ We can also define `pi-sum' in the same way:(2)
 Using these procedures, we can compute an approximation to [pi]:
 </p>
 
-<pre class="example" id="orge780e89">
+<pre class="example" id="org13153c8">
 (* 8 (pi-sum 1 1000))
 3.139592655589783
 </pre>
@@ -4063,7 +4063,7 @@ between the limits a and b can be approximated numerically using the
 formula
 </p>
 
-<pre class="example" id="org7e7997c">
+<pre class="example" id="org3e828b7">
 /b     /  /     dx \    /          dx \    /           dx \      \
 |  f = | f| a + -- | + f| a + dx + -- | + f| a + 2dx + -- | + ...| dx
 /a     \  \     2  /    \          2  /    \           2  /      /
@@ -4073,7 +4073,7 @@ formula
 for small values of dx.  We can express this directly as a procedure:
 </p>
 
-<pre class="example" id="orgfd17a6c">
+<pre class="example" id="org58ae224">
 (define (integral f a b dx)
   (define (add-dx x) (+ x dx))
   (* (sum f (+ a (/ dx 2.0)) add-dx b)
@@ -4097,7 +4097,7 @@ Simpson's Rule, the integral of a function f between a and b is
 approximated as
 </p>
 
-<pre class="example" id="org3baf8d4">
+<pre class="example" id="org0ab3852">
 h
 - (y_0 + 4y_1 + 2y_2 + 4y_3 + 2y_4 + ... + 2y_(n-2) + 4y_(n-1) + y_n)
 3
@@ -4120,7 +4120,7 @@ performed iteratively.  Show how to do this by filling in the
 missing expressions in the following definition:
 </p>
 
-<pre class="example" id="org907822f">
+<pre class="example" id="orgc226e78">
 (define (sum term a next b)
   (define (iter a result)
     (if &lt;??&gt;
@@ -4140,7 +4140,7 @@ terms of `product'.  Also use `product' to compute
 approximations to [pi] using the formula(4)
 </p>
 
-<pre class="example" id="orgedcaceb">
+<pre class="example" id="orgf2ab00f">
 pi   2 * 4 * 4 * 6 * 6 * 8 ...
 -- = -------------------------
  4   3 * 3 * 5 * 5 * 7 * 7 ...
@@ -4162,7 +4162,7 @@ both special cases of a still more general notion called
 general accumulation function:
 </p>
 
-<pre class="example" id="org0758565">
+<pre class="example" id="org51d2051">
 (accumulate combiner null-value term a next b)
 </pre>
 
@@ -4254,8 +4254,8 @@ mathematician John Wallis.
 </div>
 
 
-<div id="outline-container-org1a3c0d8" class="outline-3">
-<h3 id="org1a3c0d8"><span class="section-number-3">3.2.</span> Constructing Procedures Using `Lambda'</h3>
+<div id="outline-container-orgcae5aea" class="outline-3">
+<h3 id="orgcae5aea"><span class="section-number-3">3.2.</span> Constructing Procedures Using `Lambda'</h3>
 <div class="outline-text-3" id="text-3-2">
 <hr />
 
@@ -4319,7 +4319,7 @@ In general, `lambda' is used to create procedures in the same way as
 `define', except that no name is specified for the procedure:
 </p>
 
-<pre class="example" id="org51cc826">
+<pre class="example" id="org133ba96">
 (lambda (&lt;FORMAL-PARAMETERS&gt;) &lt;BODY&gt;)
 </pre>
 
@@ -4347,7 +4347,7 @@ is equivalent to
 We can read a `lambda' expression as follows:
 </p>
 
-<pre class="example" id="orgc48fa34">
+<pre class="example" id="org167facf">
 (lambda                     (x)     (+   x     4))
     |                        |       |   |     |
 the procedure of an argument x that adds x and 4
@@ -4358,7 +4358,7 @@ Like any expression that has a procedure as its value, a `lambda'
 expression can be used as the operator in a combination such as
 </p>
 
-<pre class="example" id="orgc8cd4ff">
+<pre class="example" id="org7c0fc52">
 ((lambda (x y z) (+ x y (square z))) 1 2 3)
 12
 </pre>
@@ -4380,7 +4380,7 @@ as formal parameters.  For example, suppose we wish to compute the
 function
 </p>
 
-<pre class="example" id="orgd5146ef">
+<pre class="example" id="orgadbdcfb">
 f(x,y) = x(1 + xy)^2 + y(1 - y) + (1 + xy)(1 - y)
 </pre>
 
@@ -4388,7 +4388,7 @@ f(x,y) = x(1 + xy)^2 + y(1 - y) + (1 + xy)(1 - y)
 which we could also express as
 </p>
 
-<pre class="example" id="orgb822037">
+<pre class="example" id="orge5ae1e7">
      a = 1 + xy
      b = 1 - y
 f(x,y) = xa^2 + yb + ab
@@ -4449,7 +4449,7 @@ could be written as
 The general form of a `let' expression is
 </p>
 
-<pre class="example" id="org74acbd9">
+<pre class="example" id="org84cc3f4">
 (let ((&lt;VAR1&gt; &lt;EXP1&gt;)
       (&lt;VAR2&gt; &lt;EXP2&gt;)
       ...
@@ -4461,7 +4461,7 @@ The general form of a `let' expression is
 which can be thought of as saying
 </p>
 
-<pre class="example" id="org3b545a8">
+<pre class="example" id="orge02fe68">
 let &lt;VAR_1&gt; have the value &lt;EXP_1&gt; and
     &lt;VAR_2&gt; have the value &lt;EXP_2&gt; and
     ...
@@ -4478,7 +4478,7 @@ happens is that the `let' expression is interpreted as an alternate
 syntax for
 </p>
 
-<pre class="example" id="orgf20b79e">
+<pre class="example" id="org4a82a4d">
 ((lambda (&lt;VAR_1&gt; ... &lt;VAR_N&gt;)
     &lt;BODY&gt;)
  &lt;EXP_1&gt;
@@ -4574,7 +4574,7 @@ internal `define' only for internal procedures.(2)
 Then we have
 </p>
 
-<pre class="example" id="org4399008">
+<pre class="example" id="orgccd580c">
 (f square)
 4
 
@@ -4615,8 +4615,8 @@ we learn more about evaluation.
 </div>
 
 
-<div id="outline-container-orgd2fa9c5" class="outline-3">
-<h3 id="orgd2fa9c5"><span class="section-number-3">3.3.</span> Procedures as General Methods</h3>
+<div id="outline-container-org3ca0989" class="outline-3">
+<h3 id="org3ca0989"><span class="section-number-3">3.3.</span> Procedures as General Methods</h3>
 <div class="outline-text-3" id="text-3-3">
 <hr />
 
@@ -4725,7 +4725,7 @@ The following example uses the half-interval method to approximate
 [pi] as the root between 2 and 4 of `sin' x = 0:
 </p>
 
-<pre class="example" id="orgb54eb94">
+<pre class="example" id="org3460cc8">
 (half-interval-method sin 2.0 4.0)
 3.14111328125
 </pre>
@@ -4735,7 +4735,7 @@ Here is another example, using the half-interval method to search
 for a root of the equation <code>x^3 - 2x - 3 = 0</code> between 1 and 2:
 </p>
 
-<pre class="example" id="org8ac17bc">
+<pre class="example" id="orgc2922b1">
 (half-interval-method (lambda (x) (- (* x x x) (* 2 x) 3))
                       1.0
                       2.0)
@@ -4753,7 +4753,7 @@ equation f(x) = x.  For some functions f we can locate a fixed point by
 beginning with an initial guess and applying f repeatedly,
 </p>
 
-<pre class="example" id="orgd46b076">
+<pre class="example" id="orgb7c02a9">
 f(x), f(f(x), (f(f(f(x))))
 </pre>
 
@@ -4786,7 +4786,7 @@ For example, we can use this method to approximate the fixed point
 of the cosine function, starting with 1 as an initial approximation:(3)
 </p>
 
-<pre class="example" id="orgf0c340d">
+<pre class="example" id="org529f331">
 (fixed-point cos 1.0)
 .7390822985224023
 </pre>
@@ -4796,7 +4796,7 @@ Similarly, we can find a solution to the equation y = `sin' y +
 `cos' y:
 </p>
 
-<pre class="example" id="org2570fb4">
+<pre class="example" id="orgcc04a99">
 (fixed-point (lambda (y) (+ (sin y) (cos y)))
              1.0)
 1.2587315962971173
@@ -4885,7 +4885,7 @@ division by `log'(1) = 0.)
 a. An infinite "continued fraction" is an expression of the form
 </p>
 
-<pre class="example" id="org985ff9b">
+<pre class="example" id="org0133318">
            N_1
 f = ---------------------
                N_2
@@ -4906,7 +4906,7 @@ so-called finite continued fraction "k-term finite continued
 fraction"&#x2013;has the form
 </p>
 
-<pre class="example" id="org8801218">
+<pre class="example" id="orgb9874c3">
        N_1
 -----------------
           N_2
@@ -4962,7 +4962,7 @@ tangent function was published in 1770 by the German mathematician
 J.H. Lambert:
 </p>
 
-<pre class="example" id="orge851a17">
+<pre class="example" id="orgf6780e4">
               x
 tan x = ---------------
                 x^2
@@ -5012,8 +5012,8 @@ whose value at y is x/y.
 </div>
 
 
-<div id="outline-container-org57cd0cd" class="outline-3">
-<h3 id="org57cd0cd"><span class="section-number-3">3.4.</span> Procedures as Returned Values</h3>
+<div id="outline-container-orgddd3b96" class="outline-3">
+<h3 id="orgddd3b96"><span class="section-number-3">3.4.</span> Procedures as Returned Values</h3>
 <div class="outline-text-3" id="text-3-4">
 <hr />
 
@@ -5056,7 +5056,7 @@ and x<sup>2</sup>.  Applying this resulting procedure to 10 returns the average
 of 10 and 100, or 55:(1)
 </p>
 
-<pre class="example" id="org0ad20c5">
+<pre class="example" id="org906287a">
 ((average-damp square) 10)
 55
 </pre>
@@ -5110,7 +5110,7 @@ of the equation g(x) = 0 is a fixed point of the function x |-&gt; f(x)
 where
 </p>
 
-<pre class="example" id="orgb93a1c2">
+<pre class="example" id="org7696126">
            g(x)
 f(x) = x - -----
            Dg(x)
@@ -5137,7 +5137,7 @@ then the derivative Dg of g is the function whose value at any number x
 is given (in the limit of small dx) by
 </p>
 
-<pre class="example" id="org95052b0">
+<pre class="example" id="org3a7302f">
         g(x + dx) - g(x)
 Dg(c) = ----------------
                dx
@@ -5172,7 +5172,7 @@ the derivative of x |-&gt; x<sup>3</sup> at 5 (whose exact value is 75) we can
 evaluate
 </p>
 
-<pre class="example" id="orgdc82d61">
+<pre class="example" id="orgff890de">
 (define (cube x) (* x x x))
 
 ((deriv cube) 5)
@@ -5326,7 +5326,7 @@ together with the `newtons-method' procedure in expressions of the
 form
 </p>
 
-<pre class="example" id="orgea04a20">
+<pre class="example" id="org219a6bd">
 (newtons-method (cubic a b c) 1)
 </pre>
 
@@ -5342,7 +5342,7 @@ procedure that adds 1 to its argument, then `(double inc)' should
 be a procedure that adds 2.  What value is returned by
 </p>
 
-<pre class="example" id="org5289d56">
+<pre class="example" id="org27b57a7">
 (((double (double double)) inc) 5)
 </pre>
 
@@ -5353,7 +5353,7 @@ procedure `compose' that implements composition.  For example, if
 `inc' is a procedure that adds 1 to its argument,
 </p>
 
-<pre class="example" id="org04d99c4">
+<pre class="example" id="org3a89657">
 ((compose square inc) 6)
 49
 </pre>
@@ -5372,7 +5372,7 @@ procedure that computes the nth repeated application of f.  Your
 procedure should be able to be used as follows:
 </p>
 
-<pre class="example" id="org9f08094">
+<pre class="example" id="orgfdafc60">
 ((repeated square 2) 5)
 625
 </pre>

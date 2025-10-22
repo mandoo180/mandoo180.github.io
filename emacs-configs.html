@@ -22,43 +22,43 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5546152">1. Early Init</a></li>
-<li><a href="#org4fb8109">2. Init</a></li>
-<li><a href="#orge982812">3. Theme</a>
+<li><a href="#org6effaaf">1. Early Init</a></li>
+<li><a href="#org9a2d263">2. Init</a></li>
+<li><a href="#org3acd3c8">3. Theme</a>
 <ul>
-<li><a href="#orgcc616b1">3.1. Basic Settings</a></li>
-<li><a href="#org5f9815e">3.2. Hasliberg Theme</a></li>
+<li><a href="#org1608067">3.1. Basic Settings</a></li>
+<li><a href="#orgb5b9856">3.2. Hasliberg Theme</a></li>
 </ul>
 </li>
-<li><a href="#org63a2d9e">4. Window</a></li>
-<li><a href="#org0a957a8">5. Completion</a></li>
-<li><a href="#org53967e8">6. Dired</a></li>
-<li><a href="#org8ef1946">7. Note</a></li>
-<li><a href="#org0d9a7e4">8. Shell</a></li>
-<li><a href="#org9c63660">9. Programming</a>
+<li><a href="#orgd4fa45b">4. Window</a></li>
+<li><a href="#orgb316124">5. Completion</a></li>
+<li><a href="#orga3de784">6. Dired</a></li>
+<li><a href="#org8c37536">7. Note</a></li>
+<li><a href="#org54b7358">8. Shell</a></li>
+<li><a href="#org520ae85">9. Programming</a>
 <ul>
-<li><a href="#org683119a">9.1. Common</a></li>
-<li><a href="#org2691894">9.2. Web</a>
+<li><a href="#orgcc26fcc">9.1. Common</a></li>
+<li><a href="#org514faaf">9.2. Web</a>
 <ul>
-<li><a href="#orgcf3f8fc">9.2.1. Required Local Dependencies</a></li>
-<li><a href="#orgf3efcc8">9.2.2. Emacs Packages</a></li>
-<li><a href="#org656dc15">9.2.3. Key Bindings</a></li>
-<li><a href="#org35631de">9.2.4. Workflow Examples</a></li>
-<li><a href="#org500fbc0">9.2.5. Project Structure Recommendations</a></li>
+<li><a href="#org7dc5836">9.2.1. Required Local Dependencies</a></li>
+<li><a href="#orgd35cf4a">9.2.2. Emacs Packages</a></li>
+<li><a href="#orgd8f2823">9.2.3. Key Bindings</a></li>
+<li><a href="#orgd50753a">9.2.4. Workflow Examples</a></li>
+<li><a href="#org69e8443">9.2.5. Project Structure Recommendations</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org7fc1024">10. Miscellaneous</a></li>
-<li><a href="#org7decf41">11. Linux</a></li>
-<li><a href="#org96c6fe9">12. MacOS</a></li>
-<li><a href="#org79c8254">13. Windows</a></li>
+<li><a href="#org4c20d38">10. Miscellaneous</a></li>
+<li><a href="#org46cc5ea">11. Linux</a></li>
+<li><a href="#org893a3b8">12. MacOS</a></li>
+<li><a href="#org495c91e">13. Windows</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org5546152" class="outline-2">
-<h2 id="org5546152"><span class="section-number-2">1.</span> Early Init</h2>
+<div id="outline-container-org6effaaf" class="outline-2">
+<h2 id="org6effaaf"><span class="section-number-2">1.</span> Early Init</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el --- Emacs-Solo (no external packages) Configuration  -*- lexical-binding: t; -*-
@@ -137,8 +137,8 @@
 </div>
 </div>
 
-<div id="outline-container-org4fb8109" class="outline-2">
-<h2 id="org4fb8109"><span class="section-number-2">2.</span> Init</h2>
+<div id="outline-container-org9a2d263" class="outline-2">
+<h2 id="org9a2d263"><span class="section-number-2">2.</span> Init</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el --- Summary  -*- lexical-binding: t; -*-
@@ -388,12 +388,12 @@
 </div>
 </div>
 
-<div id="outline-container-orge982812" class="outline-2">
-<h2 id="orge982812"><span class="section-number-2">3.</span> Theme</h2>
+<div id="outline-container-org3acd3c8" class="outline-2">
+<h2 id="org3acd3c8"><span class="section-number-2">3.</span> Theme</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgcc616b1" class="outline-3">
-<h3 id="orgcc616b1"><span class="section-number-3">3.1.</span> Basic Settings</h3>
+<div id="outline-container-org1608067" class="outline-3">
+<h3 id="org1608067"><span class="section-number-3">3.1.</span> Basic Settings</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -411,24 +411,202 @@
               (load-file theme-file)
               (load-theme 'hasliberg t))))
 
-(<span class="org-keyword">use-package</span> doom-modeline
-  <span class="org-builtin">:init</span>
-  (<span class="org-keyword">setq</span> mode-line-right-align-edge 'right-fringe) <span class="org-comment-delimiter">;; </span><span class="org-comment">or 'right-margin
-</span>  <span class="org-builtin">:custom</span>
-  (doom-modeline-height 40)
-  (doom-modeline-bar-width 8)
-  (doom-modeline-check-icon t)
-  (doom-modeline-check-simple-format t)
-  (doom-modeline-checker-simple-format t)
-  (doom-modeline-hud t)
-  (doom-modeline-window-width-limit nil)
-  (doom-modeline-spc-face-overrides t)
-  (doom-modeline-vcs-max-length 12)
-  (doom-modeline-checker-simple-format nil)
-  <span class="org-builtin">:config</span>
-  (<span class="org-keyword">if</span> (daemonp)
-        (add-hook 'server-after-make-frame-hook (<span class="org-keyword">lambda</span> () (doom-modeline-mode 1)))
-      (doom-modeline-mode 1)))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package doom-modeline
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:init
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(setq mode-line-right-align-edge 'right-fringe) ;; or 'right-margin
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-height 40)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-bar-width 8)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-check-icon t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-check-simple-format t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-checker-simple-format t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-hud t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-window-width-limit nil)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-spc-face-overrides t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-vcs-max-length 12)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(doom-modeline-checker-simple-format nil)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(if (daemonp)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">       (add-hook 'server-after-make-frame-hook (lambda () (doom-modeline-mode 1)))
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">     (doom-modeline-mode 1)))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Custom Mode Line Configuration
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">A clean, minimal mode-line showing: buffer status, name, location, VC, major mode, LSP, and diagnostics
+</span>
+(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-buffer-name-face</span>
+  '((t <span class="org-builtin">:inherit</span> mode-line-buffer-id <span class="org-builtin">:weight</span> bold))
+  <span class="org-doc">"Face for buffer name in mode-line."</span>)
+
+(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-position-face</span>
+  '((t <span class="org-builtin">:inherit</span> mode-line <span class="org-builtin">:slant</span> italic))
+  <span class="org-doc">"Face for position information in mode-line."</span>)
+
+(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-vc-face</span>
+  '((t <span class="org-builtin">:inherit</span> font-lock-comment-face))
+  <span class="org-doc">"Face for version control info in mode-line."</span>)
+
+(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-major-mode-face</span>
+  '((t <span class="org-builtin">:inherit</span> mode-line-emphasis))
+  <span class="org-doc">"Face for major mode in mode-line."</span>)
+
+(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-lsp-face</span>
+  '((t <span class="org-builtin">:inherit</span> success))
+  <span class="org-doc">"Face for LSP status in mode-line."</span>)
+
+(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-diagnostics-error-face</span>
+  '((t <span class="org-builtin">:inherit</span> error <span class="org-builtin">:weight</span> bold))
+  <span class="org-doc">"Face for error diagnostics in mode-line."</span>)
+
+(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-diagnostics-warning-face</span>
+  '((t <span class="org-builtin">:inherit</span> warning <span class="org-builtin">:weight</span> bold))
+  <span class="org-doc">"Face for warning diagnostics in mode-line."</span>)
+
+(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-diagnostics-note-face</span>
+  '((t <span class="org-builtin">:inherit</span> compilation-info <span class="org-builtin">:weight</span> bold))
+  <span class="org-doc">"Face for note diagnostics in mode-line."</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Helper functions for mode-line segments
+</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/mode-line-buffer-status</span> ()
+  <span class="org-doc">"Return buffer status indicator (modified, read-only)."</span>
+  (<span class="org-keyword">let</span> ((modified (<span class="org-keyword">if</span> (buffer-modified-p) <span class="org-string">"*"</span> <span class="org-string">""</span>))
+        (readonly (<span class="org-keyword">if</span> buffer-read-only <span class="org-string">"%"</span> <span class="org-string">""</span>)))
+    (<span class="org-keyword">if</span> (<span class="org-keyword">or</span> (not (string-empty-p modified))
+            (not (string-empty-p readonly)))
+        (concat <span class="org-string">" "</span> modified readonly <span class="org-string">" "</span>)
+      <span class="org-string">"  "</span>)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/mode-line-buffer-name</span> ()
+  <span class="org-doc">"Return buffer name with face."</span>
+  (propertize (buffer-name)
+              'face 'mode-line-buffer-name-face))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/mode-line-position</span> ()
+  <span class="org-doc">"Return current line, column, and position percentage."</span>
+  (<span class="org-keyword">let</span> ((line (format-mode-line <span class="org-string">"%l"</span>))
+        (col (format-mode-line <span class="org-string">"%c"</span>))
+        (percent (format-mode-line <span class="org-string">"%p"</span>)))
+    (propertize (format <span class="org-string">" %s:%s %s "</span> line col percent)
+                'face 'mode-line-position-face)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/mode-line-vc</span> ()
+  <span class="org-doc">"Return version control status (git branch)."</span>
+  (<span class="org-keyword">when</span> vc-mode
+    (<span class="org-keyword">let*</span> ((backend (vc-backend buffer-file-name))
+           (branch (<span class="org-keyword">when</span> backend
+                     (substring-no-properties vc-mode
+                                              (+ 2 (length (symbol-name backend)))))))
+      (<span class="org-keyword">when</span> branch
+        (propertize (format <span class="org-string">" &#9095; %s "</span> branch)
+                    'face 'mode-line-vc-face)))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/mode-line-major-mode</span> ()
+  <span class="org-doc">"Return major mode name - stripped of any mode-line constructs."</span>
+  (<span class="org-keyword">let</span> ((mode-str (format-mode-line mode-name)))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Strip any text properties that might contain extra info
+</span>    (propertize (format <span class="org-string">" %s "</span> (substring-no-properties mode-str))
+                'face 'mode-line-major-mode-face)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/mode-line-eglot</span> ()
+  <span class="org-doc">"Return Eglot LSP status."</span>
+  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (<span class="org-keyword">featurep</span> '<span class="org-constant">eglot</span>) (eglot-managed-p))
+    (<span class="org-keyword">let*</span> ((server (eglot-current-server))
+           (project-name (<span class="org-keyword">when</span> server
+                           (file-name-nondirectory
+                            (directory-file-name
+                             (project-root (eglot--project server)))))))
+      (propertize (format <span class="org-string">" LSP:%s "</span> (<span class="org-keyword">or</span> project-name <span class="org-string">"ON"</span>))
+                  'face 'mode-line-lsp-face))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/mode-line-flymake</span> ()
+  <span class="org-doc">"Return Flymake diagnostics count - numbers only, no text."</span>
+  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (<span class="org-keyword">bound-and-true-p</span> flymake-mode)
+             (fboundp 'flymake-diagnostics))
+    (<span class="org-keyword">let</span> ((error-count 0)
+          (warning-count 0)
+          (note-count 0))
+
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Count diagnostics by severity
+</span>      (<span class="org-keyword">dolist</span> (diag (flymake-diagnostics))
+        (<span class="org-keyword">let</span> ((type (flymake-diagnostic-type diag)))
+          (<span class="org-keyword">cond</span>
+           ((eq type <span class="org-builtin">:error</span>) (<span class="org-keyword">cl-incf</span> error-count))
+           ((eq type <span class="org-builtin">:warning</span>) (<span class="org-keyword">cl-incf</span> warning-count))
+           ((eq type <span class="org-builtin">:note</span>) (<span class="org-keyword">cl-incf</span> note-count)))))
+
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Build display string with ONLY counts
+</span>      (<span class="org-keyword">let</span> ((parts '()))
+        (<span class="org-keyword">when</span> (&gt; error-count 0)
+          (<span class="org-keyword">push</span> (propertize (format <span class="org-string">"E:%d"</span> error-count)
+                            'face 'mode-line-diagnostics-error-face)
+                parts))
+        (<span class="org-keyword">when</span> (&gt; warning-count 0)
+          (<span class="org-keyword">push</span> (propertize (format <span class="org-string">"W:%d"</span> warning-count)
+                            'face 'mode-line-diagnostics-warning-face)
+                parts))
+        (<span class="org-keyword">when</span> (&gt; note-count 0)
+          (<span class="org-keyword">push</span> (propertize (format <span class="org-string">"I:%d"</span> note-count)
+                            'face 'mode-line-diagnostics-note-face)
+                parts))
+        (<span class="org-keyword">when</span> parts
+          (concat <span class="org-string">" "</span> (string-join (nreverse parts) <span class="org-string">" "</span>) <span class="org-string">" "</span>))))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Assemble the mode-line - explicitly control ALL components
+</span>(<span class="org-keyword">setq-default</span> mode-line-format
+              '((<span class="org-builtin">:eval</span> (my/mode-line-buffer-status))
+                (<span class="org-builtin">:eval</span> (my/mode-line-buffer-name))
+                (<span class="org-builtin">:eval</span> (my/mode-line-vc))
+                (<span class="org-builtin">:eval</span> (my/mode-line-major-mode))
+                (<span class="org-builtin">:eval</span> (my/mode-line-eglot))
+                (<span class="org-builtin">:eval</span> (my/mode-line-flymake))
+                              (<span class="org-builtin">:eval</span> (my/mode-line-position))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Also set buffer-local to ensure it overrides everything
+</span>(<span class="org-keyword">setq-default</span> mode-line-misc-info nil)
+(<span class="org-keyword">setq-default</span> mode-line-end-spaces nil)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Disable Flymake's built-in mode-line display completely
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">This must be set BEFORE flymake loads
+</span>(<span class="org-keyword">setq</span> flymake-mode-line-format nil)
+(<span class="org-keyword">setq</span> flymake-mode-line-counter-format nil)
+
+(<span class="org-keyword">with-eval-after-load</span> 'flymake
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Override Flymake's mode-line functions to return empty strings
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">flymake--mode-line-exception</span> ()
+    <span class="org-doc">"Override to return empty string."</span>
+    <span class="org-string">""</span>)
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">flymake--mode-line-counters</span> ()
+    <span class="org-doc">"Override to return empty string."</span>
+    <span class="org-string">""</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Completely disable all Flymake mode-line components
+</span>  (<span class="org-keyword">setq</span> flymake-mode-line-format nil)
+  (<span class="org-keyword">setq</span> flymake-mode-line-counter-format nil)
+  (<span class="org-keyword">setq</span> flymake-suppress-zero-counters t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Set the mode-line components to empty
+</span>  (<span class="org-keyword">setq</span> flymake-mode-line-title <span class="org-string">""</span>)
+  (<span class="org-keyword">setq</span> flymake-mode-line-exception '(<span class="org-builtin">:eval</span> (flymake--mode-line-exception)))
+  (<span class="org-keyword">setq</span> flymake-mode-line-counters '(<span class="org-builtin">:eval</span> (flymake--mode-line-counters)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remove Flymake from mode-line-misc-info completely
+</span>  (<span class="org-keyword">setq</span> mode-line-misc-info
+        (assq-delete-all 'flymake-mode mode-line-misc-info))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Refresh mode-line when Flymake updates
+</span>  (add-hook 'flymake-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">Ensure Flymake's mode-line is disabled per-buffer
+</span>              (<span class="org-keyword">setq-local</span> flymake-mode-line-format nil)
+              (add-hook 'flymake-after-diagnostics-hook
+                        (<span class="org-keyword">lambda</span> () (force-mode-line-update t)) nil t))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Optional: Refresh mode-line when Eglot connects/disconnects
+</span>(<span class="org-keyword">with-eval-after-load</span> 'eglot
+  (add-hook 'eglot-managed-mode-hook
+            (<span class="org-keyword">lambda</span> () (force-mode-line-update t))))
+
 
 (<span class="org-keyword">use-package</span> all-the-icons)
 (<span class="org-keyword">use-package</span> all-the-icons-dired
@@ -445,8 +623,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org5f9815e" class="outline-3">
-<h3 id="org5f9815e"><span class="section-number-3">3.2.</span> Hasliberg Theme</h3>
+<div id="outline-container-orgb5b9856" class="outline-3">
+<h3 id="orgb5b9856"><span class="section-number-3">3.2.</span> Hasliberg Theme</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
@@ -1202,8 +1380,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-org63a2d9e" class="outline-2">
-<h2 id="org63a2d9e"><span class="section-number-2">4.</span> Window</h2>
+<div id="outline-container-orgd4fa45b" class="outline-2">
+<h2 id="orgd4fa45b"><span class="section-number-2">4.</span> Window</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">window-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1252,8 +1430,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-org0a957a8" class="outline-2">
-<h2 id="org0a957a8"><span class="section-number-2">5.</span> Completion</h2>
+<div id="outline-container-orgb316124" class="outline-2">
+<h2 id="orgb316124"><span class="section-number-2">5.</span> Completion</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1343,8 +1521,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-org53967e8" class="outline-2">
-<h2 id="org53967e8"><span class="section-number-2">6.</span> Dired</h2>
+<div id="outline-container-orga3de784" class="outline-2">
+<h2 id="orga3de784"><span class="section-number-2">6.</span> Dired</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1366,8 +1544,8 @@ black colours."</span>
 </div>
 </div>
 
-<div id="outline-container-org8ef1946" class="outline-2">
-<h2 id="org8ef1946"><span class="section-number-2">7.</span> Note</h2>
+<div id="outline-container-org8c37536" class="outline-2">
+<h2 id="org8c37536"><span class="section-number-2">7.</span> Note</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">note-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1553,8 +1731,8 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-org0d9a7e4" class="outline-2">
-<h2 id="org0d9a7e4"><span class="section-number-2">8.</span> Shell</h2>
+<div id="outline-container-org54b7358" class="outline-2">
+<h2 id="org54b7358"><span class="section-number-2">8.</span> Shell</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1621,12 +1799,12 @@ Reference some ideas: <a href="https://emacselements.com/pdf-tools-settings.html
 </div>
 </div>
 
-<div id="outline-container-org9c63660" class="outline-2">
-<h2 id="org9c63660"><span class="section-number-2">9.</span> Programming</h2>
+<div id="outline-container-org520ae85" class="outline-2">
+<h2 id="org520ae85"><span class="section-number-2">9.</span> Programming</h2>
 <div class="outline-text-2" id="text-9">
 </div>
-<div id="outline-container-org683119a" class="outline-3">
-<h3 id="org683119a"><span class="section-number-3">9.1.</span> Common</h3>
+<div id="outline-container-orgcc26fcc" class="outline-3">
+<h3 id="orgcc26fcc"><span class="section-number-3">9.1.</span> Common</h3>
 <div class="outline-text-3" id="text-9-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -1952,8 +2130,8 @@ INTERACTIVE is passed by Eglot but not used here."</span>
 </div>
 </div>
 
-<div id="outline-container-org2691894" class="outline-3">
-<h3 id="org2691894"><span class="section-number-3">9.2.</span> Web</h3>
+<div id="outline-container-org514faaf" class="outline-3">
+<h3 id="org514faaf"><span class="section-number-3">9.2.</span> Web</h3>
 <div class="outline-text-3" id="text-9-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">web-mode: powerful mode for HTML, JSX, TSX, Vue, etc.
@@ -2190,14 +2368,14 @@ INTERACTIVE is passed by Eglot but not used here."</span>
 </div>
 </div>
 
-<div id="outline-container-orgcf3f8fc" class="outline-4">
-<h4 id="orgcf3f8fc"><span class="section-number-4">9.2.1.</span> Required Local Dependencies</h4>
+<div id="outline-container-org7dc5836" class="outline-4">
+<h4 id="org7dc5836"><span class="section-number-4">9.2.1.</span> Required Local Dependencies</h4>
 <div class="outline-text-4" id="text-9-2-1">
 </div>
 <ol class="org-ol">
-<li><a id="org817d96c"></a>Language Servers for Eglot<br />
+<li><a id="orgad27b07"></a>Language Servers for Eglot<br />
 <div class="outline-text-5" id="text-9-2-1-1">
-<pre class="example" id="orga994a63">
+<pre class="example" id="orgb5b77d7">
 # TypeScript/JavaScript Language Server
 npm install -g typescript typescript-language-server
 
@@ -2210,9 +2388,9 @@ npm install -g @tailwindcss/language-server
 </div>
 </li>
 
-<li><a id="orgb20b3b9"></a>Code Formatting and Linting<br />
+<li><a id="org2ce6c19"></a>Code Formatting and Linting<br />
 <div class="outline-text-5" id="text-9-2-1-2">
-<pre class="example" id="org6bb22a6">
+<pre class="example" id="orga33bf54">
 # Prettier (code formatter)
 npm install -g prettier
 
@@ -2225,9 +2403,9 @@ npm install -g eslint
 </div>
 </li>
 
-<li><a id="org2da6fca"></a>Debugging Tools<br />
+<li><a id="org49dffa1"></a>Debugging Tools<br />
 <div class="outline-text-5" id="text-9-2-1-3">
-<pre class="example" id="orge727850">
+<pre class="example" id="org4e468e5">
 # Chrome/Chromium browser for Indium debugging
 # macOS: Install Google Chrome from https://www.google.com/chrome/
 # Windows: Install Google Chrome from https://www.google.com/chrome/
@@ -2238,8 +2416,8 @@ npm install -g eslint
 </ol>
 </div>
 
-<div id="outline-container-orgf3efcc8" class="outline-4">
-<h4 id="orgf3efcc8"><span class="section-number-4">9.2.2.</span> Emacs Packages</h4>
+<div id="outline-container-orgd35cf4a" class="outline-4">
+<h4 id="orgd35cf4a"><span class="section-number-4">9.2.2.</span> Emacs Packages</h4>
 <div class="outline-text-4" id="text-9-2-2">
 <p>
 All packages are installed automatically via use-package. Key packages include:
@@ -2261,12 +2439,12 @@ All packages are installed automatically via use-package. Key packages include:
 </div>
 </div>
 
-<div id="outline-container-org656dc15" class="outline-4">
-<h4 id="org656dc15"><span class="section-number-4">9.2.3.</span> Key Bindings</h4>
+<div id="outline-container-orgd8f2823" class="outline-4">
+<h4 id="orgd8f2823"><span class="section-number-4">9.2.3.</span> Key Bindings</h4>
 <div class="outline-text-4" id="text-9-2-3">
 </div>
 <ol class="org-ol">
-<li><a id="orgc34dfcd"></a>Eglot (LSP) - Available in all web modes<br />
+<li><a id="org476e959"></a>Eglot (LSP) - Available in all web modes<br />
 <div class="outline-text-5" id="text-9-2-3-1">
 <ul class="org-ul">
 <li><code>C-c l a</code> - Code actions</li>
@@ -2277,7 +2455,7 @@ All packages are installed automatically via use-package. Key packages include:
 </div>
 </li>
 
-<li><a id="org41358f2"></a>npm-mode<br />
+<li><a id="org2e24473"></a>npm-mode<br />
 <div class="outline-text-5" id="text-9-2-3-2">
 <p>
 npm-mode provides a prefix keymap for npm commands. Use <code>M-x npm-mode-npm-run</code> or access via the command keymap:
@@ -2294,7 +2472,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="org251705d"></a>Jest Testing<br />
+<li><a id="org4e66e27"></a>Jest Testing<br />
 <div class="outline-text-5" id="text-9-2-3-3">
 <ul class="org-ul">
 <li><code>C-c t j</code> - Run Jest tests</li>
@@ -2303,7 +2481,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="orga6bf451"></a>JavaScript Import<br />
+<li><a id="orga32d5b6"></a>JavaScript Import<br />
 <div class="outline-text-5" id="text-9-2-3-4">
 <ul class="org-ul">
 <li><code>C-c i i</code> - Import module</li>
@@ -2312,7 +2490,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="orge8bcf1b"></a>Indium Debugging<br />
+<li><a id="orgb07d8c6"></a>Indium Debugging<br />
 <div class="outline-text-5" id="text-9-2-3-5">
 <ul class="org-ul">
 <li><code>C-c C-b</code> - Toggle breakpoint</li>
@@ -2324,7 +2502,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="orga1eb4f3"></a>Skewer (Live Development)<br />
+<li><a id="orgc18c05c"></a>Skewer (Live Development)<br />
 <div class="outline-text-5" id="text-9-2-3-6">
 <ul class="org-ul">
 <li><code>C-c C-k</code> - Load buffer to browser</li>
@@ -2336,12 +2514,12 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </ol>
 </div>
 
-<div id="outline-container-org35631de" class="outline-4">
-<h4 id="org35631de"><span class="section-number-4">9.2.4.</span> Workflow Examples</h4>
+<div id="outline-container-orgd50753a" class="outline-4">
+<h4 id="orgd50753a"><span class="section-number-4">9.2.4.</span> Workflow Examples</h4>
 <div class="outline-text-4" id="text-9-2-4">
 </div>
 <ol class="org-ol">
-<li><a id="org517a2c4"></a>Starting a React/Next.js Project<br />
+<li><a id="orgc6f1ce2"></a>Starting a React/Next.js Project<br />
 <div class="outline-text-5" id="text-9-2-4-1">
 <ol class="org-ol">
 <li>Open project in Emacs</li>
@@ -2354,7 +2532,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="org4f5ea9d"></a>Debugging with Indium<br />
+<li><a id="org2ac25dd"></a>Debugging with Indium<br />
 <div class="outline-text-5" id="text-9-2-4-2">
 <ol class="org-ol">
 <li>Start your dev server (e.g., <code>npm run dev</code>)</li>
@@ -2366,7 +2544,7 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="org5914d10"></a>Live Development with Skewer<br />
+<li><a id="org075cce0"></a>Live Development with Skewer<br />
 <div class="outline-text-5" id="text-9-2-4-3">
 <ol class="org-ol">
 <li><code>M-x run-skewer</code> to start the server</li>
@@ -2377,14 +2555,14 @@ Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>,
 </div>
 </li>
 
-<li><a id="orgff1c005"></a>Testing APIs with restclient<br />
+<li><a id="orgd390947"></a>Testing APIs with restclient<br />
 <div class="outline-text-5" id="text-9-2-4-4">
 <ol class="org-ol">
 <li>Create a .rest file</li>
 <li><p>
 Write HTTP requests:
 </p>
-<pre class="example" id="org122e70a">
+<pre class="example" id="orgf39e2d2">
 GET https://api.example.com/users
 Content-Type: application/json
 
@@ -2405,8 +2583,8 @@ Content-Type: application/json
 </ol>
 </div>
 
-<div id="outline-container-org500fbc0" class="outline-4">
-<h4 id="org500fbc0"><span class="section-number-4">9.2.5.</span> Project Structure Recommendations</h4>
+<div id="outline-container-org69e8443" class="outline-4">
+<h4 id="org69e8443"><span class="section-number-4">9.2.5.</span> Project Structure Recommendations</h4>
 <div class="outline-text-4" id="text-9-2-5">
 <p>
 For optimal Emacs integration, use these files in your projects:
@@ -2414,7 +2592,7 @@ For optimal Emacs integration, use these files in your projects:
 </div>
 
 <ol class="org-ol">
-<li><a id="orgf219d07"></a>.prettierrc.json<br />
+<li><a id="orgde9f7b0"></a>.prettierrc.json<br />
 <div class="outline-text-5" id="text-9-2-5-1">
 <div class="org-src-container">
 <pre class="src src-json">{
@@ -2429,7 +2607,7 @@ For optimal Emacs integration, use these files in your projects:
 </div>
 </li>
 
-<li><a id="orgeefb7d9"></a>.eslintrc.json<br />
+<li><a id="orge245d03"></a>.eslintrc.json<br />
 <div class="outline-text-5" id="text-9-2-5-2">
 <div class="org-src-container">
 <pre class="src src-json">{
@@ -2450,7 +2628,7 @@ For optimal Emacs integration, use these files in your projects:
 </div>
 </li>
 
-<li><a id="orge06e2c9"></a>tsconfig.json (for TypeScript projects)<br />
+<li><a id="orga77f03e"></a>tsconfig.json (for TypeScript projects)<br />
 <div class="outline-text-5" id="text-9-2-5-3">
 <div class="org-src-container">
 <pre class="src src-json">{
@@ -2474,8 +2652,8 @@ For optimal Emacs integration, use these files in your projects:
 </div>
 </div>
 
-<div id="outline-container-org7fc1024" class="outline-2">
-<h2 id="org7fc1024"><span class="section-number-2">10.</span> Miscellaneous</h2>
+<div id="outline-container-org4c20d38" class="outline-2">
+<h2 id="org4c20d38"><span class="section-number-2">10.</span> Miscellaneous</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2636,8 +2814,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org7decf41" class="outline-2">
-<h2 id="org7decf41"><span class="section-number-2">11.</span> Linux</h2>
+<div id="outline-container-org46cc5ea" class="outline-2">
+<h2 id="org46cc5ea"><span class="section-number-2">11.</span> Linux</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">linux-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2659,8 +2837,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org96c6fe9" class="outline-2">
-<h2 id="org96c6fe9"><span class="section-number-2">12.</span> MacOS</h2>
+<div id="outline-container-org893a3b8" class="outline-2">
+<h2 id="org893a3b8"><span class="section-number-2">12.</span> MacOS</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">macos-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -2688,8 +2866,8 @@ https://github.com/pashky/restclient.el/"</span>
 </div>
 </div>
 
-<div id="outline-container-org79c8254" class="outline-2">
-<h2 id="org79c8254"><span class="section-number-2">13.</span> Windows</h2>
+<div id="outline-container-org495c91e" class="outline-2">
+<h2 id="org495c91e"><span class="section-number-2">13.</span> Windows</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">windows-conf.el --- Summary  -*- lexical-binding: t; -*-
