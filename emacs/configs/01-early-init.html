@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgf794bbf">1. Early Initialization</a>
+<ul>
+<li><a href="#orgbee48ee">1.1. Why Early Init?</a></li>
+<li><a href="#orgdffff50">1.2. Native Compilation Setup</a>
+<ul>
+<li><a href="#orgbcd0827">1.2.1. How It Works</a></li>
+</ul>
+</li>
+<li><a href="#org7728dbd">1.3. Startup Performance Optimizations</a>
+<ul>
+<li><a href="#orge515948">1.3.1. Garbage Collection</a></li>
+<li><a href="#orgabf22e3">1.3.2. Version Control</a></li>
+</ul>
+</li>
+<li><a href="#org2be92b1">1.4. Prevent Visual Flash</a></li>
+<li><a href="#orgcba613b">1.5. Frame Configuration</a></li>
+<li><a href="#orgf44c1b8">1.6. Disable Unused UI Elements</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf794bbf" class="outline-2">
+<h2 id="orgf794bbf"><span class="section-number-2">1.</span> Early Initialization</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The <code>early-init.el</code> file is loaded before the package system and GUI is initialized. This is the perfect place for performance optimizations and settings that must be applied before any packages load.
+</p>
+</div>
+
+<div id="outline-container-orgbee48ee" class="outline-3">
+<h3 id="orgbee48ee"><span class="section-number-3">1.1.</span> Why Early Init?</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Emacs 27+ introduced <code>early-init.el</code> which loads before:
+</p>
+<ul class="org-ul">
+<li>Package initialization</li>
+<li>GUI frame creation</li>
+<li>Custom file loading</li>
+</ul>
+
+<p>
+This allows us to:
+</p>
+<ul class="org-ul">
+<li>Maximize startup performance</li>
+<li>Prevent visual flash/flicker</li>
+<li>Configure native compilation before packages load</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdffff50" class="outline-3">
+<h3 id="orgdffff50"><span class="section-number-3">1.2.</span> Native Compilation Setup</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Modern Emacs supports native compilation of Emacs Lisp to machine code for better performance. On macOS with Homebrew, we need to configure the GCC library paths.
+</p>
+</div>
+
+<div id="outline-container-orgbcd0827" class="outline-4">
+<h4 id="orgbcd0827"><span class="section-number-4">1.2.1.</span> How It Works</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ol class="org-ol">
+<li>Checks if native compilation is available</li>
+<li>On macOS, locates the Homebrew GCC installation</li>
+<li>Sets up <code>LIBRARY_PATH</code> for the linker</li>
+<li>Configures <code>native-comp-driver-options</code> to find GCC libraries</li>
+<li>Enables async compilation with minimal warnings</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el --- Emacs-Solo (no external packages) Configuration  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Early init configuration for Emacs-Solo
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Native compilation settings - must come before any packages load
+</span>(<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (fboundp 'native-comp-available-p)
+           (native-comp-available-p))
+  (<span class="org-keyword">when</span> (eq system-type 'darwin)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">macOS with Homebrew GCC: Set up library paths
+</span>    <span class="org-comment-delimiter">;; </span><span class="org-comment">The library is in: /opt/homebrew/lib/gcc/current/gcc/aarch64-apple-darwin24/VERSION/
+</span>    (<span class="org-keyword">let*</span> ((gcc-base <span class="org-string">"/opt/homebrew/lib/gcc/current/gcc"</span>)
+           (arch-dir (expand-file-name <span class="org-string">"aarch64-apple-darwin24"</span> gcc-base))
+           (version-dirs (<span class="org-keyword">when</span> (file-directory-p arch-dir)
+                          (directory-files arch-dir t <span class="org-string">"^[0-9]+"</span> t)))
+           (gcc-lib-dir (<span class="org-keyword">when</span> version-dirs (car version-dirs))))
+      (<span class="org-keyword">when</span> gcc-lib-dir
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Set LIBRARY_PATH for the linker
+</span>        (setenv <span class="org-string">"LIBRARY_PATH"</span>
+                (concat gcc-lib-dir <span class="org-string">":"</span>
+                        <span class="org-string">"/opt/homebrew/lib/gcc/current:"</span>
+                        (<span class="org-keyword">or</span> (getenv <span class="org-string">"LIBRARY_PATH"</span>) <span class="org-string">""</span>)))
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure native-comp to use this GCC
+</span>        (<span class="org-keyword">setq</span> native-comp-driver-options
+              (list (concat <span class="org-string">"-B"</span> gcc-lib-dir)
+                    (concat <span class="org-string">"-L"</span> gcc-lib-dir)
+                    <span class="org-string">"-B/opt/homebrew/lib/gcc/current"</span>
+                    <span class="org-string">"-L/opt/homebrew/lib/gcc/current"</span>)))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">General native compilation settings
+</span>  (<span class="org-keyword">setq</span> native-comp-async-report-warnings-errors nil
+        native-comp-deferred-compilation t))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7728dbd" class="outline-3">
+<h3 id="org7728dbd"><span class="section-number-3">1.3.</span> Startup Performance Optimizations</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+These settings dramatically improve Emacs startup time by deferring expensive operations until after initialization.
+</p>
+</div>
+
+<div id="outline-container-orge515948" class="outline-4">
+<h4 id="orge515948"><span class="section-number-4">1.3.1.</span> Garbage Collection</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+We temporarily disable garbage collection during startup by setting <code>gc-cons-threshold</code> to maximum. This prevents GC pauses during the critical startup phase.
+</p>
+
+<p>
+<b>Note:</b> We should reset this in <code>init.el</code> after startup completes (typically to 16MB).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgabf22e3" class="outline-4">
+<h4 id="orgabf22e3"><span class="section-number-4">1.3.2.</span> Version Control</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+We limit <code>vc-handled-backends</code> to only Git, skipping checks for other VCS systems we don't use.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Startup hacks
+</span>(<span class="org-keyword">setq</span> gc-cons-threshold most-positive-fixnum
+        gc-cons-percentage 0.6
+        vc-handled-backends '(Git))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2be92b1" class="outline-3">
+<h3 id="org2be92b1"><span class="section-number-3">1.4.</span> Prevent Visual Flash</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+When Emacs starts, there's often a brief flash of the default theme before your custom theme loads. This function prevents that by:
+</p>
+<ul class="org-ul">
+<li>Hiding the mode line temporarily</li>
+<li>Optionally setting background/foreground to match your theme</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Hack to avoid being flashbanged
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">emacs-solo/avoid-initial-flash-of-light</span> ()
+  <span class="org-doc">"Avoid flash of light when starting Emacs."</span>
+  (<span class="org-keyword">setq</span> mode-line-format nil)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">These colors should match your selected theme for maximum effect
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Note that for catppuccin whenever we create a new frame or open it on terminal
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">it is necessary to reload the theme.
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(set-face-attribute 'default nil :background "#292D3E" :foreground "#292D3E")
+</span>  )
+
+(emacs-solo/avoid-initial-flash-of-light)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcba613b" class="outline-3">
+<h3 id="orgcba613b"><span class="section-number-3">1.5.</span> Frame Configuration</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Configure frame (window) behavior before the GUI initializes:
+</p>
+
+<ul class="org-ul">
+<li><code>frame-resize-pixelwise</code> - Allow pixel-precise frame sizing (not just character-grid)</li>
+<li><code>frame-inhibit-implied-resize</code> - Prevent unexpected frame resizing during startup</li>
+<li><code>frame-title-format</code> - Set window title to just "Emacs"</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Better Window Management handling
+</span>(<span class="org-keyword">setq</span> frame-resize-pixelwise t
+        frame-inhibit-implied-resize t
+        frame-title-format '(<span class="org-string">"Emacs"</span>))
+
+(<span class="org-keyword">setq</span> inhibit-compacting-font-caches t)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf44c1b8" class="outline-3">
+<h3 id="orgf44c1b8"><span class="section-number-3">1.6.</span> Disable Unused UI Elements</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+Remove visual clutter and improve performance by disabling UI elements we don't need:
+</p>
+
+<ul class="org-ul">
+<li><code>menu-bar-mode</code> - The File/Edit/View menu at top</li>
+<li><code>scroll-bar-mode</code> - Graphical scroll bars</li>
+<li><code>tool-bar-mode</code> - Icon toolbar (usually with New/Open/Save icons)</li>
+<li><code>tooltip-mode</code> - Popup tooltips</li>
+</ul>
+
+<p>
+These are disabled early to prevent them from being drawn and then hidden, which saves startup time.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Disables unused UI Elements
+</span>(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(tooltip-mode 0)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Resizing the Emacs frame can be a terribly expensive part of changing the
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">font. By inhibiting this, we easily halve startup times with fonts that are
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">larger than the system default.
+</span>(<span class="org-keyword">setq</span> frame-inhibit-implied-resize t
+        frame-resize-pixelwise t)
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">early-init</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">early-init.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

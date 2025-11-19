@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org7cb06c9">1. Python Development Configuration</a>
+<ul>
+<li><a href="#orgd44bced">1.1. Overview</a></li>
+<li><a href="#orgeb9543e">1.2. Key Features</a>
+<ul>
+<li><a href="#org6700b0f">1.2.1. Python Mode</a></li>
+<li><a href="#orgc284e74">1.2.2. Virtual Environment Management</a></li>
+<li><a href="#org3cce041">1.2.3. Code Formatting &amp; Quality</a></li>
+<li><a href="#orgec46ad9">1.2.4. Development Workflow</a></li>
+</ul>
+</li>
+<li><a href="#orgc1fc049">1.3. Python</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7cb06c9" class="outline-2">
+<h2 id="org7cb06c9"><span class="section-number-2">1.</span> Python Development Configuration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Configuration for Python development with modern tooling and best practices.
+</p>
+</div>
+
+<div id="outline-container-orgd44bced" class="outline-3">
+<h3 id="orgd44bced"><span class="section-number-3">1.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+This module provides Python development support including:
+</p>
+<ul class="org-ul">
+<li><b><b>Language Support</b></b>: python-mode with tree-sitter</li>
+<li><b><b>Virtual Environments</b></b>: pyvenv for virtualenv management</li>
+<li><b><b>Code Quality</b></b>: Black formatting, isort import sorting</li>
+<li><b><b>Testing</b></b>: pytest integration</li>
+<li><b><b>REPL</b></b>: Enhanced Python REPL</li>
+<li><b><b>LSP</b></b>: Python Language Server support</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgeb9543e" class="outline-3">
+<h3 id="orgeb9543e"><span class="section-number-3">1.2.</span> Key Features</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org6700b0f" class="outline-4">
+<h4 id="org6700b0f"><span class="section-number-4">1.2.1.</span> Python Mode</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>Syntax highlighting</li>
+<li>Intelligent indentation</li>
+<li>Code navigation</li>
+<li>Integration with debugging tools</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc284e74" class="outline-4">
+<h4 id="orgc284e74"><span class="section-number-4">1.2.2.</span> Virtual Environment Management</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>Automatic venv detection</li>
+<li>Easy switching between environments</li>
+<li>Integration with project workflows</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3cce041" class="outline-4">
+<h4 id="org3cce041"><span class="section-number-4">1.2.3.</span> Code Formatting &amp; Quality</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tool</th>
+<th scope="col" class="org-left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>black</code></td>
+<td class="org-left">Opinionated code formatter</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>isort</code></td>
+<td class="org-left">Import statement organizer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>flake8</code></td>
+<td class="org-left">Style guide enforcement</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pylint</code></td>
+<td class="org-left">Code analysis</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgec46ad9" class="outline-4">
+<h4 id="orgec46ad9"><span class="section-number-4">1.2.4.</span> Development Workflow</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ol class="org-ol">
+<li>Virtual environment activation</li>
+<li>LSP server connection</li>
+<li>Auto-formatting on save</li>
+<li>Test runner integration</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc1fc049" class="outline-3">
+<h3 id="orgc1fc049"><span class="section-number-3">1.3.</span> Python</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-elisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-python-conf.el --- Python development configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Configuration for Python development including LSP support, formatting,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">testing, virtual environments, and debugging.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python mode settings
+</span>(<span class="org-keyword">use-package</span> python
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.py\\'"</span> . python-mode)
+  <span class="org-builtin">:interpreter</span> (<span class="org-string">"python"</span> <span class="org-string">"python3"</span>)
+  <span class="org-builtin">:custom</span>
+  (python-indent-offset 4)
+  (python-indent-guess-indent-offset nil)
+  (python-shell-interpreter <span class="org-string">"python3"</span>)
+  (python-shell-completion-native-enable nil)  <span class="org-comment-delimiter">; </span><span class="org-comment">Avoid readline issues
+</span>  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remove trailing whitespace on save
+</span>  (add-hook 'python-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Virtual environment management
+</span>(<span class="org-keyword">use-package</span> pyvenv
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> pyvenv-mode-line-indicator '(pyvenv-virtual-env-name (<span class="org-string">"[venv:"</span> pyvenv-virtual-env-name <span class="org-string">"] "</span>)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Automatically activate virtual environment
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-auto-activate-venv</span> ()
+    <span class="org-doc">"Automatically activate Python virtual environment if found.
+Looks for .venv, venv, env directories or .python-version file."</span>
+    (<span class="org-keyword">interactive</span>)
+    (<span class="org-keyword">let*</span> ((project-root (<span class="org-keyword">or</span> (locate-dominating-file default-directory <span class="org-string">".venv"</span>)
+                             (locate-dominating-file default-directory <span class="org-string">"venv"</span>)
+                             (locate-dominating-file default-directory <span class="org-string">"env"</span>)
+                             (locate-dominating-file default-directory <span class="org-string">".python-version"</span>)))
+           (venv-path (<span class="org-keyword">when</span> project-root
+                        (<span class="org-keyword">or</span> (expand-file-name <span class="org-string">".venv"</span> project-root)
+                            (expand-file-name <span class="org-string">"venv"</span> project-root)
+                            (expand-file-name <span class="org-string">"env"</span> project-root)))))
+      (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> venv-path (file-directory-p venv-path))
+        (pyvenv-activate venv-path)
+        (message <span class="org-string">"Activated virtual environment: %s"</span> venv-path))))
+
+  (add-hook 'python-mode-hook #'fu-python-auto-activate-venv))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python formatting with Black
+</span>(<span class="org-keyword">use-package</span> python-black
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (python-black-buffer python-black-region python-black-on-save-mode)
+  <span class="org-builtin">:hook</span> (python-mode . python-black-on-save-mode-enable-dwim)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">python-black-on-save-mode-enable-dwim</span> ()
+    <span class="org-doc">"Enable python-black-on-save-mode if black is available."</span>
+    (<span class="org-keyword">when</span> (executable-find <span class="org-string">"black"</span>)
+      (python-black-on-save-mode 1))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Import sorting with isort
+</span>(<span class="org-keyword">use-package</span> py-isort
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (py-isort-buffer py-isort-region)
+  <span class="org-builtin">:hook</span> (before-save . fu-python-isort-before-save)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-isort-before-save</span> ()
+    <span class="org-doc">"Run isort before saving if in python-mode and isort is available."</span>
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (eq major-mode 'python-mode)
+               (executable-find <span class="org-string">"isort"</span>))
+      (py-isort-buffer))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Testing with pytest
+</span>(<span class="org-keyword">use-package</span> python-pytest
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (python-pytest-popup
+             python-pytest-function
+             python-pytest-function-dwim
+             python-pytest-file
+             python-pytest-file-dwim)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> python-mode-map
+              (<span class="org-string">"C-c t t"</span> . python-pytest-popup)
+              (<span class="org-string">"C-c t f"</span> . python-pytest-function-dwim)
+              (<span class="org-string">"C-c t m"</span> . python-pytest-file-dwim)
+              (<span class="org-string">"C-c t p"</span> . python-pytest)
+              (<span class="org-string">"C-c t r"</span> . python-pytest-repeat))
+  <span class="org-builtin">:custom</span>
+  (python-pytest-confirm nil))  <span class="org-comment-delimiter">; </span><span class="org-comment">Don't ask for confirmation
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Poetry integration
+</span>(<span class="org-keyword">use-package</span> poetry
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (poetry-venv-workon poetry-track-virtualenv)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-activate poetry virtualenv when entering a poetry project
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-poetry-auto-activate</span> ()
+    <span class="org-doc">"Auto-activate poetry virtualenv if pyproject.toml exists."</span>
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (executable-find <span class="org-string">"poetry"</span>)
+               (locate-dominating-file default-directory <span class="org-string">"pyproject.toml"</span>))
+      (poetry-track-virtualenv)))
+
+  (add-hook 'python-mode-hook #'fu-python-poetry-auto-activate))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Pip requirements management
+</span>(<span class="org-keyword">use-package</span> pip-requirements
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"requirements\\.txt\\'"</span> . pip-requirements-mode)
+         (<span class="org-string">"requirements-.*\\.txt\\'"</span> . pip-requirements-mode)
+         (<span class="org-string">"requirements/.*\\.txt\\'"</span> . pip-requirements-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python docstring support
+</span>(<span class="org-keyword">use-package</span> sphinx-doc
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (python-mode . sphinx-doc-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> python-mode-map
+              (<span class="org-string">"C-c d"</span> . sphinx-doc)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python REPL enhancements
+</span>(<span class="org-keyword">use-package</span> python-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Send region/buffer to Python REPL
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-shell-send-region-or-buffer</span> ()
+    <span class="org-doc">"Send the current region to Python REPL, or whole buffer if no region is active."</span>
+    (<span class="org-keyword">interactive</span>)
+    (<span class="org-keyword">if</span> (use-region-p)
+        (python-shell-send-region (region-beginning) (region-end))
+      (python-shell-send-buffer)))
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-shell-send-defun-and-step</span> ()
+    <span class="org-doc">"Send the current function to Python REPL and move to next function."</span>
+    (<span class="org-keyword">interactive</span>)
+    (python-shell-send-defun nil)
+    (python-nav-forward-defun))
+
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> python-mode-map
+              (<span class="org-string">"C-c C-c"</span> . fu-python-shell-send-region-or-buffer)
+              (<span class="org-string">"C-c C-n"</span> . fu-python-shell-send-defun-and-step)
+              (<span class="org-string">"C-c C-r"</span> . python-shell-send-region)
+              (<span class="org-string">"C-c C-b"</span> . python-shell-send-buffer)
+              (<span class="org-string">"C-c C-z"</span> . python-shell-switch-to-shell)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python debugger (pdb) integration
+</span>(<span class="org-keyword">use-package</span> realgud
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (realgud:pdb))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Optional: IPython integration
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Uncomment if you prefer IPython over standard Python REPL
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package python
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(when (executable-find "ipython")
+</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">(setq python-shell-interpreter "ipython"
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-interpreter-args "-i --simple-prompt --no-color-info"
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-completion-setup-code
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">"from IPython.core.completerlib import module_completion"
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-completion-module-string-code
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">"';'.join(module_completion('''</span><span class="org-comment"><span class="org-constant">%s</span></span><span class="org-comment">'''))\n"
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-completion-string-code
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">"';'.join(get_ipython().Completer.all_completions('''</span><span class="org-comment"><span class="org-constant">%s</span></span><span class="org-comment">'''))\n")))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">LSP configuration with Eglot
+</span>(<span class="org-keyword">with-eval-after-load</span> 'eglot
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Prefer pyright over pylsp if available
+</span>  (<span class="org-keyword">when</span> (executable-find <span class="org-string">"pyright-langserver"</span>)
+    (add-to-list 'eglot-server-programs
+                 '(python-mode . (<span class="org-string">"pyright-langserver"</span> <span class="org-string">"--stdio"</span>))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable eglot for Python
+</span>  (add-hook 'python-mode-hook #'eglot-ensure))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Flycheck for additional linting (optional, alongside Flymake)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package flycheck
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook (python-mode . flycheck-mode)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(setq flycheck-python-flake8-executable "python3"
+</span><span class="org-comment-delimiter">;;         </span><span class="org-comment">flycheck-python-pycompile-executable "python3"
+</span><span class="org-comment-delimiter">;;         </span><span class="org-comment">flycheck-python-pylint-executable "python3"))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Jupyter notebook support (optional)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package ein
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer t
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:commands (ein:run ein:login))
+</span>
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-python-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-python-conf.el ends here
+</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

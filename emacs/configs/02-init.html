@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org1863fe2">1. Core Initialization</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1863fe2" class="outline-2">
+<h2 id="org1863fe2"><span class="section-number-2">1.</span> Core Initialization</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Core Emacs settings using use-package. This configures built-in Emacs behavior without external packages.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">use-package</span> emacs
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"M-o"</span>         . other-window)
+   (<span class="org-string">"C-x r e"</span>     . recentf)
+   (<span class="org-string">"C-x C-b"</span>     . ibuffer)
+   (<span class="org-string">"C-x k"</span>       .
+      (<span class="org-keyword">lambda</span> ()
+        <span class="org-doc">"Kill current buffer."</span>
+        (<span class="org-keyword">interactive</span>)
+        (kill-buffer (buffer-name))))
+   (<span class="org-string">"RET"</span>         . newline-and-indent)
+   (<span class="org-string">"S-&lt;return&gt;"</span>  .
+      (<span class="org-keyword">lambda</span> ()
+        <span class="org-doc">"New line and indent."</span>
+        (<span class="org-keyword">interactive</span>)
+        (end-of-line)
+        (newline-and-indent)))
+   (<span class="org-string">"C-z"</span>         . nil)
+   (<span class="org-string">"C-x C-z"</span>     . nil)
+   (<span class="org-string">"C-x C-k RET"</span> . nil)
+   (<span class="org-string">"C-S-j"</span>       .
+      (<span class="org-keyword">lambda</span>()
+        <span class="org-doc">"Custom join line."</span>
+        (<span class="org-keyword">interactive</span>)
+        (<span class="org-keyword">let</span> ((beg (pos-eol))
+                      (end (<span class="org-keyword">progn</span>
+                                 (next-line)
+                                 (back-to-indentation)
+                                 (point))))
+              (delete-region beg end))))
+   (<span class="org-builtin">:map</span> lisp-interaction-mode-map
+               (<span class="org-string">"C-c C-c"</span> . eval-last-sexp))
+   (<span class="org-builtin">:map</span> emacs-lisp-mode-map
+               (<span class="org-string">"C-c C-c"</span> . eval-last-sexp)))
+
+  <span class="org-builtin">:custom</span>
+  (cursor-type '(bar . 3))
+  (ad-redefinition-action 'accept)
+  (column-number-mode nil)
+  (line-number-mode nil)
+  (completion-ignore-case t)
+  (completions-detailed t)
+  (completions-format 'one-column)
+  (delete-by-moving-to-trash t)
+  (display-line-numbers-width 6)
+  (display-line-numbers-widen t)
+  (delete-selection-mode 1)
+  (enable-recursive minibuffers t)
+  (find-ls-option '(<span class="org-string">"-exec ls -ldh {} +"</span> . <span class="org-string">"-ldh"</span>))     <span class="org-comment-delimiter">; </span><span class="org-comment">find-dired results with human readable sizes
+</span>  (frame-resize-pixelwise t)
+  (global-auto-revert-non-file-buffers t)
+  (auto-revert-verbose nil)
+  (help-window-select t)
+  (history-length 300)
+  (inhibit-startup-message t)
+  (initial-buffer-choice 'remember-notes)
+  (initial-major-mode 'org-mode)
+  (initial-scratch-message nil)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">(ispell-dictionary "en_US")
+</span>  (kill-do-not-save-duplicates t)
+  (create-lockfiles nil)                                <span class="org-comment-delimiter">; </span><span class="org-comment">No backup files
+</span>  (make-backup-files nil)                               <span class="org-comment-delimiter">; </span><span class="org-comment">No backup files
+</span>  (backup-inhibited t)                                  <span class="org-comment-delimiter">; </span><span class="org-comment">No backup files
+</span>  (scroll-margin 0)
+  (scroll-step 1)
+  (scroll-conservatively 101)
+  (pixel-scroll-precision-mode t)
+  (pixel-scroll-precision-use-momentum nil)
+  (ring-bell-function 'ignore)
+  (read-answer-short t)
+  (recentf-max-saved-items 300)                 <span class="org-comment-delimiter">; </span><span class="org-comment">default is 20
+</span>  (recentf-max-menu-items 15)
+  (recentf-auto-cleanup (<span class="org-keyword">if</span> (daemonp) 300 'never))
+  (recentf-exclude (list <span class="org-string">"^/</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(?:</span></span><span class="org-string">ssh</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">su</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">sudo</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">?:"</span>))
+  (remote-file-name-inhibit-delete-by-moving-to-trash t)
+  (remote-file-name-inhibit-auto-save t)
+  (resize-mini-windows 'grow-only)
+  (ring-bell-function #'ignore)
+  (savehist-save-minibuffer-history t)  <span class="org-comment-delimiter">; </span><span class="org-comment">t is default
+</span>  (savehist-additional-variables
+   '(kill-ring                                                  <span class="org-comment-delimiter">; </span><span class="org-comment">clipboard
+</span>       register-alist                                           <span class="org-comment-delimiter">; </span><span class="org-comment">macros
+</span>       mark-ring global-mark-ring                       <span class="org-comment-delimiter">; </span><span class="org-comment">marks
+</span>       search-ring regexp-search-ring)) <span class="org-comment-delimiter">; </span><span class="org-comment">searches
+</span>  (save-place-file (expand-file-name <span class="org-string">"saveplace"</span> user-emacs-directory))
+  (save-place-limit 600)
+  (set-mark-command-repeat-pop t) <span class="org-comment-delimiter">; </span><span class="org-comment">So we can use C-u C-SPC C-SPC C-SPC... instead of C-u C-SPC C-u C-SPC...
+</span>  (split-width-threshold 170)     <span class="org-comment-delimiter">; </span><span class="org-comment">So vertical splits are preferred
+</span>  (split-height-threshold nil)
+  (shr-use-colors nil)
+  (switch-to-buffer-obey-display-actions t)
+  (tab-always-indent 'complete)
+  (tab-width 4)
+  (tab-bar-close-button-show nil)
+  (tab-bar-new-button-show nil)
+  (tab-bar-tab-hints t)
+  (treesit-font-lock-level 4)
+  (truncate-lines t)
+  (undo-limit (* 13 160000))
+  (undo-strong-limit (* 13 240000))
+  (undo-outer-limit (* 13 24000000))
+  (use-dialog-box nil)
+  (use-file-dialog nil)
+  (use-short-answers t)
+  (visible-bell nil)
+  (window-combination-resize t)
+  (window-resize-pixelwise nil)
+  (xref-search-program 'ripgrep)
+  (grep-command <span class="org-string">"grep --color=always -nH --null -e "</span>)
+  (grep-find-ignored-directories
+   '(<span class="org-string">"SCCS"</span> <span class="org-string">"RCS"</span> <span class="org-string">"CVS"</span> <span class="org-string">"MCVS"</span> <span class="org-string">".src"</span> <span class="org-string">".svn"</span> <span class="org-string">".git"</span> <span class="org-string">".hg"</span> <span class="org-string">".bzr"</span> <span class="org-string">"_MTN"</span> <span class="org-string">"_darcs"</span> <span class="org-string">"{arch}"</span> <span class="org-string">"node_modules"</span> <span class="org-string">"build"</span> <span class="org-string">"dist"</span>))
+  (locale-coding-system 'utf-8)
+  (keyboard-coding-system 'utf-8)
+  (savehist-coding-system 'utf-8)
+  (file-name-coding-system 'utf-8)
+  (buffer-file-coding-system 'utf-8)
+  (system-time-locale <span class="org-string">"C"</span>)
+  (ns-pop-up-frames nil)
+  (server-raise-frame t)
+
+  <span class="org-builtin">:init</span>
+  (add-to-list 'default-frame-alist '(alpha-background . 100))
+  (set-window-margins (selected-window) 2 0)
+  (select-frame-set-input-focus (selected-frame))
+  (global-auto-revert-mode 1)
+  (global-goto-address-mode 1) <span class="org-comment-delimiter">;; </span><span class="org-comment">C-c RET to go
+</span>  (indent-tabs-mode nil)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">While indent-tabs-mode nil prevents Emacs from inserting tabs for indentation, C-q TAB will always insert a literal tab character regardless of this setting.
+</span>  (recentf-mode 1)
+  (repeat-mode 1)
+  (savehist-mode 1)
+  (save-place-mode 1)
+  (winner-mode)
+  (xterm-mouse-mode 1)
+  (file-name-shadow-mode 1) <span class="org-comment-delimiter">; </span><span class="org-comment">allows us to type a new path without having to delete the current one
+</span>  (set-language-environment <span class="org-string">"Korean"</span>)
+  (prefer-coding-system 'utf-8)
+  (global-unset-key (kbd <span class="org-string">"S-SPC"</span>))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Quick switch between input methods
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/switch-to-bopomofo</span> ()
+      <span class="org-doc">"Switch to Bopomofo input method."</span>
+      (<span class="org-keyword">interactive</span>)
+      (set-input-method <span class="org-string">"chinese-zozy"</span>))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/switch-to-korean</span> ()
+      <span class="org-doc">"Switch to Korean input method."</span>
+      (<span class="org-keyword">interactive</span>)
+      (set-input-method <span class="org-string">"korean-hangul"</span>))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/switch-to-english</span> ()
+      <span class="org-doc">"Disable input method (English)."</span>
+      (<span class="org-keyword">interactive</span>)
+      (deactivate-input-method))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Bind to function keys
+</span>  (global-set-key (kbd <span class="org-string">"&lt;f5&gt;"</span>) 'fu/switch-to-korean)
+  (global-set-key (kbd <span class="org-string">"&lt;f6&gt;"</span>) 'fu/switch-to-bopomofo)
+
+  (put 'narrow-to-region 'disabled nil)
+  (message (emacs-init-time))
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Makes everything accept utf-8 as default, so buffers with tsx and so
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">won't ask for encoding (because undecided-unix) every single keystroke
+</span>  (modify-coding-system-alist 'file <span class="org-string">""</span> 'utf-8)
+  (<span class="org-keyword">setq</span> custom-file (locate-user-emacs-file <span class="org-string">"custom-vars.el"</span>))
+  (load custom-file 'noerror 'nomessage)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Set line-number-mode with relative numbering
+</span>  (<span class="org-keyword">setq</span> display-line-numbers-type 'absolute)
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Add option "d" to whenever using C-x s or C-x C-c, allowing a quick preview
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">of the diff of what you're asked to save.
+</span>  (add-to-list 'save-some-buffers-action-alist
+                         (list <span class="org-string">"d"</span>
+                                       (<span class="org-keyword">lambda</span> (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
+                                       <span class="org-string">"show diff between the buffer and its file"</span>))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">On Terminal: changes the vertical separator to a full vertical line
+</span>  <span class="org-comment-delimiter">;;              </span><span class="org-comment">and truncation symbol to a right arrow
+</span>  (set-display-table-slot standard-display-table 'vertical-border ?\u2502)
+  (set-display-table-slot standard-display-table 'truncation ?\u2192)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Ibuffer filters
+</span>  (<span class="org-keyword">setq</span> ibuffer-saved-filter-groups
+              '((<span class="org-string">"default"</span>
+             (<span class="org-string">"org"</span> (<span class="org-keyword">or</span>
+                                 (mode . org-mode)
+                                 (name . <span class="org-string">"^\\*Org Src"</span>)
+                                 (name . <span class="org-string">"^\\*Org Agenda\\*$"</span>)))
+             (<span class="org-string">"tramp"</span> (name . <span class="org-string">"^\\*tramp.*"</span>))
+             (<span class="org-string">"emacs"</span> (<span class="org-keyword">or</span>
+                                       (name . <span class="org-string">"^\\*scratch\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*Messages\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*Warnings\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*Shell Command Output\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*Async-native-compile-log\\*$"</span>)
+                                       (name . <span class="org-string">"^\\*straight-"</span>)))
+             (<span class="org-string">"ediff"</span> (<span class="org-keyword">or</span>
+                                       (name . <span class="org-string">"^\\*ediff.*"</span>)
+                                       (name . <span class="org-string">"^\\*Ediff.*"</span>)))
+             (<span class="org-string">"dired"</span> (mode . dired-mode))
+             (<span class="org-string">"terminal"</span> (<span class="org-keyword">or</span>
+                                              (mode . term-mode)
+                                              (mode . shell-mode)
+                                              (mode . eshell-mode)))
+             (<span class="org-string">"help"</span> (<span class="org-keyword">or</span>
+                                      (name . <span class="org-string">"^\\*Help\\*$"</span>)
+                                      (name . <span class="org-string">"^\\*info\\*$"</span>)
+                                      (name . <span class="org-string">"^\\*helpful"</span>))))))
+  (add-hook 'ibuffer-mode-hook
+                      (<span class="org-keyword">lambda</span> ()
+                        (ibuffer-switch-to-saved-filter-groups <span class="org-string">"default"</span>)))
+  (<span class="org-keyword">setq</span> ibuffer-show-empty-filter-groups nil) <span class="org-comment-delimiter">; </span><span class="org-comment">don't show empty groups
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">So eshell git commands open an instance of THIS config of Emacs
+</span>  (setenv <span class="org-string">"GIT_EDITOR"</span> (format <span class="org-string">"emacs --init-dir=%s "</span> (shell-quote-argument user-emacs-directory)))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">So rebase from eshell opens with a bit of syntax highlight
+</span>  (add-to-list 'auto-mode-alist '(<span class="org-string">"/git-rebase-todo\\'"</span> . conf-mode))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Reset GC after startup for better runtime performance
+</span>  (add-hook 'emacs-startup-hook
+                      (<span class="org-keyword">lambda</span> ()
+                        (<span class="org-keyword">setq</span> gc-cons-threshold (* 16 1024 1024)  <span class="org-comment-delimiter">; </span><span class="org-comment">16MB
+</span>                                      gc-cons-percentage 0.1)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Runs '</span><span class="org-comment"><span class="org-constant">private.el</span></span><span class="org-comment">' after Emacs inits
+</span>  (add-hook 'after-init-hook
+                      (<span class="org-keyword">lambda</span> ()
+                        (<span class="org-keyword">let</span> ((private-file (expand-file-name <span class="org-string">"private.el"</span> user-emacs-directory)))
+                              (<span class="org-keyword">when</span> (file-exists-p private-file)
+                                (load private-file)))))
+
+  (add-hook 'server-visit-hook
+          (<span class="org-keyword">lambda</span> () (<span class="org-keyword">when</span> (display-graphic-p) (select-frame-set-input-focus (selected-frame)))))
+
+  (<span class="org-keyword">use-package</span> use-package
+      <span class="org-builtin">:custom</span>
+      (package-archives '((<span class="org-string">"melpa"</span>  . <span class="org-string">"https://melpa.org/packages/"</span>)
+                                              (<span class="org-string">"org"</span>    . <span class="org-string">"https://orgmode.org/elpa/"</span>)
+                                              (<span class="org-string">"elpa"</span>   . <span class="org-string">"https://elpa.gnu.org/packages/"</span>)
+                                              (<span class="org-string">"nongnu"</span> . <span class="org-string">"https://elpa.nongnu.org/nongnu/"</span>)))
+      (use-package-always-ensure t)
+      (use-package-enable-at-startup nil)
+      (package-native-compile t)
+      (warning-minimun-level 'error))
+
+  (<span class="org-keyword">eval-and-compile</span>
+      (add-to-list 'load-path (expand-file-name <span class="org-string">"elisp/settings/"</span> user-emacs-directory)))
+
+  (<span class="org-keyword">cond</span> ((eq system-type 'windows-nt)
+               (<span class="org-keyword">require</span> '<span class="org-constant">windows-conf</span>))
+              ((eq system-type 'darwin)
+               (<span class="org-keyword">require</span> '<span class="org-constant">macos-conf</span>))
+              ((eq system-type 'gnu/linux)
+               (<span class="org-keyword">require</span> '<span class="org-constant">linux-conf</span>)))
+
+  (<span class="org-keyword">require</span> '<span class="org-constant">theme-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">window-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">completion-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">dired-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">note-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">shell-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">prog-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">misc-conf</span>)
+
+  (<span class="org-keyword">require</span> '<span class="org-constant">douzone-comet-config</span> (expand-file-name <span class="org-string">"elisp/douzone-comet-config.el"</span> user-emacs-directory) t)
+  (<span class="org-keyword">require</span> '<span class="org-constant">douzone-comet-service</span> (expand-file-name <span class="org-string">"elisp/douzone-comet-service.el"</span> user-emacs-directory) t)
+  (<span class="org-keyword">require</span> '<span class="org-constant">douzone-comet-ui</span> (expand-file-name <span class="org-string">"elisp/douzone-comet-ui.el"</span> user-emacs-directory) t)
+  (<span class="org-keyword">require</span> '<span class="org-constant">package-setup-function</span> (expand-file-name <span class="org-string">"elisp/package-setup-function.el"</span> user-emacs-directory) t))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">init</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

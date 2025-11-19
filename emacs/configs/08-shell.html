@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5665f70">1. Shell Integration</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5665f70" class="outline-2">
+<h2 id="org5665f70"><span class="section-number-2">1.</span> Shell Integration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Terminal emulators and shell integration within Emacs.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Summary  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(<span class="org-keyword">when</span> (eq system-type 'gnu/linux)
+  (<span class="org-keyword">use-package</span> eat
+      <span class="org-builtin">:custom</span>
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Use eat-256color for best compatibility with interactive programs
+</span>      (eat-term-name <span class="org-string">"eat-256color"</span>)
+      (eat-enable-yank-to-terminal t)
+      (eat-kill-buffer-on-exit t)
+      <span class="org-builtin">:bind</span>
+      (<span class="org-string">"C-c `"</span> . eat)  <span class="org-comment-delimiter">; </span><span class="org-comment">Also available for standalone terminal use
+</span>      <span class="org-builtin">:config</span>
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">CRITICAL: Compile terminfo database for eat
+</span>      (<span class="org-keyword">unless</span> (file-exists-p (expand-file-name <span class="org-string">"~/.terminfo/e/eat-256color"</span>))
+      (eat-compile-terminfo))
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable eat in eshell for better terminal emulation
+</span>      (add-hook 'eshell-load-hook #'eat-eshell-mode)
+      (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Performance optimizations for eat
+</span>      (add-hook 'eat-mode-hook
+              (<span class="org-keyword">lambda</span> ()
+                              (<span class="org-keyword">setq-local</span> display-line-numbers nil))))
+
+  (<span class="org-keyword">use-package</span> vterm
+      <span class="org-builtin">:custom</span>
+      (vterm-max-scrollback 1000)           <span class="org-comment-delimiter">; </span><span class="org-comment">Very small scrollback for speed
+</span>      (vterm-buffer-name-string <span class="org-string">"vterm %s"</span>)
+      (vterm-kill-buffer-on-exit t)
+      (vterm-timer-delay nil)               <span class="org-comment-delimiter">; </span><span class="org-comment">Use Emacs redisplay (fastest on macOS)
+</span>      (vterm-always-compile-module t)
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">CRITICAL: Set proper TERM environment variable
+</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">Must be a list of strings
+</span>      (vterm-environment '(<span class="org-string">"TERM=xterm-256color"</span>))
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: set term name vterm reports to shell
+</span>      (vterm-term-environment-variable <span class="org-string">"xterm-256color"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Shell
+</span>(<span class="org-keyword">use-package</span> shell
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (comint-prompt-read-only t)
+  (comint-process-echoes t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Eshell
+</span>(<span class="org-keyword">use-package</span> eshell
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:custom</span>
+  (eshell-history-size 10000)
+  (eshell-buffer-maximum-lines 10000)
+  (eshell-hist-ignoredups t)
+  (eshell-scroll-to-bottom-on-input 'all)
+  (eshell-scroll-to-bottom-on-output t)
+  (eshell-error-if-no-glob t)
+  (eshell-save-history-on-exit t)
+  (eshell-prefer-lisp-functions t)
+  (eshell-destroy-buffer-when-process-dies t)
+  (eshell-visual-commands '(<span class="org-string">"vi"</span> <span class="org-string">"screen"</span> <span class="org-string">"top"</span> <span class="org-string">"htop"</span> <span class="org-string">"btm"</span> <span class="org-string">"less"</span> <span class="org-string">"more"</span> 
+                                                      <span class="org-string">"lynx"</span> <span class="org-string">"ncftp"</span> <span class="org-string">"pine"</span> <span class="org-string">"tin"</span> <span class="org-string">"trn"</span> <span class="org-string">"elm"</span> <span class="org-string">"irssi"</span> 
+                                                      <span class="org-string">"nmtui-connect"</span> <span class="org-string">"nethack"</span> <span class="org-string">"vim"</span> <span class="org-string">"alsamixer"</span> <span class="org-string">"nvim"</span> 
+                                                      <span class="org-string">"w3m"</span> <span class="org-string">"ncmpcpp"</span> <span class="org-string">"newsbeuter"</span> <span class="org-string">"nethack"</span> <span class="org-string">"mutt"</span> 
+                                                      <span class="org-string">"fzf"</span> <span class="org-string">"claude"</span>))
+  <span class="org-builtin">:hook</span>
+  (eshell-load . eat-eshell-mode)
+  (eshell-load . eat-eshell-visual-command-mode))
+
+(<span class="org-keyword">use-package</span> eshell-prompt-extras
+  <span class="org-builtin">:hook</span>
+  (eshell-first-time-mode . fu/eshell-init)
+  <span class="org-builtin">:custom</span>
+  (eshell-highlight-prompt t)
+  (eshell-prompt-function 'epe-theme-lambda)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/eshell-init</span> ()
+      (eshell/alias <span class="org-string">"l"</span> <span class="org-string">"ls -hl"</span>)
+      (eshell/alias <span class="org-string">"ll"</span> <span class="org-string">"ls -hl"</span>)
+      (eshell/alias <span class="org-string">"la"</span> <span class="org-string">"ls -ahl"</span>)
+      (eshell/alias <span class="org-string">"gs"</span> <span class="org-string">"git status"</span>)
+      (eshell/alias <span class="org-string">"gd"</span> <span class="org-string">"git diff"</span>)
+      (eshell/alias <span class="org-string">"gl"</span> <span class="org-string">"git log --oneline"</span>)
+      (eshell/alias <span class="org-string">".."</span> <span class="org-string">"cd .."</span>)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/async-shell-command</span> (command)
+  <span class="org-doc">"Run `</span><span class="org-doc"><span class="org-constant">async-shell-command</span></span><span class="org-doc">' with COMMAND in project root."</span>
+  (<span class="org-keyword">interactive</span> (list (read-string <span class="org-string">"Shell command: "</span>)))
+  (<span class="org-keyword">let*</span> ((output-buffer-time (format-time-string <span class="org-string">"%Y-%m-%dT%H:%M:%S"</span>))
+         (output-buffer-name (format <span class="org-string">"*Shell Command [%s]: %s*"</span> output-buffer-time command))
+         (error-buffer-name  (format <span class="org-string">"*Shell Error [%s]: %s*"</span> output-buffer-time command))
+         (current-project    (project-current))
+         (default-directory  (<span class="org-keyword">if</span> current-project (project-root current-project) default-directory)))
+    (async-shell-command command output-buffer-name)
+    (<span class="org-keyword">when-let</span> ((proc (get-buffer-process output-buffer-name)))
+      (set-process-sentinel
+       proc
+       (<span class="org-keyword">lambda</span> (process event)
+         (<span class="org-keyword">when</span> (buffer-live-p (process-buffer process))
+           (<span class="org-keyword">with-current-buffer</span> (process-buffer process)
+             (<span class="org-keyword">let</span> ((inhibit-read-only t))
+               (goto-char (point-max))
+               (insert <span class="org-string">"\n"</span> (make-string 60 ?-) <span class="org-string">"\n"</span>)
+               (insert (format <span class="org-string">"Process %s %s"</span> (process-name process) (string-trim event)))
+               (insert (format <span class="org-string">" at %s\n"</span> (format-time-string <span class="org-string">"%Y-%m-%d %H:%M:%S"</span>)))
+               (<span class="org-keyword">when</span> (process-exit-status process)
+                 (insert (format <span class="org-string">"Exit code: %s\n"</span> (process-exit-status process))))
+               (insert (make-string 60 ?-) <span class="org-string">"\n"</span>)))))))))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">shell-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

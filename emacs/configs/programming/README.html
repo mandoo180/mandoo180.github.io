@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Programming Configuration Modules</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Programming Configuration Modules</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5dae430">1. Overview</a></li>
+<li><a href="#org8114709">2. Module Structure</a>
+<ul>
+<li><a href="#org22c9861">2.1. File Organization</a></li>
+<li><a href="#orga2cbdd4">2.2. Load Order</a></li>
+</ul>
+</li>
+<li><a href="#orgf38118e">3. What Each Module Provides</a>
+<ul>
+<li><a href="#org00ef279">3.1. 00-loader.org (Configuration Loader)</a>
+<ul>
+<li><a href="#orge63df3f">3.1.1. Core Responsibilities</a></li>
+<li><a href="#orgab87227">3.1.2. Platform-Specific Features</a></li>
+</ul>
+</li>
+<li><a href="#org2e945e7">3.2. 01-general.org (Common Programming Tools)</a>
+<ul>
+<li><a href="#orgf207c4c">3.2.1. Categories</a></li>
+<li><a href="#org244e3a1">3.2.2. Key Features</a></li>
+</ul>
+</li>
+<li><a href="#org051fa92">3.3. 02-web.org (Web Development)</a>
+<ul>
+<li><a href="#org60b5669">3.3.1. Languages &amp; Frameworks</a></li>
+<li><a href="#orgc075771">3.3.2. Tools</a></li>
+<li><a href="#orgcdfe223">3.3.3. Smart Features</a></li>
+</ul>
+</li>
+<li><a href="#org5f7728e">3.4. 03-python.org (Python Development)</a>
+<ul>
+<li><a href="#org7b6fb0d">3.4.1. Core Features</a></li>
+<li><a href="#org5a542ba">3.4.2. Development Tools</a></li>
+<li><a href="#orgf69788a">3.4.3. Workflow</a></li>
+</ul>
+</li>
+<li><a href="#orgf582197">3.5. 04-ruby.org (Ruby Development)</a>
+<ul>
+<li><a href="#org25a487d">3.5.1. Ruby Language Support</a></li>
+<li><a href="#org7a124be">3.5.2. Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org38ef925">4. Adding New Languages</a>
+<ul>
+<li><a href="#orge365fd8">4.1. 1. Create Module File</a></li>
+<li><a href="#orge1798ac">4.2. 2. Update Loader</a></li>
+<li><a href="#org88f4c26">4.3. 3. Update Parent Index</a></li>
+<li><a href="#orgf32a3c1">4.4. 4. Update This README</a></li>
+</ul>
+</li>
+<li><a href="#org55b7c83">5. Tangling</a>
+<ul>
+<li><a href="#org4a43995">5.1. Tangle All Programming Configs</a></li>
+<li><a href="#org2e1f1d1">5.2. Tangle Individual Module</a></li>
+</ul>
+</li>
+<li><a href="#org3c2c05d">6. HTML Export</a></li>
+<li><a href="#org6346c12">7. File Sizes</a></li>
+<li><a href="#orge65aaa6">8. Benefits of This Structure</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5dae430" class="outline-2">
+<h2 id="org5dae430"><span class="section-number-2">1.</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This directory contains programming language-specific configuration modules, organized by language and functionality.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8114709" class="outline-2">
+<h2 id="org8114709"><span class="section-number-2">2.</span> Module Structure</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org22c9861" class="outline-3">
+<h3 id="org22c9861"><span class="section-number-3">2.1.</span> File Organization</h3>
+<div class="outline-text-3" id="text-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">File</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Tangles To</th>
+<th scope="col" class="org-left">Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>00-loader.org</code></td>
+<td class="org-left">Main loader, orchestrates all programming configs</td>
+<td class="org-left"><code>prog-conf.el</code></td>
+<td class="org-left">~47</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>01-general.org</code></td>
+<td class="org-left">Common programming tools (completion, version control, etc.)</td>
+<td class="org-left"><code>prog-general-conf.el</code></td>
+<td class="org-left">~225</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>02-web.org</code></td>
+<td class="org-left">Web development (HTML/CSS/JS/TS/frameworks)</td>
+<td class="org-left"><code>prog-web-conf.el</code></td>
+<td class="org-left">~455</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>03-python.org</code></td>
+<td class="org-left">Python development environment</td>
+<td class="org-left"><code>prog-python-conf.el</code></td>
+<td class="org-left">~191</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>04-ruby.org</code></td>
+<td class="org-left">Ruby and Rails development</td>
+<td class="org-left"><code>prog-ruby-conf.el</code></td>
+<td class="org-left">~341</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orga2cbdd4" class="outline-3">
+<h3 id="orga2cbdd4"><span class="section-number-3">2.2.</span> Load Order</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+The loader (<code>00-loader.org</code>) loads modules in this order:
+</p>
+
+<ol class="org-ol">
+<li><code>prog-general-conf</code> → Common tools</li>
+<li><code>prog-web-conf</code> → Web development</li>
+<li><code>prog-python-conf</code> → Python</li>
+<li><code>prog-ruby-conf</code> → Ruby</li>
+</ol>
+
+<p>
+Platform-specific tools (Clojure, SQL, tree-sitter) are loaded conditionally by the loader.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf38118e" class="outline-2">
+<h2 id="orgf38118e"><span class="section-number-2">3.</span> What Each Module Provides</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org00ef279" class="outline-3">
+<h3 id="org00ef279"><span class="section-number-3">3.1.</span> 00-loader.org (Configuration Loader)</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-orge63df3f" class="outline-4">
+<h4 id="orge63df3f"><span class="section-number-4">3.1.1.</span> Core Responsibilities</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<ul class="org-ul">
+<li>Loads all language-specific modules</li>
+<li>Manages platform-specific tools</li>
+<li>Provides Clojure (CIDER) support</li>
+<li>SQL database integration (ejc-sql)</li>
+<li>Tree-sitter parser infrastructure</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgab87227" class="outline-4">
+<h4 id="orgab87227"><span class="section-number-4">3.1.2.</span> Platform-Specific Features</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+Only loaded on non-Windows systems:
+</p>
+<ul class="org-ul">
+<li>CIDER (Clojure development)</li>
+<li>ejc-sql (SQL database client)</li>
+<li>tree-sitter (fast parsing library)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2e945e7" class="outline-3">
+<h3 id="org2e945e7"><span class="section-number-3">3.2.</span> 01-general.org (Common Programming Tools)</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-orgf207c4c" class="outline-4">
+<h4 id="orgf207c4c"><span class="section-number-4">3.2.1.</span> Categories</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<ul class="org-ul">
+<li><b>Completion</b>: corfu, corfu-candidate-overlay</li>
+<li><b>Compilation</b>: Enhanced compile mode with ANSI colors</li>
+<li><b>Version Control</b>: magit, project management, smerge</li>
+<li><b>Documentation</b>: eldoc, eldoc-box</li>
+<li><b>Syntax Checking</b>: flymake with multiple backends</li>
+<li><b>Code Formatting</b>: format-all, apheleia</li>
+<li><b>Editing</b>: electric-pair, rainbow-delimiters, code folding</li>
+<li><b>Build Tools</b>: makefile-mode, compilation shortcuts</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org244e3a1" class="outline-4">
+<h4 id="org244e3a1"><span class="section-number-4">3.2.2.</span> Key Features</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<ul class="org-ul">
+<li>Universal completion interface</li>
+<li>Git integration with magit</li>
+<li>Project-based workflow</li>
+<li>Inline documentation</li>
+<li>Automatic code formatting</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org051fa92" class="outline-3">
+<h3 id="org051fa92"><span class="section-number-3">3.3.</span> 02-web.org (Web Development)</h3>
+<div class="outline-text-3" id="text-3-3">
+</div>
+<div id="outline-container-org60b5669" class="outline-4">
+<h4 id="org60b5669"><span class="section-number-4">3.3.1.</span> Languages &amp; Frameworks</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<ul class="org-ul">
+<li>HTML (with smart mode selection)</li>
+<li>CSS, SCSS, SASS, Less</li>
+<li>JavaScript (ES6+, JSX)</li>
+<li>TypeScript (TS, TSX)</li>
+<li>Vue, React, Angular, Svelte</li>
+<li>Template engines (Nunjucks, Handlebars)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc075771" class="outline-4">
+<h4 id="orgc075771"><span class="section-number-4">3.3.2.</span> Tools</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<ul class="org-ul">
+<li><b>web-mode</b>: Unified editor for web templates</li>
+<li><b>emmet-mode</b>: HTML/CSS abbreviation expansion</li>
+<li><b>prettier-js</b>: Code formatter</li>
+<li><b>eslint</b>: JavaScript linter</li>
+<li><b>lsp-mode</b>: Language Server Protocol</li>
+<li><b>typescript-mode</b>: TypeScript support</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcdfe223" class="outline-4">
+<h4 id="orgcdfe223"><span class="section-number-4">3.3.3.</span> Smart Features</h4>
+<div class="outline-text-4" id="text-3-3-3">
+<ul class="org-ul">
+<li>Auto mode selection based on file size</li>
+<li>Syntax-aware indentation</li>
+<li>Tag manipulation (tagedit)</li>
+<li>Live preview capabilities</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5f7728e" class="outline-3">
+<h3 id="org5f7728e"><span class="section-number-3">3.4.</span> 03-python.org (Python Development)</h3>
+<div class="outline-text-3" id="text-3-4">
+</div>
+<div id="outline-container-org7b6fb0d" class="outline-4">
+<h4 id="org7b6fb0d"><span class="section-number-4">3.4.1.</span> Core Features</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<ul class="org-ul">
+<li>python-mode with tree-sitter</li>
+<li>Virtual environment management (pyvenv)</li>
+<li>Code formatting (black, isort)</li>
+<li>Testing (pytest integration)</li>
+<li>Enhanced REPL (inferior-python)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5a542ba" class="outline-4">
+<h4 id="org5a542ba"><span class="section-number-4">3.4.2.</span> Development Tools</h4>
+<div class="outline-text-4" id="text-3-4-2">
+<ul class="org-ul">
+<li>LSP support (pyright/pylsp)</li>
+<li>Import sorting</li>
+<li>Docstring helpers</li>
+<li>Debug integration</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf69788a" class="outline-4">
+<h4 id="orgf69788a"><span class="section-number-4">3.4.3.</span> Workflow</h4>
+<div class="outline-text-4" id="text-3-4-3">
+<ul class="org-ul">
+<li>Automatic venv detection</li>
+<li>Format on save</li>
+<li>Test runner shortcuts</li>
+<li>REPL integration</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf582197" class="outline-3">
+<h3 id="orgf582197"><span class="section-number-3">3.5.</span> 04-ruby.org (Ruby Development)</h3>
+<div class="outline-text-3" id="text-3-5">
+</div>
+<div id="outline-container-org25a487d" class="outline-4">
+<h4 id="org25a487d"><span class="section-number-4">3.5.1.</span> Ruby Language Support</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<ul class="org-ul">
+<li>Enhanced ruby-mode</li>
+<li>Interactive REPL (inf-ruby)</li>
+<li>RuboCop integration</li>
+<li>Bundler support</li>
+</ul>
+
+<p>
+### Ruby on Rails
+</p>
+<ul class="org-ul">
+<li>Rails-specific commands</li>
+<li>Generator integration</li>
+<li>Migration helpers</li>
+<li>Controller/View navigation</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7a124be" class="outline-4">
+<h4 id="org7a124be"><span class="section-number-4">3.5.2.</span> Testing</h4>
+<div class="outline-text-4" id="text-3-5-2">
+<ul class="org-ul">
+<li>RSpec mode</li>
+<li>Minitest support</li>
+<li>Test runner integration</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org38ef925" class="outline-2">
+<h2 id="org38ef925"><span class="section-number-2">4.</span> Adding New Languages</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+To add support for a new language:
+</p>
+</div>
+
+<div id="outline-container-orge365fd8" class="outline-3">
+<h3 id="orge365fd8"><span class="section-number-3">4.1.</span> 1. Create Module File</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Create <code>0X-language.org</code> in this directory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span class="org-org-level-1">* Language Name Configuration</span>
+
+Configuration for Language Name development.
+
+<span class="org-org-level-2">** Overview</span>
+...
+
+<span class="org-org-block-begin-line">#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-language-conf.el
+</span><span class="org-org-block">  </span><span class="org-org-block"><span class="org-comment-delimiter">;;; </span></span><span class="org-org-block"><span class="org-comment">prog-language-conf.el --- Language configuration -*- lexical-binding: t; -*-
+</span></span><span class="org-org-block">  </span><span class="org-org-block"><span class="org-comment-delimiter">;;; </span></span><span class="org-org-block"><span class="org-comment">Commentary:
+</span></span><span class="org-org-block">  </span><span class="org-org-block"><span class="org-comment-delimiter">;;; </span></span><span class="org-org-block"><span class="org-comment">Code:
+</span></span><span class="org-org-block">
+  </span><span class="org-org-block"><span class="org-comment-delimiter">;; </span></span><span class="org-org-block"><span class="org-comment">Your configuration here
+</span></span><span class="org-org-block">
+  (</span><span class="org-org-block"><span class="org-keyword">provide</span></span><span class="org-org-block"> '</span><span class="org-org-block"><span class="org-constant">prog-language-conf</span></span><span class="org-org-block">)
+  </span><span class="org-org-block"><span class="org-comment-delimiter">;;; </span></span><span class="org-org-block"><span class="org-comment">prog-language-conf.el ends here
+</span></span><span class="org-org-block-end-line">#+end_src</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge1798ac" class="outline-3">
+<h3 id="orge1798ac"><span class="section-number-3">4.2.</span> 2. Update Loader</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Add to <code>00-loader.org</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Load language-specific configurations
+</span>...
+(<span class="org-keyword">require</span> '<span class="org-constant">prog-language-conf</span>)  <span class="org-comment-delimiter">; </span><span class="org-comment">Add this line</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org88f4c26" class="outline-3">
+<h3 id="org88f4c26"><span class="section-number-3">4.3.</span> 3. Update Parent Index</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Add to <code>../09-programming.org</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span class="org-org-level-2">** Language Name Development</span>
+<span class="org-org-meta-line">#+INCLUDE: "programming/0X-language.org" :minlevel 2</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf32a3c1" class="outline-3">
+<h3 id="orgf32a3c1"><span class="section-number-3">4.4.</span> 4. Update This README</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Add entry to the module table and description section.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org55b7c83" class="outline-2">
+<h2 id="org55b7c83"><span class="section-number-2">5.</span> Tangling</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org4a43995" class="outline-3">
+<h3 id="org4a43995"><span class="section-number-3">5.1.</span> Tangle All Programming Configs</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+From repository root:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">Tangle just programming configs
+</span>emacs --batch --eval <span class="org-string">"(progn
+  (require 'org)
+  (mapc 'org-babel-tangle-file
+    (directory-files \"content/configs/programming\" t \"\\\\.org$\")))"</span>
+</pre>
+</div>
+
+<p>
+Or use the global tangle script:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">./tangle.sh
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2e1f1d1" class="outline-3">
+<h3 id="org2e1f1d1"><span class="section-number-3">5.2.</span> Tangle Individual Module</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Open the module file and run:
+</p>
+<ul class="org-ul">
+<li><code>M-x org-babel-tangle</code></li>
+<li>Or: <code>C-c C-v t</code></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3c2c05d" class="outline-2">
+<h2 id="org3c2c05d"><span class="section-number-2">6.</span> HTML Export</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+The parent file <code>../09-programming.org</code> uses <code>#+INCLUDE</code> to combine all modules for export.
+</p>
+
+<p>
+From repository root:
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">./build.sh
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6346c12" class="outline-2">
+<h2 id="org6346c12"><span class="section-number-2">7.</span> File Sizes</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Current module sizes:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">wc -l programming/*.org
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Module</th>
+<th scope="col" class="org-left">Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">00-loader</td>
+<td class="org-left">~50</td>
+</tr>
+
+<tr>
+<td class="org-left">01-general</td>
+<td class="org-left">~250</td>
+</tr>
+
+<tr>
+<td class="org-left">02-web</td>
+<td class="org-left">~480</td>
+</tr>
+
+<tr>
+<td class="org-left">03-python</td>
+<td class="org-left">~220</td>
+</tr>
+
+<tr>
+<td class="org-left">04-ruby</td>
+<td class="org-left">~370</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orge65aaa6" class="outline-2">
+<h2 id="orge65aaa6"><span class="section-number-2">8.</span> Benefits of This Structure</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+✅ <b><b>Language Isolation</b></b> - Each language in its own file
+✅ <b><b>Easy to Navigate</b></b> - Find Python config quickly
+✅ <b><b>Selective Loading</b></b> - Can disable languages by commenting out <code>require</code>
+✅ <b><b>Maintainable</b></b> - Changes to web config don't affect Python
+✅ <b><b>Extensible</b></b> - Add new languages easily
+✅ <b><b>Documented</b></b> - Each module has detailed explanations
+</p>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<p class="date">Date: 2025-11-19</p>
+</footer>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Personal Org Page</title>
+<title>Personal Knowledge Base</title>
 <meta name="generator" content="Org Mode" />
 <meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
 <style>
@@ -17,85 +17,516 @@
 </head>
 <body>
 <main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
-<h1 class="title">Personal Org Page</h1>
+<h1 class="title">Personal Knowledge Base</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfcaa7f9">1. How to run</a>
+<li><a href="#org38e5ecd">1. Welcome</a>
 <ul>
-<li><a href="#org595f001">1.1. Build html files</a></li>
-<li><a href="#org96c71da">1.2. Run server in Emacs</a></li>
-<li><a href="#orgd092d83">1.3. Serve a Directory</a></li>
+<li><a href="#orgf9325fb">1.1. What's Here</a></li>
+<li><a href="#orgbd4221d">1.2. Features</a></li>
 </ul>
 </li>
-<li><a href="#orgb9c2a7b">2. Pages</a></li>
-<li><a href="#org8227b75">3. Links</a></li>
+<li><a href="#orgc96032e">2. Emacs</a>
+<ul>
+<li><a href="#org05bbded">2.1. Emacs Configurations</a></li>
+<li><a href="#orgf3aa5fa">2.2. Learning Emacs Lisp</a></li>
+<li><a href="#orgb7aaf4f">2.3. Building Emacs from Source</a></li>
+</ul>
+</li>
+<li><a href="#orgff4b699">3. Learning</a>
+<ul>
+<li><a href="#org9812f7d">3.1. GNU sed - Stream Editor</a></li>
+<li><a href="#org1e605ab">3.2. The C Programming Language (K&amp;R)</a></li>
+</ul>
+</li>
+<li><a href="#orgc4d65ba">4. Notes</a>
+<ul>
+<li><a href="#org3f2ac18">4.1. Arch Linux Setup Guide</a></li>
+<li><a href="#orgafbf385">4.2. Dotfiles Configuration</a></li>
+</ul>
+</li>
+<li><a href="#orgf74107e">5. Computer Science</a>
+<ul>
+<li><a href="#org88f1bb2">5.1. Structure and Interpretation of Computer Programs</a></li>
+</ul>
+</li>
+<li><a href="#orga6211b2">6. Recent Updates</a></li>
+<li><a href="#orgc25e12b">7. Navigation</a>
+<ul>
+<li><a href="#org4fd3d38">7.1. By Category</a></li>
+<li><a href="#org67529b4">7.2. Quick Links</a></li>
+</ul>
+</li>
+<li><a href="#org4a62e37">8. About This Site</a>
+<ul>
+<li><a href="#org2712b0c">8.1. Technical Details</a></li>
+<li><a href="#org058bf0c">8.2. Building Locally</a></li>
+<li><a href="#org1e8f54c">8.3. Tangling Emacs Configs</a></li>
+</ul>
+</li>
+<li><a href="#orgef4472f">9. Contact</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgfcaa7f9" class="outline-2">
-<h2 id="orgfcaa7f9"><span class="section-number-2">1.</span> How to run</h2>
+<div id="outline-container-org38e5ecd" class="outline-2">
+<h2 id="org38e5ecd"><span class="section-number-2">1.</span> Welcome</h2>
 <div class="outline-text-2" id="text-1">
+<p>
+This is my personal knowledge base and configuration repository, built with Org-mode and published to GitHub Pages. It contains technical notes, learning resources, and my complete Emacs configuration written in literate programming style.
+</p>
 </div>
-<div id="outline-container-org595f001" class="outline-3">
-<h3 id="org595f001"><span class="section-number-3">1.1.</span> Build html files</h3>
+
+<div id="outline-container-orgf9325fb" class="outline-3">
+<h3 id="orgf9325fb"><span class="section-number-3">1.1.</span> What's Here</h3>
 <div class="outline-text-3" id="text-1-1">
-<div class="org-src-container">
-<pre class="src src-shell">./build.sh
-</pre>
-</div>
+<ul class="org-ul">
+<li><b>Emacs Configuration</b>: Comprehensive, modular Emacs setup with detailed explanations</li>
+<li><b>Learning Notes</b>: Programming books, tools, and language documentation</li>
+<li><b>System Setup</b>: Linux configuration, dotfiles, and system administration</li>
+<li><b>Computer Science</b>: SICP study notes and exercises</li>
+</ul>
 </div>
 </div>
 
-<div id="outline-container-org96c71da" class="outline-3">
-<h3 id="org96c71da"><span class="section-number-3">1.2.</span> Run server in Emacs</h3>
+<div id="outline-container-orgbd4221d" class="outline-3">
+<h3 id="orgbd4221d"><span class="section-number-3">1.2.</span> Features</h3>
 <div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>📚 <b>Literate Programming</b>: All configurations are documented and explainable</li>
+<li>🎨 <b>Floating TOC</b>: Easy navigation with sticky table of contents</li>
+<li>🌓 <b>Dark Mode</b>: Automatic theme switching based on system preference</li>
+<li>📱 <b>Responsive</b>: Works on desktop, tablet, and mobile devices</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc96032e" class="outline-2">
+<h2 id="orgc96032e"><span class="section-number-2">2.</span> Emacs</h2>
+<div class="outline-text-2" id="text-2">
 <p>
-Install <code>simple-httpd</code>.
+Complete Emacs configuration and learning resources using literate programming with Org-mode.
+</p>
+</div>
+
+<div id="outline-container-org05bbded" class="outline-3">
+<h3 id="org05bbded"><span class="section-number-3">2.1.</span> <a href="emacs/emacs-configs.html">Emacs Configurations</a></h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+My complete Emacs configuration written in literate programming style. The configuration is split into focused, modular files for better organization and maintainability.
 </p>
 
+<p>
+<b>Structure</b>:
+</p>
+<ul class="org-ul">
+<li>13 main configuration modules (early-init, init, theme, window, completion, etc.)</li>
+<li>5 programming language modules (general, web, Python, Ruby)</li>
+<li>All configs include detailed inline documentation</li>
+<li>Tangle support to generate <code>~/.emacs.d/</code> files</li>
+</ul>
+
+<p>
+<b>Highlights</b>:
+</p>
+<ul class="org-ul">
+<li>Performance optimizations and native compilation setup</li>
+<li>Custom mode line with clean, minimal design</li>
+<li>Modern completion framework (Corfu)</li>
+<li>LSP support for multiple languages</li>
+<li>Git integration with Magit</li>
+</ul>
+
+<p>
+<b>Total</b>: ~3,800 lines across 18 modular files
+</p>
+
+<p>
+See also: <a href="emacs/configs/README.html">Configuration Guide</a> | <a href="emacs/configs/programming/README.html">Programming Config Guide</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf3aa5fa" class="outline-3">
+<h3 id="orgf3aa5fa"><span class="section-number-3">2.2.</span> <a href="emacs/emacs-lisp.html">Learning Emacs Lisp</a></h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Comprehensive guide to Emacs Lisp for experienced developers. Covers the language from basics to advanced topics with practical examples.
+</p>
+
+<p>
+<b>Topics</b>:
+</p>
+<ul class="org-ul">
+<li>Language fundamentals (data types, functions, variables)</li>
+<li>Control structures and iteration</li>
+<li>Lists and data structures</li>
+<li>Object-oriented programming with EIEIO</li>
+<li>Macros and metaprogramming</li>
+<li>Buffer manipulation and text processing</li>
+<li>Mode development</li>
+<li>Package management</li>
+</ul>
+
+<p>
+<b>Format</b>: Tutorial-style with executable code blocks and exercises
+</p>
+
+<p>
+<b>Size</b>: ~1,150 lines
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb7aaf4f" class="outline-3">
+<h3 id="orgb7aaf4f"><span class="section-number-3">2.3.</span> <a href="emacs/emacs-build.html">Building Emacs from Source</a></h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Step-by-step guide for building Emacs from source code on various platforms.
+</p>
+
+<p>
+<b>Contents</b>:
+</p>
+<ul class="org-ul">
+<li>Prerequisites and dependencies</li>
+<li>Build configuration options</li>
+<li>Native compilation setup</li>
+<li>Platform-specific instructions</li>
+<li>Troubleshooting common build issues</li>
+</ul>
+
+<p>
+<b>Platforms</b>: Linux, macOS, Windows
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgff4b699" class="outline-2">
+<h2 id="orgff4b699"><span class="section-number-2">3.</span> Learning</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Notes and exercises from programming books and technical documentation.
+</p>
+</div>
+
+<div id="outline-container-org9812f7d" class="outline-3">
+<h3 id="org9812f7d"><span class="section-number-3">3.1.</span> <a href="learning/GNU-sed.html">GNU sed - Stream Editor</a></h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Comprehensive guide to the GNU sed stream editor, from basics to advanced text processing.
+</p>
+
+<p>
+<b>Topics</b>:
+</p>
+<ul class="org-ul">
+<li>Stream editor fundamentals</li>
+<li>Regular expressions in sed</li>
+<li>Common editing operations</li>
+<li>Pattern space and hold space</li>
+<li>Multi-line processing</li>
+<li>Practical examples and use cases</li>
+</ul>
+
+<p>
+<b>Use Case</b>: Text processing, log analysis, automated editing
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1e605ab" class="outline-3">
+<h3 id="org1e605ab"><span class="section-number-3">3.2.</span> <a href="learning/c-programming-language-2nd.html">The C Programming Language (K&amp;R)</a></h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Notes and exercises from "The C Programming Language, 2nd Edition" by Kernighan and Ritchie.
+</p>
+
+<p>
+<b>Current Coverage</b>:
+</p>
+<ul class="org-ul">
+<li>Chapter 4: Functions and Program Structure</li>
+<li>Practical examples and code exercises</li>
+<li>C programming best practices</li>
+</ul>
+
+<p>
+<b>Status</b>: In progress
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc4d65ba" class="outline-2">
+<h2 id="orgc4d65ba"><span class="section-number-2">4.</span> Notes</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+System configuration, dotfiles, and setup documentation.
+</p>
+</div>
+
+<div id="outline-container-org3f2ac18" class="outline-3">
+<h3 id="org3f2ac18"><span class="section-number-3">4.1.</span> <a href="notes/archlinux-setup.html">Arch Linux Setup Guide</a></h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Personal guide for setting up and configuring Arch Linux from scratch.
+</p>
+
+<p>
+<b>Contents</b>:
+</p>
+<ul class="org-ul">
+<li>Installation procedure</li>
+<li>Post-installation configuration</li>
+<li>Desktop environment setup</li>
+<li>Package management</li>
+<li>System maintenance</li>
+</ul>
+
+<p>
+<b>Target</b>: Arch Linux and Arch-based distributions
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgafbf385" class="outline-3">
+<h3 id="orgafbf385"><span class="section-number-3">4.2.</span> <a href="notes/dotfiles.html">Dotfiles Configuration</a></h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+My personal dotfiles and system configuration files with explanations.
+</p>
+
+<p>
+<b>Includes</b>:
+</p>
+<ul class="org-ul">
+<li>Shell configuration (zsh, bash)</li>
+<li>Terminal emulator configs</li>
+<li>Git configuration</li>
+<li>Development environment setup</li>
+<li>Custom scripts and utilities</li>
+</ul>
+
+<p>
+<b>Total</b>: ~630 lines of documented configurations
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf74107e" class="outline-2">
+<h2 id="orgf74107e"><span class="section-number-2">5.</span> Computer Science</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org88f1bb2" class="outline-3">
+<h3 id="org88f1bb2"><span class="section-number-3">5.1.</span> <a href="sicp/sicp.html">Structure and Interpretation of Computer Programs</a></h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Study notes and exercises from the classic computer science textbook SICP (Abelson &amp; Sussman).
+</p>
+
+<p>
+<b>Chapters</b>:
+</p>
+<ol class="org-ol">
+<li><a href="sicp/chapter01.html">Building Abstractions with Procedures</a> - Functions, recursion, higher-order procedures</li>
+<li><a href="sicp/chapter02.html">Building Abstractions with Data</a> - Data abstraction, hierarchical data, symbolic data</li>
+<li><a href="sicp/chapter03.html">Modularity, Objects, and State</a> - Assignment, mutable data, concurrency</li>
+<li><a href="sicp/chapter04.html">Metalinguistic Abstraction</a> - Interpreters, lazy evaluation, logic programming</li>
+<li><a href="sicp/chapter05.html">Computing with Register Machines</a> - Machine simulation, compilation</li>
+</ol>
+
+<p>
+<b>Language</b>: Scheme (exercises in Emacs Lisp where applicable)
+</p>
+
+<p>
+<b>Format</b>: Notes with executable code examples
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga6211b2" class="outline-2">
+<h2 id="orga6211b2"><span class="section-number-2">6.</span> Recent Updates</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>2025-11-20: Split programming configurations by language (web, Python, Ruby)</li>
+<li>2025-11-20: Added floating TOC sidebar with mobile toggle</li>
+<li>2025-11-19: Restructured Emacs configs into modular files</li>
+<li>2025-10-20: Added TOC sidebar feature to all pages</li>
+<li>2025-10-01: Initial repository setup with GitHub Pages</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc25e12b" class="outline-2">
+<h2 id="orgc25e12b"><span class="section-number-2">7.</span> Navigation</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org4fd3d38" class="outline-3">
+<h3 id="org4fd3d38"><span class="section-number-3">7.1.</span> By Category</h3>
+<div class="outline-text-3" id="text-7-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Category</th>
+<th scope="col" class="org-right">Files</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a href="#orgc96032e">Emacs</a></td>
+<td class="org-right">3 main + 18 modules</td>
+<td class="org-left">Configuration and learning resources</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="#orgff4b699">Learning</a></td>
+<td class="org-right">2</td>
+<td class="org-left">Programming books and tools</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="#orgc4d65ba">Notes</a></td>
+<td class="org-right">2</td>
+<td class="org-left">System setup and dotfiles</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="#orgf74107e">Computer Science</a></td>
+<td class="org-right">6</td>
+<td class="org-left">SICP chapters and exercises</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org67529b4" class="outline-3">
+<h3 id="org67529b4"><span class="section-number-3">7.2.</span> Quick Links</h3>
+<div class="outline-text-3" id="text-7-2">
+</div>
+<div id="outline-container-orge49f557" class="outline-4">
+<h4 id="orge49f557"><span class="section-number-4">7.2.1.</span> Configuration</h4>
+<div class="outline-text-4" id="text-7-2-1">
+<ul class="org-ul">
+<li><a href="emacs/emacs-configs.html">View Emacs Configuration</a> - Main literate config file</li>
+<li><a href="emacs/configs/README.html">Configuration Guide</a> - How to use and customize</li>
+<li><a href="emacs/configs/programming/README.html">Programming Setup</a> - Language-specific configs</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org22dec64" class="outline-4">
+<h4 id="org22dec64"><span class="section-number-4">7.2.2.</span> Documentation</h4>
+<div class="outline-text-4" id="text-7-2-2">
+<ul class="org-ul">
+<li><a href="../README.html">Repository README</a> - Complete project documentation</li>
+<li><a href="../CLAUDE.md">Claude.ai Guide</a> - AI integration documentation</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0a6e51e" class="outline-4">
+<h4 id="org0a6e51e"><span class="section-number-4">7.2.3.</span> External</h4>
+<div class="outline-text-4" id="text-7-2-3">
+<ul class="org-ul">
+<li><a href="https://github.com/mandoo180">GitHub Profile</a> - Source code and other projects</li>
+<li><a href="https://mandoo180.github.io">Live Site</a> - Published version of this knowledge base</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4a62e37" class="outline-2">
+<h2 id="org4a62e37"><span class="section-number-2">8.</span> About This Site</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org2712b0c" class="outline-3">
+<h3 id="org2712b0c"><span class="section-number-3">8.1.</span> Technical Details</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li><b>Generator</b>: Emacs Org-mode (ox-publish)</li>
+<li><b>Styling</b>: Tailwind CSS with typography plugin</li>
+<li><b>Hosting</b>: GitHub Pages</li>
+<li><b>Source</b>: <a href="https://github.com/mandoo180/mandoo180.github.io">mandoo180/mandoo180.github.io</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org058bf0c" class="outline-3">
+<h3 id="org058bf0c"><span class="section-number-3">8.2.</span> Building Locally</h3>
+<div class="outline-text-3" id="text-8-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(package-install 'simple-httpd)
+<pre class="src src-bash"><span class="org-comment-delimiter"># </span><span class="org-comment">Clone repository
+</span>git clone https://github.com/mandoo180/mandoo180.github.io
+<span class="org-builtin">cd</span> mandoo180.github.io
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Build site
+</span>./build.sh
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Serve locally (in Emacs)
+</span>M-x package-install RET simple-httpd RET
+M-x httpd-serve-directory RET ./public RET
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd092d83" class="outline-3">
-<h3 id="orgd092d83"><span class="section-number-3">1.3.</span> Serve a Directory</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-org1e8f54c" class="outline-3">
+<h3 id="org1e8f54c"><span class="section-number-3">8.3.</span> Tangling Emacs Configs</h3>
+<div class="outline-text-3" id="text-8-3">
+<div class="org-src-container">
+<pre class="src src-bash"><span class="org-comment-delimiter"># </span><span class="org-comment">Extract all configurations to ~/.emacs.d/
+</span>./tangle.sh
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgef4472f" class="outline-2">
+<h2 id="orgef4472f"><span class="section-number-2">9.</span> Contact</h2>
+<div class="outline-text-2" id="text-9">
 <p>
-Serve `./public' by <code>M-x httpd-serve-directory</code>.
+Feel free to explore, reference, or adapt any content for your own use.
 </p>
-</div>
-</div>
-</div>
 
-<div id="outline-container-orgb9c2a7b" class="outline-2">
-<h2 id="orgb9c2a7b"><span class="section-number-2">2.</span> Pages</h2>
-<div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li><a href="./emacs-configs.html">Emacs configurations</a></li>
-<li><a href="./GNU-sed.html">Learning GNU Sed</a></li>
-<li><a href="./c-programming-language-2nd.html">C Programming Language</a></li>
-<li><a href="./sicp/sicp.html">Structure and Interpretation of Computer Programs</a></li>
-<li><a href="./dotfiles.html">Dot Files</a></li>
-<li><a href="./emacs-lisp.html">Learning Emacs Lisp</a></li>
+<li><b>GitHub</b>: <a href="https://github.com/mandoo180">@mandoo180</a></li>
+<li><b>Email</b>: Available in GitHub profile</li>
+<li><b>Site</b>: <a href="https://mandoo180.github.io">mandoo180.github.io</a></li>
 </ul>
-</div>
-</div>
 
-<div id="outline-container-org8227b75" class="outline-2">
-<h2 id="org8227b75"><span class="section-number-2">3.</span> Links</h2>
-<div class="outline-text-2" id="text-3">
-<ul class="org-ul">
-<li><a href="https://github.com/mandoo180">My github repository</a></li>
-<li><a href="https://store.anonpengling.org/">Online store template</a></li>
-</ul>
+<p>
+&#x2014;
+</p>
+
+<p>
+<i>Last updated: 2025-11-20</i>
+</p>
 </div>
 </div>
 </main>
+<footer id="postamble" class="status">
+<p class="date">Date: 2025-11-20</p>
+</footer>
 </body>
 </html>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org1fc6a64">1. Programming Configuration Loader</a>
+<ul>
+<li><a href="#orge150ee5">1.1. Purpose</a></li>
+<li><a href="#org9e228fc">1.2. Architecture</a></li>
+<li><a href="#org1927376">1.3. Loader Implementation</a></li>
+<li><a href="#org3e7584e">1.4. Non-Windows Tools</a>
+<ul>
+<li><a href="#org7c10db1">1.4.1. Clojure Development (CIDER)</a></li>
+<li><a href="#org1949c20">1.4.2. SQL Database Interaction (ejc-sql)</a></li>
+<li><a href="#org9298af5">1.4.3. Tree-sitter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1fc6a64" class="outline-2">
+<h2 id="org1fc6a64"><span class="section-number-2">1.</span> Programming Configuration Loader</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This file serves as the main entry point for all programming-related configurations. It loads language-specific modules and platform-specific tools.
+</p>
+</div>
+
+<div id="outline-container-orge150ee5" class="outline-3">
+<h3 id="orge150ee5"><span class="section-number-3">1.1.</span> Purpose</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+The loader (<code>prog-conf.el</code>) is responsible for:
+</p>
+<ul class="org-ul">
+<li>Loading general programming settings (<code>prog-general-conf</code>)</li>
+<li>Loading language-specific configurations (web, Python, Ruby)</li>
+<li>Conditionally loading platform-specific tools</li>
+<li>Managing Clojure, SQL, and tree-sitter integrations</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9e228fc" class="outline-3">
+<h3 id="org9e228fc"><span class="section-number-3">1.2.</span> Architecture</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+The programming configuration is modular:
+</p>
+
+<pre class="example" id="orgd3a5e62">
+prog-conf.el (this file)
+├── prog-general-conf.el   → General programming settings
+├── prog-web-conf.el       → Web development (HTML/CSS/JS/TS)
+├── prog-python-conf.el    → Python development
+└── prog-ruby-conf.el      → Ruby development
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1927376" class="outline-3">
+<h3 id="org1927376"><span class="section-number-3">1.3.</span> Loader Implementation</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Programming configuration loader -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Main programming configuration file that loads language-specific modules
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">and platform-specific programming tools.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Load general programming configuration
+</span>(<span class="org-keyword">require</span> '<span class="org-constant">prog-general-conf</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Load language-specific configurations
+</span>(<span class="org-keyword">require</span> '<span class="org-constant">prog-web-conf</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">prog-python-conf</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">prog-ruby-conf</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Platform-specific and additional tools
+</span>(<span class="org-keyword">unless</span> (eq system-type 'windows-nt)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Clojure development (non-Windows only)
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">TODO: finish https://clojure-doc.org/articles/tutorials/introduction/
+</span>  (<span class="org-keyword">use-package</span> cider
+      <span class="org-builtin">:custom</span>
+      (nrepl-use-ssh-fallback-for-remote-hosts t))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">SQL database interaction
+</span>  (<span class="org-keyword">use-package</span> ejc-sql
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Github: https://github.com/kostafey/ejc-sql?tab=readme-ov-file#mariadbconnection
+</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">M-x ejc-connect
+</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">M-x ejc-quit-connection -&gt; it refreshes the connection
+</span>      <span class="org-builtin">:config</span>
+      (load (expand-file-name <span class="org-string">".local/ejc-config.el"</span> user-emacs-directory) 'noerror 'nomessage))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Tree-sitter support
+</span>  (<span class="org-keyword">use-package</span> tree-sitter
+      <span class="org-builtin">:config</span>
+      (global-tree-sitter-mode 1))
+  (<span class="org-keyword">use-package</span> tree-sitter-langs)
+  (<span class="org-keyword">use-package</span> treesit-auto
+      <span class="org-builtin">:config</span>
+      (global-treesit-auto-mode 1)))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el ends here
+</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3e7584e" class="outline-3">
+<h3 id="org3e7584e"><span class="section-number-3">1.4.</span> Non-Windows Tools</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Several tools are only loaded on non-Windows systems:
+</p>
+</div>
+
+<div id="outline-container-org7c10db1" class="outline-4">
+<h4 id="org7c10db1"><span class="section-number-4">1.4.1.</span> Clojure Development (CIDER)</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>Interactive Clojure development environment</li>
+<li>REPL integration</li>
+<li>SSH support for remote development</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1949c20" class="outline-4">
+<h4 id="org1949c20"><span class="section-number-4">1.4.2.</span> SQL Database Interaction (ejc-sql)</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>Connect to databases directly from Emacs</li>
+<li>Execute SQL queries</li>
+<li>Load local configuration from <code>~/.emacs.d/.local/ejc-config.el</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9298af5" class="outline-4">
+<h4 id="org9298af5"><span class="section-number-4">1.4.3.</span> Tree-sitter</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>Fast, incremental parsing library</li>
+<li>Better syntax highlighting</li>
+<li>More accurate code navigation</li>
+<li>Language grammar support via <code>tree-sitter-langs</code></li>
+<li>Automatic mode activation via <code>treesit-auto</code></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

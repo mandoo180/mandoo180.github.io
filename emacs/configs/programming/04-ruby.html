@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgb0bcefe">1. Ruby Development Configuration</a>
+<ul>
+<li><a href="#orgc11332b">1.1. Overview</a></li>
+<li><a href="#orga728d0a">1.2. Key Features</a>
+<ul>
+<li><a href="#orgd526bf1">1.2.1. Ruby Mode</a></li>
+<li><a href="#org5d99de3">1.2.2. Ruby on Rails</a></li>
+<li><a href="#orgd00c979">1.2.3. Development Tools</a></li>
+<li><a href="#orgea33d60">1.2.4. Workflow Integration</a></li>
+</ul>
+</li>
+<li><a href="#org338046f">1.3. Ruby</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb0bcefe" class="outline-2">
+<h2 id="orgb0bcefe"><span class="section-number-2">1.</span> Ruby Development Configuration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Configuration for Ruby and Ruby on Rails development.
+</p>
+</div>
+
+<div id="outline-container-orgc11332b" class="outline-3">
+<h3 id="orgc11332b"><span class="section-number-3">1.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+This module provides comprehensive Ruby development support:
+</p>
+<ul class="org-ul">
+<li><b><b>Language Support</b></b>: ruby-mode with enhanced features</li>
+<li><b><b>Rails Integration</b></b>: Full Ruby on Rails support</li>
+<li><b><b>REPL</b></b>: inf-ruby for interactive development</li>
+<li><b><b>Testing</b></b>: RSpec and minitest integration</li>
+<li><b><b>Code Quality</b></b>: RuboCop integration</li>
+<li><b><b>Package Management</b></b>: Bundler support</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga728d0a" class="outline-3">
+<h3 id="orga728d0a"><span class="section-number-3">1.2.</span> Key Features</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-orgd526bf1" class="outline-4">
+<h4 id="orgd526bf1"><span class="section-number-4">1.2.1.</span> Ruby Mode</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>Syntax highlighting</li>
+<li>Intelligent indentation</li>
+<li>Code navigation</li>
+<li>Symbol navigation</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5d99de3" class="outline-4">
+<h4 id="org5d99de3"><span class="section-number-4">1.2.2.</span> Ruby on Rails</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>Rails-specific features</li>
+<li>Generator integration</li>
+<li>Migration helpers</li>
+<li>View/controller switching</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd00c979" class="outline-4">
+<h4 id="orgd00c979"><span class="section-number-4">1.2.3.</span> Development Tools</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tool</th>
+<th scope="col" class="org-left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>ruby-mode</code></td>
+<td class="org-left">Core Ruby language support</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>inf-ruby</code></td>
+<td class="org-left">Interactive Ruby REPL</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rspec-mode</code></td>
+<td class="org-left">RSpec test runner</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rubocop</code></td>
+<td class="org-left">Ruby style checker</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>bundler</code></td>
+<td class="org-left">Gem dependency management</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgea33d60" class="outline-4">
+<h4 id="orgea33d60"><span class="section-number-4">1.2.4.</span> Workflow Integration</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ol class="org-ol">
+<li>Project detection (Rails vs. pure Ruby)</li>
+<li>Bundler gem management</li>
+<li>Test runner integration</li>
+<li>Code formatting and linting</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org338046f" class="outline-3">
+<h3 id="org338046f"><span class="section-number-3">1.3.</span> Ruby</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-ruby-conf.el --- Ruby development configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Configuration for Ruby and Ruby on Rails development including LSP support,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">testing, formatting, REPL, and Rails-specific tools.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby mode settings
+</span>(<span class="org-keyword">use-package</span> ruby-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.rb\\'"</span> . ruby-mode)
+         (<span class="org-string">"Rakefile\\'"</span> . ruby-mode)
+         (<span class="org-string">"Gemfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"Berksfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"Vagrantfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.rake\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.gemspec\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.ru\\'"</span> . ruby-mode)
+         (<span class="org-string">"Guardfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"Capfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.cap\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.thor\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.rabl\\'"</span> . ruby-mode)
+         (<span class="org-string">"Thorfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.jbuilder\\'"</span> . ruby-mode)
+         (<span class="org-string">"Podfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.podspec\\'"</span> . ruby-mode)
+         (<span class="org-string">"Puppetfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.arb\\'"</span> . ruby-mode))
+  <span class="org-builtin">:interpreter</span> <span class="org-string">"ruby"</span>
+  <span class="org-builtin">:custom</span>
+  (ruby-indent-level 2)
+  (ruby-indent-tabs-mode nil)
+  (ruby-insert-encoding-magic-comment nil)  <span class="org-comment-delimiter">; </span><span class="org-comment">Don't auto-insert encoding comment
+</span>  (ruby-align-chained-calls nil)
+  (ruby-deep-indent-paren nil)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remove trailing whitespace on save
+</span>  (add-hook 'ruby-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              (add-hook 'before-save-hook #'delete-trailing-whitespace nil t)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enhance Ruby mode with additional features
+</span>  (add-hook 'ruby-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              (<span class="org-keyword">setq-local</span> comment-auto-fill-only-comments t)
+              (auto-fill-mode 1))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">inf-ruby: Ruby REPL integration
+</span>(<span class="org-keyword">use-package</span> inf-ruby
+  <span class="org-builtin">:hook</span> ((ruby-mode . inf-ruby-minor-mode)
+         (compilation-filter . inf-ruby-auto-enter))
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c C-s"</span> . inf-ruby)
+              (<span class="org-string">"C-c C-z"</span> . inf-ruby-switch-from-compilation))
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Automatically start REPL when evaluating code
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-send-region-or-buffer</span> ()
+    <span class="org-doc">"Send the current region to Ruby REPL, or whole buffer if no region is active."</span>
+    (<span class="org-keyword">interactive</span>)
+    (<span class="org-keyword">unless</span> (get-buffer-process inf-ruby-buffer)
+      (inf-ruby))
+    (<span class="org-keyword">if</span> (use-region-p)
+        (ruby-send-region (region-beginning) (region-end))
+      (ruby-send-buffer)))
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-send-definition</span> ()
+    <span class="org-doc">"Send the current definition to Ruby REPL."</span>
+    (<span class="org-keyword">interactive</span>)
+    (<span class="org-keyword">unless</span> (get-buffer-process inf-ruby-buffer)
+      (inf-ruby))
+    (<span class="org-keyword">save-excursion</span>
+      (ruby-end-of-defun)
+      (<span class="org-keyword">let</span> ((end (point)))
+        (ruby-beginning-of-defun)
+        (ruby-send-region (point) end))))
+
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c C-c"</span>) 'fu-ruby-send-region-or-buffer)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c C-d"</span>) 'fu-ruby-send-definition)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c C-l"</span>) 'ruby-load-file)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c C-r"</span>) 'ruby-send-region))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">RuboCop: Linting and formatting
+</span>(<span class="org-keyword">use-package</span> rubocop
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . rubocop-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> rubocop-mode-map
+              (<span class="org-string">"C-c r a"</span> . rubocop-autocorrect-current-file)
+              (<span class="org-string">"C-c r A"</span> . rubocop-autocorrect-project)
+              (<span class="org-string">"C-c r f"</span> . rubocop-check-current-file)
+              (<span class="org-string">"C-c r p"</span> . rubocop-check-project))
+  <span class="org-builtin">:custom</span>
+  (rubocop-autocorrect-on-save nil)  <span class="org-comment-delimiter">; </span><span class="org-comment">Don't auto-correct on save by default
+</span>  (rubocop-prefer-system-executable t)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-format with RuboCop if available
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-rubocop-autocorrect-on-save</span> ()
+    <span class="org-doc">"Auto-correct current file with RuboCop on save if rubocop is available."</span>
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (eq major-mode 'ruby-mode)
+               (executable-find <span class="org-string">"rubocop"</span>))
+      (rubocop-autocorrect-current-file)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Uncomment to enable auto-format on save
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(add-hook 'after-save-hook #'fu-ruby-rubocop-autocorrect-on-save))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">RSpec: Testing framework
+</span>(<span class="org-keyword">use-package</span> rspec-mode
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . rspec-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c t t"</span> . rspec-verify)
+              (<span class="org-string">"C-c t f"</span> . rspec-verify-single)
+              (<span class="org-string">"C-c t m"</span> . rspec-verify-matching)
+              (<span class="org-string">"C-c t a"</span> . rspec-verify-all)
+              (<span class="org-string">"C-c t r"</span> . rspec-rerun)
+              (<span class="org-string">"C-c t c"</span> . rspec-verify-continue)
+              (<span class="org-string">"C-c t s"</span> . rspec-toggle-spec-and-target))
+  <span class="org-builtin">:custom</span>
+  (rspec-use-rake-when-possible nil)
+  (rspec-spec-command <span class="org-string">"rspec"</span>)
+  (rspec-use-spring-when-possible t)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Use bundle exec if Gemfile exists
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-use-bundler-for-rspec</span> ()
+    <span class="org-doc">"Use bundle exec for RSpec if Gemfile exists."</span>
+    (<span class="org-keyword">when</span> (locate-dominating-file default-directory <span class="org-string">"Gemfile"</span>)
+      (<span class="org-keyword">setq</span> rspec-spec-command <span class="org-string">"bundle exec rspec"</span>)))
+
+  (add-hook 'ruby-mode-hook #'fu-ruby-use-bundler-for-rspec))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bundler: Dependency management
+</span>(<span class="org-keyword">use-package</span> bundler
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (bundle-install
+             bundle-update
+             bundle-exec
+             bundle-open)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c b i"</span> . bundle-install)
+              (<span class="org-string">"C-c b u"</span> . bundle-update)
+              (<span class="org-string">"C-c b e"</span> . bundle-exec)
+              (<span class="org-string">"C-c b o"</span> . bundle-open)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Rake: Task runner
+</span>(<span class="org-keyword">use-package</span> rake
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (rake rake-find-task rake-rerun)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c k r"</span> . rake)
+              (<span class="org-string">"C-c k f"</span> . rake-find-task)
+              (<span class="org-string">"C-c k R"</span> . rake-rerun)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby on Rails support
+</span>(<span class="org-keyword">use-package</span> projectile-rails
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (projectile-mode . projectile-rails-global-mode)
+  <span class="org-builtin">:bind-keymap</span> (<span class="org-string">"C-c R"</span> . projectile-rails-command-map)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable Rails-specific features when in Rails project
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-rails-mode-hook</span> ()
+    <span class="org-doc">"Hook for Rails-specific configuration."</span>
+    (<span class="org-keyword">when</span> (projectile-rails-root)
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable additional Rails features
+</span>      (<span class="org-keyword">setq-local</span> compilation-scroll-output t)))
+
+  (add-hook 'projectile-rails-mode-hook #'fu-ruby-rails-mode-hook)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Rails file navigation helpers
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-find-model</span> ()
+    <span class="org-doc">"Find Rails model."</span>
+    (<span class="org-keyword">interactive</span>)
+    (projectile-rails-find-model))
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-find-controller</span> ()
+    <span class="org-doc">"Find Rails controller."</span>
+    (<span class="org-keyword">interactive</span>)
+    (projectile-rails-find-controller))
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-find-view</span> ()
+    <span class="org-doc">"Find Rails view."</span>
+    (<span class="org-keyword">interactive</span>)
+    (projectile-rails-find-view))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Keybindings for Rails navigation
+</span>  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R m"</span>) 'fu-rails-find-model)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R c"</span>) 'fu-rails-find-controller)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R v"</span>) 'fu-rails-find-view))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">YAML mode for Rails config files
+</span>(<span class="org-keyword">use-package</span> yaml-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.yml\\'"</span> . yaml-mode)
+         (<span class="org-string">"\\.yaml\\'"</span> . yaml-mode)
+         (<span class="org-string">"config/database.yml"</span> . yaml-mode)
+         (<span class="org-string">"config/routes.rb"</span> . ruby-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Enhanced Ruby refactoring
+</span>(<span class="org-keyword">use-package</span> ruby-refactor
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . ruby-refactor-mode-launch)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-refactor-mode-map
+              (<span class="org-string">"C-c C-e m"</span> . ruby-refactor-extract-to-method)
+              (<span class="org-string">"C-c C-e v"</span> . ruby-refactor-extract-local-variable)
+              (<span class="org-string">"C-c C-e c"</span> . ruby-refactor-extract-constant)
+              (<span class="org-string">"C-c C-e l"</span> . ruby-refactor-extract-to-let)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby block manipulation
+</span>(<span class="org-keyword">use-package</span> ruby-block
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . ruby-block-mode)
+  <span class="org-builtin">:custom</span>
+  (ruby-block-highlight-toggle t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">YARD documentation
+</span>(<span class="org-keyword">use-package</span> yard-mode
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . yard-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c y"</span> . yard-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby debugging with realgud
+</span>(<span class="org-keyword">use-package</span> realgud
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (realgud:byebug realgud:pry))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Chruby for Ruby version management (if you use chruby)
+</span>(<span class="org-keyword">use-package</span> chruby
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (chruby-use chruby-use-corresponding)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-detect Ruby version from .ruby-version
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-chruby-auto</span> ()
+    <span class="org-doc">"Auto-select Ruby version based on .ruby-version file."</span>
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (executable-find <span class="org-string">"chruby-exec"</span>)
+               (locate-dominating-file default-directory <span class="org-string">".ruby-version"</span>))
+      (chruby-use-corresponding)))
+
+  (add-hook 'ruby-mode-hook #'fu-ruby-chruby-auto))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">RVM support (alternative to chruby)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package rvm
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer t
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(rvm-use-default))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">rbenv support (alternative to chruby/rvm)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package rbenv
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer t
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(global-rbenv-mode))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">ERB (Embedded Ruby) mode
+</span>(<span class="org-keyword">use-package</span> web-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.erb\\'"</span> . web-mode)
+         (<span class="org-string">"\\.html\\.erb\\'"</span> . web-mode))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> web-mode-engines-alist
+        '((<span class="org-string">"erb"</span> . <span class="org-string">"\\.html\\.erb\\'"</span>))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Haml support
+</span>(<span class="org-keyword">use-package</span> haml-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.haml\\'"</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Slim template support
+</span>(<span class="org-keyword">use-package</span> slim-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.slim\\'"</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Rails console in Emacs
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-console</span> ()
+  <span class="org-doc">"Start Rails console in inf-ruby."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((default-directory (<span class="org-keyword">or</span> (projectile-rails-root)
+                               default-directory)))
+    (<span class="org-keyword">if</span> (file-exists-p <span class="org-string">"bin/rails"</span>)
+        (inf-ruby-console-run <span class="org-string">"bin/rails console"</span> <span class="org-string">"rails"</span>)
+      (inf-ruby-console-run <span class="org-string">"bundle exec rails console"</span> <span class="org-string">"rails"</span>))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-server</span> ()
+  <span class="org-doc">"Start Rails server in async shell."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((default-directory (<span class="org-keyword">or</span> (projectile-rails-root)
+                               default-directory)))
+    (async-shell-command
+     (<span class="org-keyword">if</span> (file-exists-p <span class="org-string">"bin/rails"</span>)
+         <span class="org-string">"bin/rails server"</span>
+       <span class="org-string">"bundle exec rails server"</span>)
+     <span class="org-string">"*rails-server*"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Keybindings for Rails
+</span>(<span class="org-keyword">with-eval-after-load</span> 'ruby-mode
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R r"</span>) 'fu-rails-console)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R s"</span>) 'fu-rails-server))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby hash syntax conversion helpers
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-toggle-hash-syntax</span> ()
+  <span class="org-doc">"Toggle between old and new Ruby hash syntax."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">save-excursion</span>
+    (<span class="org-keyword">let</span> ((bounds (bounds-of-thing-at-point 'symbol)))
+      (<span class="org-keyword">when</span> bounds
+        (<span class="org-keyword">let*</span> ((start (car bounds))
+               (end (cdr bounds))
+               (symbol (buffer-substring-no-properties start end)))
+          (<span class="org-keyword">cond</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">Convert :symbol =&gt; to symbol:
+</span>           ((looking-back <span class="org-string">":</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[a-z_][a-z0-9_]*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string"> =&gt;"</span> (line-beginning-position))
+            (<span class="org-keyword">let</span> ((match-start (match-beginning 0)))
+              (delete-region match-start (point))
+              (insert (match-string 1) <span class="org-string">":"</span>)))
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">Convert symbol: to :symbol =&gt;
+</span>           ((looking-at <span class="org-string">"</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[a-z_][a-z0-9_]*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">:"</span>)
+            (<span class="org-keyword">let</span> ((symbol (match-string 1)))
+              (delete-region (match-beginning 0) (match-end 0))
+              (insert <span class="org-string">":"</span> symbol <span class="org-string">" =&gt;"</span>)))))))))
+
+(define-key ruby-mode-map (kbd <span class="org-string">"C-c h"</span>) 'fu-ruby-toggle-hash-syntax)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">LSP configuration with Eglot
+</span>(<span class="org-keyword">with-eval-after-load</span> 'eglot
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure ruby-lsp server (preferred) or solargraph
+</span>  (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) <span class="org-string">"ruby-lsp"</span>))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: Use solargraph instead
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(add-to-list 'eglot-server-programs
+</span>  <span class="org-comment-delimiter">;;              </span><span class="org-comment">'((ruby-mode ruby-ts-mode) "solargraph" "stdio"))
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable eglot for Ruby modes
+</span>  (add-hook 'ruby-mode-hook #'eglot-ensure)
+  (add-hook 'ruby-ts-mode-hook #'eglot-ensure))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby end-of-line comments alignment
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-align-end-comments</span> ()
+  <span class="org-doc">"Align end-of-line comments in Ruby."</span>
+  (<span class="org-keyword">interactive</span>)
+  (align-regexp (region-beginning) (region-end) <span class="org-string">"</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">\\s-*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">#"</span> 1 1 t))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-ruby-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-ruby-conf.el ends here
+</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

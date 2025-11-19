@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org60398e0">1. General Programming Configuration</a>
+<ul>
+<li><a href="#org645e38f">1.1. Overview</a></li>
+<li><a href="#org9b4906e">1.2. What's Included</a></li>
+<li><a href="#orgb06e408">1.3. General</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org60398e0" class="outline-2">
+<h2 id="org60398e0"><span class="section-number-2">1.</span> General Programming Configuration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Common programming tools and utilities that apply across all languages.
+</p>
+</div>
+
+<div id="outline-container-org645e38f" class="outline-3">
+<h3 id="org645e38f"><span class="section-number-3">1.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+This module provides:
+</p>
+<ul class="org-ul">
+<li><b><b>Completion</b></b>: Corfu for in-buffer completion</li>
+<li><b><b>Compilation</b></b>: Enhanced compilation mode with ANSI colors</li>
+<li><b><b>Version Control</b></b>: Magit, project management, merge conflict resolution</li>
+<li><b><b>Documentation</b></b>: Eldoc for inline documentation</li>
+<li><b><b>Code Quality</b></b>: Flymake for syntax checking, formatting tools</li>
+<li><b><b>Editing Utilities</b></b>: Electric pairs, rainbow delimiters, code folding</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9b4906e" class="outline-3">
+<h3 id="org9b4906e"><span class="section-number-3">1.2.</span> What's Included</h3>
+<div class="outline-text-3" id="text-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Category</th>
+<th scope="col" class="org-left">Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Completion</td>
+<td class="org-left">corfu, corfu-candidate-overlay</td>
+</tr>
+
+<tr>
+<td class="org-left">Build Tools</td>
+<td class="org-left">compile, makefile-mode</td>
+</tr>
+
+<tr>
+<td class="org-left">Version Control</td>
+<td class="org-left">magit, project, smerge-mode</td>
+</tr>
+
+<tr>
+<td class="org-left">Documentation</td>
+<td class="org-left">eldoc, eldoc-box</td>
+</tr>
+
+<tr>
+<td class="org-left">Syntax Checking</td>
+<td class="org-left">flymake</td>
+</tr>
+
+<tr>
+<td class="org-left">Code Formatting</td>
+<td class="org-left">format-all, apheleia</td>
+</tr>
+
+<tr>
+<td class="org-left">Editing</td>
+<td class="org-left">electric-pair, paren, rainbow-delimiters</td>
+</tr>
+
+<tr>
+<td class="org-left">File Formats</td>
+<td class="org-left">conf-mode, yaml-mode, powershell</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgb06e408" class="outline-3">
+<h3 id="orgb06e408"><span class="section-number-3">1.3.</span> General</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">General programming tools: completion, compilation, version control,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">syntax checking, and common programming utilities.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Completion
+</span>(<span class="org-keyword">use-package</span> corfu
+  <span class="org-builtin">:custom</span>
+  (corfu-auto nil)
+  (corfu-auto-delay 0.3)
+  (corfu-auto-prefix 3)
+  (corfu-preview-current t))
+
+(<span class="org-keyword">use-package</span> corfu-candidate-overlay
+  <span class="org-builtin">:after</span> corfu
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">enable corfu-candidate-overlay mode globally
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">this relies on having corfu-auto set to nil
+</span>  (corfu-candidate-overlay-mode 1)
+  (global-set-key (kbd <span class="org-string">"C-&lt;tab&gt;"</span>) 'completion-at-point))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Compilation
+</span>(<span class="org-keyword">use-package</span> compile
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (compilation-always-kill t)
+  (compilation-scroll-output t)
+  (ansi-color-for-compilation-mode t)
+  <span class="org-builtin">:config</span>
+  (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Makefile
+</span>(<span class="org-keyword">use-package</span> makefile-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\Makefile.*\\'"</span>
+  <span class="org-builtin">:defer</span> 't
+  <span class="org-builtin">:config</span>
+  (add-to-list 'treesit-language-source-alist '(make <span class="org-string">"https://github.com/alemuller/tree-sitter-make"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Configuration files
+</span>(<span class="org-keyword">use-package</span> conf-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.env\\..*\\'"</span> <span class="org-string">"\\.env\\'"</span>)
+  <span class="org-builtin">:init</span>
+  (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.env\\'"</span> . conf-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">SQL
+</span>(<span class="org-keyword">use-package</span> sql-indent
+  <span class="org-builtin">:hook</span>
+  (sql-mode . sqlind-minor-mode))
+
+(<span class="org-keyword">use-package</span> powershell <span class="org-builtin">:defer</span> t)
+(<span class="org-keyword">use-package</span> yaml-mode <span class="org-builtin">:defer</span> t)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Version Control
+</span>(<span class="org-keyword">use-package</span> magit)
+
+(<span class="org-keyword">use-package</span> project
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-x p C"</span> . project-recompile)))
+
+(<span class="org-keyword">use-package</span> smerge-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> smerge-mode-map
+              (<span class="org-string">"C-c ^ u"</span> . smerge-keep-upper)
+              (<span class="org-string">"C-c ^ l"</span> . smerge-keep-lower)
+              (<span class="org-string">"C-c ^ n"</span> . smerge-next)
+              (<span class="org-string">"C-c ^ p"</span> . smerge-previous)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Documentation
+</span>(<span class="org-keyword">use-package</span> eldoc
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:init</span>
+  (global-eldoc-mode))
+
+(<span class="org-keyword">use-package</span> eldoc-box
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:custom</span>
+  (eldoc-box-border-width 1)
+  (eldoc-box-echo-area-use-multiline-p t)
+  (eldoc-box-scrollbar-width 8)
+  (eldoc-box-max-lines 10)
+  (eldoc-box-use-echo-area nil)
+  <span class="org-builtin">:bind</span>
+  (<span class="org-string">"C-c h ."</span> . eldoc-box-help-at-point)
+  <span class="org-builtin">:hook</span>
+  (eldoc-mode . eldoc-box-hover-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Editing utilities
+</span>(<span class="org-keyword">use-package</span> elec-pair
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span>
+  <span class="org-builtin">:hook</span>
+  (after-init-hook . electric-pair-mode))
+
+(<span class="org-keyword">use-package</span> paren
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:hook</span>
+  (after-init-hook . show-paren-mode)
+  <span class="org-builtin">:custom</span>
+  (show-paren-delay 0)
+  (show-paren-style 'mixed)
+  (show-paren-context-when-offscreen t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Syntax checking
+</span>(<span class="org-keyword">use-package</span> flymake
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> ((prog-mode . flymake-mode)
+         (elisp-mode . flymake-mode))
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> flymake-mode-map
+              (<span class="org-string">"M-8"</span> . flymake-goto-next-error)
+              (<span class="org-string">"M-7"</span> . flymake-goto-prev-error)
+              (<span class="org-string">"C-c ! n"</span> . flymake-goto-next-error)
+              (<span class="org-string">"C-c ! p"</span> . flymake-goto-prev-error)
+              (<span class="org-string">"C-c ! l"</span> . flymake-show-buffer-diagnostics)
+              (<span class="org-string">"C-c ! t"</span> . toggle-flymake-diagnostics-at-eol))
+  <span class="org-builtin">:custom</span>
+  (flymake-show-diagnostics-at-end-of-line nil)
+  (flymake-indicator-type 'margins)
+  (flymake-margin-indicators-string
+   `((<span class="org-warning">error</span>   <span class="org-string">"!"</span> compilation-error)
+       (warning <span class="org-string">"?"</span> compilation-warning)
+       (note    <span class="org-string">"i"</span> compilation-info)))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">toggle-flymake-diagnostics-at-eol</span> ()
+      <span class="org-doc">"Toggle the display of Flymake diagnostics at the end of the line
+and restart Flymake to apply the changes."</span>
+      (<span class="org-keyword">interactive</span>)
+      (<span class="org-keyword">setq</span> flymake-show-diagnostics-at-end-of-line
+          (not flymake-show-diagnostics-at-end-of-line))
+      (flymake-mode -1)
+      (flymake-mode 1)
+      (message <span class="org-string">"Flymake diagnostics at end of line: %s"</span>
+             (<span class="org-keyword">if</span> flymake-show-diagnostics-at-end-of-line
+                 <span class="org-string">"Enabled"</span> <span class="org-string">"Disabled"</span>))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Diff and merge
+</span>(<span class="org-keyword">use-package</span> diff-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> diff-default-read-only t)
+  (<span class="org-keyword">setq</span> diff-advance-after-apply-hunk t)
+  (<span class="org-keyword">setq</span> diff-update-on-the-fly t)
+  (<span class="org-keyword">setq</span> diff-font-lock-syntax 'hunk-also)
+  (<span class="org-keyword">setq</span> diff-font-lock-prettify nil))
+
+(<span class="org-keyword">use-package</span> ediff
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:commands</span> (ediff-buffers ediff-files ediff-buffers3 ediff-files3)
+  <span class="org-builtin">:init</span>
+  (<span class="org-keyword">setq</span> ediff-split-window-function 'split-window-horizontally)
+  (<span class="org-keyword">setq</span> ediff-window-setup-function 'ediff-setup-windows-plain)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> ediff-keep-variants nil)
+  (<span class="org-keyword">setq</span> ediff-make-buffers-readonly-at-startup nil)
+  (<span class="org-keyword">setq</span> ediff-merge-revisions-with-ancestor t)
+  (<span class="org-keyword">setq</span> ediff-show-clashes-only t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Snippets
+</span>(<span class="org-keyword">use-package</span> yasnippet
+  <span class="org-builtin">:hook</span>
+  (prog-mode . yas-minor-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Whitespace
+</span>(<span class="org-keyword">use-package</span> whitespace
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">LSP - Eglot
+</span>(<span class="org-keyword">use-package</span> eglot
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 0)
+  (eglot-events-buffer-config '(<span class="org-builtin">:size</span> 0 <span class="org-builtin">:format</span> full))
+  (eglot-prefer-plaintext t)
+  (jsonrpc-event-hook nil)
+  (eglot-code-action-indications nil)
+  (eglot-ignored-server-capabilities '(<span class="org-builtin">:workspaceFolders</span>))
+  <span class="org-builtin">:init</span>
+  (fset #'jsonrpc--log-event #'ignore)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> eglot-mode-map
+               (<span class="org-string">"C-c l a"</span> . eglot-code-actions)
+               (<span class="org-string">"C-c l o"</span> . eglot-code-actions-organize-imports)
+               (<span class="org-string">"C-c l r"</span> . eglot-rename)
+               (<span class="org-string">"C-c l f"</span> . eglot-format)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Markdown
+</span>(<span class="org-keyword">use-package</span> markdown-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"README\\.md\\'"</span> . gfm-mode)
+         (<span class="org-string">"\\.md\\'"</span> . markdown-mode)
+         (<span class="org-string">"\\.markdown\\'"</span> . markdown-mode))
+  <span class="org-builtin">:custom</span>
+  (markdown-split-window-direction 'right)
+  (markdown-command <span class="org-string">"multimarkdown"</span>)
+  (markdown-fontify-code-blocks-natively t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">REST client
+</span>(<span class="org-keyword">use-package</span> restclient
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.rest\\'"</span> . restclient-mode)
+  <span class="org-builtin">:commands</span> (restclient-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Claude Code integration
+</span>(<span class="org-keyword">use-package</span> claude-code-emacs-client
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:load-path</span> <span class="org-string">"~/Projects/claude-code-emacs-client"</span>
+  <span class="org-builtin">:custom</span>
+  (claude-code-default-permission-mode <span class="org-string">"acceptEdits"</span>)
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-c c n"</span> . claude-code-new-session)
+   (<span class="org-string">"C-c c r"</span> . claude-code-resume-session)
+   (<span class="org-string">"C-c c c"</span> . claude-code-continue-session)
+   (<span class="org-string">"C-c c m"</span> . claude-code-send-message)
+   (<span class="org-string">"C-c c s"</span> . claude-code-send-region)))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-general-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,2113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgae2c54b">1. Programming Languages</a>
+<ul>
+<li><a href="#org6aeb5cc">1.1. Overview</a></li>
+<li><a href="#org5f9c755">1.2. Module Organization</a></li>
+<li><a href="#org0aa6af3">1.3. Supported Languages &amp; Frameworks</a>
+<ul>
+<li><a href="#org33d2c82">1.3.1. Web Development</a></li>
+<li><a href="#org7287131">1.3.2. Programming Languages</a></li>
+<li><a href="#orgbc13030">1.3.3. Development Tools</a></li>
+</ul>
+</li>
+<li><a href="#org0b9cec4">1.4. Configuration Modules</a>
+<ul>
+<li><a href="#org542e369">1.4.1. Loader Configuration</a></li>
+</ul>
+</li>
+<li><a href="#org76ee41a">1.5. Programming Configuration Loader</a>
+<ul>
+<li><a href="#orgee0583c">1.5.1. Purpose</a></li>
+<li><a href="#org30aff08">1.5.2. Architecture</a></li>
+<li><a href="#org822d875">1.5.3. Loader Implementation</a></li>
+<li><a href="#org244de0a">1.5.4. Non-Windows Tools</a></li>
+<li><a href="#org569a305">1.5.5. General Programming Tools</a></li>
+</ul>
+</li>
+<li><a href="#orgfaa2b39">1.6. General Programming Configuration</a>
+<ul>
+<li><a href="#org99de28e">1.6.1. Overview</a></li>
+<li><a href="#org2e9d8dd">1.6.2. What's Included</a></li>
+<li><a href="#org2c99b08">1.6.3. General</a></li>
+<li><a href="#orgef5f137">1.6.4. Web Development</a></li>
+</ul>
+</li>
+<li><a href="#orgf9d89a8">1.7. Web Development Configuration</a>
+<ul>
+<li><a href="#orgac6cfc2">1.7.1. Overview</a></li>
+<li><a href="#org833abdb">1.7.2. Key Features</a></li>
+<li><a href="#org750b599">1.7.3. Web</a></li>
+<li><a href="#org7082b8d">1.7.4. Python Development</a></li>
+</ul>
+</li>
+<li><a href="#org715ef9a">1.8. Python Development Configuration</a>
+<ul>
+<li><a href="#orgb7dbd20">1.8.1. Overview</a></li>
+<li><a href="#org423ffb1">1.8.2. Key Features</a></li>
+<li><a href="#org9c27279">1.8.3. Python</a></li>
+<li><a href="#orgf0902a7">1.8.4. Ruby Development</a></li>
+</ul>
+</li>
+<li><a href="#org11a029c">1.9. Ruby Development Configuration</a>
+<ul>
+<li><a href="#orge5aada2">1.9.1. Overview</a></li>
+<li><a href="#org5868bb9">1.9.2. Key Features</a></li>
+<li><a href="#org2cd4330">1.9.3. Ruby</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgae2c54b" class="outline-2">
+<h2 id="orgae2c54b"><span class="section-number-2">1.</span> Programming Languages</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Language-specific configurations and development tools.
+</p>
+</div>
+
+<div id="outline-container-org6aeb5cc" class="outline-3">
+<h3 id="org6aeb5cc"><span class="section-number-3">1.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+This section is organized by programming language for better maintainability. Each language has its own module with dedicated tooling and workflows.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5f9c755" class="outline-3">
+<h3 id="org5f9c755"><span class="section-number-3">1.2.</span> Module Organization</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+The programming configuration is split into focused modules:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Module</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Loader</td>
+<td class="org-left">Orchestrates all programming configs</td>
+<td class="org-left"><code>programming/00-loader.org</code></td>
+</tr>
+
+<tr>
+<td class="org-left">General</td>
+<td class="org-left">Common tools (completion, version control, etc.)</td>
+<td class="org-left"><code>programming/01-general.org</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Web</td>
+<td class="org-left">HTML/CSS/JavaScript/TypeScript development</td>
+<td class="org-left"><code>programming/02-web.org</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Python</td>
+<td class="org-left">Python development environment</td>
+<td class="org-left"><code>programming/03-python.org</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Ruby</td>
+<td class="org-left">Ruby and Rails development</td>
+<td class="org-left"><code>programming/04-ruby.org</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org0aa6af3" class="outline-3">
+<h3 id="org0aa6af3"><span class="section-number-3">1.3.</span> Supported Languages &amp; Frameworks</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-org33d2c82" class="outline-4">
+<h4 id="org33d2c82"><span class="section-number-4">1.3.1.</span> Web Development</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>HTML5, CSS3, SCSS, SASS, Less</li>
+<li>JavaScript (ES6+), JSX, React</li>
+<li>TypeScript, TSX</li>
+<li>Vue, Angular, Svelte</li>
+<li>Template engines (Nunjucks, Handlebars, Mustache)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7287131" class="outline-4">
+<h4 id="org7287131"><span class="section-number-4">1.3.2.</span> Programming Languages</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>Python (with venv, black, isort, pytest)</li>
+<li>Ruby (with Rails, RSpec, RuboCop)</li>
+<li>Clojure (CIDER, REPL)</li>
+<li>SQL (ejc-sql integration)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbc13030" class="outline-4">
+<h4 id="orgbc13030"><span class="section-number-4">1.3.3.</span> Development Tools</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>LSP (Language Server Protocol)</li>
+<li>Tree-sitter (fast parsing)</li>
+<li>Completion (Corfu)</li>
+<li>Version control (Magit)</li>
+<li>Syntax checking (Flymake)</li>
+<li>Code formatting (various formatters)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0b9cec4" class="outline-3">
+<h3 id="org0b9cec4"><span class="section-number-3">1.4.</span> Configuration Modules</h3>
+<div class="outline-text-3" id="text-1-4">
+</div>
+<div id="outline-container-org542e369" class="outline-4">
+<h4 id="org542e369"><span class="section-number-4">1.4.1.</span> Loader Configuration</h4>
+</div>
+</div>
+<div id="outline-container-org76ee41a" class="outline-3">
+<h3 id="org76ee41a"><span class="section-number-3">1.5.</span> Programming Configuration Loader</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+This file serves as the main entry point for all programming-related configurations. It loads language-specific modules and platform-specific tools.
+</p>
+</div>
+
+<div id="outline-container-orgee0583c" class="outline-4">
+<h4 id="orgee0583c"><span class="section-number-4">1.5.1.</span> Purpose</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+The loader (<code>prog-conf.el</code>) is responsible for:
+</p>
+<ul class="org-ul">
+<li>Loading general programming settings (<code>prog-general-conf</code>)</li>
+<li>Loading language-specific configurations (web, Python, Ruby)</li>
+<li>Conditionally loading platform-specific tools</li>
+<li>Managing Clojure, SQL, and tree-sitter integrations</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org30aff08" class="outline-4">
+<h4 id="org30aff08"><span class="section-number-4">1.5.2.</span> Architecture</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<p>
+The programming configuration is modular:
+</p>
+
+<pre class="example" id="orgd2d013b">
+prog-conf.el (this file)
+├── prog-general-conf.el   → General programming settings
+├── prog-web-conf.el       → Web development (HTML/CSS/JS/TS)
+├── prog-python-conf.el    → Python development
+└── prog-ruby-conf.el      → Ruby development
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org822d875" class="outline-4">
+<h4 id="org822d875"><span class="section-number-4">1.5.3.</span> Loader Implementation</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Programming configuration loader -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Main programming configuration file that loads language-specific modules
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">and platform-specific programming tools.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Load general programming configuration
+</span>(<span class="org-keyword">require</span> '<span class="org-constant">prog-general-conf</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Load language-specific configurations
+</span>(<span class="org-keyword">require</span> '<span class="org-constant">prog-web-conf</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">prog-python-conf</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">prog-ruby-conf</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Platform-specific and additional tools
+</span>(<span class="org-keyword">unless</span> (eq system-type 'windows-nt)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Clojure development (non-Windows only)
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">TODO: finish https://clojure-doc.org/articles/tutorials/introduction/
+</span>  (<span class="org-keyword">use-package</span> cider
+      <span class="org-builtin">:custom</span>
+      (nrepl-use-ssh-fallback-for-remote-hosts t))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">SQL database interaction
+</span>  (<span class="org-keyword">use-package</span> ejc-sql
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Github: https://github.com/kostafey/ejc-sql?tab=readme-ov-file#mariadbconnection
+</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">M-x ejc-connect
+</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">M-x ejc-quit-connection -&gt; it refreshes the connection
+</span>      <span class="org-builtin">:config</span>
+      (load (expand-file-name <span class="org-string">".local/ejc-config.el"</span> user-emacs-directory) 'noerror 'nomessage))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Tree-sitter support
+</span>  (<span class="org-keyword">use-package</span> tree-sitter
+      <span class="org-builtin">:config</span>
+      (global-tree-sitter-mode 1))
+  (<span class="org-keyword">use-package</span> tree-sitter-langs)
+  (<span class="org-keyword">use-package</span> treesit-auto
+      <span class="org-builtin">:config</span>
+      (global-treesit-auto-mode 1)))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el ends here
+</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org244de0a" class="outline-4">
+<h4 id="org244de0a"><span class="section-number-4">1.5.4.</span> Non-Windows Tools</h4>
+<div class="outline-text-4" id="text-1-5-4">
+<p>
+Several tools are only loaded on non-Windows systems:
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org8568e94"></a>Clojure Development (CIDER)<br />
+<div class="outline-text-5" id="text-1-5-4-1">
+<ul class="org-ul">
+<li>Interactive Clojure development environment</li>
+<li>REPL integration</li>
+<li>SSH support for remote development</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org77a3085"></a>SQL Database Interaction (ejc-sql)<br />
+<div class="outline-text-5" id="text-1-5-4-2">
+<ul class="org-ul">
+<li>Connect to databases directly from Emacs</li>
+<li>Execute SQL queries</li>
+<li>Load local configuration from <code>~/.emacs.d/.local/ejc-config.el</code></li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgccdb508"></a>Tree-sitter<br />
+<div class="outline-text-5" id="text-1-5-4-3">
+<ul class="org-ul">
+<li>Fast, incremental parsing library</li>
+<li>Better syntax highlighting</li>
+<li>More accurate code navigation</li>
+<li>Language grammar support via <code>tree-sitter-langs</code></li>
+<li>Automatic mode activation via <code>treesit-auto</code></li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org569a305" class="outline-4">
+<h4 id="org569a305"><span class="section-number-4">1.5.5.</span> General Programming Tools</h4>
+</div>
+</div>
+<div id="outline-container-orgfaa2b39" class="outline-3">
+<h3 id="orgfaa2b39"><span class="section-number-3">1.6.</span> General Programming Configuration</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+Common programming tools and utilities that apply across all languages.
+</p>
+</div>
+
+<div id="outline-container-org99de28e" class="outline-4">
+<h4 id="org99de28e"><span class="section-number-4">1.6.1.</span> Overview</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<p>
+This module provides:
+</p>
+<ul class="org-ul">
+<li><b><b>Completion</b></b>: Corfu for in-buffer completion</li>
+<li><b><b>Compilation</b></b>: Enhanced compilation mode with ANSI colors</li>
+<li><b><b>Version Control</b></b>: Magit, project management, merge conflict resolution</li>
+<li><b><b>Documentation</b></b>: Eldoc for inline documentation</li>
+<li><b><b>Code Quality</b></b>: Flymake for syntax checking, formatting tools</li>
+<li><b><b>Editing Utilities</b></b>: Electric pairs, rainbow delimiters, code folding</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2e9d8dd" class="outline-4">
+<h4 id="org2e9d8dd"><span class="section-number-4">1.6.2.</span> What's Included</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Category</th>
+<th scope="col" class="org-left">Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Completion</td>
+<td class="org-left">corfu, corfu-candidate-overlay</td>
+</tr>
+
+<tr>
+<td class="org-left">Build Tools</td>
+<td class="org-left">compile, makefile-mode</td>
+</tr>
+
+<tr>
+<td class="org-left">Version Control</td>
+<td class="org-left">magit, project, smerge-mode</td>
+</tr>
+
+<tr>
+<td class="org-left">Documentation</td>
+<td class="org-left">eldoc, eldoc-box</td>
+</tr>
+
+<tr>
+<td class="org-left">Syntax Checking</td>
+<td class="org-left">flymake</td>
+</tr>
+
+<tr>
+<td class="org-left">Code Formatting</td>
+<td class="org-left">format-all, apheleia</td>
+</tr>
+
+<tr>
+<td class="org-left">Editing</td>
+<td class="org-left">electric-pair, paren, rainbow-delimiters</td>
+</tr>
+
+<tr>
+<td class="org-left">File Formats</td>
+<td class="org-left">conf-mode, yaml-mode, powershell</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org2c99b08" class="outline-4">
+<h4 id="org2c99b08"><span class="section-number-4">1.6.3.</span> General</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">General programming tools: completion, compilation, version control,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">syntax checking, and common programming utilities.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Completion
+</span>(<span class="org-keyword">use-package</span> corfu
+  <span class="org-builtin">:custom</span>
+  (corfu-auto nil)
+  (corfu-auto-delay 0.3)
+  (corfu-auto-prefix 3)
+  (corfu-preview-current t))
+
+(<span class="org-keyword">use-package</span> corfu-candidate-overlay
+  <span class="org-builtin">:after</span> corfu
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">enable corfu-candidate-overlay mode globally
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">this relies on having corfu-auto set to nil
+</span>  (corfu-candidate-overlay-mode 1)
+  (global-set-key (kbd <span class="org-string">"C-&lt;tab&gt;"</span>) 'completion-at-point))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Compilation
+</span>(<span class="org-keyword">use-package</span> compile
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (compilation-always-kill t)
+  (compilation-scroll-output t)
+  (ansi-color-for-compilation-mode t)
+  <span class="org-builtin">:config</span>
+  (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Makefile
+</span>(<span class="org-keyword">use-package</span> makefile-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\Makefile.*\\'"</span>
+  <span class="org-builtin">:defer</span> 't
+  <span class="org-builtin">:config</span>
+  (add-to-list 'treesit-language-source-alist '(make <span class="org-string">"https://github.com/alemuller/tree-sitter-make"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Configuration files
+</span>(<span class="org-keyword">use-package</span> conf-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.env\\..*\\'"</span> <span class="org-string">"\\.env\\'"</span>)
+  <span class="org-builtin">:init</span>
+  (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.env\\'"</span> . conf-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">SQL
+</span>(<span class="org-keyword">use-package</span> sql-indent
+  <span class="org-builtin">:hook</span>
+  (sql-mode . sqlind-minor-mode))
+
+(<span class="org-keyword">use-package</span> powershell <span class="org-builtin">:defer</span> t)
+(<span class="org-keyword">use-package</span> yaml-mode <span class="org-builtin">:defer</span> t)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Version Control
+</span>(<span class="org-keyword">use-package</span> magit)
+
+(<span class="org-keyword">use-package</span> project
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-x p C"</span> . project-recompile)))
+
+(<span class="org-keyword">use-package</span> smerge-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> smerge-mode-map
+              (<span class="org-string">"C-c ^ u"</span> . smerge-keep-upper)
+              (<span class="org-string">"C-c ^ l"</span> . smerge-keep-lower)
+              (<span class="org-string">"C-c ^ n"</span> . smerge-next)
+              (<span class="org-string">"C-c ^ p"</span> . smerge-previous)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Documentation
+</span>(<span class="org-keyword">use-package</span> eldoc
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:init</span>
+  (global-eldoc-mode))
+
+(<span class="org-keyword">use-package</span> eldoc-box
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:custom</span>
+  (eldoc-box-border-width 1)
+  (eldoc-box-echo-area-use-multiline-p t)
+  (eldoc-box-scrollbar-width 8)
+  (eldoc-box-max-lines 10)
+  (eldoc-box-use-echo-area nil)
+  <span class="org-builtin">:bind</span>
+  (<span class="org-string">"C-c h ."</span> . eldoc-box-help-at-point)
+  <span class="org-builtin">:hook</span>
+  (eldoc-mode . eldoc-box-hover-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Editing utilities
+</span>(<span class="org-keyword">use-package</span> elec-pair
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span>
+  <span class="org-builtin">:hook</span>
+  (after-init-hook . electric-pair-mode))
+
+(<span class="org-keyword">use-package</span> paren
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:hook</span>
+  (after-init-hook . show-paren-mode)
+  <span class="org-builtin">:custom</span>
+  (show-paren-delay 0)
+  (show-paren-style 'mixed)
+  (show-paren-context-when-offscreen t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Syntax checking
+</span>(<span class="org-keyword">use-package</span> flymake
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> ((prog-mode . flymake-mode)
+         (elisp-mode . flymake-mode))
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> flymake-mode-map
+              (<span class="org-string">"M-8"</span> . flymake-goto-next-error)
+              (<span class="org-string">"M-7"</span> . flymake-goto-prev-error)
+              (<span class="org-string">"C-c ! n"</span> . flymake-goto-next-error)
+              (<span class="org-string">"C-c ! p"</span> . flymake-goto-prev-error)
+              (<span class="org-string">"C-c ! l"</span> . flymake-show-buffer-diagnostics)
+              (<span class="org-string">"C-c ! t"</span> . toggle-flymake-diagnostics-at-eol))
+  <span class="org-builtin">:custom</span>
+  (flymake-show-diagnostics-at-end-of-line nil)
+  (flymake-indicator-type 'margins)
+  (flymake-margin-indicators-string
+   `((<span class="org-warning">error</span>   <span class="org-string">"!"</span> compilation-error)
+       (warning <span class="org-string">"?"</span> compilation-warning)
+       (note    <span class="org-string">"i"</span> compilation-info)))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">toggle-flymake-diagnostics-at-eol</span> ()
+      <span class="org-doc">"Toggle the display of Flymake diagnostics at the end of the line
+and restart Flymake to apply the changes."</span>
+      (<span class="org-keyword">interactive</span>)
+      (<span class="org-keyword">setq</span> flymake-show-diagnostics-at-end-of-line
+          (not flymake-show-diagnostics-at-end-of-line))
+      (flymake-mode -1)
+      (flymake-mode 1)
+      (message <span class="org-string">"Flymake diagnostics at end of line: %s"</span>
+             (<span class="org-keyword">if</span> flymake-show-diagnostics-at-end-of-line
+                 <span class="org-string">"Enabled"</span> <span class="org-string">"Disabled"</span>))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Diff and merge
+</span>(<span class="org-keyword">use-package</span> diff-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> diff-default-read-only t)
+  (<span class="org-keyword">setq</span> diff-advance-after-apply-hunk t)
+  (<span class="org-keyword">setq</span> diff-update-on-the-fly t)
+  (<span class="org-keyword">setq</span> diff-font-lock-syntax 'hunk-also)
+  (<span class="org-keyword">setq</span> diff-font-lock-prettify nil))
+
+(<span class="org-keyword">use-package</span> ediff
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:commands</span> (ediff-buffers ediff-files ediff-buffers3 ediff-files3)
+  <span class="org-builtin">:init</span>
+  (<span class="org-keyword">setq</span> ediff-split-window-function 'split-window-horizontally)
+  (<span class="org-keyword">setq</span> ediff-window-setup-function 'ediff-setup-windows-plain)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> ediff-keep-variants nil)
+  (<span class="org-keyword">setq</span> ediff-make-buffers-readonly-at-startup nil)
+  (<span class="org-keyword">setq</span> ediff-merge-revisions-with-ancestor t)
+  (<span class="org-keyword">setq</span> ediff-show-clashes-only t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Snippets
+</span>(<span class="org-keyword">use-package</span> yasnippet
+  <span class="org-builtin">:hook</span>
+  (prog-mode . yas-minor-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Whitespace
+</span>(<span class="org-keyword">use-package</span> whitespace
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:defer</span> t)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">LSP - Eglot
+</span>(<span class="org-keyword">use-package</span> eglot
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 0)
+  (eglot-events-buffer-config '(<span class="org-builtin">:size</span> 0 <span class="org-builtin">:format</span> full))
+  (eglot-prefer-plaintext t)
+  (jsonrpc-event-hook nil)
+  (eglot-code-action-indications nil)
+  (eglot-ignored-server-capabilities '(<span class="org-builtin">:workspaceFolders</span>))
+  <span class="org-builtin">:init</span>
+  (fset #'jsonrpc--log-event #'ignore)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> eglot-mode-map
+               (<span class="org-string">"C-c l a"</span> . eglot-code-actions)
+               (<span class="org-string">"C-c l o"</span> . eglot-code-actions-organize-imports)
+               (<span class="org-string">"C-c l r"</span> . eglot-rename)
+               (<span class="org-string">"C-c l f"</span> . eglot-format)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Markdown
+</span>(<span class="org-keyword">use-package</span> markdown-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"README\\.md\\'"</span> . gfm-mode)
+         (<span class="org-string">"\\.md\\'"</span> . markdown-mode)
+         (<span class="org-string">"\\.markdown\\'"</span> . markdown-mode))
+  <span class="org-builtin">:custom</span>
+  (markdown-split-window-direction 'right)
+  (markdown-command <span class="org-string">"multimarkdown"</span>)
+  (markdown-fontify-code-blocks-natively t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">REST client
+</span>(<span class="org-keyword">use-package</span> restclient
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.rest\\'"</span> . restclient-mode)
+  <span class="org-builtin">:commands</span> (restclient-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Claude Code integration
+</span>(<span class="org-keyword">use-package</span> claude-code-emacs-client
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:load-path</span> <span class="org-string">"~/Projects/claude-code-emacs-client"</span>
+  <span class="org-builtin">:custom</span>
+  (claude-code-default-permission-mode <span class="org-string">"acceptEdits"</span>)
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-c c n"</span> . claude-code-new-session)
+   (<span class="org-string">"C-c c r"</span> . claude-code-resume-session)
+   (<span class="org-string">"C-c c c"</span> . claude-code-continue-session)
+   (<span class="org-string">"C-c c m"</span> . claude-code-send-message)
+   (<span class="org-string">"C-c c s"</span> . claude-code-send-region)))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-general-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgef5f137" class="outline-4">
+<h4 id="orgef5f137"><span class="section-number-4">1.6.4.</span> Web Development</h4>
+</div>
+</div>
+<div id="outline-container-orgf9d89a8" class="outline-3">
+<h3 id="orgf9d89a8"><span class="section-number-3">1.7.</span> Web Development Configuration</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+Configuration for modern web development including HTML, CSS, JavaScript, TypeScript, and frameworks.
+</p>
+</div>
+
+<div id="outline-container-orgac6cfc2" class="outline-4">
+<h4 id="orgac6cfc2"><span class="section-number-4">1.7.1.</span> Overview</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<p>
+This module provides comprehensive support for:
+</p>
+<ul class="org-ul">
+<li><b><b>HTML</b></b>: Multiple modes (web-mode, mhtml-mode) with smart selection</li>
+<li><b><b>CSS</b></b>: Enhanced editing with completion and formatting</li>
+<li><b><b>JavaScript</b></b>: Modern JS/JSX with proper indentation and tooling</li>
+<li><b><b>TypeScript</b></b>: Full TypeScript and TSX support</li>
+<li><b><b>Frameworks</b></b>: React, Vue, Svelte, Angular</li>
+<li><b><b>Tools</b></b>: ESLint, Prettier, Language Server Protocol (LSP)</li>
+<li><b><b>Build Tools</b></b>: npm, yarn, webpack integration</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org833abdb" class="outline-4">
+<h4 id="org833abdb"><span class="section-number-4">1.7.2.</span> Key Features</h4>
+<div class="outline-text-4" id="text-1-7-2">
+</div>
+<ol class="org-ol">
+<li><a id="org59da736"></a>Smart Mode Selection<br />
+<div class="outline-text-5" id="text-1-7-2-1">
+<p>
+Automatically chooses the best HTML mode based on file size:
+</p>
+<ul class="org-ul">
+<li>Small files (&lt; 5000 lines): <code>web-mode</code> for rich features</li>
+<li>Large files (≥ 5000 lines): <code>mhtml-mode</code> for performance</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org1ada7ca"></a>Supported File Types<br />
+<div class="outline-text-5" id="text-1-7-2-2">
+<ul class="org-ul">
+<li>HTML, XHTML</li>
+<li>JavaScript (.js, .jsx, .mjs)</li>
+<li>TypeScript (.ts, .tsx)</li>
+<li>Vue (.vue)</li>
+<li>Templates (.njk, .hbs, .mustache)</li>
+<li>CSS, SCSS, SASS, Less</li>
+<li>JSON</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org3b3cf63"></a>Development Tools<br />
+<div class="outline-text-5" id="text-1-7-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tool</th>
+<th scope="col" class="org-left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>web-mode</code></td>
+<td class="org-left">Unified mode for HTML/CSS/JS</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>emmet-mode</code></td>
+<td class="org-left">HTML/CSS abbreviation expansion</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>tagedit</code></td>
+<td class="org-left">Paredit-like editing for HTML tags</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>prettier-js</code></td>
+<td class="org-left">Code formatting</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>eslint</code></td>
+<td class="org-left">JavaScript linting</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>lsp-mode</code></td>
+<td class="org-left">Language Server Protocol support</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>typescript-mode</code></td>
+<td class="org-left">TypeScript language support</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org750b599" class="outline-4">
+<h4 id="org750b599"><span class="section-number-4">1.7.3.</span> Web</h4>
+<div class="outline-text-4" id="text-1-7-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-web-conf.el --- Web development configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Configuration for web development including HTML, CSS, JavaScript,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">TypeScript, React/JSX, and related tools.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">HTML tag editing
+</span>(<span class="org-keyword">use-package</span> tagedit
+  <span class="org-builtin">:hook</span>
+  ((mhtml-mode
+      sgml-mode
+      nxml-mode)
+   . (<span class="org-keyword">lambda</span> ()
+         (tagedit-add-paredit-like-keybindings)
+         (tagedit-mode 1))))
+
+(<span class="org-keyword">use-package</span> emmet-mode
+  <span class="org-builtin">:hook</span> (mhtml-mode sgml-mode nxml-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Smart HTML mode selection
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu-html-mode-selector</span> ()
+  <span class="org-doc">"Choose between web-mode and mhtml-mode based on file size.
+Use mhtml-mode for files larger than 5000 lines to prevent hanging."</span>
+  (<span class="org-keyword">let*</span> ((file (buffer-file-name))
+         (size-threshold 5000))
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> file (file-exists-p file))
+      (<span class="org-keyword">let</span> ((line-count (count-lines (point-min) (point-max))))
+        (<span class="org-keyword">if</span> (&gt; line-count size-threshold)
+            (<span class="org-keyword">progn</span>
+              (message <span class="org-string">"Large HTML file (%d lines) detected, using mhtml-mode for performance"</span> line-count)
+              (mhtml-mode))
+          (web-mode))))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Register HTML files to use smart mode selector
+</span>(add-to-list 'auto-mode-alist '(<span class="org-string">"\\.html?\\'"</span> . fu-html-mode-selector))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">web-mode: powerful mode for HTML, JSX, TSX, Vue, etc.
+</span>(<span class="org-keyword">use-package</span> web-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.jsx?\\'"</span> . web-mode)
+         (<span class="org-string">"\\.tsx?\\'"</span> . web-mode)
+         (<span class="org-string">"\\.vue\\'"</span> . web-mode)
+         (<span class="org-string">"\\.njk\\'"</span> . web-mode)
+         (<span class="org-string">"\\.hbs\\'"</span> . web-mode)
+         (<span class="org-string">"\\.mustache\\'"</span> . web-mode))
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Indentation
+</span>  (web-mode-markup-indent-offset 2)
+  (web-mode-css-indent-offset 2)
+  (web-mode-code-indent-offset 2)
+  (web-mode-style-padding 2)
+  (web-mode-script-padding 2)
+  (web-mode-block-padding 0)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Syntax highlighting
+</span>  (web-mode-enable-css-colorization t)
+  (web-mode-enable-auto-pairing t)
+  (web-mode-enable-comment-keywords t)
+  (web-mode-enable-current-element-highlight t)
+  (web-mode-enable-current-column-highlight nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Content types
+</span>  (web-mode-content-types-alist
+   '((<span class="org-string">"jsx"</span> . <span class="org-string">"\\.js[x]?\\'"</span>)
+     (<span class="org-string">"tsx"</span> . <span class="org-string">"\\.ts[x]?\\'"</span>)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-close tags
+</span>  (web-mode-enable-auto-closing t)
+  (web-mode-enable-auto-quoting t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Comments
+</span>  (web-mode-comment-style 2)
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remove background colors from web-mode faces to use theme's default
+</span>  (set-face-attribute 'web-mode-block-face nil <span class="org-builtin">:background</span> nil)
+  (set-face-attribute 'web-mode-script-face nil <span class="org-builtin">:background</span> nil)
+  (set-face-attribute 'web-mode-style-face nil <span class="org-builtin">:background</span> nil)
+  (set-face-attribute 'web-mode-part-face nil <span class="org-builtin">:background</span> nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Better JSX/TSX detection
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-web-mode-hook</span> ()
+    <span class="org-doc">"Hooks for Web mode."</span>
+    (<span class="org-keyword">setq</span> web-mode-enable-part-face nil)
+    (<span class="org-keyword">when</span> (string-match-p <span class="org-string">"\\.[jt]sx?\\'"</span> (buffer-file-name))
+      (<span class="org-keyword">setq-local</span> web-mode-content-type <span class="org-string">"jsx"</span>)
+      (<span class="org-keyword">setq-local</span> web-mode-enable-auto-indentation t)))
+
+  (add-hook 'web-mode-hook #'fu-web-mode-hook))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Eglot configuration for web-mode
+</span>(<span class="org-keyword">with-eval-after-load</span> 'eglot
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-eglot-web-mode-server</span> (<span class="org-type">&amp;optional</span> interactive)
+    <span class="org-doc">"Return appropriate language server for web-mode based on file extension.
+INTERACTIVE is passed by Eglot but not used here."</span>
+    (<span class="org-keyword">let</span> ((file (buffer-file-name)))
+      (<span class="org-keyword">cond</span>
+       ((<span class="org-keyword">and</span> file (string-match-p <span class="org-string">"\\.tsx?\\'"</span> file))
+        '(<span class="org-string">"typescript-language-server"</span> <span class="org-string">"--stdio"</span>))
+       ((<span class="org-keyword">and</span> file (string-match-p <span class="org-string">"\\.jsx?\\'"</span> file))
+        '(<span class="org-string">"typescript-language-server"</span> <span class="org-string">"--stdio"</span>))
+       (t
+        '(<span class="org-string">"vscode-html-language-server"</span> <span class="org-string">"--stdio"</span>)))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure web-mode server selection with smart detection
+</span>  (add-to-list 'eglot-server-programs
+               '(web-mode . fu-eglot-web-mode-server))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Add eglot hooks for web modes
+</span>  (add-hook 'mhtml-mode-hook #'eglot-ensure)
+  (add-hook 'web-mode-hook #'eglot-ensure)
+  (add-hook 'css-mode-hook #'eglot-ensure)
+  (add-hook 'scss-mode-hook #'eglot-ensure)
+  (add-hook 'js-mode-hook #'eglot-ensure)
+  (add-hook 'js2-mode-hook #'eglot-ensure)
+  (add-hook 'js-ts-mode-hook #'eglot-ensure)
+  (add-hook 'rjsx-mode-hook #'eglot-ensure)
+  (add-hook 'typescript-mode-hook #'eglot-ensure)
+  (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+  (add-hook 'tsx-ts-mode-hook #'eglot-ensure)
+  (add-hook 'json-mode-hook #'eglot-ensure))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">js2-mode: enhanced JavaScript editing
+</span>(<span class="org-keyword">use-package</span> js2-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.m?js\\'"</span>
+  <span class="org-builtin">:interpreter</span> <span class="org-string">"node"</span>
+  <span class="org-builtin">:custom</span>
+  (js2-basic-offset 2)
+  (js2-bounce-indent-p nil)
+  (js2-strict-missing-semi-warning nil)
+  (js2-missing-semi-one-line-override t)
+  (js-indent-level 2)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Disable js2-mode's syntax checking in favor of Flymake/LSP
+</span>  (<span class="org-keyword">setq</span> js2-mode-show-parse-errors nil)
+  (<span class="org-keyword">setq</span> js2-mode-show-strict-warnings nil))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">rjsx-mode: React JSX support
+</span>(<span class="org-keyword">use-package</span> rjsx-mode
+  <span class="org-builtin">:mode</span> (<span class="org-string">"components/.*\\.js\\'"</span> <span class="org-string">"\\.jsx\\'"</span>)
+  <span class="org-builtin">:custom</span>
+  (js2-basic-offset 2)
+  (js2-strict-missing-semi-warning nil))
+
+(<span class="org-keyword">use-package</span> typescript-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.ts\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (typescript-indent-level 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">TypeScript TSX mode
+</span>(<span class="org-keyword">use-package</span> tsx-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.tsx\\'"</span>
+  <span class="org-builtin">:config</span>
+  (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.tsx\\'"</span> . tsx-ts-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">JSON mode
+</span>(<span class="org-keyword">use-package</span> json-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.json\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (json-reformat:indent-width 2)
+  (js-indent-level 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">CSS/SCSS modes
+</span>(<span class="org-keyword">use-package</span> css-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.css\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (css-indent-offset 2))
+
+(<span class="org-keyword">use-package</span> scss-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.scss\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (css-indent-offset 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Add node_modules/.bin to exec-path
+</span>(<span class="org-keyword">use-package</span> add-node-modules-path
+  <span class="org-builtin">:hook</span> ((web-mode . add-node-modules-path)
+         (js-mode . add-node-modules-path)
+         (js2-mode . add-node-modules-path)
+         (rjsx-mode . add-node-modules-path)
+         (typescript-mode . add-node-modules-path)
+         (typescript-ts-mode . add-node-modules-path)
+         (tsx-ts-mode . add-node-modules-path)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">npm/yarn integration
+</span>(<span class="org-keyword">use-package</span> npm-mode
+  <span class="org-builtin">:commands</span> (npm-mode)
+  <span class="org-builtin">:hook</span> ((web-mode . npm-mode)
+         (js-mode . npm-mode)
+         (js2-mode . npm-mode)
+         (typescript-mode . npm-mode))
+  <span class="org-builtin">:init</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-npm-mode-keybindings</span> ()
+    <span class="org-doc">"Set up npm-mode keybindings."</span>
+    (<span class="org-keyword">when</span> (boundp 'npm-mode-command-keymap)
+      (define-key npm-mode-command-keymap <span class="org-string">"n"</span> 'npm-mode-npm-run)
+      (define-key npm-mode-command-keymap <span class="org-string">"i"</span> 'npm-mode-npm-install)
+      (define-key npm-mode-command-keymap <span class="org-string">"t"</span> 'npm-mode-npm-test)
+      (define-key npm-mode-command-keymap <span class="org-string">"b"</span> 'npm-mode-npm-build)))
+  (add-hook 'npm-mode-hook 'fu-npm-mode-keybindings))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Prettier formatting
+</span>(<span class="org-keyword">use-package</span> prettier
+  <span class="org-builtin">:commands</span> (prettier-prettify)
+  <span class="org-builtin">:custom</span>
+  (prettier-pre-warm 'full))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">ESLint integration via Flymake
+</span>(<span class="org-keyword">use-package</span> flymake-eslint
+  <span class="org-builtin">:hook</span> ((js-mode . flymake-eslint-enable)
+         (js2-mode . flymake-eslint-enable)
+         (rjsx-mode . flymake-eslint-enable)
+         (typescript-mode . flymake-eslint-enable)
+         (typescript-ts-mode . flymake-eslint-enable)
+         (tsx-ts-mode . flymake-eslint-enable)
+         (web-mode . flymake-eslint-enable)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Import JavaScript modules
+</span>(<span class="org-keyword">use-package</span> js-import
+  <span class="org-builtin">:after</span> js
+  <span class="org-builtin">:config</span>
+  (define-key js-mode-map (kbd <span class="org-string">"C-c i i"</span>) 'js-import)
+  (define-key js-mode-map (kbd <span class="org-string">"C-c i f"</span>) 'js-import-from-file))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Run Jest tests
+</span>(<span class="org-keyword">use-package</span> jest
+  <span class="org-builtin">:commands</span> (jest jest-popup)
+  <span class="org-builtin">:custom</span>
+  (jest-executable <span class="org-string">"npx jest"</span>)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'js
+    (define-key js-mode-map (kbd <span class="org-string">"C-c t j"</span>) 'jest)
+    (define-key js-mode-map (kbd <span class="org-string">"C-c t p"</span>) 'jest-popup)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Indium: JavaScript debugging via Chrome DevTools Protocol
+</span>(<span class="org-keyword">use-package</span> indium
+  <span class="org-builtin">:commands</span> (indium-connect indium-launch indium-interaction-mode)
+  <span class="org-builtin">:hook</span> ((js-mode . indium-interaction-mode)
+         (js2-mode . indium-interaction-mode)
+         (rjsx-mode . indium-interaction-mode))
+  <span class="org-builtin">:custom</span>
+  (indium-chrome-executable
+   (<span class="org-keyword">cond</span>
+    ((eq system-type 'darwin)
+     <span class="org-string">"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"</span>)
+    ((eq system-type 'windows-nt)
+     <span class="org-string">"C:/Program Files/Google/Chrome/Application/chrome.exe"</span>)
+    (t <span class="org-string">"google-chrome"</span>)))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'indium-interaction
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-c"</span>) 'indium-eval-defun)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-e"</span>) 'indium-eval-last-node)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-r"</span>) 'indium-eval-region)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-b"</span>) 'indium-toggle-breakpoint)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-l"</span>) 'indium-list-breakpoints)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Skewer: Live web development
+</span>(<span class="org-keyword">use-package</span> skewer-mode
+  <span class="org-builtin">:commands</span> (skewer-mode run-skewer skewer-css-mode skewer-html-mode)
+  <span class="org-builtin">:hook</span> ((js-mode . skewer-mode)
+         (css-mode . skewer-css-mode)
+         (web-mode . skewer-html-mode))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'skewer-mode
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-k"</span>) 'skewer-load-buffer)
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-e"</span>) 'skewer-eval-last-expression)
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-r"</span>) 'skewer-eval-region)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Simple-httpd: built-in web server
+</span>(<span class="org-keyword">use-package</span> simple-httpd
+  <span class="org-builtin">:commands</span> (httpd-start httpd-stop)
+  <span class="org-builtin">:custom</span>
+  (httpd-port 8000)
+  (httpd-host <span class="org-string">"localhost"</span>))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-web-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-web-conf.el ends here</span>
+</pre>
+</div>
+</div>
+
+<ol class="org-ol">
+<li><a id="org26d9754"></a>Required Local Dependencies<br />
+<ol class="org-ol">
+<li><a id="org7ee841e"></a>Language Servers for Eglot<br />
+<div class="outline-text-6" id="text-1-7-3-1-1">
+<pre class="example" id="org3f91374">
+# TypeScript/JavaScript Language Server
+npm install -g typescript typescript-language-server
+
+# HTML/CSS/JSON Language Servers (vscode-langservers-extracted)
+npm install -g vscode-langservers-extracted
+
+# Tailwind CSS Language Server (optional, for Tailwind projects)
+npm install -g @tailwindcss/language-server
+</pre>
+</div>
+</li>
+
+<li><a id="orgcfcce01"></a>Code Formatting and Linting<br />
+<div class="outline-text-6" id="text-1-7-3-1-2">
+<pre class="example" id="org8082e47">
+# Prettier (code formatter)
+npm install -g prettier
+
+# ESLint (JavaScript/TypeScript linter)
+npm install -g eslint
+
+# For project-specific configs, install locally:
+# npm install --save-dev prettier eslint eslint-config-prettier
+</pre>
+</div>
+</li>
+
+<li><a id="orgd4edeff"></a>Debugging Tools<br />
+<div class="outline-text-6" id="text-1-7-3-1-3">
+<pre class="example" id="orgd6ab44d">
+# Chrome/Chromium browser for Indium debugging
+# macOS: Install Google Chrome from https://www.google.com/chrome/
+# Windows: Install Google Chrome from https://www.google.com/chrome/
+# Linux: sudo apt install google-chrome-stable
+</pre>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orgf02c67e"></a>Emacs Packages<br />
+<div class="outline-text-5" id="text-1-7-3-2">
+<p>
+All packages are installed automatically via use-package. Key packages include:
+</p>
+
+<ul class="org-ul">
+<li><b>web-mode</b>: Universal mode for HTML, JSX, TSX, Vue</li>
+<li><b>js2-mode</b>: Enhanced JavaScript editing</li>
+<li><b>rjsx-mode</b>: React JSX support</li>
+<li><b>typescript-mode</b>: TypeScript support</li>
+<li><b>prettier</b>: Code formatting</li>
+<li><b>flymake-eslint</b>: ESLint integration</li>
+<li><b>npm-mode</b>: npm/yarn command integration</li>
+<li><b>add-node-modules-path</b>: Automatic project-local tool detection</li>
+<li><b>indium</b>: Chrome DevTools debugging (alternative to dap-mode)</li>
+<li><b>skewer-mode</b>: Live browser interaction</li>
+<li><b>restclient</b>: HTTP API testing</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org7a84699"></a>Key Bindings<br />
+<ol class="org-ol">
+<li><a id="org82b604f"></a>Eglot (LSP) - Available in all web modes<br />
+<div class="outline-text-6" id="text-1-7-3-3-1">
+<ul class="org-ul">
+<li><code>C-c l a</code> - Code actions</li>
+<li><code>C-c l o</code> - Organize imports</li>
+<li><code>C-c l r</code> - Rename symbol</li>
+<li><code>C-c l f</code> - Format buffer/region</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org24fa8f4"></a>npm-mode<br />
+<div class="outline-text-6" id="text-1-7-3-3-2">
+<p>
+npm-mode provides a prefix keymap for npm commands. Use <code>M-x npm-mode-npm-run</code> or access via the command keymap:
+</p>
+<ul class="org-ul">
+<li><code>n</code> (in npm-mode-command-keymap) - Run npm script</li>
+<li><code>i</code> (in npm-mode-command-keymap) - npm install</li>
+<li><code>t</code> (in npm-mode-command-keymap) - npm test</li>
+<li><code>b</code> (in npm-mode-command-keymap) - npm build</li>
+</ul>
+<p>
+Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>, etc. directly
+</p>
+</div>
+</li>
+
+<li><a id="org553bf3e"></a>Jest Testing<br />
+<div class="outline-text-6" id="text-1-7-3-3-3">
+<ul class="org-ul">
+<li><code>C-c t j</code> - Run Jest tests</li>
+<li><code>C-c t p</code> - Jest test popup</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org8b54ba4"></a>JavaScript Import<br />
+<div class="outline-text-6" id="text-1-7-3-3-4">
+<ul class="org-ul">
+<li><code>C-c i i</code> - Import module</li>
+<li><code>C-c i f</code> - Import from file</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgfd685f4"></a>Indium Debugging<br />
+<div class="outline-text-6" id="text-1-7-3-3-5">
+<ul class="org-ul">
+<li><code>C-c C-b</code> - Toggle breakpoint</li>
+<li><code>C-c C-c</code> - Evaluate function</li>
+<li><code>C-c C-e</code> - Evaluate expression</li>
+<li><code>C-c C-r</code> - Evaluate region</li>
+<li><code>C-c C-l</code> - List breakpoints</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgf91f841"></a>Skewer (Live Development)<br />
+<div class="outline-text-6" id="text-1-7-3-3-6">
+<ul class="org-ul">
+<li><code>C-c C-k</code> - Load buffer to browser</li>
+<li><code>C-c C-e</code> - Evaluate expression in browser</li>
+<li><code>C-c C-r</code> - Evaluate region in browser</li>
+</ul>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orgf54539a"></a>Workflow Examples<br />
+<ol class="org-ol">
+<li><a id="org8bd08cf"></a>Starting a React/Next.js Project<br />
+<div class="outline-text-6" id="text-1-7-3-4-1">
+<ol class="org-ol">
+<li>Open project in Emacs</li>
+<li><code>M-x npm-mode-npm-install</code> (or <code>C-c n i</code>) to install dependencies</li>
+<li><code>M-x npm-mode-npm-run</code> (or <code>C-c n n</code>) and select "dev" to start dev server</li>
+<li>Open .jsx or .tsx files - web-mode will activate automatically</li>
+<li>Eglot will connect to typescript-language-server automatically</li>
+<li>Prettier will format on save (if enabled in project)</li>
+</ol>
+</div>
+</li>
+
+<li><a id="orgbaca066"></a>Debugging with Indium<br />
+<div class="outline-text-6" id="text-1-7-3-4-2">
+<ol class="org-ol">
+<li>Start your dev server (e.g., <code>npm run dev</code>)</li>
+<li><code>M-x indium-launch</code> to start Chrome with debugging enabled</li>
+<li>Set breakpoints with <code>C-c C-b</code></li>
+<li>Interact with page, debugger will pause at breakpoints</li>
+<li>Evaluate expressions in context with <code>C-c C-e</code></li>
+</ol>
+</div>
+</li>
+
+<li><a id="org5bf02c3"></a>Live Development with Skewer<br />
+<div class="outline-text-6" id="text-1-7-3-4-3">
+<ol class="org-ol">
+<li><code>M-x run-skewer</code> to start the server</li>
+<li>Open <code>http://localhost:8080</code> in browser</li>
+<li>Edit HTML/CSS/JS files</li>
+<li><code>C-c C-k</code> to instantly reload changes in browser</li>
+</ol>
+</div>
+</li>
+
+<li><a id="orgc30cee0"></a>Testing APIs with restclient<br />
+<div class="outline-text-6" id="text-1-7-3-4-4">
+<ol class="org-ol">
+<li>Create a .rest file</li>
+<li><p>
+Write HTTP requests:
+</p>
+<pre class="example" id="orga95b7b3">
+GET https://api.example.com/users
+Content-Type: application/json
+
+###
+
+POST https://api.example.com/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+</pre></li>
+<li><code>C-c C-c</code> on a request to execute it</li>
+</ol>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orgbe08e1e"></a>Project Structure Recommendations<br />
+<div class="outline-text-5" id="text-1-7-3-5">
+<p>
+For optimal Emacs integration, use these files in your projects:
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org9057358"></a>.prettierrc.json<br />
+<div class="outline-text-6" id="text-1-7-3-5-1">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2
+}
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgc64e953"></a>.eslintrc.json<br />
+<div class="outline-text-6" id="text-1-7-3-5-2">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
+}
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org431cf02"></a>tsconfig.json (for TypeScript projects)<br />
+<div class="outline-text-6" id="text-1-7-3-5-3">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org7082b8d" class="outline-4">
+<h4 id="org7082b8d"><span class="section-number-4">1.7.4.</span> Python Development</h4>
+</div>
+</div>
+<div id="outline-container-org715ef9a" class="outline-3">
+<h3 id="org715ef9a"><span class="section-number-3">1.8.</span> Python Development Configuration</h3>
+<div class="outline-text-3" id="text-1-8">
+<p>
+Configuration for Python development with modern tooling and best practices.
+</p>
+</div>
+
+<div id="outline-container-orgb7dbd20" class="outline-4">
+<h4 id="orgb7dbd20"><span class="section-number-4">1.8.1.</span> Overview</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<p>
+This module provides Python development support including:
+</p>
+<ul class="org-ul">
+<li><b><b>Language Support</b></b>: python-mode with tree-sitter</li>
+<li><b><b>Virtual Environments</b></b>: pyvenv for virtualenv management</li>
+<li><b><b>Code Quality</b></b>: Black formatting, isort import sorting</li>
+<li><b><b>Testing</b></b>: pytest integration</li>
+<li><b><b>REPL</b></b>: Enhanced Python REPL</li>
+<li><b><b>LSP</b></b>: Python Language Server support</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org423ffb1" class="outline-4">
+<h4 id="org423ffb1"><span class="section-number-4">1.8.2.</span> Key Features</h4>
+<div class="outline-text-4" id="text-1-8-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgfa1cb23"></a>Python Mode<br />
+<div class="outline-text-5" id="text-1-8-2-1">
+<ul class="org-ul">
+<li>Syntax highlighting</li>
+<li>Intelligent indentation</li>
+<li>Code navigation</li>
+<li>Integration with debugging tools</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org9c072c9"></a>Virtual Environment Management<br />
+<div class="outline-text-5" id="text-1-8-2-2">
+<ul class="org-ul">
+<li>Automatic venv detection</li>
+<li>Easy switching between environments</li>
+<li>Integration with project workflows</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org7d257a3"></a>Code Formatting &amp; Quality<br />
+<div class="outline-text-5" id="text-1-8-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tool</th>
+<th scope="col" class="org-left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>black</code></td>
+<td class="org-left">Opinionated code formatter</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>isort</code></td>
+<td class="org-left">Import statement organizer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>flake8</code></td>
+<td class="org-left">Style guide enforcement</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pylint</code></td>
+<td class="org-left">Code analysis</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+
+<li><a id="org983d793"></a>Development Workflow<br />
+<div class="outline-text-5" id="text-1-8-2-4">
+<ol class="org-ol">
+<li>Virtual environment activation</li>
+<li>LSP server connection</li>
+<li>Auto-formatting on save</li>
+<li>Test runner integration</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org9c27279" class="outline-4">
+<h4 id="org9c27279"><span class="section-number-4">1.8.3.</span> Python</h4>
+<div class="outline-text-4" id="text-1-8-3">
+<div class="org-src-container">
+<pre class="src src-elisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-python-conf.el --- Python development configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Configuration for Python development including LSP support, formatting,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">testing, virtual environments, and debugging.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python mode settings
+</span>(<span class="org-keyword">use-package</span> python
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.py\\'"</span> . python-mode)
+  <span class="org-builtin">:interpreter</span> (<span class="org-string">"python"</span> <span class="org-string">"python3"</span>)
+  <span class="org-builtin">:custom</span>
+  (python-indent-offset 4)
+  (python-indent-guess-indent-offset nil)
+  (python-shell-interpreter <span class="org-string">"python3"</span>)
+  (python-shell-completion-native-enable nil)  <span class="org-comment-delimiter">; </span><span class="org-comment">Avoid readline issues
+</span>  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remove trailing whitespace on save
+</span>  (add-hook 'python-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Virtual environment management
+</span>(<span class="org-keyword">use-package</span> pyvenv
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> pyvenv-mode-line-indicator '(pyvenv-virtual-env-name (<span class="org-string">"[venv:"</span> pyvenv-virtual-env-name <span class="org-string">"] "</span>)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Automatically activate virtual environment
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-auto-activate-venv</span> ()
+    <span class="org-doc">"Automatically activate Python virtual environment if found.
+Looks for .venv, venv, env directories or .python-version file."</span>
+    (<span class="org-keyword">interactive</span>)
+    (<span class="org-keyword">let*</span> ((project-root (<span class="org-keyword">or</span> (locate-dominating-file default-directory <span class="org-string">".venv"</span>)
+                             (locate-dominating-file default-directory <span class="org-string">"venv"</span>)
+                             (locate-dominating-file default-directory <span class="org-string">"env"</span>)
+                             (locate-dominating-file default-directory <span class="org-string">".python-version"</span>)))
+           (venv-path (<span class="org-keyword">when</span> project-root
+                        (<span class="org-keyword">or</span> (expand-file-name <span class="org-string">".venv"</span> project-root)
+                            (expand-file-name <span class="org-string">"venv"</span> project-root)
+                            (expand-file-name <span class="org-string">"env"</span> project-root)))))
+      (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> venv-path (file-directory-p venv-path))
+        (pyvenv-activate venv-path)
+        (message <span class="org-string">"Activated virtual environment: %s"</span> venv-path))))
+
+  (add-hook 'python-mode-hook #'fu-python-auto-activate-venv))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python formatting with Black
+</span>(<span class="org-keyword">use-package</span> python-black
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (python-black-buffer python-black-region python-black-on-save-mode)
+  <span class="org-builtin">:hook</span> (python-mode . python-black-on-save-mode-enable-dwim)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">python-black-on-save-mode-enable-dwim</span> ()
+    <span class="org-doc">"Enable python-black-on-save-mode if black is available."</span>
+    (<span class="org-keyword">when</span> (executable-find <span class="org-string">"black"</span>)
+      (python-black-on-save-mode 1))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Import sorting with isort
+</span>(<span class="org-keyword">use-package</span> py-isort
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (py-isort-buffer py-isort-region)
+  <span class="org-builtin">:hook</span> (before-save . fu-python-isort-before-save)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-isort-before-save</span> ()
+    <span class="org-doc">"Run isort before saving if in python-mode and isort is available."</span>
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (eq major-mode 'python-mode)
+               (executable-find <span class="org-string">"isort"</span>))
+      (py-isort-buffer))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Testing with pytest
+</span>(<span class="org-keyword">use-package</span> python-pytest
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (python-pytest-popup
+             python-pytest-function
+             python-pytest-function-dwim
+             python-pytest-file
+             python-pytest-file-dwim)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> python-mode-map
+              (<span class="org-string">"C-c t t"</span> . python-pytest-popup)
+              (<span class="org-string">"C-c t f"</span> . python-pytest-function-dwim)
+              (<span class="org-string">"C-c t m"</span> . python-pytest-file-dwim)
+              (<span class="org-string">"C-c t p"</span> . python-pytest)
+              (<span class="org-string">"C-c t r"</span> . python-pytest-repeat))
+  <span class="org-builtin">:custom</span>
+  (python-pytest-confirm nil))  <span class="org-comment-delimiter">; </span><span class="org-comment">Don't ask for confirmation
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Poetry integration
+</span>(<span class="org-keyword">use-package</span> poetry
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (poetry-venv-workon poetry-track-virtualenv)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-activate poetry virtualenv when entering a poetry project
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-poetry-auto-activate</span> ()
+    <span class="org-doc">"Auto-activate poetry virtualenv if pyproject.toml exists."</span>
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (executable-find <span class="org-string">"poetry"</span>)
+               (locate-dominating-file default-directory <span class="org-string">"pyproject.toml"</span>))
+      (poetry-track-virtualenv)))
+
+  (add-hook 'python-mode-hook #'fu-python-poetry-auto-activate))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Pip requirements management
+</span>(<span class="org-keyword">use-package</span> pip-requirements
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"requirements\\.txt\\'"</span> . pip-requirements-mode)
+         (<span class="org-string">"requirements-.*\\.txt\\'"</span> . pip-requirements-mode)
+         (<span class="org-string">"requirements/.*\\.txt\\'"</span> . pip-requirements-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python docstring support
+</span>(<span class="org-keyword">use-package</span> sphinx-doc
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (python-mode . sphinx-doc-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> python-mode-map
+              (<span class="org-string">"C-c d"</span> . sphinx-doc)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python REPL enhancements
+</span>(<span class="org-keyword">use-package</span> python-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Send region/buffer to Python REPL
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-shell-send-region-or-buffer</span> ()
+    <span class="org-doc">"Send the current region to Python REPL, or whole buffer if no region is active."</span>
+    (<span class="org-keyword">interactive</span>)
+    (<span class="org-keyword">if</span> (use-region-p)
+        (python-shell-send-region (region-beginning) (region-end))
+      (python-shell-send-buffer)))
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-python-shell-send-defun-and-step</span> ()
+    <span class="org-doc">"Send the current function to Python REPL and move to next function."</span>
+    (<span class="org-keyword">interactive</span>)
+    (python-shell-send-defun nil)
+    (python-nav-forward-defun))
+
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> python-mode-map
+              (<span class="org-string">"C-c C-c"</span> . fu-python-shell-send-region-or-buffer)
+              (<span class="org-string">"C-c C-n"</span> . fu-python-shell-send-defun-and-step)
+              (<span class="org-string">"C-c C-r"</span> . python-shell-send-region)
+              (<span class="org-string">"C-c C-b"</span> . python-shell-send-buffer)
+              (<span class="org-string">"C-c C-z"</span> . python-shell-switch-to-shell)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Python debugger (pdb) integration
+</span>(<span class="org-keyword">use-package</span> realgud
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (realgud:pdb))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Optional: IPython integration
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Uncomment if you prefer IPython over standard Python REPL
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package python
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(when (executable-find "ipython")
+</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">(setq python-shell-interpreter "ipython"
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-interpreter-args "-i --simple-prompt --no-color-info"
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-completion-setup-code
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">"from IPython.core.completerlib import module_completion"
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-completion-module-string-code
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">"';'.join(module_completion('''</span><span class="org-comment"><span class="org-constant">%s</span></span><span class="org-comment">'''))\n"
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">python-shell-completion-string-code
+</span><span class="org-comment-delimiter">;;           </span><span class="org-comment">"';'.join(get_ipython().Completer.all_completions('''</span><span class="org-comment"><span class="org-constant">%s</span></span><span class="org-comment">'''))\n")))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">LSP configuration with Eglot
+</span>(<span class="org-keyword">with-eval-after-load</span> 'eglot
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Prefer pyright over pylsp if available
+</span>  (<span class="org-keyword">when</span> (executable-find <span class="org-string">"pyright-langserver"</span>)
+    (add-to-list 'eglot-server-programs
+                 '(python-mode . (<span class="org-string">"pyright-langserver"</span> <span class="org-string">"--stdio"</span>))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable eglot for Python
+</span>  (add-hook 'python-mode-hook #'eglot-ensure))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Flycheck for additional linting (optional, alongside Flymake)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package flycheck
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook (python-mode . flycheck-mode)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(setq flycheck-python-flake8-executable "python3"
+</span><span class="org-comment-delimiter">;;         </span><span class="org-comment">flycheck-python-pycompile-executable "python3"
+</span><span class="org-comment-delimiter">;;         </span><span class="org-comment">flycheck-python-pylint-executable "python3"))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Jupyter notebook support (optional)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package ein
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer t
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:commands (ein:run ein:login))
+</span>
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-python-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-python-conf.el ends here
+</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf0902a7" class="outline-4">
+<h4 id="orgf0902a7"><span class="section-number-4">1.8.4.</span> Ruby Development</h4>
+</div>
+</div>
+<div id="outline-container-org11a029c" class="outline-3">
+<h3 id="org11a029c"><span class="section-number-3">1.9.</span> Ruby Development Configuration</h3>
+<div class="outline-text-3" id="text-1-9">
+<p>
+Configuration for Ruby and Ruby on Rails development.
+</p>
+</div>
+
+<div id="outline-container-orge5aada2" class="outline-4">
+<h4 id="orge5aada2"><span class="section-number-4">1.9.1.</span> Overview</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<p>
+This module provides comprehensive Ruby development support:
+</p>
+<ul class="org-ul">
+<li><b><b>Language Support</b></b>: ruby-mode with enhanced features</li>
+<li><b><b>Rails Integration</b></b>: Full Ruby on Rails support</li>
+<li><b><b>REPL</b></b>: inf-ruby for interactive development</li>
+<li><b><b>Testing</b></b>: RSpec and minitest integration</li>
+<li><b><b>Code Quality</b></b>: RuboCop integration</li>
+<li><b><b>Package Management</b></b>: Bundler support</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5868bb9" class="outline-4">
+<h4 id="org5868bb9"><span class="section-number-4">1.9.2.</span> Key Features</h4>
+<div class="outline-text-4" id="text-1-9-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgaea55be"></a>Ruby Mode<br />
+<div class="outline-text-5" id="text-1-9-2-1">
+<ul class="org-ul">
+<li>Syntax highlighting</li>
+<li>Intelligent indentation</li>
+<li>Code navigation</li>
+<li>Symbol navigation</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org6cdfea6"></a>Ruby on Rails<br />
+<div class="outline-text-5" id="text-1-9-2-2">
+<ul class="org-ul">
+<li>Rails-specific features</li>
+<li>Generator integration</li>
+<li>Migration helpers</li>
+<li>View/controller switching</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org45e6bac"></a>Development Tools<br />
+<div class="outline-text-5" id="text-1-9-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tool</th>
+<th scope="col" class="org-left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>ruby-mode</code></td>
+<td class="org-left">Core Ruby language support</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>inf-ruby</code></td>
+<td class="org-left">Interactive Ruby REPL</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rspec-mode</code></td>
+<td class="org-left">RSpec test runner</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rubocop</code></td>
+<td class="org-left">Ruby style checker</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>bundler</code></td>
+<td class="org-left">Gem dependency management</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+
+<li><a id="org8795d0a"></a>Workflow Integration<br />
+<div class="outline-text-5" id="text-1-9-2-4">
+<ol class="org-ol">
+<li>Project detection (Rails vs. pure Ruby)</li>
+<li>Bundler gem management</li>
+<li>Test runner integration</li>
+<li>Code formatting and linting</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org2cd4330" class="outline-4">
+<h4 id="org2cd4330"><span class="section-number-4">1.9.3.</span> Ruby</h4>
+<div class="outline-text-4" id="text-1-9-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-ruby-conf.el --- Ruby development configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Configuration for Ruby and Ruby on Rails development including LSP support,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">testing, formatting, REPL, and Rails-specific tools.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby mode settings
+</span>(<span class="org-keyword">use-package</span> ruby-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.rb\\'"</span> . ruby-mode)
+         (<span class="org-string">"Rakefile\\'"</span> . ruby-mode)
+         (<span class="org-string">"Gemfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"Berksfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"Vagrantfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.rake\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.gemspec\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.ru\\'"</span> . ruby-mode)
+         (<span class="org-string">"Guardfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"Capfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.cap\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.thor\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.rabl\\'"</span> . ruby-mode)
+         (<span class="org-string">"Thorfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.jbuilder\\'"</span> . ruby-mode)
+         (<span class="org-string">"Podfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.podspec\\'"</span> . ruby-mode)
+         (<span class="org-string">"Puppetfile\\'"</span> . ruby-mode)
+         (<span class="org-string">"\\.arb\\'"</span> . ruby-mode))
+  <span class="org-builtin">:interpreter</span> <span class="org-string">"ruby"</span>
+  <span class="org-builtin">:custom</span>
+  (ruby-indent-level 2)
+  (ruby-indent-tabs-mode nil)
+  (ruby-insert-encoding-magic-comment nil)  <span class="org-comment-delimiter">; </span><span class="org-comment">Don't auto-insert encoding comment
+</span>  (ruby-align-chained-calls nil)
+  (ruby-deep-indent-paren nil)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remove trailing whitespace on save
+</span>  (add-hook 'ruby-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              (add-hook 'before-save-hook #'delete-trailing-whitespace nil t)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enhance Ruby mode with additional features
+</span>  (add-hook 'ruby-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              (<span class="org-keyword">setq-local</span> comment-auto-fill-only-comments t)
+              (auto-fill-mode 1))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">inf-ruby: Ruby REPL integration
+</span>(<span class="org-keyword">use-package</span> inf-ruby
+  <span class="org-builtin">:hook</span> ((ruby-mode . inf-ruby-minor-mode)
+         (compilation-filter . inf-ruby-auto-enter))
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c C-s"</span> . inf-ruby)
+              (<span class="org-string">"C-c C-z"</span> . inf-ruby-switch-from-compilation))
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Automatically start REPL when evaluating code
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-send-region-or-buffer</span> ()
+    <span class="org-doc">"Send the current region to Ruby REPL, or whole buffer if no region is active."</span>
+    (<span class="org-keyword">interactive</span>)
+    (<span class="org-keyword">unless</span> (get-buffer-process inf-ruby-buffer)
+      (inf-ruby))
+    (<span class="org-keyword">if</span> (use-region-p)
+        (ruby-send-region (region-beginning) (region-end))
+      (ruby-send-buffer)))
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-send-definition</span> ()
+    <span class="org-doc">"Send the current definition to Ruby REPL."</span>
+    (<span class="org-keyword">interactive</span>)
+    (<span class="org-keyword">unless</span> (get-buffer-process inf-ruby-buffer)
+      (inf-ruby))
+    (<span class="org-keyword">save-excursion</span>
+      (ruby-end-of-defun)
+      (<span class="org-keyword">let</span> ((end (point)))
+        (ruby-beginning-of-defun)
+        (ruby-send-region (point) end))))
+
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c C-c"</span>) 'fu-ruby-send-region-or-buffer)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c C-d"</span>) 'fu-ruby-send-definition)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c C-l"</span>) 'ruby-load-file)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c C-r"</span>) 'ruby-send-region))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">RuboCop: Linting and formatting
+</span>(<span class="org-keyword">use-package</span> rubocop
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . rubocop-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> rubocop-mode-map
+              (<span class="org-string">"C-c r a"</span> . rubocop-autocorrect-current-file)
+              (<span class="org-string">"C-c r A"</span> . rubocop-autocorrect-project)
+              (<span class="org-string">"C-c r f"</span> . rubocop-check-current-file)
+              (<span class="org-string">"C-c r p"</span> . rubocop-check-project))
+  <span class="org-builtin">:custom</span>
+  (rubocop-autocorrect-on-save nil)  <span class="org-comment-delimiter">; </span><span class="org-comment">Don't auto-correct on save by default
+</span>  (rubocop-prefer-system-executable t)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-format with RuboCop if available
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-rubocop-autocorrect-on-save</span> ()
+    <span class="org-doc">"Auto-correct current file with RuboCop on save if rubocop is available."</span>
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (eq major-mode 'ruby-mode)
+               (executable-find <span class="org-string">"rubocop"</span>))
+      (rubocop-autocorrect-current-file)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Uncomment to enable auto-format on save
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(add-hook 'after-save-hook #'fu-ruby-rubocop-autocorrect-on-save))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">RSpec: Testing framework
+</span>(<span class="org-keyword">use-package</span> rspec-mode
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . rspec-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c t t"</span> . rspec-verify)
+              (<span class="org-string">"C-c t f"</span> . rspec-verify-single)
+              (<span class="org-string">"C-c t m"</span> . rspec-verify-matching)
+              (<span class="org-string">"C-c t a"</span> . rspec-verify-all)
+              (<span class="org-string">"C-c t r"</span> . rspec-rerun)
+              (<span class="org-string">"C-c t c"</span> . rspec-verify-continue)
+              (<span class="org-string">"C-c t s"</span> . rspec-toggle-spec-and-target))
+  <span class="org-builtin">:custom</span>
+  (rspec-use-rake-when-possible nil)
+  (rspec-spec-command <span class="org-string">"rspec"</span>)
+  (rspec-use-spring-when-possible t)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Use bundle exec if Gemfile exists
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-use-bundler-for-rspec</span> ()
+    <span class="org-doc">"Use bundle exec for RSpec if Gemfile exists."</span>
+    (<span class="org-keyword">when</span> (locate-dominating-file default-directory <span class="org-string">"Gemfile"</span>)
+      (<span class="org-keyword">setq</span> rspec-spec-command <span class="org-string">"bundle exec rspec"</span>)))
+
+  (add-hook 'ruby-mode-hook #'fu-ruby-use-bundler-for-rspec))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bundler: Dependency management
+</span>(<span class="org-keyword">use-package</span> bundler
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (bundle-install
+             bundle-update
+             bundle-exec
+             bundle-open)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c b i"</span> . bundle-install)
+              (<span class="org-string">"C-c b u"</span> . bundle-update)
+              (<span class="org-string">"C-c b e"</span> . bundle-exec)
+              (<span class="org-string">"C-c b o"</span> . bundle-open)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Rake: Task runner
+</span>(<span class="org-keyword">use-package</span> rake
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (rake rake-find-task rake-rerun)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c k r"</span> . rake)
+              (<span class="org-string">"C-c k f"</span> . rake-find-task)
+              (<span class="org-string">"C-c k R"</span> . rake-rerun)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby on Rails support
+</span>(<span class="org-keyword">use-package</span> projectile-rails
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (projectile-mode . projectile-rails-global-mode)
+  <span class="org-builtin">:bind-keymap</span> (<span class="org-string">"C-c R"</span> . projectile-rails-command-map)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable Rails-specific features when in Rails project
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-rails-mode-hook</span> ()
+    <span class="org-doc">"Hook for Rails-specific configuration."</span>
+    (<span class="org-keyword">when</span> (projectile-rails-root)
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable additional Rails features
+</span>      (<span class="org-keyword">setq-local</span> compilation-scroll-output t)))
+
+  (add-hook 'projectile-rails-mode-hook #'fu-ruby-rails-mode-hook)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Rails file navigation helpers
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-find-model</span> ()
+    <span class="org-doc">"Find Rails model."</span>
+    (<span class="org-keyword">interactive</span>)
+    (projectile-rails-find-model))
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-find-controller</span> ()
+    <span class="org-doc">"Find Rails controller."</span>
+    (<span class="org-keyword">interactive</span>)
+    (projectile-rails-find-controller))
+
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-find-view</span> ()
+    <span class="org-doc">"Find Rails view."</span>
+    (<span class="org-keyword">interactive</span>)
+    (projectile-rails-find-view))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Keybindings for Rails navigation
+</span>  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R m"</span>) 'fu-rails-find-model)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R c"</span>) 'fu-rails-find-controller)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R v"</span>) 'fu-rails-find-view))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">YAML mode for Rails config files
+</span>(<span class="org-keyword">use-package</span> yaml-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.yml\\'"</span> . yaml-mode)
+         (<span class="org-string">"\\.yaml\\'"</span> . yaml-mode)
+         (<span class="org-string">"config/database.yml"</span> . yaml-mode)
+         (<span class="org-string">"config/routes.rb"</span> . ruby-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Enhanced Ruby refactoring
+</span>(<span class="org-keyword">use-package</span> ruby-refactor
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . ruby-refactor-mode-launch)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-refactor-mode-map
+              (<span class="org-string">"C-c C-e m"</span> . ruby-refactor-extract-to-method)
+              (<span class="org-string">"C-c C-e v"</span> . ruby-refactor-extract-local-variable)
+              (<span class="org-string">"C-c C-e c"</span> . ruby-refactor-extract-constant)
+              (<span class="org-string">"C-c C-e l"</span> . ruby-refactor-extract-to-let)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby block manipulation
+</span>(<span class="org-keyword">use-package</span> ruby-block
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . ruby-block-mode)
+  <span class="org-builtin">:custom</span>
+  (ruby-block-highlight-toggle t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">YARD documentation
+</span>(<span class="org-keyword">use-package</span> yard-mode
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:hook</span> (ruby-mode . yard-mode)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> ruby-mode-map
+              (<span class="org-string">"C-c y"</span> . yard-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby debugging with realgud
+</span>(<span class="org-keyword">use-package</span> realgud
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (realgud:byebug realgud:pry))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Chruby for Ruby version management (if you use chruby)
+</span>(<span class="org-keyword">use-package</span> chruby
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:commands</span> (chruby-use chruby-use-corresponding)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-detect Ruby version from .ruby-version
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-chruby-auto</span> ()
+    <span class="org-doc">"Auto-select Ruby version based on .ruby-version file."</span>
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (executable-find <span class="org-string">"chruby-exec"</span>)
+               (locate-dominating-file default-directory <span class="org-string">".ruby-version"</span>))
+      (chruby-use-corresponding)))
+
+  (add-hook 'ruby-mode-hook #'fu-ruby-chruby-auto))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">RVM support (alternative to chruby)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package rvm
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer t
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(rvm-use-default))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">rbenv support (alternative to chruby/rvm)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package rbenv
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer t
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(global-rbenv-mode))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">ERB (Embedded Ruby) mode
+</span>(<span class="org-keyword">use-package</span> web-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.erb\\'"</span> . web-mode)
+         (<span class="org-string">"\\.html\\.erb\\'"</span> . web-mode))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> web-mode-engines-alist
+        '((<span class="org-string">"erb"</span> . <span class="org-string">"\\.html\\.erb\\'"</span>))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Haml support
+</span>(<span class="org-keyword">use-package</span> haml-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.haml\\'"</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Slim template support
+</span>(<span class="org-keyword">use-package</span> slim-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.slim\\'"</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Rails console in Emacs
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-console</span> ()
+  <span class="org-doc">"Start Rails console in inf-ruby."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((default-directory (<span class="org-keyword">or</span> (projectile-rails-root)
+                               default-directory)))
+    (<span class="org-keyword">if</span> (file-exists-p <span class="org-string">"bin/rails"</span>)
+        (inf-ruby-console-run <span class="org-string">"bin/rails console"</span> <span class="org-string">"rails"</span>)
+      (inf-ruby-console-run <span class="org-string">"bundle exec rails console"</span> <span class="org-string">"rails"</span>))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu-rails-server</span> ()
+  <span class="org-doc">"Start Rails server in async shell."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((default-directory (<span class="org-keyword">or</span> (projectile-rails-root)
+                               default-directory)))
+    (async-shell-command
+     (<span class="org-keyword">if</span> (file-exists-p <span class="org-string">"bin/rails"</span>)
+         <span class="org-string">"bin/rails server"</span>
+       <span class="org-string">"bundle exec rails server"</span>)
+     <span class="org-string">"*rails-server*"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Keybindings for Rails
+</span>(<span class="org-keyword">with-eval-after-load</span> 'ruby-mode
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R r"</span>) 'fu-rails-console)
+  (define-key ruby-mode-map (kbd <span class="org-string">"C-c R s"</span>) 'fu-rails-server))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby hash syntax conversion helpers
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-toggle-hash-syntax</span> ()
+  <span class="org-doc">"Toggle between old and new Ruby hash syntax."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">save-excursion</span>
+    (<span class="org-keyword">let</span> ((bounds (bounds-of-thing-at-point 'symbol)))
+      (<span class="org-keyword">when</span> bounds
+        (<span class="org-keyword">let*</span> ((start (car bounds))
+               (end (cdr bounds))
+               (symbol (buffer-substring-no-properties start end)))
+          (<span class="org-keyword">cond</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">Convert :symbol =&gt; to symbol:
+</span>           ((looking-back <span class="org-string">":</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[a-z_][a-z0-9_]*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string"> =&gt;"</span> (line-beginning-position))
+            (<span class="org-keyword">let</span> ((match-start (match-beginning 0)))
+              (delete-region match-start (point))
+              (insert (match-string 1) <span class="org-string">":"</span>)))
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">Convert symbol: to :symbol =&gt;
+</span>           ((looking-at <span class="org-string">"</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[a-z_][a-z0-9_]*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">:"</span>)
+            (<span class="org-keyword">let</span> ((symbol (match-string 1)))
+              (delete-region (match-beginning 0) (match-end 0))
+              (insert <span class="org-string">":"</span> symbol <span class="org-string">" =&gt;"</span>)))))))))
+
+(define-key ruby-mode-map (kbd <span class="org-string">"C-c h"</span>) 'fu-ruby-toggle-hash-syntax)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">LSP configuration with Eglot
+</span>(<span class="org-keyword">with-eval-after-load</span> 'eglot
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure ruby-lsp server (preferred) or solargraph
+</span>  (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) <span class="org-string">"ruby-lsp"</span>))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: Use solargraph instead
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(add-to-list 'eglot-server-programs
+</span>  <span class="org-comment-delimiter">;;              </span><span class="org-comment">'((ruby-mode ruby-ts-mode) "solargraph" "stdio"))
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable eglot for Ruby modes
+</span>  (add-hook 'ruby-mode-hook #'eglot-ensure)
+  (add-hook 'ruby-ts-mode-hook #'eglot-ensure))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Ruby end-of-line comments alignment
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu-ruby-align-end-comments</span> ()
+  <span class="org-doc">"Align end-of-line comments in Ruby."</span>
+  (<span class="org-keyword">interactive</span>)
+  (align-regexp (region-beginning) (region-end) <span class="org-string">"</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">\\s-*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">#"</span> 1 1 t))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-ruby-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-ruby-conf.el ends here
+</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

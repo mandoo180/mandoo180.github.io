@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgcd14cc8">1. Web Development Configuration</a>
+<ul>
+<li><a href="#orgff83864">1.1. Overview</a></li>
+<li><a href="#org386b975">1.2. Key Features</a>
+<ul>
+<li><a href="#org6414ff6">1.2.1. Smart Mode Selection</a></li>
+<li><a href="#org332793c">1.2.2. Supported File Types</a></li>
+<li><a href="#org8dd2c99">1.2.3. Development Tools</a></li>
+</ul>
+</li>
+<li><a href="#org9778e01">1.3. Web</a>
+<ul>
+<li><a href="#org3ae08c0">1.3.1. Required Local Dependencies</a></li>
+<li><a href="#org0553b35">1.3.2. Emacs Packages</a></li>
+<li><a href="#org8476792">1.3.3. Key Bindings</a></li>
+<li><a href="#org8830c26">1.3.4. Workflow Examples</a></li>
+<li><a href="#orgddbbb89">1.3.5. Project Structure Recommendations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgcd14cc8" class="outline-2">
+<h2 id="orgcd14cc8"><span class="section-number-2">1.</span> Web Development Configuration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Configuration for modern web development including HTML, CSS, JavaScript, TypeScript, and frameworks.
+</p>
+</div>
+
+<div id="outline-container-orgff83864" class="outline-3">
+<h3 id="orgff83864"><span class="section-number-3">1.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+This module provides comprehensive support for:
+</p>
+<ul class="org-ul">
+<li><b><b>HTML</b></b>: Multiple modes (web-mode, mhtml-mode) with smart selection</li>
+<li><b><b>CSS</b></b>: Enhanced editing with completion and formatting</li>
+<li><b><b>JavaScript</b></b>: Modern JS/JSX with proper indentation and tooling</li>
+<li><b><b>TypeScript</b></b>: Full TypeScript and TSX support</li>
+<li><b><b>Frameworks</b></b>: React, Vue, Svelte, Angular</li>
+<li><b><b>Tools</b></b>: ESLint, Prettier, Language Server Protocol (LSP)</li>
+<li><b><b>Build Tools</b></b>: npm, yarn, webpack integration</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org386b975" class="outline-3">
+<h3 id="org386b975"><span class="section-number-3">1.2.</span> Key Features</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org6414ff6" class="outline-4">
+<h4 id="org6414ff6"><span class="section-number-4">1.2.1.</span> Smart Mode Selection</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+Automatically chooses the best HTML mode based on file size:
+</p>
+<ul class="org-ul">
+<li>Small files (&lt; 5000 lines): <code>web-mode</code> for rich features</li>
+<li>Large files (≥ 5000 lines): <code>mhtml-mode</code> for performance</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org332793c" class="outline-4">
+<h4 id="org332793c"><span class="section-number-4">1.2.2.</span> Supported File Types</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>HTML, XHTML</li>
+<li>JavaScript (.js, .jsx, .mjs)</li>
+<li>TypeScript (.ts, .tsx)</li>
+<li>Vue (.vue)</li>
+<li>Templates (.njk, .hbs, .mustache)</li>
+<li>CSS, SCSS, SASS, Less</li>
+<li>JSON</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8dd2c99" class="outline-4">
+<h4 id="org8dd2c99"><span class="section-number-4">1.2.3.</span> Development Tools</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tool</th>
+<th scope="col" class="org-left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>web-mode</code></td>
+<td class="org-left">Unified mode for HTML/CSS/JS</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>emmet-mode</code></td>
+<td class="org-left">HTML/CSS abbreviation expansion</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>tagedit</code></td>
+<td class="org-left">Paredit-like editing for HTML tags</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>prettier-js</code></td>
+<td class="org-left">Code formatting</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>eslint</code></td>
+<td class="org-left">JavaScript linting</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>lsp-mode</code></td>
+<td class="org-left">Language Server Protocol support</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>typescript-mode</code></td>
+<td class="org-left">TypeScript language support</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9778e01" class="outline-3">
+<h3 id="org9778e01"><span class="section-number-3">1.3.</span> Web</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-web-conf.el --- Web development configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Configuration for web development including HTML, CSS, JavaScript,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">TypeScript, React/JSX, and related tools.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">HTML tag editing
+</span>(<span class="org-keyword">use-package</span> tagedit
+  <span class="org-builtin">:hook</span>
+  ((mhtml-mode
+      sgml-mode
+      nxml-mode)
+   . (<span class="org-keyword">lambda</span> ()
+         (tagedit-add-paredit-like-keybindings)
+         (tagedit-mode 1))))
+
+(<span class="org-keyword">use-package</span> emmet-mode
+  <span class="org-builtin">:hook</span> (mhtml-mode sgml-mode nxml-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Smart HTML mode selection
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu-html-mode-selector</span> ()
+  <span class="org-doc">"Choose between web-mode and mhtml-mode based on file size.
+Use mhtml-mode for files larger than 5000 lines to prevent hanging."</span>
+  (<span class="org-keyword">let*</span> ((file (buffer-file-name))
+         (size-threshold 5000))
+    (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> file (file-exists-p file))
+      (<span class="org-keyword">let</span> ((line-count (count-lines (point-min) (point-max))))
+        (<span class="org-keyword">if</span> (&gt; line-count size-threshold)
+            (<span class="org-keyword">progn</span>
+              (message <span class="org-string">"Large HTML file (%d lines) detected, using mhtml-mode for performance"</span> line-count)
+              (mhtml-mode))
+          (web-mode))))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Register HTML files to use smart mode selector
+</span>(add-to-list 'auto-mode-alist '(<span class="org-string">"\\.html?\\'"</span> . fu-html-mode-selector))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">web-mode: powerful mode for HTML, JSX, TSX, Vue, etc.
+</span>(<span class="org-keyword">use-package</span> web-mode
+  <span class="org-builtin">:mode</span> ((<span class="org-string">"\\.jsx?\\'"</span> . web-mode)
+         (<span class="org-string">"\\.tsx?\\'"</span> . web-mode)
+         (<span class="org-string">"\\.vue\\'"</span> . web-mode)
+         (<span class="org-string">"\\.njk\\'"</span> . web-mode)
+         (<span class="org-string">"\\.hbs\\'"</span> . web-mode)
+         (<span class="org-string">"\\.mustache\\'"</span> . web-mode))
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Indentation
+</span>  (web-mode-markup-indent-offset 2)
+  (web-mode-css-indent-offset 2)
+  (web-mode-code-indent-offset 2)
+  (web-mode-style-padding 2)
+  (web-mode-script-padding 2)
+  (web-mode-block-padding 0)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Syntax highlighting
+</span>  (web-mode-enable-css-colorization t)
+  (web-mode-enable-auto-pairing t)
+  (web-mode-enable-comment-keywords t)
+  (web-mode-enable-current-element-highlight t)
+  (web-mode-enable-current-column-highlight nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Content types
+</span>  (web-mode-content-types-alist
+   '((<span class="org-string">"jsx"</span> . <span class="org-string">"\\.js[x]?\\'"</span>)
+     (<span class="org-string">"tsx"</span> . <span class="org-string">"\\.ts[x]?\\'"</span>)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-close tags
+</span>  (web-mode-enable-auto-closing t)
+  (web-mode-enable-auto-quoting t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Comments
+</span>  (web-mode-comment-style 2)
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remove background colors from web-mode faces to use theme's default
+</span>  (set-face-attribute 'web-mode-block-face nil <span class="org-builtin">:background</span> nil)
+  (set-face-attribute 'web-mode-script-face nil <span class="org-builtin">:background</span> nil)
+  (set-face-attribute 'web-mode-style-face nil <span class="org-builtin">:background</span> nil)
+  (set-face-attribute 'web-mode-part-face nil <span class="org-builtin">:background</span> nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Better JSX/TSX detection
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-web-mode-hook</span> ()
+    <span class="org-doc">"Hooks for Web mode."</span>
+    (<span class="org-keyword">setq</span> web-mode-enable-part-face nil)
+    (<span class="org-keyword">when</span> (string-match-p <span class="org-string">"\\.[jt]sx?\\'"</span> (buffer-file-name))
+      (<span class="org-keyword">setq-local</span> web-mode-content-type <span class="org-string">"jsx"</span>)
+      (<span class="org-keyword">setq-local</span> web-mode-enable-auto-indentation t)))
+
+  (add-hook 'web-mode-hook #'fu-web-mode-hook))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Eglot configuration for web-mode
+</span>(<span class="org-keyword">with-eval-after-load</span> 'eglot
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-eglot-web-mode-server</span> (<span class="org-type">&amp;optional</span> interactive)
+    <span class="org-doc">"Return appropriate language server for web-mode based on file extension.
+INTERACTIVE is passed by Eglot but not used here."</span>
+    (<span class="org-keyword">let</span> ((file (buffer-file-name)))
+      (<span class="org-keyword">cond</span>
+       ((<span class="org-keyword">and</span> file (string-match-p <span class="org-string">"\\.tsx?\\'"</span> file))
+        '(<span class="org-string">"typescript-language-server"</span> <span class="org-string">"--stdio"</span>))
+       ((<span class="org-keyword">and</span> file (string-match-p <span class="org-string">"\\.jsx?\\'"</span> file))
+        '(<span class="org-string">"typescript-language-server"</span> <span class="org-string">"--stdio"</span>))
+       (t
+        '(<span class="org-string">"vscode-html-language-server"</span> <span class="org-string">"--stdio"</span>)))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure web-mode server selection with smart detection
+</span>  (add-to-list 'eglot-server-programs
+               '(web-mode . fu-eglot-web-mode-server))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Add eglot hooks for web modes
+</span>  (add-hook 'mhtml-mode-hook #'eglot-ensure)
+  (add-hook 'web-mode-hook #'eglot-ensure)
+  (add-hook 'css-mode-hook #'eglot-ensure)
+  (add-hook 'scss-mode-hook #'eglot-ensure)
+  (add-hook 'js-mode-hook #'eglot-ensure)
+  (add-hook 'js2-mode-hook #'eglot-ensure)
+  (add-hook 'js-ts-mode-hook #'eglot-ensure)
+  (add-hook 'rjsx-mode-hook #'eglot-ensure)
+  (add-hook 'typescript-mode-hook #'eglot-ensure)
+  (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+  (add-hook 'tsx-ts-mode-hook #'eglot-ensure)
+  (add-hook 'json-mode-hook #'eglot-ensure))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">js2-mode: enhanced JavaScript editing
+</span>(<span class="org-keyword">use-package</span> js2-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.m?js\\'"</span>
+  <span class="org-builtin">:interpreter</span> <span class="org-string">"node"</span>
+  <span class="org-builtin">:custom</span>
+  (js2-basic-offset 2)
+  (js2-bounce-indent-p nil)
+  (js2-strict-missing-semi-warning nil)
+  (js2-missing-semi-one-line-override t)
+  (js-indent-level 2)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Disable js2-mode's syntax checking in favor of Flymake/LSP
+</span>  (<span class="org-keyword">setq</span> js2-mode-show-parse-errors nil)
+  (<span class="org-keyword">setq</span> js2-mode-show-strict-warnings nil))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">rjsx-mode: React JSX support
+</span>(<span class="org-keyword">use-package</span> rjsx-mode
+  <span class="org-builtin">:mode</span> (<span class="org-string">"components/.*\\.js\\'"</span> <span class="org-string">"\\.jsx\\'"</span>)
+  <span class="org-builtin">:custom</span>
+  (js2-basic-offset 2)
+  (js2-strict-missing-semi-warning nil))
+
+(<span class="org-keyword">use-package</span> typescript-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.ts\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (typescript-indent-level 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">TypeScript TSX mode
+</span>(<span class="org-keyword">use-package</span> tsx-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.tsx\\'"</span>
+  <span class="org-builtin">:config</span>
+  (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.tsx\\'"</span> . tsx-ts-mode)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">JSON mode
+</span>(<span class="org-keyword">use-package</span> json-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.json\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (json-reformat:indent-width 2)
+  (js-indent-level 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">CSS/SCSS modes
+</span>(<span class="org-keyword">use-package</span> css-mode
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.css\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (css-indent-offset 2))
+
+(<span class="org-keyword">use-package</span> scss-mode
+  <span class="org-builtin">:mode</span> <span class="org-string">"\\.scss\\'"</span>
+  <span class="org-builtin">:custom</span>
+  (css-indent-offset 2))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Add node_modules/.bin to exec-path
+</span>(<span class="org-keyword">use-package</span> add-node-modules-path
+  <span class="org-builtin">:hook</span> ((web-mode . add-node-modules-path)
+         (js-mode . add-node-modules-path)
+         (js2-mode . add-node-modules-path)
+         (rjsx-mode . add-node-modules-path)
+         (typescript-mode . add-node-modules-path)
+         (typescript-ts-mode . add-node-modules-path)
+         (tsx-ts-mode . add-node-modules-path)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">npm/yarn integration
+</span>(<span class="org-keyword">use-package</span> npm-mode
+  <span class="org-builtin">:commands</span> (npm-mode)
+  <span class="org-builtin">:hook</span> ((web-mode . npm-mode)
+         (js-mode . npm-mode)
+         (js2-mode . npm-mode)
+         (typescript-mode . npm-mode))
+  <span class="org-builtin">:init</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu-npm-mode-keybindings</span> ()
+    <span class="org-doc">"Set up npm-mode keybindings."</span>
+    (<span class="org-keyword">when</span> (boundp 'npm-mode-command-keymap)
+      (define-key npm-mode-command-keymap <span class="org-string">"n"</span> 'npm-mode-npm-run)
+      (define-key npm-mode-command-keymap <span class="org-string">"i"</span> 'npm-mode-npm-install)
+      (define-key npm-mode-command-keymap <span class="org-string">"t"</span> 'npm-mode-npm-test)
+      (define-key npm-mode-command-keymap <span class="org-string">"b"</span> 'npm-mode-npm-build)))
+  (add-hook 'npm-mode-hook 'fu-npm-mode-keybindings))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Prettier formatting
+</span>(<span class="org-keyword">use-package</span> prettier
+  <span class="org-builtin">:commands</span> (prettier-prettify)
+  <span class="org-builtin">:custom</span>
+  (prettier-pre-warm 'full))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">ESLint integration via Flymake
+</span>(<span class="org-keyword">use-package</span> flymake-eslint
+  <span class="org-builtin">:hook</span> ((js-mode . flymake-eslint-enable)
+         (js2-mode . flymake-eslint-enable)
+         (rjsx-mode . flymake-eslint-enable)
+         (typescript-mode . flymake-eslint-enable)
+         (typescript-ts-mode . flymake-eslint-enable)
+         (tsx-ts-mode . flymake-eslint-enable)
+         (web-mode . flymake-eslint-enable)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Import JavaScript modules
+</span>(<span class="org-keyword">use-package</span> js-import
+  <span class="org-builtin">:after</span> js
+  <span class="org-builtin">:config</span>
+  (define-key js-mode-map (kbd <span class="org-string">"C-c i i"</span>) 'js-import)
+  (define-key js-mode-map (kbd <span class="org-string">"C-c i f"</span>) 'js-import-from-file))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Run Jest tests
+</span>(<span class="org-keyword">use-package</span> jest
+  <span class="org-builtin">:commands</span> (jest jest-popup)
+  <span class="org-builtin">:custom</span>
+  (jest-executable <span class="org-string">"npx jest"</span>)
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'js
+    (define-key js-mode-map (kbd <span class="org-string">"C-c t j"</span>) 'jest)
+    (define-key js-mode-map (kbd <span class="org-string">"C-c t p"</span>) 'jest-popup)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Indium: JavaScript debugging via Chrome DevTools Protocol
+</span>(<span class="org-keyword">use-package</span> indium
+  <span class="org-builtin">:commands</span> (indium-connect indium-launch indium-interaction-mode)
+  <span class="org-builtin">:hook</span> ((js-mode . indium-interaction-mode)
+         (js2-mode . indium-interaction-mode)
+         (rjsx-mode . indium-interaction-mode))
+  <span class="org-builtin">:custom</span>
+  (indium-chrome-executable
+   (<span class="org-keyword">cond</span>
+    ((eq system-type 'darwin)
+     <span class="org-string">"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"</span>)
+    ((eq system-type 'windows-nt)
+     <span class="org-string">"C:/Program Files/Google/Chrome/Application/chrome.exe"</span>)
+    (t <span class="org-string">"google-chrome"</span>)))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'indium-interaction
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-c"</span>) 'indium-eval-defun)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-e"</span>) 'indium-eval-last-node)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-r"</span>) 'indium-eval-region)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-b"</span>) 'indium-toggle-breakpoint)
+    (define-key indium-interaction-mode-map (kbd <span class="org-string">"C-c C-l"</span>) 'indium-list-breakpoints)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Skewer: Live web development
+</span>(<span class="org-keyword">use-package</span> skewer-mode
+  <span class="org-builtin">:commands</span> (skewer-mode run-skewer skewer-css-mode skewer-html-mode)
+  <span class="org-builtin">:hook</span> ((js-mode . skewer-mode)
+         (css-mode . skewer-css-mode)
+         (web-mode . skewer-html-mode))
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">with-eval-after-load</span> 'skewer-mode
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-k"</span>) 'skewer-load-buffer)
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-e"</span>) 'skewer-eval-last-expression)
+    (define-key skewer-mode-map (kbd <span class="org-string">"C-c C-r"</span>) 'skewer-eval-region)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Simple-httpd: built-in web server
+</span>(<span class="org-keyword">use-package</span> simple-httpd
+  <span class="org-builtin">:commands</span> (httpd-start httpd-stop)
+  <span class="org-builtin">:custom</span>
+  (httpd-port 8000)
+  (httpd-host <span class="org-string">"localhost"</span>))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">prog-web-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-web-conf.el ends here</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3ae08c0" class="outline-4">
+<h4 id="org3ae08c0"><span class="section-number-4">1.3.1.</span> Required Local Dependencies</h4>
+<div class="outline-text-4" id="text-1-3-1">
+</div>
+<ol class="org-ol">
+<li><a id="orge86200c"></a>Language Servers for Eglot<br />
+<div class="outline-text-5" id="text-1-3-1-1">
+<pre class="example" id="orgba9a9d5">
+# TypeScript/JavaScript Language Server
+npm install -g typescript typescript-language-server
+
+# HTML/CSS/JSON Language Servers (vscode-langservers-extracted)
+npm install -g vscode-langservers-extracted
+
+# Tailwind CSS Language Server (optional, for Tailwind projects)
+npm install -g @tailwindcss/language-server
+</pre>
+</div>
+</li>
+
+<li><a id="org433d869"></a>Code Formatting and Linting<br />
+<div class="outline-text-5" id="text-1-3-1-2">
+<pre class="example" id="org98001c7">
+# Prettier (code formatter)
+npm install -g prettier
+
+# ESLint (JavaScript/TypeScript linter)
+npm install -g eslint
+
+# For project-specific configs, install locally:
+# npm install --save-dev prettier eslint eslint-config-prettier
+</pre>
+</div>
+</li>
+
+<li><a id="orge039e8d"></a>Debugging Tools<br />
+<div class="outline-text-5" id="text-1-3-1-3">
+<pre class="example" id="org773ad98">
+# Chrome/Chromium browser for Indium debugging
+# macOS: Install Google Chrome from https://www.google.com/chrome/
+# Windows: Install Google Chrome from https://www.google.com/chrome/
+# Linux: sudo apt install google-chrome-stable
+</pre>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org0553b35" class="outline-4">
+<h4 id="org0553b35"><span class="section-number-4">1.3.2.</span> Emacs Packages</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+All packages are installed automatically via use-package. Key packages include:
+</p>
+
+<ul class="org-ul">
+<li><b>web-mode</b>: Universal mode for HTML, JSX, TSX, Vue</li>
+<li><b>js2-mode</b>: Enhanced JavaScript editing</li>
+<li><b>rjsx-mode</b>: React JSX support</li>
+<li><b>typescript-mode</b>: TypeScript support</li>
+<li><b>prettier</b>: Code formatting</li>
+<li><b>flymake-eslint</b>: ESLint integration</li>
+<li><b>npm-mode</b>: npm/yarn command integration</li>
+<li><b>add-node-modules-path</b>: Automatic project-local tool detection</li>
+<li><b>indium</b>: Chrome DevTools debugging (alternative to dap-mode)</li>
+<li><b>skewer-mode</b>: Live browser interaction</li>
+<li><b>restclient</b>: HTTP API testing</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8476792" class="outline-4">
+<h4 id="org8476792"><span class="section-number-4">1.3.3.</span> Key Bindings</h4>
+<div class="outline-text-4" id="text-1-3-3">
+</div>
+<ol class="org-ol">
+<li><a id="org89e6d7c"></a>Eglot (LSP) - Available in all web modes<br />
+<div class="outline-text-5" id="text-1-3-3-1">
+<ul class="org-ul">
+<li><code>C-c l a</code> - Code actions</li>
+<li><code>C-c l o</code> - Organize imports</li>
+<li><code>C-c l r</code> - Rename symbol</li>
+<li><code>C-c l f</code> - Format buffer/region</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgbf308e6"></a>npm-mode<br />
+<div class="outline-text-5" id="text-1-3-3-2">
+<p>
+npm-mode provides a prefix keymap for npm commands. Use <code>M-x npm-mode-npm-run</code> or access via the command keymap:
+</p>
+<ul class="org-ul">
+<li><code>n</code> (in npm-mode-command-keymap) - Run npm script</li>
+<li><code>i</code> (in npm-mode-command-keymap) - npm install</li>
+<li><code>t</code> (in npm-mode-command-keymap) - npm test</li>
+<li><code>b</code> (in npm-mode-command-keymap) - npm build</li>
+</ul>
+<p>
+Or use <code>M-x npm-mode-npm-run</code>, <code>M-x npm-mode-npm-install</code>, etc. directly
+</p>
+</div>
+</li>
+
+<li><a id="org05b10a7"></a>Jest Testing<br />
+<div class="outline-text-5" id="text-1-3-3-3">
+<ul class="org-ul">
+<li><code>C-c t j</code> - Run Jest tests</li>
+<li><code>C-c t p</code> - Jest test popup</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orga1b5d41"></a>JavaScript Import<br />
+<div class="outline-text-5" id="text-1-3-3-4">
+<ul class="org-ul">
+<li><code>C-c i i</code> - Import module</li>
+<li><code>C-c i f</code> - Import from file</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org87774b6"></a>Indium Debugging<br />
+<div class="outline-text-5" id="text-1-3-3-5">
+<ul class="org-ul">
+<li><code>C-c C-b</code> - Toggle breakpoint</li>
+<li><code>C-c C-c</code> - Evaluate function</li>
+<li><code>C-c C-e</code> - Evaluate expression</li>
+<li><code>C-c C-r</code> - Evaluate region</li>
+<li><code>C-c C-l</code> - List breakpoints</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orge409c43"></a>Skewer (Live Development)<br />
+<div class="outline-text-5" id="text-1-3-3-6">
+<ul class="org-ul">
+<li><code>C-c C-k</code> - Load buffer to browser</li>
+<li><code>C-c C-e</code> - Evaluate expression in browser</li>
+<li><code>C-c C-r</code> - Evaluate region in browser</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org8830c26" class="outline-4">
+<h4 id="org8830c26"><span class="section-number-4">1.3.4.</span> Workflow Examples</h4>
+<div class="outline-text-4" id="text-1-3-4">
+</div>
+<ol class="org-ol">
+<li><a id="orgc3ba31f"></a>Starting a React/Next.js Project<br />
+<div class="outline-text-5" id="text-1-3-4-1">
+<ol class="org-ol">
+<li>Open project in Emacs</li>
+<li><code>M-x npm-mode-npm-install</code> (or <code>C-c n i</code>) to install dependencies</li>
+<li><code>M-x npm-mode-npm-run</code> (or <code>C-c n n</code>) and select "dev" to start dev server</li>
+<li>Open .jsx or .tsx files - web-mode will activate automatically</li>
+<li>Eglot will connect to typescript-language-server automatically</li>
+<li>Prettier will format on save (if enabled in project)</li>
+</ol>
+</div>
+</li>
+
+<li><a id="org31e985b"></a>Debugging with Indium<br />
+<div class="outline-text-5" id="text-1-3-4-2">
+<ol class="org-ol">
+<li>Start your dev server (e.g., <code>npm run dev</code>)</li>
+<li><code>M-x indium-launch</code> to start Chrome with debugging enabled</li>
+<li>Set breakpoints with <code>C-c C-b</code></li>
+<li>Interact with page, debugger will pause at breakpoints</li>
+<li>Evaluate expressions in context with <code>C-c C-e</code></li>
+</ol>
+</div>
+</li>
+
+<li><a id="orgb9d8be0"></a>Live Development with Skewer<br />
+<div class="outline-text-5" id="text-1-3-4-3">
+<ol class="org-ol">
+<li><code>M-x run-skewer</code> to start the server</li>
+<li>Open <code>http://localhost:8080</code> in browser</li>
+<li>Edit HTML/CSS/JS files</li>
+<li><code>C-c C-k</code> to instantly reload changes in browser</li>
+</ol>
+</div>
+</li>
+
+<li><a id="org7baa10c"></a>Testing APIs with restclient<br />
+<div class="outline-text-5" id="text-1-3-4-4">
+<ol class="org-ol">
+<li>Create a .rest file</li>
+<li><p>
+Write HTTP requests:
+</p>
+<pre class="example" id="org8fa451a">
+GET https://api.example.com/users
+Content-Type: application/json
+
+###
+
+POST https://api.example.com/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+</pre></li>
+<li><code>C-c C-c</code> on a request to execute it</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgddbbb89" class="outline-4">
+<h4 id="orgddbbb89"><span class="section-number-4">1.3.5.</span> Project Structure Recommendations</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<p>
+For optimal Emacs integration, use these files in your projects:
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orge7c6cfa"></a>.prettierrc.json<br />
+<div class="outline-text-5" id="text-1-3-5-1">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2
+}
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org7ad7477"></a>.eslintrc.json<br />
+<div class="outline-text-5" id="text-1-3-5-2">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
+}
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgc9202f8"></a>tsconfig.json (for TypeScript projects)<br />
+<div class="outline-text-5" id="text-1-3-5-3">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>
