@@ -1,0 +1,157 @@
+* Miscellaneous
+
+Utility functions and helper configurations.
+
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;;; misc-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+  (use-package notmuch
+    :ensure t
+    :config
+    (setq mail-user-agent 'notmuch-user-agent))
+
+  (setq user-full-name (getenv "USER_FULL_NAME")
+  	  user-mail-address (getenv "USER_EMAIL")
+  	  auth-sources '("~/.authinfo.gpg"))
+  (setq send-mail-function 'sendmail-send-it
+  	  message-send-mail-function 'sendmail-send-it
+  	  sendmail-program (executable-find "msmtp")
+  	  message-send-mail-function 'message-send-mail-with-sendmail)
+  (provide 'misc-conf)
+  ;;; misc-conf.el ends here
+#+end_src
+
+Some extra stuff.
+
+#+begin_src emacs-lisp :tangle no
+  (use-package ejc-sql
+    :custom
+    (clomacs-httpd-default-port 8888)
+    :config
+    (let ((ojdbc-path "~/.m2/repository/com/oracle/ojdbc8/8/ojdbc8-8.jar")
+  	    (maria-path "~/.m2/repository/org/mariadb/jdbc/mariadb-java-client/2.6.2/mariadb-java-client-2.6.2.jar"))
+      (ejc-create-connection
+       "ERP10 20419"
+       :classpath      ojdbc-path
+       :connection-uri (concat "jdbc:oracle:thin:@"
+			       (getenv "X20419_DB_HOST") ":"
+			       (getenv "X20419_DB_PORT") ":"
+			       (getenv "X20419_DB_NAME"))
+       :user           (getenv "X20419_DB_USERNAME")
+       :password       (getenv "X20419_DB_PASSWORD")
+       :separator      "/")
+      (ejc-create-connection
+       "ERP10 20313"
+       :classpath      maria-path
+       :connection-uri "jdbc:mariadb://uri:port/dbname"
+       :user           "USER_ID"
+       :password       "PASSWORD"
+       :separator      "/")))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+  (use-package gptel
+  	:custom
+  	(gptel-default-mode 'org-mode)
+  	(gptel-api-key "CLAUDE_API_KEY")
+  	(gptel-backend (gptel-make-gemini "CLAUDE" :key gptel-api-key :stream t)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/package-setup-function.el
+  ;;; package-setup-function.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+  (defun setup-eat ()
+    "Setup `eat'."
+    (use-package eat))
+
+  (defun setup-dumb-jump ()
+    "Setup `dumb-jump'."
+    (interactive)
+    (use-package dumb-jump))
+
+  (defun set-up-restclient ()
+    "Usage:
+  :header = <<
+  Content-Type: application/json
+  X-Authenticate-Token: :token
+  #
+
+  GET http://localhost:8080/api/list
+  :header
+  #
+
+  POST http://localhost:8080/api/login
+  Content-Type: application/x-www-form-urlencoded
+  -> jq-set-var :token .data.access_token
+
+  userid=userid&password=1111
+  #
+
+  for more details
+  https://github.com/pashky/restclient.el/"
+    (interactive)
+    (use-package restclient)
+    (use-package restclient-jq))
+
+  (defun restclient-scratch-buffer()
+    "Make `restclient-mode' buffer."
+    (interactive)
+    (switch-to-buffer (get-buffer-create "*scratch-restclient*"))
+    (restclient-mode))
+
+  (defun setup-request ()
+    "Setup `request'."
+    (interactive)
+    (use-package request))
+
+  ;; (request "http://localhost:8080/api/CM/AccountService/login"
+  ;;   :type "POST"
+  ;;   ;; :headers '(("Content-Type" . "application/x-www-form-urlencoded"))
+  ;;   :data '(("userid" . "userid") ("password" . "password"))
+  ;;   :parser 'json-read
+  ;;   :success (cl-function
+  ;;             (lambda (&key data &allow-other-keys)
+  ;;               (setq token (assoc-default 'access_token (assoc-default 'data data))))))
+
+  ;; (request "http://localhost:8080/api/HR/Evarpt00400_Z20313Service/listMenu"
+  ;;   :headers `(("Content-Type" . "application/json")
+  ;;              ("X-Authenticate-Token" . ,token))
+  ;;   :parser 'json-read
+  ;;   :success (cl-function
+  ;;             (lambda (&key data &allow-other-keys)
+  ;;               (message "%S" (recurse-alist (assoc-default 'data data))))))
+
+  (defun setup-geiser-guile ()
+    "Setup `geiser-guile'."
+    (interactive)
+    (use-package geiser-guile
+	:config
+	(setq geiser-scheme-implementation 'guile)))
+
+  (defun setup-pyvenv ()
+    "Setup `pyvenv'."
+    (interactive)
+    (use-package pyvenv))
+
+  (defun setup-emmet-mode ()
+    "Setup `emmet-mode'."
+    (interactive)
+    (use-package emmet-mode
+	:hook
+	(mhtml-mode . emmet-mode)))
+
+  (use-package denote
+    :custom
+    (denote-sort-keywords t)
+    (denote-directory (expand-file-name "~/Documents/notes/denote/"))
+    (denote-prompts '(file-type subdirectory title keywords))
+    :hook
+    (dired-mode . denote-dired-mode))
+
+  (provide 'package-setup-function)
+  ;;; package-setup-function.el ends here
+#+end_src
+

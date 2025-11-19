@@ -1,0 +1,59 @@
+* Programming Languages
+
+Language-specific configurations and development tools.
+
+** Overview
+
+This section is organized by programming language for better maintainability. Each language has its own module with dedicated tooling and workflows.
+
+** Module Organization
+
+The programming configuration is split into focused modules:
+
+| Module  | Description                                      | File                       |
+|---------+--------------------------------------------------+----------------------------|
+| Loader  | Orchestrates all programming configs             | =programming/00-loader.org=  |
+| General | Common tools (completion, version control, etc.) | =programming/01-general.org= |
+| Web     | HTML/CSS/JavaScript/TypeScript development       | =programming/02-web.org=     |
+| Python  | Python development environment                   | =programming/03-python.org=  |
+| Ruby    | Ruby and Rails development                       | =programming/04-ruby.org=    |
+
+** Supported Languages & Frameworks
+
+*** Web Development
+- HTML5, CSS3, SCSS, SASS, Less
+- JavaScript (ES6+), JSX, React
+- TypeScript, TSX
+- Vue, Angular, Svelte
+- Template engines (Nunjucks, Handlebars, Mustache)
+
+*** Programming Languages
+- Python (with venv, black, isort, pytest)
+- Ruby (with Rails, RSpec, RuboCop)
+- Clojure (CIDER, REPL)
+- SQL (ejc-sql integration)
+
+*** Development Tools
+- LSP (Language Server Protocol)
+- Tree-sitter (fast parsing)
+- Completion (Corfu)
+- Version control (Magit)
+- Syntax checking (Flymake)
+- Code formatting (various formatters)
+
+** Configuration Modules
+
+*** Loader Configuration
+#+INCLUDE: "programming/00-loader.org" :minlevel 2
+
+*** General Programming Tools
+#+INCLUDE: "programming/01-general.org" :minlevel 2
+
+*** Web Development
+#+INCLUDE: "programming/02-web.org" :minlevel 2
+
+*** Python Development
+#+INCLUDE: "programming/03-python.org" :minlevel 2
+
+*** Ruby Development
+#+INCLUDE: "programming/04-ruby.org" :minlevel 2

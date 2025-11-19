@@ -1,37 +1,233 @@
-#+TITLE: Personal Org Page
-#+AUTHOR: KyeongSoo Choi
+#+TITLE: Personal Knowledge Base
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-11-20
+#+STARTUP: overview
+#+OPTIONS: toc:2
 #+PROPERTY: header-args :tangle no :results none
 
-* How to run
+* Welcome
 
-** Build html files
+This is my personal knowledge base and configuration repository, built with Org-mode and published to GitHub Pages. It contains technical notes, learning resources, and my complete Emacs configuration written in literate programming style.
 
-#+begin_src shell
+** What's Here
+
+- *Emacs Configuration*: Comprehensive, modular Emacs setup with detailed explanations
+- *Learning Notes*: Programming books, tools, and language documentation
+- *System Setup*: Linux configuration, dotfiles, and system administration
+- *Computer Science*: SICP study notes and exercises
+
+** Features
+
+- 📚 *Literate Programming*: All configurations are documented and explainable
+- 🎨 *Floating TOC*: Easy navigation with sticky table of contents
+- 🌓 *Dark Mode*: Automatic theme switching based on system preference
+- 📱 *Responsive*: Works on desktop, tablet, and mobile devices
+
+* Emacs
+
+Complete Emacs configuration and learning resources using literate programming with Org-mode.
+
+** [[file:emacs/emacs-configs.org][Emacs Configurations]]
+
+My complete Emacs configuration written in literate programming style. The configuration is split into focused, modular files for better organization and maintainability.
+
+*Structure*:
+- 13 main configuration modules (early-init, init, theme, window, completion, etc.)
+- 5 programming language modules (general, web, Python, Ruby)
+- All configs include detailed inline documentation
+- Tangle support to generate =~/.emacs.d/= files
+
+*Highlights*:
+- Performance optimizations and native compilation setup
+- Custom mode line with clean, minimal design
+- Modern completion framework (Corfu)
+- LSP support for multiple languages
+- Git integration with Magit
+
+*Total*: ~3,800 lines across 18 modular files
+
+See also: [[file:emacs/configs/README.org][Configuration Guide]] | [[file:emacs/configs/programming/README.org][Programming Config Guide]]
+
+** [[file:emacs/emacs-lisp.org][Learning Emacs Lisp]]
+
+Comprehensive guide to Emacs Lisp for experienced developers. Covers the language from basics to advanced topics with practical examples.
+
+*Topics*:
+- Language fundamentals (data types, functions, variables)
+- Control structures and iteration
+- Lists and data structures
+- Object-oriented programming with EIEIO
+- Macros and metaprogramming
+- Buffer manipulation and text processing
+- Mode development
+- Package management
+
+*Format*: Tutorial-style with executable code blocks and exercises
+
+*Size*: ~1,150 lines
+
+** [[file:emacs/emacs-build.org][Building Emacs from Source]]
+
+Step-by-step guide for building Emacs from source code on various platforms.
+
+*Contents*:
+- Prerequisites and dependencies
+- Build configuration options
+- Native compilation setup
+- Platform-specific instructions
+- Troubleshooting common build issues
+
+*Platforms*: Linux, macOS, Windows
+
+* Learning
+
+Notes and exercises from programming books and technical documentation.
+
+** [[file:learning/GNU-sed.org][GNU sed - Stream Editor]]
+
+Comprehensive guide to the GNU sed stream editor, from basics to advanced text processing.
+
+*Topics*:
+- Stream editor fundamentals
+- Regular expressions in sed
+- Common editing operations
+- Pattern space and hold space
+- Multi-line processing
+- Practical examples and use cases
+
+*Use Case*: Text processing, log analysis, automated editing
+
+** [[file:learning/c-programming-language-2nd.org][The C Programming Language (K&R)]]
+
+Notes and exercises from "The C Programming Language, 2nd Edition" by Kernighan and Ritchie.
+
+*Current Coverage*:
+- Chapter 4: Functions and Program Structure
+- Practical examples and code exercises
+- C programming best practices
+
+*Status*: In progress
+
+* Notes
+
+System configuration, dotfiles, and setup documentation.
+
+** [[file:notes/archlinux-setup.org][Arch Linux Setup Guide]]
+
+Personal guide for setting up and configuring Arch Linux from scratch.
+
+*Contents*:
+- Installation procedure
+- Post-installation configuration
+- Desktop environment setup
+- Package management
+- System maintenance
+
+*Target*: Arch Linux and Arch-based distributions
+
+** [[file:notes/dotfiles.org][Dotfiles Configuration]]
+
+My personal dotfiles and system configuration files with explanations.
+
+*Includes*:
+- Shell configuration (zsh, bash)
+- Terminal emulator configs
+- Git configuration
+- Development environment setup
+- Custom scripts and utilities
+
+*Total*: ~630 lines of documented configurations
+
+* Computer Science
+
+** [[file:sicp/sicp.org][Structure and Interpretation of Computer Programs]]
+
+Study notes and exercises from the classic computer science textbook SICP (Abelson & Sussman).
+
+*Chapters*:
+1. [[file:sicp/chapter01.org][Building Abstractions with Procedures]] - Functions, recursion, higher-order procedures
+2. [[file:sicp/chapter02.org][Building Abstractions with Data]] - Data abstraction, hierarchical data, symbolic data
+3. [[file:sicp/chapter03.org][Modularity, Objects, and State]] - Assignment, mutable data, concurrency
+4. [[file:sicp/chapter04.org][Metalinguistic Abstraction]] - Interpreters, lazy evaluation, logic programming
+5. [[file:sicp/chapter05.org][Computing with Register Machines]] - Machine simulation, compilation
+
+*Language*: Scheme (exercises in Emacs Lisp where applicable)
+
+*Format*: Notes with executable code examples
+
+* Recent Updates
+
+- 2025-11-20: Split programming configurations by language (web, Python, Ruby)
+- 2025-11-20: Added floating TOC sidebar with mobile toggle
+- 2025-11-19: Restructured Emacs configs into modular files
+- 2025-10-20: Added TOC sidebar feature to all pages
+- 2025-10-01: Initial repository setup with GitHub Pages
+
+* Navigation
+
+** By Category
+
+| Category                                |               Files | Description                          |
+|-----------------------------------------+---------------------+--------------------------------------|
+| [[*Emacs][Emacs]]                       | 3 main + 18 modules | Configuration and learning resources |
+| [[*Learning][Learning]]                 |                   2 | Programming books and tools          |
+| [[*Notes][Notes]]                       |                   2 | System setup and dotfiles            |
+| [[*Computer Science][Computer Science]] |                   6 | SICP chapters and exercises          |
+
+** Quick Links
+
+*** Configuration
+- [[file:emacs/emacs-configs.org][View Emacs Configuration]] - Main literate config file
+- [[file:emacs/configs/README.org][Configuration Guide]] - How to use and customize
+- [[file:emacs/configs/programming/README.org][Programming Setup]] - Language-specific configs
+
+*** Documentation
+- [[file:../README.org][Repository README]] - Complete project documentation
+- [[file:../CLAUDE.md][Claude.ai Guide]] - AI integration documentation
+
+*** External
+- [[https://github.com/mandoo180][GitHub Profile]] - Source code and other projects
+- [[https://mandoo180.github.io][Live Site]] - Published version of this knowledge base
+
+* About This Site
+
+** Technical Details
+
+- *Generator*: Emacs Org-mode (ox-publish)
+- *Styling*: Tailwind CSS with typography plugin
+- *Hosting*: GitHub Pages
+- *Source*: [[https://github.com/mandoo180/mandoo180.github.io][mandoo180/mandoo180.github.io]]
+
+** Building Locally
+
+#+begin_src bash
+  # Clone repository
+  git clone https://github.com/mandoo180/mandoo180.github.io
+  cd mandoo180.github.io
+
+  # Build site
   ./build.sh
+
+  # Serve locally (in Emacs)
+  M-x package-install RET simple-httpd RET
+  M-x httpd-serve-directory RET ./public RET
 #+end_src
 
-** Run server in Emacs
+** Tangling Emacs Configs
 
-Install =simple-httpd=.
-
-#+begin_src emacs-lisp
-  (package-install 'simple-httpd)
+#+begin_src bash
+  # Extract all configurations to ~/.emacs.d/
+  ./tangle.sh
 #+end_src
 
-** Serve a Directory
+* Contact
 
-Serve `./public' by =M-x httpd-serve-directory=.
+Feel free to explore, reference, or adapt any content for your own use.
 
-* Pages
+- *GitHub*: [[https://github.com/mandoo180][@mandoo180]]
+- *Email*: Available in GitHub profile
+- *Site*: [[https://mandoo180.github.io][mandoo180.github.io]]
 
-- [[./emacs-configs.org][Emacs configurations]]
-- [[./GNU-sed.org][Learning GNU Sed]]
-- [[./c-programming-language-2nd.org][C Programming Language]]
-- [[./sicp/sicp.org][Structure and Interpretation of Computer Programs]]
-- [[./dotfiles.org][Dot Files]]
-- [[./emacs-lisp.org][Learning Emacs Lisp]]
+---
 
-* Links
-
-- [[https://github.com/mandoo180][My github repository]]
-- [[https://store.anonpengling.org/][Online store template]]
+/Last updated: 2025-11-20/

@@ -1,0 +1,22 @@
+* Linux-Specific Configuration
+
+Settings that only apply on Linux systems.
+
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/linux-conf.el
+  ;;; linux-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+  (defun m180/font-set ()
+    "Font settings for linux."
+    (set-face-attribute 'default nil :family "Iosevka Nerd Font Mono" :height 120 :weight 'light)
+    (set-fontset-font t 'hangul (font-spec :name "NotoSansKR")))
+
+  (if (daemonp)
+  	(add-hook 'server-after-make-frame-hook #'m180/font-set)
+    (m180/font-set))
+
+  (provide 'linux-conf)
+  ;;; linux-conf.el ends here
+#+end_src
+

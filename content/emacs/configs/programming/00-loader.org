@@ -1,0 +1,91 @@
+* Programming Configuration Loader
+
+This file serves as the main entry point for all programming-related configurations. It loads language-specific modules and platform-specific tools.
+
+** Purpose
+
+The loader (=prog-conf.el=) is responsible for:
+- Loading general programming settings (=prog-general-conf=)
+- Loading language-specific configurations (web, Python, Ruby)
+- Conditionally loading platform-specific tools
+- Managing Clojure, SQL, and tree-sitter integrations
+
+** Architecture
+
+The programming configuration is modular:
+
+#+begin_example
+prog-conf.el (this file)
+├── prog-general-conf.el   → General programming settings
+├── prog-web-conf.el       → Web development (HTML/CSS/JS/TS)
+├── prog-python-conf.el    → Python development
+└── prog-ruby-conf.el      → Ruby development
+#+end_example
+
+** Loader Implementation
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-conf.el
+  ;;; prog-conf.el --- Programming configuration loader -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Main programming configuration file that loads language-specific modules
+  ;;; and platform-specific programming tools.
+  ;;; Code:
+
+  ;; Load general programming configuration
+  (require 'prog-general-conf)
+
+  ;; Load language-specific configurations
+  (require 'prog-web-conf)
+  (require 'prog-python-conf)
+  (require 'prog-ruby-conf)
+
+  ;; Platform-specific and additional tools
+  (unless (eq system-type 'windows-nt)
+    ;; Clojure development (non-Windows only)
+    ;; TODO: finish https://clojure-doc.org/articles/tutorials/introduction/
+    (use-package cider
+  	:custom
+  	(nrepl-use-ssh-fallback-for-remote-hosts t))
+
+    ;; SQL database interaction
+    (use-package ejc-sql
+  	;; Github: https://github.com/kostafey/ejc-sql?tab=readme-ov-file#mariadbconnection
+  	;; M-x ejc-connect
+  	;; M-x ejc-quit-connection -> it refreshes the connection
+  	:config
+  	(load (expand-file-name ".local/ejc-config.el" user-emacs-directory) 'noerror 'nomessage))
+
+    ;; Tree-sitter support
+    (use-package tree-sitter
+  	:config
+  	(global-tree-sitter-mode 1))
+    (use-package tree-sitter-langs)
+    (use-package treesit-auto
+  	:config
+  	(global-treesit-auto-mode 1)))
+
+  (provide 'prog-conf)
+  ;;; prog-conf.el ends here
+
+#+end_src
+
+** Non-Windows Tools
+
+Several tools are only loaded on non-Windows systems:
+
+*** Clojure Development (CIDER)
+- Interactive Clojure development environment
+- REPL integration
+- SSH support for remote development
+
+*** SQL Database Interaction (ejc-sql)
+- Connect to databases directly from Emacs
+- Execute SQL queries
+- Load local configuration from =~/.emacs.d/.local/ejc-config.el=
+
+*** Tree-sitter
+- Fast, incremental parsing library
+- Better syntax highlighting
+- More accurate code navigation
+- Language grammar support via =tree-sitter-langs=
+- Automatic mode activation via =treesit-auto=

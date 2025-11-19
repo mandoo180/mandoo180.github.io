@@ -1,0 +1,123 @@
+#+TITLE: Emacs Configuration Modules
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-11-19
+
+* Overview
+
+This directory contains modular Emacs configuration files, split from a single large =emacs-configs.org= file for better organization and maintainability.
+
+* File Structure
+
+Each configuration module is a separate Org file:
+
+| File                    | Description                                          | Tangles To                                   |
+|-------------------------+------------------------------------------------------+----------------------------------------------|
+| =01-early-init.org=       | Performance optimizations, must load before packages | =~/.emacs.d/early-init.el=                     |
+| =02-init.org=             | Core Emacs settings and built-in packages            | =~/.emacs.d/init.el=                           |
+| =03-theme.org=            | Visual appearance, color theme, mode line            | =~/.emacs.d/elisp/settings/theme-conf.el=      |
+| =04-window.org=           | Window management and navigation                     | =~/.emacs.d/elisp/settings/window-conf.el=     |
+| =05-completion.org=       | Completion frameworks                                | =~/.emacs.d/elisp/settings/completion-conf.el= |
+| =06-dired.org=            | Directory editor enhancements                        | =~/.emacs.d/elisp/settings/dired-conf.el=      |
+| =07-note.org=             | Org-mode and note-taking                             | =~/.emacs.d/elisp/settings/note-conf.el=       |
+| =08-shell.org=            | Terminal and shell integration                       | =~/.emacs.d/elisp/settings/shell-conf.el=      |
+| =09-programming.org=      | Language-specific configurations (index)             | =~/.emacs.d/elisp/settings/prog-*.el=          |
+| =programming/=            | *Subdirectory* with language-specific modules        | See =programming/README.org=                     |
+| =10-miscellaneous.org=    | Utility functions and helpers                        | =~/.emacs.d/elisp/*.el=                        |
+| =11-platform-linux.org=   | Linux-specific settings                              | =~/.emacs.d/init.el= (conditional)             |
+| =12-platform-macos.org=   | macOS-specific settings                              | =~/.emacs.d/init.el= (conditional)             |
+| =13-platform-windows.org= | Windows-specific settings                            | =~/.emacs.d/init.el= (conditional)             |
+
+* Usage
+
+** Tangling (Generating Configuration Files)
+
+*** Tangle All Files
+
+From the repository root:
+
+#+begin_src sh
+  ./tangle.sh
+#+end_src
+
+This will:
+- Recursively tangle all modules in =configs/= and subdirectories
+- Include files in =configs/programming/= subdirectory
+- Generate all necessary =.el= files in =~/.emacs.d/=
+- Skip backup files (=*.org.backup=)
+
+*** Tangle Individual File
+
+Open any config file in Emacs and run:
+
+#+begin_example
+M-x org-babel-tangle
+#+end_example
+
+Or use the keybinding: =C-c C-v t=
+
+** HTML Export
+
+The main =emacs-configs.org= file uses =#+INCLUDE= directives to bring all modules together for export.
+
+To export to HTML:
+
+1. Open =../emacs-configs.org= in Emacs
+2. Run: =M-x org-html-export-to-html=
+3. Or use the keybinding: =C-c C-e h h=
+
+Alternatively, the whole site can be built using:
+
+#+begin_src sh
+  ./build.sh
+#+end_src
+
+* Editing
+
+** Adding Documentation
+
+Each module should have:
+
+- Clear section headings (=**= or =***=)
+- Explanatory text before code blocks
+- Comments within code blocks for complex logic
+
+** Adding New Configuration
+
+1. Identify the appropriate module (or create a new one)
+2. Add documentation explaining what the configuration does
+3. Add the code block with appropriate =:tangle= header
+4. Test by tangling and reloading Emacs
+
+** Creating New Modules
+
+If adding a new module:
+
+1. Create =configs/NN-name.org= (use next number in sequence)
+2. Add appropriate front matter and documentation
+3. Add to =../emacs-configs.org= with =#+INCLUDE= directive
+4. Update this README
+
+* Benefits of This Structure
+
+- *Easier Navigation*: Jump directly to the section you need
+- *Faster Editing*: Smaller files load and edit faster
+- *Better Documentation*: Each module can have detailed explanations
+- *Selective Loading*: Can tangle only specific modules during development
+- *Git-Friendly*: Smaller diffs, easier to review changes
+- *Reusability*: Individual modules can be shared or reused
+
+* Tangling Details
+
+All modules preserve their original =:tangle= directives, so:
+
+- They generate the same output files as the original monolithic config
+- The directory structure in =~/.emacs.d/= remains unchanged
+- Existing Emacs setup continues to work without modification
+
+* Backup
+
+The original monolithic file is backed up as:
+
+#+begin_example
+../emacs-configs.org.backup
+#+end_example

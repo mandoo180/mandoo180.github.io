@@ -1,0 +1,148 @@
+* Early Initialization
+
+The =early-init.el= file is loaded before the package system and GUI is initialized. This is the perfect place for performance optimizations and settings that must be applied before any packages load.
+
+** Why Early Init?
+
+Emacs 27+ introduced =early-init.el= which loads before:
+- Package initialization
+- GUI frame creation
+- Custom file loading
+
+This allows us to:
+- Maximize startup performance
+- Prevent visual flash/flicker
+- Configure native compilation before packages load
+
+** Native Compilation Setup
+
+Modern Emacs supports native compilation of Emacs Lisp to machine code for better performance. On macOS with Homebrew, we need to configure the GCC library paths.
+
+*** How It Works
+
+1. Checks if native compilation is available
+2. On macOS, locates the Homebrew GCC installation
+3. Sets up =LIBRARY_PATH= for the linker
+4. Configures =native-comp-driver-options= to find GCC libraries
+5. Enables async compilation with minimal warnings
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+  ;;; early-init.el --- Emacs-Solo (no external packages) Configuration  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;; Early init configuration for Emacs-Solo
+  ;;; Code:
+
+  ;; Native compilation settings - must come before any packages load
+  (when (and (fboundp 'native-comp-available-p)
+             (native-comp-available-p))
+    (when (eq system-type 'darwin)
+      ;; macOS with Homebrew GCC: Set up library paths
+      ;; The library is in: /opt/homebrew/lib/gcc/current/gcc/aarch64-apple-darwin24/VERSION/
+      (let* ((gcc-base "/opt/homebrew/lib/gcc/current/gcc")
+             (arch-dir (expand-file-name "aarch64-apple-darwin24" gcc-base))
+             (version-dirs (when (file-directory-p arch-dir)
+                            (directory-files arch-dir t "^[0-9]+" t)))
+             (gcc-lib-dir (when version-dirs (car version-dirs))))
+        (when gcc-lib-dir
+          ;; Set LIBRARY_PATH for the linker
+          (setenv "LIBRARY_PATH"
+                  (concat gcc-lib-dir ":"
+                          "/opt/homebrew/lib/gcc/current:"
+                          (or (getenv "LIBRARY_PATH") "")))
+          ;; Configure native-comp to use this GCC
+          (setq native-comp-driver-options
+                (list (concat "-B" gcc-lib-dir)
+                      (concat "-L" gcc-lib-dir)
+                      "-B/opt/homebrew/lib/gcc/current"
+                      "-L/opt/homebrew/lib/gcc/current")))))
+
+    ;; General native compilation settings
+    (setq native-comp-async-report-warnings-errors nil
+          native-comp-deferred-compilation t))
+#+end_src
+
+** Startup Performance Optimizations
+
+These settings dramatically improve Emacs startup time by deferring expensive operations until after initialization.
+
+*** Garbage Collection
+
+We temporarily disable garbage collection during startup by setting =gc-cons-threshold= to maximum. This prevents GC pauses during the critical startup phase.
+
+*Note:* We should reset this in =init.el= after startup completes (typically to 16MB).
+
+*** Version Control
+
+We limit =vc-handled-backends= to only Git, skipping checks for other VCS systems we don't use.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+  ;; Startup hacks
+  (setq gc-cons-threshold most-positive-fixnum
+  	  gc-cons-percentage 0.6
+  	  vc-handled-backends '(Git))
+#+end_src
+
+** Prevent Visual Flash
+
+When Emacs starts, there's often a brief flash of the default theme before your custom theme loads. This function prevents that by:
+- Hiding the mode line temporarily
+- Optionally setting background/foreground to match your theme
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+  ;; Hack to avoid being flashbanged
+  (defun emacs-solo/avoid-initial-flash-of-light ()
+    "Avoid flash of light when starting Emacs."
+    (setq mode-line-format nil)
+    ;; These colors should match your selected theme for maximum effect
+    ;; Note that for catppuccin whenever we create a new frame or open it on terminal
+    ;; it is necessary to reload the theme.
+    ;; (set-face-attribute 'default nil :background "#292D3E" :foreground "#292D3E")
+    )
+
+  (emacs-solo/avoid-initial-flash-of-light)
+#+end_src
+
+** Frame Configuration
+
+Configure frame (window) behavior before the GUI initializes:
+
+- =frame-resize-pixelwise= - Allow pixel-precise frame sizing (not just character-grid)
+- =frame-inhibit-implied-resize= - Prevent unexpected frame resizing during startup
+- =frame-title-format= - Set window title to just "Emacs"
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+  ;; Better Window Management handling
+  (setq frame-resize-pixelwise t
+  	  frame-inhibit-implied-resize t
+  	  frame-title-format '("Emacs"))
+
+  (setq inhibit-compacting-font-caches t)
+#+end_src
+
+** Disable Unused UI Elements
+
+Remove visual clutter and improve performance by disabling UI elements we don't need:
+
+- =menu-bar-mode= - The File/Edit/View menu at top
+- =scroll-bar-mode= - Graphical scroll bars
+- =tool-bar-mode= - Icon toolbar (usually with New/Open/Save icons)
+- =tooltip-mode= - Popup tooltips
+
+These are disabled early to prevent them from being drawn and then hidden, which saves startup time.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+  ;; Disables unused UI Elements
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+  (tooltip-mode 0)
+
+  ;; Resizing the Emacs frame can be a terribly expensive part of changing the
+  ;; font. By inhibiting this, we easily halve startup times with fonts that are
+  ;; larger than the system default.
+  (setq frame-inhibit-implied-resize t
+  	  frame-resize-pixelwise t)
+
+  (provide 'early-init)
+  ;;; early-init.el ends here
+#+end_src

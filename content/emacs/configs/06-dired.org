@@ -1,0 +1,22 @@
+* Directory Editor (Dired)
+
+Enhancements for the built-in directory editor.
+
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el
+  ;;; dired-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+  (use-package dired
+    :ensure nil
+    :custom
+    (dired-listing-switches "-ahl"))
+  (use-package dired-filter)
+  (use-package dired-subtree
+    :bind (:map dired-mode-map ("C-," . dired-subtree-toggle)))
+
+
+  (provide 'dired-conf)
+  ;;; dired-conf.el ends here
+#+end_src
+

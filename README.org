@@ -1,19 +1,113 @@
-#+TITLE: Static Site Generator
-#+AUTHOR:
-#+DATE:
+#+TITLE: Personal Knowledge Base & Configuration Repository
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-11-20
 
 * Overview
 
-This is a static site generator that converts Org-mode files to HTML and publishes to GitHub Pages. The site uses Emacs Org-mode's publishing system with Tailwind CSS for styling.
+This repository serves dual purposes:
+1. *Static Site Generator* - Publishes notes and documentation to GitHub Pages using Org-mode
+2. *Emacs Configuration* - Literate programming approach to managing Emacs configuration
+
+The site uses Emacs Org-mode's publishing system with Tailwind CSS for modern, responsive styling.
+
+* Repository Structure
+
+#+begin_example
+.
+├── build-site.el          # Emacs Lisp build script (ox-publish)
+├── build.sh               # Shell wrapper for building
+├── tangle-configs.el      # Script to tangle all Emacs configs
+├── tangle.sh              # Shell wrapper for tangling
+├── split-config.py        # Utility to split large org files
+├── content/               # Source files
+│   ├── index.org          # Homepage
+│   ├── emacs/             # Emacs-related content
+│   │   ├── emacs-configs.org    # Main config (uses includes)
+│   │   ├── emacs-lisp.org       # Emacs Lisp learning notes
+│   │   ├── emacs-build.org      # Emacs build instructions
+│   │   └── configs/             # Modular configuration files
+│   │       ├── 01-early-init.org
+│   │       ├── 02-init.org
+│   │       ├── 03-theme.org
+│   │       ├── ...
+│   │       ├── 09-programming.org
+│   │       └── programming/     # Language-specific configs
+│   │           ├── 00-loader.org
+│   │           ├── 01-general.org
+│   │           ├── 02-web.org
+│   │           ├── 03-python.org
+│   │           └── 04-ruby.org
+│   ├── learning/          # Learning notes
+│   │   ├── GNU-sed.org
+│   │   └── c-programming-language-2nd.org
+│   ├── notes/             # General notes
+│   │   ├── archlinux-setup.org
+│   │   └── dotfiles.org
+│   ├── sicp/              # SICP study notes
+│   │   ├── sicp.org
+│   │   └── chapter*.org
+│   └── assets/            # Static assets
+│       ├── scripts/       # JavaScript files
+│       │   ├── toc-sidebar.js   # Floating TOC sidebar
+│       │   └── org-info.js      # Org-mode navigation
+│       └── styles/        # CSS files
+│           └── toc-sidebar.css  # Sidebar styles
+└── public/                # Generated HTML (gitignored)
+#+end_example
+
+* Key Features
+
+** 📚 Modular Emacs Configuration
+
+The Emacs configuration is split into focused modules for better maintainability:
+
+- *Literate Programming*: All configs in Org-mode with detailed explanations
+- *Modular Structure*: 13 main modules + 5 programming language modules
+- *Tangling Support*: Extract all configs to =~/.emacs.d/= with one command
+- *Documentation*: Each module includes comprehensive inline documentation
+
+*** Configuration Modules
+
+| Module                    | Description                                   | Size         |
+|---------------------------+-----------------------------------------------+--------------|
+| =01-early-init.org=         | Performance optimizations, native compilation | ~50 lines    |
+| =02-init.org=               | Core Emacs settings                           | ~280 lines   |
+| =03-theme.org=              | Visual appearance, mode line                  | ~1,200 lines |
+| =09-programming.org=        | Programming languages (index)                 | ~70 lines    |
+| =programming/= subdirectory | Language-specific configs (5 modules)         | ~1,400 lines |
+
+See =content/emacs/configs/README.org= for detailed documentation.
+
+** 🎨 Enhanced UI Features
+
+*** Floating Table of Contents Sidebar
+- Automatically generated from page headings
+- Highlights current section as you scroll
+- Responsive: toggle button on mobile, always visible on desktop
+- Smooth scrolling navigation
+- Dark mode support
+
+Implemented in:
+- =content/assets/scripts/toc-sidebar.js=
+- =content/assets/styles/toc-sidebar.css=
+
+** 📖 Content Categories
+
+| Category | Description                                       | Files                  |
+|----------+---------------------------------------------------+------------------------|
+| *Emacs*    | Configuration, learning notes, build instructions | 3 + 18 config modules  |
+| *Learning* | Programming books, tools                          | GNU sed, C Programming |
+| *Notes*    | System setup, dotfiles                            | Arch Linux, dotfiles   |
+| *SICP*     | Structure and Interpretation of Computer Programs | 6 chapters             |
 
 * Build System
 
-The build process is orchestrated through Emacs Lisp:
+** Quick Start
 
-** Build the site
+*** Build the Site
 
 #+begin_src bash
-./build.sh
+  ./build.sh
 #+end_src
 
 This runs =emacs -Q --script build-site.el= which:
@@ -22,49 +116,302 @@ This runs =emacs -Q --script build-site.el= which:
 3. Copies =content/assets/= to =public/assets/=
 4. Applies Tailwind CSS styling with dark mode support
 
-** Development server (in Emacs)
+*** Tangle Emacs Configurations
 
-#+begin_src emacs-lisp
-(package-install 'simple-httpd)
-M-x httpd-serve-directory RET ./public RET
+#+begin_src bash
+  ./tangle.sh
 #+end_src
 
-* Architecture
+This tangles all Org configuration files:
+- Processes =content/emacs/configs/= recursively
+- Includes subdirectories (=programming/=)
+- Generates =.el= files in =~/.emacs.d/=
+- Skips backup files
 
-** Content Pipeline
-- *Source:* Org-mode files in =content/= (supports nested directories like =content/sicp/=)
-- *Build script:* =build-site.el= - Emacs Lisp script using =ox-publish=
-- *Output:* HTML files in =public/= (gitignored, regenerated on each build)
+*** Development Server
 
-** Key Build Configuration (build-site.el)
+In Emacs:
 
-The build script configures:
-- *HTML head:* Tailwind CDN with typography plugin, responsive viewport meta, dark mode config
-- *Dark mode:* Uses =prefers-color-scheme: media= following browser/system preference
-- *Content wrapper:* Post-export filter (=local/org-html-add-tailwind-container=) injects Tailwind prose classes for responsive typography
-- *Org settings:*
-  - Babel enabled for shell and emacs-lisp
-  - =org-confirm-babel-evaluate= set to nil (code blocks execute without confirmation)
-  - InfoJS integration for navigation at =assets/scripts/org-info.js=
-  - Htmlize uses CSS output type
+#+begin_src emacs-lisp
+  (package-install 'simple-httpd)
+  M-x httpd-serve-directory RET ./public RET
+#+end_src
 
-** Styling
-- Tailwind CSS loaded via CDN with typography plugin
-- Dark mode follows system preference (automatic)
-- Responsive max-width containers (3xl to 6xl breakpoints)
-- Semantic HTML5 elements (header/main/footer for preamble/content/postamble)
+Then visit: =http://localhost:8080=
+
+** Build Configuration (build-site.el)
+
+*** HTML Generation
+- *Tailwind CSS*: CDN-loaded with typography plugin
+- *Dark Mode*: Automatic via =prefers-color-scheme=
+- *Responsive*: Mobile-first with breakpoints (3xl to 6xl)
+- *Semantic HTML5*: Uses =<header>=, =<main>=, =<footer>=
+
+*** Org-mode Settings
+- *Babel*: Enabled for shell and emacs-lisp
+- *Code Execution*: =org-confirm-babel-evaluate= set to nil
+- *Syntax Highlighting*: htmlize with CSS output
+- *TOC*: Generated automatically with 3-level depth
+
+*** Post-Export Processing
+- Injects Tailwind prose classes for typography
+- Adds responsive container classes
+- Includes custom JavaScript and CSS
+
+* Emacs Configuration Workflow
+
+** Using the Configuration
+
+*** 1. Tangle All Configs
+
+From repository root:
+
+#+begin_src bash
+  ./tangle.sh
+#+end_src
+
+Generates all =~/.emacs.d/*.el= files from Org sources.
+
+*** 2. Tangle Individual Module
+
+Open any config file (e.g., =content/emacs/configs/03-theme.org=) and:
+
+#+begin_example
+M-x org-babel-tangle
+# Or: C-c C-v t
+#+end_example
+
+*** 3. Edit and Reload
+
+1. Edit the Org file
+2. Tangle the module
+3. In Emacs: =M-x eval-buffer= or restart Emacs
+
+** Configuration Architecture
+
+*** Loader System
+
+The configuration uses a modular loader pattern:
+
+#+begin_example
+init.el
+  ↓
+  ├─→ early-init.el (loads first)
+  ├─→ prog-conf.el (programming loader)
+  │     ├─→ prog-general-conf.el
+  │     ├─→ prog-web-conf.el
+  │     ├─→ prog-python-conf.el
+  │     └─→ prog-ruby-conf.el
+  ├─→ theme-conf.el
+  ├─→ window-conf.el
+  └─→ ... (other modules)
+#+end_example
+
+*** Adding New Configurations
+
+1. Create new module: =content/emacs/configs/NN-name.org=
+2. Add tangle directive: =:tangle ~/.emacs.d/elisp/settings/name-conf.el=
+3. Include in main file: =content/emacs/emacs-configs.org=
+4. Tangle and test
 
 * Deployment
 
-GitHub Actions workflow (=.github/workflows/publish.yml=):
-- Triggers on push to =main= branch
-- Installs =emacs-nox= on Ubuntu
-- Runs =./build.sh=
-- Deploys =public/= folder to =gh-pages= branch via =JamesIves/github-pages-deploy-action=
+** GitHub Actions Workflow
+
+File: =.github/workflows/publish.yml=
+
+*** Trigger
+- Push to =main= branch
+- Manual workflow dispatch
+
+*** Steps
+1. Checkout repository
+2. Install =emacs-nox= on Ubuntu
+3. Run =./build.sh=
+4. Deploy =public/= to =gh-pages= branch
+5. GitHub Pages serves from =gh-pages= branch
+
+*** Live Site
+Published to: =https://mandoo180.github.io=
+
+** Manual Deployment
+
+#+begin_src bash
+  # Build locally
+  ./build.sh
+
+  # Verify output
+  ls public/
+
+  # Commit and push
+  git add .
+  git commit -m "Update content"
+  git push origin main
+#+end_src
+
+GitHub Actions will automatically build and deploy.
+
+* Content Guidelines
+
+** Org-mode Best Practices
+
+*** File Headers
+#+begin_src org
+  ,#+TITLE: Page Title
+  ,#+AUTHOR: Your Name
+  ,#+DATE: 2025-11-20
+  ,#+STARTUP: overview
+  ,#+OPTIONS: toc:3 num:nil
+#+end_src
+
+*** Code Blocks
+
+For Emacs Lisp configurations:
+
+#+begin_src org
+  ,#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+    ;; Your code here
+  ,#+end_src
+#+end_src
+
+For documentation examples:
+
+#+begin_src org
+  ,#+begin_src emacs-lisp
+    ;; Example code (not tangled)
+  ,#+end_src
+#+end_src
+
+*** Including Other Files
+
+#+begin_src org
+  ,#+INCLUDE: "path/to/file.org" :minlevel 2
+#+end_src
+
+** Documentation Standards
+
+1. *Explain Why*: Not just what the code does, but why this approach
+2. *Add Examples*: Show real-world usage
+3. *Link Resources*: Reference documentation, blog posts
+4. *Table Summaries*: Use tables for feature comparisons
+5. *Section Headers*: Use clear, descriptive headers
+
+* Development
+
+** Project Dependencies
+
+*** Build Time
+- Emacs 27+ (with =ox-publish=)
+- =htmlize= package (auto-installed)
+- Bash (for shell scripts)
+- Python 3 (for utility scripts)
+
+*** Runtime (Generated Site)
+- Modern web browser
+- JavaScript enabled (for TOC sidebar)
+- No server-side dependencies
+
+** File Conventions
+
+*** Naming
+- Config modules: =NN-name.org= (numbered for ordering)
+- Content: =kebab-case.org=
+- Backups: =*.org.backup=
+
+*** Locations
+- Configs: =content/emacs/configs/=
+- Content: =content/category/=
+- Assets: =content/assets/=
+- Generated: =public/= (gitignored)
+
+** Testing Changes
+
+*** Test Build
+#+begin_src bash
+  ./build.sh
+  # Check for errors in output
+#+end_src
+
+*** Test Tangle
+#+begin_src bash
+  ./tangle.sh
+  # Verify .el files generated in ~/.emacs.d/
+#+end_src
+
+*** Test Locally
+#+begin_src emacs-lisp
+  M-x httpd-serve-directory RET ./public RET
+  # Visit http://localhost:8080
+#+end_src
+
+* Troubleshooting
+
+** Build Issues
+
+*** "Config directory not found"
+- Ensure you're running from repository root
+- Check that =content/emacs/configs/= exists
+
+*** "Package htmlize not found"
+- Delete =./.packages= directory
+- Run =./build.sh= again to reinstall
+
+*** Tangle produces no files
+- Check =:tangle= directives in Org files
+- Verify file paths are correct
+- Check Emacs messages buffer for errors
+
+** Site Issues
+
+*** TOC sidebar not appearing
+- Check browser console for JavaScript errors
+- Verify files exist in =public/assets/=
+- Try clearing browser cache
+
+*** Dark mode not working
+- Check browser/system dark mode settings
+- Verify Tailwind script loads (check network tab)
+
+*** Broken includes
+- Verify include paths are relative to file location
+- Check that included files exist
+- Rebuild site after moving files
 
 * Important Notes
 
-- The =public/= directory is completely regenerated on each build (deleted then recreated)
-- Dependencies are installed to =./.packages= (gitignored)
-- All org files support Babel code execution with shell and emacs-lisp languages
-- The site structure mirrors the =content/= directory structure
+** Version Control
+- =public/= is gitignored (regenerated on each build)
+- =.packages/= is gitignored (Emacs packages)
+- Keep =*.org.backup= files local (not committed)
+
+** Emacs Configuration
+- All configs support Babel code execution
+- =org-confirm-babel-evaluate= is =nil= (auto-execute)
+- Tangle preserves directory structure in =~/.emacs.d/=
+
+** Site Structure
+- Site structure mirrors =content/= directory
+- Subdirectories create nested URLs
+- =index.org= becomes =index.html=
+
+* Resources
+
+** Documentation
+- [[file:content/emacs/configs/README.org][Emacs Configuration Guide]]
+- [[file:content/emacs/configs/programming/README.org][Programming Configuration Guide]]
+- [[file:CLAUDE.md][Claude.ai Integration Guide]]
+
+** External Links
+- [[https://orgmode.org/manual/Publishing.html][Org-mode Publishing]]
+- [[https://tailwindcss.com/docs][Tailwind CSS]]
+- [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp Manual]]
+
+* License
+
+This repository contains personal notes and configurations. Feel free to reference or adapt for your own use.
+
+* Author
+
+Kyeong Soo Choi
+- GitHub: [[https://github.com/mandoo180][mandoo180]]
+- Site: [[https://mandoo180.github.io][mandoo180.github.io]]

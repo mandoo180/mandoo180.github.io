@@ -1,0 +1,29 @@
+* macOS-Specific Configuration
+
+Settings that only apply on macOS systems.
+
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/macos-conf.el
+  ;;; macos-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+  (defun m180/font-set ()
+    "Font settings for MacOS."
+    (set-face-attribute 'fixed-pitch nil :family "Iosevka Nerd Font Mono" :height 160 :weight 'extra-light)
+    (set-face-attribute 'default nil :family "Iosevka Nerd Font Mono" :height 160 :weight 'extra-light)
+    (set-fontset-font t 'hangul (font-spec :name "NotoSansKR")))
+
+  (if (daemonp)
+  	(add-hook 'server-after-make-frame-hook #'m180/font-set)
+    (m180/font-set))
+
+  (setq insert-directory-program "gls")
+  (setq mac-command-modifier 'meta)
+
+  (when (executable-find "zsh")
+    (setenv "SHELL" (executable-find "zsh")))
+
+  (provide 'macos-conf)
+  ;;; macos-conf.el ends here
+#+end_src
+

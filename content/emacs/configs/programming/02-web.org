@@ -1,0 +1,497 @@
+* Web Development Configuration
+
+Configuration for modern web development including HTML, CSS, JavaScript, TypeScript, and frameworks.
+
+** Overview
+
+This module provides comprehensive support for:
+- **HTML**: Multiple modes (web-mode, mhtml-mode) with smart selection
+- **CSS**: Enhanced editing with completion and formatting
+- **JavaScript**: Modern JS/JSX with proper indentation and tooling
+- **TypeScript**: Full TypeScript and TSX support
+- **Frameworks**: React, Vue, Svelte, Angular
+- **Tools**: ESLint, Prettier, Language Server Protocol (LSP)
+- **Build Tools**: npm, yarn, webpack integration
+
+** Key Features
+
+*** Smart Mode Selection
+Automatically chooses the best HTML mode based on file size:
+- Small files (< 5000 lines): =web-mode= for rich features
+- Large files (≥ 5000 lines): =mhtml-mode= for performance
+
+*** Supported File Types
+- HTML, XHTML
+- JavaScript (.js, .jsx, .mjs)
+- TypeScript (.ts, .tsx)
+- Vue (.vue)
+- Templates (.njk, .hbs, .mustache)
+- CSS, SCSS, SASS, Less
+- JSON
+
+*** Development Tools
+
+| Tool            | Purpose                            |
+|-----------------+------------------------------------|
+| =web-mode=        | Unified mode for HTML/CSS/JS       |
+| =emmet-mode=      | HTML/CSS abbreviation expansion    |
+| =tagedit=         | Paredit-like editing for HTML tags |
+| =prettier-js=     | Code formatting                    |
+| =eslint=          | JavaScript linting                 |
+| =lsp-mode=        | Language Server Protocol support   |
+| =typescript-mode= | TypeScript language support        |
+
+** Web
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-web-conf.el
+  ;;; prog-web-conf.el --- Web development configuration -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Configuration for web development including HTML, CSS, JavaScript,
+  ;;; TypeScript, React/JSX, and related tools.
+  ;;; Code:
+
+  ;; HTML tag editing
+  (use-package tagedit
+    :hook
+    ((mhtml-mode
+  	sgml-mode
+  	nxml-mode)
+     . (lambda ()
+  	   (tagedit-add-paredit-like-keybindings)
+  	   (tagedit-mode 1))))
+
+  (use-package emmet-mode
+    :hook (mhtml-mode sgml-mode nxml-mode))
+
+  ;; Smart HTML mode selection
+  (defun fu-html-mode-selector ()
+    "Choose between web-mode and mhtml-mode based on file size.
+  Use mhtml-mode for files larger than 5000 lines to prevent hanging."
+    (let* ((file (buffer-file-name))
+           (size-threshold 5000))
+      (when (and file (file-exists-p file))
+        (let ((line-count (count-lines (point-min) (point-max))))
+          (if (> line-count size-threshold)
+              (progn
+                (message "Large HTML file (%d lines) detected, using mhtml-mode for performance" line-count)
+                (mhtml-mode))
+            (web-mode))))))
+
+  ;; Register HTML files to use smart mode selector
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . fu-html-mode-selector))
+
+  ;; web-mode: powerful mode for HTML, JSX, TSX, Vue, etc.
+  (use-package web-mode
+    :mode (("\\.jsx?\\'" . web-mode)
+           ("\\.tsx?\\'" . web-mode)
+           ("\\.vue\\'" . web-mode)
+           ("\\.njk\\'" . web-mode)
+           ("\\.hbs\\'" . web-mode)
+           ("\\.mustache\\'" . web-mode))
+    :custom
+    ;; Indentation
+    (web-mode-markup-indent-offset 2)
+    (web-mode-css-indent-offset 2)
+    (web-mode-code-indent-offset 2)
+    (web-mode-style-padding 2)
+    (web-mode-script-padding 2)
+    (web-mode-block-padding 0)
+
+    ;; Syntax highlighting
+    (web-mode-enable-css-colorization t)
+    (web-mode-enable-auto-pairing t)
+    (web-mode-enable-comment-keywords t)
+    (web-mode-enable-current-element-highlight t)
+    (web-mode-enable-current-column-highlight nil)
+
+    ;; Content types
+    (web-mode-content-types-alist
+     '(("jsx" . "\\.js[x]?\\'")
+       ("tsx" . "\\.ts[x]?\\'")))
+
+    ;; Auto-close tags
+    (web-mode-enable-auto-closing t)
+    (web-mode-enable-auto-quoting t)
+
+    ;; Comments
+    (web-mode-comment-style 2)
+
+    :config
+    ;; Remove background colors from web-mode faces to use theme's default
+    (set-face-attribute 'web-mode-block-face nil :background nil)
+    (set-face-attribute 'web-mode-script-face nil :background nil)
+    (set-face-attribute 'web-mode-style-face nil :background nil)
+    (set-face-attribute 'web-mode-part-face nil :background nil)
+
+    ;; Better JSX/TSX detection
+    (defun fu-web-mode-hook ()
+      "Hooks for Web mode."
+      (setq web-mode-enable-part-face nil)
+      (when (string-match-p "\\.[jt]sx?\\'" (buffer-file-name))
+        (setq-local web-mode-content-type "jsx")
+        (setq-local web-mode-enable-auto-indentation t)))
+
+    (add-hook 'web-mode-hook #'fu-web-mode-hook))
+
+  ;; Eglot configuration for web-mode
+  (with-eval-after-load 'eglot
+    (defun fu-eglot-web-mode-server (&optional interactive)
+      "Return appropriate language server for web-mode based on file extension.
+  INTERACTIVE is passed by Eglot but not used here."
+      (let ((file (buffer-file-name)))
+        (cond
+         ((and file (string-match-p "\\.tsx?\\'" file))
+          '("typescript-language-server" "--stdio"))
+         ((and file (string-match-p "\\.jsx?\\'" file))
+          '("typescript-language-server" "--stdio"))
+         (t
+          '("vscode-html-language-server" "--stdio")))))
+
+    ;; Configure web-mode server selection with smart detection
+    (add-to-list 'eglot-server-programs
+                 '(web-mode . fu-eglot-web-mode-server))
+
+    ;; Add eglot hooks for web modes
+    (add-hook 'mhtml-mode-hook #'eglot-ensure)
+    (add-hook 'web-mode-hook #'eglot-ensure)
+    (add-hook 'css-mode-hook #'eglot-ensure)
+    (add-hook 'scss-mode-hook #'eglot-ensure)
+    (add-hook 'js-mode-hook #'eglot-ensure)
+    (add-hook 'js2-mode-hook #'eglot-ensure)
+    (add-hook 'js-ts-mode-hook #'eglot-ensure)
+    (add-hook 'rjsx-mode-hook #'eglot-ensure)
+    (add-hook 'typescript-mode-hook #'eglot-ensure)
+    (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+    (add-hook 'tsx-ts-mode-hook #'eglot-ensure)
+    (add-hook 'json-mode-hook #'eglot-ensure))
+
+  ;; js2-mode: enhanced JavaScript editing
+  (use-package js2-mode
+    :mode "\\.m?js\\'"
+    :interpreter "node"
+    :custom
+    (js2-basic-offset 2)
+    (js2-bounce-indent-p nil)
+    (js2-strict-missing-semi-warning nil)
+    (js2-missing-semi-one-line-override t)
+    (js-indent-level 2)
+    :config
+    ;; Disable js2-mode's syntax checking in favor of Flymake/LSP
+    (setq js2-mode-show-parse-errors nil)
+    (setq js2-mode-show-strict-warnings nil))
+
+  ;; rjsx-mode: React JSX support
+  (use-package rjsx-mode
+    :mode ("components/.*\\.js\\'" "\\.jsx\\'")
+    :custom
+    (js2-basic-offset 2)
+    (js2-strict-missing-semi-warning nil))
+
+  (use-package typescript-mode
+    :mode "\\.ts\\'"
+    :custom
+    (typescript-indent-level 2))
+
+  ;; TypeScript TSX mode
+  (use-package tsx-mode
+    :ensure nil
+    :mode "\\.tsx\\'"
+    :config
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode)))
+
+  ;; JSON mode
+  (use-package json-mode
+    :mode "\\.json\\'"
+    :custom
+    (json-reformat:indent-width 2)
+    (js-indent-level 2))
+
+  ;; CSS/SCSS modes
+  (use-package css-mode
+    :ensure nil
+    :mode "\\.css\\'"
+    :custom
+    (css-indent-offset 2))
+
+  (use-package scss-mode
+    :mode "\\.scss\\'"
+    :custom
+    (css-indent-offset 2))
+
+  ;; Add node_modules/.bin to exec-path
+  (use-package add-node-modules-path
+    :hook ((web-mode . add-node-modules-path)
+           (js-mode . add-node-modules-path)
+           (js2-mode . add-node-modules-path)
+           (rjsx-mode . add-node-modules-path)
+           (typescript-mode . add-node-modules-path)
+           (typescript-ts-mode . add-node-modules-path)
+           (tsx-ts-mode . add-node-modules-path)))
+
+  ;; npm/yarn integration
+  (use-package npm-mode
+    :commands (npm-mode)
+    :hook ((web-mode . npm-mode)
+           (js-mode . npm-mode)
+           (js2-mode . npm-mode)
+           (typescript-mode . npm-mode))
+    :init
+    (defun fu-npm-mode-keybindings ()
+      "Set up npm-mode keybindings."
+      (when (boundp 'npm-mode-command-keymap)
+        (define-key npm-mode-command-keymap "n" 'npm-mode-npm-run)
+        (define-key npm-mode-command-keymap "i" 'npm-mode-npm-install)
+        (define-key npm-mode-command-keymap "t" 'npm-mode-npm-test)
+        (define-key npm-mode-command-keymap "b" 'npm-mode-npm-build)))
+    (add-hook 'npm-mode-hook 'fu-npm-mode-keybindings))
+
+  ;; Prettier formatting
+  (use-package prettier
+    :commands (prettier-prettify)
+    :custom
+    (prettier-pre-warm 'full))
+
+  ;; ESLint integration via Flymake
+  (use-package flymake-eslint
+    :hook ((js-mode . flymake-eslint-enable)
+           (js2-mode . flymake-eslint-enable)
+           (rjsx-mode . flymake-eslint-enable)
+           (typescript-mode . flymake-eslint-enable)
+           (typescript-ts-mode . flymake-eslint-enable)
+           (tsx-ts-mode . flymake-eslint-enable)
+           (web-mode . flymake-eslint-enable)))
+
+  ;; Import JavaScript modules
+  (use-package js-import
+    :after js
+    :config
+    (define-key js-mode-map (kbd "C-c i i") 'js-import)
+    (define-key js-mode-map (kbd "C-c i f") 'js-import-from-file))
+
+  ;; Run Jest tests
+  (use-package jest
+    :commands (jest jest-popup)
+    :custom
+    (jest-executable "npx jest")
+    :config
+    (with-eval-after-load 'js
+      (define-key js-mode-map (kbd "C-c t j") 'jest)
+      (define-key js-mode-map (kbd "C-c t p") 'jest-popup)))
+
+  ;; Indium: JavaScript debugging via Chrome DevTools Protocol
+  (use-package indium
+    :commands (indium-connect indium-launch indium-interaction-mode)
+    :hook ((js-mode . indium-interaction-mode)
+           (js2-mode . indium-interaction-mode)
+           (rjsx-mode . indium-interaction-mode))
+    :custom
+    (indium-chrome-executable
+     (cond
+      ((eq system-type 'darwin)
+       "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+      ((eq system-type 'windows-nt)
+       "C:/Program Files/Google/Chrome/Application/chrome.exe")
+      (t "google-chrome")))
+    :config
+    (with-eval-after-load 'indium-interaction
+      (define-key indium-interaction-mode-map (kbd "C-c C-c") 'indium-eval-defun)
+      (define-key indium-interaction-mode-map (kbd "C-c C-e") 'indium-eval-last-node)
+      (define-key indium-interaction-mode-map (kbd "C-c C-r") 'indium-eval-region)
+      (define-key indium-interaction-mode-map (kbd "C-c C-b") 'indium-toggle-breakpoint)
+      (define-key indium-interaction-mode-map (kbd "C-c C-l") 'indium-list-breakpoints)))
+
+  ;; Skewer: Live web development
+  (use-package skewer-mode
+    :commands (skewer-mode run-skewer skewer-css-mode skewer-html-mode)
+    :hook ((js-mode . skewer-mode)
+           (css-mode . skewer-css-mode)
+           (web-mode . skewer-html-mode))
+    :config
+    (with-eval-after-load 'skewer-mode
+      (define-key skewer-mode-map (kbd "C-c C-k") 'skewer-load-buffer)
+      (define-key skewer-mode-map (kbd "C-c C-e") 'skewer-eval-last-expression)
+      (define-key skewer-mode-map (kbd "C-c C-r") 'skewer-eval-region)))
+
+  ;; Simple-httpd: built-in web server
+  (use-package simple-httpd
+    :commands (httpd-start httpd-stop)
+    :custom
+    (httpd-port 8000)
+    (httpd-host "localhost"))
+
+  (provide 'prog-web-conf)
+  ;;; prog-web-conf.el ends here
+#+end_src
+
+*** Required Local Dependencies
+**** Language Servers for Eglot
+#+begin_example
+  # TypeScript/JavaScript Language Server
+  npm install -g typescript typescript-language-server
+
+  # HTML/CSS/JSON Language Servers (vscode-langservers-extracted)
+  npm install -g vscode-langservers-extracted
+
+  # Tailwind CSS Language Server (optional, for Tailwind projects)
+  npm install -g @tailwindcss/language-server
+#+end_example
+
+**** Code Formatting and Linting
+#+begin_example
+  # Prettier (code formatter)
+  npm install -g prettier
+
+  # ESLint (JavaScript/TypeScript linter)
+  npm install -g eslint
+
+  # For project-specific configs, install locally:
+  # npm install --save-dev prettier eslint eslint-config-prettier
+#+end_example
+
+**** Debugging Tools
+#+begin_example
+  # Chrome/Chromium browser for Indium debugging
+  # macOS: Install Google Chrome from https://www.google.com/chrome/
+  # Windows: Install Google Chrome from https://www.google.com/chrome/
+  # Linux: sudo apt install google-chrome-stable
+#+end_example
+
+*** Emacs Packages
+
+All packages are installed automatically via use-package. Key packages include:
+
+- *web-mode*: Universal mode for HTML, JSX, TSX, Vue
+- *js2-mode*: Enhanced JavaScript editing
+- *rjsx-mode*: React JSX support
+- *typescript-mode*: TypeScript support
+- *prettier*: Code formatting
+- *flymake-eslint*: ESLint integration
+- *npm-mode*: npm/yarn command integration
+- *add-node-modules-path*: Automatic project-local tool detection
+- *indium*: Chrome DevTools debugging (alternative to dap-mode)
+- *skewer-mode*: Live browser interaction
+- *restclient*: HTTP API testing
+
+*** Key Bindings
+**** Eglot (LSP) - Available in all web modes
+- =C-c l a= - Code actions
+- =C-c l o= - Organize imports
+- =C-c l r= - Rename symbol
+- =C-c l f= - Format buffer/region
+
+**** npm-mode
+npm-mode provides a prefix keymap for npm commands. Use =M-x npm-mode-npm-run= or access via the command keymap:
+- =n= (in npm-mode-command-keymap) - Run npm script
+- =i= (in npm-mode-command-keymap) - npm install
+- =t= (in npm-mode-command-keymap) - npm test
+- =b= (in npm-mode-command-keymap) - npm build
+Or use =M-x npm-mode-npm-run=, =M-x npm-mode-npm-install=, etc. directly
+
+**** Jest Testing
+- =C-c t j= - Run Jest tests
+- =C-c t p= - Jest test popup
+
+**** JavaScript Import
+- =C-c i i= - Import module
+- =C-c i f= - Import from file
+
+**** Indium Debugging
+- =C-c C-b= - Toggle breakpoint
+- =C-c C-c= - Evaluate function
+- =C-c C-e= - Evaluate expression
+- =C-c C-r= - Evaluate region
+- =C-c C-l= - List breakpoints
+
+**** Skewer (Live Development)
+- =C-c C-k= - Load buffer to browser
+- =C-c C-e= - Evaluate expression in browser
+- =C-c C-r= - Evaluate region in browser
+
+*** Workflow Examples
+**** Starting a React/Next.js Project
+1. Open project in Emacs
+2. =M-x npm-mode-npm-install= (or =C-c n i=) to install dependencies
+3. =M-x npm-mode-npm-run= (or =C-c n n=) and select "dev" to start dev server
+4. Open .jsx or .tsx files - web-mode will activate automatically
+5. Eglot will connect to typescript-language-server automatically
+6. Prettier will format on save (if enabled in project)
+
+**** Debugging with Indium
+1. Start your dev server (e.g., =npm run dev=)
+2. =M-x indium-launch= to start Chrome with debugging enabled
+3. Set breakpoints with =C-c C-b=
+4. Interact with page, debugger will pause at breakpoints
+5. Evaluate expressions in context with =C-c C-e=
+
+**** Live Development with Skewer
+1. =M-x run-skewer= to start the server
+2. Open =http://localhost:8080= in browser
+3. Edit HTML/CSS/JS files
+4. =C-c C-k= to instantly reload changes in browser
+
+**** Testing APIs with restclient
+1. Create a .rest file
+2. Write HTTP requests:
+   #+begin_example
+   GET https://api.example.com/users
+   Content-Type: application/json
+
+   ###
+
+   POST https://api.example.com/users
+   Content-Type: application/json
+
+   {
+     "name": "John Doe",
+     "email": "john@example.com"
+   }
+   #+end_example
+3. =C-c C-c= on a request to execute it
+
+*** Project Structure Recommendations
+
+For optimal Emacs integration, use these files in your projects:
+
+**** .prettierrc.json
+#+begin_src json
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2
+}
+#+end_src
+
+**** .eslintrc.json
+#+begin_src json
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
+}
+#+end_src
+
+**** tsconfig.json (for TypeScript projects)
+#+begin_src json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
+#+end_src
+

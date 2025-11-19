@@ -1,0 +1,39 @@
+* Windows-Specific Configuration
+
+Settings that only apply on Windows systems.
+
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/windows-conf.el
+  ;;; windows-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+  (defun m180/font-set ()
+    "Font set for Windows."
+    (set-face-attribute 'default nil :family "Iosevka NFM" :height 120 :weight 'light)
+    (set-fontset-font t 'hangul (font-spec :name "Noto Sans KR")))
+
+  (if (daemonp)
+  	(add-hook 'server-after-make-frame-hook #'m180/font-set)
+    (m180/font-set))
+
+  (setq explicit-shell-file-name (executable-find "pwsh"))
+  (setq shell-file-name (expand-file-name "cmdproxy.exe" exec-directory))
+  (setq org-babel-shell-command shell-file-name)
+  (setq org-babel-C-complier "gcc"
+  	  org-babel-C++-complier "g++")
+  (setq grep-use-null-device nil)
+
+  ;; (defun pwsh-shell-mode-setup ()
+  ;; "Powershell setup for Windows."
+  ;; (setq-local comint-prompt-read-only t)
+  ;; (setq-local comint-process-echoes t))
+  ;; (add-hook 'shell-mode-hook #'pwsh-shell-mode-setup)
+  ;; (setq eshell-windows-shell-file (executable-find "pwsh"))
+  ;; (setq explicit-shell-file-name (executable-find "pwsh"))
+  ;; (setq shell-file-name (executable-find "pwsh"))
+  ;; (setenv "SHELL" shell-file-name)
+
+  (provide 'windows-conf)
+  ;;; windows-conf.el ends here
+#+end_src
+

@@ -1,0 +1,116 @@
+* Shell Integration
+
+Terminal emulators and shell integration within Emacs.
+
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;;; shell-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+  (when (eq system-type 'gnu/linux)
+    (use-package eat
+  	:custom
+  	;; Use eat-256color for best compatibility with interactive programs
+  	(eat-term-name "eat-256color")
+  	(eat-enable-yank-to-terminal t)
+  	(eat-kill-buffer-on-exit t)
+  	:bind
+  	("C-c `" . eat)  ; Also available for standalone terminal use
+  	:config
+  	;; CRITICAL: Compile terminfo database for eat
+  	(unless (file-exists-p (expand-file-name "~/.terminfo/e/eat-256color"))
+        (eat-compile-terminfo))
+  	;; Enable eat in eshell for better terminal emulation
+  	(add-hook 'eshell-load-hook #'eat-eshell-mode)
+  	(add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+  	;; Performance optimizations for eat
+  	(add-hook 'eat-mode-hook
+                (lambda ()
+  				(setq-local display-line-numbers nil))))
+
+    (use-package vterm
+  	:custom
+  	(vterm-max-scrollback 1000)           ; Very small scrollback for speed
+  	(vterm-buffer-name-string "vterm %s")
+  	(vterm-kill-buffer-on-exit t)
+  	(vterm-timer-delay nil)               ; Use Emacs redisplay (fastest on macOS)
+  	(vterm-always-compile-module t)
+  	;; CRITICAL: Set proper TERM environment variable
+  	;; Must be a list of strings
+  	(vterm-environment '("TERM=xterm-256color"))
+  	;; Alternative: set term name vterm reports to shell
+  	(vterm-term-environment-variable "xterm-256color")))
+
+  ;; Shell
+  (use-package shell
+    :ensure nil
+    :custom
+    (comint-prompt-read-only t)
+    (comint-process-echoes t))
+
+  ;; Eshell
+  (use-package eshell
+    :defer t
+    :custom
+    (eshell-history-size 10000)
+    (eshell-buffer-maximum-lines 10000)
+    (eshell-hist-ignoredups t)
+    (eshell-scroll-to-bottom-on-input 'all)
+    (eshell-scroll-to-bottom-on-output t)
+    (eshell-error-if-no-glob t)
+    (eshell-save-history-on-exit t)
+    (eshell-prefer-lisp-functions t)
+    (eshell-destroy-buffer-when-process-dies t)
+    (eshell-visual-commands '("vi" "screen" "top" "htop" "btm" "less" "more" 
+  							"lynx" "ncftp" "pine" "tin" "trn" "elm" "irssi" 
+  							"nmtui-connect" "nethack" "vim" "alsamixer" "nvim" 
+  							"w3m" "ncmpcpp" "newsbeuter" "nethack" "mutt" 
+  							"fzf" "claude"))
+    :hook
+    (eshell-load . eat-eshell-mode)
+    (eshell-load . eat-eshell-visual-command-mode))
+
+  (use-package eshell-prompt-extras
+    :hook
+    (eshell-first-time-mode . fu/eshell-init)
+    :custom
+    (eshell-highlight-prompt t)
+    (eshell-prompt-function 'epe-theme-lambda)
+    :config
+    (defun fu/eshell-init ()
+  	(eshell/alias "l" "ls -hl")
+  	(eshell/alias "ll" "ls -hl")
+  	(eshell/alias "la" "ls -ahl")
+  	(eshell/alias "gs" "git status")
+  	(eshell/alias "gd" "git diff")
+  	(eshell/alias "gl" "git log --oneline")
+  	(eshell/alias ".." "cd ..")))
+
+  (defun fu/async-shell-command (command)
+    "Run `async-shell-command' with COMMAND in project root."
+    (interactive (list (read-string "Shell command: ")))
+    (let* ((output-buffer-time (format-time-string "%Y-%m-%dT%H:%M:%S"))
+           (output-buffer-name (format "*Shell Command [%s]: %s*" output-buffer-time command))
+           (error-buffer-name  (format "*Shell Error [%s]: %s*" output-buffer-time command))
+           (current-project    (project-current))
+           (default-directory  (if current-project (project-root current-project) default-directory)))
+      (async-shell-command command output-buffer-name)
+      (when-let ((proc (get-buffer-process output-buffer-name)))
+        (set-process-sentinel
+         proc
+         (lambda (process event)
+           (when (buffer-live-p (process-buffer process))
+             (with-current-buffer (process-buffer process)
+               (let ((inhibit-read-only t))
+                 (goto-char (point-max))
+                 (insert "\n" (make-string 60 ?-) "\n")
+                 (insert (format "Process %s %s" (process-name process) (string-trim event)))
+                 (insert (format " at %s\n" (format-time-string "%Y-%m-%d %H:%M:%S")))
+                 (when (process-exit-status process)
+                   (insert (format "Exit code: %s\n" (process-exit-status process))))
+                 (insert (make-string 60 ?-) "\n")))))))))
+
+  (provide 'shell-conf)
+  ;;; shell-conf.el ends here
+#+end_src
+

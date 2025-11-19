@@ -1,3 +1,6 @@
+.mcp.json
+*.backup
+
 .packages/
 tmp/
 content/tmp/

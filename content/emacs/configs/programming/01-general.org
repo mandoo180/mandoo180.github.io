@@ -1,0 +1,251 @@
+* General Programming Configuration
+
+Common programming tools and utilities that apply across all languages.
+
+** Overview
+
+This module provides:
+- **Completion**: Corfu for in-buffer completion
+- **Compilation**: Enhanced compilation mode with ANSI colors
+- **Version Control**: Magit, project management, merge conflict resolution
+- **Documentation**: Eldoc for inline documentation
+- **Code Quality**: Flymake for syntax checking, formatting tools
+- **Editing Utilities**: Electric pairs, rainbow delimiters, code folding
+
+** What's Included
+
+| Category        | Tools                                    |
+|-----------------+------------------------------------------|
+| Completion      | corfu, corfu-candidate-overlay           |
+| Build Tools     | compile, makefile-mode                   |
+| Version Control | magit, project, smerge-mode              |
+| Documentation   | eldoc, eldoc-box                         |
+| Syntax Checking | flymake                                  |
+| Code Formatting | format-all, apheleia                     |
+| Editing         | electric-pair, paren, rainbow-delimiters |
+| File Formats    | conf-mode, yaml-mode, powershell         |
+
+** General
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
+  ;;; prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; General programming tools: completion, compilation, version control,
+  ;;; syntax checking, and common programming utilities.
+  ;;; Code:
+
+  ;; Completion
+  (use-package corfu
+    :custom
+    (corfu-auto nil)
+    (corfu-auto-delay 0.3)
+    (corfu-auto-prefix 3)
+    (corfu-preview-current t))
+
+  (use-package corfu-candidate-overlay
+    :after corfu
+    :config
+    ;; enable corfu-candidate-overlay mode globally
+    ;; this relies on having corfu-auto set to nil
+    (corfu-candidate-overlay-mode 1)
+    (global-set-key (kbd "C-<tab>") 'completion-at-point))
+
+  ;; Compilation
+  (use-package compile
+    :ensure nil
+    :custom
+    (compilation-always-kill t)
+    (compilation-scroll-output t)
+    (ansi-color-for-compilation-mode t)
+    :config
+    (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
+
+  ;; Makefile
+  (use-package makefile-mode
+    :ensure nil
+    :mode "\\Makefile.*\\'"
+    :defer 't
+    :config
+    (add-to-list 'treesit-language-source-alist '(make "https://github.com/alemuller/tree-sitter-make")))
+
+  ;; Configuration files
+  (use-package conf-mode
+    :ensure nil
+    :mode ("\\.env\\..*\\'" "\\.env\\'")
+    :init
+    (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode)))
+
+  ;; SQL
+  (use-package sql-indent
+    :hook
+    (sql-mode . sqlind-minor-mode))
+
+  (use-package powershell :defer t)
+  (use-package yaml-mode :defer t)
+
+  ;; Version Control
+  (use-package magit)
+
+  (use-package project
+    :bind
+    (("C-x p C" . project-recompile)))
+
+  (use-package smerge-mode
+    :ensure nil
+    :bind (:map smerge-mode-map
+  		("C-c ^ u" . smerge-keep-upper)
+  		("C-c ^ l" . smerge-keep-lower)
+  		("C-c ^ n" . smerge-next)
+  		("C-c ^ p" . smerge-previous)))
+
+  ;; Documentation
+  (use-package eldoc
+    :ensure nil
+    :init
+    (global-eldoc-mode))
+
+  (use-package eldoc-box
+    :defer t
+    :custom
+    (eldoc-box-border-width 1)
+    (eldoc-box-echo-area-use-multiline-p t)
+    (eldoc-box-scrollbar-width 8)
+    (eldoc-box-max-lines 10)
+    (eldoc-box-use-echo-area nil)
+    :bind
+    ("C-c h ." . eldoc-box-help-at-point)
+    :hook
+    (eldoc-mode . eldoc-box-hover-mode))
+
+  ;; Editing utilities
+  (use-package elec-pair
+    :ensure nil
+    :defer
+    :hook
+    (after-init-hook . electric-pair-mode))
+
+  (use-package paren
+    :ensure nil
+    :hook
+    (after-init-hook . show-paren-mode)
+    :custom
+    (show-paren-delay 0)
+    (show-paren-style 'mixed)
+    (show-paren-context-when-offscreen t))
+
+  ;; Syntax checking
+  (use-package flymake
+    :ensure nil
+    :defer t
+    :hook ((prog-mode . flymake-mode)
+  	   (elisp-mode . flymake-mode))
+    :bind (:map flymake-mode-map
+  		("M-8" . flymake-goto-next-error)
+  		("M-7" . flymake-goto-prev-error)
+  		("C-c ! n" . flymake-goto-next-error)
+  		("C-c ! p" . flymake-goto-prev-error)
+  		("C-c ! l" . flymake-show-buffer-diagnostics)
+  		("C-c ! t" . toggle-flymake-diagnostics-at-eol))
+    :custom
+    (flymake-show-diagnostics-at-end-of-line nil)
+    (flymake-indicator-type 'margins)
+    (flymake-margin-indicators-string
+     `((error   "!" compilation-error)
+  	 (warning "?" compilation-warning)
+  	 (note    "i" compilation-info)))
+    :config
+    (defun toggle-flymake-diagnostics-at-eol ()
+  	"Toggle the display of Flymake diagnostics at the end of the line
+  and restart Flymake to apply the changes."
+  	(interactive)
+  	(setq flymake-show-diagnostics-at-end-of-line
+  	    (not flymake-show-diagnostics-at-end-of-line))
+  	(flymake-mode -1)
+  	(flymake-mode 1)
+  	(message "Flymake diagnostics at end of line: %s"
+  	       (if flymake-show-diagnostics-at-end-of-line
+  		   "Enabled" "Disabled"))))
+
+  ;; Diff and merge
+  (use-package diff-mode
+    :ensure nil
+    :defer t
+    :config
+    (setq diff-default-read-only t)
+    (setq diff-advance-after-apply-hunk t)
+    (setq diff-update-on-the-fly t)
+    (setq diff-font-lock-syntax 'hunk-also)
+    (setq diff-font-lock-prettify nil))
+
+  (use-package ediff
+    :ensure nil
+    :commands (ediff-buffers ediff-files ediff-buffers3 ediff-files3)
+    :init
+    (setq ediff-split-window-function 'split-window-horizontally)
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+    :config
+    (setq ediff-keep-variants nil)
+    (setq ediff-make-buffers-readonly-at-startup nil)
+    (setq ediff-merge-revisions-with-ancestor t)
+    (setq ediff-show-clashes-only t))
+
+  ;; Snippets
+  (use-package yasnippet
+    :hook
+    (prog-mode . yas-minor-mode))
+
+  ;; Whitespace
+  (use-package whitespace
+    :ensure nil
+    :defer t)
+
+  ;; LSP - Eglot
+  (use-package eglot
+    :ensure nil
+    :custom
+    (eglot-autoshutdown t)
+    (eglot-events-buffer-size 0)
+    (eglot-events-buffer-config '(:size 0 :format full))
+    (eglot-prefer-plaintext t)
+    (jsonrpc-event-hook nil)
+    (eglot-code-action-indications nil)
+    (eglot-ignored-server-capabilities '(:workspaceFolders))
+    :init
+    (fset #'jsonrpc--log-event #'ignore)
+    :bind (:map eglot-mode-map
+  		 ("C-c l a" . eglot-code-actions)
+  		 ("C-c l o" . eglot-code-actions-organize-imports)
+  		 ("C-c l r" . eglot-rename)
+  		 ("C-c l f" . eglot-format)))
+
+  ;; Markdown
+  (use-package markdown-mode
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode))
+    :custom
+    (markdown-split-window-direction 'right)
+    (markdown-command "multimarkdown")
+    (markdown-fontify-code-blocks-natively t))
+
+  ;; REST client
+  (use-package restclient
+    :mode ("\\.rest\\'" . restclient-mode)
+    :commands (restclient-mode))
+
+  ;; Claude Code integration
+  (use-package claude-code-emacs-client
+    :ensure nil
+    :load-path "~/Projects/claude-code-emacs-client"
+    :custom
+    (claude-code-default-permission-mode "acceptEdits")
+    :bind
+    (("C-c c n" . claude-code-new-session)
+     ("C-c c r" . claude-code-resume-session)
+     ("C-c c c" . claude-code-continue-session)
+     ("C-c c m" . claude-code-send-message)
+     ("C-c c s" . claude-code-send-region)))
+
+  (provide 'prog-general-conf)
+  ;;; prog-general-conf.el ends here
+#+end_src
+
