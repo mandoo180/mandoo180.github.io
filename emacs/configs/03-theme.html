@@ -21,26 +21,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2f86e63">1. Theme and Appearance</a>
+<li><a href="#orga703611">1. Theme and Appearance</a>
 <ul>
-<li><a href="#org40bd8e5">1.1. Basic Settings</a></li>
-<li><a href="#org2942427">1.2. Hasliberg Theme</a></li>
-<li><a href="#org3a062d2">1.3. Custom Mode Line</a></li>
+<li><a href="#org708c582">1.1. Basic Settings</a></li>
+<li><a href="#org39d98b1">1.2. Hasliberg Theme</a></li>
+<li><a href="#orgb170b20">1.3. Custom Mode Line</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2f86e63" class="outline-2">
-<h2 id="org2f86e63"><span class="section-number-2">1.</span> Theme and Appearance</h2>
+<div id="outline-container-orga703611" class="outline-2">
+<h2 id="orga703611"><span class="section-number-2">1.</span> Theme and Appearance</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Visual customization including color theme, mode line, and UI elements.
 </p>
 </div>
 
-<div id="outline-container-org40bd8e5" class="outline-3">
-<h3 id="org40bd8e5"><span class="section-number-3">1.1.</span> Basic Settings</h3>
+<div id="outline-container-org708c582" class="outline-3">
+<h3 id="org708c582"><span class="section-number-3">1.1.</span> Basic Settings</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -52,14 +52,14 @@ Visual customization including color theme, mode line, and UI elements.
 </span><span class="org-comment-delimiter">;; </span><span class="org-comment">       (add-hook 'server-after-make-frame-hook (lambda () (load-theme 'doom-tokyo-night t)))
 </span><span class="org-comment-delimiter">;; </span><span class="org-comment">     (load-theme 'doom-tokyo-night t)))
 </span>
-(<span class="org-keyword">let</span> ((theme-file (expand-file-name <span class="org-string">"themes/hasliberg-theme.el"</span> user-emacs-directory)))
+(<span class="org-keyword">let</span> ((theme-file (expand-file-name <span class="org-string">"elisp/themes/hasliberg-theme.el"</span> user-emacs-directory)))
   (<span class="org-keyword">if</span> (file-exists-p theme-file)
         (<span class="org-keyword">progn</span>
               (load-file theme-file)
               (load-theme 'hasliberg t))))
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Load custom mode-line configuration
-</span>(<span class="org-keyword">let</span> ((mode-line-file (expand-file-name <span class="org-string">"themes/fu-mode-line.el"</span> user-emacs-directory)))
+</span>(<span class="org-keyword">let</span> ((mode-line-file (expand-file-name <span class="org-string">"elisp/themes/fu-mode-line.el"</span> user-emacs-directory)))
   (<span class="org-keyword">if</span> (file-exists-p mode-line-file)
       (load-file mode-line-file)))
 
@@ -74,8 +74,8 @@ Visual customization including color theme, mode line, and UI elements.
 </div>
 </div>
 </div>
-<div id="outline-container-org2942427" class="outline-3">
-<h3 id="org2942427"><span class="section-number-3">1.2.</span> Hasliberg Theme</h3>
+<div id="outline-container-org39d98b1" class="outline-3">
+<h3 id="org39d98b1"><span class="section-number-3">1.2.</span> Hasliberg Theme</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
@@ -1040,8 +1040,8 @@ black colours."</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org3a062d2" class="outline-3">
-<h3 id="org3a062d2"><span class="section-number-3">1.3.</span> Custom Mode Line</h3>
+<div id="outline-container-orgb170b20" class="outline-3">
+<h3 id="orgb170b20"><span class="section-number-3">1.3.</span> Custom Mode Line</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">fu-mode-line.el --- Custom mode-line configuration  -*- lexical-binding: t; -*-
