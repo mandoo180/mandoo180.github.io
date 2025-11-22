@@ -140,16 +140,16 @@ My personal dotfiles and system configuration files with explanations.
 
 * Computer Science
 
-** [[file:sicp/sicp.org][Structure and Interpretation of Computer Programs]]
+** [[file:learning/sicp.org][Structure and Interpretation of Computer Programs]]
 
 Study notes and exercises from the classic computer science textbook SICP (Abelson & Sussman).
 
 *Chapters*:
-1. [[file:sicp/chapter01.org][Building Abstractions with Procedures]] - Functions, recursion, higher-order procedures
-2. [[file:sicp/chapter02.org][Building Abstractions with Data]] - Data abstraction, hierarchical data, symbolic data
-3. [[file:sicp/chapter03.org][Modularity, Objects, and State]] - Assignment, mutable data, concurrency
-4. [[file:sicp/chapter04.org][Metalinguistic Abstraction]] - Interpreters, lazy evaluation, logic programming
-5. [[file:sicp/chapter05.org][Computing with Register Machines]] - Machine simulation, compilation
+1. *Building Abstractions with Procedures* - Functions, recursion, higher-order procedures
+2. *Building Abstractions with Data* - Data abstraction, hierarchical data, symbolic data
+3. *Modularity, Objects, and State* - Assignment, mutable data, concurrency
+4. *Metalinguistic Abstraction* - Interpreters, lazy evaluation, logic programming
+5. *Computing with Register Machines* - Machine simulation, compilation
 
 *Language*: Scheme (exercises in Emacs Lisp where applicable)
 

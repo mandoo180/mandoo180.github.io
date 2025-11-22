@@ -13,14 +13,14 @@ Visual customization including color theme, mode line, and UI elements.
   ;; 	  (add-hook 'server-after-make-frame-hook (lambda () (load-theme 'doom-tokyo-night t)))
   ;; 	(load-theme 'doom-tokyo-night t)))
 
-  (let ((theme-file (expand-file-name "themes/hasliberg-theme.el" user-emacs-directory)))
+  (let ((theme-file (expand-file-name "elisp/themes/hasliberg-theme.el" user-emacs-directory)))
     (if (file-exists-p theme-file)
   	  (progn
   		(load-file theme-file)
   		(load-theme 'hasliberg t))))
 
   ;; Load custom mode-line configuration
-  (let ((mode-line-file (expand-file-name "themes/fu-mode-line.el" user-emacs-directory)))
+  (let ((mode-line-file (expand-file-name "elisp/themes/fu-mode-line.el" user-emacs-directory)))
     (if (file-exists-p mode-line-file)
         (load-file mode-line-file)))
 
@@ -33,7 +33,7 @@ Visual customization including color theme, mode line, and UI elements.
   ;;; theme-conf.el ends here
 #+end_src
 ** Hasliberg Theme
-#+begin_src emacs-lisp :tangle ~/.emacs.d/themes/hasliberg-theme.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/themes/hasliberg-theme.el
   ;;; hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
 
   ;; Copyright (C) 2024  Free Software Foundation, Inc.
@@ -994,7 +994,7 @@ Visual customization including color theme, mode line, and UI elements.
   (provide-theme 'hasliberg)
 #+end_src
 ** Custom Mode Line
-#+begin_src emacs-lisp :tangle ~/.emacs.d/themes/fu-mode-line.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/themes/fu-mode-line.el
   ;;; fu-mode-line.el --- Custom mode-line configuration  -*- lexical-binding: t; -*-
   ;;; Commentary:
   ;; A clean, minimal mode-line showing: buffer status, name, location, VC, major mode, LSP, and diagnostics
