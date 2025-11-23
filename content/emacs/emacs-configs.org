@@ -1,7 +1,7 @@
 #+TITLE: Emacs Configurations
 #+AUTHOR: Kyeong Soo Choi
 #+STARTUP: overview
-#+OPTIONS: toc:3 num:nil
+#+OPTIONS: toc:2 num:3
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
 * Introduction
@@ -10,16 +10,22 @@ This is my comprehensive Emacs configuration written in a literate programming s
 
 ** How This Works
 
-- *Tangling*: Use =C-c C-v t= (=org-babel-tangle=) to extract all Emacs Lisp code blocks into the appropriate files in =~/.emacs.d/=
+- *Tangling*: Since configurations are modular, you can:
+  - Run =./tangle.sh= from the repository root (recommended - handles all files recursively)
+  - Tangle individual files: Open a config file and run =C-c C-v t=
+  - Use the Elisp helper: See "Tangling All Configurations" section below
 - *Exporting*: Use =C-c C-e h h= to export this document to HTML for publishing
 - *Modular Structure*: Each section is in a separate file under =configs/= for easier navigation and editing
 
 ** Quick Start
 
 1. Clone this repository
-2. Open this file in Emacs
-3. Run =M-x org-babel-tangle= to generate all configuration files
-4. Restart Emacs
+2. Run =./tangle.sh= from the repository root (recommended)
+3. Restart Emacs
+
+Alternative methods:
+- *From Emacs*: Navigate to "Tangling All Configurations" section and execute the code block (=C-c C-c=)
+- *Individual files*: Open a config file and run =C-c C-v t=
 
 ** File Structure
 
@@ -37,24 +43,69 @@ The configuration is organized as follows:
 - *Miscellaneous* - Utilities and helper functions
 - *Platform-Specific* - OS-specific configurations
 
+* Tangling All Configurations
+
+** Using tangle.sh (Recommended)
+
+The repository includes a =tangle.sh= script that automatically finds and tangles all configuration files recursively:
+
+#+begin_src shell
+./tangle.sh
+#+end_src
+
+This script:
+- Recursively processes all =.org= files in =content/emacs/configs/=
+- Includes subdirectories (like =programming/=)
+- Creates required directories (=~/.emacs.d/elisp/=)
+- Shows progress for each file
+
+** Using Elisp Helper (Alternative)
+
+Alternatively, execute this code block from within Emacs by placing your cursor inside it and running =C-c C-c=:
+
+#+begin_src emacs-lisp :results silent
+  (let ((default-directory (file-name-directory (buffer-file-name)))
+        (config-files '("configs/01-early-init.org"
+                        "configs/02-init.org"
+                        "configs/03-theme.org"
+                        "configs/04-window.org"
+                        "configs/05-completion.org"
+                        "configs/06-dired.org"
+                        "configs/07-note.org"
+                        "configs/08-shell.org"
+                        "configs/09-programming.org"
+                        "configs/10-miscellaneous.org"
+                        "configs/11-platform-linux.org"
+                        "configs/12-platform-macos.org"
+                        "configs/13-platform-windows.org")))
+    (dolist (file config-files)
+      (let ((filepath (expand-file-name file)))
+        (when (file-exists-p filepath)
+          (message "Tangling %s..." file)
+          (org-babel-tangle-file filepath))))
+    (message "All configurations tangled successfully!"))
+#+end_src
+
+This will process all config files and extract their code blocks to =~/.emacs.d/=.
+
 * Configuration Sections
 
-#+INCLUDE: "configs/01-early-init.org" :minlevel 2
-#+INCLUDE: "configs/02-init.org" :minlevel 2
-#+INCLUDE: "configs/03-theme.org" :minlevel 2
-#+INCLUDE: "configs/04-window.org" :minlevel 2
-#+INCLUDE: "configs/05-completion.org" :minlevel 2
-#+INCLUDE: "configs/06-dired.org" :minlevel 2
-#+INCLUDE: "configs/07-note.org" :minlevel 2
-#+INCLUDE: "configs/08-shell.org" :minlevel 2
-#+INCLUDE: "configs/09-programming.org" :minlevel 2
-#+INCLUDE: "configs/10-miscellaneous.org" :minlevel 2
+** [[file:configs/01-early-init.html][Early Initialization]]
+** [[file:configs/02-init.html][Core Initialization]]
+** [[file:configs/03-theme.html][Theme and Appearance]]
+** [[file:configs/04-window.html][Window Management]]
+** [[file:configs/05-completion.html][Completion System]]
+** [[file:configs/06-dired.html][Directory Editor (Dired)]]
+** [[file:configs/07-note.html][Note Taking]]
+** [[file:configs/08-shell.html][Shell Integration]]
+** [[file:configs/09-programming.html][Programming Language]]
+** [[file:configs/10-miscellaneous.html][Miscellaneous]]
 
 ** Platform-Specific Configurations
 
-#+INCLUDE: "configs/11-platform-linux.org" :minlevel 3
-#+INCLUDE: "configs/12-platform-macos.org" :minlevel 3
-#+INCLUDE: "configs/13-platform-windows.org" :minlevel 3
+*** [[file:configs/11-platform-linux.html][Linux-Specific Configuration]]
+*** [[file:configs/12-platform-macos.html][macOS-Specific Configuration]]
+*** [[file:configs/13-platform-windows.html][Windows-Specific Configuration]]
 
 * Local File Variables                                                          :noexport:
 

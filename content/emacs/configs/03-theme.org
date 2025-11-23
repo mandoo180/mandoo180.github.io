@@ -1,8 +1,12 @@
-* Theme and Appearance
+#+title: Theme and Appearance
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
 Visual customization including color theme, mode line, and UI elements.
 
-** Basic Settings
+* Basic Settings
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/theme-conf.el
   ;;; theme-conf.el --- Summary  -*- lexical-binding: t; -*-
   ;;; Commentary:
@@ -32,7 +36,7 @@ Visual customization including color theme, mode line, and UI elements.
   (provide 'theme-conf)
   ;;; theme-conf.el ends here
 #+end_src
-** Hasliberg Theme
+* Hasliberg Theme
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/themes/hasliberg-theme.el
   ;;; hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
 
@@ -993,7 +997,7 @@ Visual customization including color theme, mode line, and UI elements.
 
   (provide-theme 'hasliberg)
 #+end_src
-** Custom Mode Line
+* Custom Mode Line
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/themes/fu-mode-line.el
   ;;; fu-mode-line.el --- Custom mode-line configuration  -*- lexical-binding: t; -*-
   ;;; Commentary:

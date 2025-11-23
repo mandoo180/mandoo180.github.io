@@ -1,7 +1,10 @@
-* Linux-Specific Configuration
+#+TITLE: Linux-Specific Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
 Settings that only apply on Linux systems.
-
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/linux-conf.el
   ;;; linux-conf.el --- Summary  -*- lexical-binding: t; -*-

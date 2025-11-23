@@ -1,7 +1,10 @@
-* Core Initialization
+#+TITLE: Core Initialization
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
 Core Emacs settings using use-package. This configures built-in Emacs behavior without external packages.
-
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;;; init.el --- Summary  -*- lexical-binding: t; -*-

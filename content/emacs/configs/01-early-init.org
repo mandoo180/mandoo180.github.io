@@ -1,8 +1,12 @@
-* Early Initialization
+#+TITLE: Early Initialization
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
 The =early-init.el= file is loaded before the package system and GUI is initialized. This is the perfect place for performance optimizations and settings that must be applied before any packages load.
 
-** Why Early Init?
+* Why Early Init?
 
 Emacs 27+ introduced =early-init.el= which loads before:
 - Package initialization
@@ -14,11 +18,11 @@ This allows us to:
 - Prevent visual flash/flicker
 - Configure native compilation before packages load
 
-** Native Compilation Setup
+* Native Compilation Setup
 
 Modern Emacs supports native compilation of Emacs Lisp to machine code for better performance. On macOS with Homebrew, we need to configure the GCC library paths.
 
-*** How It Works
+** How It Works
 
 1. Checks if native compilation is available
 2. On macOS, locates the Homebrew GCC installation
@@ -61,17 +65,17 @@ Modern Emacs supports native compilation of Emacs Lisp to machine code for bette
           native-comp-deferred-compilation t))
 #+end_src
 
-** Startup Performance Optimizations
+* Startup Performance Optimizations
 
 These settings dramatically improve Emacs startup time by deferring expensive operations until after initialization.
 
-*** Garbage Collection
+** Garbage Collection
 
 We temporarily disable garbage collection during startup by setting =gc-cons-threshold= to maximum. This prevents GC pauses during the critical startup phase.
 
 *Note:* We should reset this in =init.el= after startup completes (typically to 16MB).
 
-*** Version Control
+** Version Control
 
 We limit =vc-handled-backends= to only Git, skipping checks for other VCS systems we don't use.
 
@@ -82,7 +86,7 @@ We limit =vc-handled-backends= to only Git, skipping checks for other VCS system
   	  vc-handled-backends '(Git))
 #+end_src
 
-** Prevent Visual Flash
+* Prevent Visual Flash
 
 When Emacs starts, there's often a brief flash of the default theme before your custom theme loads. This function prevents that by:
 - Hiding the mode line temporarily
@@ -102,7 +106,7 @@ When Emacs starts, there's often a brief flash of the default theme before your 
   (emacs-solo/avoid-initial-flash-of-light)
 #+end_src
 
-** Frame Configuration
+* Frame Configuration
 
 Configure frame (window) behavior before the GUI initializes:
 
@@ -119,7 +123,7 @@ Configure frame (window) behavior before the GUI initializes:
   (setq inhibit-compacting-font-caches t)
 #+end_src
 
-** Disable Unused UI Elements
+* Disable Unused UI Elements
 
 Remove visual clutter and improve performance by disabling UI elements we don't need:
 

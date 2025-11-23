@@ -1,7 +1,10 @@
-* Completion System
+#+title: Completion System
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
 Completion frameworks and interfaces for enhanced productivity.
-
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/completion-conf.el
   ;;; completion-conf.el --- Summary  -*- lexical-binding: t; -*-

@@ -1,7 +1,10 @@
-* Windows-Specific Configuration
+#+TITLE: Windows-Specific Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
 Settings that only apply on Windows systems.
-
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/windows-conf.el
   ;;; windows-conf.el --- Summary  -*- lexical-binding: t; -*-

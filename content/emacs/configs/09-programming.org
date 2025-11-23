@@ -1,12 +1,16 @@
-* Programming Languages
+#+TITLE: Programming Languages
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
 Language-specific configurations and development tools.
 
-** Overview
+* Overview
 
 This section is organized by programming language for better maintainability. Each language has its own module with dedicated tooling and workflows.
 
-** Module Organization
+* Module Organization
 
 The programming configuration is split into focused modules:
 
@@ -18,22 +22,22 @@ The programming configuration is split into focused modules:
 | Python  | Python development environment                   | =programming/03-python.org=  |
 | Ruby    | Ruby and Rails development                       | =programming/04-ruby.org=    |
 
-** Supported Languages & Frameworks
+* Supported Languages & Frameworks
 
-*** Web Development
+** Web Development
 - HTML5, CSS3, SCSS, SASS, Less
 - JavaScript (ES6+), JSX, React
 - TypeScript, TSX
 - Vue, Angular, Svelte
 - Template engines (Nunjucks, Handlebars, Mustache)
 
-*** Programming Languages
+** Programming Languages
 - Python (with venv, black, isort, pytest)
 - Ruby (with Rails, RSpec, RuboCop)
 - Clojure (CIDER, REPL)
 - SQL (ejc-sql integration)
 
-*** Development Tools
+** Development Tools
 - LSP (Language Server Protocol)
 - Tree-sitter (fast parsing)
 - Completion (Corfu)
@@ -41,19 +45,19 @@ The programming configuration is split into focused modules:
 - Syntax checking (Flymake)
 - Code formatting (various formatters)
 
-** Configuration Modules
+* Configuration Modules
 
-*** Loader Configuration
+** Loader Configuration
 #+INCLUDE: "programming/00-loader.org" :minlevel 2
 
-*** General Programming Tools
+** General Programming Tools
 #+INCLUDE: "programming/01-general.org" :minlevel 2
 
-*** Web Development
+** Web Development
 #+INCLUDE: "programming/02-web.org" :minlevel 2
 
-*** Python Development
+** Python Development
 #+INCLUDE: "programming/03-python.org" :minlevel 2
 
-*** Ruby Development
+** Ruby Development
 #+INCLUDE: "programming/04-ruby.org" :minlevel 2
