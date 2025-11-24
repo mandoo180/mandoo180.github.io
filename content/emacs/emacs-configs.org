@@ -37,7 +37,7 @@ The configuration is organized as follows:
 - *Window* - Window management and layout
 - *Completion* - Completion frameworks and interfaces
 - *Dired* - Directory editor enhancements
-- *Note* - Note-taking and knowledge management
+- *Knowledge Management* - Org-mode, org-roam, and note-taking tools
 - *Shell* - Terminal and shell integration
 - *Programming* - Language-specific configurations
 - *Miscellaneous* - Utilities and helper functions
@@ -71,7 +71,7 @@ Alternatively, execute this code block from within Emacs by placing your cursor 
                         "configs/04-window.org"
                         "configs/05-completion.org"
                         "configs/06-dired.org"
-                        "configs/07-note.org"
+                        "configs/07-org.org"
                         "configs/08-shell.org"
                         "configs/09-programming.org"
                         "configs/10-miscellaneous.org"
@@ -96,7 +96,7 @@ This will process all config files and extract their code blocks to =~/.emacs.d/
 ** [[file:configs/04-window.html][Window Management]]
 ** [[file:configs/05-completion.html][Completion System]]
 ** [[file:configs/06-dired.html][Directory Editor (Dired)]]
-** [[file:configs/07-note.html][Note Taking]]
+** [[file:configs/07-org.html][Knowledge Management]]
 ** [[file:configs/08-shell.html][Shell Integration]]
 ** [[file:configs/09-programming.html][Programming Language]]
 ** [[file:configs/10-miscellaneous.html][Miscellaneous]]

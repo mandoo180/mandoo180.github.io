@@ -158,3 +158,18 @@ Some extra stuff.
   ;;; package-setup-function.el ends here
 #+end_src
 
+* PDF Tools
+
+PDF viewing and annotation in Emacs. Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements]]
+
+#+begin_src emacs-lisp :tangle no
+  ;;; pdf-conf.el --- PDF tools configuration  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+  (pdf-tools-install)
+  (use-package saveplace-pdf-view)
+  (global-goto-address-mode t)
+  (provide 'pdf-conf)
+  ;;; pdf-conf.el ends here
+#+end_src
+
