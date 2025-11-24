@@ -22,9 +22,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0a18259">1. Basic Settings</a></li>
-<li><a href="#org074f425">2. Hasliberg Theme</a></li>
-<li><a href="#orgca2649d">3. Custom Mode Line</a></li>
+<li><a href="#org93bc07c">1. Basic Settings</a></li>
+<li><a href="#org17f5239">2. Hasliberg Theme</a></li>
+<li><a href="#orge170e84">3. Custom Mode Line</a></li>
 </ul>
 </div>
 </div>
@@ -32,8 +32,8 @@
 Visual customization including color theme, mode line, and UI elements.
 </p>
 
-<div id="outline-container-org0a18259" class="outline-2">
-<h2 id="org0a18259"><span class="section-number-2">1.</span> Basic Settings</h2>
+<div id="outline-container-org93bc07c" class="outline-2">
+<h2 id="org93bc07c"><span class="section-number-2">1.</span> Basic Settings</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -56,10 +56,12 @@ Visual customization including color theme, mode line, and UI elements.
   (<span class="org-keyword">if</span> (file-exists-p mode-line-file)
       (load-file mode-line-file)))
 
-(<span class="org-keyword">use-package</span> all-the-icons)
-(<span class="org-keyword">use-package</span> all-the-icons-dired
-  <span class="org-builtin">:config</span>
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Skip icon packages on server (requires GUI fonts)
+</span>(<span class="org-keyword">unless</span> emacs-server-mode
+  (<span class="org-keyword">use-package</span> all-the-icons)
+  (<span class="org-keyword">use-package</span> all-the-icons-dired
+    <span class="org-builtin">:config</span>
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
 (<span class="org-keyword">provide</span> '<span class="org-constant">theme-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el ends here</span>
@@ -67,8 +69,8 @@ Visual customization including color theme, mode line, and UI elements.
 </div>
 </div>
 </div>
-<div id="outline-container-org074f425" class="outline-2">
-<h2 id="org074f425"><span class="section-number-2">2.</span> Hasliberg Theme</h2>
+<div id="outline-container-org17f5239" class="outline-2">
+<h2 id="org17f5239"><span class="section-number-2">2.</span> Hasliberg Theme</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
@@ -1033,8 +1035,8 @@ black colours."</span>
 </div>
 </div>
 </div>
-<div id="outline-container-orgca2649d" class="outline-2">
-<h2 id="orgca2649d"><span class="section-number-2">3.</span> Custom Mode Line</h2>
+<div id="outline-container-orge170e84" class="outline-2">
+<h2 id="orge170e84"><span class="section-number-2">3.</span> Custom Mode Line</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">fu-mode-line.el --- Custom mode-line configuration  -*- lexical-binding: t; -*-

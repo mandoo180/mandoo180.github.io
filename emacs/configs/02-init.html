@@ -26,7 +26,18 @@ Core Emacs settings using use-package. This configures built-in Emacs behavior w
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">init.el --- Summary  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>(<span class="org-keyword">use-package</span> emacs
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Server/headless environment detection
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Detects if running without GUI (SSH, daemon, terminal)
+</span>(<span class="org-keyword">defvar</span> <span class="org-variable-name">emacs-server-mode</span>
+  (<span class="org-keyword">or</span> (not (display-graphic-p))
+      (daemonp)
+      (getenv <span class="org-string">"SSH_CONNECTION"</span>)
+      (getenv <span class="org-string">"EMACS_SERVER_MODE"</span>))
+  <span class="org-doc">"Non-nil when running in server/headless mode (SSH, daemon, no GUI).
+Set environment variable EMACS_SERVER_MODE=1 to force server mode."</span>)
+
+(<span class="org-keyword">use-package</span> emacs
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:bind</span>
   ((<span class="org-string">"M-o"</span>         . other-window)
