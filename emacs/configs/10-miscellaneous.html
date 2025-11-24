@@ -18,6 +18,14 @@
 <body>
 <main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
 <h1 class="title">Miscellaneous</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgba7dd1e">1. PDF Tools</a></li>
+</ul>
+</div>
+</div>
 <p>
 Utility functions and helper configurations.
 </p>
@@ -178,6 +186,27 @@ https://github.com/pashky/restclient.el/"</span>
 (<span class="org-keyword">provide</span> '<span class="org-constant">package-setup-function</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">package-setup-function.el ends here</span>
 </pre>
+</div>
+
+<div id="outline-container-orgba7dd1e" class="outline-2">
+<h2 id="orgba7dd1e"><span class="section-number-2">1.</span> PDF Tools</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+PDF viewing and annotation in Emacs. Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElements</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">pdf-conf.el --- PDF tools configuration  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>(pdf-tools-install)
+(<span class="org-keyword">use-package</span> saveplace-pdf-view)
+(global-goto-address-mode t)
+(<span class="org-keyword">provide</span> '<span class="org-constant">pdf-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">pdf-conf.el ends here</span>
+</pre>
+</div>
+</div>
 </div>
 </main>
 </body>

@@ -22,48 +22,48 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf2f407d">1. Introduction</a>
+<li><a href="#orgc75161d">1. Introduction</a>
 <ul>
-<li><a href="#org4839e8b">1.1. How This Works</a></li>
-<li><a href="#org08c5612">1.2. Quick Start</a></li>
-<li><a href="#org39800a8">1.3. File Structure</a></li>
+<li><a href="#orgeff67e6">1.1. How This Works</a></li>
+<li><a href="#orga6f85d5">1.2. Quick Start</a></li>
+<li><a href="#orgf748ebc">1.3. File Structure</a></li>
 </ul>
 </li>
-<li><a href="#orgfc56825">2. Tangling All Configurations</a>
+<li><a href="#org16450c0">2. Tangling All Configurations</a>
 <ul>
-<li><a href="#org5cbea9d">2.1. Using tangle.sh (Recommended)</a></li>
-<li><a href="#org13d36c8">2.2. Using Elisp Helper (Alternative)</a></li>
+<li><a href="#orgcf4e853">2.1. Using tangle.sh (Recommended)</a></li>
+<li><a href="#org9b2dbea">2.2. Using Elisp Helper (Alternative)</a></li>
 </ul>
 </li>
-<li><a href="#orgaab13ec">3. Configuration Sections</a>
+<li><a href="#org2650673">3. Configuration Sections</a>
 <ul>
-<li><a href="#orgf97c9ea">3.1. Early Initialization</a></li>
-<li><a href="#org1f6deda">3.2. Core Initialization</a></li>
-<li><a href="#orgf3d37c4">3.3. Theme and Appearance</a></li>
-<li><a href="#org1357546">3.4. Window Management</a></li>
-<li><a href="#org19d84fc">3.5. Completion System</a></li>
-<li><a href="#orga2ece08">3.6. Directory Editor (Dired)</a></li>
-<li><a href="#orga78da48">3.7. Note Taking</a></li>
-<li><a href="#org620403e">3.8. Shell Integration</a></li>
-<li><a href="#orga6bede1">3.9. Programming Language</a></li>
-<li><a href="#org254212b">3.10. Miscellaneous</a></li>
-<li><a href="#orgea37d9b">3.11. Platform-Specific Configurations</a></li>
+<li><a href="#orge4169eb">3.1. Early Initialization</a></li>
+<li><a href="#org7f9cdf7">3.2. Core Initialization</a></li>
+<li><a href="#orgd3d3a55">3.3. Theme and Appearance</a></li>
+<li><a href="#org52325ae">3.4. Window Management</a></li>
+<li><a href="#org69d81f7">3.5. Completion System</a></li>
+<li><a href="#org786dfa6">3.6. Directory Editor (Dired)</a></li>
+<li><a href="#org3a49d94">3.7. Knowledge Management</a></li>
+<li><a href="#org262255a">3.8. Shell Integration</a></li>
+<li><a href="#org90f8f41">3.9. Programming Language</a></li>
+<li><a href="#orgbc7305d">3.10. Miscellaneous</a></li>
+<li><a href="#org1b5a89e">3.11. Platform-Specific Configurations</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgf2f407d" class="outline-2">
-<h2 id="orgf2f407d"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-orgc75161d" class="outline-2">
+<h2 id="orgc75161d"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This is my comprehensive Emacs configuration written in a literate programming style using Org-mode. The configuration is split into modular sections for better organization and maintainability.
 </p>
 </div>
 
-<div id="outline-container-org4839e8b" class="outline-3">
-<h3 id="org4839e8b"><span class="section-number-3">1.1.</span> How This Works</h3>
+<div id="outline-container-orgeff67e6" class="outline-3">
+<h3 id="orgeff67e6"><span class="section-number-3">1.1.</span> How This Works</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li><b>Tangling</b>: Since configurations are modular, you can:
@@ -78,8 +78,8 @@ This is my comprehensive Emacs configuration written in a literate programming s
 </div>
 </div>
 
-<div id="outline-container-org08c5612" class="outline-3">
-<h3 id="org08c5612"><span class="section-number-3">1.2.</span> Quick Start</h3>
+<div id="outline-container-orga6f85d5" class="outline-3">
+<h3 id="orga6f85d5"><span class="section-number-3">1.2.</span> Quick Start</h3>
 <div class="outline-text-3" id="text-1-2">
 <ol class="org-ol">
 <li>Clone this repository</li>
@@ -97,8 +97,8 @@ Alternative methods:
 </div>
 </div>
 
-<div id="outline-container-org39800a8" class="outline-3">
-<h3 id="org39800a8"><span class="section-number-3">1.3.</span> File Structure</h3>
+<div id="outline-container-orgf748ebc" class="outline-3">
+<h3 id="orgf748ebc"><span class="section-number-3">1.3.</span> File Structure</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 The configuration is organized as follows:
@@ -111,7 +111,7 @@ The configuration is organized as follows:
 <li><b>Window</b> - Window management and layout</li>
 <li><b>Completion</b> - Completion frameworks and interfaces</li>
 <li><b>Dired</b> - Directory editor enhancements</li>
-<li><b>Note</b> - Note-taking and knowledge management</li>
+<li><b>Knowledge Management</b> - Org-mode, org-roam, and note-taking tools</li>
 <li><b>Shell</b> - Terminal and shell integration</li>
 <li><b>Programming</b> - Language-specific configurations</li>
 <li><b>Miscellaneous</b> - Utilities and helper functions</li>
@@ -121,12 +121,12 @@ The configuration is organized as follows:
 </div>
 </div>
 
-<div id="outline-container-orgfc56825" class="outline-2">
-<h2 id="orgfc56825"><span class="section-number-2">2.</span> Tangling All Configurations</h2>
+<div id="outline-container-org16450c0" class="outline-2">
+<h2 id="org16450c0"><span class="section-number-2">2.</span> Tangling All Configurations</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org5cbea9d" class="outline-3">
-<h3 id="org5cbea9d"><span class="section-number-3">2.1.</span> Using tangle.sh (Recommended)</h3>
+<div id="outline-container-orgcf4e853" class="outline-3">
+<h3 id="orgcf4e853"><span class="section-number-3">2.1.</span> Using tangle.sh (Recommended)</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 The repository includes a <code>tangle.sh</code> script that automatically finds and tangles all configuration files recursively:
@@ -149,8 +149,8 @@ This script:
 </div>
 </div>
 
-<div id="outline-container-org13d36c8" class="outline-3">
-<h3 id="org13d36c8"><span class="section-number-3">2.2.</span> Using Elisp Helper (Alternative)</h3>
+<div id="outline-container-org9b2dbea" class="outline-3">
+<h3 id="org9b2dbea"><span class="section-number-3">2.2.</span> Using Elisp Helper (Alternative)</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Alternatively, execute this code block from within Emacs by placing your cursor inside it and running <code>C-c C-c</code>:
@@ -164,7 +164,7 @@ Alternatively, execute this code block from within Emacs by placing your cursor 
                       <span class="org-string">"configs/04-window.org"</span>
                       <span class="org-string">"configs/05-completion.org"</span>
                       <span class="org-string">"configs/06-dired.org"</span>
-                      <span class="org-string">"configs/07-note.org"</span>
+                      <span class="org-string">"configs/07-org.org"</span>
                       <span class="org-string">"configs/08-shell.org"</span>
                       <span class="org-string">"configs/09-programming.org"</span>
                       <span class="org-string">"configs/10-miscellaneous.org"</span>
@@ -187,53 +187,53 @@ This will process all config files and extract their code blocks to <code>~/.ema
 </div>
 </div>
 
-<div id="outline-container-orgaab13ec" class="outline-2">
-<h2 id="orgaab13ec"><span class="section-number-2">3.</span> Configuration Sections</h2>
+<div id="outline-container-org2650673" class="outline-2">
+<h2 id="org2650673"><span class="section-number-2">3.</span> Configuration Sections</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgf97c9ea" class="outline-3">
-<h3 id="orgf97c9ea"><span class="section-number-3">3.1.</span> <a href="configs/01-early-init.html">Early Initialization</a></h3>
+<div id="outline-container-orge4169eb" class="outline-3">
+<h3 id="orge4169eb"><span class="section-number-3">3.1.</span> <a href="configs/01-early-init.html">Early Initialization</a></h3>
 </div>
-<div id="outline-container-org1f6deda" class="outline-3">
-<h3 id="org1f6deda"><span class="section-number-3">3.2.</span> <a href="configs/02-init.html">Core Initialization</a></h3>
+<div id="outline-container-org7f9cdf7" class="outline-3">
+<h3 id="org7f9cdf7"><span class="section-number-3">3.2.</span> <a href="configs/02-init.html">Core Initialization</a></h3>
 </div>
-<div id="outline-container-orgf3d37c4" class="outline-3">
-<h3 id="orgf3d37c4"><span class="section-number-3">3.3.</span> <a href="configs/03-theme.html">Theme and Appearance</a></h3>
+<div id="outline-container-orgd3d3a55" class="outline-3">
+<h3 id="orgd3d3a55"><span class="section-number-3">3.3.</span> <a href="configs/03-theme.html">Theme and Appearance</a></h3>
 </div>
-<div id="outline-container-org1357546" class="outline-3">
-<h3 id="org1357546"><span class="section-number-3">3.4.</span> <a href="configs/04-window.html">Window Management</a></h3>
+<div id="outline-container-org52325ae" class="outline-3">
+<h3 id="org52325ae"><span class="section-number-3">3.4.</span> <a href="configs/04-window.html">Window Management</a></h3>
 </div>
-<div id="outline-container-org19d84fc" class="outline-3">
-<h3 id="org19d84fc"><span class="section-number-3">3.5.</span> <a href="configs/05-completion.html">Completion System</a></h3>
+<div id="outline-container-org69d81f7" class="outline-3">
+<h3 id="org69d81f7"><span class="section-number-3">3.5.</span> <a href="configs/05-completion.html">Completion System</a></h3>
 </div>
-<div id="outline-container-orga2ece08" class="outline-3">
-<h3 id="orga2ece08"><span class="section-number-3">3.6.</span> <a href="configs/06-dired.html">Directory Editor (Dired)</a></h3>
+<div id="outline-container-org786dfa6" class="outline-3">
+<h3 id="org786dfa6"><span class="section-number-3">3.6.</span> <a href="configs/06-dired.html">Directory Editor (Dired)</a></h3>
 </div>
-<div id="outline-container-orga78da48" class="outline-3">
-<h3 id="orga78da48"><span class="section-number-3">3.7.</span> <a href="configs/07-note.html">Note Taking</a></h3>
+<div id="outline-container-org3a49d94" class="outline-3">
+<h3 id="org3a49d94"><span class="section-number-3">3.7.</span> <a href="configs/07-org.html">Knowledge Management</a></h3>
 </div>
-<div id="outline-container-org620403e" class="outline-3">
-<h3 id="org620403e"><span class="section-number-3">3.8.</span> <a href="configs/08-shell.html">Shell Integration</a></h3>
+<div id="outline-container-org262255a" class="outline-3">
+<h3 id="org262255a"><span class="section-number-3">3.8.</span> <a href="configs/08-shell.html">Shell Integration</a></h3>
 </div>
-<div id="outline-container-orga6bede1" class="outline-3">
-<h3 id="orga6bede1"><span class="section-number-3">3.9.</span> <a href="configs/09-programming.html">Programming Language</a></h3>
+<div id="outline-container-org90f8f41" class="outline-3">
+<h3 id="org90f8f41"><span class="section-number-3">3.9.</span> <a href="configs/09-programming.html">Programming Language</a></h3>
 </div>
-<div id="outline-container-org254212b" class="outline-3">
-<h3 id="org254212b"><span class="section-number-3">3.10.</span> <a href="configs/10-miscellaneous.html">Miscellaneous</a></h3>
+<div id="outline-container-orgbc7305d" class="outline-3">
+<h3 id="orgbc7305d"><span class="section-number-3">3.10.</span> <a href="configs/10-miscellaneous.html">Miscellaneous</a></h3>
 </div>
 
-<div id="outline-container-orgea37d9b" class="outline-3">
-<h3 id="orgea37d9b"><span class="section-number-3">3.11.</span> Platform-Specific Configurations</h3>
+<div id="outline-container-org1b5a89e" class="outline-3">
+<h3 id="org1b5a89e"><span class="section-number-3">3.11.</span> Platform-Specific Configurations</h3>
 <div class="outline-text-3" id="text-3-11">
 </div>
-<div id="outline-container-orgb2918fc" class="outline-4">
-<h4 id="orgb2918fc"><span class="section-number-4">3.11.1.</span> <a href="configs/11-platform-linux.html">Linux-Specific Configuration</a></h4>
+<div id="outline-container-org0c6448d" class="outline-4">
+<h4 id="org0c6448d"><span class="section-number-4">3.11.1.</span> <a href="configs/11-platform-linux.html">Linux-Specific Configuration</a></h4>
 </div>
-<div id="outline-container-orgc384128" class="outline-4">
-<h4 id="orgc384128"><span class="section-number-4">3.11.2.</span> <a href="configs/12-platform-macos.html">macOS-Specific Configuration</a></h4>
+<div id="outline-container-orgc31f6ae" class="outline-4">
+<h4 id="orgc31f6ae"><span class="section-number-4">3.11.2.</span> <a href="configs/12-platform-macos.html">macOS-Specific Configuration</a></h4>
 </div>
-<div id="outline-container-org0ff2f97" class="outline-4">
-<h4 id="org0ff2f97"><span class="section-number-4">3.11.3.</span> <a href="configs/13-platform-windows.html">Windows-Specific Configuration</a></h4>
+<div id="outline-container-org2ac9c84" class="outline-4">
+<h4 id="org2ac9c84"><span class="section-number-4">3.11.3.</span> <a href="configs/13-platform-windows.html">Windows-Specific Configuration</a></h4>
 </div>
 </div>
 </div>
