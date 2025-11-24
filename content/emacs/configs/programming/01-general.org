@@ -82,8 +82,9 @@ This module provides:
   (use-package powershell :defer t)
   (use-package yaml-mode :defer t)
 
-  ;; Version Control
-  (use-package magit)
+  ;; Version Control - Skip magit on server (GUI-intensive)
+  (unless emacs-server-mode
+    (use-package magit))
 
   (use-package project
     :bind

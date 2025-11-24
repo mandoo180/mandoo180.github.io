@@ -10,6 +10,17 @@ Core Emacs settings using use-package. This configures built-in Emacs behavior w
   ;;; init.el --- Summary  -*- lexical-binding: t; -*-
   ;;; Commentary:
   ;;; Code:
+
+  ;; Server/headless environment detection
+  ;; Detects if running without GUI (SSH, daemon, terminal)
+  (defvar emacs-server-mode
+    (or (not (display-graphic-p))
+        (daemonp)
+        (getenv "SSH_CONNECTION")
+        (getenv "EMACS_SERVER_MODE"))
+    "Non-nil when running in server/headless mode (SSH, daemon, no GUI).
+  Set environment variable EMACS_SERVER_MODE=1 to force server mode.")
+
   (use-package emacs
     :ensure nil
     :bind

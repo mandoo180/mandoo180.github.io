@@ -127,25 +127,28 @@ Core Org-mode settings including babel languages, templates, and basic customiza
 * Org Download
 
 Drag-and-drop images and screenshots into org buffers.
+Automatically skipped on server/headless environments (requires GUI for screenshots).
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
-  (use-package org-download
-    :after org
-    :custom
-    ;; Store images in a local "images" directory
-    (org-download-image-dir "images")
+  ;; Skip org-download on server (requires GUI for screenshots)
+  (unless emacs-server-mode
+    (use-package org-download
+      :after org
+      :custom
+      ;; Store images in a local "images" directory
+      (org-download-image-dir "images")
 
-    ;; Don't create heading-based subdirectories
-    (org-download-heading-lvl nil)
+      ;; Don't create heading-based subdirectories
+      (org-download-heading-lvl nil)
 
-    ;; Screenshot method based on OS
-    (org-download-screenshot-method
-     (cond ((eq system-type 'darwin) "screencapture -i %s")
-           ((eq system-type 'gnu/linux) "scrot -s %s")))
+      ;; Screenshot method based on OS
+      (org-download-screenshot-method
+       (cond ((eq system-type 'darwin) "screencapture -i %s")
+             ((eq system-type 'gnu/linux) "scrot -s %s")))
 
-    :config
-    ;; Enable inline display of remote images
-    (setq org-download-display-inline-images 'posframe))
+      :config
+      ;; Enable inline display of remote images
+      (setq org-download-display-inline-images 'posframe)))
 #+end_src
 
 * Org Appear (Disabled)
@@ -661,18 +664,21 @@ Configure org-roam's graph visualization for better insights into your knowledge
 ** UI Enhancement with org-roam-ui
 
 Optional web-based graph visualization interface (requires separate package).
+Automatically skipped on server/headless environments.
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
-  (use-package org-roam-ui
-    :after org-roam
-    :custom
-    (org-roam-ui-sync-theme t)              ;; Sync with Emacs theme
-    (org-roam-ui-follow t)                  ;; Follow current note in UI
-    (org-roam-ui-update-on-save t)          ;; Update graph on save
-    (org-roam-ui-open-on-start t)           ;; Open browser when activated
-    (org-roam-ui-browser-function #'browse-url-default-browser)  ;; Use default browser
-    :bind
-    ("C-c n u" . org-roam-ui-mode))
+  ;; Skip org-roam-ui on server (requires browser/GUI)
+  (unless emacs-server-mode
+    (use-package org-roam-ui
+      :after org-roam
+      :custom
+      (org-roam-ui-sync-theme t)              ;; Sync with Emacs theme
+      (org-roam-ui-follow t)                  ;; Follow current note in UI
+      (org-roam-ui-update-on-save t)          ;; Update graph on save
+      (org-roam-ui-open-on-start t)           ;; Open browser when activated
+      (org-roam-ui-browser-function #'browse-url-default-browser)  ;; Use default browser
+      :bind
+      ("C-c n u" . org-roam-ui-mode)))
 #+end_src
 
 ** Performance Optimizations
