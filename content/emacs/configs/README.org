@@ -18,7 +18,7 @@ Each configuration module is a separate Org file:
 | =04-window.org=           | Window management and navigation                     | =~/.emacs.d/elisp/settings/window-conf.el=     |
 | =05-completion.org=       | Completion frameworks                                | =~/.emacs.d/elisp/settings/completion-conf.el= |
 | =06-dired.org=            | Directory editor enhancements                        | =~/.emacs.d/elisp/settings/dired-conf.el=      |
-| =07-note.org=             | Org-mode and note-taking                             | =~/.emacs.d/elisp/settings/note-conf.el=       |
+| =07-org.org=              | Knowledge management (org-mode, org-roam)            | =~/.emacs.d/elisp/settings/org-conf.el=        |
 | =08-shell.org=            | Terminal and shell integration                       | =~/.emacs.d/elisp/settings/shell-conf.el=      |
 | =09-programming.org=      | Language-specific configurations (index)             | =~/.emacs.d/elisp/settings/prog-*.el=          |
 | =programming/=            | *Subdirectory* with language-specific modules        | See =programming/README.org=                     |

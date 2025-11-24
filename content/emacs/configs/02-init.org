@@ -265,7 +265,7 @@ Core Emacs settings using use-package. This configures built-in Emacs behavior w
     (require 'window-conf)
     (require 'completion-conf)
     (require 'dired-conf)
-    (require 'note-conf)
+    (require 'org-conf)
     (require 'shell-conf)
     (require 'prog-conf)
     (require 'misc-conf)
