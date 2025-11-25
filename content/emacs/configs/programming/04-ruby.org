@@ -147,6 +147,7 @@ This module provides comprehensive Ruby development support:
 
     ;; Uncomment to enable auto-format on save
     ;; (add-hook 'after-save-hook #'fu-ruby-rubocop-autocorrect-on-save))
+    )
 
   ;; RSpec: Testing framework
   (use-package rspec-mode
