@@ -47,18 +47,19 @@ Terminal emulators and shell integration within Emacs.
               (<span class="org-keyword">lambda</span> ()
                               (<span class="org-keyword">setq-local</span> display-line-numbers nil))))
 
-  (<span class="org-keyword">use-package</span> vterm
-      <span class="org-builtin">:custom</span>
-      (vterm-max-scrollback 1000)           <span class="org-comment-delimiter">; </span><span class="org-comment">Very small scrollback for speed
-</span>      (vterm-buffer-name-string <span class="org-string">"vterm %s"</span>)
-      (vterm-kill-buffer-on-exit t)
-      (vterm-timer-delay nil)               <span class="org-comment-delimiter">; </span><span class="org-comment">Use Emacs redisplay (fastest on macOS)
-</span>      (vterm-always-compile-module t)
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">CRITICAL: Set proper TERM environment variable
-</span>      <span class="org-comment-delimiter">;; </span><span class="org-comment">Must be a list of strings
-</span>      (vterm-environment '(<span class="org-string">"TERM=xterm-256color"</span>))
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: set term name vterm reports to shell
-</span>      (vterm-term-environment-variable <span class="org-string">"xterm-256color"</span>)))
+  (<span class="org-keyword">when</span> (executable-find <span class="org-string">"cmake"</span>)
+    (<span class="org-keyword">use-package</span> vterm
+        <span class="org-builtin">:custom</span>
+        (vterm-max-scrollback 1000)           <span class="org-comment-delimiter">; </span><span class="org-comment">Very small scrollback for speed
+</span>        (vterm-buffer-name-string <span class="org-string">"vterm %s"</span>)
+        (vterm-kill-buffer-on-exit t)
+        (vterm-timer-delay nil)               <span class="org-comment-delimiter">; </span><span class="org-comment">Use Emacs redisplay (fastest on macOS)
+</span>        (vterm-always-compile-module t)
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">CRITICAL: Set proper TERM environment variable
+</span>        <span class="org-comment-delimiter">;; </span><span class="org-comment">Must be a list of strings
+</span>        (vterm-environment '(<span class="org-string">"TERM=xterm-256color"</span>))
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: set term name vterm reports to shell
+</span>        (vterm-term-environment-variable <span class="org-string">"xterm-256color"</span>))))
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Shell
 </span>(<span class="org-keyword">use-package</span> shell
