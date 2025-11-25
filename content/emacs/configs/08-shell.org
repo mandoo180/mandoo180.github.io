@@ -31,18 +31,19 @@ Terminal emulators and shell integration within Emacs.
                 (lambda ()
   				(setq-local display-line-numbers nil))))
 
-    (use-package vterm
-  	:custom
-  	(vterm-max-scrollback 1000)           ; Very small scrollback for speed
-  	(vterm-buffer-name-string "vterm %s")
-  	(vterm-kill-buffer-on-exit t)
-  	(vterm-timer-delay nil)               ; Use Emacs redisplay (fastest on macOS)
-  	(vterm-always-compile-module t)
-  	;; CRITICAL: Set proper TERM environment variable
-  	;; Must be a list of strings
-  	(vterm-environment '("TERM=xterm-256color"))
-  	;; Alternative: set term name vterm reports to shell
-  	(vterm-term-environment-variable "xterm-256color")))
+    (when (executable-find "cmake")
+      (use-package vterm
+  	  :custom
+  	  (vterm-max-scrollback 1000)           ; Very small scrollback for speed
+  	  (vterm-buffer-name-string "vterm %s")
+  	  (vterm-kill-buffer-on-exit t)
+  	  (vterm-timer-delay nil)               ; Use Emacs redisplay (fastest on macOS)
+  	  (vterm-always-compile-module t)
+  	  ;; CRITICAL: Set proper TERM environment variable
+  	  ;; Must be a list of strings
+  	  (vterm-environment '("TERM=xterm-256color"))
+  	  ;; Alternative: set term name vterm reports to shell
+  	  (vterm-term-environment-variable "xterm-256color"))))
 
   ;; Shell
   (use-package shell

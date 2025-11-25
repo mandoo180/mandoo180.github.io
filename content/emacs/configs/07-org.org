@@ -494,6 +494,11 @@ Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org
   (use-package org-roam
     :after org
     :demand t
+    :init
+    ;; Ensure org-roam directory exists before package loads
+    (let ((roam-dir (file-truename "~/org-roam/")))
+      (unless (file-directory-p roam-dir)
+        (make-directory roam-dir t)))
     :custom
     ;; Directory where all your notes will be stored
     (org-roam-directory (file-truename "~/org-roam/"))
@@ -520,11 +525,7 @@ Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org
 
     :config
     ;; Initialize org-roam database and sync on startup
-    (org-roam-db-autosync-mode 1)
-
-    ;; Ensure org-roam directory exists
-    (unless (file-directory-p org-roam-directory)
-      (make-directory org-roam-directory t)))
+    (org-roam-db-autosync-mode 1))
 #+end_src
 
 ** Capture Templates

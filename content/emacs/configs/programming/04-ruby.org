@@ -93,11 +93,16 @@ This module provides comprehensive Ruby development support:
 
   ;; inf-ruby: Ruby REPL integration
   (use-package inf-ruby
+    :after ruby-mode
     :hook ((ruby-mode . inf-ruby-minor-mode)
            (compilation-filter . inf-ruby-auto-enter))
     :bind (:map ruby-mode-map
                 ("C-c C-s" . inf-ruby)
-                ("C-c C-z" . inf-ruby-switch-from-compilation))
+                ("C-c C-z" . inf-ruby-switch-from-compilation)
+                ("C-c C-c" . fu-ruby-send-region-or-buffer)
+                ("C-c C-d" . fu-ruby-send-definition)
+                ("C-c C-l" . ruby-load-file)
+                ("C-c C-r" . ruby-send-region))
     :config
     ;; Automatically start REPL when evaluating code
     (defun fu-ruby-send-region-or-buffer ()
@@ -118,12 +123,7 @@ This module provides comprehensive Ruby development support:
         (ruby-end-of-defun)
         (let ((end (point)))
           (ruby-beginning-of-defun)
-          (ruby-send-region (point) end))))
-
-    (define-key ruby-mode-map (kbd "C-c C-c") 'fu-ruby-send-region-or-buffer)
-    (define-key ruby-mode-map (kbd "C-c C-d") 'fu-ruby-send-definition)
-    (define-key ruby-mode-map (kbd "C-c C-l") 'ruby-load-file)
-    (define-key ruby-mode-map (kbd "C-c C-r") 'ruby-send-region))
+          (ruby-send-region (point) end)))))
 
   ;; RuboCop: Linting and formatting
   (use-package rubocop
@@ -151,7 +151,7 @@ This module provides comprehensive Ruby development support:
 
   ;; RSpec: Testing framework
   (use-package rspec-mode
-    :defer t
+    :after ruby-mode
     :hook (ruby-mode . rspec-mode)
     :bind (:map ruby-mode-map
                 ("C-c t t" . rspec-verify)
@@ -175,21 +175,32 @@ This module provides comprehensive Ruby development support:
     (add-hook 'ruby-mode-hook #'fu-ruby-use-bundler-for-rspec))
 
   ;; Bundler: Dependency management
-  (use-package bundler
-    :defer t
-    :commands (bundle-install
-               bundle-update
-               bundle-exec
-               bundle-open)
-    :bind (:map ruby-mode-map
-                ("C-c b i" . bundle-install)
-                ("C-c b u" . bundle-update)
-                ("C-c b e" . bundle-exec)
-                ("C-c b o" . bundle-open)))
+  ;; Note: bundler package is no longer available on MELPA
+  ;; Using custom functions with compilation-mode instead
+  (defun fu-bundle-install ()
+    "Run bundle install in the project root."
+    (interactive)
+    (let ((default-directory (or (locate-dominating-file default-directory "Gemfile")
+                                 default-directory)))
+      (compile "bundle install")))
+
+  (defun fu-bundle-update ()
+    "Run bundle update in the project root."
+    (interactive)
+    (let ((default-directory (or (locate-dominating-file default-directory "Gemfile")
+                                 default-directory)))
+      (compile "bundle update")))
+
+  (defun fu-bundle-exec (command)
+    "Run COMMAND via bundle exec in the project root."
+    (interactive "sBundle exec: ")
+    (let ((default-directory (or (locate-dominating-file default-directory "Gemfile")
+                                 default-directory)))
+      (compile (concat "bundle exec " command))))
 
   ;; Rake: Task runner
   (use-package rake
-    :defer t
+    :after ruby-mode
     :commands (rake rake-find-task rake-rerun)
     :bind (:map ruby-mode-map
                 ("C-c k r" . rake)
@@ -198,9 +209,13 @@ This module provides comprehensive Ruby development support:
 
   ;; Ruby on Rails support
   (use-package projectile-rails
-    :defer t
+    :after (ruby-mode projectile)
     :hook (projectile-mode . projectile-rails-global-mode)
     :bind-keymap ("C-c R" . projectile-rails-command-map)
+    :bind (:map ruby-mode-map
+                ("C-c R m" . projectile-rails-find-model)
+                ("C-c R c" . projectile-rails-find-controller)
+                ("C-c R v" . projectile-rails-find-view))
     :config
     ;; Enable Rails-specific features when in Rails project
     (defun fu-ruby-rails-mode-hook ()
@@ -209,28 +224,7 @@ This module provides comprehensive Ruby development support:
         ;; Enable additional Rails features
         (setq-local compilation-scroll-output t)))
 
-    (add-hook 'projectile-rails-mode-hook #'fu-ruby-rails-mode-hook)
-
-    ;; Rails file navigation helpers
-    (defun fu-rails-find-model ()
-      "Find Rails model."
-      (interactive)
-      (projectile-rails-find-model))
-
-    (defun fu-rails-find-controller ()
-      "Find Rails controller."
-      (interactive)
-      (projectile-rails-find-controller))
-
-    (defun fu-rails-find-view ()
-      "Find Rails view."
-      (interactive)
-      (projectile-rails-find-view))
-
-    ;; Keybindings for Rails navigation
-    (define-key ruby-mode-map (kbd "C-c R m") 'fu-rails-find-model)
-    (define-key ruby-mode-map (kbd "C-c R c") 'fu-rails-find-controller)
-    (define-key ruby-mode-map (kbd "C-c R v") 'fu-rails-find-view))
+    (add-hook 'projectile-rails-mode-hook #'fu-ruby-rails-mode-hook))
 
   ;; YAML mode for Rails config files
   (use-package yaml-mode
@@ -250,15 +244,12 @@ This module provides comprehensive Ruby development support:
                 ("C-c C-e l" . ruby-refactor-extract-to-let)))
 
   ;; Ruby block manipulation
-  (use-package ruby-block
-    :defer t
-    :hook (ruby-mode . ruby-block-mode)
-    :custom
-    (ruby-block-highlight-toggle t))
+  ;; Note: ruby-block package is no longer available on MELPA
+  ;; show-paren-mode provides similar functionality for matching blocks
 
   ;; YARD documentation
   (use-package yard-mode
-    :defer t
+    :after ruby-mode
     :hook (ruby-mode . yard-mode)
     :bind (:map ruby-mode-map
                 ("C-c y" . yard-mode)))
@@ -358,7 +349,8 @@ This module provides comprehensive Ruby development support:
                 (delete-region (match-beginning 0) (match-end 0))
                 (insert ":" symbol " =>")))))))))
 
-  (define-key ruby-mode-map (kbd "C-c h") 'fu-ruby-toggle-hash-syntax)
+  (with-eval-after-load 'ruby-mode
+    (define-key ruby-mode-map (kbd "C-c h") 'fu-ruby-toggle-hash-syntax))
 
   ;; LSP configuration with Eglot
   (with-eval-after-load 'eglot
