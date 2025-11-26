@@ -18,26 +18,359 @@
 <body>
 <main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
 <h1 class="title">Directory Editor (Dired)</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org780ad40">1. Introduction</a></li>
+<li><a href="#org771944c">2. Core Dired Configuration</a></li>
+<li><a href="#org782f744">3. Dired-X (Extra Features)</a></li>
+<li><a href="#orgfd25fef">4. Subtree Navigation</a></li>
+<li><a href="#org761667c">5. Filtering and Narrowing</a></li>
+<li><a href="#orgbe7fdb5">6. Advanced File Operations</a>
+<ul>
+<li><a href="#orgcd84fa6">6.1. Writable Dired (wdired)</a></li>
+</ul>
+</li>
+<li><a href="#org986c1c3">7. Quick Preview</a></li>
+<li><a href="#orgb3860fb">8. Additional Keybindings</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org780ad40" class="outline-2">
+<h2 id="org780ad40"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-Enhancements for the built-in directory editor.
+Dired (Directory Editor) is Emacs's built-in file manager that allows you to navigate, view, and manipulate files and directories directly within Emacs. This configuration enhances Dired with modern features like icons, filtering, tree views, and advanced file operations.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org771944c" class="outline-2">
+<h2 id="org771944c"><span class="section-number-2">2.</span> Core Dired Configuration</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The base Dired settings provide human-readable file listings, automatic buffer updates, and convenient file operations.
+</p>
+
+<p>
+Key features:
+</p>
+<ul class="org-ul">
+<li>Human-readable file sizes (<code>-h</code> flag)</li>
+<li>Show all files including hidden ones (<code>-a</code> flag)</li>
+<li>Long listing format with detailed information (<code>-l</code> flag)</li>
+<li>Automatically revert buffers when files change</li>
+<li>Recursive operations for copy/delete</li>
+<li>Kill buffers when deleting directories</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el --- Directory Editor Configuration  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Enhanced Dired configuration with modern features
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+(<span class="org-keyword">use-package</span> dired
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:commands</span> (dired dired-jump)
+  <span class="org-builtin">:bind</span> ((<span class="org-string">"C-x C-j"</span> . dired-jump))
+  <span class="org-builtin">:hook</span>
+  (dired-mode-hook . dired-hide-details-mode)
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Listing switches: all files, human-readable sizes, long format
+</span>  (dired-listing-switches <span class="org-string">"-ahl --group-directories-first"</span>)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-refresh dired buffers when files change
+</span>  (dired-auto-revert-buffer t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Human-readable file sizes
+</span>  (dired-hide-details-hide-symlink-targets nil)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Ask for recursive operations
+</span>  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'always)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Kill buffer when deleting directory
+</span>  (dired-kill-when-opening-new-dired-buffer t)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Use '</span><span class="org-comment"><span class="org-constant">a</span></span><span class="org-comment">' to open files in same buffer
+</span>  (put 'dired-find-alternate-file 'disabled nil))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org782f744" class="outline-2">
+<h2 id="org782f744"><span class="section-number-2">3.</span> Dired-X (Extra Features)</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Dired-X provides additional functionality including omitting uninteresting files, jumping to the current file's directory, and advanced marking operations.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Omit mode to hide uninteresting files (toggle with <code>C-x M-o</code>)</li>
+<li>Jump to dired from any buffer (<code>C-x C-j</code>)</li>
+<li>Guess shell commands based on file type</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> dired-x
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:after</span> dired
+  <span class="org-builtin">:bind</span> ((<span class="org-string">"C-x C-j"</span> . dired-jump)
+         (<span class="org-string">"C-x 4 C-j"</span> . dired-jump-other-window))
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Files to omit in omit-mode
+</span>  (dired-omit-files <span class="org-string">"^\\.[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">.]</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">^\\.?#</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">^\\.$</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">^\\.\\.$"</span>)
+  <span class="org-builtin">:hook</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable omit mode by default
+</span>  (dired-mode . dired-omit-mode))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfd25fef" class="outline-2">
+<h2 id="orgfd25fef"><span class="section-number-2">4.</span> Subtree Navigation</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The <code>dired-subtree</code> package allows you to expand and collapse directories inline, creating a tree-like view without opening multiple buffers.
+</p>
+
+<p>
+Usage:
+</p>
+<ul class="org-ul">
+<li><code>C-,</code> : Toggle subtree expansion/collapse</li>
+<li>Navigate through the tree structure without leaving the current buffer</li>
+<li>Great for exploring nested directory structures</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> dired-subtree
+  <span class="org-builtin">:after</span> dired
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> dired-mode-map
+              (<span class="org-string">"C-,"</span> . dired-subtree-toggle)
+              (<span class="org-string">"TAB"</span> . dired-subtree-cycle)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org761667c" class="outline-2">
+<h2 id="org761667c"><span class="section-number-2">5.</span> Filtering and Narrowing</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+The <code>dired-filter</code> package provides powerful filtering capabilities to narrow down file lists based on various criteria.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Filter by name, extension, regexp</li>
+<li>Stack multiple filters</li>
+<li>Save and restore filter configurations</li>
+<li>Quick filtering with keyboard shortcuts</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> dired-filter
+  <span class="org-builtin">:after</span> dired
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> dired-mode-map
+              (<span class="org-string">"/"</span> . dired-filter-map))
+  <span class="org-builtin">:hook</span>
+  (dired-mode . dired-filter-mode))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbe7fdb5" class="outline-2">
+<h2 id="orgbe7fdb5"><span class="section-number-2">6.</span> Advanced File Operations</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgcd84fa6" class="outline-3">
+<h3 id="orgcd84fa6"><span class="section-number-3">6.1.</span> Writable Dired (wdired)</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Edit file names directly in the dired buffer as if it were a text file. Perfect for batch renaming files.
+</p>
+
+<p>
+Usage:
+</p>
+<ol class="org-ol">
+<li>Press <code>C-x C-q</code> to enter wdired mode</li>
+<li>Edit file names using normal Emacs editing commands</li>
+<li>Press <code>C-c C-c</code> to apply changes or <code>C-c C-k</code> to abort</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> wdired
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:after</span> dired
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Make wdired work with permissions
+</span>  (wdired-allow-to-change-permissions t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Allow changing symlink targets
+</span>  (wdired-allow-to-redirect-links t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Create parent directories automatically
+</span>  (wdired-create-parent-directories t))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org986c1c3" class="outline-2">
+<h2 id="org986c1c3"><span class="section-number-2">7.</span> Quick Preview</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+The <code>peep-dired</code> package provides a quick file preview without opening the file, similar to macOS Finder's Quick Look.
+</p>
+
+<p>
+Usage: Press <code>P</code> to toggle preview mode, then navigate files to see previews.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el --- Summary  -*- lexical-binding: t; -*-
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>(<span class="org-keyword">use-package</span> dired
-  <span class="org-builtin">:ensure</span> nil
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> peep-dired
+  <span class="org-builtin">:after</span> dired
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> dired-mode-map
+              (<span class="org-string">"P"</span> . peep-dired))
   <span class="org-builtin">:custom</span>
-  (dired-listing-switches <span class="org-string">"-ahl"</span>))
-(<span class="org-keyword">use-package</span> dired-filter)
-(<span class="org-keyword">use-package</span> dired-subtree
-  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> dired-mode-map (<span class="org-string">"C-,"</span> . dired-subtree-toggle)))
+  (peep-dired-cleanup-on-disable t)
+  (peep-dired-enable-on-directories t))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb3860fb" class="outline-2">
+<h2 id="orgb3860fb"><span class="section-number-2">8.</span> Additional Keybindings</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Some useful Dired commands to remember:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
-(<span class="org-keyword">provide</span> '<span class="org-constant">dired-conf</span>)
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Key</th>
+<th scope="col" class="org-left">Command</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>m</code></td>
+<td class="org-left">dired-mark</td>
+<td class="org-left">Mark file</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>u</code></td>
+<td class="org-left">dired-unmark</td>
+<td class="org-left">Unmark file</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>U</code></td>
+<td class="org-left">dired-unmark-all-marks</td>
+<td class="org-left">Unmark all</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>t</code></td>
+<td class="org-left">dired-toggle-marks</td>
+<td class="org-left">Toggle marks</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>d</code></td>
+<td class="org-left">dired-flag-file-deletion</td>
+<td class="org-left">Flag for deletion</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x</code></td>
+<td class="org-left">dired-do-flagged-delete</td>
+<td class="org-left">Execute deletions</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C</code></td>
+<td class="org-left">dired-do-copy</td>
+<td class="org-left">Copy marked files</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>R</code></td>
+<td class="org-left">dired-do-rename</td>
+<td class="org-left">Rename/move marked files</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>D</code></td>
+<td class="org-left">dired-do-delete</td>
+<td class="org-left">Delete marked files immediately</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>+</code></td>
+<td class="org-left">dired-create-directory</td>
+<td class="org-left">Create directory</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>g</code></td>
+<td class="org-left">revert-buffer</td>
+<td class="org-left">Refresh directory listing</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>s</code></td>
+<td class="org-left">dired-sort-toggle-or-edit</td>
+<td class="org-left">Toggle sorting</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>(</code></td>
+<td class="org-left">dired-hide-details-mode</td>
+<td class="org-left">Toggle detailed view</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>^</code></td>
+<td class="org-left">dired-up-directory</td>
+<td class="org-left">Go to parent directory</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x C-q</code></td>
+<td class="org-left">dired-toggle-read-only</td>
+<td class="org-left">Enter wdired mode for batch renaming</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">dired-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">dired-conf.el ends here</span>
 </pre>
+</div>
+</div>
 </div>
 </main>
 </body>

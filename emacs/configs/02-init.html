@@ -247,10 +247,10 @@ Set environment variable EMACS_SERVER_MODE=1 to force server mode."</span>)
                         (ibuffer-switch-to-saved-filter-groups <span class="org-string">"default"</span>)))
   (<span class="org-keyword">setq</span> ibuffer-show-empty-filter-groups nil) <span class="org-comment-delimiter">; </span><span class="org-comment">don't show empty groups
 </span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">So eshell git commands open an instance of THIS config of Emacs
-</span>  (setenv <span class="org-string">"GIT_EDITOR"</span> (format <span class="org-string">"emacs --init-dir=%s "</span> (shell-quote-argument user-emacs-directory)))
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">So rebase from eshell opens with a bit of syntax highlight
-</span>  (add-to-list 'auto-mode-alist '(<span class="org-string">"/git-rebase-todo\\'"</span> . conf-mode))
-
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(setenv "GIT_EDITOR" (format "emacs --init-dir=%s " (shell-quote-argument user-emacs-directory)))
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">So rebase from eshell opens with a bit of syntax highlight
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(add-to-list 'auto-mode-alist '("/git-rebase-todo\\'" . conf-mode))
+</span>
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Reset GC after startup for better runtime performance
 </span>  (add-hook 'emacs-startup-hook
                       (<span class="org-keyword">lambda</span> ()
@@ -292,7 +292,7 @@ Set environment variable EMACS_SERVER_MODE=1 to force server mode."</span>)
   (<span class="org-keyword">require</span> '<span class="org-constant">window-conf</span>)
   (<span class="org-keyword">require</span> '<span class="org-constant">completion-conf</span>)
   (<span class="org-keyword">require</span> '<span class="org-constant">dired-conf</span>)
-  (<span class="org-keyword">require</span> '<span class="org-constant">org-conf</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">doc-conf</span>)
   (<span class="org-keyword">require</span> '<span class="org-constant">shell-conf</span>)
   (<span class="org-keyword">require</span> '<span class="org-constant">prog-conf</span>)
   (<span class="org-keyword">require</span> '<span class="org-constant">misc-conf</span>)

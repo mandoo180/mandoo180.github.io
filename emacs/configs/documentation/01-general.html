@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org10dd6c4">1. General Documentation Configuration</a>
+<ul>
+<li><a href="#orgdf8e9e4">1.1. Overview</a></li>
+<li><a href="#orgb1b7294">1.2. What's Included</a></li>
+<li><a href="#org5747863">1.3. General</a></li>
+</ul>
+</li>
+<li><a href="#org3bbeacb">2. End of File</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org10dd6c4" class="outline-2">
+<h2 id="org10dd6c4"><span class="section-number-2">1.</span> General Documentation Configuration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Common documentation tools and utilities that apply across all document formats (Org-mode, Markdown, etc.).
+</p>
+</div>
+
+<div id="outline-container-orgdf8e9e4" class="outline-3">
+<h3 id="orgdf8e9e4"><span class="section-number-3">1.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+This module provides:
+</p>
+<ul class="org-ul">
+<li><b><b>Distraction-Free Writing</b></b>: Olivetti for centered, focused writing</li>
+<li><b><b>Reading Experience</b></b>: Enhanced typography and visual comfort</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb1b7294" class="outline-3">
+<h3 id="orgb1b7294"><span class="section-number-3">1.2.</span> What's Included</h3>
+<div class="outline-text-3" id="text-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Category</th>
+<th scope="col" class="org-left">Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Distraction-Free Mode</td>
+<td class="org-left">olivetti</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org5747863" class="outline-3">
+<h3 id="org5747863"><span class="section-number-3">1.3.</span> General</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-general-conf.el --- General documentation configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">General documentation tools: distraction-free writing and utilities
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">that apply across all document formats.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Distraction-Free Writing
+</span>(<span class="org-keyword">use-package</span> olivetti
+  <span class="org-builtin">:bind</span> (<span class="org-string">"&lt;f9&gt;"</span> . olivetti-mode) <span class="org-comment-delimiter">;; </span><span class="org-comment">Toggle with F9
+</span>  <span class="org-builtin">:custom</span>
+  (olivetti-body-width 80)       <span class="org-comment-delimiter">;; </span><span class="org-comment">Set width to 80 chars
+</span>  (olivetti-recall-visual-line-mode-entry-state t))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3bbeacb" class="outline-2">
+<h2 id="org3bbeacb"><span class="section-number-2">2.</span> End of File</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">doc-general-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-general-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

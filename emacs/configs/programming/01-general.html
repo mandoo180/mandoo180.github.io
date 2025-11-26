@@ -21,26 +21,43 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfa13b7c">1. General Programming Configuration</a>
+<li><a href="#org2fab3e1">1. General Programming Configuration</a>
 <ul>
-<li><a href="#orgf834939">1.1. Overview</a></li>
-<li><a href="#org0620679">1.2. What's Included</a></li>
-<li><a href="#orgcd9d4bd">1.3. General</a></li>
+<li><a href="#org9e1aabe">1.1. Overview</a></li>
+<li><a href="#org75d9a0d">1.2. What's Included</a></li>
+<li><a href="#org0cc7a64">1.3. Completion</a></li>
+<li><a href="#orga2db838">1.4. Compilation and Build Tools</a></li>
+<li><a href="#org1248798">1.5. Version Control</a></li>
+<li><a href="#org63a5bc9">1.6. Documentation</a></li>
+<li><a href="#org4f83081">1.7. Editing Utilities</a></li>
+<li><a href="#org525519c">1.8. Syntax Checking</a></li>
+<li><a href="#orga665073">1.9. Diff and Merge</a></li>
+<li><a href="#orgdbc43da">1.10. Code Snippets</a></li>
+<li><a href="#org87cc4bf">1.11. LSP - Language Server Protocol</a></li>
+<li><a href="#orgaf65e5d">1.12. Multiple Cursors and Region Expansion</a>
+<ul>
+<li><a href="#orgcdad1e1">1.12.1. Multiple Cursors</a></li>
+<li><a href="#org2b091da">1.12.2. Expand Region</a></li>
 </ul>
 </li>
+<li><a href="#orgcd0474a">1.13. REST Client</a></li>
+</ul>
+</li>
+<li><a href="#org2ea40b3">2. End of File</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfa13b7c" class="outline-2">
-<h2 id="orgfa13b7c"><span class="section-number-2">1.</span> General Programming Configuration</h2>
+
+<div id="outline-container-org2fab3e1" class="outline-2">
+<h2 id="org2fab3e1"><span class="section-number-2">1.</span> General Programming Configuration</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Common programming tools and utilities that apply across all languages.
 </p>
 </div>
 
-<div id="outline-container-orgf834939" class="outline-3">
-<h3 id="orgf834939"><span class="section-number-3">1.1.</span> Overview</h3>
+<div id="outline-container-org9e1aabe" class="outline-3">
+<h3 id="org9e1aabe"><span class="section-number-3">1.1.</span> Overview</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 This module provides:
@@ -50,14 +67,19 @@ This module provides:
 <li><b><b>Compilation</b></b>: Enhanced compilation mode with ANSI colors</li>
 <li><b><b>Version Control</b></b>: Magit, project management, merge conflict resolution</li>
 <li><b><b>Documentation</b></b>: Eldoc for inline documentation</li>
-<li><b><b>Code Quality</b></b>: Flymake for syntax checking, formatting tools</li>
-<li><b><b>Editing Utilities</b></b>: Electric pairs, rainbow delimiters, code folding</li>
+<li><b><b>Code Quality</b></b>: Flymake for syntax checking</li>
+<li><b><b>Editing Utilities</b></b>: Electric pairs, parenthesis matching</li>
+<li><b><b>Multi-Cursor Editing</b></b>: Multiple cursors and intelligent region expansion</li>
+<li><b><b>Diff &amp; Merge</b></b>: Advanced diff viewing and merge conflict resolution</li>
+<li><b><b>Code Snippets</b></b>: Template expansion with YASnippet</li>
+<li><b><b>LSP</b></b>: Language Server Protocol support with Eglot</li>
+<li><b><b>REST Client</b></b>: HTTP API testing from Emacs</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org0620679" class="outline-3">
-<h3 id="org0620679"><span class="section-number-3">1.2.</span> What's Included</h3>
+<div id="outline-container-org75d9a0d" class="outline-3">
+<h3 id="org75d9a0d"><span class="section-number-3">1.2.</span> What's Included</h3>
 <div class="outline-text-3" id="text-1-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -100,27 +122,61 @@ This module provides:
 </tr>
 
 <tr>
-<td class="org-left">Code Formatting</td>
-<td class="org-left">format-all, apheleia</td>
+<td class="org-left">Editing</td>
+<td class="org-left">electric-pair, paren</td>
 </tr>
 
 <tr>
-<td class="org-left">Editing</td>
-<td class="org-left">electric-pair, paren, rainbow-delimiters</td>
+<td class="org-left">Multi-Cursor Editing</td>
+<td class="org-left">multiple-cursors, expand-region</td>
+</tr>
+
+<tr>
+<td class="org-left">Diff &amp; Merge</td>
+<td class="org-left">diff-mode, ediff</td>
+</tr>
+
+<tr>
+<td class="org-left">Code Snippets</td>
+<td class="org-left">yasnippet</td>
+</tr>
+
+<tr>
+<td class="org-left">LSP</td>
+<td class="org-left">eglot</td>
+</tr>
+
+<tr>
+<td class="org-left">REST Client</td>
+<td class="org-left">restclient</td>
 </tr>
 
 <tr>
 <td class="org-left">File Formats</td>
-<td class="org-left">conf-mode, yaml-mode, powershell</td>
+<td class="org-left">conf-mode, yaml-mode, powershell, sql-indent</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 
-<div id="outline-container-orgcd9d4bd" class="outline-3">
-<h3 id="orgcd9d4bd"><span class="section-number-3">1.3.</span> General</h3>
+<div id="outline-container-org0cc7a64" class="outline-3">
+<h3 id="org0cc7a64"><span class="section-number-3">1.3.</span> Completion</h3>
 <div class="outline-text-3" id="text-1-3">
+<p>
+In-buffer completion with Corfu provides a lightweight, fast completion UI that integrates seamlessly with Emacs's native completion system.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Manual completion activation (disabled auto-completion to reduce distractions)</li>
+<li>Candidate overlay showing the first completion inline</li>
+<li>Works with LSP, Eglot, and other completion backends</li>
+<li><code>C-TAB</code> to trigger completion at point</li>
+</ul>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
@@ -143,7 +199,30 @@ This module provides:
 </span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">this relies on having corfu-auto set to nil
 </span>  (corfu-candidate-overlay-mode 1)
   (global-set-key (kbd <span class="org-string">"C-&lt;tab&gt;"</span>) 'completion-at-point))
+</pre>
+</div>
+</div>
+</div>
 
+<div id="outline-container-orga2db838" class="outline-3">
+<h3 id="orga2db838"><span class="section-number-3">1.4.</span> Compilation and Build Tools</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Enhanced compilation mode with ANSI color support for better readability of build output. Includes support for Makefiles and configuration files.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>ANSI color filtering in compilation buffers</li>
+<li>Auto-scroll compilation output</li>
+<li>Always kill existing compilation before starting new one</li>
+<li>Tree-sitter support for Makefiles</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Compilation
 </span>(<span class="org-keyword">use-package</span> compile
   <span class="org-builtin">:ensure</span> nil
@@ -176,10 +255,60 @@ This module provides:
 
 (<span class="org-keyword">use-package</span> powershell <span class="org-builtin">:defer</span> t)
 (<span class="org-keyword">use-package</span> yaml-mode <span class="org-builtin">:defer</span> t)
+</pre>
+</div>
+</div>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Version Control - Skip magit on server (GUI-intensive)
-</span>(<span class="org-keyword">unless</span> emacs-server-mode
-  (<span class="org-keyword">use-package</span> magit))
+<div id="outline-container-org1248798" class="outline-3">
+<h3 id="org1248798"><span class="section-number-3">1.5.</span> Version Control</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Magit is the premier Git interface for Emacs, providing a comprehensive and intuitive way to work with Git repositories.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Full-featured Git interface with <code>C-x g</code></li>
+<li>Same-window display (vim-fugitive style)</li>
+<li>File-specific operations with <code>C-c g</code></li>
+<li>Refined diffs with word-level changes</li>
+<li>Project integration with recompile command</li>
+<li>Smerge for merge conflict resolution</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Version Control
+</span>(<span class="org-keyword">use-package</span> magit
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:bind</span> ((<span class="org-string">"C-x g"</span> . magit-status)
+         (<span class="org-string">"C-x C-g"</span> . magit-status)
+         (<span class="org-string">"C-c g"</span> . magit-file-dispatch)) <span class="org-comment-delimiter">;; </span><span class="org-comment">Great for acting on the current file
+</span>  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">1. Window Management:
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Open Magit in the same window (like vim-fugitive) rather than splitting.
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">This prevents Magit from messing up your window configuration.
+</span>  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">2. Safety &amp; Workflow:
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Save all modified buffers in the repo without asking every time.
+</span>  (magit-save-repository-buffers 'dontask)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Don't restore the window config when quitting Magit (let me stay where I am).
+</span>  (magit-bury-buffer-function #'magit-mode-quit-window)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">3. Appearance in the Status Buffer:
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Refine the hunk headers to look cleaner.
+</span>  (magit-diff-refine-hunk t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Show fine-grained differences within lines (word-wise diffs).
+</span>  (magit-diff-refine-ignore-whitespace t)
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Optional: Add a hook to maximize the window when entering Magit Status
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(uncomment if you prefer full-screen git management)
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(add-hook 'magit-status-mode-hook #'delete-other-windows)
+</span>  )
 
 (<span class="org-keyword">use-package</span> project
   <span class="org-builtin">:bind</span>
@@ -192,8 +321,31 @@ This module provides:
               (<span class="org-string">"C-c ^ l"</span> . smerge-keep-lower)
               (<span class="org-string">"C-c ^ n"</span> . smerge-next)
               (<span class="org-string">"C-c ^ p"</span> . smerge-previous)))
+</pre>
+</div>
+</div>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Documentation
+<div id="outline-container-org63a5bc9" class="outline-3">
+<h3 id="org63a5bc9"><span class="section-number-3">1.6.</span> Documentation</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+Eldoc provides inline documentation in the echo area or popup boxes, showing function signatures, variable documentation, and more.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Global eldoc mode for all programming buffers</li>
+<li>Popup documentation boxes with eldoc-box</li>
+<li>Hover documentation with <code>C-c h .</code></li>
+<li>Multiline documentation support</li>
+<li>Scrollable documentation windows</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Documentation
 </span>(<span class="org-keyword">use-package</span> eldoc
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:init</span>
@@ -211,8 +363,30 @@ This module provides:
   (<span class="org-string">"C-c h ."</span> . eldoc-box-help-at-point)
   <span class="org-builtin">:hook</span>
   (eldoc-mode . eldoc-box-hover-mode))
+</pre>
+</div>
+</div>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Editing utilities
+<div id="outline-container-org4f83081" class="outline-3">
+<h3 id="org4f83081"><span class="section-number-3">1.7.</span> Editing Utilities</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+Essential editing enhancements for programming including automatic pairing of brackets, parenthesis matching, and visual delimiter highlighting.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Electric pair mode: Auto-insert closing brackets, quotes, parentheses</li>
+<li>Show matching parentheses with no delay</li>
+<li>Mixed style: highlight expression when point is inside</li>
+<li>Show context when matching paren is off-screen</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Editing utilities
 </span>(<span class="org-keyword">use-package</span> elec-pair
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:defer</span>
@@ -227,8 +401,31 @@ This module provides:
   (show-paren-delay 0)
   (show-paren-style 'mixed)
   (show-paren-context-when-offscreen t))
+</pre>
+</div>
+</div>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Syntax checking
+<div id="outline-container-org525519c" class="outline-3">
+<h3 id="org525519c"><span class="section-number-3">1.8.</span> Syntax Checking</h3>
+<div class="outline-text-3" id="text-1-8">
+<p>
+Flymake provides on-the-fly syntax checking with visual indicators in the margin and optional diagnostics at end of line.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Automatic syntax checking in programming modes</li>
+<li>Margin indicators for errors/warnings/notes</li>
+<li>Navigate errors with <code>M-7</code> / <code>M-8</code> or <code>C-c ! n</code> / <code>C-c ! p</code></li>
+<li>Toggle end-of-line diagnostics with <code>C-c ! t</code></li>
+<li>View all diagnostics with <code>C-c ! l</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Syntax checking
 </span>(<span class="org-keyword">use-package</span> flymake
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:defer</span> t
@@ -260,8 +457,32 @@ and restart Flymake to apply the changes."</span>
       (message <span class="org-string">"Flymake diagnostics at end of line: %s"</span>
              (<span class="org-keyword">if</span> flymake-show-diagnostics-at-end-of-line
                  <span class="org-string">"Enabled"</span> <span class="org-string">"Disabled"</span>))))
+</pre>
+</div>
+</div>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Diff and merge
+<div id="outline-container-orga665073" class="outline-3">
+<h3 id="orga665073"><span class="section-number-3">1.9.</span> Diff and Merge</h3>
+<div class="outline-text-3" id="text-1-9">
+<p>
+Tools for viewing differences between files and resolving merge conflicts with enhanced syntax highlighting and navigation.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Read-only diff buffers by default (safer)</li>
+<li>Auto-advance after applying hunks</li>
+<li>Live updates of diffs</li>
+<li>Syntax highlighting in diff hunks</li>
+<li>Horizontal split for ediff</li>
+<li>Plain window setup (no separate control frame)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Diff and merge
 </span>(<span class="org-keyword">use-package</span> diff-mode
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:defer</span> t
@@ -283,18 +504,60 @@ and restart Flymake to apply the changes."</span>
   (<span class="org-keyword">setq</span> ediff-make-buffers-readonly-at-startup nil)
   (<span class="org-keyword">setq</span> ediff-merge-revisions-with-ancestor t)
   (<span class="org-keyword">setq</span> ediff-show-clashes-only t))
+</pre>
+</div>
+</div>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Snippets
+<div id="outline-container-orgdbc43da" class="outline-3">
+<h3 id="orgdbc43da"><span class="section-number-3">1.10.</span> Code Snippets</h3>
+<div class="outline-text-3" id="text-1-10">
+<p>
+YASnippet provides a template system for Emacs, allowing you to type abbreviations and expand them into code templates.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Automatic activation in programming modes</li>
+<li>Tab-stop navigation through template fields</li>
+<li>Wide library of pre-built snippets for many languages</li>
+<li>Easy to create custom snippets</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Snippets
 </span>(<span class="org-keyword">use-package</span> yasnippet
   <span class="org-builtin">:hook</span>
   (prog-mode . yas-minor-mode))
+</pre>
+</div>
+</div>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Whitespace
-</span>(<span class="org-keyword">use-package</span> whitespace
-  <span class="org-builtin">:ensure</span> nil
-  <span class="org-builtin">:defer</span> t)
+<div id="outline-container-org87cc4bf" class="outline-3">
+<h3 id="org87cc4bf"><span class="section-number-3">1.11.</span> LSP - Language Server Protocol</h3>
+<div class="outline-text-3" id="text-1-11">
+<p>
+Eglot is a lightweight LSP client for Emacs providing IDE-like features including code completion, navigation, and refactoring.
+</p>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">LSP - Eglot
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Minimal configuration required</li>
+<li>Auto-shutdown when buffers are killed</li>
+<li>Code actions with <code>C-c l a</code></li>
+<li>Organize imports with <code>C-c l o</code></li>
+<li>Rename symbols with <code>C-c l r</code></li>
+<li>Format code with <code>C-c l f</code></li>
+<li>Performance optimized (disabled event logging)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">LSP - Eglot
 </span>(<span class="org-keyword">use-package</span> eglot
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:custom</span>
@@ -312,39 +575,133 @@ and restart Flymake to apply the changes."</span>
                (<span class="org-string">"C-c l o"</span> . eglot-code-actions-organize-imports)
                (<span class="org-string">"C-c l r"</span> . eglot-rename)
                (<span class="org-string">"C-c l f"</span> . eglot-format)))
+</pre>
+</div>
+</div>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Markdown
-</span>(<span class="org-keyword">use-package</span> markdown-mode
-  <span class="org-builtin">:mode</span> ((<span class="org-string">"README\\.md\\'"</span> . gfm-mode)
-         (<span class="org-string">"\\.md\\'"</span> . markdown-mode)
-         (<span class="org-string">"\\.markdown\\'"</span> . markdown-mode))
-  <span class="org-builtin">:custom</span>
-  (markdown-split-window-direction 'right)
-  (markdown-command <span class="org-string">"multimarkdown"</span>)
-  (markdown-fontify-code-blocks-natively t))
+<div id="outline-container-orgaf65e5d" class="outline-3">
+<h3 id="orgaf65e5d"><span class="section-number-3">1.12.</span> Multiple Cursors and Region Expansion</h3>
+<div class="outline-text-3" id="text-1-12">
+<p>
+Powerful editing features for working with multiple selections and intelligently expanding/contracting selections.
+</p>
+</div>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">REST client
+<div id="outline-container-orgcdad1e1" class="outline-4">
+<h4 id="orgcdad1e1"><span class="section-number-4">1.12.1.</span> Multiple Cursors</h4>
+<div class="outline-text-4" id="text-1-12-1">
+<p>
+The <code>multiple-cursors</code> package allows you to edit multiple locations simultaneously, perfect for renaming variables or making repetitive edits.
+</p>
+
+<p>
+Key bindings:
+</p>
+<ul class="org-ul">
+<li><code>C-&gt;</code> : Mark next like this (add cursor to next occurrence)</li>
+<li><code>C-&lt;</code> : Mark previous like this (add cursor to previous occurrence)</li>
+<li><code>C-c C-&gt;</code> : Mark all like this in buffer</li>
+<li><code>C-S-&lt;mouse-1&gt;</code> : Add cursor with mouse click</li>
+<li><code>C-c m r</code> : Mark all in region matching selection</li>
+<li><code>C-c m l</code> : Edit lines (add cursor to each line in region)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Multiple Cursors
+</span>(<span class="org-keyword">use-package</span> multiple-cursors
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:bind</span> ((<span class="org-string">"C-&gt;"</span> . mc/mark-next-like-this)
+         (<span class="org-string">"C-&lt;"</span> . mc/mark-previous-like-this)
+         (<span class="org-string">"C-c C-&gt;"</span> . mc/mark-all-like-this)
+         (<span class="org-string">"C-S-&lt;mouse-1&gt;"</span> . mc/add-cursor-on-click)
+         (<span class="org-string">"C-c m r"</span> . mc/mark-all-in-region)
+         (<span class="org-string">"C-c m l"</span> . mc/edit-lines)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2b091da" class="outline-4">
+<h4 id="org2b091da"><span class="section-number-4">1.12.2.</span> Expand Region</h4>
+<div class="outline-text-4" id="text-1-12-2">
+<p>
+The <code>expand-region</code> package provides smart selection expansion based on semantic units (words, expressions, functions, etc.).
+</p>
+
+<p>
+Usage:
+</p>
+<ul class="org-ul">
+<li><code>C-=</code> : Expand region by semantic units</li>
+<li><code>C--</code> : Contract region</li>
+<li>Press repeatedly to expand/contract further</li>
+</ul>
+
+<p>
+Example: Place cursor in a word, press <code>C-=</code> once for word, again for quotes, again for expression, again for function, etc.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Expand Region
+</span>(<span class="org-keyword">use-package</span> expand-region
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:bind</span> ((<span class="org-string">"C-="</span> . er/expand-region)
+         (<span class="org-string">"C--"</span> . er/contract-region)))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcd0474a" class="outline-3">
+<h3 id="orgcd0474a"><span class="section-number-3">1.13.</span> REST Client</h3>
+<div class="outline-text-3" id="text-1-13">
+<p>
+HTTP REST client for testing APIs directly from Emacs buffers.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Write HTTP requests in a simple DSL</li>
+<li>Execute requests and view responses inline</li>
+<li>Support for variables and request chaining</li>
+<li>Works with <code>.rest</code> files</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">REST client
 </span>(<span class="org-keyword">use-package</span> restclient
   <span class="org-builtin">:mode</span> (<span class="org-string">"\\.rest\\'"</span> . restclient-mode)
   <span class="org-builtin">:commands</span> (restclient-mode))
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Claude Code integration
-</span>(<span class="org-keyword">use-package</span> claude-code-emacs-client
-  <span class="org-builtin">:ensure</span> nil
-  <span class="org-builtin">:load-path</span> <span class="org-string">"~/Projects/claude-code-emacs-client"</span>
-  <span class="org-builtin">:custom</span>
-  (claude-code-default-permission-mode <span class="org-string">"acceptEdits"</span>)
-  <span class="org-builtin">:bind</span>
-  ((<span class="org-string">"C-c c n"</span> . claude-code-new-session)
-   (<span class="org-string">"C-c c r"</span> . claude-code-resume-session)
-   (<span class="org-string">"C-c c c"</span> . claude-code-continue-session)
-   (<span class="org-string">"C-c c m"</span> . claude-code-send-message)
-   (<span class="org-string">"C-c c s"</span> . claude-code-send-region)))
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">prog-general-conf</span>)
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el ends here</span>
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package claude-code-emacs-client
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:ensure nil
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:load-path "~/Projects/claude-code-emacs-client"
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(claude-code-default-permission-mode "acceptEdits")
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(("C-c c n" . claude-code-new-session)
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">("C-c c r" . claude-code-resume-session)
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">("C-c c c" . claude-code-continue-session)
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">("C-c c m" . claude-code-send-message)
+</span><span class="org-comment-delimiter">;;    </span><span class="org-comment">("C-c c s" . claude-code-send-region)))</span>
 </pre>
 </div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2ea40b3" class="outline-2">
+<h2 id="org2ea40b3"><span class="section-number-2">2.</span> End of File</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">prog-general-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el ends here</span>
+</pre>
 </div>
 </div>
 </div>

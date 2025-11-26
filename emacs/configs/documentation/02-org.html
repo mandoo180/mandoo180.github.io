@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Knowledge Management</title>
+<title>&lrm;</title>
 <meta name="generator" content="Org Mode" />
 <meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
 <style>
@@ -17,61 +17,126 @@
 </head>
 <body>
 <main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
-<h1 class="title">Knowledge Management</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org19ec65f">1. Org Mode Core Configuration</a></li>
-<li><a href="#orgb517a19">2. Org Download</a></li>
-<li><a href="#org283adfe">3. Org Appear (Disabled)</a></li>
-<li><a href="#org65cd725">4. Org Google Calendar</a></li>
-<li><a href="#orgea2dbe8">5. Org Remote Images</a></li>
-<li><a href="#org886b7b3">6. Org-Roam Configuration</a>
+<li><a href="#org3608b8b">1. Introduction</a></li>
+<li><a href="#org47de784">2. Org Mode Core Configuration</a></li>
+<li><a href="#orgb370c9c">3. Org Download</a></li>
+<li><a href="#org4cafab8">4. Org Appear (Disabled)</a></li>
+<li><a href="#orgbd8fa6b">5. Org Google Calendar</a></li>
+<li><a href="#org027b956">6. Org Remote Images</a></li>
+<li><a href="#org0d19502">7. Org-Roam Configuration</a>
 <ul>
-<li><a href="#org096eb63">6.1. Core Setup</a></li>
-<li><a href="#orgdfca218">6.2. Capture Templates</a></li>
-<li><a href="#org74acf69">6.3. Daily Notes Configuration</a></li>
-<li><a href="#org9ea8cb0">6.4. Enhanced Node Display</a></li>
-<li><a href="#org3f9ab5b">6.5. Graph Visualization</a></li>
-<li><a href="#orgebff312">6.6. UI Enhancement with org-roam-ui</a></li>
-<li><a href="#org16ac1e1">6.7. Performance Optimizations</a></li>
-<li><a href="#org8f23e7a">6.8. Best Practices Summary</a></li>
-<li><a href="#org7a248c4">6.9. Common Workflows</a></li>
-</ul>
-</li>
-<li><a href="#org10c3bc1">7. Remote Access Setup</a>
+<li><a href="#org7c1f6c3">7.1. Core Setup</a></li>
+<li><a href="#orgafc12d6">7.2. Capture Templates</a></li>
+<li><a href="#orgd1f5383">7.3. Daily Notes Configuration</a></li>
+<li><a href="#org5d233bb">7.4. Enhanced Node Display</a></li>
+<li><a href="#org58fd661">7.5. Graph Visualization</a></li>
+<li><a href="#orgf0a3432">7.6. UI Enhancement with org-roam-ui</a></li>
+<li><a href="#org3c5b687">7.7. Performance Optimizations</a></li>
+<li><a href="#orgd43c469">7.8. Best Practices Summary</a></li>
+<li><a href="#org9e01542">7.9. Common Workflows</a>
 <ul>
-<li><a href="#orgfffed0b">7.1. Overview of Remote Access Approaches</a></li>
-<li><a href="#org74320f2">7.2. AWS EC2 / VPS Setup Guide</a></li>
-<li><a href="#org2a70315">7.3. Fast SSH Access with Mosh</a></li>
-<li><a href="#orgd65e29e">7.4. org-roam-ui for Mobile Web Access</a></li>
-<li><a href="#orga1e8218">7.5. iOS Quick Capture Setup</a></li>
-<li><a href="#org3a9edff">7.6. Git Sync Workflow</a></li>
-<li><a href="#org22309ff">7.7. Backup Strategy</a></li>
-<li><a href="#orgbca02ec">7.8. Daily Workflow Examples</a></li>
-<li><a href="#org8f9f77b">7.9. Troubleshooting</a></li>
-<li><a href="#org060b5a7">7.10. Cost Estimation</a></li>
-<li><a href="#org301654a">7.11. Comparison to Notion/Obsidian</a></li>
-<li><a href="#orgcbeb2d3">7.12. References and Resources</a></li>
+<li><a href="#orgeb9e8c6">7.9.1. Creating a New Note</a></li>
+<li><a href="#org49c6aec">7.9.2. Linking Notes</a></li>
+<li><a href="#orgf1b90ae">7.9.3. Daily Journaling</a></li>
+<li><a href="#org99dd903">7.9.4. Reviewing Connections</a></li>
+<li><a href="#org3085fcf">7.9.5. Deleting Notes Safely</a></li>
 </ul>
 </li>
 </ul>
+</li>
+<li><a href="#org29378a9">8. Remote Access Setup</a>
+<ul>
+<li><a href="#org563d050">8.1. Overview of Remote Access Approaches</a></li>
+<li><a href="#org2531fc1">8.2. AWS EC2 / VPS Setup Guide</a>
+<ul>
+<li><a href="#org69e2cb1">8.2.1. Initial Server Setup</a></li>
+<li><a href="#org6a7a573">8.2.2. Transfer Org-Roam Files</a></li>
+<li><a href="#org06ede5b">8.2.3. Configure Emacs on Server</a></li>
+<li><a href="#org3b35d9f">8.2.4. Systemd Service for Auto-Start</a></li>
+</ul>
+</li>
+<li><a href="#org6da8b9b">8.3. Fast SSH Access with Mosh</a>
+<ul>
+<li><a href="#org9506bd9">8.3.1. Install Mosh</a></li>
+<li><a href="#orgf5a63c3">8.3.2. Configure Firewall</a></li>
+<li><a href="#org65408b5">8.3.3. Connect with Mosh</a></li>
+</ul>
+</li>
+<li><a href="#org1f6d3b4">8.4. org-roam-ui for Mobile Web Access</a>
+<ul>
+<li><a href="#org89db531">8.4.1. Local Access (SSH Tunnel)</a></li>
+<li><a href="#orgcdade06">8.4.2. Remote Access (Bind to Public IP)</a></li>
+</ul>
+</li>
+<li><a href="#orga3e52b7">8.5. iOS Quick Capture Setup</a>
+<ul>
+<li><a href="#org3f493a3">8.5.1. Option 1: Working Copy + Git Sync</a></li>
+<li><a href="#orgb6b76da">8.5.2. Option 2: SSH Terminal App</a></li>
+</ul>
+</li>
+<li><a href="#org1152291">8.6. Git Sync Workflow</a>
+<ul>
+<li><a href="#orgaaf8e74">8.6.1. Auto-Commit Script</a></li>
+</ul>
+</li>
+<li><a href="#orgd8bbce7">8.7. Backup Strategy</a>
+<ul>
+<li><a href="#org1bd5268">8.7.1. Git as Backup</a></li>
+<li><a href="#org3d0c9a9">8.7.2. S3 Backup (AWS)</a></li>
+</ul>
+</li>
+<li><a href="#orgcde44a2">8.8. Daily Workflow Examples</a>
+<ul>
+<li><a href="#org4093930">8.8.1. Morning Routine (Desktop)</a></li>
+<li><a href="#orgd252c98">8.8.2. Quick Capture (Mobile - iOS)</a></li>
+<li><a href="#org4531682">8.8.3. Browsing on iPad</a></li>
+</ul>
+</li>
+<li><a href="#orgf937009">8.9. Troubleshooting</a>
+<ul>
+<li><a href="#orgfbe8c9c">8.9.1. Database Issues</a></li>
+<li><a href="#org91c3f21">8.9.2. Mosh Won't Connect</a></li>
+<li><a href="#org6962f31">8.9.3. Emacs Daemon Not Starting</a></li>
+<li><a href="#org5f5ea34">8.9.4. org-roam-ui Not Accessible</a></li>
+</ul>
+</li>
+<li><a href="#org0d6b220">8.10. Cost Estimation</a>
+<ul>
+<li><a href="#org34e6283">8.10.1. AWS EC2 Free Tier</a></li>
+<li><a href="#orgbe21eab">8.10.2. Alternative VPS Providers</a></li>
+<li><a href="#org97f00b3">8.10.3. Total Monthly Cost</a></li>
+</ul>
+</li>
+<li><a href="#org8a4e92d">8.11. Comparison to Notion/Obsidian</a></li>
+<li><a href="#org78bc4a0">8.12. References and Resources</a></li>
+</ul>
+</li>
+<li><a href="#org5262f90">9. End of File</a></li>
+</ul>
 </div>
 </div>
+<div id="outline-container-org3608b8b" class="outline-2">
+<h2 id="org3608b8b"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
 Configuration for Org-mode and knowledge management tools including org-roam, org-gcal, and related packages.
 </p>
+</div>
+</div>
 
-<div id="outline-container-org19ec65f" class="outline-2">
-<h2 id="org19ec65f"><span class="section-number-2">1.</span> Org Mode Core Configuration</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-org47de784" class="outline-2">
+<h2 id="org47de784"><span class="section-number-2">2.</span> Org Mode Core Configuration</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 Core Org-mode settings including babel languages, templates, and basic customization.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">org-conf.el --- Org-mode and knowledge management configuration  -*- lexical-binding: t; -*-
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-org-conf.el --- Org-mode and knowledge management configuration  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
 </span>
@@ -117,7 +182,8 @@ Core Org-mode settings including babel languages, templates, and basic customiza
   (org-display-remote-inline-images 'download)
   (org-image-actual-width '(450))
   (org-tags-column 80)
-
+  <span class="org-builtin">:hook</span>
+  ((org-mode-hook . olivetti-mode))
   <span class="org-builtin">:config</span>
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Load org-tempo for easy template expansion
 </span>  (<span class="org-keyword">require</span> '<span class="org-constant">org-tempo</span>)
@@ -187,18 +253,16 @@ Core Org-mode settings including babel languages, templates, and basic customiza
 </div>
 </div>
 
-<div id="outline-container-orgb517a19" class="outline-2">
-<h2 id="orgb517a19"><span class="section-number-2">2.</span> Org Download</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgb370c9c" class="outline-2">
+<h2 id="orgb370c9c"><span class="section-number-2">3.</span> Org Download</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 Drag-and-drop images and screenshots into org buffers.
 Automatically skipped on server/headless environments (requires GUI for screenshots).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Skip org-download on server (requires GUI for screenshots)
-</span>(<span class="org-keyword">unless</span> emacs-server-mode
-  (<span class="org-keyword">use-package</span> org-download
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> org-download
     <span class="org-builtin">:after</span> org
     <span class="org-builtin">:custom</span>
     <span class="org-comment-delimiter">;; </span><span class="org-comment">Store images in a local "images" directory
@@ -214,15 +278,15 @@ Automatically skipped on server/headless environments (requires GUI for screensh
 
     <span class="org-builtin">:config</span>
     <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable inline display of remote images
-</span>    (<span class="org-keyword">setq</span> org-download-display-inline-images 'posframe)))
+</span>    (<span class="org-keyword">setq</span> org-download-display-inline-images 'posframe))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org283adfe" class="outline-2">
-<h2 id="org283adfe"><span class="section-number-2">3.</span> Org Appear (Disabled)</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-org4cafab8" class="outline-2">
+<h2 id="org4cafab8"><span class="section-number-2">4.</span> Org Appear (Disabled)</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 Shows hidden emphasis markers and links when cursor is on them. Currently disabled.
 </p>
@@ -245,11 +309,11 @@ Shows hidden emphasis markers and links when cursor is on them. Currently disabl
 </div>
 </div>
 
-<div id="outline-container-org65cd725" class="outline-2">
-<h2 id="org65cd725"><span class="section-number-2">4.</span> Org Google Calendar</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-orgbd8fa6b" class="outline-2">
+<h2 id="orgbd8fa6b"><span class="section-number-2">5.</span> Org Google Calendar</h2>
+<div class="outline-text-2" id="text-5">
 <p>
-Bidirectional sync between Org-mode and Google Calendar.
+Bidirectional sync between Org-mode and Google Calendar. Disabled for now.
 </p>
 
 <div class="org-src-container">
@@ -327,9 +391,9 @@ Bidirectional sync between Org-mode and Google Calendar.
 </div>
 </div>
 
-<div id="outline-container-orgea2dbe8" class="outline-2">
-<h2 id="orgea2dbe8"><span class="section-number-2">5.</span> Org Remote Images</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-org027b956" class="outline-2">
+<h2 id="org027b956"><span class="section-number-2">6.</span> Org Remote Images</h2>
+<div class="outline-text-2" id="text-6">
 <p>
 Display remote HTTP/HTTPS images inline in org buffers with automatic caching.
 </p>
@@ -571,17 +635,17 @@ Full credit goes to org-yt by Tobias Zawada for this function."</span>
 </div>
 </div>
 
-<div id="outline-container-org886b7b3" class="outline-2">
-<h2 id="org886b7b3"><span class="section-number-2">6.</span> Org-Roam Configuration</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-org0d19502" class="outline-2">
+<h2 id="org0d19502"><span class="section-number-2">7.</span> Org-Roam Configuration</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org-mode. It enables networked thought through bidirectional linking and provides tools for knowledge management inspired by Roam Research.
 </p>
 </div>
 
-<div id="outline-container-org096eb63" class="outline-3">
-<h3 id="org096eb63"><span class="section-number-3">6.1.</span> Core Setup</h3>
-<div class="outline-text-3" id="text-6-1">
+<div id="outline-container-org7c1f6c3" class="outline-3">
+<h3 id="org7c1f6c3"><span class="section-number-3">7.1.</span> Core Setup</h3>
+<div class="outline-text-3" id="text-7-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> org-roam
   <span class="org-builtin">:after</span> org
@@ -623,9 +687,9 @@ Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org
 </div>
 </div>
 
-<div id="outline-container-orgdfca218" class="outline-3">
-<h3 id="orgdfca218"><span class="section-number-3">6.2.</span> Capture Templates</h3>
-<div class="outline-text-3" id="text-6-2">
+<div id="outline-container-orgafc12d6" class="outline-3">
+<h3 id="orgafc12d6"><span class="section-number-3">7.2.</span> Capture Templates</h3>
+<div class="outline-text-3" id="text-7-2">
 <p>
 Define templates for different types of notes. This follows the best practice of having different note types (fleeting, permanent, literature, etc.).
 </p>
@@ -669,9 +733,9 @@ Define templates for different types of notes. This follows the best practice of
 </div>
 </div>
 
-<div id="outline-container-org74acf69" class="outline-3">
-<h3 id="org74acf69"><span class="section-number-3">6.3.</span> Daily Notes Configuration</h3>
-<div class="outline-text-3" id="text-6-3">
+<div id="outline-container-orgd1f5383" class="outline-3">
+<h3 id="orgd1f5383"><span class="section-number-3">7.3.</span> Daily Notes Configuration</h3>
+<div class="outline-text-3" id="text-7-3">
 <p>
 Daily notes are essential for journaling and capturing fleeting thoughts. This configuration follows best practices for daily note organization.
 </p>
@@ -715,9 +779,9 @@ Daily notes are essential for journaling and capturing fleeting thoughts. This c
 </div>
 </div>
 
-<div id="outline-container-org9ea8cb0" class="outline-3">
-<h3 id="org9ea8cb0"><span class="section-number-3">6.4.</span> Enhanced Node Display</h3>
-<div class="outline-text-3" id="text-6-4">
+<div id="outline-container-org5d233bb" class="outline-3">
+<h3 id="org5d233bb"><span class="section-number-3">7.4.</span> Enhanced Node Display</h3>
+<div class="outline-text-3" id="text-7-4">
 <p>
 Customize how nodes appear in completion and searches for better usability.
 </p>
@@ -750,9 +814,9 @@ Customize how nodes appear in completion and searches for better usability.
 </div>
 </div>
 
-<div id="outline-container-org3f9ab5b" class="outline-3">
-<h3 id="org3f9ab5b"><span class="section-number-3">6.5.</span> Graph Visualization</h3>
-<div class="outline-text-3" id="text-6-5">
+<div id="outline-container-org58fd661" class="outline-3">
+<h3 id="org58fd661"><span class="section-number-3">7.5.</span> Graph Visualization</h3>
+<div class="outline-text-3" id="text-7-5">
 <p>
 Configure org-roam's graph visualization for better insights into your knowledge network.
 </p>
@@ -781,9 +845,9 @@ Configure org-roam's graph visualization for better insights into your knowledge
 </div>
 </div>
 
-<div id="outline-container-orgebff312" class="outline-3">
-<h3 id="orgebff312"><span class="section-number-3">6.6.</span> UI Enhancement with org-roam-ui</h3>
-<div class="outline-text-3" id="text-6-6">
+<div id="outline-container-orgf0a3432" class="outline-3">
+<h3 id="orgf0a3432"><span class="section-number-3">7.6.</span> UI Enhancement with org-roam-ui</h3>
+<div class="outline-text-3" id="text-7-6">
 <p>
 Optional web-based graph visualization interface (requires separate package).
 Automatically skipped on server/headless environments.
@@ -807,9 +871,9 @@ Automatically skipped on server/headless environments.
 </div>
 </div>
 
-<div id="outline-container-org16ac1e1" class="outline-3">
-<h3 id="org16ac1e1"><span class="section-number-3">6.7.</span> Performance Optimizations</h3>
-<div class="outline-text-3" id="text-6-7">
+<div id="outline-container-org3c5b687" class="outline-3">
+<h3 id="org3c5b687"><span class="section-number-3">7.7.</span> Performance Optimizations</h3>
+<div class="outline-text-3" id="text-7-7">
 <p>
 Best practices for maintaining good performance with large note collections.
 </p>
@@ -865,9 +929,9 @@ If called from within a note, can use current note."</span>
 </div>
 </div>
 
-<div id="outline-container-org8f23e7a" class="outline-3">
-<h3 id="org8f23e7a"><span class="section-number-3">6.8.</span> Best Practices Summary</h3>
-<div class="outline-text-3" id="text-6-8">
+<div id="outline-container-orgd43c469" class="outline-3">
+<h3 id="orgd43c469"><span class="section-number-3">7.8.</span> Best Practices Summary</h3>
+<div class="outline-text-3" id="text-7-8">
 <p>
 Key principles to follow when using org-roam:
 </p>
@@ -886,13 +950,13 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org7a248c4" class="outline-3">
-<h3 id="org7a248c4"><span class="section-number-3">6.9.</span> Common Workflows</h3>
-<div class="outline-text-3" id="text-6-9">
+<div id="outline-container-org9e01542" class="outline-3">
+<h3 id="org9e01542"><span class="section-number-3">7.9.</span> Common Workflows</h3>
+<div class="outline-text-3" id="text-7-9">
 </div>
-<div id="outline-container-org18481eb" class="outline-4">
-<h4 id="org18481eb"><span class="section-number-4">6.9.1.</span> Creating a New Note</h4>
-<div class="outline-text-4" id="text-6-9-1">
+<div id="outline-container-orgeb9e8c6" class="outline-4">
+<h4 id="orgeb9e8c6"><span class="section-number-4">7.9.1.</span> Creating a New Note</h4>
+<div class="outline-text-4" id="text-7-9-1">
 <ol class="org-ol">
 <li><code>C-c n f</code> (org-roam-node-find)</li>
 <li>Type the note title</li>
@@ -902,9 +966,9 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org7dfdd1c" class="outline-4">
-<h4 id="org7dfdd1c"><span class="section-number-4">6.9.2.</span> Linking Notes</h4>
-<div class="outline-text-4" id="text-6-9-2">
+<div id="outline-container-org49c6aec" class="outline-4">
+<h4 id="org49c6aec"><span class="section-number-4">7.9.2.</span> Linking Notes</h4>
+<div class="outline-text-4" id="text-7-9-2">
 <ol class="org-ol">
 <li><code>C-c n i</code> (org-roam-node-insert) while writing</li>
 <li>Search for existing note or create new one</li>
@@ -913,9 +977,9 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org61af354" class="outline-4">
-<h4 id="org61af354"><span class="section-number-4">6.9.3.</span> Daily Journaling</h4>
-<div class="outline-text-4" id="text-6-9-3">
+<div id="outline-container-orgf1b90ae" class="outline-4">
+<h4 id="orgf1b90ae"><span class="section-number-4">7.9.3.</span> Daily Journaling</h4>
+<div class="outline-text-4" id="text-7-9-3">
 <ol class="org-ol">
 <li><code>C-c n j</code> (org-roam-dailies-capture-today)</li>
 <li>Select template (journal, meeting, task, etc.)</li>
@@ -924,9 +988,9 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-orgd327dcb" class="outline-4">
-<h4 id="orgd327dcb"><span class="section-number-4">6.9.4.</span> Reviewing Connections</h4>
-<div class="outline-text-4" id="text-6-9-4">
+<div id="outline-container-org99dd903" class="outline-4">
+<h4 id="org99dd903"><span class="section-number-4">7.9.4.</span> Reviewing Connections</h4>
+<div class="outline-text-4" id="text-7-9-4">
 <ol class="org-ol">
 <li><code>C-c n l</code> (org-roam-buffer-toggle) to see backlinks</li>
 <li><code>C-c n g</code> (org-roam-graph) for visual exploration</li>
@@ -935,9 +999,9 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-orgb476a67" class="outline-4">
-<h4 id="orgb476a67"><span class="section-number-4">6.9.5.</span> Deleting Notes Safely</h4>
-<div class="outline-text-4" id="text-6-9-5">
+<div id="outline-container-org3085fcf" class="outline-4">
+<h4 id="org3085fcf"><span class="section-number-4">7.9.5.</span> Deleting Notes Safely</h4>
+<div class="outline-text-4" id="text-7-9-5">
 <p>
 <b>Method 1: Delete from anywhere (recommended)</b>
 </p>
@@ -973,17 +1037,17 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org10c3bc1" class="outline-2">
-<h2 id="org10c3bc1"><span class="section-number-2">7.</span> Remote Access Setup</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-org29378a9" class="outline-2">
+<h2 id="org29378a9"><span class="section-number-2">8.</span> Remote Access Setup</h2>
+<div class="outline-text-2" id="text-8">
 <p>
 This section covers how to access org-roam from anywhere using cloud servers (AWS EC2, VPS, etc.) instead of Notion or Obsidian.
 </p>
 </div>
 
-<div id="outline-container-orgfffed0b" class="outline-3">
-<h3 id="orgfffed0b"><span class="section-number-3">7.1.</span> Overview of Remote Access Approaches</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-org563d050" class="outline-3">
+<h3 id="org563d050"><span class="section-number-3">8.1.</span> Overview of Remote Access Approaches</h3>
+<div class="outline-text-3" id="text-8-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1037,13 +1101,13 @@ This section covers how to access org-roam from anywhere using cloud servers (AW
 </div>
 </div>
 
-<div id="outline-container-org74320f2" class="outline-3">
-<h3 id="org74320f2"><span class="section-number-3">7.2.</span> AWS EC2 / VPS Setup Guide</h3>
-<div class="outline-text-3" id="text-7-2">
+<div id="outline-container-org2531fc1" class="outline-3">
+<h3 id="org2531fc1"><span class="section-number-3">8.2.</span> AWS EC2 / VPS Setup Guide</h3>
+<div class="outline-text-3" id="text-8-2">
 </div>
-<div id="outline-container-org20399bf" class="outline-4">
-<h4 id="org20399bf"><span class="section-number-4">7.2.1.</span> Initial Server Setup</h4>
-<div class="outline-text-4" id="text-7-2-1">
+<div id="outline-container-org69e2cb1" class="outline-4">
+<h4 id="org69e2cb1"><span class="section-number-4">8.2.1.</span> Initial Server Setup</h4>
+<div class="outline-text-4" id="text-8-2-1">
 <p>
 <b>Prerequisites:</b>
 </p>
@@ -1081,9 +1145,9 @@ This section covers how to access org-roam from anywhere using cloud servers (AW
 </div>
 </div>
 
-<div id="outline-container-org8bf5a32" class="outline-4">
-<h4 id="org8bf5a32"><span class="section-number-4">7.2.2.</span> Transfer Org-Roam Files</h4>
-<div class="outline-text-4" id="text-7-2-2">
+<div id="outline-container-org6a7a573" class="outline-4">
+<h4 id="org6a7a573"><span class="section-number-4">8.2.2.</span> Transfer Org-Roam Files</h4>
+<div class="outline-text-4" id="text-8-2-2">
 <p>
 <b>Option 1: Git (recommended)</b>
 </p>
@@ -1113,9 +1177,9 @@ git push -u origin main
 </div>
 </div>
 
-<div id="outline-container-org18be291" class="outline-4">
-<h4 id="org18be291"><span class="section-number-4">7.2.3.</span> Configure Emacs on Server</h4>
-<div class="outline-text-4" id="text-7-2-3">
+<div id="outline-container-org06ede5b" class="outline-4">
+<h4 id="org06ede5b"><span class="section-number-4">8.2.3.</span> Configure Emacs on Server</h4>
+<div class="outline-text-4" id="text-8-2-3">
 <p>
 <b>Transfer your Emacs configuration:</b>
 </p>
@@ -1144,9 +1208,9 @@ git push
 </div>
 </div>
 
-<div id="outline-container-org1908708" class="outline-4">
-<h4 id="org1908708"><span class="section-number-4">7.2.4.</span> Systemd Service for Auto-Start</h4>
-<div class="outline-text-4" id="text-7-2-4">
+<div id="outline-container-org3b35d9f" class="outline-4">
+<h4 id="org3b35d9f"><span class="section-number-4">8.2.4.</span> Systemd Service for Auto-Start</h4>
+<div class="outline-text-4" id="text-8-2-4">
 <p>
 Create a systemd service to start Emacs daemon automatically on boot.
 </p>
@@ -1185,17 +1249,17 @@ systemctl --user status emacs.service
 </div>
 </div>
 
-<div id="outline-container-org2a70315" class="outline-3">
-<h3 id="org2a70315"><span class="section-number-3">7.3.</span> Fast SSH Access with Mosh</h3>
-<div class="outline-text-3" id="text-7-3">
+<div id="outline-container-org6da8b9b" class="outline-3">
+<h3 id="org6da8b9b"><span class="section-number-3">8.3.</span> Fast SSH Access with Mosh</h3>
+<div class="outline-text-3" id="text-8-3">
 <p>
 Mosh (Mobile Shell) provides near-zero latency for remote Emacs usage.
 </p>
 </div>
 
-<div id="outline-container-org1173756" class="outline-4">
-<h4 id="org1173756"><span class="section-number-4">7.3.1.</span> Install Mosh</h4>
-<div class="outline-text-4" id="text-7-3-1">
+<div id="outline-container-org9506bd9" class="outline-4">
+<h4 id="org9506bd9"><span class="section-number-4">8.3.1.</span> Install Mosh</h4>
+<div class="outline-text-4" id="text-8-3-1">
 <p>
 <b>On your local machine (macOS):</b>
 </p>
@@ -1214,9 +1278,9 @@ Mosh (Mobile Shell) provides near-zero latency for remote Emacs usage.
 </div>
 </div>
 
-<div id="outline-container-org06dd2ee" class="outline-4">
-<h4 id="org06dd2ee"><span class="section-number-4">7.3.2.</span> Configure Firewall</h4>
-<div class="outline-text-4" id="text-7-3-2">
+<div id="outline-container-orgf5a63c3" class="outline-4">
+<h4 id="orgf5a63c3"><span class="section-number-4">8.3.2.</span> Configure Firewall</h4>
+<div class="outline-text-4" id="text-8-3-2">
 <p>
 <b>AWS Security Group:</b>
 </p>
@@ -1234,9 +1298,9 @@ Mosh (Mobile Shell) provides near-zero latency for remote Emacs usage.
 </div>
 </div>
 
-<div id="outline-container-org9c18714" class="outline-4">
-<h4 id="org9c18714"><span class="section-number-4">7.3.3.</span> Connect with Mosh</h4>
-<div class="outline-text-4" id="text-7-3-3">
+<div id="outline-container-org65408b5" class="outline-4">
+<h4 id="org65408b5"><span class="section-number-4">8.3.3.</span> Connect with Mosh</h4>
+<div class="outline-text-4" id="text-8-3-3">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Instead of: ssh user@ec2-ip
 </span>mosh user@ec2-ip
@@ -1264,17 +1328,17 @@ emacsclient -nw
 </div>
 </div>
 
-<div id="outline-container-orgd65e29e" class="outline-3">
-<h3 id="orgd65e29e"><span class="section-number-3">7.4.</span> org-roam-ui for Mobile Web Access</h3>
-<div class="outline-text-3" id="text-7-4">
+<div id="outline-container-org1f6d3b4" class="outline-3">
+<h3 id="org1f6d3b4"><span class="section-number-3">8.4.</span> org-roam-ui for Mobile Web Access</h3>
+<div class="outline-text-3" id="text-8-4">
 <p>
 Access your knowledge graph from any device with a web browser.
 </p>
 </div>
 
-<div id="outline-container-orgb76382f" class="outline-4">
-<h4 id="orgb76382f"><span class="section-number-4">7.4.1.</span> Local Access (SSH Tunnel)</h4>
-<div class="outline-text-4" id="text-7-4-1">
+<div id="outline-container-org89db531" class="outline-4">
+<h4 id="org89db531"><span class="section-number-4">8.4.1.</span> Local Access (SSH Tunnel)</h4>
+<div class="outline-text-4" id="text-8-4-1">
 <p>
 Most secure method - UI only accessible through SSH tunnel.
 </p>
@@ -1302,9 +1366,9 @@ Most secure method - UI only accessible through SSH tunnel.
 </div>
 </div>
 
-<div id="outline-container-org4a6be54" class="outline-4">
-<h4 id="org4a6be54"><span class="section-number-4">7.4.2.</span> Remote Access (Bind to Public IP)</h4>
-<div class="outline-text-4" id="text-7-4-2">
+<div id="outline-container-orgcdade06" class="outline-4">
+<h4 id="orgcdade06"><span class="section-number-4">8.4.2.</span> Remote Access (Bind to Public IP)</h4>
+<div class="outline-text-4" id="text-8-4-2">
 <p>
 For direct access without SSH tunnel (less secure).
 </p>
@@ -1368,17 +1432,17 @@ server {
 </div>
 </div>
 
-<div id="outline-container-orga1e8218" class="outline-3">
-<h3 id="orga1e8218"><span class="section-number-3">7.5.</span> iOS Quick Capture Setup</h3>
-<div class="outline-text-3" id="text-7-5">
+<div id="outline-container-orga3e52b7" class="outline-3">
+<h3 id="orga3e52b7"><span class="section-number-3">8.5.</span> iOS Quick Capture Setup</h3>
+<div class="outline-text-3" id="text-8-5">
 <p>
 For capturing notes on iPhone/iPad while org-roam runs on server.
 </p>
 </div>
 
-<div id="outline-container-orge9e8014" class="outline-4">
-<h4 id="orge9e8014"><span class="section-number-4">7.5.1.</span> Option 1: Working Copy + Git Sync</h4>
-<div class="outline-text-4" id="text-7-5-1">
+<div id="outline-container-org3f493a3" class="outline-4">
+<h4 id="org3f493a3"><span class="section-number-4">8.5.1.</span> Option 1: Working Copy + Git Sync</h4>
+<div class="outline-text-4" id="text-8-5-1">
 <p>
 <b>Setup:</b>
 </p>
@@ -1402,9 +1466,9 @@ For capturing notes on iPhone/iPad while org-roam runs on server.
 </div>
 </div>
 
-<div id="outline-container-orgd0a1b68" class="outline-4">
-<h4 id="orgd0a1b68"><span class="section-number-4">7.5.2.</span> Option 2: SSH Terminal App</h4>
-<div class="outline-text-4" id="text-7-5-2">
+<div id="outline-container-orgb6b76da" class="outline-4">
+<h4 id="orgb6b76da"><span class="section-number-4">8.5.2.</span> Option 2: SSH Terminal App</h4>
+<div class="outline-text-4" id="text-8-5-2">
 <p>
 <b>Install terminal app with mosh support:</b>
 </p>
@@ -1427,17 +1491,17 @@ emacsclient -nw
 </div>
 </div>
 
-<div id="outline-container-org3a9edff" class="outline-3">
-<h3 id="org3a9edff"><span class="section-number-3">7.6.</span> Git Sync Workflow</h3>
-<div class="outline-text-3" id="text-7-6">
+<div id="outline-container-org1152291" class="outline-3">
+<h3 id="org1152291"><span class="section-number-3">8.6.</span> Git Sync Workflow</h3>
+<div class="outline-text-3" id="text-8-6">
 <p>
 For offline access and automatic synchronization.
 </p>
 </div>
 
-<div id="outline-container-org40855b5" class="outline-4">
-<h4 id="org40855b5"><span class="section-number-4">7.6.1.</span> Auto-Commit Script</h4>
-<div class="outline-text-4" id="text-7-6-1">
+<div id="outline-container-orgaaf8e74" class="outline-4">
+<h4 id="orgaaf8e74"><span class="section-number-4">8.6.1.</span> Auto-Commit Script</h4>
+<div class="outline-text-4" id="text-8-6-1">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">~/bin/org-roam-sync.sh
 </span><span class="org-comment-delimiter"># </span><span class="org-comment">Automatically sync org-roam changes
@@ -1488,13 +1552,13 @@ For offline access and automatic synchronization.
 </div>
 </div>
 
-<div id="outline-container-org22309ff" class="outline-3">
-<h3 id="org22309ff"><span class="section-number-3">7.7.</span> Backup Strategy</h3>
-<div class="outline-text-3" id="text-7-7">
+<div id="outline-container-orgd8bbce7" class="outline-3">
+<h3 id="orgd8bbce7"><span class="section-number-3">8.7.</span> Backup Strategy</h3>
+<div class="outline-text-3" id="text-8-7">
 </div>
-<div id="outline-container-org25e664e" class="outline-4">
-<h4 id="org25e664e"><span class="section-number-4">7.7.1.</span> Git as Backup</h4>
-<div class="outline-text-4" id="text-7-7-1">
+<div id="outline-container-org1bd5268" class="outline-4">
+<h4 id="org1bd5268"><span class="section-number-4">8.7.1.</span> Git as Backup</h4>
+<div class="outline-text-4" id="text-8-7-1">
 <p>
 Your Git repository serves as automatic backup:
 </p>
@@ -1508,9 +1572,9 @@ Your Git repository serves as automatic backup:
 </div>
 </div>
 
-<div id="outline-container-org20ad7bf" class="outline-4">
-<h4 id="org20ad7bf"><span class="section-number-4">7.7.2.</span> S3 Backup (AWS)</h4>
-<div class="outline-text-4" id="text-7-7-2">
+<div id="outline-container-org3d0c9a9" class="outline-4">
+<h4 id="org3d0c9a9"><span class="section-number-4">8.7.2.</span> S3 Backup (AWS)</h4>
+<div class="outline-text-4" id="text-8-7-2">
 <p>
 For additional cloud backup:
 </p>
@@ -1531,13 +1595,13 @@ For additional cloud backup:
 </div>
 </div>
 
-<div id="outline-container-orgbca02ec" class="outline-3">
-<h3 id="orgbca02ec"><span class="section-number-3">7.8.</span> Daily Workflow Examples</h3>
-<div class="outline-text-3" id="text-7-8">
+<div id="outline-container-orgcde44a2" class="outline-3">
+<h3 id="orgcde44a2"><span class="section-number-3">8.8.</span> Daily Workflow Examples</h3>
+<div class="outline-text-3" id="text-8-8">
 </div>
-<div id="outline-container-orga4486b1" class="outline-4">
-<h4 id="orga4486b1"><span class="section-number-4">7.8.1.</span> Morning Routine (Desktop)</h4>
-<div class="outline-text-4" id="text-7-8-1">
+<div id="outline-container-org4093930" class="outline-4">
+<h4 id="org4093930"><span class="section-number-4">8.8.1.</span> Morning Routine (Desktop)</h4>
+<div class="outline-text-4" id="text-8-8-1">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Connect to server
 </span>mosh user@ec2-ip
@@ -1557,9 +1621,9 @@ For additional cloud backup:
 </div>
 </div>
 
-<div id="outline-container-org5a22c4a" class="outline-4">
-<h4 id="org5a22c4a"><span class="section-number-4">7.8.2.</span> Quick Capture (Mobile - iOS)</h4>
-<div class="outline-text-4" id="text-7-8-2">
+<div id="outline-container-orgd252c98" class="outline-4">
+<h4 id="orgd252c98"><span class="section-number-4">8.8.2.</span> Quick Capture (Mobile - iOS)</h4>
+<div class="outline-text-4" id="text-8-8-2">
 <ol class="org-ol">
 <li>Open Blink Shell on iPhone</li>
 <li><code>mosh user@server</code></li>
@@ -1570,9 +1634,9 @@ For additional cloud backup:
 </div>
 </div>
 
-<div id="outline-container-org0fe1646" class="outline-4">
-<h4 id="org0fe1646"><span class="section-number-4">7.8.3.</span> Browsing on iPad</h4>
-<div class="outline-text-4" id="text-7-8-3">
+<div id="outline-container-org4531682" class="outline-4">
+<h4 id="org4531682"><span class="section-number-4">8.8.3.</span> Browsing on iPad</h4>
+<div class="outline-text-4" id="text-8-8-3">
 <ol class="org-ol">
 <li>Safari → <code>http://localhost:35901</code> (if SSH tunnel running)</li>
 <li>Or direct IP if configured with auth</li>
@@ -1583,13 +1647,13 @@ For additional cloud backup:
 </div>
 </div>
 
-<div id="outline-container-org8f9f77b" class="outline-3">
-<h3 id="org8f9f77b"><span class="section-number-3">7.9.</span> Troubleshooting</h3>
-<div class="outline-text-3" id="text-7-9">
+<div id="outline-container-orgf937009" class="outline-3">
+<h3 id="orgf937009"><span class="section-number-3">8.9.</span> Troubleshooting</h3>
+<div class="outline-text-3" id="text-8-9">
 </div>
-<div id="outline-container-org473f0c0" class="outline-4">
-<h4 id="org473f0c0"><span class="section-number-4">7.9.1.</span> Database Issues</h4>
-<div class="outline-text-4" id="text-7-9-1">
+<div id="outline-container-orgfbe8c9c" class="outline-4">
+<h4 id="orgfbe8c9c"><span class="section-number-4">8.9.1.</span> Database Issues</h4>
+<div class="outline-text-4" id="text-8-9-1">
 <p>
 <b>Symptom:</b> "Database version mismatch" error
 </p>
@@ -1607,9 +1671,9 @@ For additional cloud backup:
 </div>
 </div>
 
-<div id="outline-container-org0738f02" class="outline-4">
-<h4 id="org0738f02"><span class="section-number-4">7.9.2.</span> Mosh Won't Connect</h4>
-<div class="outline-text-4" id="text-7-9-2">
+<div id="outline-container-org91c3f21" class="outline-4">
+<h4 id="org91c3f21"><span class="section-number-4">8.9.2.</span> Mosh Won't Connect</h4>
+<div class="outline-text-4" id="text-8-9-2">
 <p>
 <b>Check firewall:</b>
 </p>
@@ -1625,9 +1689,9 @@ sudo ufw allow 60000:61000/udp
 </div>
 </div>
 
-<div id="outline-container-org93bace5" class="outline-4">
-<h4 id="org93bace5"><span class="section-number-4">7.9.3.</span> Emacs Daemon Not Starting</h4>
-<div class="outline-text-4" id="text-7-9-3">
+<div id="outline-container-org6962f31" class="outline-4">
+<h4 id="org6962f31"><span class="section-number-4">8.9.3.</span> Emacs Daemon Not Starting</h4>
+<div class="outline-text-4" id="text-8-9-3">
 <p>
 <b>Check status:</b>
 </p>
@@ -1647,9 +1711,9 @@ journalctl --user -u emacs.service -f
 </div>
 </div>
 
-<div id="outline-container-orgc592376" class="outline-4">
-<h4 id="orgc592376"><span class="section-number-4">7.9.4.</span> org-roam-ui Not Accessible</h4>
-<div class="outline-text-4" id="text-7-9-4">
+<div id="outline-container-org5f5ea34" class="outline-4">
+<h4 id="org5f5ea34"><span class="section-number-4">8.9.4.</span> org-roam-ui Not Accessible</h4>
+<div class="outline-text-4" id="text-8-9-4">
 <p>
 <b>Verify it's running:</b>
 </p>
@@ -1674,13 +1738,13 @@ journalctl --user -u emacs.service -f
 </div>
 </div>
 
-<div id="outline-container-org060b5a7" class="outline-3">
-<h3 id="org060b5a7"><span class="section-number-3">7.10.</span> Cost Estimation</h3>
-<div class="outline-text-3" id="text-7-10">
+<div id="outline-container-org0d6b220" class="outline-3">
+<h3 id="org0d6b220"><span class="section-number-3">8.10.</span> Cost Estimation</h3>
+<div class="outline-text-3" id="text-8-10">
 </div>
-<div id="outline-container-org5bddfcd" class="outline-4">
-<h4 id="org5bddfcd"><span class="section-number-4">7.10.1.</span> AWS EC2 Free Tier</h4>
-<div class="outline-text-4" id="text-7-10-1">
+<div id="outline-container-org34e6283" class="outline-4">
+<h4 id="org34e6283"><span class="section-number-4">8.10.1.</span> AWS EC2 Free Tier</h4>
+<div class="outline-text-4" id="text-8-10-1">
 <ul class="org-ul">
 <li>t2.micro: Free for 12 months (750 hours/month)</li>
 <li>After free tier: ~$8/month</li>
@@ -1689,9 +1753,9 @@ journalctl --user -u emacs.service -f
 </div>
 </div>
 
-<div id="outline-container-org028d15f" class="outline-4">
-<h4 id="org028d15f"><span class="section-number-4">7.10.2.</span> Alternative VPS Providers</h4>
-<div class="outline-text-4" id="text-7-10-2">
+<div id="outline-container-orgbe21eab" class="outline-4">
+<h4 id="orgbe21eab"><span class="section-number-4">8.10.2.</span> Alternative VPS Providers</h4>
+<div class="outline-text-4" id="text-8-10-2">
 <ul class="org-ul">
 <li>DigitalOcean: $4/month (basic droplet)</li>
 <li>Linode: $5/month (Nanode 1GB)</li>
@@ -1700,9 +1764,9 @@ journalctl --user -u emacs.service -f
 </div>
 </div>
 
-<div id="outline-container-org14ab840" class="outline-4">
-<h4 id="org14ab840"><span class="section-number-4">7.10.3.</span> Total Monthly Cost</h4>
-<div class="outline-text-4" id="text-7-10-3">
+<div id="outline-container-org97f00b3" class="outline-4">
+<h4 id="org97f00b3"><span class="section-number-4">8.10.3.</span> Total Monthly Cost</h4>
+<div class="outline-text-4" id="text-8-10-3">
 <ul class="org-ul">
 <li>Server: $0-8/month</li>
 <li>iOS apps: $0-15 (one-time for beorg)</li>
@@ -1712,9 +1776,9 @@ journalctl --user -u emacs.service -f
 </div>
 </div>
 
-<div id="outline-container-org301654a" class="outline-3">
-<h3 id="org301654a"><span class="section-number-3">7.11.</span> Comparison to Notion/Obsidian</h3>
-<div class="outline-text-3" id="text-7-11">
+<div id="outline-container-org8a4e92d" class="outline-3">
+<h3 id="org8a4e92d"><span class="section-number-3">8.11.</span> Comparison to Notion/Obsidian</h3>
+<div class="outline-text-3" id="text-8-11">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1802,9 +1866,9 @@ journalctl --user -u emacs.service -f
 </div>
 </div>
 
-<div id="outline-container-orgcbeb2d3" class="outline-3">
-<h3 id="orgcbeb2d3"><span class="section-number-3">7.12.</span> References and Resources</h3>
-<div class="outline-text-3" id="text-7-12">
+<div id="outline-container-org78bc4a0" class="outline-3">
+<h3 id="org78bc4a0"><span class="section-number-3">8.12.</span> References and Resources</h3>
+<div class="outline-text-3" id="text-8-12">
 <ul class="org-ul">
 <li><a href="https://mosh.org/">Mosh (Mobile Shell)</a></li>
 <li><a href="https://github.com/org-roam/org-roam-ui">org-roam-ui GitHub</a></li>
@@ -1813,6 +1877,18 @@ journalctl --user -u emacs.service -f
 <li><a href="https://www.beorgapp.com/">beorg (iOS Org-mode app)</a></li>
 <li><a href="https://plainorg.com/">Plain Org (iOS)</a></li>
 </ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org5262f90" class="outline-2">
+<h2 id="org5262f90"><span class="section-number-2">9.</span> End of File</h2>
+<div class="outline-text-2" id="text-9">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">doc-org-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-org-conf.el ends here</span>
+</pre>
 </div>
 </div>
 </div>
