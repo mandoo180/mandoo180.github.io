@@ -196,7 +196,7 @@ Convenient functions to switch between different AI models quickly.
                  gptel-model model-id)
            (message "Switched to %s (%s)" model-name model-id)))
         ('gemini
-         (when-let ((key (fu/gptel-get-api-key "GOOGLE_API_KEY")))
+         (when-let ((key (fu/gptel-get-api-key "GEMINI_API_KEY")))
            (setq gptel-backend (gptel-make-gemini "Gemini" :stream t :key key)
                  gptel-model model-id)
            (message "Switched to %s (%s)" model-name model-id))))))
@@ -357,7 +357,7 @@ Quick reference for using gptel:
 API keys should be set as environment variables:
 - =CLAUDE_API_KEY= : For Claude models (Anthropic)
 - =OPENAI_API_KEY= : For GPT models (OpenAI)
-- =GOOGLE_API_KEY= : For Gemini models (Google)
+- =GEMINI_API_KEY= : For Gemini models (Google)
 
 Or stored in =~/.authinfo.gpg= with host entries matching the key names.
 
@@ -365,40 +365,353 @@ Chat history location: =~/.emacs.d/gptel-history/= (customizable via =gptel-chat
 
 * PDF Tools
 
-PDF viewing and annotation in Emacs with pdf-tools. Currently disabled - uncomment to enable.
+Comprehensive PDF viewing and annotation system with powerful search, annotation, bookmark, and navigation features.
 
 Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements PDF Tools Settings]]
 
-Features:
-- Native PDF rendering
-- Annotation support
-- Fast navigation
-- Text search
-- Bookmarks and outline navigation
+** Core Features
 
-#+begin_src emacs-lisp :tangle no
-  ;; PDF Tools
+- High-quality PDF rendering with native performance
+- Full-text search with occur mode for document-wide searches
+- Rich annotation support (highlight, underline, strikethrough, text notes)
+- Bookmarks and outline/TOC navigation
+- Region marking and text selection
+- Image extraction and manipulation
+- Link following and history navigation
+- Dark mode support (midnight mode)
+- Auto-revert for live-updating PDFs
+- Slice mode for cropping margins
+
+** Basic Setup
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; PDF Tools - Core Configuration
   (use-package pdf-tools
     :ensure t
     :mode ("\\.pdf\\'" . pdf-view-mode)
+    :magic ("%PDF" . pdf-view-mode)
     :config
+    ;; Install pdf-tools
     (pdf-tools-install :no-query)
 
-    ;; Keybindings
-    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-    (define-key pdf-view-mode-map (kbd "C-r") 'isearch-backward)
+    ;; Custom settings
+    (setq-default pdf-view-display-size 'fit-page)
 
-    ;; Auto-revert
+    ;; Performance
+    (setq pdf-view-use-scaling t
+          pdf-view-use-imagemagick nil)
+
+    ;; Annotation settings
+    (setq pdf-annot-activate-created-annotations t)
+
+    ;; Auto-revert PDFs when file changes
     (add-hook 'pdf-view-mode-hook #'auto-revert-mode)
 
-    ;; Midnight mode for dark theme support
-    (add-hook 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode))
+    ;; More frequent auto-revert for PDFs
+    (setq auto-revert-interval 0.5))
+#+end_src
+
+** Display and Visual Settings
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; PDF Tools - Display Settings
+  (with-eval-after-load 'pdf-view
+    ;; Midnight mode colors (dark mode)
+    (setq pdf-view-midnight-colors '("#ffffff" . "#000000"))
+
+    ;; Resize factor
+    (setq pdf-view-resize-factor 1.1)
+
+    ;; Continuous scroll
+    (setq pdf-view-continuous t)
+
+    ;; Display options
+    (setq pdf-view-display-size 'fit-width)
+    (setq pdf-view-use-dedicated-register t))
+#+end_src
+
+** Search and Navigation
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; PDF Tools - Enhanced Search
+  (with-eval-after-load 'pdf-isearch
+    ;; Search settings
+    (setq pdf-isearch-hyphenation-character "-\u00ad")
+
+    ;; Batch mode for faster search
+    (setq pdf-isearch-batch-mode t)
+
+    ;; Custom search face
+    (set-face-attribute 'pdf-isearch-match nil
+                        :background "yellow"
+                        :foreground "black"))
+
+  ;; PDF Occur - Search across entire document
+  (with-eval-after-load 'pdf-occur
+    ;; Occur buffer settings
+    (setq pdf-occur-prefer-string-search t))
+#+end_src
+
+** Annotations and Markup
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; PDF Tools - Annotations
+  (with-eval-after-load 'pdf-annot
+    ;; Annotation list settings
+    (setq pdf-annot-list-format '((page . 3)
+                                  (type . 10)
+                                  (label . 15)
+                                  (contents . 0)))
+
+    ;; Annotation highlight colors
+    (setq pdf-annot-default-annotation-properties
+          '((t (label . "User"))
+            (highlight (color . "yellow"))
+            (underline (color . "blue"))
+            (squiggly (color . "orange"))
+            (strike-out (color . "red"))
+            (text (icon . "Note")
+                  (color . "gold"))))
+
+    ;; Minor mode settings
+    (setq pdf-annot-minor-mode-map-prefix (kbd "C-c a")))
+
+  ;; Custom annotation functions
+  (defun fu/pdf-annot-add-highlight ()
+    "Add highlight annotation to selected region."
+    (interactive)
+    (pdf-annot-add-highlight-markup-annotation
+     (pdf-view-active-region) "yellow"))
+
+  (defun fu/pdf-annot-add-underline ()
+    "Add underline annotation to selected region."
+    (interactive)
+    (pdf-annot-add-underline-markup-annotation
+     (pdf-view-active-region) "blue"))
+
+  (defun fu/pdf-annot-add-strikeout ()
+    "Add strikeout annotation to selected region."
+    (interactive)
+    (pdf-annot-add-strikeout-markup-annotation
+     (pdf-view-active-region) "red"))
+
+  (defun fu/pdf-annot-add-text-note ()
+    "Add text note annotation at point."
+    (interactive)
+    (pdf-annot-add-text-annotation
+     (pdf-view-active-region)
+     (read-string "Note: ")))
+#+end_src
+
+** Bookmarks and Links
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; PDF Tools - Bookmarks
+  (with-eval-after-load 'pdf-view
+    ;; Enable bookmark support
+    (setq pdf-view-use-dedicated-register t))
 
   ;; Save place in PDF files
   (use-package saveplace-pdf-view
     :ensure t
-    :after pdf-tools)
+    :after pdf-tools
+    :config
+    ;; Remember last position in PDFs
+    (save-place-mode 1))
+
+  ;; Custom bookmark functions
+  (defun fu/pdf-bookmark-set ()
+    "Set a bookmark in the current PDF."
+    (interactive)
+    (bookmark-set (format "PDF: %s - p%d"
+                         (file-name-nondirectory (buffer-file-name))
+                         (pdf-view-current-page))))
+
+  (defun fu/pdf-bookmark-jump ()
+    "Jump to a PDF bookmark."
+    (interactive)
+    (bookmark-jump
+     (completing-read "PDF Bookmark: "
+                     (cl-remove-if-not
+                      (lambda (bmk)
+                        (string-prefix-p "PDF: " (car bmk)))
+                      bookmark-alist))))
 #+end_src
+
+** Keybindings
+
+Comprehensive keybinding setup for all PDF operations.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; PDF Tools - Keybindings
+  (with-eval-after-load 'pdf-view
+    (let ((map pdf-view-mode-map))
+      ;; Basic navigation
+      (define-key map (kbd "j") 'pdf-view-next-line-or-next-page)
+      (define-key map (kbd "k") 'pdf-view-previous-line-or-previous-page)
+      (define-key map (kbd "h") 'image-backward-hscroll)
+      (define-key map (kbd "l") 'image-forward-hscroll)
+      (define-key map (kbd "J") 'pdf-view-next-page)
+      (define-key map (kbd "K") 'pdf-view-previous-page)
+      (define-key map (kbd "g g") 'pdf-view-first-page)
+      (define-key map (kbd "G") 'pdf-view-last-page)
+      (define-key map (kbd "g t") 'pdf-view-goto-page)
+
+      ;; Search
+      (define-key map (kbd "C-s") 'isearch-forward)
+      (define-key map (kbd "C-r") 'isearch-backward)
+      (define-key map (kbd "s s") 'pdf-occur)
+      (define-key map (kbd "s r") 'pdf-isearch-batch-mode)
+
+      ;; Zoom and display
+      (define-key map (kbd "+") 'pdf-view-enlarge)
+      (define-key map (kbd "-") 'pdf-view-shrink)
+      (define-key map (kbd "0") 'pdf-view-scale-reset)
+      (define-key map (kbd "W") 'pdf-view-fit-width-to-window)
+      (define-key map (kbd "H") 'pdf-view-fit-height-to-window)
+      (define-key map (kbd "P") 'pdf-view-fit-page-to-window)
+      (define-key map (kbd "m") 'pdf-view-midnight-minor-mode)
+      (define-key map (kbd "s l") 'pdf-view-set-slice-using-mouse)
+      (define-key map (kbd "s b") 'pdf-view-set-slice-from-bounding-box)
+      (define-key map (kbd "s r") 'pdf-view-reset-slice)
+
+      ;; Annotations
+      (define-key map (kbd "a h") 'fu/pdf-annot-add-highlight)
+      (define-key map (kbd "a u") 'fu/pdf-annot-add-underline)
+      (define-key map (kbd "a s") 'fu/pdf-annot-add-strikeout)
+      (define-key map (kbd "a t") 'fu/pdf-annot-add-text-note)
+      (define-key map (kbd "a d") 'pdf-annot-delete)
+      (define-key map (kbd "a l") 'pdf-annot-list-annotations)
+      (define-key map (kbd "a n") 'pdf-annot-next-annotation)
+      (define-key map (kbd "a p") 'pdf-annot-previous-annotation)
+
+      ;; Outline and links
+      (define-key map (kbd "o") 'pdf-outline)
+      (define-key map (kbd "f") 'pdf-links-action-perform)
+      (define-key map (kbd "F") 'pdf-links-isearch-link)
+
+      ;; Bookmarks
+      (define-key map (kbd "b s") 'fu/pdf-bookmark-set)
+      (define-key map (kbd "b j") 'fu/pdf-bookmark-jump)
+      (define-key map (kbd "b l") 'bookmark-bmenu-list)
+
+      ;; History
+      (define-key map (kbd "B") 'pdf-history-backward)
+      (define-key map (kbd "N") 'pdf-history-forward)
+
+      ;; Misc
+      (define-key map (kbd "r") 'pdf-view-revert-buffer)
+      (define-key map (kbd "t") 'pdf-annot-attachment-dired)
+      (define-key map (kbd "n") 'pdf-view-next-page-command)
+      (define-key map (kbd "p") 'pdf-view-previous-page-command)
+      (define-key map (kbd "SPC") 'pdf-view-scroll-up-or-next-page)
+      (define-key map (kbd "DEL") 'pdf-view-scroll-down-or-previous-page)
+      (define-key map (kbd "C-c C-c") 'pdf-misc-display-metadata)))
+#+end_src
+
+** Helper Functions
+
+Additional utility functions for enhanced PDF workflow.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; PDF Tools - Helper Functions
+
+  (defun fu/pdf-print-buffer ()
+    "Print current PDF buffer."
+    (interactive)
+    (pdf-misc-print-document (buffer-file-name)))
+
+  (defun fu/pdf-copy-region-as-text ()
+    "Copy selected region as text."
+    (interactive)
+    (when (pdf-view-active-region-p)
+      (let ((text (pdf-view-active-region-text)))
+        (kill-new (mapconcat 'identity text "\n"))
+        (message "Copied PDF text to clipboard"))))
+
+  (defun fu/pdf-extract-images ()
+    "Extract images from current PDF."
+    (interactive)
+    (let* ((file (buffer-file-name))
+           (dir (file-name-sans-extension file)))
+      (make-directory dir t)
+      (shell-command
+       (format "pdfimages -all '%s' '%s/image'" file dir))
+      (message "Extracted images to %s" dir)
+      (dired dir)))
+
+  (defun fu/pdf-count-pages ()
+    "Display the number of pages in current PDF."
+    (interactive)
+    (message "PDF has %d pages" (pdf-cache-number-of-pages)))
+
+  (defun fu/pdf-rotate-page (degrees)
+    "Rotate current page by DEGREES (90, 180, or 270)."
+    (interactive
+     (list (string-to-number
+            (completing-read "Rotate by degrees: "
+                           '("90" "180" "270")))))
+    (pdf-view-rotate degrees))
+
+  ;; Global keybindings for PDF functions
+  (with-eval-after-load 'pdf-view
+    (define-key pdf-view-mode-map (kbd "w") 'fu/pdf-copy-region-as-text)
+    (define-key pdf-view-mode-map (kbd "C-c C-p") 'fu/pdf-print-buffer)
+    (define-key pdf-view-mode-map (kbd "C-c i") 'fu/pdf-extract-images)
+    (define-key pdf-view-mode-map (kbd "C-c n") 'fu/pdf-count-pages)
+    (define-key pdf-view-mode-map (kbd "R") 'fu/pdf-rotate-page))
+#+end_src
+
+** PDF Keybinding Reference
+
+Quick reference for PDF Tools keybindings:
+
+| Category   | Key     | Command                  |
+|------------+---------+--------------------------|
+| *Navigation* | j/k     | Line up/down             |
+|            | J/K     | Page down/up             |
+|            | g g     | First page               |
+|            | G       | Last page                |
+|            | g t     | Go to page               |
+|            | SPC/DEL | Page down/up             |
+|            | h/l     | Scroll left/right        |
+|            | B/N     | History back/forward     |
+|------------+---------+--------------------------|
+| *Search*     | C-s/C-r | Incremental search       |
+|            | s s     | Search all (occur)       |
+|            | s r     | Batch search             |
+|------------+---------+--------------------------|
+| *Display*    | +/-     | Zoom in/out              |
+|            | 0       | Reset zoom               |
+|            | W/H/P   | Fit width/height/page    |
+|            | m       | Toggle dark mode         |
+|            | s l     | Set slice (crop)         |
+|            | s b     | Slice from bounding box  |
+|            | s r     | Reset slice              |
+|            | R       | Rotate page              |
+|------------+---------+--------------------------|
+| *Annotate*   | a h     | Add highlight            |
+|            | a u     | Add underline            |
+|            | a s     | Add strikeout            |
+|            | a t     | Add text note            |
+|            | a d     | Delete annotation        |
+|            | a l     | List annotations         |
+|            | a n/p   | Next/previous annotation |
+|------------+---------+--------------------------|
+| *Bookmarks*  | b s     | Set bookmark             |
+|            | b j     | Jump to bookmark         |
+|            | b l     | List bookmarks           |
+|------------+---------+--------------------------|
+| *Outline*    | o       | Show outline/TOC         |
+|            | f       | Follow link              |
+|            | F       | Search links             |
+|------------+---------+--------------------------|
+| *Misc*       | w       | Copy region as text      |
+|            | r       | Revert buffer            |
+|            | C-c C-p | Print PDF                |
+|            | C-c i   | Extract images           |
+|            | C-c n   | Count pages              |
+|            | C-c C-c | Display metadata         |
 
 * Utility Functions
 
