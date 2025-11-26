@@ -22,40 +22,52 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc1afed7">1. Introduction</a></li>
-<li><a href="#orgde88538">2. Email Configuration</a>
+<li><a href="#org632c72a">1. Introduction</a></li>
+<li><a href="#orgb86b11d">2. Email Configuration</a>
 <ul>
-<li><a href="#org8022fe0">2.1. Notmuch</a></li>
-<li><a href="#org3795dd1">2.2. Email Sending</a></li>
+<li><a href="#org409f73a">2.1. Notmuch</a></li>
+<li><a href="#org6e4c52a">2.2. Email Sending</a></li>
 </ul>
 </li>
-<li><a href="#org43b7e65">3. GPTel - AI Chat Integration</a>
+<li><a href="#orgde2acd3">3. GPTel - AI Chat Integration</a>
 <ul>
-<li><a href="#org55ad445">3.1. Core Configuration</a></li>
-<li><a href="#org36d157a">3.2. Backend Configuration</a></li>
-<li><a href="#org3799641">3.3. Easy Model Switching</a></li>
-<li><a href="#org245a5f3">3.4. Automatic Chat History Saving</a></li>
-<li><a href="#org1702e8d">3.5. Enhanced Chat Interface</a></li>
-<li><a href="#org38cba22">3.6. Usage Guide</a></li>
+<li><a href="#org26b4f5d">3.1. Core Configuration</a></li>
+<li><a href="#org14f793c">3.2. Backend Configuration</a></li>
+<li><a href="#orgcabde2e">3.3. Easy Model Switching</a></li>
+<li><a href="#org7567498">3.4. Automatic Chat History Saving</a></li>
+<li><a href="#orgec7eddd">3.5. Enhanced Chat Interface</a></li>
+<li><a href="#orgc9c35b0">3.6. Usage Guide</a></li>
 </ul>
 </li>
-<li><a href="#org9bf900e">4. PDF Tools</a></li>
-<li><a href="#org1d9c40e">5. Utility Functions</a>
+<li><a href="#orga0b2972">4. PDF Tools</a>
 <ul>
-<li><a href="#org4ae40b1">5.1. Open in External Application</a></li>
-<li><a href="#orgef80b3c">5.2. Copy File Path</a></li>
-<li><a href="#orgd23c35f">5.3. Reload Configuration</a></li>
-<li><a href="#orgb8480cf">5.4. Kill Other Buffers</a></li>
+<li><a href="#org5326fd8">4.1. Core Features</a></li>
+<li><a href="#org2e2dcb6">4.2. Basic Setup</a></li>
+<li><a href="#org81a163d">4.3. Display and Visual Settings</a></li>
+<li><a href="#orgdb1dad0">4.4. Search and Navigation</a></li>
+<li><a href="#org761ce39">4.5. Annotations and Markup</a></li>
+<li><a href="#orgd3e4c0d">4.6. Bookmarks and Links</a></li>
+<li><a href="#org60bf7fb">4.7. Keybindings</a></li>
+<li><a href="#org50f4cc9">4.8. Helper Functions</a></li>
+<li><a href="#org33633c6">4.9. PDF Keybinding Reference</a></li>
 </ul>
 </li>
-<li><a href="#org4dc9628">6. Database Configuration (Disabled)</a></li>
-<li><a href="#orgd500d0b">7. End of File</a></li>
+<li><a href="#orgba57b1f">5. Utility Functions</a>
+<ul>
+<li><a href="#orgd0f4c66">5.1. Open in External Application</a></li>
+<li><a href="#org065e26c">5.2. Copy File Path</a></li>
+<li><a href="#orgc0dc9ce">5.3. Reload Configuration</a></li>
+<li><a href="#org4a047a9">5.4. Kill Other Buffers</a></li>
+</ul>
+</li>
+<li><a href="#org2618f1b">6. Database Configuration (Disabled)</a></li>
+<li><a href="#orga543c37">7. End of File</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc1afed7" class="outline-2">
-<h2 id="orgc1afed7"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org632c72a" class="outline-2">
+<h2 id="org632c72a"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Miscellaneous utilities and configurations including email, AI chat integration, PDF tools, and helper functions.
@@ -63,16 +75,16 @@ Miscellaneous utilities and configurations including email, AI chat integration,
 </div>
 </div>
 
-<div id="outline-container-orgde88538" class="outline-2">
-<h2 id="orgde88538"><span class="section-number-2">2.</span> Email Configuration</h2>
+<div id="outline-container-orgb86b11d" class="outline-2">
+<h2 id="orgb86b11d"><span class="section-number-2">2.</span> Email Configuration</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Configuration for reading and sending email using notmuch and msmtp.
 </p>
 </div>
 
-<div id="outline-container-org8022fe0" class="outline-3">
-<h3 id="org8022fe0"><span class="section-number-3">2.1.</span> Notmuch</h3>
+<div id="outline-container-org409f73a" class="outline-3">
+<h3 id="org409f73a"><span class="section-number-3">2.1.</span> Notmuch</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Fast email indexing and searching with notmuch.
@@ -95,8 +107,8 @@ Fast email indexing and searching with notmuch.
 </div>
 </div>
 
-<div id="outline-container-org3795dd1" class="outline-3">
-<h3 id="org3795dd1"><span class="section-number-3">2.2.</span> Email Sending</h3>
+<div id="outline-container-org6e4c52a" class="outline-3">
+<h3 id="org6e4c52a"><span class="section-number-3">2.2.</span> Email Sending</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Configure email sending with msmtp and authentication.
@@ -119,16 +131,16 @@ Configure email sending with msmtp and authentication.
 </div>
 </div>
 
-<div id="outline-container-org43b7e65" class="outline-2">
-<h2 id="org43b7e65"><span class="section-number-2">3.</span> GPTel - AI Chat Integration</h2>
+<div id="outline-container-orgde2acd3" class="outline-2">
+<h2 id="orgde2acd3"><span class="section-number-2">3.</span> GPTel - AI Chat Integration</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Comprehensive AI chat integration with support for multiple providers (OpenAI, Claude, Gemini, etc.) with easy model switching and automatic chat history saving.
 </p>
 </div>
 
-<div id="outline-container-org55ad445" class="outline-3">
-<h3 id="org55ad445"><span class="section-number-3">3.1.</span> Core Configuration</h3>
+<div id="outline-container-org26b4f5d" class="outline-3">
+<h3 id="org26b4f5d"><span class="section-number-3">3.1.</span> Core Configuration</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">GPTel - AI Chat Integration
@@ -163,8 +175,8 @@ Comprehensive AI chat integration with support for multiple providers (OpenAI, C
 </div>
 </div>
 
-<div id="outline-container-org36d157a" class="outline-3">
-<h3 id="org36d157a"><span class="section-number-3">3.2.</span> Backend Configuration</h3>
+<div id="outline-container-org14f793c" class="outline-3">
+<h3 id="org14f793c"><span class="section-number-3">3.2.</span> Backend Configuration</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Set up multiple AI backends with API keys from environment variables or auth-sources.
@@ -224,8 +236,8 @@ SERVICE should be something like '</span><span class="org-doc"><span class="org-
 </div>
 </div>
 
-<div id="outline-container-org3799641" class="outline-3">
-<h3 id="org3799641"><span class="section-number-3">3.3.</span> Easy Model Switching</h3>
+<div id="outline-container-orgcabde2e" class="outline-3">
+<h3 id="orgcabde2e"><span class="section-number-3">3.3.</span> Easy Model Switching</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Convenient functions to switch between different AI models quickly.
@@ -285,7 +297,7 @@ Convenient functions to switch between different AI models quickly.
                gptel-model model-id)
          (message <span class="org-string">"Switched to %s (%s)"</span> model-name model-id)))
       ('gemini
-       (<span class="org-keyword">when-let</span> ((key (fu/gptel-get-api-key <span class="org-string">"GOOGLE_API_KEY"</span>)))
+       (<span class="org-keyword">when-let</span> ((key (fu/gptel-get-api-key <span class="org-string">"GEMINI_API_KEY"</span>)))
          (<span class="org-keyword">setq</span> gptel-backend (gptel-make-gemini <span class="org-string">"Gemini"</span> <span class="org-builtin">:stream</span> t <span class="org-builtin">:key</span> key)
                gptel-model model-id)
          (message <span class="org-string">"Switched to %s (%s)"</span> model-name model-id))))))
@@ -310,8 +322,8 @@ Convenient functions to switch between different AI models quickly.
 </div>
 </div>
 
-<div id="outline-container-org245a5f3" class="outline-3">
-<h3 id="org245a5f3"><span class="section-number-3">3.4.</span> Automatic Chat History Saving</h3>
+<div id="outline-container-org7567498" class="outline-3">
+<h3 id="org7567498"><span class="section-number-3">3.4.</span> Automatic Chat History Saving</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Automatically save chat conversations to disk with timestamps and model information.
@@ -382,8 +394,8 @@ Automatically save chat conversations to disk with timestamps and model informat
 </div>
 </div>
 
-<div id="outline-container-org1702e8d" class="outline-3">
-<h3 id="org1702e8d"><span class="section-number-3">3.5.</span> Enhanced Chat Interface</h3>
+<div id="outline-container-orgec7eddd" class="outline-3">
+<h3 id="orgec7eddd"><span class="section-number-3">3.5.</span> Enhanced Chat Interface</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 Improved chat interface with better defaults and keybindings.
@@ -432,16 +444,16 @@ Improved chat interface with better defaults and keybindings.
 </div>
 </div>
 
-<div id="outline-container-org38cba22" class="outline-3">
-<h3 id="org38cba22"><span class="section-number-3">3.6.</span> Usage Guide</h3>
+<div id="outline-container-orgc9c35b0" class="outline-3">
+<h3 id="orgc9c35b0"><span class="section-number-3">3.6.</span> Usage Guide</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 Quick reference for using gptel:
 </p>
 </div>
 
-<div id="outline-container-orgadc1307" class="outline-4">
-<h4 id="orgadc1307"><span class="section-number-4">3.6.1.</span> Starting a Chat</h4>
+<div id="outline-container-org321df1d" class="outline-4">
+<h4 id="org321df1d"><span class="section-number-4">3.6.1.</span> Starting a Chat</h4>
 <div class="outline-text-4" id="text-3-6-1">
 <ul class="org-ul">
 <li><code>C-c a n</code> : Start new chat with current model</li>
@@ -450,8 +462,8 @@ Quick reference for using gptel:
 </div>
 </div>
 
-<div id="outline-container-org43d038a" class="outline-4">
-<h4 id="org43d038a"><span class="section-number-4">3.6.2.</span> Model Switching</h4>
+<div id="outline-container-orgc6b188b" class="outline-4">
+<h4 id="orgc6b188b"><span class="section-number-4">3.6.2.</span> Model Switching</h4>
 <div class="outline-text-4" id="text-3-6-2">
 <ul class="org-ul">
 <li><code>C-c a m</code> : Choose from all available models</li>
@@ -462,8 +474,8 @@ Quick reference for using gptel:
 </div>
 </div>
 
-<div id="outline-container-org6e8e21b" class="outline-4">
-<h4 id="org6e8e21b"><span class="section-number-4">3.6.3.</span> Chat Management</h4>
+<div id="outline-container-orgea514ef" class="outline-4">
+<h4 id="orgea514ef"><span class="section-number-4">3.6.3.</span> Chat Management</h4>
 <div class="outline-text-4" id="text-3-6-3">
 <ul class="org-ul">
 <li><code>C-c g s</code> : Manually save current chat (in gptel buffer)</li>
@@ -474,8 +486,8 @@ Quick reference for using gptel:
 </div>
 </div>
 
-<div id="outline-container-orgd744293" class="outline-4">
-<h4 id="orgd744293"><span class="section-number-4">3.6.4.</span> In Chat Buffer</h4>
+<div id="outline-container-orgc967ea8" class="outline-4">
+<h4 id="orgc967ea8"><span class="section-number-4">3.6.4.</span> In Chat Buffer</h4>
 <div class="outline-text-4" id="text-3-6-4">
 <ul class="org-ul">
 <li><code>C-c RET</code> : Send message</li>
@@ -485,8 +497,8 @@ Quick reference for using gptel:
 </div>
 </div>
 
-<div id="outline-container-orgdbb9b53" class="outline-4">
-<h4 id="orgdbb9b53"><span class="section-number-4">3.6.5.</span> Configuration</h4>
+<div id="outline-container-orgba6da70" class="outline-4">
+<h4 id="orgba6da70"><span class="section-number-4">3.6.5.</span> Configuration</h4>
 <div class="outline-text-4" id="text-3-6-5">
 <p>
 API keys should be set as environment variables:
@@ -494,7 +506,7 @@ API keys should be set as environment variables:
 <ul class="org-ul">
 <li><code>CLAUDE_API_KEY</code> : For Claude models (Anthropic)</li>
 <li><code>OPENAI_API_KEY</code> : For GPT models (OpenAI)</li>
-<li><code>GOOGLE_API_KEY</code> : For Gemini models (Google)</li>
+<li><code>GEMINI_API_KEY</code> : For Gemini models (Google)</li>
 </ul>
 
 <p>
@@ -509,65 +521,622 @@ Chat history location: <code>~/.emacs.d/gptel-history/</code> (customizable via 
 </div>
 </div>
 
-<div id="outline-container-org9bf900e" class="outline-2">
-<h2 id="org9bf900e"><span class="section-number-2">4.</span> PDF Tools</h2>
+<div id="outline-container-orga0b2972" class="outline-2">
+<h2 id="orga0b2972"><span class="section-number-2">4.</span> PDF Tools</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-PDF viewing and annotation in Emacs with pdf-tools. Currently disabled - uncomment to enable.
+Comprehensive PDF viewing and annotation system with powerful search, annotation, bookmark, and navigation features.
 </p>
 
 <p>
 Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElements PDF Tools Settings</a>
 </p>
+</div>
 
-<p>
-Features:
-</p>
+<div id="outline-container-org5326fd8" class="outline-3">
+<h3 id="org5326fd8"><span class="section-number-3">4.1.</span> Core Features</h3>
+<div class="outline-text-3" id="text-4-1">
 <ul class="org-ul">
-<li>Native PDF rendering</li>
-<li>Annotation support</li>
-<li>Fast navigation</li>
-<li>Text search</li>
-<li>Bookmarks and outline navigation</li>
+<li>High-quality PDF rendering with native performance</li>
+<li>Full-text search with occur mode for document-wide searches</li>
+<li>Rich annotation support (highlight, underline, strikethrough, text notes)</li>
+<li>Bookmarks and outline/TOC navigation</li>
+<li>Region marking and text selection</li>
+<li>Image extraction and manipulation</li>
+<li>Link following and history navigation</li>
+<li>Dark mode support (midnight mode)</li>
+<li>Auto-revert for live-updating PDFs</li>
+<li>Slice mode for cropping margins</li>
 </ul>
+</div>
+</div>
 
+<div id="outline-container-org2e2dcb6" class="outline-3">
+<h3 id="org2e2dcb6"><span class="section-number-3">4.2.</span> Basic Setup</h3>
+<div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Core Configuration
 </span>(<span class="org-keyword">use-package</span> pdf-tools
   <span class="org-builtin">:ensure</span> t
   <span class="org-builtin">:mode</span> (<span class="org-string">"\\.pdf\\'"</span> . pdf-view-mode)
+  <span class="org-builtin">:magic</span> (<span class="org-string">"%PDF"</span> . pdf-view-mode)
   <span class="org-builtin">:config</span>
-  (pdf-tools-install <span class="org-builtin">:no-query</span>)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Install pdf-tools
+</span>  (pdf-tools-install <span class="org-builtin">:no-query</span>)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Keybindings
-</span>  (define-key pdf-view-mode-map (kbd <span class="org-string">"C-s"</span>) 'isearch-forward)
-  (define-key pdf-view-mode-map (kbd <span class="org-string">"C-r"</span>) 'isearch-backward)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Custom settings
+</span>  (<span class="org-keyword">setq-default</span> pdf-view-display-size 'fit-page)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-revert
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Performance
+</span>  (<span class="org-keyword">setq</span> pdf-view-use-scaling t
+        pdf-view-use-imagemagick nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Annotation settings
+</span>  (<span class="org-keyword">setq</span> pdf-annot-activate-created-annotations t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-revert PDFs when file changes
 </span>  (add-hook 'pdf-view-mode-hook #'auto-revert-mode)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Midnight mode for dark theme support
-</span>  (add-hook 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Save place in PDF files
-</span>(<span class="org-keyword">use-package</span> saveplace-pdf-view
-  <span class="org-builtin">:ensure</span> t
-  <span class="org-builtin">:after</span> pdf-tools)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">More frequent auto-revert for PDFs
+</span>  (<span class="org-keyword">setq</span> auto-revert-interval 0.5))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1d9c40e" class="outline-2">
-<h2 id="org1d9c40e"><span class="section-number-2">5.</span> Utility Functions</h2>
+<div id="outline-container-org81a163d" class="outline-3">
+<h3 id="org81a163d"><span class="section-number-3">4.3.</span> Display and Visual Settings</h3>
+<div class="outline-text-3" id="text-4-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Display Settings
+</span>(<span class="org-keyword">with-eval-after-load</span> 'pdf-view
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Midnight mode colors (dark mode)
+</span>  (<span class="org-keyword">setq</span> pdf-view-midnight-colors '(<span class="org-string">"#ffffff"</span> . <span class="org-string">"#000000"</span>))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Resize factor
+</span>  (<span class="org-keyword">setq</span> pdf-view-resize-factor 1.1)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Continuous scroll
+</span>  (<span class="org-keyword">setq</span> pdf-view-continuous t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Display options
+</span>  (<span class="org-keyword">setq</span> pdf-view-display-size 'fit-width)
+  (<span class="org-keyword">setq</span> pdf-view-use-dedicated-register t))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdb1dad0" class="outline-3">
+<h3 id="orgdb1dad0"><span class="section-number-3">4.4.</span> Search and Navigation</h3>
+<div class="outline-text-3" id="text-4-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Enhanced Search
+</span>(<span class="org-keyword">with-eval-after-load</span> 'pdf-isearch
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Search settings
+</span>  (<span class="org-keyword">setq</span> pdf-isearch-hyphenation-character <span class="org-string">"-\u00ad"</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Batch mode for faster search
+</span>  (<span class="org-keyword">setq</span> pdf-isearch-batch-mode t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Custom search face
+</span>  (set-face-attribute 'pdf-isearch-match nil
+                      <span class="org-builtin">:background</span> <span class="org-string">"yellow"</span>
+                      <span class="org-builtin">:foreground</span> <span class="org-string">"black"</span>))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Occur - Search across entire document
+</span>(<span class="org-keyword">with-eval-after-load</span> 'pdf-occur
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Occur buffer settings
+</span>  (<span class="org-keyword">setq</span> pdf-occur-prefer-string-search t))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org761ce39" class="outline-3">
+<h3 id="org761ce39"><span class="section-number-3">4.5.</span> Annotations and Markup</h3>
+<div class="outline-text-3" id="text-4-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Annotations
+</span>(<span class="org-keyword">with-eval-after-load</span> 'pdf-annot
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Annotation list settings
+</span>  (<span class="org-keyword">setq</span> pdf-annot-list-format '((page . 3)
+                                (type . 10)
+                                (label . 15)
+                                (contents . 0)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Annotation highlight colors
+</span>  (<span class="org-keyword">setq</span> pdf-annot-default-annotation-properties
+        '((t (label . <span class="org-string">"User"</span>))
+          (highlight (color . <span class="org-string">"yellow"</span>))
+          (underline (color . <span class="org-string">"blue"</span>))
+          (squiggly (color . <span class="org-string">"orange"</span>))
+          (strike-out (color . <span class="org-string">"red"</span>))
+          (text (icon . <span class="org-string">"Note"</span>)
+                (color . <span class="org-string">"gold"</span>))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Minor mode settings
+</span>  (<span class="org-keyword">setq</span> pdf-annot-minor-mode-map-prefix (kbd <span class="org-string">"C-c a"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Custom annotation functions
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-annot-add-highlight</span> ()
+  <span class="org-doc">"Add highlight annotation to selected region."</span>
+  (<span class="org-keyword">interactive</span>)
+  (pdf-annot-add-highlight-markup-annotation
+   (pdf-view-active-region) <span class="org-string">"yellow"</span>))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-annot-add-underline</span> ()
+  <span class="org-doc">"Add underline annotation to selected region."</span>
+  (<span class="org-keyword">interactive</span>)
+  (pdf-annot-add-underline-markup-annotation
+   (pdf-view-active-region) <span class="org-string">"blue"</span>))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-annot-add-strikeout</span> ()
+  <span class="org-doc">"Add strikeout annotation to selected region."</span>
+  (<span class="org-keyword">interactive</span>)
+  (pdf-annot-add-strikeout-markup-annotation
+   (pdf-view-active-region) <span class="org-string">"red"</span>))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-annot-add-text-note</span> ()
+  <span class="org-doc">"Add text note annotation at point."</span>
+  (<span class="org-keyword">interactive</span>)
+  (pdf-annot-add-text-annotation
+   (pdf-view-active-region)
+   (read-string <span class="org-string">"Note: "</span>)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3e4c0d" class="outline-3">
+<h3 id="orgd3e4c0d"><span class="section-number-3">4.6.</span> Bookmarks and Links</h3>
+<div class="outline-text-3" id="text-4-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Bookmarks
+</span>(<span class="org-keyword">with-eval-after-load</span> 'pdf-view
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable bookmark support
+</span>  (<span class="org-keyword">setq</span> pdf-view-use-dedicated-register t))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Save place in PDF files
+</span>(<span class="org-keyword">use-package</span> saveplace-pdf-view
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:after</span> pdf-tools
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remember last position in PDFs
+</span>  (save-place-mode 1))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Custom bookmark functions
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-bookmark-set</span> ()
+  <span class="org-doc">"Set a bookmark in the current PDF."</span>
+  (<span class="org-keyword">interactive</span>)
+  (bookmark-set (format <span class="org-string">"PDF: %s - p%d"</span>
+                       (file-name-nondirectory (buffer-file-name))
+                       (pdf-view-current-page))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-bookmark-jump</span> ()
+  <span class="org-doc">"Jump to a PDF bookmark."</span>
+  (<span class="org-keyword">interactive</span>)
+  (bookmark-jump
+   (completing-read <span class="org-string">"PDF Bookmark: "</span>
+                   (cl-remove-if-not
+                    (<span class="org-keyword">lambda</span> (bmk)
+                      (string-prefix-p <span class="org-string">"PDF: "</span> (car bmk)))
+                    bookmark-alist))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org60bf7fb" class="outline-3">
+<h3 id="org60bf7fb"><span class="section-number-3">4.7.</span> Keybindings</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+Comprehensive keybinding setup for all PDF operations.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Keybindings
+</span>(<span class="org-keyword">with-eval-after-load</span> 'pdf-view
+  (<span class="org-keyword">let</span> ((map pdf-view-mode-map))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Basic navigation
+</span>    (define-key map (kbd <span class="org-string">"j"</span>) 'pdf-view-next-line-or-next-page)
+    (define-key map (kbd <span class="org-string">"k"</span>) 'pdf-view-previous-line-or-previous-page)
+    (define-key map (kbd <span class="org-string">"h"</span>) 'image-backward-hscroll)
+    (define-key map (kbd <span class="org-string">"l"</span>) 'image-forward-hscroll)
+    (define-key map (kbd <span class="org-string">"J"</span>) 'pdf-view-next-page)
+    (define-key map (kbd <span class="org-string">"K"</span>) 'pdf-view-previous-page)
+    (define-key map (kbd <span class="org-string">"g g"</span>) 'pdf-view-first-page)
+    (define-key map (kbd <span class="org-string">"G"</span>) 'pdf-view-last-page)
+    (define-key map (kbd <span class="org-string">"g t"</span>) 'pdf-view-goto-page)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Search
+</span>    (define-key map (kbd <span class="org-string">"C-s"</span>) 'isearch-forward)
+    (define-key map (kbd <span class="org-string">"C-r"</span>) 'isearch-backward)
+    (define-key map (kbd <span class="org-string">"s s"</span>) 'pdf-occur)
+    (define-key map (kbd <span class="org-string">"s r"</span>) 'pdf-isearch-batch-mode)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Zoom and display
+</span>    (define-key map (kbd <span class="org-string">"+"</span>) 'pdf-view-enlarge)
+    (define-key map (kbd <span class="org-string">"-"</span>) 'pdf-view-shrink)
+    (define-key map (kbd <span class="org-string">"0"</span>) 'pdf-view-scale-reset)
+    (define-key map (kbd <span class="org-string">"W"</span>) 'pdf-view-fit-width-to-window)
+    (define-key map (kbd <span class="org-string">"H"</span>) 'pdf-view-fit-height-to-window)
+    (define-key map (kbd <span class="org-string">"P"</span>) 'pdf-view-fit-page-to-window)
+    (define-key map (kbd <span class="org-string">"m"</span>) 'pdf-view-midnight-minor-mode)
+    (define-key map (kbd <span class="org-string">"s l"</span>) 'pdf-view-set-slice-using-mouse)
+    (define-key map (kbd <span class="org-string">"s b"</span>) 'pdf-view-set-slice-from-bounding-box)
+    (define-key map (kbd <span class="org-string">"s r"</span>) 'pdf-view-reset-slice)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Annotations
+</span>    (define-key map (kbd <span class="org-string">"a h"</span>) 'fu/pdf-annot-add-highlight)
+    (define-key map (kbd <span class="org-string">"a u"</span>) 'fu/pdf-annot-add-underline)
+    (define-key map (kbd <span class="org-string">"a s"</span>) 'fu/pdf-annot-add-strikeout)
+    (define-key map (kbd <span class="org-string">"a t"</span>) 'fu/pdf-annot-add-text-note)
+    (define-key map (kbd <span class="org-string">"a d"</span>) 'pdf-annot-delete)
+    (define-key map (kbd <span class="org-string">"a l"</span>) 'pdf-annot-list-annotations)
+    (define-key map (kbd <span class="org-string">"a n"</span>) 'pdf-annot-next-annotation)
+    (define-key map (kbd <span class="org-string">"a p"</span>) 'pdf-annot-previous-annotation)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Outline and links
+</span>    (define-key map (kbd <span class="org-string">"o"</span>) 'pdf-outline)
+    (define-key map (kbd <span class="org-string">"f"</span>) 'pdf-links-action-perform)
+    (define-key map (kbd <span class="org-string">"F"</span>) 'pdf-links-isearch-link)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Bookmarks
+</span>    (define-key map (kbd <span class="org-string">"b s"</span>) 'fu/pdf-bookmark-set)
+    (define-key map (kbd <span class="org-string">"b j"</span>) 'fu/pdf-bookmark-jump)
+    (define-key map (kbd <span class="org-string">"b l"</span>) 'bookmark-bmenu-list)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">History
+</span>    (define-key map (kbd <span class="org-string">"B"</span>) 'pdf-history-backward)
+    (define-key map (kbd <span class="org-string">"N"</span>) 'pdf-history-forward)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Misc
+</span>    (define-key map (kbd <span class="org-string">"r"</span>) 'pdf-view-revert-buffer)
+    (define-key map (kbd <span class="org-string">"t"</span>) 'pdf-annot-attachment-dired)
+    (define-key map (kbd <span class="org-string">"n"</span>) 'pdf-view-next-page-command)
+    (define-key map (kbd <span class="org-string">"p"</span>) 'pdf-view-previous-page-command)
+    (define-key map (kbd <span class="org-string">"SPC"</span>) 'pdf-view-scroll-up-or-next-page)
+    (define-key map (kbd <span class="org-string">"DEL"</span>) 'pdf-view-scroll-down-or-previous-page)
+    (define-key map (kbd <span class="org-string">"C-c C-c"</span>) 'pdf-misc-display-metadata)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org50f4cc9" class="outline-3">
+<h3 id="org50f4cc9"><span class="section-number-3">4.8.</span> Helper Functions</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+Additional utility functions for enhanced PDF workflow.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Helper Functions
+</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-print-buffer</span> ()
+  <span class="org-doc">"Print current PDF buffer."</span>
+  (<span class="org-keyword">interactive</span>)
+  (pdf-misc-print-document (buffer-file-name)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-copy-region-as-text</span> ()
+  <span class="org-doc">"Copy selected region as text."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">when</span> (pdf-view-active-region-p)
+    (<span class="org-keyword">let</span> ((text (pdf-view-active-region-text)))
+      (kill-new (mapconcat 'identity text <span class="org-string">"\n"</span>))
+      (message <span class="org-string">"Copied PDF text to clipboard"</span>))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-extract-images</span> ()
+  <span class="org-doc">"Extract images from current PDF."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let*</span> ((file (buffer-file-name))
+         (dir (file-name-sans-extension file)))
+    (make-directory dir t)
+    (shell-command
+     (format <span class="org-string">"pdfimages -all '</span><span class="org-string"><span class="org-constant">%s</span></span><span class="org-string">' '</span><span class="org-string"><span class="org-constant">%s/image</span></span><span class="org-string">'"</span> file dir))
+    (message <span class="org-string">"Extracted images to %s"</span> dir)
+    (dired dir)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-count-pages</span> ()
+  <span class="org-doc">"Display the number of pages in current PDF."</span>
+  (<span class="org-keyword">interactive</span>)
+  (message <span class="org-string">"PDF has %d pages"</span> (pdf-cache-number-of-pages)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/pdf-rotate-page</span> (degrees)
+  <span class="org-doc">"Rotate current page by DEGREES (90, 180, or 270)."</span>
+  (<span class="org-keyword">interactive</span>
+   (list (string-to-number
+          (completing-read <span class="org-string">"Rotate by degrees: "</span>
+                         '(<span class="org-string">"90"</span> <span class="org-string">"180"</span> <span class="org-string">"270"</span>)))))
+  (pdf-view-rotate degrees))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Global keybindings for PDF functions
+</span>(<span class="org-keyword">with-eval-after-load</span> 'pdf-view
+  (define-key pdf-view-mode-map (kbd <span class="org-string">"w"</span>) 'fu/pdf-copy-region-as-text)
+  (define-key pdf-view-mode-map (kbd <span class="org-string">"C-c C-p"</span>) 'fu/pdf-print-buffer)
+  (define-key pdf-view-mode-map (kbd <span class="org-string">"C-c i"</span>) 'fu/pdf-extract-images)
+  (define-key pdf-view-mode-map (kbd <span class="org-string">"C-c n"</span>) 'fu/pdf-count-pages)
+  (define-key pdf-view-mode-map (kbd <span class="org-string">"R"</span>) 'fu/pdf-rotate-page))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org33633c6" class="outline-3">
+<h3 id="org33633c6"><span class="section-number-3">4.9.</span> PDF Keybinding Reference</h3>
+<div class="outline-text-3" id="text-4-9">
+<p>
+Quick reference for PDF Tools keybindings:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Category</th>
+<th scope="col" class="org-left">Key</th>
+<th scope="col" class="org-left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Navigation</b></td>
+<td class="org-left">j/k</td>
+<td class="org-left">Line up/down</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">J/K</td>
+<td class="org-left">Page down/up</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">g g</td>
+<td class="org-left">First page</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">G</td>
+<td class="org-left">Last page</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">g t</td>
+<td class="org-left">Go to page</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">SPC/DEL</td>
+<td class="org-left">Page down/up</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">h/l</td>
+<td class="org-left">Scroll left/right</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">B/N</td>
+<td class="org-left">History back/forward</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Search</b></td>
+<td class="org-left">C-s/C-r</td>
+<td class="org-left">Incremental search</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">s s</td>
+<td class="org-left">Search all (occur)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">s r</td>
+<td class="org-left">Batch search</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Display</b></td>
+<td class="org-left">+/-</td>
+<td class="org-left">Zoom in/out</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">0</td>
+<td class="org-left">Reset zoom</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">W/H/P</td>
+<td class="org-left">Fit width/height/page</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">m</td>
+<td class="org-left">Toggle dark mode</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">s l</td>
+<td class="org-left">Set slice (crop)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">s b</td>
+<td class="org-left">Slice from bounding box</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">s r</td>
+<td class="org-left">Reset slice</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">R</td>
+<td class="org-left">Rotate page</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Annotate</b></td>
+<td class="org-left">a h</td>
+<td class="org-left">Add highlight</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">a u</td>
+<td class="org-left">Add underline</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">a s</td>
+<td class="org-left">Add strikeout</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">a t</td>
+<td class="org-left">Add text note</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">a d</td>
+<td class="org-left">Delete annotation</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">a l</td>
+<td class="org-left">List annotations</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">a n/p</td>
+<td class="org-left">Next/previous annotation</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Bookmarks</b></td>
+<td class="org-left">b s</td>
+<td class="org-left">Set bookmark</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">b j</td>
+<td class="org-left">Jump to bookmark</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">b l</td>
+<td class="org-left">List bookmarks</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Outline</b></td>
+<td class="org-left">o</td>
+<td class="org-left">Show outline/TOC</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">f</td>
+<td class="org-left">Follow link</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">F</td>
+<td class="org-left">Search links</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Misc</b></td>
+<td class="org-left">w</td>
+<td class="org-left">Copy region as text</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">r</td>
+<td class="org-left">Revert buffer</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">C-c C-p</td>
+<td class="org-left">Print PDF</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">C-c i</td>
+<td class="org-left">Extract images</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">C-c n</td>
+<td class="org-left">Count pages</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">C-c C-c</td>
+<td class="org-left">Display metadata</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgba57b1f" class="outline-2">
+<h2 id="orgba57b1f"><span class="section-number-2">5.</span> Utility Functions</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 General utility functions for improved Emacs workflow.
 </p>
 </div>
 
-<div id="outline-container-org4ae40b1" class="outline-3">
-<h3 id="org4ae40b1"><span class="section-number-3">5.1.</span> Open in External Application</h3>
+<div id="outline-container-orgd0f4c66" class="outline-3">
+<h3 id="orgd0f4c66"><span class="section-number-3">5.1.</span> Open in External Application</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Open current file or URL in external application.
@@ -598,8 +1167,8 @@ Open current file or URL in external application.
 </div>
 </div>
 
-<div id="outline-container-orgef80b3c" class="outline-3">
-<h3 id="orgef80b3c"><span class="section-number-3">5.2.</span> Copy File Path</h3>
+<div id="outline-container-org065e26c" class="outline-3">
+<h3 id="org065e26c"><span class="section-number-3">5.2.</span> Copy File Path</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Copy current file path to clipboard.
@@ -620,8 +1189,8 @@ Copy current file path to clipboard.
 </div>
 </div>
 
-<div id="outline-container-orgd23c35f" class="outline-3">
-<h3 id="orgd23c35f"><span class="section-number-3">5.3.</span> Reload Configuration</h3>
+<div id="outline-container-orgc0dc9ce" class="outline-3">
+<h3 id="orgc0dc9ce"><span class="section-number-3">5.3.</span> Reload Configuration</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Quickly reload Emacs configuration.
@@ -640,8 +1209,8 @@ Quickly reload Emacs configuration.
 </div>
 </div>
 
-<div id="outline-container-orgb8480cf" class="outline-3">
-<h3 id="orgb8480cf"><span class="section-number-3">5.4.</span> Kill Other Buffers</h3>
+<div id="outline-container-org4a047a9" class="outline-3">
+<h3 id="org4a047a9"><span class="section-number-3">5.4.</span> Kill Other Buffers</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 Kill all buffers except the current one.
@@ -665,8 +1234,8 @@ Kill all buffers except the current one.
 </div>
 </div>
 
-<div id="outline-container-org4dc9628" class="outline-2">
-<h2 id="org4dc9628"><span class="section-number-2">6.</span> Database Configuration (Disabled)</h2>
+<div id="outline-container-org2618f1b" class="outline-2">
+<h2 id="org2618f1b"><span class="section-number-2">6.</span> Database Configuration (Disabled)</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Example database configuration with ejc-sql. Disabled by default.
@@ -707,8 +1276,8 @@ Example database configuration with ejc-sql. Disabled by default.
 </div>
 </div>
 
-<div id="outline-container-orgd500d0b" class="outline-2">
-<h2 id="orgd500d0b"><span class="section-number-2">7.</span> End of File</h2>
+<div id="outline-container-orga543c37" class="outline-2">
+<h2 id="orga543c37"><span class="section-number-2">7.</span> End of File</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">misc-conf</span>)
