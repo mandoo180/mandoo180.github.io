@@ -4,21 +4,173 @@
 #+OPTIONS: toc:2 num:3
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
-Enhancements for the built-in directory editor.
+* Introduction
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el
-  ;;; dired-conf.el --- Summary  -*- lexical-binding: t; -*-
+Dired (Directory Editor) is Emacs's built-in file manager that allows you to navigate, view, and manipulate files and directories directly within Emacs. This configuration enhances Dired with modern features like icons, filtering, tree views, and advanced file operations.
+
+* Core Dired Configuration
+
+The base Dired settings provide human-readable file listings, automatic buffer updates, and convenient file operations.
+
+Key features:
+- Human-readable file sizes (=-h= flag)
+- Show all files including hidden ones (=-a= flag)
+- Long listing format with detailed information (=-l= flag)
+- Automatically revert buffers when files change
+- Recursive operations for copy/delete
+- Kill buffers when deleting directories
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
+  ;;; dired-conf.el --- Directory Editor Configuration  -*- lexical-binding: t; -*-
   ;;; Commentary:
+  ;;; Enhanced Dired configuration with modern features
   ;;; Code:
+
   (use-package dired
     :ensure nil
+    :commands (dired dired-jump)
+    :bind (("C-x C-j" . dired-jump))
+    :hook
+    (dired-mode-hook . dired-hide-details-mode)
     :custom
-    (dired-listing-switches "-ahl"))
-  (use-package dired-filter)
+    ;; Listing switches: all files, human-readable sizes, long format
+    (dired-listing-switches "-ahl --group-directories-first")
+    ;; Auto-refresh dired buffers when files change
+    (dired-auto-revert-buffer t)
+    ;; Human-readable file sizes
+    (dired-hide-details-hide-symlink-targets nil)
+    ;; Ask for recursive operations
+    (dired-recursive-copies 'always)
+    (dired-recursive-deletes 'always)
+    ;; Kill buffer when deleting directory
+    (dired-kill-when-opening-new-dired-buffer t)
+    :config
+    ;; Use 'a' to open files in same buffer
+    (put 'dired-find-alternate-file 'disabled nil))
+#+end_src
+
+* Dired-X (Extra Features)
+
+Dired-X provides additional functionality including omitting uninteresting files, jumping to the current file's directory, and advanced marking operations.
+
+Features:
+- Omit mode to hide uninteresting files (toggle with =C-x M-o=)
+- Jump to dired from any buffer (=C-x C-j=)
+- Guess shell commands based on file type
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
+  (use-package dired-x
+    :ensure nil
+    :after dired
+    :bind (("C-x C-j" . dired-jump)
+           ("C-x 4 C-j" . dired-jump-other-window))
+    :custom
+    ;; Files to omit in omit-mode
+    (dired-omit-files "^\\.[^.]\\|^\\.?#\\|^\\.$\\|^\\.\\.$")
+    :hook
+    ;; Enable omit mode by default
+    (dired-mode . dired-omit-mode))
+#+end_src
+
+* Subtree Navigation
+
+The =dired-subtree= package allows you to expand and collapse directories inline, creating a tree-like view without opening multiple buffers.
+
+Usage:
+- =C-,= : Toggle subtree expansion/collapse
+- Navigate through the tree structure without leaving the current buffer
+- Great for exploring nested directory structures
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
   (use-package dired-subtree
-    :bind (:map dired-mode-map ("C-," . dired-subtree-toggle)))
+    :after dired
+    :bind (:map dired-mode-map
+                ("C-," . dired-subtree-toggle)
+                ("TAB" . dired-subtree-cycle)))
+#+end_src
 
+* Filtering and Narrowing
 
+The =dired-filter= package provides powerful filtering capabilities to narrow down file lists based on various criteria.
+
+Features:
+- Filter by name, extension, regexp
+- Stack multiple filters
+- Save and restore filter configurations
+- Quick filtering with keyboard shortcuts
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
+  (use-package dired-filter
+    :after dired
+    :bind (:map dired-mode-map
+                ("/" . dired-filter-map))
+    :hook
+    (dired-mode . dired-filter-mode))
+#+end_src
+
+* Advanced File Operations
+
+** Writable Dired (wdired)
+
+Edit file names directly in the dired buffer as if it were a text file. Perfect for batch renaming files.
+
+Usage:
+1. Press =C-x C-q= to enter wdired mode
+2. Edit file names using normal Emacs editing commands
+3. Press =C-c C-c= to apply changes or =C-c C-k= to abort
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
+  (use-package wdired
+    :ensure nil
+    :after dired
+    :custom
+    ;; Make wdired work with permissions
+    (wdired-allow-to-change-permissions t)
+    ;; Allow changing symlink targets
+    (wdired-allow-to-redirect-links t)
+    ;; Create parent directories automatically
+    (wdired-create-parent-directories t))
+#+end_src
+
+* Quick Preview
+
+The =peep-dired= package provides a quick file preview without opening the file, similar to macOS Finder's Quick Look.
+
+Usage: Press =P= to toggle preview mode, then navigate files to see previews.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
+  (use-package peep-dired
+    :after dired
+    :bind (:map dired-mode-map
+                ("P" . peep-dired))
+    :custom
+    (peep-dired-cleanup-on-disable t)
+    (peep-dired-enable-on-directories t))
+#+end_src
+
+* Additional Keybindings
+
+Some useful Dired commands to remember:
+
+| Key     | Command                    | Description                          |
+|---------+----------------------------+--------------------------------------|
+| =m=     | dired-mark                 | Mark file                            |
+| =u=     | dired-unmark               | Unmark file                          |
+| =U=     | dired-unmark-all-marks     | Unmark all                           |
+| =t=     | dired-toggle-marks         | Toggle marks                         |
+| =d=     | dired-flag-file-deletion   | Flag for deletion                    |
+| =x=     | dired-do-flagged-delete    | Execute deletions                    |
+| =C=     | dired-do-copy              | Copy marked files                    |
+| =R=     | dired-do-rename            | Rename/move marked files             |
+| =D=     | dired-do-delete            | Delete marked files immediately      |
+| =+=     | dired-create-directory     | Create directory                     |
+| =g=     | revert-buffer              | Refresh directory listing            |
+| =s=     | dired-sort-toggle-or-edit  | Toggle sorting                       |
+| =(=     | dired-hide-details-mode    | Toggle detailed view                 |
+| =^=     | dired-up-directory         | Go to parent directory               |
+| =C-x C-q= | dired-toggle-read-only   | Enter wdired mode for batch renaming |
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
   (provide 'dired-conf)
   ;;; dired-conf.el ends here
 #+end_src

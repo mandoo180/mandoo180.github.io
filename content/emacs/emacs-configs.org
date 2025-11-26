@@ -15,7 +15,10 @@ This is my comprehensive Emacs configuration written in a literate programming s
   - Tangle individual files: Open a config file and run =C-c C-v t=
   - Use the Elisp helper: See "Tangling All Configurations" section below
 - *Exporting*: Use =C-c C-e h h= to export this document to HTML for publishing
-- *Modular Structure*: Each section is in a separate file under =configs/= for easier navigation and editing
+- *Modular Structure*: Configuration files are organized in =configs/= with subdirectories:
+  - Top-level files for core Emacs settings
+  - =programming/= for language-specific configurations
+  - =documentation/= for document format configurations (Org-mode, Markdown)
 
 ** Quick Start
 
@@ -37,9 +40,16 @@ The configuration is organized as follows:
 - *Window* - Window management and layout
 - *Completion* - Completion frameworks and interfaces
 - *Dired* - Directory editor enhancements
-- *Knowledge Management* - Org-mode, org-roam, and note-taking tools
+- *Documentation* - Modular documentation system (Org-mode, Markdown)
+  - General documentation tools
+  - Org-mode configurations
+  - Markdown configurations
 - *Shell* - Terminal and shell integration
-- *Programming* - Language-specific configurations
+- *Programming* - Modular language-specific configurations
+  - General programming tools
+  - Web development (HTML/CSS/JS/TypeScript)
+  - Python development
+  - Ruby development
 - *Miscellaneous* - Utilities and helper functions
 - *Platform-Specific* - OS-specific configurations
 
@@ -55,7 +65,7 @@ The repository includes a =tangle.sh= script that automatically finds and tangle
 
 This script:
 - Recursively processes all =.org= files in =content/emacs/configs/=
-- Includes subdirectories (like =programming/=)
+- Includes subdirectories (=programming/=, =documentation/=)
 - Creates required directories (=~/.emacs.d/elisp/=)
 - Shows progress for each file
 
@@ -71,9 +81,18 @@ Alternatively, execute this code block from within Emacs by placing your cursor 
                         "configs/04-window.org"
                         "configs/05-completion.org"
                         "configs/06-dired.org"
-                        "configs/07-org.org"
+                        "configs/07-docs.org"
+                        "configs/documentation/00-loader.org"
+                        "configs/documentation/01-general.org"
+                        "configs/documentation/02-org.org"
+                        "configs/documentation/03-md.org"
                         "configs/08-shell.org"
                         "configs/09-programming.org"
+                        "configs/programming/00-loader.org"
+                        "configs/programming/01-general.org"
+                        "configs/programming/02-web.org"
+                        "configs/programming/03-python.org"
+                        "configs/programming/04-ruby.org"
                         "configs/10-miscellaneous.org"
                         "configs/11-platform-linux.org"
                         "configs/12-platform-macos.org"
@@ -90,22 +109,41 @@ This will process all config files and extract their code blocks to =~/.emacs.d/
 
 * Configuration Sections
 
-** [[file:configs/01-early-init.html][Early Initialization]]
-** [[file:configs/02-init.html][Core Initialization]]
-** [[file:configs/03-theme.html][Theme and Appearance]]
-** [[file:configs/04-window.html][Window Management]]
-** [[file:configs/05-completion.html][Completion System]]
-** [[file:configs/06-dired.html][Directory Editor (Dired)]]
-** [[file:configs/07-org.html][Knowledge Management]]
-** [[file:configs/08-shell.html][Shell Integration]]
-** [[file:configs/09-programming.html][Programming Language]]
-** [[file:configs/10-miscellaneous.html][Miscellaneous]]
+** [[file:configs/01-early-init.org][Early Initialization]]
+** [[file:configs/02-init.org][Core Initialization]]
+** [[file:configs/03-theme.org][Theme and Appearance]]
+** [[file:configs/04-window.org][Window Management]]
+** [[file:configs/05-completion.org][Completion System]]
+** [[file:configs/06-dired.org][Directory Editor (Dired)]]
+** [[file:configs/07-docs.org][Documentation (Org-mode & Markdown)]]
+
+*** Documentation Modules
+
+The documentation configuration is modular and includes:
+- [[file:configs/documentation/00-loader.org][Loader]] - Orchestrates all documentation configs
+- [[file:configs/documentation/01-general.org][General]] - Common documentation tools (olivetti, etc.)
+- [[file:configs/documentation/02-org.org][Org-mode]] - Org-mode specific configurations
+- [[file:configs/documentation/03-md.org][Markdown]] - Markdown mode configurations
+
+** [[file:configs/08-shell.org][Shell Integration]]
+** [[file:configs/09-programming.org][Programming Languages]]
+
+*** Programming Modules
+
+The programming configuration is modular and includes:
+- [[file:configs/programming/00-loader.org][Loader]] - Orchestrates all programming configs
+- [[file:configs/programming/01-general.org][General]] - Common programming tools (LSP, Magit, etc.)
+- [[file:configs/programming/02-web.org][Web Development]] - HTML, CSS, JavaScript, TypeScript
+- [[file:configs/programming/03-python.org][Python]] - Python development environment
+- [[file:configs/programming/04-ruby.org][Ruby]] - Ruby development environment
+
+** [[file:configs/10-miscellaneous.org][Miscellaneous]]
 
 ** Platform-Specific Configurations
 
-*** [[file:configs/11-platform-linux.html][Linux-Specific Configuration]]
-*** [[file:configs/12-platform-macos.html][macOS-Specific Configuration]]
-*** [[file:configs/13-platform-windows.html][Windows-Specific Configuration]]
+*** [[file:configs/11-platform-linux.org][Linux-Specific Configuration]]
+*** [[file:configs/12-platform-macos.org][macOS-Specific Configuration]]
+*** [[file:configs/13-platform-windows.org][Windows-Specific Configuration]]
 
 * Local File Variables                                                          :noexport:
 

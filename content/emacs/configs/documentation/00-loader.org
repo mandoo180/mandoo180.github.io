@@ -1,0 +1,43 @@
+* Documentation Configuration Loader
+
+This file serves as the main entry point for all documentation-related configurations. It loads document format-specific modules.
+
+** Purpose
+
+The loader (=doc-conf.el=) is responsible for:
+- Loading general documentation settings (=doc-general-conf=)
+- Loading Org-mode documentation settings (=doc-org-conf=)
+- Loading Markdown documentation settings (=doc-md-conf=)
+
+** Architecture
+
+The documentation configuration is modular:
+
+#+begin_example
+doc-conf.el (this file)
+├── doc-general-conf.el   → General documentation settings
+├── doc-org-conf.el       → Org-mode settings
+└── doc-md-conf.el        → Markdown settings
+#+end_example
+
+** Loader Implementation
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-conf.el
+  ;;; doc-conf.el --- Documentation configuration loader -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Main documentation configuration file that loads document format-specific modules.
+  ;;; Code:
+
+  ;; Load general documentation configuration
+  (require 'doc-general-conf)
+
+  ;; Load Org-mode documentation configuration
+  (require 'doc-org-conf)
+
+  ;; Load Markdown documentation configuration
+  (require 'doc-md-conf)
+
+  (provide 'doc-conf)
+  ;;; doc-conf.el ends here
+
+#+end_src

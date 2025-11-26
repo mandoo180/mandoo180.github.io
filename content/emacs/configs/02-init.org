@@ -231,9 +231,9 @@ Core Emacs settings using use-package. This configures built-in Emacs behavior w
   			  (ibuffer-switch-to-saved-filter-groups "default")))
     (setq ibuffer-show-empty-filter-groups nil) ; don't show empty groups
     ;; So eshell git commands open an instance of THIS config of Emacs
-    (setenv "GIT_EDITOR" (format "emacs --init-dir=%s " (shell-quote-argument user-emacs-directory)))
+    ;; (setenv "GIT_EDITOR" (format "emacs --init-dir=%s " (shell-quote-argument user-emacs-directory)))
     ;; So rebase from eshell opens with a bit of syntax highlight
-    (add-to-list 'auto-mode-alist '("/git-rebase-todo\\'" . conf-mode))
+    ;; (add-to-list 'auto-mode-alist '("/git-rebase-todo\\'" . conf-mode))
 
     ;; Reset GC after startup for better runtime performance
     (add-hook 'emacs-startup-hook
@@ -276,7 +276,7 @@ Core Emacs settings using use-package. This configures built-in Emacs behavior w
     (require 'window-conf)
     (require 'completion-conf)
     (require 'dired-conf)
-    (require 'org-conf)
+    (require 'doc-conf)
     (require 'shell-conf)
     (require 'prog-conf)
     (require 'misc-conf)

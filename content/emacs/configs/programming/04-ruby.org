@@ -207,25 +207,6 @@ This module provides comprehensive Ruby development support:
                 ("C-c k f" . rake-find-task)
                 ("C-c k R" . rake-rerun)))
 
-  ;; Ruby on Rails support
-  (use-package projectile-rails
-    :after (ruby-mode projectile)
-    :hook (projectile-mode . projectile-rails-global-mode)
-    :bind-keymap ("C-c R" . projectile-rails-command-map)
-    :bind (:map ruby-mode-map
-                ("C-c R m" . projectile-rails-find-model)
-                ("C-c R c" . projectile-rails-find-controller)
-                ("C-c R v" . projectile-rails-find-view))
-    :config
-    ;; Enable Rails-specific features when in Rails project
-    (defun fu-ruby-rails-mode-hook ()
-      "Hook for Rails-specific configuration."
-      (when (projectile-rails-root)
-        ;; Enable additional Rails features
-        (setq-local compilation-scroll-output t)))
-
-    (add-hook 'projectile-rails-mode-hook #'fu-ruby-rails-mode-hook))
-
   ;; YAML mode for Rails config files
   (use-package yaml-mode
     :mode (("\\.yml\\'" . yaml-mode)
@@ -302,30 +283,30 @@ This module provides comprehensive Ruby development support:
     :mode "\\.slim\\'")
 
   ;; Rails console in Emacs
-  (defun fu-rails-console ()
-    "Start Rails console in inf-ruby."
-    (interactive)
-    (let ((default-directory (or (projectile-rails-root)
-                                 default-directory)))
-      (if (file-exists-p "bin/rails")
-          (inf-ruby-console-run "bin/rails console" "rails")
-        (inf-ruby-console-run "bundle exec rails console" "rails"))))
+  ;; (defun fu-rails-console ()
+  ;;   "Start Rails console in inf-ruby."
+  ;;   (interactive)
+  ;;   (let ((default-directory (or (projectile-rails-root)
+  ;;                                default-directory)))
+  ;;     (if (file-exists-p "bin/rails")
+  ;;         (inf-ruby-console-run "bin/rails console" "rails")
+  ;;       (inf-ruby-console-run "bundle exec rails console" "rails"))))
 
-  (defun fu-rails-server ()
-    "Start Rails server in async shell."
-    (interactive)
-    (let ((default-directory (or (projectile-rails-root)
-                                 default-directory)))
-      (async-shell-command
-       (if (file-exists-p "bin/rails")
-           "bin/rails server"
-         "bundle exec rails server")
-       "*rails-server*")))
+  ;; (defun fu-rails-server ()
+  ;;   "Start Rails server in async shell."
+  ;;   (interactive)
+  ;;   (let ((default-directory (or (projectile-rails-root)
+  ;;                                default-directory)))
+  ;;     (async-shell-command
+  ;;      (if (file-exists-p "bin/rails")
+  ;;          "bin/rails server"
+  ;;        "bundle exec rails server")
+  ;;      "*rails-server*")))
 
   ;; Keybindings for Rails
-  (with-eval-after-load 'ruby-mode
-    (define-key ruby-mode-map (kbd "C-c R r") 'fu-rails-console)
-    (define-key ruby-mode-map (kbd "C-c R s") 'fu-rails-server))
+  ;; (with-eval-after-load 'ruby-mode
+  ;;   (define-key ruby-mode-map (kbd "C-c R r") 'fu-rails-console)
+  ;;   (define-key ruby-mode-map (kbd "C-c R s") 'fu-rails-server))
 
   ;; Ruby hash syntax conversion helpers
   (defun fu-ruby-toggle-hash-syntax ()

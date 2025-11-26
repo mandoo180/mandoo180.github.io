@@ -1,0 +1,73 @@
+* Introduction
+
+This configuration sets up a complete Markdown editing environment in Emacs with support for GitHub-Flavored Markdown, table of contents generation, live preview, and distraction-free writing.
+
+* Markdown Mode
+
+The =markdown-mode= package provides comprehensive support for editing Markdown files with syntax highlighting, live preview, and convenient keybindings.
+
+Key features:
+- GitHub-Flavored Markdown (GFM) support for README files
+- Native syntax highlighting for code blocks
+- WikiLinks support for internal linking
+- Scalable headers for better visual hierarchy
+- Custom keybindings: =C-c C-e= for markdown-do and =C-c C-t= for TOC generation
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-md-conf.el :results none
+  (use-package markdown-mode
+    :ensure t
+    :mode ("README\\.md\\'" . gfm-mode) ;; Use GitHub-Flavored Markdown for READMEs
+    :init (setq markdown-command "multimarkdown")
+    :bind (:map markdown-mode-map
+  			  ("C-c C-e" . markdown-do)
+  			  ("C-c C-t" . markdown-toc-generate-or-refresh-toc))
+    :custom
+    (markdown-header-scaling t)             ;; Make headers look bigger
+    (markdown-enable-wiki-links t)          ;; Enable [[WikiLinks]] support
+    (markdown-italic-underscore t)          ;; Use _italics_ by default
+    (markdown-fontify-code-blocks-natively t) ;; Syntax highlight code blocks
+    (markdown-gfm-use-electric-backquote nil) ;; Disable electric backticks if annoying
+    :hook
+    ((markdown-mode . olivetti-mode)))
+#+end_src
+
+* Table of Contents
+
+The =markdown-toc= package automatically generates and updates table of contents in Markdown files. Use =C-c C-t= (bound above) to insert or refresh the TOC based on your headers.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-md-conf.el :results none
+  (use-package markdown-toc
+    :ensure t
+    :after markdown-mode)
+#+end_src
+
+* Org Table Integration
+
+This integration enables Org-mode's powerful table editor within Markdown files. When editing Markdown tables, you can use =TAB= to navigate between cells and automatically format tables, just like in Org-mode.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-md-conf.el :results none
+  ;; Use Org-mode's powerful table editor inside Markdown
+  ;; This allows you to use TAB to navigate/format tables automatically.
+  (use-package markdown-mode
+    :hook (markdown-mode . orgtbl-mode))
+#+end_src
+
+* Live GitHub Preview
+
+The =grip-mode= package provides live preview of Markdown files as they would appear on GitHub. It uses the GitHub Markdown API to render your files in real-time. Toggle the preview with =C-c C-p=.
+
+Note: grip-mode requires the =grip= Python package to be installed (=pip install grip= or just =brew install grip= on macOS).
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-md-conf.el :results none
+  (use-package grip-mode
+    :ensure t
+    :bind (:map markdown-mode-map
+           ("C-c C-p" . grip-mode))) ;; Toggle preview with C-c C-p
+#+end_src
+
+* End of File
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-md-conf.el :results none
+  (provide 'doc-md-conf)
+  ;;; doc-md-conf.el ends here
+#+end_src

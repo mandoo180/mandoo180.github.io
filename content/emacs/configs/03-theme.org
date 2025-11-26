@@ -29,11 +29,11 @@ Visual customization including color theme, mode line, and UI elements.
         (load-file mode-line-file)))
 
   ;; Skip icon packages on server (requires GUI fonts)
-  (unless emacs-server-mode
-    (use-package all-the-icons)
-    (use-package all-the-icons-dired
-      :config
-      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
+  ;; (unless emacs-server-mode
+  ;;   (use-package all-the-icons)
+  ;;   (use-package all-the-icons-dired
+  ;;     :config
+  ;;     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
   (provide 'theme-conf)
   ;;; theme-conf.el ends here

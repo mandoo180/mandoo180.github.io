@@ -1,0 +1,39 @@
+* General Documentation Configuration
+
+Common documentation tools and utilities that apply across all document formats (Org-mode, Markdown, etc.).
+
+** Overview
+
+This module provides:
+- **Distraction-Free Writing**: Olivetti for centered, focused writing
+- **Reading Experience**: Enhanced typography and visual comfort
+
+** What's Included
+
+| Category              | Tools    |
+|-----------------------+----------|
+| Distraction-Free Mode | olivetti |
+
+** General
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-general-conf.el :results none
+  ;;; doc-general-conf.el --- General documentation configuration -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; General documentation tools: distraction-free writing and utilities
+  ;;; that apply across all document formats.
+  ;;; Code:
+
+  ;; Distraction-Free Writing
+  (use-package olivetti
+    :bind ("<f9>" . olivetti-mode) ;; Toggle with F9
+    :custom
+    (olivetti-body-width 80)       ;; Set width to 80 chars
+    (olivetti-recall-visual-line-mode-entry-state t))
+#+end_src
+
+* End of File
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-general-conf.el :results none
+  (provide 'doc-general-conf)
+  ;;; doc-general-conf.el ends here
+#+end_src

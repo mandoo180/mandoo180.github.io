@@ -1,8 +1,4 @@
-#+TITLE: Knowledge Management
-#+AUTHOR: Kyeong Soo Choi
-#+STARTUP: overview
-#+OPTIONS: toc:2 num:3
-#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
+* Introduction
 
 Configuration for Org-mode and knowledge management tools including org-roam, org-gcal, and related packages.
 
@@ -10,8 +6,8 @@ Configuration for Org-mode and knowledge management tools including org-roam, or
 
 Core Org-mode settings including babel languages, templates, and basic customization.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
-  ;;; org-conf.el --- Org-mode and knowledge management configuration  -*- lexical-binding: t; -*-
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
+  ;;; doc-org-conf.el --- Org-mode and knowledge management configuration  -*- lexical-binding: t; -*-
   ;;; Commentary:
   ;;; Code:
 
@@ -57,7 +53,8 @@ Core Org-mode settings including babel languages, templates, and basic customiza
     (org-display-remote-inline-images 'download)
     (org-image-actual-width '(450))
     (org-tags-column 80)
-
+    :hook
+    ((org-mode-hook . olivetti-mode))
     :config
     ;; Load org-tempo for easy template expansion
     (require 'org-tempo)
@@ -129,10 +126,8 @@ Core Org-mode settings including babel languages, templates, and basic customiza
 Drag-and-drop images and screenshots into org buffers.
 Automatically skipped on server/headless environments (requires GUI for screenshots).
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
-  ;; Skip org-download on server (requires GUI for screenshots)
-  (unless emacs-server-mode
-    (use-package org-download
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
+  (use-package org-download
       :after org
       :custom
       ;; Store images in a local "images" directory
@@ -148,7 +143,7 @@ Automatically skipped on server/headless environments (requires GUI for screensh
 
       :config
       ;; Enable inline display of remote images
-      (setq org-download-display-inline-images 'posframe)))
+      (setq org-download-display-inline-images 'posframe))
 #+end_src
 
 * Org Appear (Disabled)
@@ -172,9 +167,9 @@ Shows hidden emphasis markers and links when cursor is on them. Currently disabl
 
 * Org Google Calendar
 
-Bidirectional sync between Org-mode and Google Calendar.
+Bidirectional sync between Org-mode and Google Calendar. Disabled for now.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
+#+begin_src emacs-lisp :tangle no :results none
   (use-package org-gcal
     :after org
     :custom
@@ -490,7 +485,7 @@ Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org
 
 ** Core Setup
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
   (use-package org-roam
     :after org
     :demand t
@@ -532,7 +527,7 @@ Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org
 
 Define templates for different types of notes. This follows the best practice of having different note types (fleeting, permanent, literature, etc.).
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
   (use-package org-roam
     :custom
     ;; Capture templates for different note types
@@ -572,7 +567,7 @@ Define templates for different types of notes. This follows the best practice of
 
 Daily notes are essential for journaling and capturing fleeting thoughts. This configuration follows best practices for daily note organization.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
   (use-package org-roam
     :custom
     ;; Store daily notes in a dedicated subdirectory
@@ -612,7 +607,7 @@ Daily notes are essential for journaling and capturing fleeting thoughts. This c
 
 Customize how nodes appear in completion and searches for better usability.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
   (use-package org-roam
     :config
     ;; Custom function to display nodes with more context
@@ -641,7 +636,7 @@ Customize how nodes appear in completion and searches for better usability.
 
 Configure org-roam's graph visualization for better insights into your knowledge network.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
   (use-package org-roam
     :custom
     ;; Graphviz executable for generating graphs
@@ -667,7 +662,7 @@ Configure org-roam's graph visualization for better insights into your knowledge
 Optional web-based graph visualization interface (requires separate package).
 Automatically skipped on server/headless environments.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
   ;; Skip org-roam-ui on server (requires browser/GUI)
   (unless emacs-server-mode
     (use-package org-roam-ui
@@ -686,7 +681,7 @@ Automatically skipped on server/headless environments.
 
 Best practices for maintaining good performance with large note collections.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf.el
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
   (use-package org-roam
     :custom
     ;; Increase cache size for better performance
@@ -1275,3 +1270,11 @@ curl http://localhost:35901
 - [[https://blink.sh/][Blink Shell (iOS)]]
 - [[https://www.beorgapp.com/][beorg (iOS Org-mode app)]]
 - [[https://plainorg.com/][Plain Org (iOS)]]
+
+
+* End of File
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
+  (provide 'doc-org-conf)
+  ;;; doc-org-conf.el ends here
+#+end_src

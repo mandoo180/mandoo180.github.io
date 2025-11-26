@@ -1,3 +1,5 @@
+#+PROPERTY: header-args :results none
+
 * General Programming Configuration
 
 Common programming tools and utilities that apply across all languages.
@@ -9,23 +11,41 @@ This module provides:
 - **Compilation**: Enhanced compilation mode with ANSI colors
 - **Version Control**: Magit, project management, merge conflict resolution
 - **Documentation**: Eldoc for inline documentation
-- **Code Quality**: Flymake for syntax checking, formatting tools
-- **Editing Utilities**: Electric pairs, rainbow delimiters, code folding
+- **Code Quality**: Flymake for syntax checking
+- **Editing Utilities**: Electric pairs, parenthesis matching
+- **Multi-Cursor Editing**: Multiple cursors and intelligent region expansion
+- **Diff & Merge**: Advanced diff viewing and merge conflict resolution
+- **Code Snippets**: Template expansion with YASnippet
+- **LSP**: Language Server Protocol support with Eglot
+- **REST Client**: HTTP API testing from Emacs
 
 ** What's Included
 
-| Category        | Tools                                    |
-|-----------------+------------------------------------------|
-| Completion      | corfu, corfu-candidate-overlay           |
-| Build Tools     | compile, makefile-mode                   |
-| Version Control | magit, project, smerge-mode              |
-| Documentation   | eldoc, eldoc-box                         |
-| Syntax Checking | flymake                                  |
-| Code Formatting | format-all, apheleia                     |
-| Editing         | electric-pair, paren, rainbow-delimiters |
-| File Formats    | conf-mode, yaml-mode, powershell         |
+| Category              | Tools                                          |
+|-----------------------+------------------------------------------------|
+| Completion            | corfu, corfu-candidate-overlay                 |
+| Build Tools           | compile, makefile-mode                         |
+| Version Control       | magit, project, smerge-mode                    |
+| Documentation         | eldoc, eldoc-box                               |
+| Syntax Checking       | flymake                                        |
+| Editing               | electric-pair, paren                           |
+| Multi-Cursor Editing  | multiple-cursors, expand-region                |
+| Diff & Merge          | diff-mode, ediff                               |
+| Code Snippets         | yasnippet                                      |
+| LSP                   | eglot                                          |
+| REST Client           | restclient                                     |
+| File Formats          | conf-mode, yaml-mode, powershell, sql-indent   |
 
-** General
+** Completion
+
+In-buffer completion with Corfu provides a lightweight, fast completion UI that integrates seamlessly with Emacs's native completion system.
+
+Features:
+- Manual completion activation (disabled auto-completion to reduce distractions)
+- Candidate overlay showing the first completion inline
+- Works with LSP, Eglot, and other completion backends
+- =C-TAB= to trigger completion at point
+
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;;; prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
   ;;; Commentary:
@@ -48,6 +68,19 @@ This module provides:
     ;; this relies on having corfu-auto set to nil
     (corfu-candidate-overlay-mode 1)
     (global-set-key (kbd "C-<tab>") 'completion-at-point))
+#+end_src
+
+** Compilation and Build Tools
+
+Enhanced compilation mode with ANSI color support for better readability of build output. Includes support for Makefiles and configuration files.
+
+Features:
+- ANSI color filtering in compilation buffers
+- Auto-scroll compilation output
+- Always kill existing compilation before starting new one
+- Tree-sitter support for Makefiles
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
 
   ;; Compilation
   (use-package compile
@@ -81,10 +114,50 @@ This module provides:
 
   (use-package powershell :defer t)
   (use-package yaml-mode :defer t)
+#+end_src
 
-  ;; Version Control - Skip magit on server (GUI-intensive)
-  (unless emacs-server-mode
-    (use-package magit))
+** Version Control
+
+Magit is the premier Git interface for Emacs, providing a comprehensive and intuitive way to work with Git repositories.
+
+Features:
+- Full-featured Git interface with =C-x g=
+- Same-window display (vim-fugitive style)
+- File-specific operations with =C-c g=
+- Refined diffs with word-level changes
+- Project integration with recompile command
+- Smerge for merge conflict resolution
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
+  ;; Version Control
+  (use-package magit
+    :ensure t
+    :bind (("C-x g" . magit-status)
+           ("C-x C-g" . magit-status)
+           ("C-c g" . magit-file-dispatch)) ;; Great for acting on the current file
+    :custom
+    ;; 1. Window Management:
+    ;; Open Magit in the same window (like vim-fugitive) rather than splitting.
+    ;; This prevents Magit from messing up your window configuration.
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+
+    ;; 2. Safety & Workflow:
+    ;; Save all modified buffers in the repo without asking every time.
+    (magit-save-repository-buffers 'dontask)
+    ;; Don't restore the window config when quitting Magit (let me stay where I am).
+    (magit-bury-buffer-function #'magit-mode-quit-window)
+
+    ;; 3. Appearance in the Status Buffer:
+    ;; Refine the hunk headers to look cleaner.
+    (magit-diff-refine-hunk t)
+    ;; Show fine-grained differences within lines (word-wise diffs).
+    (magit-diff-refine-ignore-whitespace t)
+
+    :config
+    ;; Optional: Add a hook to maximize the window when entering Magit Status
+    ;; (uncomment if you prefer full-screen git management)
+    ;; (add-hook 'magit-status-mode-hook #'delete-other-windows)
+    )
 
   (use-package project
     :bind
@@ -97,7 +170,20 @@ This module provides:
   		("C-c ^ l" . smerge-keep-lower)
   		("C-c ^ n" . smerge-next)
   		("C-c ^ p" . smerge-previous)))
+#+end_src
 
+** Documentation
+
+Eldoc provides inline documentation in the echo area or popup boxes, showing function signatures, variable documentation, and more.
+
+Features:
+- Global eldoc mode for all programming buffers
+- Popup documentation boxes with eldoc-box
+- Hover documentation with =C-c h .=
+- Multiline documentation support
+- Scrollable documentation windows
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;; Documentation
   (use-package eldoc
     :ensure nil
@@ -116,7 +202,19 @@ This module provides:
     ("C-c h ." . eldoc-box-help-at-point)
     :hook
     (eldoc-mode . eldoc-box-hover-mode))
+#+end_src
 
+** Editing Utilities
+
+Essential editing enhancements for programming including automatic pairing of brackets, parenthesis matching, and visual delimiter highlighting.
+
+Features:
+- Electric pair mode: Auto-insert closing brackets, quotes, parentheses
+- Show matching parentheses with no delay
+- Mixed style: highlight expression when point is inside
+- Show context when matching paren is off-screen
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;; Editing utilities
   (use-package elec-pair
     :ensure nil
@@ -132,7 +230,20 @@ This module provides:
     (show-paren-delay 0)
     (show-paren-style 'mixed)
     (show-paren-context-when-offscreen t))
+#+end_src
 
+** Syntax Checking
+
+Flymake provides on-the-fly syntax checking with visual indicators in the margin and optional diagnostics at end of line.
+
+Features:
+- Automatic syntax checking in programming modes
+- Margin indicators for errors/warnings/notes
+- Navigate errors with =M-7= / =M-8= or =C-c ! n= / =C-c ! p=
+- Toggle end-of-line diagnostics with =C-c ! t=
+- View all diagnostics with =C-c ! l=
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;; Syntax checking
   (use-package flymake
     :ensure nil
@@ -165,7 +276,21 @@ This module provides:
   	(message "Flymake diagnostics at end of line: %s"
   	       (if flymake-show-diagnostics-at-end-of-line
   		   "Enabled" "Disabled"))))
+#+end_src
 
+** Diff and Merge
+
+Tools for viewing differences between files and resolving merge conflicts with enhanced syntax highlighting and navigation.
+
+Features:
+- Read-only diff buffers by default (safer)
+- Auto-advance after applying hunks
+- Live updates of diffs
+- Syntax highlighting in diff hunks
+- Horizontal split for ediff
+- Plain window setup (no separate control frame)
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;; Diff and merge
   (use-package diff-mode
     :ensure nil
@@ -188,17 +313,39 @@ This module provides:
     (setq ediff-make-buffers-readonly-at-startup nil)
     (setq ediff-merge-revisions-with-ancestor t)
     (setq ediff-show-clashes-only t))
+#+end_src
 
+** Code Snippets
+
+YASnippet provides a template system for Emacs, allowing you to type abbreviations and expand them into code templates.
+
+Features:
+- Automatic activation in programming modes
+- Tab-stop navigation through template fields
+- Wide library of pre-built snippets for many languages
+- Easy to create custom snippets
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;; Snippets
   (use-package yasnippet
     :hook
     (prog-mode . yas-minor-mode))
+#+end_src
 
-  ;; Whitespace
-  (use-package whitespace
-    :ensure nil
-    :defer t)
+** LSP - Language Server Protocol
 
+Eglot is a lightweight LSP client for Emacs providing IDE-like features including code completion, navigation, and refactoring.
+
+Features:
+- Minimal configuration required
+- Auto-shutdown when buffers are killed
+- Code actions with =C-c l a=
+- Organize imports with =C-c l o=
+- Rename symbols with =C-c l r=
+- Format code with =C-c l f=
+- Performance optimized (disabled event logging)
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;; LSP - Eglot
   (use-package eglot
     :ensure nil
@@ -217,36 +364,88 @@ This module provides:
   		 ("C-c l o" . eglot-code-actions-organize-imports)
   		 ("C-c l r" . eglot-rename)
   		 ("C-c l f" . eglot-format)))
+#+end_src
 
-  ;; Markdown
-  (use-package markdown-mode
-    :mode (("README\\.md\\'" . gfm-mode)
-           ("\\.md\\'" . markdown-mode)
-           ("\\.markdown\\'" . markdown-mode))
-    :custom
-    (markdown-split-window-direction 'right)
-    (markdown-command "multimarkdown")
-    (markdown-fontify-code-blocks-natively t))
+** Multiple Cursors and Region Expansion
 
+Powerful editing features for working with multiple selections and intelligently expanding/contracting selections.
+
+*** Multiple Cursors
+
+The =multiple-cursors= package allows you to edit multiple locations simultaneously, perfect for renaming variables or making repetitive edits.
+
+Key bindings:
+- =C->= : Mark next like this (add cursor to next occurrence)
+- =C-<= : Mark previous like this (add cursor to previous occurrence)
+- =C-c C->= : Mark all like this in buffer
+- =C-S-<mouse-1>= : Add cursor with mouse click
+- =C-c m r= : Mark all in region matching selection
+- =C-c m l= : Edit lines (add cursor to each line in region)
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
+  ;; Multiple Cursors
+  (use-package multiple-cursors
+    :ensure t
+    :bind (("C->" . mc/mark-next-like-this)
+           ("C-<" . mc/mark-previous-like-this)
+           ("C-c C->" . mc/mark-all-like-this)
+           ("C-S-<mouse-1>" . mc/add-cursor-on-click)
+           ("C-c m r" . mc/mark-all-in-region)
+           ("C-c m l" . mc/edit-lines)))
+#+end_src
+
+*** Expand Region
+
+The =expand-region= package provides smart selection expansion based on semantic units (words, expressions, functions, etc.).
+
+Usage:
+- =C-== : Expand region by semantic units
+- =C--= : Contract region
+- Press repeatedly to expand/contract further
+
+Example: Place cursor in a word, press =C-== once for word, again for quotes, again for expression, again for function, etc.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el :results none
+  ;; Expand Region
+  (use-package expand-region
+    :ensure t
+    :bind (("C-=" . er/expand-region)
+           ("C--" . er/contract-region)))
+#+end_src
+
+** REST Client
+
+HTTP REST client for testing APIs directly from Emacs buffers.
+
+Features:
+- Write HTTP requests in a simple DSL
+- Execute requests and view responses inline
+- Support for variables and request chaining
+- Works with =.rest= files
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;; REST client
   (use-package restclient
     :mode ("\\.rest\\'" . restclient-mode)
     :commands (restclient-mode))
 
   ;; Claude Code integration
-  (use-package claude-code-emacs-client
-    :ensure nil
-    :load-path "~/Projects/claude-code-emacs-client"
-    :custom
-    (claude-code-default-permission-mode "acceptEdits")
-    :bind
-    (("C-c c n" . claude-code-new-session)
-     ("C-c c r" . claude-code-resume-session)
-     ("C-c c c" . claude-code-continue-session)
-     ("C-c c m" . claude-code-send-message)
-     ("C-c c s" . claude-code-send-region)))
-
-  (provide 'prog-general-conf)
-  ;;; prog-general-conf.el ends here
+  ;; (use-package claude-code-emacs-client
+  ;;   :ensure nil
+  ;;   :load-path "~/Projects/claude-code-emacs-client"
+  ;;   :custom
+  ;;   (claude-code-default-permission-mode "acceptEdits")
+  ;;   :bind
+  ;;   (("C-c c n" . claude-code-new-session)
+  ;;    ("C-c c r" . claude-code-resume-session)
+  ;;    ("C-c c c" . claude-code-continue-session)
+  ;;    ("C-c c m" . claude-code-send-message)
+  ;;    ("C-c c s" . claude-code-send-region)))
 #+end_src
 
+* End of File
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
+    (provide 'prog-general-conf)
+    ;;; prog-general-conf.el ends here
+#+end_src

@@ -1,0 +1,32 @@
+#+TITLE: Documentation
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
+
+Configuration for documentation.
+
+* Module Organization
+
+The documentation configuration is split into focused modules:
+
+| Module   | Description                            | File                        |
+|----------+----------------------------------------+-----------------------------|
+| Loader   | Orchestrates all documentation configs | =documentation/00-loader.org= |
+| General  | Common configuration for documentation | =documentation/01-general.org= |
+| Org      | Org-mode configurations                | =documentation/02-org.org=    |
+| Markdown | Markdown configurations                | =documentation/03-md.org=     |
+
+** Loader Configuration
+#+INCLUDE: "documentation/00-loader.org" :minlevel 2
+
+** General Configuration
+#+INCLUDE: "documentation/01-general.org" :minlevel 2
+
+** Org Configuration
+#+INCLUDE: "documentation/02-org.org" :minlevel 2
+
+** Markdown Configuration
+#+INCLUDE: "documentation/03-md.org" :minlevel 2
+
+
