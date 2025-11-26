@@ -4,101 +4,370 @@
 #+OPTIONS: toc:2 num:3
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
-Terminal emulators and shell integration within Emacs.
+* Introduction
+
+Comprehensive terminal and shell integration for Emacs, providing multiple options for command-line interaction:
+
+- **Terminal Emulators**: eat and vterm for full terminal emulation
+- **Shell Mode**: Traditional comint-based shell with readline support
+- **Eshell**: Pure Elisp shell with deep Emacs integration
+- **Custom Utilities**: Enhanced async shell commands with project awareness
+
+* Terminal Emulators
+
+Full-featured terminal emulators that support complex TUI applications like =vim=, =htop=, =ncurses= programs, etc.
+
+** Eat (Emulate A Terminal)
+
+A fast, feature-complete terminal emulator written in pure Elisp. Works great on all platforms and integrates seamlessly with eshell.
+
+Features:
+- Pure Elisp implementation (no external dependencies)
+- Full 256-color support
+- Mouse support
+- Integration with eshell for visual commands
+- Fast and lightweight
+- Kill buffer on exit for cleaner workflow
+
+Usage:
+- =C-c `= : Open eat terminal
+- =C-c t e= : Alternative binding
+- Works automatically in eshell for visual commands
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
-  ;;; shell-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; shell-conf.el --- Shell and Terminal Configuration  -*- lexical-binding: t; -*-
   ;;; Commentary:
+  ;;; Comprehensive configuration for terminal emulators, shell modes,
+  ;;; and Emacs shell (eshell) with custom utilities.
   ;;; Code:
-  (when (eq system-type 'gnu/linux)
-    (use-package eat
-  	:custom
-  	;; Use eat-256color for best compatibility with interactive programs
-  	(eat-term-name "eat-256color")
-  	(eat-enable-yank-to-terminal t)
-  	(eat-kill-buffer-on-exit t)
-  	:bind
-  	("C-c `" . eat)  ; Also available for standalone terminal use
-  	:config
-  	;; CRITICAL: Compile terminfo database for eat
-  	(unless (file-exists-p (expand-file-name "~/.terminfo/e/eat-256color"))
-        (eat-compile-terminfo))
-  	;; Enable eat in eshell for better terminal emulation
-  	(add-hook 'eshell-load-hook #'eat-eshell-mode)
-  	(add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-  	;; Performance optimizations for eat
-  	(add-hook 'eat-mode-hook
+
+  ;; Terminal Emulators
+  (use-package eat
+    :ensure t
+    :custom
+    ;; Use eat-256color for best compatibility with interactive programs
+    (eat-term-name "eat-256color")
+    ;; Enable yanking to terminal
+    (eat-enable-yank-to-terminal t)
+    ;; Clean up buffers when terminal exits
+    (eat-kill-buffer-on-exit t)
+    :bind
+    (("C-c `" . eat)         ; Open eat terminal
+     ("C-c t e" . eat))      ; Alternative binding
+    :config
+    ;; CRITICAL: Compile terminfo database for eat
+    ;; This is required for proper terminal emulation
+    (unless (file-exists-p (expand-file-name "~/.terminfo/e/eat-256color"))
+      (eat-compile-terminfo))
+
+    ;; Enable eat in eshell for better terminal emulation
+    (add-hook 'eshell-load-hook #'eat-eshell-mode)
+    (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+
+    ;; Performance optimizations
+    (add-hook 'eat-mode-hook
+              (lambda ()
+                ;; Disable line numbers in terminal
+                (setq-local display-line-numbers nil)
+                ;; Disable word wrap
+                (setq-local truncate-lines t))))
+#+end_src
+
+** Vterm (Terminal Emulator)
+
+High-performance terminal emulator using libvterm. Requires compilation but provides the best terminal emulation.
+
+Features:
+- Native libvterm integration (C library)
+- Excellent performance
+- Full terminal emulation (better than eat for some edge cases)
+- Proper 256-color and true-color support
+- Good for running complex TUI applications
+
+Note: Requires =cmake= and =libtool= for compilation. Only enabled if cmake is available.
+
+Usage:
+- =C-c t v= : Open vterm
+- =C-c t n= : Open vterm in other window
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;; Vterm - only if cmake is available for compilation
+  (when (executable-find "cmake")
+    (use-package vterm
+      :ensure t
+      :custom
+      ;; Scrollback buffer size (larger = more history)
+      (vterm-max-scrollback 10000)
+      ;; Buffer naming
+      (vterm-buffer-name-string "vterm %s")
+      ;; Clean up on exit
+      (vterm-kill-buffer-on-exit t)
+      ;; Redisplay optimization
+      (vterm-timer-delay nil)
+      ;; Always try to compile the module
+      (vterm-always-compile-module t)
+      ;; Set proper TERM environment
+      (vterm-environment '("TERM=xterm-256color"))
+      (vterm-term-environment-variable "xterm-256color")
+      ;; Shell to use (defaults to $SHELL or /bin/bash)
+      (vterm-shell (or (getenv "SHELL") "/bin/bash"))
+      :bind
+      (("C-c t v" . vterm)
+       ("C-c t n" . vterm-other-window))
+      :config
+      ;; Don't query when killing vterm buffer
+      (add-hook 'vterm-mode-hook
                 (lambda ()
-  				(setq-local display-line-numbers nil))))
+                  (setq-local confirm-kill-processes nil)
+                  (setq-local display-line-numbers nil)))))
+#+end_src
 
-    (when (executable-find "cmake")
-      (use-package vterm
-  	  :custom
-  	  (vterm-max-scrollback 1000)           ; Very small scrollback for speed
-  	  (vterm-buffer-name-string "vterm %s")
-  	  (vterm-kill-buffer-on-exit t)
-  	  (vterm-timer-delay nil)               ; Use Emacs redisplay (fastest on macOS)
-  	  (vterm-always-compile-module t)
-  	  ;; CRITICAL: Set proper TERM environment variable
-  	  ;; Must be a list of strings
-  	  (vterm-environment '("TERM=xterm-256color"))
-  	  ;; Alternative: set term name vterm reports to shell
-  	  (vterm-term-environment-variable "xterm-256color"))))
+* Shell Mode
 
-  ;; Shell
+Traditional comint-based shell mode that runs your system shell (bash, zsh, etc.) in an Emacs buffer.
+
+Features:
+- Uses your default system shell
+- Full readline support
+- History navigation with =M-p= / =M-n=
+- Command completion with =TAB=
+- Read-only prompt to prevent accidental edits
+- Echo process output for better display
+
+When to use:
+- Quick shell commands that don't need full terminal emulation
+- When you want Emacs-style editing of command lines
+- Simple tasks that benefit from Emacs integration
+
+Usage:
+- =M-x shell= : Open shell buffer
+- =C-x p s= : Open shell in project root (via project.el)
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;; Shell Mode
   (use-package shell
     :ensure nil
     :custom
+    ;; Make prompt read-only to prevent accidental edits
     (comint-prompt-read-only t)
-    (comint-process-echoes t))
+    ;; Process should echo output (prevents duplication)
+    (comint-process-echoes t)
+    ;; Scrollback buffer size
+    (comint-buffer-maximum-size 10000)
+    ;; Always scroll to bottom on input
+    (comint-scroll-to-bottom-on-input t)
+    ;; Move point to end before sending input
+    (comint-move-point-for-output t)
+    :config
+    ;; Enable ANSI colors in shell output
+    (add-hook 'shell-mode-hook #'ansi-color-for-comint-mode-on)
 
+    ;; Make shell buffers more distinctive
+    (add-hook 'shell-mode-hook
+              (lambda ()
+                (setq-local scroll-margin 0))))
+#+end_src
+
+* Eshell
+
+Emacs Shell (eshell) is a pure Elisp command shell that provides deep integration with Emacs. Unlike shell-mode, eshell doesn't run a separate shell process but implements shell features directly in Elisp.
+
+** Core Configuration
+
+Features:
+- Pure Elisp implementation (no subprocess)
+- Cross-platform consistency
+- Mix shell commands with Elisp functions
+- Powerful scripting with Elisp
+- Visual command support for TUI apps
+- Smart history with deduplication
+
+When to use:
+- Cross-platform scripts (same behavior on Windows/Linux/macOS)
+- Mix shell and Elisp commands seamlessly
+- When you want deep Emacs integration
+- Scripting that needs Elisp functions
+
+Usage:
+- =M-x eshell= : Open eshell buffer
+- =C-x p e= : Open eshell in project root (via project.el)
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
   ;; Eshell
   (use-package eshell
+    :ensure nil
     :defer t
     :custom
+    ;; History settings
     (eshell-history-size 10000)
     (eshell-buffer-maximum-lines 10000)
     (eshell-hist-ignoredups t)
+    (eshell-save-history-on-exit t)
+
+    ;; Scrolling behavior
     (eshell-scroll-to-bottom-on-input 'all)
     (eshell-scroll-to-bottom-on-output t)
+
+    ;; Command behavior
     (eshell-error-if-no-glob t)
-    (eshell-save-history-on-exit t)
     (eshell-prefer-lisp-functions t)
     (eshell-destroy-buffer-when-process-dies t)
-    (eshell-visual-commands '("vi" "screen" "top" "htop" "btm" "less" "more" 
-  							"lynx" "ncftp" "pine" "tin" "trn" "elm" "irssi" 
-  							"nmtui-connect" "nethack" "vim" "alsamixer" "nvim" 
-  							"w3m" "ncmpcpp" "newsbeuter" "nethack" "mutt" 
-  							"fzf" "claude"))
-    :hook
-    (eshell-load . eat-eshell-mode)
-    (eshell-load . eat-eshell-visual-command-mode))
 
+    ;; Visual commands (use terminal emulation for these)
+    (eshell-visual-commands
+     '("vi" "vim" "nvim" "screen" "tmux" "top" "htop" "btm"
+       "less" "more" "lynx" "ncftp" "mutt" "pine" "tin" "trn" "elm"
+       "irssi" "nmtui" "nmtui-connect" "nethack" "alsamixer"
+       "w3m" "ncmpcpp" "newsbeuter" "fzf" "ssh" "tail"))
+
+    ;; Subcommands that should use visual mode
+    (eshell-visual-subcommands
+     '(("git" "log" "diff" "show")
+       ("docker" "logs")
+       ("kubectl" "logs")))
+
+    ;; Options for visual commands
+    (eshell-visual-options
+     '(("git" "--paginate" "--help")))
+
+    :config
+    ;; Load common Eshell modules
+    (require 'eshell)
+    (require 'em-smart)
+    (require 'em-tramp)
+
+    ;; Smart display behavior
+    (add-hook 'eshell-mode-hook
+              (lambda ()
+                ;; Plan text mode for better performance
+                (setq-local global-hl-line-mode nil)
+                ;; Disable line numbers
+                (setq-local display-line-numbers nil))))
+#+end_src
+
+** Eshell Prompt
+
+Beautiful and functional prompt with git integration and directory shortening.
+
+Features:
+- Lambda-style prompt
+- Git branch and status integration
+- Syntax highlighting
+- Clean and minimal design
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;; Eshell Prompt Extras
   (use-package eshell-prompt-extras
-    :hook
-    (eshell-first-time-mode . fu/eshell-init)
+    :ensure t
+    :after eshell
     :custom
+    ;; Enable prompt highlighting
     (eshell-highlight-prompt t)
+    ;; Use lambda theme for clean look
     (eshell-prompt-function 'epe-theme-lambda)
     :config
-    (defun fu/eshell-init ()
-  	(eshell/alias "l" "ls -hl")
-  	(eshell/alias "ll" "ls -hl")
-  	(eshell/alias "la" "ls -ahl")
-  	(eshell/alias "gs" "git status")
-  	(eshell/alias "gd" "git diff")
-  	(eshell/alias "gl" "git log --oneline")
-  	(eshell/alias ".." "cd ..")))
+    ;; Custom prompt regexp for eshell-prompt-extras
+    (setq eshell-prompt-regexp "^[^#$\n]* [#$] "))
+#+end_src
+
+** Eshell Aliases
+
+Convenient aliases for common commands to improve productivity.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;; Eshell Aliases
+  (with-eval-after-load 'eshell
+    (defun fu/eshell-setup-aliases ()
+      "Set up common eshell aliases."
+      ;; Navigation
+      (eshell/alias ".." "cd ..")
+      (eshell/alias "..." "cd ../..")
+      (eshell/alias "...." "cd ../../..")
+
+      ;; List files
+      (eshell/alias "l" "ls -lh $*")
+      (eshell/alias "ll" "ls -lh $*")
+      (eshell/alias "la" "ls -alh $*")
+      (eshell/alias "lt" "ls -lht $*")  ; by time
+
+      ;; Git shortcuts
+      (eshell/alias "gs" "git status")
+      (eshell/alias "gd" "git diff $*")
+      (eshell/alias "gl" "git log --oneline --graph --decorate $*")
+      (eshell/alias "gp" "git pull")
+      (eshell/alias "gP" "git push")
+      (eshell/alias "ga" "git add $*")
+      (eshell/alias "gc" "git commit $*")
+      (eshell/alias "gco" "git checkout $*")
+      (eshell/alias "gb" "git branch $*")
+
+      ;; Emacs shortcuts
+      (eshell/alias "e" "find-file $1")
+      (eshell/alias "ee" "find-file-other-window $1")
+      (eshell/alias "d" "dired $1")
+
+      ;; Clear screen
+      (eshell/alias "clear" "clear-scrollback"))
+
+    ;; Set up aliases on first eshell invocation
+    (add-hook 'eshell-first-time-mode-hook #'fu/eshell-setup-aliases))
+#+end_src
+
+** Eshell Banner
+
+Customize the eshell banner to be more informative and welcoming.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+    ;; Custom Eshell Banner
+    (with-eval-after-load 'eshell
+      (setq eshell-banner-message
+            (format "%s
+  Welcome to Eshell - the Emacs Shell
+  Type 'help' for common commands, or any Elisp expression to evaluate
+
+  Current directory: %s
+  "
+                    (propertize "╭──────────────────────────────────────────╮\n│                                          │\n│    Eshell - Emacs Shell Environment      │\n│                                          │\n╰──────────────────────────────────────────╯"
+                                'face '(:foreground "cyan"))
+                    (abbreviate-file-name default-directory))))
+#+end_src
+
+* Custom Shell Utilities
+
+Enhanced utilities for running shell commands with better integration.
+
+** Async Shell Command
+
+Improved async shell command that runs commands in project root and provides better output formatting.
+
+Features:
+- Automatically runs in project root if in a project
+- Timestamped output buffers
+- Process completion notifications
+- Exit code reporting
+- Separate error buffers
+
+Usage:
+- =M-x fu/async-shell-command= : Run async command with enhanced output
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;; Custom Shell Utilities
 
   (defun fu/async-shell-command (command)
-    "Run `async-shell-command' with COMMAND in project root."
+    "Run `async-shell-command' with COMMAND in project root.
+Provides better output formatting and runs in project context."
     (interactive (list (read-string "Shell command: ")))
     (let* ((output-buffer-time (format-time-string "%Y-%m-%dT%H:%M:%S"))
            (output-buffer-name (format "*Shell Command [%s]: %s*" output-buffer-time command))
            (error-buffer-name  (format "*Shell Error [%s]: %s*" output-buffer-time command))
            (current-project    (project-current))
-           (default-directory  (if current-project (project-root current-project) default-directory)))
-      (async-shell-command command output-buffer-name)
+           (default-directory  (if current-project
+                                   (project-root current-project)
+                                 default-directory)))
+      ;; Run the command
+      (async-shell-command command output-buffer-name error-buffer-name)
+
+      ;; Add process sentinel for completion notification
       (when-let ((proc (get-buffer-process output-buffer-name)))
         (set-process-sentinel
          proc
@@ -114,7 +383,59 @@ Terminal emulators and shell integration within Emacs.
                    (insert (format "Exit code: %s\n" (process-exit-status process))))
                  (insert (make-string 60 ?-) "\n")))))))))
 
+  ;; Bind to convenient key
+  (global-set-key (kbd "C-c !") #'fu/async-shell-command)
+#+end_src
+
+** Quick Shell Command in Project
+
+Run a quick shell command in the current project's root directory.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  (defun fu/shell-command-in-project (command)
+    "Run COMMAND synchronously in project root and display output."
+    (interactive "sShell command in project: ")
+    (let* ((project (project-current))
+           (default-directory (if project
+                                  (project-root project)
+                                default-directory)))
+      (shell-command command)))
+
+  (global-set-key (kbd "C-c |") #'fu/shell-command-in-project)
+#+end_src
+
+** Open External Terminal
+
+Open an external terminal application in the current directory or project root.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  (defun fu/open-external-terminal ()
+    "Open external terminal in current directory or project root."
+    (interactive)
+    (let ((dir (if-let ((project (project-current)))
+                   (project-root project)
+                 default-directory)))
+      (cond
+       ;; macOS
+       ((eq system-type 'darwin)
+        (call-process "open" nil 0 nil "-a" "Terminal" dir))
+       ;; Linux with GNOME
+       ((and (eq system-type 'gnu/linux)
+             (executable-find "gnome-terminal"))
+        (call-process "gnome-terminal" nil 0 nil
+                     (concat "--working-directory=" dir)))
+       ;; Linux with other terminal
+       ((executable-find "xterm")
+        (start-process "xterm" nil "xterm" "-e" "cd" dir))
+       (t
+        (message "No external terminal configured for your system")))))
+
+  (global-set-key (kbd "C-c t x") #'fu/open-external-terminal)
+#+end_src
+
+* End of File
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
   (provide 'shell-conf)
   ;;; shell-conf.el ends here
 #+end_src
-

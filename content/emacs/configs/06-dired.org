@@ -31,7 +31,7 @@ Key features:
     :commands (dired dired-jump)
     :bind (("C-x C-j" . dired-jump))
     :hook
-    (dired-mode-hook . dired-hide-details-mode)
+    ((dired-mode-hook . dired-hide-details-mode))
     :custom
     ;; Listing switches: all files, human-readable sizes, long format
     (dired-listing-switches "-ahl --group-directories-first")
@@ -152,23 +152,23 @@ Usage: Press =P= to toggle preview mode, then navigate files to see previews.
 
 Some useful Dired commands to remember:
 
-| Key     | Command                    | Description                          |
-|---------+----------------------------+--------------------------------------|
-| =m=     | dired-mark                 | Mark file                            |
-| =u=     | dired-unmark               | Unmark file                          |
-| =U=     | dired-unmark-all-marks     | Unmark all                           |
-| =t=     | dired-toggle-marks         | Toggle marks                         |
-| =d=     | dired-flag-file-deletion   | Flag for deletion                    |
-| =x=     | dired-do-flagged-delete    | Execute deletions                    |
-| =C=     | dired-do-copy              | Copy marked files                    |
-| =R=     | dired-do-rename            | Rename/move marked files             |
-| =D=     | dired-do-delete            | Delete marked files immediately      |
-| =+=     | dired-create-directory     | Create directory                     |
-| =g=     | revert-buffer              | Refresh directory listing            |
-| =s=     | dired-sort-toggle-or-edit  | Toggle sorting                       |
-| =(=     | dired-hide-details-mode    | Toggle detailed view                 |
-| =^=     | dired-up-directory         | Go to parent directory               |
-| =C-x C-q= | dired-toggle-read-only   | Enter wdired mode for batch renaming |
+| Key     | Command                   | Description                          |
+|---------+---------------------------+--------------------------------------|
+| =m=       | dired-mark                | Mark file                            |
+| =u=       | dired-unmark              | Unmark file                          |
+| =U=       | dired-unmark-all-marks    | Unmark all                           |
+| =t=       | dired-toggle-marks        | Toggle marks                         |
+| =d=       | dired-flag-file-deletion  | Flag for deletion                    |
+| =x=       | dired-do-flagged-delete   | Execute deletions                    |
+| =C=       | dired-do-copy             | Copy marked files                    |
+| =R=       | dired-do-rename           | Rename/move marked files             |
+| =D=       | dired-do-delete           | Delete marked files immediately      |
+| =+=       | dired-create-directory    | Create directory                     |
+| =g=       | revert-buffer             | Refresh directory listing            |
+| =s=       | dired-sort-toggle-or-edit | Toggle sorting                       |
+| =(=       | dired-hide-details-mode   | Toggle detailed view                 |
+| =^=       | dired-up-directory        | Go to parent directory               |
+| =C-x C-q= | dired-toggle-read-only    | Enter wdired mode for batch renaming |
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
   (provide 'dired-conf)

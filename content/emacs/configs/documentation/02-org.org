@@ -165,6 +165,71 @@ Shows hidden emphasis markers and links when cursor is on them. Currently disabl
     (org-appear-trigger 'always))
 #+end_src
 
+* Pretty Org - Visual Enhancements
+
+Modern, beautiful styling for Org-mode with enhanced typography, icons, and visual elements.
+
+** Org Modern
+
+The =org-modern= package provides a clean, modern appearance for Org-mode with better typography, styling, and visual hierarchy.
+
+Features:
+- Modern table styling with proper borders
+- Beautiful heading styles with custom fonts
+- Enhanced todo keywords and priorities
+- Styled tags, timestamps, and statistics
+- Better block delimiters
+- Improved checkbox appearance
+- Clean list bullets
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
+  ;; Modern Org-mode styling
+  (use-package org-modern
+    :hook
+    (org-mode . org-modern-mode)
+    (org-agenda-finalize . org-modern-agenda)
+    :custom
+    ;; Heading styles
+    (org-modern-star 'replace)
+    (org-modern-hide-stars t)
+    (org-modern-table t)
+    (org-modern-table-vertical 1)
+    (org-modern-table-horizontal 0.2)
+
+    ;; List bullets
+    (org-modern-list '((43 . "➤")   ; +
+                       (45 . "–")   ; -
+                       (42 . "•"))) ; *
+
+    ;; Block delimiters
+    (org-modern-block-name '(("src" "»" "«")
+                            ("example" "»–" "–«")
+                            ("quote" "❝" "❞")
+                            ("export" "⏩" "⏪")))
+
+    ;; Keywords styling
+    (org-modern-keyword t)
+    (org-modern-checkbox nil)
+    (org-modern-horizontal-rule t)
+
+    ;; Timestamps
+    (org-modern-timestamp t)
+    (org-modern-statistics t)
+
+    ;; Tags
+    (org-modern-tag t)
+    (org-modern-priority t)
+
+    ;; Todo keywords
+    (org-modern-todo t)
+    (org-modern-todo-faces
+     '(("TODO" :background "#ff6c6b" :foreground "#282c34" :weight bold)
+       ("NEXT" :background "#51afef" :foreground "#282c34" :weight bold)
+       ("WAIT" :background "#ecbe7b" :foreground "#282c34" :weight bold)
+       ("DONE" :background "#98be65" :foreground "#282c34" :weight bold)
+       ("CANCEL" :background "#5B6268" :foreground "#282c34" :weight bold))))
+#+end_src
+
 * Org Google Calendar
 
 Bidirectional sync between Org-mode and Google Calendar. Disabled for now.
@@ -786,491 +851,6 @@ Key principles to follow when using org-roam:
 2. Update all linking notes
 3. Delete the file normally
 4. =M-x org-roam-db-sync= to clean up the database
-
-* Remote Access Setup
-
-This section covers how to access org-roam from anywhere using cloud servers (AWS EC2, VPS, etc.) instead of Notion or Obsidian.
-
-** Overview of Remote Access Approaches
-
-| Approach        | Pros                            | Cons             | Best For                  |
-|-----------------+---------------------------------+------------------+---------------------------|
-| SSH + Mosh      | Low latency, no sync conflicts  | Requires network | Primary remote workflow   |
-| org-roam-ui Web | Mobile-friendly, visual         | Read-only        | Browsing on mobile        |
-| Git Sync        | Offline access, version control | Manual conflicts | Multiple devices          |
-| TRAMP           | Use local Emacs                 | Some lag         | Occasional remote editing |
-
-** AWS EC2 / VPS Setup Guide
-
-*** Initial Server Setup
-
-*Prerequisites:*
-- AWS account or any VPS provider (DigitalOcean, Linode, etc.)
-- SSH key pair configured
-
-*Launch Instance:*
-#+begin_src shell
-# Recommended specs:
-# - t2.micro or t3.micro (AWS free tier)
-# - Ubuntu 24.04 LTS
-# - 1GB RAM minimum, 20GB disk
-# - Security group: SSH (22), Mosh (60000-61000 UDP), optional HTTP (8080)
-#+end_src
-
-*Install dependencies on server:*
-#+begin_src shell
-sudo apt update && sudo apt install -y \
-  emacs-nox \
-  tmux \
-  mosh \
-  sqlite3 \
-  ripgrep \
-  git \
-  build-essential
-#+end_src
-
-*** Transfer Org-Roam Files
-
-*Option 1: Git (recommended)*
-#+begin_src shell
-# On local machine - push org-roam to Git
-cd ~/org-roam
-git init
-echo "org-roam.db" >> .gitignore  # IMPORTANT: Never sync database!
-git add .
-git commit -m "Initial org-roam commit"
-git remote add origin <your-repo-url>
-git push -u origin main
-
-# On EC2 server - clone repository
-git clone <your-repo-url> ~/org-roam
-#+end_src
-
-*Option 2: SCP (one-time copy)*
-#+begin_src shell
-# Copy from local to server (excludes database)
-rsync -avz --exclude='org-roam.db' ~/org-roam/ user@ec2-ip:~/org-roam/
-#+end_src
-
-*** Configure Emacs on Server
-
-*Transfer your Emacs configuration:*
-#+begin_src shell
-# Option 1: If using this repository
-cd ~/Projects/mandoo180.github.io
-git push
-# Then on server:
-git clone <this-repo-url>
-cd mandoo180.github.io
-./tangle.sh
-
-# Option 2: Copy specific config
-scp -r ~/.emacs.d/elisp/settings/org-conf.el user@ec2-ip:~/.emacs.d/elisp/settings/
-#+end_src
-
-*Start Emacs daemon:*
-#+begin_src shell
-# On server
-emacs --daemon
-#+end_src
-
-*** Systemd Service for Auto-Start
-
-Create a systemd service to start Emacs daemon automatically on boot.
-
-#+begin_src conf :tangle no
-# ~/.config/systemd/user/emacs.service
-[Unit]
-Description=Emacs text editor daemon
-Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
-
-[Service]
-Type=notify
-ExecStart=/usr/bin/emacs --fg-daemon
-ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
-#+end_src
-
-*Enable the service:*
-#+begin_src shell
-# On server
-mkdir -p ~/.config/systemd/user
-# Create the service file above, then:
-systemctl --user enable emacs.service
-systemctl --user start emacs.service
-systemctl --user status emacs.service
-#+end_src
-
-** Fast SSH Access with Mosh
-
-Mosh (Mobile Shell) provides near-zero latency for remote Emacs usage.
-
-*** Install Mosh
-
-*On your local machine (macOS):*
-#+begin_src shell
-brew install mosh
-#+end_src
-
-*On server:*
-#+begin_src shell
-sudo apt install mosh
-#+end_src
-
-*** Configure Firewall
-
-*AWS Security Group:*
-- Add inbound rule: UDP ports 60000-61000 from your IP
-
-*UFW (on server):*
-#+begin_src shell
-sudo ufw allow 60000:61000/udp
-#+end_src
-
-*** Connect with Mosh
-
-#+begin_src shell
-# Instead of: ssh user@ec2-ip
-mosh user@ec2-ip
-
-# Inside mosh session
-tmux attach || tmux new
-emacsclient -nw
-
-# Your org-roam is now accessible!
-C-c n f  # Find notes
-C-c n u  # Open web UI
-#+end_src
-
-*Benefits over SSH:*
-- Typing appears instantly (local echo)
-- Survives network changes (WiFi → cellular)
-- Automatic reconnection after laptop sleep
-- Works on spotty connections
-
-** org-roam-ui for Mobile Web Access
-
-Access your knowledge graph from any device with a web browser.
-
-*** Local Access (SSH Tunnel)
-
-Most secure method - UI only accessible through SSH tunnel.
-
-*In terminal:*
-#+begin_src shell
-# Create SSH tunnel
-ssh -L 35901:localhost:35901 user@ec2-ip
-
-# Keep this terminal open, then in Emacs on server:
-M-x org-roam-ui-mode
-#+end_src
-
-*Access on any device:*
-- Open browser to =http://localhost:35901=
-- Works on desktop, phone, tablet
-- No public exposure
-
-*** Remote Access (Bind to Public IP)
-
-For direct access without SSH tunnel (less secure).
-
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-conf-remote.el
-  ;;; org-conf-remote.el --- Remote access configuration  -*- lexical-binding: t; -*-
-  ;;; Commentary:
-  ;; Configuration for accessing org-roam-ui from remote devices
-  ;;; Code:
-
-  ;; Only enable this on your remote server, not local machine
-  (when (getenv "ORG_ROAM_REMOTE")
-    (use-package org-roam-ui
-      :custom
-      ;; Bind to all interfaces for remote access
-      (org-roam-ui-host "0.0.0.0")  ;; WARNING: Exposes to internet
-      (org-roam-ui-port 8080)       ;; Or use reverse proxy
-
-      ;; Optional: Add basic auth via reverse proxy (nginx/caddy)
-      ;; See nginx configuration example below
-      ))
-
-  (provide 'org-conf-remote)
-  ;;; org-conf-remote.el ends here
-#+end_src
-
-*Set environment variable on server:*
-#+begin_src shell
-# Add to ~/.bashrc or ~/.zshrc
-export ORG_ROAM_REMOTE=1
-#+end_src
-
-*Secure with reverse proxy (Nginx example):*
-#+begin_src nginx :tangle no
-# /etc/nginx/sites-available/org-roam
-server {
-    listen 80;
-    server_name roam.yourdomain.com;
-
-    # Basic authentication
-    auth_basic "Org-Roam Access";
-    auth_basic_user_file /etc/nginx/.htpasswd;
-
-    location / {
-        proxy_pass http://localhost:35901;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-    }
-}
-#+end_src
-
-** iOS Quick Capture Setup
-
-For capturing notes on iPhone/iPad while org-roam runs on server.
-
-*** Option 1: Working Copy + Git Sync
-
-*Setup:*
-1. Install [[https://workingcopy.app/][Working Copy]] app (iOS Git client)
-2. Clone your org-roam repository
-3. Install [[https://www.beorgapp.com/][beorg]] or [[https://plainorg.com/][Plain Org]] for editing
-4. Configure beorg to use Working Copy directory
-
-*Workflow:*
-1. Create/edit notes in beorg
-2. Switch to Working Copy
-3. Commit and push changes
-4. On server: =git pull= (or set up auto-pull)
-5. =M-x org-roam-db-sync= in Emacs
-
-*** Option 2: SSH Terminal App
-
-*Install terminal app with mosh support:*
-- [[https://blink.sh/][Blink Shell]] (iOS) - supports mosh
-- [[https://termius.com/][Termius]] - user-friendly SSH client
-
-*Connect to your server:*
-#+begin_src shell
-mosh user@ec2-ip
-tmux attach
-emacsclient -nw
-# Full org-roam access on iPhone!
-#+end_src
-
-** Git Sync Workflow
-
-For offline access and automatic synchronization.
-
-*** Auto-Commit Script
-
-#+begin_src shell :tangle no :shebang "#!/bin/bash"
-# ~/bin/org-roam-sync.sh
-# Automatically sync org-roam changes
-
-cd ~/org-roam || exit
-
-# Pull latest changes
-git pull --rebase
-
-# Add all changes
-git add *.org
-
-# Commit if there are changes
-if ! git diff-index --quiet HEAD --; then
-    git commit -m "Auto-sync: $(date '+%Y-%m-%d %H:%M')"
-    git push
-    echo "Changes synced at $(date)"
-fi
-#+end_src
-
-*Set up cron job (run every 5 minutes):*
-#+begin_src shell
-crontab -e
-# Add line:
-*/5 * * * * ~/bin/org-roam-sync.sh >> ~/logs/org-sync.log 2>&1
-#+end_src
-
-*Sync database after pull:*
-#+begin_src emacs-lisp :tangle no
-;; Auto-sync database when files change
-(defun fu/org-roam-auto-sync ()
-  "Automatically sync org-roam database when files change."
-  (when (and (buffer-file-name)
-             (string-prefix-p (expand-file-name org-roam-directory)
-                            (buffer-file-name)))
-    (org-roam-db-sync)))
-
-(add-hook 'after-save-hook #'fu/org-roam-auto-sync)
-#+end_src
-
-** Backup Strategy
-
-*** Git as Backup
-
-Your Git repository serves as automatic backup:
-#+begin_src shell
-# All changes are version controlled
-git log --oneline  # See history
-git show <commit>  # View specific changes
-git checkout <commit> -- file.org  # Restore old version
-#+end_src
-
-*** S3 Backup (AWS)
-
-For additional cloud backup:
-#+begin_src shell
-# Install AWS CLI
-sudo apt install awscli
-
-# Configure credentials
-aws configure
-
-# Backup script
-aws s3 sync ~/org-roam/ s3://my-org-roam-backup/ \
-    --exclude "*.db" \
-    --exclude ".git/*"
-#+end_src
-
-** Daily Workflow Examples
-
-*** Morning Routine (Desktop)
-#+begin_src shell
-# Connect to server
-mosh user@ec2-ip
-
-# Start/resume tmux session
-tmux attach || tmux new
-
-# Start Emacs
-emacsclient -nw
-
-# Check daily notes
-C-c n t  # Today's note
-C-c n l  # View backlinks
-C-c n u  # Open graph on tablet
-#+end_src
-
-*** Quick Capture (Mobile - iOS)
-1. Open Blink Shell on iPhone
-2. =mosh user@server=
-3. =C-c n j= for quick journal entry
-4. Type note and save
-5. Swipe away - session persists
-
-*** Browsing on iPad
-1. Safari → =http://localhost:35901= (if SSH tunnel running)
-2. Or direct IP if configured with auth
-3. Explore graph visually
-4. Click nodes to read content
-
-** Troubleshooting
-
-*** Database Issues
-
-*Symptom:* "Database version mismatch" error
-
-*Solution:*
-#+begin_src shell
-# Delete database and regenerate
-rm ~/.emacs.d/org-roam.db
-# In Emacs:
-M-x org-roam-db-sync
-#+end_src
-
-*** Mosh Won't Connect
-
-*Check firewall:*
-#+begin_src shell
-# On server
-sudo ufw status
-sudo ufw allow 60000:61000/udp
-
-# AWS Security Group
-# Add UDP 60000-61000 inbound rule
-#+end_src
-
-*** Emacs Daemon Not Starting
-
-*Check status:*
-#+begin_src shell
-systemctl --user status emacs.service
-journalctl --user -u emacs.service -f
-#+end_src
-
-*Manual start:*
-#+begin_src shell
-emacs --daemon --debug-init
-#+end_src
-
-*** org-roam-ui Not Accessible
-
-*Verify it's running:*
-#+begin_src shell
-# On server
-netstat -tlnp | grep 35901
-# or
-lsof -i :35901
-#+end_src
-
-*Test locally first:*
-#+begin_src shell
-# SSH into server
-curl http://localhost:35901
-# Should return HTML
-#+end_src
-
-** Cost Estimation
-
-*** AWS EC2 Free Tier
-- t2.micro: Free for 12 months (750 hours/month)
-- After free tier: ~$8/month
-- Storage: 20GB free tier
-
-*** Alternative VPS Providers
-- DigitalOcean: $4/month (basic droplet)
-- Linode: $5/month (Nanode 1GB)
-- Hetzner: €3.79/month (CX11)
-
-*** Total Monthly Cost
-- Server: $0-8/month
-- iOS apps: $0-15 (one-time for beorg)
-- **Total: $0-10/month** vs Notion ($12/mo) or Obsidian Sync ($4/mo)
-
-** Comparison to Notion/Obsidian
-
-| Feature | Org-Roam (Remote) | Obsidian | Notion |
-|---------|-------------------|----------|--------|
-| Cost | $0-10/mo | $4/mo (sync) | $12/mo |
-| Mobile apps | Terminal/web | Native | Native |
-| Offline | Optional | Yes | Limited |
-| Privacy | Full control | Full control | Cloud-based |
-| Sync | Manual/Git | Auto | Auto |
-| Learning curve | High | Medium | Low |
-
-*Advantages of remote org-roam:*
-- ✅ Single source of truth (no conflicts)
-- ✅ Full Emacs power
-- ✅ Plain text + version control
-- ✅ Zero vendor lock-in
-- ✅ Works on any device with SSH
-
-*Disadvantages:*
-- ❌ Requires technical setup
-- ❌ No native mobile apps
-- ❌ Needs network for full features
-
-** References and Resources
-
-- [[https://mosh.org/][Mosh (Mobile Shell)]]
-- [[https://github.com/org-roam/org-roam-ui][org-roam-ui GitHub]]
-- [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html][Emacs Server Documentation]]
-- [[https://blink.sh/][Blink Shell (iOS)]]
-- [[https://www.beorgapp.com/][beorg (iOS Org-mode app)]]
-- [[https://plainorg.com/][Plain Org (iOS)]]
-
 
 * End of File
 

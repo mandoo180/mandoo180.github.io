@@ -9,7 +9,8 @@ Common programming tools and utilities that apply across all languages.
 This module provides:
 - **Completion**: Corfu for in-buffer completion
 - **Compilation**: Enhanced compilation mode with ANSI colors
-- **Version Control**: Magit, project management, merge conflict resolution
+- **Version Control**: Magit and merge conflict resolution
+- **Project Management**: Built-in project.el with custom markers and Magit integration
 - **Documentation**: Eldoc for inline documentation
 - **Code Quality**: Flymake for syntax checking
 - **Editing Utilities**: Electric pairs, parenthesis matching
@@ -25,7 +26,8 @@ This module provides:
 |-----------------------+------------------------------------------------|
 | Completion            | corfu, corfu-candidate-overlay                 |
 | Build Tools           | compile, makefile-mode                         |
-| Version Control       | magit, project, smerge-mode                    |
+| Version Control       | magit, smerge-mode                             |
+| Project Management    | project.el with custom markers                 |
 | Documentation         | eldoc, eldoc-box                               |
 | Syntax Checking       | flymake                                        |
 | Editing               | electric-pair, paren                           |
@@ -118,15 +120,17 @@ Features:
 
 ** Version Control
 
-Magit is the premier Git interface for Emacs, providing a comprehensive and intuitive way to work with Git repositories.
+Magit is the premier Git interface for Emacs, providing a comprehensive and intuitive way to work with Git repositories. Smerge-mode helps resolve merge conflicts directly in buffers.
 
 Features:
 - Full-featured Git interface with =C-x g=
 - Same-window display (vim-fugitive style)
 - File-specific operations with =C-c g=
 - Refined diffs with word-level changes
-- Project integration with recompile command
-- Smerge for merge conflict resolution
+- Auto-save repository buffers without prompts
+- Smerge for interactive merge conflict resolution
+- Navigate conflicts with =C-c ^ n/p=
+- Keep upper/lower changes with =C-c ^ u/l=
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
   ;; Version Control
@@ -159,10 +163,6 @@ Features:
     ;; (add-hook 'magit-status-mode-hook #'delete-other-windows)
     )
 
-  (use-package project
-    :bind
-    (("C-x p C" . project-recompile)))
-
   (use-package smerge-mode
     :ensure nil
     :bind (:map smerge-mode-map
@@ -170,6 +170,82 @@ Features:
   		("C-c ^ l" . smerge-keep-lower)
   		("C-c ^ n" . smerge-next)
   		("C-c ^ p" . smerge-previous)))
+#+end_src
+
+** Project Management
+
+Built-in project management system for working with projects defined by version control roots (Git, SVN, etc.) or manually specified directories.
+
+Features:
+- Automatic project detection via version control
+- Project-aware file finding and searching
+- Switch between projects easily
+- Compile/recompile within project context
+- Shell and eshell integration per project
+- Remember recent projects
+
+Key bindings:
+- =C-x p f= : Find file in project
+- =C-x p g= : Grep in project (requires ripgrep or grep)
+- =C-x p d= : Open Dired at project root
+- =C-x p s= : Open shell at project root
+- =C-x p e= : Open eshell at project root
+- =C-x p p= : Switch to another project
+- =C-x p k= : Kill all project buffers
+- =C-x p C= : Recompile in project (custom binding)
+- =C-x p b= : Switch to project buffer
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
+  ;; Project Management
+  (use-package project
+    :ensure nil
+    :custom
+    ;; Where to store the list of known projects
+    (project-list-file (expand-file-name "projects" user-emacs-directory))
+
+    ;; Use ripgrep if available, otherwise fall back to grep
+    (project-switch-commands
+     '((project-find-file "Find file" ?f)
+       (project-find-regexp "Find regexp" ?g)
+       (project-find-dir "Find directory" ?d)
+       (project-dired "Dired" ?D)
+       (project-vc-dir "VC-Dir" ?v)
+       (project-shell "Shell" ?s)
+       (project-eshell "Eshell" ?e)
+       (magit-project-status "Magit" ?m)
+       (project-compile "Compile" ?c)
+       (project-switch-to-buffer "Switch buffer" ?b)))
+
+    ;; Remember recent files per project
+    (project-remember-projects-under "~/Projects" t)
+
+    :bind
+    (("C-x p C" . project-recompile)
+     ("C-x p m" . magit-project-status)
+     :map project-prefix-map
+     ("m" . magit-project-status))
+
+    :config
+    ;; Add additional project root markers
+    (defun fu/project-try-local (dir)
+      "Try to find a project root in DIR by looking for marker files."
+      (let ((markers '(".project" ".projectile" "package.json" "Cargo.toml"
+                       "setup.py" "requirements.txt" "pom.xml" "build.gradle")))
+        (cl-some (lambda (marker)
+                   (when-let ((root (locate-dominating-file dir marker)))
+                     (cons 'transient root)))
+                 markers)))
+
+    ;; Register the custom project finder
+    (add-hook 'project-find-functions #'fu/project-try-local)
+
+    ;; Ignore certain directories when finding projects
+    (add-to-list 'project-vc-ignores "node_modules")
+    (add-to-list 'project-vc-ignores "target")
+    (add-to-list 'project-vc-ignores "build")
+    (add-to-list 'project-vc-ignores "dist")
+    (add-to-list 'project-vc-ignores ".venv")
+    (add-to-list 'project-vc-ignores "__pycache__"))
 #+end_src
 
 ** Documentation
