@@ -4,173 +4,519 @@
 #+OPTIONS: toc:2 num:3
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
-Utility functions and helper configurations.
+* Introduction
+
+Miscellaneous utilities and configurations including email, AI chat integration, PDF tools, and helper functions.
+
+* Email Configuration
+
+Configuration for reading and sending email using notmuch and msmtp.
+
+** Notmuch
+
+Fast email indexing and searching with notmuch.
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
-  ;;; misc-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; misc-conf.el --- Miscellaneous Configuration  -*- lexical-binding: t; -*-
   ;;; Commentary:
+  ;;; Miscellaneous utilities including email, AI chat, PDF tools, and helpers.
   ;;; Code:
+
+  ;; Email - Notmuch
   (use-package notmuch
     :ensure t
+    :defer t
     :config
     (setq mail-user-agent 'notmuch-user-agent))
-
-  (setq user-full-name (getenv "USER_FULL_NAME")
-  	  user-mail-address (getenv "USER_EMAIL")
-  	  auth-sources '("~/.authinfo.gpg"))
-  (setq send-mail-function 'sendmail-send-it
-  	  message-send-mail-function 'sendmail-send-it
-  	  sendmail-program (executable-find "msmtp")
-  	  message-send-mail-function 'message-send-mail-with-sendmail)
-  (provide 'misc-conf)
-  ;;; misc-conf.el ends here
 #+end_src
 
-Some extra stuff.
+** Email Sending
+
+Configure email sending with msmtp and authentication.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; Email - Sending Configuration
+  (setq user-full-name (or (getenv "USER_FULL_NAME") user-full-name)
+        user-mail-address (or (getenv "USER_EMAIL") user-mail-address)
+        auth-sources '("~/.authinfo.gpg" "~/.authinfo"))
+
+  ;; Use msmtp for sending mail
+  (setq send-mail-function 'sendmail-send-it
+        message-send-mail-function 'message-send-mail-with-sendmail
+        sendmail-program (or (executable-find "msmtp") "/usr/bin/msmtp")
+        message-sendmail-envelope-from 'header)
+#+end_src
+
+* GPTel - AI Chat Integration
+
+Comprehensive AI chat integration with support for multiple providers (OpenAI, Claude, Gemini, etc.) with easy model switching and automatic chat history saving.
+
+** Core Configuration
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; GPTel - AI Chat Integration
+  (use-package gptel
+    :ensure t
+    :custom
+    ;; Default mode for chat buffers
+    (gptel-default-mode 'org-mode)
+
+    ;; Directory for saving chat history
+    (gptel-chat-history-directory
+     (expand-file-name "gptel-history" user-emacs-directory))
+
+    ;; Model settings
+    (gptel-model "claude-opus-4-5-20251101")
+    (gptel-backend nil)  ; Will be set by backend setup
+
+    ;; Streaming responses
+    (gptel-stream t)
+
+    ;; Display settings
+    (gptel-use-curl t)
+    (gptel-crowdsource-default-mode 'org-mode)
+
+    :config
+    ;; Ensure chat history directory exists
+    (let ((history-dir (expand-file-name "gptel-history" user-emacs-directory)))
+      (unless (file-directory-p history-dir)
+        (make-directory history-dir t))))
+#+end_src
+
+** Backend Configuration
+
+Set up multiple AI backends with API keys from environment variables or auth-sources.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; GPTel Backend Configuration
+
+  ;; Helper function to get API key
+  (defun fu/gptel-get-api-key (service)
+    "Get API key for SERVICE from environment or auth-sources.
+  SERVICE should be something like 'OPENAI_API_KEY' or 'ANTHROPIC_API_KEY'."
+    (or (getenv service)
+        (plist-get (car (auth-source-search :host service)) :secret)))
+
+  ;; Configure backends
+  (with-eval-after-load 'gptel
+    ;; Anthropic (Claude)
+    (when-let ((key (fu/gptel-get-api-key "CLAUDE_API_KEY")))
+      (setq gptel-anthropic-key key)
+      (unless gptel-backend
+        (setq gptel-backend
+              (gptel-make-anthropic "Claude"
+                :stream t
+                :key key))))
+
+    ;; OpenAI (GPT)
+    (when-let ((key (fu/gptel-get-api-key "OPENAI_API_KEY")))
+      (setq gptel-openai-key key)
+      (gptel-make-openai "ChatGPT"
+        :stream t
+        :key key
+        :models '("gpt-5.1-2025-11-13"
+                  "gpt-5.1-codex"
+                  "gpt-4.1"
+                  "gpt-4.1-mini"
+                  "gpt-4.1-nano"
+                  "gpt-4o"
+                  "gpt-4o-mini"
+                  "gpt-4-turbo"
+                  "gpt-3.5-turbo")))
+
+    ;; Google (Gemini)
+    (when-let ((key (fu/gptel-get-api-key "GEMINI_API_KEY")))
+      (gptel-make-gemini "Gemini"
+        :stream t
+        :key key
+        :models '("gemini-3-pro-preview"
+                  "gemini-2.5-pro"
+                  "gemini-2.5-flash"
+                  "gemini-2.5-flash-lite-preview"
+                  "gemini-2.0-flash-exp"
+                  "gemini-1.5-pro"
+                  "gemini-1.5-flash"))))
+#+end_src
+
+** Easy Model Switching
+
+Convenient functions to switch between different AI models quickly.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; GPTel Model Switching Functions
+
+  (defvar fu/gptel-models
+    '(;; Claude models (newest first)
+      ("Claude Opus 4.5" . (anthropic "claude-opus-4-5-20251101"))
+      ("Claude Sonnet 4.5" . (anthropic "claude-sonnet-4-5-20250929"))
+      ("Claude Opus 4.1" . (anthropic "claude-opus-4-1-20250805"))
+      ("Claude Opus 4" . (anthropic "claude-opus-4-20250514"))
+      ("Claude Sonnet 4" . (anthropic "claude-sonnet-4-20250514"))
+      ("Claude 3.5 Sonnet" . (anthropic "claude-3-5-sonnet-20241022"))
+      ("Claude 3 Opus" . (anthropic "claude-3-opus-20240229"))
+      ("Claude 3 Haiku" . (anthropic "claude-3-haiku-20240307"))
+      ;; OpenAI models (newest first)
+      ("GPT-5.1" . (openai "gpt-5.1-2025-11-13"))
+      ("GPT-5.1 Codex" . (openai "gpt-5.1-codex"))
+      ("GPT-4.1" . (openai "gpt-4.1"))
+      ("GPT-4.1 Mini" . (openai "gpt-4.1-mini"))
+      ("GPT-4.1 Nano" . (openai "gpt-4.1-nano"))
+      ("GPT-4o" . (openai "gpt-4o"))
+      ("GPT-4o Mini" . (openai "gpt-4o-mini"))
+      ("GPT-4 Turbo" . (openai "gpt-4-turbo"))
+      ("GPT-3.5 Turbo" . (openai "gpt-3.5-turbo"))
+      ;; Gemini models (newest first)
+      ("Gemini 3 Pro" . (gemini "gemini-3-pro-preview"))
+      ("Gemini 2.5 Pro" . (gemini "gemini-2.5-pro"))
+      ("Gemini 2.5 Flash" . (gemini "gemini-2.5-flash"))
+      ("Gemini 2.5 Flash Lite" . (gemini "gemini-2.5-flash-lite-preview"))
+      ("Gemini 2.0 Flash" . (gemini "gemini-2.0-flash-exp"))
+      ("Gemini 1.5 Pro" . (gemini "gemini-1.5-pro"))
+      ("Gemini 1.5 Flash" . (gemini "gemini-1.5-flash")))
+    "Alist of model display names to (provider model-id) pairs.")
+
+  (defun fu/gptel-set-model (model-name)
+    "Switch GPTel to MODEL-NAME from predefined list."
+    (interactive
+     (list (completing-read "Select AI model: "
+                           (mapcar #'car fu/gptel-models)
+                           nil t)))
+    (when-let* ((model-info (alist-get model-name fu/gptel-models nil nil #'string=))
+                (provider (car model-info))
+                (model-id (cadr model-info)))
+      (pcase provider
+        ('anthropic
+         (when-let ((key (fu/gptel-get-api-key "CLAUDE_API_KEY")))
+           (setq gptel-backend (gptel-make-anthropic "Claude" :stream t :key key)
+                 gptel-model model-id)
+           (message "Switched to %s (%s)" model-name model-id)))
+        ('openai
+         (when-let ((key (fu/gptel-get-api-key "OPENAI_API_KEY")))
+           (setq gptel-backend (gptel-make-openai "ChatGPT" :stream t :key key)
+                 gptel-model model-id)
+           (message "Switched to %s (%s)" model-name model-id)))
+        ('gemini
+         (when-let ((key (fu/gptel-get-api-key "GOOGLE_API_KEY")))
+           (setq gptel-backend (gptel-make-gemini "Gemini" :stream t :key key)
+                 gptel-model model-id)
+           (message "Switched to %s (%s)" model-name model-id))))))
+
+  ;; Quick switch functions
+  (defun fu/gptel-use-claude ()
+    "Switch to Claude Opus 4.5 (latest)."
+    (interactive)
+    (fu/gptel-set-model "Claude Opus 4.5"))
+
+  (defun fu/gptel-use-gpt4 ()
+    "Switch to GPT-5.1 (latest)."
+    (interactive)
+    (fu/gptel-set-model "GPT-5.1"))
+
+  (defun fu/gptel-use-gemini ()
+    "Switch to Gemini 3 Pro (latest)."
+    (interactive)
+    (fu/gptel-set-model "Gemini 3 Pro"))
+#+end_src
+
+** Automatic Chat History Saving
+
+Automatically save chat conversations to disk with timestamps and model information.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; GPTel Chat History Management
+
+  (defun fu/gptel-save-chat ()
+    "Save current gptel chat buffer to history directory."
+    (interactive)
+    (when (and (derived-mode-p 'org-mode)
+               (bound-and-true-p gptel-mode))
+      (let* ((timestamp (format-time-string "%Y%m%d-%H%M%S"))
+             (model-name (replace-regexp-in-string "[^a-zA-Z0-9-]" "-" gptel-model))
+             (filename (format "%s-%s.org" timestamp model-name))
+             (filepath (expand-file-name filename gptel-chat-history-directory)))
+        (write-region (point-min) (point-max) filepath)
+        (message "Chat saved to: %s" filepath)
+        filepath)))
+
+  (defun fu/gptel-auto-save-chat ()
+    "Automatically save chat if it has content."
+    (when (and (derived-mode-p 'org-mode)
+               (bound-and-true-p gptel-mode)
+               (> (buffer-size) 100))  ; Only save if buffer has content
+      (fu/gptel-save-chat)))
+
+  ;; Auto-save chat on buffer kill
+  (add-hook 'kill-buffer-hook #'fu/gptel-auto-save-chat)
+
+  ;; Periodic auto-save (every 5 minutes)
+  (defvar fu/gptel-auto-save-timer nil
+    "Timer for auto-saving gptel chats.")
+
+  (defun fu/gptel-enable-auto-save ()
+    "Enable periodic auto-saving of gptel chats."
+    (interactive)
+    (when fu/gptel-auto-save-timer
+      (cancel-timer fu/gptel-auto-save-timer))
+    (setq fu/gptel-auto-save-timer
+          (run-with-idle-timer 300 t
+                              (lambda ()
+                                (dolist (buf (buffer-list))
+                                  (with-current-buffer buf
+                                    (fu/gptel-auto-save-chat))))))
+    (message "GPTel auto-save enabled (every 5 minutes when idle)"))
+
+  (defun fu/gptel-disable-auto-save ()
+    "Disable periodic auto-saving of gptel chats."
+    (interactive)
+    (when fu/gptel-auto-save-timer
+      (cancel-timer fu/gptel-auto-save-timer)
+      (setq fu/gptel-auto-save-timer nil)
+      (message "GPTel auto-save disabled")))
+
+  ;; Load a saved chat
+  (defun fu/gptel-load-chat ()
+    "Load a previously saved chat from history."
+    (interactive)
+    (let* ((files (directory-files gptel-chat-history-directory nil "\\.org$"))
+           (file (completing-read "Load chat: " (nreverse files) nil t)))
+      (when file
+        (find-file (expand-file-name file gptel-chat-history-directory))
+        (gptel-mode 1))))
+#+end_src
+
+** Enhanced Chat Interface
+
+Improved chat interface with better defaults and keybindings.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; GPTel Enhanced Interface
+
+  (defun fu/gptel-new-chat ()
+    "Start a new gptel chat with current model information in header."
+    (interactive)
+    (let* ((model-info (format "Model: %s" gptel-model))
+           (timestamp (format-time-string "%Y-%m-%d %H:%M"))
+           (buf-name (format "*gptel-%s*" timestamp)))
+      (with-current-buffer (get-buffer-create buf-name)
+        (org-mode)
+        (gptel-mode 1)
+        (insert (format "#+TITLE: AI Chat - %s\n" timestamp))
+        (insert (format "#+DATE: %s\n" timestamp))
+        (insert (format "#+MODEL: %s\n" gptel-model))
+        (insert (format "#+BACKEND: %s\n\n" (gptel-backend-name gptel-backend)))
+        (insert "* Chat\n\n")
+        (goto-char (point-max)))
+      (switch-to-buffer buf-name)))
+
+  ;; Keybindings for gptel
+  (with-eval-after-load 'gptel
+    (define-key gptel-mode-map (kbd "C-c g s") #'fu/gptel-save-chat)
+    (define-key gptel-mode-map (kbd "C-c g m") #'fu/gptel-set-model)
+    (define-key gptel-mode-map (kbd "C-c g n") #'fu/gptel-new-chat)
+    (define-key gptel-mode-map (kbd "C-c g l") #'fu/gptel-load-chat))
+
+  ;; Global keybindings
+  (global-set-key (kbd "C-c a n") #'fu/gptel-new-chat)
+  (global-set-key (kbd "C-c a m") #'fu/gptel-set-model)
+  (global-set-key (kbd "C-c a l") #'fu/gptel-load-chat)
+  (global-set-key (kbd "C-c a c") #'fu/gptel-use-claude)
+  (global-set-key (kbd "C-c a g") #'fu/gptel-use-gpt4)
+  (global-set-key (kbd "C-c a G") #'fu/gptel-use-gemini)
+
+  ;; Enable auto-save by default
+  (with-eval-after-load 'gptel
+    (fu/gptel-enable-auto-save))
+#+end_src
+
+** Usage Guide
+
+Quick reference for using gptel:
+
+*** Starting a Chat
+- =C-c a n= : Start new chat with current model
+- =M-x gptel= : Start chat in current buffer
+
+*** Model Switching
+- =C-c a m= : Choose from all available models
+- =C-c a c= : Quick switch to Claude Opus 4.5 (latest)
+- =C-c a g= : Quick switch to GPT-5.1 (latest)
+- =C-c a G= : Quick switch to Gemini 3 Pro (latest)
+
+*** Chat Management
+- =C-c g s= : Manually save current chat (in gptel buffer)
+- =C-c a l= : Load a saved chat from history
+- Auto-save: Chats automatically save every 5 minutes when idle
+- Auto-save on buffer kill: Chats save when you close the buffer
+
+*** In Chat Buffer
+- =C-c RET= : Send message
+- =C-c g m= : Switch model mid-conversation
+- =C-c g n= : Start new chat
+
+*** Configuration
+API keys should be set as environment variables:
+- =CLAUDE_API_KEY= : For Claude models (Anthropic)
+- =OPENAI_API_KEY= : For GPT models (OpenAI)
+- =GOOGLE_API_KEY= : For Gemini models (Google)
+
+Or stored in =~/.authinfo.gpg= with host entries matching the key names.
+
+Chat history location: =~/.emacs.d/gptel-history/= (customizable via =gptel-chat-history-directory=)
+
+* PDF Tools
+
+PDF viewing and annotation in Emacs with pdf-tools. Currently disabled - uncomment to enable.
+
+Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements PDF Tools Settings]]
+
+Features:
+- Native PDF rendering
+- Annotation support
+- Fast navigation
+- Text search
+- Bookmarks and outline navigation
 
 #+begin_src emacs-lisp :tangle no
+  ;; PDF Tools
+  (use-package pdf-tools
+    :ensure t
+    :mode ("\\.pdf\\'" . pdf-view-mode)
+    :config
+    (pdf-tools-install :no-query)
+
+    ;; Keybindings
+    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+    (define-key pdf-view-mode-map (kbd "C-r") 'isearch-backward)
+
+    ;; Auto-revert
+    (add-hook 'pdf-view-mode-hook #'auto-revert-mode)
+
+    ;; Midnight mode for dark theme support
+    (add-hook 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode))
+
+  ;; Save place in PDF files
+  (use-package saveplace-pdf-view
+    :ensure t
+    :after pdf-tools)
+#+end_src
+
+* Utility Functions
+
+General utility functions for improved Emacs workflow.
+
+** Open in External Application
+
+Open current file or URL in external application.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;; Utility Functions
+
+  (defun fu/open-in-external-app ()
+    "Open current file or URL in external application."
+    (interactive)
+    (let ((path (or (buffer-file-name)
+                   (when (eq major-mode 'dired-mode)
+                     (dired-get-file-for-visit)))))
+      (if path
+          (cond
+           ((eq system-type 'darwin)
+            (call-process "open" nil 0 nil path))
+           ((eq system-type 'gnu/linux)
+            (call-process "xdg-open" nil 0 nil path))
+           ((eq system-type 'windows-nt)
+            (w32-shell-execute "open" path)))
+        (message "No file or URL to open"))))
+
+  (global-set-key (kbd "C-c o") #'fu/open-in-external-app)
+#+end_src
+
+** Copy File Path
+
+Copy current file path to clipboard.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  (defun fu/copy-file-path ()
+    "Copy the current buffer file path to clipboard."
+    (interactive)
+    (when-let ((path (or (buffer-file-name)
+                        default-directory)))
+      (kill-new path)
+      (message "Copied: %s" path)))
+
+  (global-set-key (kbd "C-c y p") #'fu/copy-file-path)
+#+end_src
+
+** Reload Configuration
+
+Quickly reload Emacs configuration.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  (defun fu/reload-config ()
+    "Reload Emacs configuration."
+    (interactive)
+    (load-file user-init-file)
+    (message "Configuration reloaded!"))
+
+  (global-set-key (kbd "C-c r c") #'fu/reload-config)
+#+end_src
+
+** Kill Other Buffers
+
+Kill all buffers except the current one.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  (defun fu/kill-other-buffers ()
+    "Kill all buffers except the current one."
+    (interactive)
+    (let ((current-buf (current-buffer)))
+      (dolist (buf (buffer-list))
+        (unless (or (eq buf current-buf)
+                   (string-prefix-p " " (buffer-name buf)))
+          (kill-buffer buf))))
+    (message "Killed all other buffers"))
+
+  (global-set-key (kbd "C-c k o") #'fu/kill-other-buffers)
+#+end_src
+
+* Database Configuration (Disabled)
+
+Example database configuration with ejc-sql. Disabled by default.
+
+#+begin_src emacs-lisp :tangle no
+  ;; Database Configuration - ejc-sql
   (use-package ejc-sql
+    :ensure t
+    :defer t
     :custom
     (clomacs-httpd-default-port 8888)
     :config
     (let ((ojdbc-path "~/.m2/repository/com/oracle/ojdbc8/8/ojdbc8-8.jar")
-  	    (maria-path "~/.m2/repository/org/mariadb/jdbc/mariadb-java-client/2.6.2/mariadb-java-client-2.6.2.jar"))
+          (maria-path "~/.m2/repository/org/mariadb/jdbc/mariadb-java-client/2.6.2/mariadb-java-client-2.6.2.jar"))
+      ;; Oracle connection example
       (ejc-create-connection
-       "ERP10 20419"
+       "Oracle DB"
        :classpath      ojdbc-path
        :connection-uri (concat "jdbc:oracle:thin:@"
-			       (getenv "X20419_DB_HOST") ":"
-			       (getenv "X20419_DB_PORT") ":"
-			       (getenv "X20419_DB_NAME"))
-       :user           (getenv "X20419_DB_USERNAME")
-       :password       (getenv "X20419_DB_PASSWORD")
+                              (getenv "DB_HOST") ":"
+                              (getenv "DB_PORT") ":"
+                              (getenv "DB_NAME"))
+       :user           (getenv "DB_USERNAME")
+       :password       (getenv "DB_PASSWORD")
        :separator      "/")
+
+      ;; MariaDB connection example
       (ejc-create-connection
-       "ERP10 20313"
+       "MariaDB"
        :classpath      maria-path
-       :connection-uri "jdbc:mariadb://uri:port/dbname"
-       :user           "USER_ID"
-       :password       "PASSWORD"
+       :connection-uri "jdbc:mariadb://host:port/dbname"
+       :user           "username"
+       :password       "password"
        :separator      "/")))
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
-  (use-package gptel
-  	:custom
-  	(gptel-default-mode 'org-mode)
-  	(gptel-api-key "CLAUDE_API_KEY")
-  	(gptel-backend (gptel-make-gemini "CLAUDE" :key gptel-api-key :stream t)))
+* End of File
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  (provide 'misc-conf)
+  ;;; misc-conf.el ends here
 #+end_src
-
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/package-setup-function.el
-  ;;; package-setup-function.el --- Summary  -*- lexical-binding: t; -*-
-  ;;; Commentary:
-  ;;; Code:
-  (defun setup-eat ()
-    "Setup `eat'."
-    (use-package eat))
-
-  (defun setup-dumb-jump ()
-    "Setup `dumb-jump'."
-    (interactive)
-    (use-package dumb-jump))
-
-  (defun set-up-restclient ()
-    "Usage:
-  :header = <<
-  Content-Type: application/json
-  X-Authenticate-Token: :token
-  #
-
-  GET http://localhost:8080/api/list
-  :header
-  #
-
-  POST http://localhost:8080/api/login
-  Content-Type: application/x-www-form-urlencoded
-  -> jq-set-var :token .data.access_token
-
-  userid=userid&password=1111
-  #
-
-  for more details
-  https://github.com/pashky/restclient.el/"
-    (interactive)
-    (use-package restclient)
-    (use-package restclient-jq))
-
-  (defun restclient-scratch-buffer()
-    "Make `restclient-mode' buffer."
-    (interactive)
-    (switch-to-buffer (get-buffer-create "*scratch-restclient*"))
-    (restclient-mode))
-
-  (defun setup-request ()
-    "Setup `request'."
-    (interactive)
-    (use-package request))
-
-  ;; (request "http://localhost:8080/api/CM/AccountService/login"
-  ;;   :type "POST"
-  ;;   ;; :headers '(("Content-Type" . "application/x-www-form-urlencoded"))
-  ;;   :data '(("userid" . "userid") ("password" . "password"))
-  ;;   :parser 'json-read
-  ;;   :success (cl-function
-  ;;             (lambda (&key data &allow-other-keys)
-  ;;               (setq token (assoc-default 'access_token (assoc-default 'data data))))))
-
-  ;; (request "http://localhost:8080/api/HR/Evarpt00400_Z20313Service/listMenu"
-  ;;   :headers `(("Content-Type" . "application/json")
-  ;;              ("X-Authenticate-Token" . ,token))
-  ;;   :parser 'json-read
-  ;;   :success (cl-function
-  ;;             (lambda (&key data &allow-other-keys)
-  ;;               (message "%S" (recurse-alist (assoc-default 'data data))))))
-
-  (defun setup-geiser-guile ()
-    "Setup `geiser-guile'."
-    (interactive)
-    (use-package geiser-guile
-	:config
-	(setq geiser-scheme-implementation 'guile)))
-
-  (defun setup-pyvenv ()
-    "Setup `pyvenv'."
-    (interactive)
-    (use-package pyvenv))
-
-  (defun setup-emmet-mode ()
-    "Setup `emmet-mode'."
-    (interactive)
-    (use-package emmet-mode
-	:hook
-	(mhtml-mode . emmet-mode)))
-
-  (use-package denote
-    :custom
-    (denote-sort-keywords t)
-    (denote-directory (expand-file-name "~/Documents/notes/denote/"))
-    (denote-prompts '(file-type subdirectory title keywords))
-    :hook
-    (dired-mode . denote-dired-mode))
-
-  (provide 'package-setup-function)
-  ;;; package-setup-function.el ends here
-#+end_src
-
-* PDF Tools
-
-PDF viewing and annotation in Emacs. Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements]]
-
-#+begin_src emacs-lisp :tangle no
-  ;;; pdf-conf.el --- PDF tools configuration  -*- lexical-binding: t; -*-
-  ;;; Commentary:
-  ;;; Code:
-  (pdf-tools-install)
-  (use-package saveplace-pdf-view)
-  (global-goto-address-mode t)
-  (provide 'pdf-conf)
-  ;;; pdf-conf.el ends here
-#+end_src
-
-
