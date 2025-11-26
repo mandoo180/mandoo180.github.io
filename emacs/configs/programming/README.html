@@ -22,72 +22,72 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org60b1bb3">1. Overview</a></li>
-<li><a href="#org4b1a6cd">2. Module Structure</a>
+<li><a href="#org8b23a58">1. Overview</a></li>
+<li><a href="#org2d5116e">2. Module Structure</a>
 <ul>
-<li><a href="#orgb066a3a">2.1. File Organization</a></li>
-<li><a href="#orgae8e548">2.2. Load Order</a></li>
+<li><a href="#org6a0496a">2.1. File Organization</a></li>
+<li><a href="#org7ffd746">2.2. Load Order</a></li>
 </ul>
 </li>
-<li><a href="#org8009867">3. What Each Module Provides</a>
+<li><a href="#org023e79f">3. What Each Module Provides</a>
 <ul>
-<li><a href="#org698ea12">3.1. 00-loader.org (Configuration Loader)</a>
+<li><a href="#orga642eae">3.1. 00-loader.org (Configuration Loader)</a>
 <ul>
-<li><a href="#org8235459">3.1.1. Core Responsibilities</a></li>
-<li><a href="#org1397a43">3.1.2. Platform-Specific Features</a></li>
+<li><a href="#orgaa18665">3.1.1. Core Responsibilities</a></li>
+<li><a href="#org0acd5da">3.1.2. Platform-Specific Features</a></li>
 </ul>
 </li>
-<li><a href="#org76b26c9">3.2. 01-general.org (Common Programming Tools)</a>
+<li><a href="#org4120288">3.2. 01-general.org (Common Programming Tools)</a>
 <ul>
-<li><a href="#org57381d5">3.2.1. Categories</a></li>
-<li><a href="#org0d78317">3.2.2. Key Features</a></li>
+<li><a href="#orgbdf8e6c">3.2.1. Categories</a></li>
+<li><a href="#org579ce45">3.2.2. Key Features</a></li>
 </ul>
 </li>
-<li><a href="#orgf734b08">3.3. 02-web.org (Web Development)</a>
+<li><a href="#org0b43e46">3.3. 02-web.org (Web Development)</a>
 <ul>
-<li><a href="#org56cdc73">3.3.1. Languages &amp; Frameworks</a></li>
-<li><a href="#orgd0316a0">3.3.2. Tools</a></li>
-<li><a href="#orgf83e2f8">3.3.3. Smart Features</a></li>
+<li><a href="#orgdc43b86">3.3.1. Languages &amp; Frameworks</a></li>
+<li><a href="#org8b7fda9">3.3.2. Tools</a></li>
+<li><a href="#orga0338a8">3.3.3. Smart Features</a></li>
 </ul>
 </li>
-<li><a href="#orga0104b7">3.4. 03-python.org (Python Development)</a>
+<li><a href="#orgb27b1f3">3.4. 03-python.org (Python Development)</a>
 <ul>
-<li><a href="#orgc4dcdb9">3.4.1. Core Features</a></li>
-<li><a href="#org7f21a22">3.4.2. Development Tools</a></li>
-<li><a href="#org90fb191">3.4.3. Workflow</a></li>
+<li><a href="#org3e1c8cb">3.4.1. Core Features</a></li>
+<li><a href="#org34496a9">3.4.2. Development Tools</a></li>
+<li><a href="#orga227741">3.4.3. Workflow</a></li>
 </ul>
 </li>
-<li><a href="#org659ad82">3.5. 04-ruby.org (Ruby Development)</a>
+<li><a href="#orgd697101">3.5. 04-ruby.org (Ruby Development)</a>
 <ul>
-<li><a href="#org1d5b3b7">3.5.1. Ruby Language Support</a></li>
-<li><a href="#org06a13c1">3.5.2. Testing</a></li>
+<li><a href="#org27ccfe8">3.5.1. Ruby Language Support</a></li>
+<li><a href="#org7c7a51f">3.5.2. Testing</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org9c5963e">4. Adding New Languages</a>
+<li><a href="#org35ea261">4. Adding New Languages</a>
 <ul>
-<li><a href="#org71e0ca5">4.1. 1. Create Module File</a></li>
-<li><a href="#org82f3885">4.2. 2. Update Loader</a></li>
-<li><a href="#org227f860">4.3. 3. Update Parent Index</a></li>
-<li><a href="#org988d140">4.4. 4. Update This README</a></li>
+<li><a href="#orgc572edd">4.1. 1. Create Module File</a></li>
+<li><a href="#org48a3f6b">4.2. 2. Update Loader</a></li>
+<li><a href="#orgf369f02">4.3. 3. Update Parent Index</a></li>
+<li><a href="#org0061926">4.4. 4. Update This README</a></li>
 </ul>
 </li>
-<li><a href="#org52d4189">5. Tangling</a>
+<li><a href="#orgc3f3e9c">5. Tangling</a>
 <ul>
-<li><a href="#orge9d8103">5.1. Tangle All Programming Configs</a></li>
-<li><a href="#org2a97e5f">5.2. Tangle Individual Module</a></li>
+<li><a href="#org54f335a">5.1. Tangle All Programming Configs</a></li>
+<li><a href="#orgbd6043b">5.2. Tangle Individual Module</a></li>
 </ul>
 </li>
-<li><a href="#orgb5fad36">6. HTML Export</a></li>
-<li><a href="#orge038a75">7. File Sizes</a></li>
-<li><a href="#orgaecd7f4">8. Benefits of This Structure</a></li>
+<li><a href="#orga927443">6. HTML Export</a></li>
+<li><a href="#orgb140962">7. File Sizes</a></li>
+<li><a href="#org3388732">8. Benefits of This Structure</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org60b1bb3" class="outline-2">
-<h2 id="org60b1bb3"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-org8b23a58" class="outline-2">
+<h2 id="org8b23a58"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This directory contains programming language-specific configuration modules, organized by language and functionality.
@@ -95,12 +95,12 @@ This directory contains programming language-specific configuration modules, org
 </div>
 </div>
 
-<div id="outline-container-org4b1a6cd" class="outline-2">
-<h2 id="org4b1a6cd"><span class="section-number-2">2.</span> Module Structure</h2>
+<div id="outline-container-org2d5116e" class="outline-2">
+<h2 id="org2d5116e"><span class="section-number-2">2.</span> Module Structure</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgb066a3a" class="outline-3">
-<h3 id="orgb066a3a"><span class="section-number-3">2.1.</span> File Organization</h3>
+<div id="outline-container-org6a0496a" class="outline-3">
+<h3 id="org6a0496a"><span class="section-number-3">2.1.</span> File Organization</h3>
 <div class="outline-text-3" id="text-2-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -162,8 +162,8 @@ This directory contains programming language-specific configuration modules, org
 </div>
 </div>
 
-<div id="outline-container-orgae8e548" class="outline-3">
-<h3 id="orgae8e548"><span class="section-number-3">2.2.</span> Load Order</h3>
+<div id="outline-container-org7ffd746" class="outline-3">
+<h3 id="org7ffd746"><span class="section-number-3">2.2.</span> Load Order</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 The loader (<code>00-loader.org</code>) loads modules in this order:
@@ -183,16 +183,16 @@ Platform-specific tools (Clojure, SQL, tree-sitter) are loaded conditionally by 
 </div>
 </div>
 
-<div id="outline-container-org8009867" class="outline-2">
-<h2 id="org8009867"><span class="section-number-2">3.</span> What Each Module Provides</h2>
+<div id="outline-container-org023e79f" class="outline-2">
+<h2 id="org023e79f"><span class="section-number-2">3.</span> What Each Module Provides</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org698ea12" class="outline-3">
-<h3 id="org698ea12"><span class="section-number-3">3.1.</span> 00-loader.org (Configuration Loader)</h3>
+<div id="outline-container-orga642eae" class="outline-3">
+<h3 id="orga642eae"><span class="section-number-3">3.1.</span> 00-loader.org (Configuration Loader)</h3>
 <div class="outline-text-3" id="text-3-1">
 </div>
-<div id="outline-container-org8235459" class="outline-4">
-<h4 id="org8235459"><span class="section-number-4">3.1.1.</span> Core Responsibilities</h4>
+<div id="outline-container-orgaa18665" class="outline-4">
+<h4 id="orgaa18665"><span class="section-number-4">3.1.1.</span> Core Responsibilities</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <ul class="org-ul">
 <li>Loads all language-specific modules</li>
@@ -204,8 +204,8 @@ Platform-specific tools (Clojure, SQL, tree-sitter) are loaded conditionally by 
 </div>
 </div>
 
-<div id="outline-container-org1397a43" class="outline-4">
-<h4 id="org1397a43"><span class="section-number-4">3.1.2.</span> Platform-Specific Features</h4>
+<div id="outline-container-org0acd5da" class="outline-4">
+<h4 id="org0acd5da"><span class="section-number-4">3.1.2.</span> Platform-Specific Features</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <p>
 Only loaded on non-Windows systems:
@@ -219,12 +219,12 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-org76b26c9" class="outline-3">
-<h3 id="org76b26c9"><span class="section-number-3">3.2.</span> 01-general.org (Common Programming Tools)</h3>
+<div id="outline-container-org4120288" class="outline-3">
+<h3 id="org4120288"><span class="section-number-3">3.2.</span> 01-general.org (Common Programming Tools)</h3>
 <div class="outline-text-3" id="text-3-2">
 </div>
-<div id="outline-container-org57381d5" class="outline-4">
-<h4 id="org57381d5"><span class="section-number-4">3.2.1.</span> Categories</h4>
+<div id="outline-container-orgbdf8e6c" class="outline-4">
+<h4 id="orgbdf8e6c"><span class="section-number-4">3.2.1.</span> Categories</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <ul class="org-ul">
 <li><b>Completion</b>: corfu, corfu-candidate-overlay</li>
@@ -239,8 +239,8 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-org0d78317" class="outline-4">
-<h4 id="org0d78317"><span class="section-number-4">3.2.2.</span> Key Features</h4>
+<div id="outline-container-org579ce45" class="outline-4">
+<h4 id="org579ce45"><span class="section-number-4">3.2.2.</span> Key Features</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <ul class="org-ul">
 <li>Universal completion interface</li>
@@ -253,12 +253,12 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-orgf734b08" class="outline-3">
-<h3 id="orgf734b08"><span class="section-number-3">3.3.</span> 02-web.org (Web Development)</h3>
+<div id="outline-container-org0b43e46" class="outline-3">
+<h3 id="org0b43e46"><span class="section-number-3">3.3.</span> 02-web.org (Web Development)</h3>
 <div class="outline-text-3" id="text-3-3">
 </div>
-<div id="outline-container-org56cdc73" class="outline-4">
-<h4 id="org56cdc73"><span class="section-number-4">3.3.1.</span> Languages &amp; Frameworks</h4>
+<div id="outline-container-orgdc43b86" class="outline-4">
+<h4 id="orgdc43b86"><span class="section-number-4">3.3.1.</span> Languages &amp; Frameworks</h4>
 <div class="outline-text-4" id="text-3-3-1">
 <ul class="org-ul">
 <li>HTML (with smart mode selection)</li>
@@ -271,8 +271,8 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-orgd0316a0" class="outline-4">
-<h4 id="orgd0316a0"><span class="section-number-4">3.3.2.</span> Tools</h4>
+<div id="outline-container-org8b7fda9" class="outline-4">
+<h4 id="org8b7fda9"><span class="section-number-4">3.3.2.</span> Tools</h4>
 <div class="outline-text-4" id="text-3-3-2">
 <ul class="org-ul">
 <li><b>web-mode</b>: Unified editor for web templates</li>
@@ -285,8 +285,8 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-orgf83e2f8" class="outline-4">
-<h4 id="orgf83e2f8"><span class="section-number-4">3.3.3.</span> Smart Features</h4>
+<div id="outline-container-orga0338a8" class="outline-4">
+<h4 id="orga0338a8"><span class="section-number-4">3.3.3.</span> Smart Features</h4>
 <div class="outline-text-4" id="text-3-3-3">
 <ul class="org-ul">
 <li>Auto mode selection based on file size</li>
@@ -298,12 +298,12 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-orga0104b7" class="outline-3">
-<h3 id="orga0104b7"><span class="section-number-3">3.4.</span> 03-python.org (Python Development)</h3>
+<div id="outline-container-orgb27b1f3" class="outline-3">
+<h3 id="orgb27b1f3"><span class="section-number-3">3.4.</span> 03-python.org (Python Development)</h3>
 <div class="outline-text-3" id="text-3-4">
 </div>
-<div id="outline-container-orgc4dcdb9" class="outline-4">
-<h4 id="orgc4dcdb9"><span class="section-number-4">3.4.1.</span> Core Features</h4>
+<div id="outline-container-org3e1c8cb" class="outline-4">
+<h4 id="org3e1c8cb"><span class="section-number-4">3.4.1.</span> Core Features</h4>
 <div class="outline-text-4" id="text-3-4-1">
 <ul class="org-ul">
 <li>python-mode with tree-sitter</li>
@@ -315,8 +315,8 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-org7f21a22" class="outline-4">
-<h4 id="org7f21a22"><span class="section-number-4">3.4.2.</span> Development Tools</h4>
+<div id="outline-container-org34496a9" class="outline-4">
+<h4 id="org34496a9"><span class="section-number-4">3.4.2.</span> Development Tools</h4>
 <div class="outline-text-4" id="text-3-4-2">
 <ul class="org-ul">
 <li>LSP support (pyright/pylsp)</li>
@@ -327,8 +327,8 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-org90fb191" class="outline-4">
-<h4 id="org90fb191"><span class="section-number-4">3.4.3.</span> Workflow</h4>
+<div id="outline-container-orga227741" class="outline-4">
+<h4 id="orga227741"><span class="section-number-4">3.4.3.</span> Workflow</h4>
 <div class="outline-text-4" id="text-3-4-3">
 <ul class="org-ul">
 <li>Automatic venv detection</li>
@@ -340,12 +340,12 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-org659ad82" class="outline-3">
-<h3 id="org659ad82"><span class="section-number-3">3.5.</span> 04-ruby.org (Ruby Development)</h3>
+<div id="outline-container-orgd697101" class="outline-3">
+<h3 id="orgd697101"><span class="section-number-3">3.5.</span> 04-ruby.org (Ruby Development)</h3>
 <div class="outline-text-3" id="text-3-5">
 </div>
-<div id="outline-container-org1d5b3b7" class="outline-4">
-<h4 id="org1d5b3b7"><span class="section-number-4">3.5.1.</span> Ruby Language Support</h4>
+<div id="outline-container-org27ccfe8" class="outline-4">
+<h4 id="org27ccfe8"><span class="section-number-4">3.5.1.</span> Ruby Language Support</h4>
 <div class="outline-text-4" id="text-3-5-1">
 <ul class="org-ul">
 <li>Enhanced ruby-mode</li>
@@ -366,8 +366,8 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-org06a13c1" class="outline-4">
-<h4 id="org06a13c1"><span class="section-number-4">3.5.2.</span> Testing</h4>
+<div id="outline-container-org7c7a51f" class="outline-4">
+<h4 id="org7c7a51f"><span class="section-number-4">3.5.2.</span> Testing</h4>
 <div class="outline-text-4" id="text-3-5-2">
 <ul class="org-ul">
 <li>RSpec mode</li>
@@ -379,16 +379,16 @@ Only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-org9c5963e" class="outline-2">
-<h2 id="org9c5963e"><span class="section-number-2">4.</span> Adding New Languages</h2>
+<div id="outline-container-org35ea261" class="outline-2">
+<h2 id="org35ea261"><span class="section-number-2">4.</span> Adding New Languages</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 To add support for a new language:
 </p>
 </div>
 
-<div id="outline-container-org71e0ca5" class="outline-3">
-<h3 id="org71e0ca5"><span class="section-number-3">4.1.</span> 1. Create Module File</h3>
+<div id="outline-container-orgc572edd" class="outline-3">
+<h3 id="orgc572edd"><span class="section-number-3">4.1.</span> 1. Create Module File</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Create <code>0X-language.org</code> in this directory:
@@ -417,8 +417,8 @@ Configuration for Language Name development.
 </div>
 </div>
 
-<div id="outline-container-org82f3885" class="outline-3">
-<h3 id="org82f3885"><span class="section-number-3">4.2.</span> 2. Update Loader</h3>
+<div id="outline-container-org48a3f6b" class="outline-3">
+<h3 id="org48a3f6b"><span class="section-number-3">4.2.</span> 2. Update Loader</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Add to <code>00-loader.org</code>:
@@ -433,8 +433,8 @@ Add to <code>00-loader.org</code>:
 </div>
 </div>
 
-<div id="outline-container-org227f860" class="outline-3">
-<h3 id="org227f860"><span class="section-number-3">4.3.</span> 3. Update Parent Index</h3>
+<div id="outline-container-orgf369f02" class="outline-3">
+<h3 id="orgf369f02"><span class="section-number-3">4.3.</span> 3. Update Parent Index</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 Add to <code>../09-programming.org</code>:
@@ -448,8 +448,8 @@ Add to <code>../09-programming.org</code>:
 </div>
 </div>
 
-<div id="outline-container-org988d140" class="outline-3">
-<h3 id="org988d140"><span class="section-number-3">4.4.</span> 4. Update This README</h3>
+<div id="outline-container-org0061926" class="outline-3">
+<h3 id="org0061926"><span class="section-number-3">4.4.</span> 4. Update This README</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 Add entry to the module table and description section.
@@ -458,12 +458,12 @@ Add entry to the module table and description section.
 </div>
 </div>
 
-<div id="outline-container-org52d4189" class="outline-2">
-<h2 id="org52d4189"><span class="section-number-2">5.</span> Tangling</h2>
+<div id="outline-container-orgc3f3e9c" class="outline-2">
+<h2 id="orgc3f3e9c"><span class="section-number-2">5.</span> Tangling</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orge9d8103" class="outline-3">
-<h3 id="orge9d8103"><span class="section-number-3">5.1.</span> Tangle All Programming Configs</h3>
+<div id="outline-container-org54f335a" class="outline-3">
+<h3 id="org54f335a"><span class="section-number-3">5.1.</span> Tangle All Programming Configs</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 From repository root:
@@ -489,8 +489,8 @@ Or use the global tangle script:
 </div>
 </div>
 
-<div id="outline-container-org2a97e5f" class="outline-3">
-<h3 id="org2a97e5f"><span class="section-number-3">5.2.</span> Tangle Individual Module</h3>
+<div id="outline-container-orgbd6043b" class="outline-3">
+<h3 id="orgbd6043b"><span class="section-number-3">5.2.</span> Tangle Individual Module</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Open the module file and run:
@@ -503,8 +503,8 @@ Open the module file and run:
 </div>
 </div>
 
-<div id="outline-container-orgb5fad36" class="outline-2">
-<h2 id="orgb5fad36"><span class="section-number-2">6.</span> HTML Export</h2>
+<div id="outline-container-orga927443" class="outline-2">
+<h2 id="orga927443"><span class="section-number-2">6.</span> HTML Export</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 The parent file <code>../09-programming.org</code> uses <code>#+INCLUDE</code> to combine all modules for export.
@@ -520,8 +520,8 @@ From repository root:
 </div>
 </div>
 
-<div id="outline-container-orge038a75" class="outline-2">
-<h2 id="orge038a75"><span class="section-number-2">7.</span> File Sizes</h2>
+<div id="outline-container-orgb140962" class="outline-2">
+<h2 id="orgb140962"><span class="section-number-2">7.</span> File Sizes</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Current module sizes:
@@ -576,8 +576,8 @@ Current module sizes:
 </div>
 </div>
 
-<div id="outline-container-orgaecd7f4" class="outline-2">
-<h2 id="orgaecd7f4"><span class="section-number-2">8.</span> Benefits of This Structure</h2>
+<div id="outline-container-org3388732" class="outline-2">
+<h2 id="org3388732"><span class="section-number-2">8.</span> Benefits of This Structure</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 ✅ <b><b>Language Isolation</b></b> - Each language in its own file
