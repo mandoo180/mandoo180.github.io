@@ -22,188 +22,697 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb2fe64b">1. PDF Tools</a></li>
+<li><a href="#orgc1afed7">1. Introduction</a></li>
+<li><a href="#orgde88538">2. Email Configuration</a>
+<ul>
+<li><a href="#org8022fe0">2.1. Notmuch</a></li>
+<li><a href="#org3795dd1">2.2. Email Sending</a></li>
+</ul>
+</li>
+<li><a href="#org43b7e65">3. GPTel - AI Chat Integration</a>
+<ul>
+<li><a href="#org55ad445">3.1. Core Configuration</a></li>
+<li><a href="#org36d157a">3.2. Backend Configuration</a></li>
+<li><a href="#org3799641">3.3. Easy Model Switching</a></li>
+<li><a href="#org245a5f3">3.4. Automatic Chat History Saving</a></li>
+<li><a href="#org1702e8d">3.5. Enhanced Chat Interface</a></li>
+<li><a href="#org38cba22">3.6. Usage Guide</a></li>
+</ul>
+</li>
+<li><a href="#org9bf900e">4. PDF Tools</a></li>
+<li><a href="#org1d9c40e">5. Utility Functions</a>
+<ul>
+<li><a href="#org4ae40b1">5.1. Open in External Application</a></li>
+<li><a href="#orgef80b3c">5.2. Copy File Path</a></li>
+<li><a href="#orgd23c35f">5.3. Reload Configuration</a></li>
+<li><a href="#orgb8480cf">5.4. Kill Other Buffers</a></li>
+</ul>
+</li>
+<li><a href="#org4dc9628">6. Database Configuration (Disabled)</a></li>
+<li><a href="#orgd500d0b">7. End of File</a></li>
 </ul>
 </div>
 </div>
+
+<div id="outline-container-orgc1afed7" class="outline-2">
+<h2 id="orgc1afed7"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-Utility functions and helper configurations.
+Miscellaneous utilities and configurations including email, AI chat integration, PDF tools, and helper functions.
 </p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el --- Summary  -*- lexical-binding: t; -*-
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>(<span class="org-keyword">use-package</span> notmuch
-  <span class="org-builtin">:ensure</span> t
-  <span class="org-builtin">:config</span>
-  (<span class="org-keyword">setq</span> mail-user-agent 'notmuch-user-agent))
-
-(<span class="org-keyword">setq</span> user-full-name (getenv <span class="org-string">"USER_FULL_NAME"</span>)
-        user-mail-address (getenv <span class="org-string">"USER_EMAIL"</span>)
-        auth-sources '(<span class="org-string">"~/.authinfo.gpg"</span>))
-(<span class="org-keyword">setq</span> send-mail-function 'sendmail-send-it
-        message-send-mail-function 'sendmail-send-it
-        sendmail-program (executable-find <span class="org-string">"msmtp"</span>)
-        message-send-mail-function 'message-send-mail-with-sendmail)
-(<span class="org-keyword">provide</span> '<span class="org-constant">misc-conf</span>)
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el ends here</span>
-</pre>
+</div>
 </div>
 
+<div id="outline-container-orgde88538" class="outline-2">
+<h2 id="orgde88538"><span class="section-number-2">2.</span> Email Configuration</h2>
+<div class="outline-text-2" id="text-2">
 <p>
-Some extra stuff.
+Configuration for reading and sending email using notmuch and msmtp.
+</p>
+</div>
+
+<div id="outline-container-org8022fe0" class="outline-3">
+<h3 id="org8022fe0"><span class="section-number-3">2.1.</span> Notmuch</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Fast email indexing and searching with notmuch.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> ejc-sql
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el --- Miscellaneous Configuration  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Miscellaneous utilities including email, AI chat, PDF tools, and helpers.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Email - Notmuch
+</span>(<span class="org-keyword">use-package</span> notmuch
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:defer</span> t
+  <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> mail-user-agent 'notmuch-user-agent))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3795dd1" class="outline-3">
+<h3 id="org3795dd1"><span class="section-number-3">2.2.</span> Email Sending</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Configure email sending with msmtp and authentication.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Email - Sending Configuration
+</span>(<span class="org-keyword">setq</span> user-full-name (<span class="org-keyword">or</span> (getenv <span class="org-string">"USER_FULL_NAME"</span>) user-full-name)
+      user-mail-address (<span class="org-keyword">or</span> (getenv <span class="org-string">"USER_EMAIL"</span>) user-mail-address)
+      auth-sources '(<span class="org-string">"~/.authinfo.gpg"</span> <span class="org-string">"~/.authinfo"</span>))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Use msmtp for sending mail
+</span>(<span class="org-keyword">setq</span> send-mail-function 'sendmail-send-it
+      message-send-mail-function 'message-send-mail-with-sendmail
+      sendmail-program (<span class="org-keyword">or</span> (executable-find <span class="org-string">"msmtp"</span>) <span class="org-string">"/usr/bin/msmtp"</span>)
+      message-sendmail-envelope-from 'header)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org43b7e65" class="outline-2">
+<h2 id="org43b7e65"><span class="section-number-2">3.</span> GPTel - AI Chat Integration</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Comprehensive AI chat integration with support for multiple providers (OpenAI, Claude, Gemini, etc.) with easy model switching and automatic chat history saving.
+</p>
+</div>
+
+<div id="outline-container-org55ad445" class="outline-3">
+<h3 id="org55ad445"><span class="section-number-3">3.1.</span> Core Configuration</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">GPTel - AI Chat Integration
+</span>(<span class="org-keyword">use-package</span> gptel
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Default mode for chat buffers
+</span>  (gptel-default-mode 'org-mode)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Directory for saving chat history
+</span>  (gptel-chat-history-directory
+   (expand-file-name <span class="org-string">"gptel-history"</span> user-emacs-directory))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Model settings
+</span>  (gptel-model <span class="org-string">"claude-opus-4-5-20251101"</span>)
+  (gptel-backend nil)  <span class="org-comment-delimiter">; </span><span class="org-comment">Will be set by backend setup
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Streaming responses
+</span>  (gptel-stream t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Display settings
+</span>  (gptel-use-curl t)
+  (gptel-crowdsource-default-mode 'org-mode)
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Ensure chat history directory exists
+</span>  (<span class="org-keyword">let</span> ((history-dir (expand-file-name <span class="org-string">"gptel-history"</span> user-emacs-directory)))
+    (<span class="org-keyword">unless</span> (file-directory-p history-dir)
+      (make-directory history-dir t))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org36d157a" class="outline-3">
+<h3 id="org36d157a"><span class="section-number-3">3.2.</span> Backend Configuration</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Set up multiple AI backends with API keys from environment variables or auth-sources.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">GPTel Backend Configuration
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Helper function to get API key
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-get-api-key</span> (service)
+  <span class="org-doc">"Get API key for SERVICE from environment or auth-sources.
+SERVICE should be something like '</span><span class="org-doc"><span class="org-constant">OPENAI_API_KEY</span></span><span class="org-doc">' or '</span><span class="org-doc"><span class="org-constant">ANTHROPIC_API_KEY</span></span><span class="org-doc">'."</span>
+  (<span class="org-keyword">or</span> (getenv service)
+      (plist-get (car (auth-source-search <span class="org-builtin">:host</span> service)) <span class="org-builtin">:secret</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Configure backends
+</span>(<span class="org-keyword">with-eval-after-load</span> 'gptel
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Anthropic (Claude)
+</span>  (<span class="org-keyword">when-let</span> ((key (fu/gptel-get-api-key <span class="org-string">"CLAUDE_API_KEY"</span>)))
+    (<span class="org-keyword">setq</span> gptel-anthropic-key key)
+    (<span class="org-keyword">unless</span> gptel-backend
+      (<span class="org-keyword">setq</span> gptel-backend
+            (gptel-make-anthropic <span class="org-string">"Claude"</span>
+              <span class="org-builtin">:stream</span> t
+              <span class="org-builtin">:key</span> key))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">OpenAI (GPT)
+</span>  (<span class="org-keyword">when-let</span> ((key (fu/gptel-get-api-key <span class="org-string">"OPENAI_API_KEY"</span>)))
+    (<span class="org-keyword">setq</span> gptel-openai-key key)
+    (gptel-make-openai <span class="org-string">"ChatGPT"</span>
+      <span class="org-builtin">:stream</span> t
+      <span class="org-builtin">:key</span> key
+      <span class="org-builtin">:models</span> '(<span class="org-string">"gpt-5.1-2025-11-13"</span>
+                <span class="org-string">"gpt-5.1-codex"</span>
+                <span class="org-string">"gpt-4.1"</span>
+                <span class="org-string">"gpt-4.1-mini"</span>
+                <span class="org-string">"gpt-4.1-nano"</span>
+                <span class="org-string">"gpt-4o"</span>
+                <span class="org-string">"gpt-4o-mini"</span>
+                <span class="org-string">"gpt-4-turbo"</span>
+                <span class="org-string">"gpt-3.5-turbo"</span>)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Google (Gemini)
+</span>  (<span class="org-keyword">when-let</span> ((key (fu/gptel-get-api-key <span class="org-string">"GEMINI_API_KEY"</span>)))
+    (gptel-make-gemini <span class="org-string">"Gemini"</span>
+      <span class="org-builtin">:stream</span> t
+      <span class="org-builtin">:key</span> key
+      <span class="org-builtin">:models</span> '(<span class="org-string">"gemini-3-pro-preview"</span>
+                <span class="org-string">"gemini-2.5-pro"</span>
+                <span class="org-string">"gemini-2.5-flash"</span>
+                <span class="org-string">"gemini-2.5-flash-lite-preview"</span>
+                <span class="org-string">"gemini-2.0-flash-exp"</span>
+                <span class="org-string">"gemini-1.5-pro"</span>
+                <span class="org-string">"gemini-1.5-flash"</span>))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3799641" class="outline-3">
+<h3 id="org3799641"><span class="section-number-3">3.3.</span> Easy Model Switching</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Convenient functions to switch between different AI models quickly.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">GPTel Model Switching Functions
+</span>
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">fu/gptel-models</span>
+  '(<span class="org-comment-delimiter">;; </span><span class="org-comment">Claude models (newest first)
+</span>    (<span class="org-string">"Claude Opus 4.5"</span> . (anthropic <span class="org-string">"claude-opus-4-5-20251101"</span>))
+    (<span class="org-string">"Claude Sonnet 4.5"</span> . (anthropic <span class="org-string">"claude-sonnet-4-5-20250929"</span>))
+    (<span class="org-string">"Claude Opus 4.1"</span> . (anthropic <span class="org-string">"claude-opus-4-1-20250805"</span>))
+    (<span class="org-string">"Claude Opus 4"</span> . (anthropic <span class="org-string">"claude-opus-4-20250514"</span>))
+    (<span class="org-string">"Claude Sonnet 4"</span> . (anthropic <span class="org-string">"claude-sonnet-4-20250514"</span>))
+    (<span class="org-string">"Claude 3.5 Sonnet"</span> . (anthropic <span class="org-string">"claude-3-5-sonnet-20241022"</span>))
+    (<span class="org-string">"Claude 3 Opus"</span> . (anthropic <span class="org-string">"claude-3-opus-20240229"</span>))
+    (<span class="org-string">"Claude 3 Haiku"</span> . (anthropic <span class="org-string">"claude-3-haiku-20240307"</span>))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">OpenAI models (newest first)
+</span>    (<span class="org-string">"GPT-5.1"</span> . (openai <span class="org-string">"gpt-5.1-2025-11-13"</span>))
+    (<span class="org-string">"GPT-5.1 Codex"</span> . (openai <span class="org-string">"gpt-5.1-codex"</span>))
+    (<span class="org-string">"GPT-4.1"</span> . (openai <span class="org-string">"gpt-4.1"</span>))
+    (<span class="org-string">"GPT-4.1 Mini"</span> . (openai <span class="org-string">"gpt-4.1-mini"</span>))
+    (<span class="org-string">"GPT-4.1 Nano"</span> . (openai <span class="org-string">"gpt-4.1-nano"</span>))
+    (<span class="org-string">"GPT-4o"</span> . (openai <span class="org-string">"gpt-4o"</span>))
+    (<span class="org-string">"GPT-4o Mini"</span> . (openai <span class="org-string">"gpt-4o-mini"</span>))
+    (<span class="org-string">"GPT-4 Turbo"</span> . (openai <span class="org-string">"gpt-4-turbo"</span>))
+    (<span class="org-string">"GPT-3.5 Turbo"</span> . (openai <span class="org-string">"gpt-3.5-turbo"</span>))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Gemini models (newest first)
+</span>    (<span class="org-string">"Gemini 3 Pro"</span> . (gemini <span class="org-string">"gemini-3-pro-preview"</span>))
+    (<span class="org-string">"Gemini 2.5 Pro"</span> . (gemini <span class="org-string">"gemini-2.5-pro"</span>))
+    (<span class="org-string">"Gemini 2.5 Flash"</span> . (gemini <span class="org-string">"gemini-2.5-flash"</span>))
+    (<span class="org-string">"Gemini 2.5 Flash Lite"</span> . (gemini <span class="org-string">"gemini-2.5-flash-lite-preview"</span>))
+    (<span class="org-string">"Gemini 2.0 Flash"</span> . (gemini <span class="org-string">"gemini-2.0-flash-exp"</span>))
+    (<span class="org-string">"Gemini 1.5 Pro"</span> . (gemini <span class="org-string">"gemini-1.5-pro"</span>))
+    (<span class="org-string">"Gemini 1.5 Flash"</span> . (gemini <span class="org-string">"gemini-1.5-flash"</span>)))
+  <span class="org-doc">"Alist of model display names to (provider model-id) pairs."</span>)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-set-model</span> (model-name)
+  <span class="org-doc">"Switch GPTel to MODEL-NAME from predefined list."</span>
+  (<span class="org-keyword">interactive</span>
+   (list (completing-read <span class="org-string">"Select AI model: "</span>
+                         (mapcar #'car fu/gptel-models)
+                         nil t)))
+  (<span class="org-keyword">when-let*</span> ((model-info (alist-get model-name fu/gptel-models nil nil #'string=))
+              (provider (car model-info))
+              (model-id (cadr model-info)))
+    (<span class="org-keyword">pcase</span> provider
+      ('anthropic
+       (<span class="org-keyword">when-let</span> ((key (fu/gptel-get-api-key <span class="org-string">"CLAUDE_API_KEY"</span>)))
+         (<span class="org-keyword">setq</span> gptel-backend (gptel-make-anthropic <span class="org-string">"Claude"</span> <span class="org-builtin">:stream</span> t <span class="org-builtin">:key</span> key)
+               gptel-model model-id)
+         (message <span class="org-string">"Switched to %s (%s)"</span> model-name model-id)))
+      ('openai
+       (<span class="org-keyword">when-let</span> ((key (fu/gptel-get-api-key <span class="org-string">"OPENAI_API_KEY"</span>)))
+         (<span class="org-keyword">setq</span> gptel-backend (gptel-make-openai <span class="org-string">"ChatGPT"</span> <span class="org-builtin">:stream</span> t <span class="org-builtin">:key</span> key)
+               gptel-model model-id)
+         (message <span class="org-string">"Switched to %s (%s)"</span> model-name model-id)))
+      ('gemini
+       (<span class="org-keyword">when-let</span> ((key (fu/gptel-get-api-key <span class="org-string">"GOOGLE_API_KEY"</span>)))
+         (<span class="org-keyword">setq</span> gptel-backend (gptel-make-gemini <span class="org-string">"Gemini"</span> <span class="org-builtin">:stream</span> t <span class="org-builtin">:key</span> key)
+               gptel-model model-id)
+         (message <span class="org-string">"Switched to %s (%s)"</span> model-name model-id))))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Quick switch functions
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-use-claude</span> ()
+  <span class="org-doc">"Switch to Claude Opus 4.5 (latest)."</span>
+  (<span class="org-keyword">interactive</span>)
+  (fu/gptel-set-model <span class="org-string">"Claude Opus 4.5"</span>))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-use-gpt4</span> ()
+  <span class="org-doc">"Switch to GPT-5.1 (latest)."</span>
+  (<span class="org-keyword">interactive</span>)
+  (fu/gptel-set-model <span class="org-string">"GPT-5.1"</span>))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-use-gemini</span> ()
+  <span class="org-doc">"Switch to Gemini 3 Pro (latest)."</span>
+  (<span class="org-keyword">interactive</span>)
+  (fu/gptel-set-model <span class="org-string">"Gemini 3 Pro"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org245a5f3" class="outline-3">
+<h3 id="org245a5f3"><span class="section-number-3">3.4.</span> Automatic Chat History Saving</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Automatically save chat conversations to disk with timestamps and model information.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">GPTel Chat History Management
+</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-save-chat</span> ()
+  <span class="org-doc">"Save current gptel chat buffer to history directory."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (derived-mode-p 'org-mode)
+             (<span class="org-keyword">bound-and-true-p</span> gptel-mode))
+    (<span class="org-keyword">let*</span> ((timestamp (format-time-string <span class="org-string">"%Y%m%d-%H%M%S"</span>))
+           (model-name (replace-regexp-in-string <span class="org-string">"[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">a-zA-Z0-9-]"</span> <span class="org-string">"-"</span> gptel-model))
+           (filename (format <span class="org-string">"%s-%s.org"</span> timestamp model-name))
+           (filepath (expand-file-name filename gptel-chat-history-directory)))
+      (write-region (point-min) (point-max) filepath)
+      (message <span class="org-string">"Chat saved to: %s"</span> filepath)
+      filepath)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-auto-save-chat</span> ()
+  <span class="org-doc">"Automatically save chat if it has content."</span>
+  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (derived-mode-p 'org-mode)
+             (<span class="org-keyword">bound-and-true-p</span> gptel-mode)
+             (&gt; (buffer-size) 100))  <span class="org-comment-delimiter">; </span><span class="org-comment">Only save if buffer has content
+</span>    (fu/gptel-save-chat)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-save chat on buffer kill
+</span>(add-hook 'kill-buffer-hook #'fu/gptel-auto-save-chat)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Periodic auto-save (every 5 minutes)
+</span>(<span class="org-keyword">defvar</span> <span class="org-variable-name">fu/gptel-auto-save-timer</span> nil
+  <span class="org-doc">"Timer for auto-saving gptel chats."</span>)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-enable-auto-save</span> ()
+  <span class="org-doc">"Enable periodic auto-saving of gptel chats."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">when</span> fu/gptel-auto-save-timer
+    (cancel-timer fu/gptel-auto-save-timer))
+  (<span class="org-keyword">setq</span> fu/gptel-auto-save-timer
+        (run-with-idle-timer 300 t
+                            (<span class="org-keyword">lambda</span> ()
+                              (<span class="org-keyword">dolist</span> (buf (buffer-list))
+                                (<span class="org-keyword">with-current-buffer</span> buf
+                                  (fu/gptel-auto-save-chat))))))
+  (message <span class="org-string">"GPTel auto-save enabled (every 5 minutes when idle)"</span>))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-disable-auto-save</span> ()
+  <span class="org-doc">"Disable periodic auto-saving of gptel chats."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">when</span> fu/gptel-auto-save-timer
+    (cancel-timer fu/gptel-auto-save-timer)
+    (<span class="org-keyword">setq</span> fu/gptel-auto-save-timer nil)
+    (message <span class="org-string">"GPTel auto-save disabled"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Load a saved chat
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-load-chat</span> ()
+  <span class="org-doc">"Load a previously saved chat from history."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let*</span> ((files (directory-files gptel-chat-history-directory nil <span class="org-string">"\\.org$"</span>))
+         (file (completing-read <span class="org-string">"Load chat: "</span> (nreverse files) nil t)))
+    (<span class="org-keyword">when</span> file
+      (find-file (expand-file-name file gptel-chat-history-directory))
+      (gptel-mode 1))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1702e8d" class="outline-3">
+<h3 id="org1702e8d"><span class="section-number-3">3.5.</span> Enhanced Chat Interface</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Improved chat interface with better defaults and keybindings.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">GPTel Enhanced Interface
+</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/gptel-new-chat</span> ()
+  <span class="org-doc">"Start a new gptel chat with current model information in header."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let*</span> ((model-info (format <span class="org-string">"Model: %s"</span> gptel-model))
+         (timestamp (format-time-string <span class="org-string">"%Y-%m-%d %H:%M"</span>))
+         (buf-name (format <span class="org-string">"*gptel-%s*"</span> timestamp)))
+    (<span class="org-keyword">with-current-buffer</span> (get-buffer-create buf-name)
+      (org-mode)
+      (gptel-mode 1)
+      (insert (format <span class="org-string">"#+TITLE: AI Chat - %s\n"</span> timestamp))
+      (insert (format <span class="org-string">"#+DATE: %s\n"</span> timestamp))
+      (insert (format <span class="org-string">"#+MODEL: %s\n"</span> gptel-model))
+      (insert (format <span class="org-string">"#+BACKEND: %s\n\n"</span> (gptel-backend-name gptel-backend)))
+      (insert <span class="org-string">"* Chat\n\n"</span>)
+      (goto-char (point-max)))
+    (switch-to-buffer buf-name)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Keybindings for gptel
+</span>(<span class="org-keyword">with-eval-after-load</span> 'gptel
+  (define-key gptel-mode-map (kbd <span class="org-string">"C-c g s"</span>) #'fu/gptel-save-chat)
+  (define-key gptel-mode-map (kbd <span class="org-string">"C-c g m"</span>) #'fu/gptel-set-model)
+  (define-key gptel-mode-map (kbd <span class="org-string">"C-c g n"</span>) #'fu/gptel-new-chat)
+  (define-key gptel-mode-map (kbd <span class="org-string">"C-c g l"</span>) #'fu/gptel-load-chat))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Global keybindings
+</span>(global-set-key (kbd <span class="org-string">"C-c a n"</span>) #'fu/gptel-new-chat)
+(global-set-key (kbd <span class="org-string">"C-c a m"</span>) #'fu/gptel-set-model)
+(global-set-key (kbd <span class="org-string">"C-c a l"</span>) #'fu/gptel-load-chat)
+(global-set-key (kbd <span class="org-string">"C-c a c"</span>) #'fu/gptel-use-claude)
+(global-set-key (kbd <span class="org-string">"C-c a g"</span>) #'fu/gptel-use-gpt4)
+(global-set-key (kbd <span class="org-string">"C-c a G"</span>) #'fu/gptel-use-gemini)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Enable auto-save by default
+</span>(<span class="org-keyword">with-eval-after-load</span> 'gptel
+  (fu/gptel-enable-auto-save))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org38cba22" class="outline-3">
+<h3 id="org38cba22"><span class="section-number-3">3.6.</span> Usage Guide</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+Quick reference for using gptel:
+</p>
+</div>
+
+<div id="outline-container-orgadc1307" class="outline-4">
+<h4 id="orgadc1307"><span class="section-number-4">3.6.1.</span> Starting a Chat</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<ul class="org-ul">
+<li><code>C-c a n</code> : Start new chat with current model</li>
+<li><code>M-x gptel</code> : Start chat in current buffer</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org43d038a" class="outline-4">
+<h4 id="org43d038a"><span class="section-number-4">3.6.2.</span> Model Switching</h4>
+<div class="outline-text-4" id="text-3-6-2">
+<ul class="org-ul">
+<li><code>C-c a m</code> : Choose from all available models</li>
+<li><code>C-c a c</code> : Quick switch to Claude Opus 4.5 (latest)</li>
+<li><code>C-c a g</code> : Quick switch to GPT-5.1 (latest)</li>
+<li><code>C-c a G</code> : Quick switch to Gemini 3 Pro (latest)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6e8e21b" class="outline-4">
+<h4 id="org6e8e21b"><span class="section-number-4">3.6.3.</span> Chat Management</h4>
+<div class="outline-text-4" id="text-3-6-3">
+<ul class="org-ul">
+<li><code>C-c g s</code> : Manually save current chat (in gptel buffer)</li>
+<li><code>C-c a l</code> : Load a saved chat from history</li>
+<li>Auto-save: Chats automatically save every 5 minutes when idle</li>
+<li>Auto-save on buffer kill: Chats save when you close the buffer</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd744293" class="outline-4">
+<h4 id="orgd744293"><span class="section-number-4">3.6.4.</span> In Chat Buffer</h4>
+<div class="outline-text-4" id="text-3-6-4">
+<ul class="org-ul">
+<li><code>C-c RET</code> : Send message</li>
+<li><code>C-c g m</code> : Switch model mid-conversation</li>
+<li><code>C-c g n</code> : Start new chat</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdbb9b53" class="outline-4">
+<h4 id="orgdbb9b53"><span class="section-number-4">3.6.5.</span> Configuration</h4>
+<div class="outline-text-4" id="text-3-6-5">
+<p>
+API keys should be set as environment variables:
+</p>
+<ul class="org-ul">
+<li><code>CLAUDE_API_KEY</code> : For Claude models (Anthropic)</li>
+<li><code>OPENAI_API_KEY</code> : For GPT models (OpenAI)</li>
+<li><code>GOOGLE_API_KEY</code> : For Gemini models (Google)</li>
+</ul>
+
+<p>
+Or stored in <code>~/.authinfo.gpg</code> with host entries matching the key names.
+</p>
+
+<p>
+Chat history location: <code>~/.emacs.d/gptel-history/</code> (customizable via <code>gptel-chat-history-directory</code>)
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9bf900e" class="outline-2">
+<h2 id="org9bf900e"><span class="section-number-2">4.</span> PDF Tools</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+PDF viewing and annotation in Emacs with pdf-tools. Currently disabled - uncomment to enable.
+</p>
+
+<p>
+Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElements PDF Tools Settings</a>
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Native PDF rendering</li>
+<li>Annotation support</li>
+<li>Fast navigation</li>
+<li>Text search</li>
+<li>Bookmarks and outline navigation</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools
+</span>(<span class="org-keyword">use-package</span> pdf-tools
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:mode</span> (<span class="org-string">"\\.pdf\\'"</span> . pdf-view-mode)
+  <span class="org-builtin">:config</span>
+  (pdf-tools-install <span class="org-builtin">:no-query</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Keybindings
+</span>  (define-key pdf-view-mode-map (kbd <span class="org-string">"C-s"</span>) 'isearch-forward)
+  (define-key pdf-view-mode-map (kbd <span class="org-string">"C-r"</span>) 'isearch-backward)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Auto-revert
+</span>  (add-hook 'pdf-view-mode-hook #'auto-revert-mode)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Midnight mode for dark theme support
+</span>  (add-hook 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Save place in PDF files
+</span>(<span class="org-keyword">use-package</span> saveplace-pdf-view
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:after</span> pdf-tools)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1d9c40e" class="outline-2">
+<h2 id="org1d9c40e"><span class="section-number-2">5.</span> Utility Functions</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+General utility functions for improved Emacs workflow.
+</p>
+</div>
+
+<div id="outline-container-org4ae40b1" class="outline-3">
+<h3 id="org4ae40b1"><span class="section-number-3">5.1.</span> Open in External Application</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Open current file or URL in external application.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Utility Functions
+</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/open-in-external-app</span> ()
+  <span class="org-doc">"Open current file or URL in external application."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((path (<span class="org-keyword">or</span> (buffer-file-name)
+                 (<span class="org-keyword">when</span> (eq major-mode 'dired-mode)
+                   (dired-get-file-for-visit)))))
+    (<span class="org-keyword">if</span> path
+        (<span class="org-keyword">cond</span>
+         ((eq system-type 'darwin)
+          (call-process <span class="org-string">"open"</span> nil 0 nil path))
+         ((eq system-type 'gnu/linux)
+          (call-process <span class="org-string">"xdg-open"</span> nil 0 nil path))
+         ((eq system-type 'windows-nt)
+          (w32-shell-execute <span class="org-string">"open"</span> path)))
+      (message <span class="org-string">"No file or URL to open"</span>))))
+
+(global-set-key (kbd <span class="org-string">"C-c o"</span>) #'fu/open-in-external-app)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgef80b3c" class="outline-3">
+<h3 id="orgef80b3c"><span class="section-number-3">5.2.</span> Copy File Path</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Copy current file path to clipboard.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">fu/copy-file-path</span> ()
+  <span class="org-doc">"Copy the current buffer file path to clipboard."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">when-let</span> ((path (<span class="org-keyword">or</span> (buffer-file-name)
+                      default-directory)))
+    (kill-new path)
+    (message <span class="org-string">"Copied: %s"</span> path)))
+
+(global-set-key (kbd <span class="org-string">"C-c y p"</span>) #'fu/copy-file-path)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd23c35f" class="outline-3">
+<h3 id="orgd23c35f"><span class="section-number-3">5.3.</span> Reload Configuration</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Quickly reload Emacs configuration.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">fu/reload-config</span> ()
+  <span class="org-doc">"Reload Emacs configuration."</span>
+  (<span class="org-keyword">interactive</span>)
+  (load-file user-init-file)
+  (message <span class="org-string">"Configuration reloaded!"</span>))
+
+(global-set-key (kbd <span class="org-string">"C-c r c"</span>) #'fu/reload-config)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb8480cf" class="outline-3">
+<h3 id="orgb8480cf"><span class="section-number-3">5.4.</span> Kill Other Buffers</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+Kill all buffers except the current one.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">fu/kill-other-buffers</span> ()
+  <span class="org-doc">"Kill all buffers except the current one."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((current-buf (current-buffer)))
+    (<span class="org-keyword">dolist</span> (buf (buffer-list))
+      (<span class="org-keyword">unless</span> (<span class="org-keyword">or</span> (eq buf current-buf)
+                 (string-prefix-p <span class="org-string">" "</span> (buffer-name buf)))
+        (kill-buffer buf))))
+  (message <span class="org-string">"Killed all other buffers"</span>))
+
+(global-set-key (kbd <span class="org-string">"C-c k o"</span>) #'fu/kill-other-buffers)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4dc9628" class="outline-2">
+<h2 id="org4dc9628"><span class="section-number-2">6.</span> Database Configuration (Disabled)</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Example database configuration with ejc-sql. Disabled by default.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Database Configuration - ejc-sql
+</span>(<span class="org-keyword">use-package</span> ejc-sql
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:defer</span> t
   <span class="org-builtin">:custom</span>
   (clomacs-httpd-default-port 8888)
   <span class="org-builtin">:config</span>
   (<span class="org-keyword">let</span> ((ojdbc-path <span class="org-string">"~/.m2/repository/com/oracle/ojdbc8/8/ojdbc8-8.jar"</span>)
-          (maria-path <span class="org-string">"~/.m2/repository/org/mariadb/jdbc/mariadb-java-client/2.6.2/mariadb-java-client-2.6.2.jar"</span>))
-    (ejc-create-connection
-     <span class="org-string">"ERP10 20419"</span>
+        (maria-path <span class="org-string">"~/.m2/repository/org/mariadb/jdbc/mariadb-java-client/2.6.2/mariadb-java-client-2.6.2.jar"</span>))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Oracle connection example
+</span>    (ejc-create-connection
+     <span class="org-string">"Oracle DB"</span>
      <span class="org-builtin">:classpath</span>      ojdbc-path
      <span class="org-builtin">:connection-uri</span> (concat <span class="org-string">"jdbc:oracle:thin:@"</span>
-                             (getenv <span class="org-string">"X20419_DB_HOST"</span>) <span class="org-string">":"</span>
-                             (getenv <span class="org-string">"X20419_DB_PORT"</span>) <span class="org-string">":"</span>
-                             (getenv <span class="org-string">"X20419_DB_NAME"</span>))
-     <span class="org-builtin">:user</span>           (getenv <span class="org-string">"X20419_DB_USERNAME"</span>)
-     <span class="org-builtin">:password</span>       (getenv <span class="org-string">"X20419_DB_PASSWORD"</span>)
+                            (getenv <span class="org-string">"DB_HOST"</span>) <span class="org-string">":"</span>
+                            (getenv <span class="org-string">"DB_PORT"</span>) <span class="org-string">":"</span>
+                            (getenv <span class="org-string">"DB_NAME"</span>))
+     <span class="org-builtin">:user</span>           (getenv <span class="org-string">"DB_USERNAME"</span>)
+     <span class="org-builtin">:password</span>       (getenv <span class="org-string">"DB_PASSWORD"</span>)
      <span class="org-builtin">:separator</span>      <span class="org-string">"/"</span>)
-    (ejc-create-connection
-     <span class="org-string">"ERP10 20313"</span>
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">MariaDB connection example
+</span>    (ejc-create-connection
+     <span class="org-string">"MariaDB"</span>
      <span class="org-builtin">:classpath</span>      maria-path
-     <span class="org-builtin">:connection-uri</span> <span class="org-string">"jdbc:mariadb://uri:port/dbname"</span>
-     <span class="org-builtin">:user</span>           <span class="org-string">"USER_ID"</span>
-     <span class="org-builtin">:password</span>       <span class="org-string">"PASSWORD"</span>
+     <span class="org-builtin">:connection-uri</span> <span class="org-string">"jdbc:mariadb://host:port/dbname"</span>
+     <span class="org-builtin">:user</span>           <span class="org-string">"username"</span>
+     <span class="org-builtin">:password</span>       <span class="org-string">"password"</span>
      <span class="org-builtin">:separator</span>      <span class="org-string">"/"</span>)))
 </pre>
 </div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> gptel
-      <span class="org-builtin">:custom</span>
-      (gptel-default-mode 'org-mode)
-      (gptel-api-key <span class="org-string">"CLAUDE_API_KEY"</span>)
-      (gptel-backend (gptel-make-gemini <span class="org-string">"CLAUDE"</span> <span class="org-builtin">:key</span> gptel-api-key <span class="org-builtin">:stream</span> t)))
-</pre>
+</div>
 </div>
 
+<div id="outline-container-orgd500d0b" class="outline-2">
+<h2 id="orgd500d0b"><span class="section-number-2">7.</span> End of File</h2>
+<div class="outline-text-2" id="text-7">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">package-setup-function.el --- Summary  -*- lexical-binding: t; -*-
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>(<span class="org-keyword">defun</span> <span class="org-function-name">setup-eat</span> ()
-  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">eat</span></span><span class="org-doc">'."</span>
-  (<span class="org-keyword">use-package</span> eat))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">setup-dumb-jump</span> ()
-  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">dumb-jump</span></span><span class="org-doc">'."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">use-package</span> dumb-jump))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">set-up-restclient</span> ()
-  <span class="org-doc">"Usage:
-:header = &lt;&lt;
-Content-Type: application/json
-X-Authenticate-Token: :token
-#
-
-GET http://localhost:8080/api/list
-:header
-#
-
-POST http://localhost:8080/api/login
-Content-Type: application/x-www-form-urlencoded
--&gt; jq-set-var :token .data.access_token
-
-userid=userid&amp;password=1111
-#
-
-for more details
-https://github.com/pashky/restclient.el/"</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">use-package</span> restclient)
-  (<span class="org-keyword">use-package</span> restclient-jq))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">restclient-scratch-buffer</span>()
-  <span class="org-doc">"Make `</span><span class="org-doc"><span class="org-constant">restclient-mode</span></span><span class="org-doc">' buffer."</span>
-  (<span class="org-keyword">interactive</span>)
-  (switch-to-buffer (get-buffer-create <span class="org-string">"*scratch-restclient*"</span>))
-  (restclient-mode))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">setup-request</span> ()
-  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">request</span></span><span class="org-doc">'."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">use-package</span> request))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(request "http://localhost:8080/api/CM/AccountService/login"
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:type "POST"
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; :headers '(("Content-Type" . "application/x-www-form-urlencoded"))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:data '(("userid" . "userid") ("password" . "password"))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:parser 'json-read
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:success (cl-function
-</span><span class="org-comment-delimiter">;;             </span><span class="org-comment">(lambda (&amp;key data &amp;allow-other-keys)
-</span><span class="org-comment-delimiter">;;               </span><span class="org-comment">(setq token (assoc-default 'access_token (assoc-default 'data data))))))
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(request "http://localhost:8080/api/HR/Evarpt00400_Z20313Service/listMenu"
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:headers `(("Content-Type" . "application/json")
-</span><span class="org-comment-delimiter">;;              </span><span class="org-comment">("X-Authenticate-Token" . ,token))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:parser 'json-read
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:success (cl-function
-</span><span class="org-comment-delimiter">;;             </span><span class="org-comment">(lambda (&amp;key data &amp;allow-other-keys)
-</span><span class="org-comment-delimiter">;;               </span><span class="org-comment">(message "%S" (recurse-alist (assoc-default 'data data))))))
-</span>
-(<span class="org-keyword">defun</span> <span class="org-function-name">setup-geiser-guile</span> ()
-  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">geiser-guile</span></span><span class="org-doc">'."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">use-package</span> geiser-guile
-      <span class="org-builtin">:config</span>
-      (<span class="org-keyword">setq</span> geiser-scheme-implementation 'guile)))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">setup-pyvenv</span> ()
-  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">pyvenv</span></span><span class="org-doc">'."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">use-package</span> pyvenv))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">setup-emmet-mode</span> ()
-  <span class="org-doc">"Setup `</span><span class="org-doc"><span class="org-constant">emmet-mode</span></span><span class="org-doc">'."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">use-package</span> emmet-mode
-      <span class="org-builtin">:hook</span>
-      (mhtml-mode . emmet-mode)))
-
-(<span class="org-keyword">use-package</span> denote
-  <span class="org-builtin">:custom</span>
-  (denote-sort-keywords t)
-  (denote-directory (expand-file-name <span class="org-string">"~/Documents/notes/denote/"</span>))
-  (denote-prompts '(file-type subdirectory title keywords))
-  <span class="org-builtin">:hook</span>
-  (dired-mode . denote-dired-mode))
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">package-setup-function</span>)
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">package-setup-function.el ends here</span>
-</pre>
-</div>
-
-<div id="outline-container-orgb2fe64b" class="outline-2">
-<h2 id="orgb2fe64b"><span class="section-number-2">1.</span> PDF Tools</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-PDF viewing and annotation in Emacs. Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElements</a>
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">pdf-conf.el --- PDF tools configuration  -*- lexical-binding: t; -*-
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>(pdf-tools-install)
-(<span class="org-keyword">use-package</span> saveplace-pdf-view)
-(global-goto-address-mode t)
-(<span class="org-keyword">provide</span> '<span class="org-constant">pdf-conf</span>)
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">pdf-conf.el ends here</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">misc-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">misc-conf.el ends here</span>
 </pre>
 </div>
 </div>

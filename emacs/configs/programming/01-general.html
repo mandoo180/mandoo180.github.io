@@ -21,43 +21,44 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2fab3e1">1. General Programming Configuration</a>
+<li><a href="#orga48c6d4">1. General Programming Configuration</a>
 <ul>
-<li><a href="#org9e1aabe">1.1. Overview</a></li>
-<li><a href="#org75d9a0d">1.2. What's Included</a></li>
-<li><a href="#org0cc7a64">1.3. Completion</a></li>
-<li><a href="#orga2db838">1.4. Compilation and Build Tools</a></li>
-<li><a href="#org1248798">1.5. Version Control</a></li>
-<li><a href="#org63a5bc9">1.6. Documentation</a></li>
-<li><a href="#org4f83081">1.7. Editing Utilities</a></li>
-<li><a href="#org525519c">1.8. Syntax Checking</a></li>
-<li><a href="#orga665073">1.9. Diff and Merge</a></li>
-<li><a href="#orgdbc43da">1.10. Code Snippets</a></li>
-<li><a href="#org87cc4bf">1.11. LSP - Language Server Protocol</a></li>
-<li><a href="#orgaf65e5d">1.12. Multiple Cursors and Region Expansion</a>
+<li><a href="#org5146993">1.1. Overview</a></li>
+<li><a href="#org5bcb1ab">1.2. What's Included</a></li>
+<li><a href="#org45baaf6">1.3. Completion</a></li>
+<li><a href="#org1242e2b">1.4. Compilation and Build Tools</a></li>
+<li><a href="#orgc5be0a2">1.5. Version Control</a></li>
+<li><a href="#org16e8c5d">1.6. Project Management</a></li>
+<li><a href="#org10cd04c">1.7. Documentation</a></li>
+<li><a href="#orgbbb19df">1.8. Editing Utilities</a></li>
+<li><a href="#orgfc09a99">1.9. Syntax Checking</a></li>
+<li><a href="#org569fdd0">1.10. Diff and Merge</a></li>
+<li><a href="#orga6f6901">1.11. Code Snippets</a></li>
+<li><a href="#org37e3575">1.12. LSP - Language Server Protocol</a></li>
+<li><a href="#org81103e8">1.13. Multiple Cursors and Region Expansion</a>
 <ul>
-<li><a href="#orgcdad1e1">1.12.1. Multiple Cursors</a></li>
-<li><a href="#org2b091da">1.12.2. Expand Region</a></li>
+<li><a href="#orgc542e20">1.13.1. Multiple Cursors</a></li>
+<li><a href="#org577e4e1">1.13.2. Expand Region</a></li>
 </ul>
 </li>
-<li><a href="#orgcd0474a">1.13. REST Client</a></li>
+<li><a href="#org4246f55">1.14. REST Client</a></li>
 </ul>
 </li>
-<li><a href="#org2ea40b3">2. End of File</a></li>
+<li><a href="#orgdb6229e">2. End of File</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org2fab3e1" class="outline-2">
-<h2 id="org2fab3e1"><span class="section-number-2">1.</span> General Programming Configuration</h2>
+<div id="outline-container-orga48c6d4" class="outline-2">
+<h2 id="orga48c6d4"><span class="section-number-2">1.</span> General Programming Configuration</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Common programming tools and utilities that apply across all languages.
 </p>
 </div>
 
-<div id="outline-container-org9e1aabe" class="outline-3">
-<h3 id="org9e1aabe"><span class="section-number-3">1.1.</span> Overview</h3>
+<div id="outline-container-org5146993" class="outline-3">
+<h3 id="org5146993"><span class="section-number-3">1.1.</span> Overview</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 This module provides:
@@ -65,7 +66,8 @@ This module provides:
 <ul class="org-ul">
 <li><b><b>Completion</b></b>: Corfu for in-buffer completion</li>
 <li><b><b>Compilation</b></b>: Enhanced compilation mode with ANSI colors</li>
-<li><b><b>Version Control</b></b>: Magit, project management, merge conflict resolution</li>
+<li><b><b>Version Control</b></b>: Magit and merge conflict resolution</li>
+<li><b><b>Project Management</b></b>: Built-in project.el with custom markers and Magit integration</li>
 <li><b><b>Documentation</b></b>: Eldoc for inline documentation</li>
 <li><b><b>Code Quality</b></b>: Flymake for syntax checking</li>
 <li><b><b>Editing Utilities</b></b>: Electric pairs, parenthesis matching</li>
@@ -78,8 +80,8 @@ This module provides:
 </div>
 </div>
 
-<div id="outline-container-org75d9a0d" class="outline-3">
-<h3 id="org75d9a0d"><span class="section-number-3">1.2.</span> What's Included</h3>
+<div id="outline-container-org5bcb1ab" class="outline-3">
+<h3 id="org5bcb1ab"><span class="section-number-3">1.2.</span> What's Included</h3>
 <div class="outline-text-3" id="text-1-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -108,7 +110,12 @@ This module provides:
 
 <tr>
 <td class="org-left">Version Control</td>
-<td class="org-left">magit, project, smerge-mode</td>
+<td class="org-left">magit, smerge-mode</td>
+</tr>
+
+<tr>
+<td class="org-left">Project Management</td>
+<td class="org-left">project.el with custom markers</td>
 </tr>
 
 <tr>
@@ -160,8 +167,8 @@ This module provides:
 </div>
 </div>
 
-<div id="outline-container-org0cc7a64" class="outline-3">
-<h3 id="org0cc7a64"><span class="section-number-3">1.3.</span> Completion</h3>
+<div id="outline-container-org45baaf6" class="outline-3">
+<h3 id="org45baaf6"><span class="section-number-3">1.3.</span> Completion</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 In-buffer completion with Corfu provides a lightweight, fast completion UI that integrates seamlessly with Emacs's native completion system.
@@ -204,8 +211,8 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orga2db838" class="outline-3">
-<h3 id="orga2db838"><span class="section-number-3">1.4.</span> Compilation and Build Tools</h3>
+<div id="outline-container-org1242e2b" class="outline-3">
+<h3 id="org1242e2b"><span class="section-number-3">1.4.</span> Compilation and Build Tools</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 Enhanced compilation mode with ANSI color support for better readability of build output. Includes support for Makefiles and configuration files.
@@ -260,11 +267,11 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org1248798" class="outline-3">
-<h3 id="org1248798"><span class="section-number-3">1.5.</span> Version Control</h3>
+<div id="outline-container-orgc5be0a2" class="outline-3">
+<h3 id="orgc5be0a2"><span class="section-number-3">1.5.</span> Version Control</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
-Magit is the premier Git interface for Emacs, providing a comprehensive and intuitive way to work with Git repositories.
+Magit is the premier Git interface for Emacs, providing a comprehensive and intuitive way to work with Git repositories. Smerge-mode helps resolve merge conflicts directly in buffers.
 </p>
 
 <p>
@@ -275,8 +282,10 @@ Features:
 <li>Same-window display (vim-fugitive style)</li>
 <li>File-specific operations with <code>C-c g</code></li>
 <li>Refined diffs with word-level changes</li>
-<li>Project integration with recompile command</li>
-<li>Smerge for merge conflict resolution</li>
+<li>Auto-save repository buffers without prompts</li>
+<li>Smerge for interactive merge conflict resolution</li>
+<li>Navigate conflicts with <code>C-c ^ n/p</code></li>
+<li>Keep upper/lower changes with <code>C-c ^ u/l</code></li>
 </ul>
 
 <div class="org-src-container">
@@ -310,10 +319,6 @@ Features:
 </span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">(add-hook 'magit-status-mode-hook #'delete-other-windows)
 </span>  )
 
-(<span class="org-keyword">use-package</span> project
-  <span class="org-builtin">:bind</span>
-  ((<span class="org-string">"C-x p C"</span> . project-recompile)))
-
 (<span class="org-keyword">use-package</span> smerge-mode
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> smerge-mode-map
@@ -326,9 +331,99 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org63a5bc9" class="outline-3">
-<h3 id="org63a5bc9"><span class="section-number-3">1.6.</span> Documentation</h3>
+<div id="outline-container-org16e8c5d" class="outline-3">
+<h3 id="org16e8c5d"><span class="section-number-3">1.6.</span> Project Management</h3>
 <div class="outline-text-3" id="text-1-6">
+<p>
+Built-in project management system for working with projects defined by version control roots (Git, SVN, etc.) or manually specified directories.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Automatic project detection via version control</li>
+<li>Project-aware file finding and searching</li>
+<li>Switch between projects easily</li>
+<li>Compile/recompile within project context</li>
+<li>Shell and eshell integration per project</li>
+<li>Remember recent projects</li>
+</ul>
+
+<p>
+Key bindings:
+</p>
+<ul class="org-ul">
+<li><code>C-x p f</code> : Find file in project</li>
+<li><code>C-x p g</code> : Grep in project (requires ripgrep or grep)</li>
+<li><code>C-x p d</code> : Open Dired at project root</li>
+<li><code>C-x p s</code> : Open shell at project root</li>
+<li><code>C-x p e</code> : Open eshell at project root</li>
+<li><code>C-x p p</code> : Switch to another project</li>
+<li><code>C-x p k</code> : Kill all project buffers</li>
+<li><code>C-x p C</code> : Recompile in project (custom binding)</li>
+<li><code>C-x p b</code> : Switch to project buffer</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Project Management
+</span>(<span class="org-keyword">use-package</span> project
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Where to store the list of known projects
+</span>  (project-list-file (expand-file-name <span class="org-string">"projects"</span> user-emacs-directory))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Use ripgrep if available, otherwise fall back to grep
+</span>  (project-switch-commands
+   '((project-find-file <span class="org-string">"Find file"</span> ?f)
+     (project-find-regexp <span class="org-string">"Find regexp"</span> ?g)
+     (project-find-dir <span class="org-string">"Find directory"</span> ?d)
+     (project-dired <span class="org-string">"Dired"</span> ?D)
+     (project-vc-dir <span class="org-string">"VC-Dir"</span> ?v)
+     (project-shell <span class="org-string">"Shell"</span> ?s)
+     (project-eshell <span class="org-string">"Eshell"</span> ?e)
+     (magit-project-status <span class="org-string">"Magit"</span> ?m)
+     (project-compile <span class="org-string">"Compile"</span> ?c)
+     (project-switch-to-buffer <span class="org-string">"Switch buffer"</span> ?b)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remember recent files per project
+</span>  (project-remember-projects-under <span class="org-string">"~/Projects"</span> t)
+
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-x p C"</span> . project-recompile)
+   (<span class="org-string">"C-x p m"</span> . magit-project-status)
+   <span class="org-builtin">:map</span> project-prefix-map
+   (<span class="org-string">"m"</span> . magit-project-status))
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Add additional project root markers
+</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/project-try-local</span> (dir)
+    <span class="org-doc">"Try to find a project root in DIR by looking for marker files."</span>
+    (<span class="org-keyword">let</span> ((markers '(<span class="org-string">".project"</span> <span class="org-string">".projectile"</span> <span class="org-string">"package.json"</span> <span class="org-string">"Cargo.toml"</span>
+                     <span class="org-string">"setup.py"</span> <span class="org-string">"requirements.txt"</span> <span class="org-string">"pom.xml"</span> <span class="org-string">"build.gradle"</span>)))
+      (cl-some (<span class="org-keyword">lambda</span> (marker)
+                 (<span class="org-keyword">when-let</span> ((root (locate-dominating-file dir marker)))
+                   (cons 'transient root)))
+               markers)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Register the custom project finder
+</span>  (add-hook 'project-find-functions #'fu/project-try-local)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Ignore certain directories when finding projects
+</span>  (add-to-list 'project-vc-ignores <span class="org-string">"node_modules"</span>)
+  (add-to-list 'project-vc-ignores <span class="org-string">"target"</span>)
+  (add-to-list 'project-vc-ignores <span class="org-string">"build"</span>)
+  (add-to-list 'project-vc-ignores <span class="org-string">"dist"</span>)
+  (add-to-list 'project-vc-ignores <span class="org-string">".venv"</span>)
+  (add-to-list 'project-vc-ignores <span class="org-string">"__pycache__"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org10cd04c" class="outline-3">
+<h3 id="org10cd04c"><span class="section-number-3">1.7.</span> Documentation</h3>
+<div class="outline-text-3" id="text-1-7">
 <p>
 Eldoc provides inline documentation in the echo area or popup boxes, showing function signatures, variable documentation, and more.
 </p>
@@ -368,9 +463,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org4f83081" class="outline-3">
-<h3 id="org4f83081"><span class="section-number-3">1.7.</span> Editing Utilities</h3>
-<div class="outline-text-3" id="text-1-7">
+<div id="outline-container-orgbbb19df" class="outline-3">
+<h3 id="orgbbb19df"><span class="section-number-3">1.8.</span> Editing Utilities</h3>
+<div class="outline-text-3" id="text-1-8">
 <p>
 Essential editing enhancements for programming including automatic pairing of brackets, parenthesis matching, and visual delimiter highlighting.
 </p>
@@ -406,9 +501,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org525519c" class="outline-3">
-<h3 id="org525519c"><span class="section-number-3">1.8.</span> Syntax Checking</h3>
-<div class="outline-text-3" id="text-1-8">
+<div id="outline-container-orgfc09a99" class="outline-3">
+<h3 id="orgfc09a99"><span class="section-number-3">1.9.</span> Syntax Checking</h3>
+<div class="outline-text-3" id="text-1-9">
 <p>
 Flymake provides on-the-fly syntax checking with visual indicators in the margin and optional diagnostics at end of line.
 </p>
@@ -462,9 +557,9 @@ and restart Flymake to apply the changes."</span>
 </div>
 </div>
 
-<div id="outline-container-orga665073" class="outline-3">
-<h3 id="orga665073"><span class="section-number-3">1.9.</span> Diff and Merge</h3>
-<div class="outline-text-3" id="text-1-9">
+<div id="outline-container-org569fdd0" class="outline-3">
+<h3 id="org569fdd0"><span class="section-number-3">1.10.</span> Diff and Merge</h3>
+<div class="outline-text-3" id="text-1-10">
 <p>
 Tools for viewing differences between files and resolving merge conflicts with enhanced syntax highlighting and navigation.
 </p>
@@ -509,9 +604,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgdbc43da" class="outline-3">
-<h3 id="orgdbc43da"><span class="section-number-3">1.10.</span> Code Snippets</h3>
-<div class="outline-text-3" id="text-1-10">
+<div id="outline-container-orga6f6901" class="outline-3">
+<h3 id="orga6f6901"><span class="section-number-3">1.11.</span> Code Snippets</h3>
+<div class="outline-text-3" id="text-1-11">
 <p>
 YASnippet provides a template system for Emacs, allowing you to type abbreviations and expand them into code templates.
 </p>
@@ -536,9 +631,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org87cc4bf" class="outline-3">
-<h3 id="org87cc4bf"><span class="section-number-3">1.11.</span> LSP - Language Server Protocol</h3>
-<div class="outline-text-3" id="text-1-11">
+<div id="outline-container-org37e3575" class="outline-3">
+<h3 id="org37e3575"><span class="section-number-3">1.12.</span> LSP - Language Server Protocol</h3>
+<div class="outline-text-3" id="text-1-12">
 <p>
 Eglot is a lightweight LSP client for Emacs providing IDE-like features including code completion, navigation, and refactoring.
 </p>
@@ -580,17 +675,17 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgaf65e5d" class="outline-3">
-<h3 id="orgaf65e5d"><span class="section-number-3">1.12.</span> Multiple Cursors and Region Expansion</h3>
-<div class="outline-text-3" id="text-1-12">
+<div id="outline-container-org81103e8" class="outline-3">
+<h3 id="org81103e8"><span class="section-number-3">1.13.</span> Multiple Cursors and Region Expansion</h3>
+<div class="outline-text-3" id="text-1-13">
 <p>
 Powerful editing features for working with multiple selections and intelligently expanding/contracting selections.
 </p>
 </div>
 
-<div id="outline-container-orgcdad1e1" class="outline-4">
-<h4 id="orgcdad1e1"><span class="section-number-4">1.12.1.</span> Multiple Cursors</h4>
-<div class="outline-text-4" id="text-1-12-1">
+<div id="outline-container-orgc542e20" class="outline-4">
+<h4 id="orgc542e20"><span class="section-number-4">1.13.1.</span> Multiple Cursors</h4>
+<div class="outline-text-4" id="text-1-13-1">
 <p>
 The <code>multiple-cursors</code> package allows you to edit multiple locations simultaneously, perfect for renaming variables or making repetitive edits.
 </p>
@@ -622,9 +717,9 @@ Key bindings:
 </div>
 </div>
 
-<div id="outline-container-org2b091da" class="outline-4">
-<h4 id="org2b091da"><span class="section-number-4">1.12.2.</span> Expand Region</h4>
-<div class="outline-text-4" id="text-1-12-2">
+<div id="outline-container-org577e4e1" class="outline-4">
+<h4 id="org577e4e1"><span class="section-number-4">1.13.2.</span> Expand Region</h4>
+<div class="outline-text-4" id="text-1-13-2">
 <p>
 The <code>expand-region</code> package provides smart selection expansion based on semantic units (words, expressions, functions, etc.).
 </p>
@@ -654,9 +749,9 @@ Example: Place cursor in a word, press <code>C-=</code> once for word, again for
 </div>
 </div>
 
-<div id="outline-container-orgcd0474a" class="outline-3">
-<h3 id="orgcd0474a"><span class="section-number-3">1.13.</span> REST Client</h3>
-<div class="outline-text-3" id="text-1-13">
+<div id="outline-container-org4246f55" class="outline-3">
+<h3 id="org4246f55"><span class="section-number-3">1.14.</span> REST Client</h3>
+<div class="outline-text-3" id="text-1-14">
 <p>
 HTTP REST client for testing APIs directly from Emacs buffers.
 </p>
@@ -695,8 +790,8 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org2ea40b3" class="outline-2">
-<h2 id="org2ea40b3"><span class="section-number-2">2.</span> End of File</h2>
+<div id="outline-container-orgdb6229e" class="outline-2">
+<h2 id="orgdb6229e"><span class="section-number-2">2.</span> End of File</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">prog-general-conf</span>)

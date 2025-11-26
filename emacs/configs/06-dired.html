@@ -22,24 +22,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org780ad40">1. Introduction</a></li>
-<li><a href="#org771944c">2. Core Dired Configuration</a></li>
-<li><a href="#org782f744">3. Dired-X (Extra Features)</a></li>
-<li><a href="#orgfd25fef">4. Subtree Navigation</a></li>
-<li><a href="#org761667c">5. Filtering and Narrowing</a></li>
-<li><a href="#orgbe7fdb5">6. Advanced File Operations</a>
+<li><a href="#org7a8bea5">1. Introduction</a></li>
+<li><a href="#orged41ef6">2. Core Dired Configuration</a></li>
+<li><a href="#orgd5c2163">3. Dired-X (Extra Features)</a></li>
+<li><a href="#org3230cb1">4. Subtree Navigation</a></li>
+<li><a href="#orgc93e847">5. Filtering and Narrowing</a></li>
+<li><a href="#org1f212a9">6. Advanced File Operations</a>
 <ul>
-<li><a href="#orgcd84fa6">6.1. Writable Dired (wdired)</a></li>
+<li><a href="#orgde9636d">6.1. Writable Dired (wdired)</a></li>
 </ul>
 </li>
-<li><a href="#org986c1c3">7. Quick Preview</a></li>
-<li><a href="#orgb3860fb">8. Additional Keybindings</a></li>
+<li><a href="#org64343c6">7. Quick Preview</a></li>
+<li><a href="#org0d1c43d">8. Additional Keybindings</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org780ad40" class="outline-2">
-<h2 id="org780ad40"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org7a8bea5" class="outline-2">
+<h2 id="org7a8bea5"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Dired (Directory Editor) is Emacs's built-in file manager that allows you to navigate, view, and manipulate files and directories directly within Emacs. This configuration enhances Dired with modern features like icons, filtering, tree views, and advanced file operations.
@@ -47,8 +47,8 @@ Dired (Directory Editor) is Emacs's built-in file manager that allows you to nav
 </div>
 </div>
 
-<div id="outline-container-org771944c" class="outline-2">
-<h2 id="org771944c"><span class="section-number-2">2.</span> Core Dired Configuration</h2>
+<div id="outline-container-orged41ef6" class="outline-2">
+<h2 id="orged41ef6"><span class="section-number-2">2.</span> Core Dired Configuration</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The base Dired settings provide human-readable file listings, automatic buffer updates, and convenient file operations.
@@ -77,7 +77,7 @@ Key features:
   <span class="org-builtin">:commands</span> (dired dired-jump)
   <span class="org-builtin">:bind</span> ((<span class="org-string">"C-x C-j"</span> . dired-jump))
   <span class="org-builtin">:hook</span>
-  (dired-mode-hook . dired-hide-details-mode)
+  ((dired-mode-hook . dired-hide-details-mode))
   <span class="org-builtin">:custom</span>
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Listing switches: all files, human-readable sizes, long format
 </span>  (dired-listing-switches <span class="org-string">"-ahl --group-directories-first"</span>)
@@ -98,8 +98,8 @@ Key features:
 </div>
 </div>
 
-<div id="outline-container-org782f744" class="outline-2">
-<h2 id="org782f744"><span class="section-number-2">3.</span> Dired-X (Extra Features)</h2>
+<div id="outline-container-orgd5c2163" class="outline-2">
+<h2 id="orgd5c2163"><span class="section-number-2">3.</span> Dired-X (Extra Features)</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Dired-X provides additional functionality including omitting uninteresting files, jumping to the current file's directory, and advanced marking operations.
@@ -131,8 +131,8 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgfd25fef" class="outline-2">
-<h2 id="orgfd25fef"><span class="section-number-2">4.</span> Subtree Navigation</h2>
+<div id="outline-container-org3230cb1" class="outline-2">
+<h2 id="org3230cb1"><span class="section-number-2">4.</span> Subtree Navigation</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The <code>dired-subtree</code> package allows you to expand and collapse directories inline, creating a tree-like view without opening multiple buffers.
@@ -158,8 +158,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org761667c" class="outline-2">
-<h2 id="org761667c"><span class="section-number-2">5.</span> Filtering and Narrowing</h2>
+<div id="outline-container-orgc93e847" class="outline-2">
+<h2 id="orgc93e847"><span class="section-number-2">5.</span> Filtering and Narrowing</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 The <code>dired-filter</code> package provides powerful filtering capabilities to narrow down file lists based on various criteria.
@@ -187,12 +187,12 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgbe7fdb5" class="outline-2">
-<h2 id="orgbe7fdb5"><span class="section-number-2">6.</span> Advanced File Operations</h2>
+<div id="outline-container-org1f212a9" class="outline-2">
+<h2 id="org1f212a9"><span class="section-number-2">6.</span> Advanced File Operations</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orgcd84fa6" class="outline-3">
-<h3 id="orgcd84fa6"><span class="section-number-3">6.1.</span> Writable Dired (wdired)</h3>
+<div id="outline-container-orgde9636d" class="outline-3">
+<h3 id="orgde9636d"><span class="section-number-3">6.1.</span> Writable Dired (wdired)</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Edit file names directly in the dired buffer as if it were a text file. Perfect for batch renaming files.
@@ -224,8 +224,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org986c1c3" class="outline-2">
-<h2 id="org986c1c3"><span class="section-number-2">7.</span> Quick Preview</h2>
+<div id="outline-container-org64343c6" class="outline-2">
+<h2 id="org64343c6"><span class="section-number-2">7.</span> Quick Preview</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 The <code>peep-dired</code> package provides a quick file preview without opening the file, similar to macOS Finder's Quick Look.
@@ -248,8 +248,8 @@ Usage: Press <code>P</code> to toggle preview mode, then navigate files to see p
 </div>
 </div>
 
-<div id="outline-container-orgb3860fb" class="outline-2">
-<h2 id="orgb3860fb"><span class="section-number-2">8.</span> Additional Keybindings</h2>
+<div id="outline-container-org0d1c43d" class="outline-2">
+<h2 id="org0d1c43d"><span class="section-number-2">8.</span> Additional Keybindings</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 Some useful Dired commands to remember:

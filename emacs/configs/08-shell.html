@@ -18,121 +18,610 @@
 <body>
 <main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
 <h1 class="title">Shell Integration</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org90871bf">1. Introduction</a></li>
+<li><a href="#org4a039f8">2. Terminal Emulators</a>
+<ul>
+<li><a href="#org15877b6">2.1. Eat (Emulate A Terminal)</a></li>
+<li><a href="#orga0e1b64">2.2. Vterm (Terminal Emulator)</a></li>
+</ul>
+</li>
+<li><a href="#org7d15c09">3. Shell Mode</a></li>
+<li><a href="#orge714359">4. Eshell</a>
+<ul>
+<li><a href="#org6c1453e">4.1. Core Configuration</a></li>
+<li><a href="#org2508e2d">4.2. Eshell Prompt</a></li>
+<li><a href="#orgf1fb54b">4.3. Eshell Aliases</a></li>
+<li><a href="#org93b0d22">4.4. Eshell Banner</a></li>
+</ul>
+</li>
+<li><a href="#org272debf">5. Custom Shell Utilities</a>
+<ul>
+<li><a href="#org37da2bd">5.1. Async Shell Command</a></li>
+<li><a href="#orga39c6c7">5.2. Quick Shell Command in Project</a></li>
+<li><a href="#orge51524b">5.3. Open External Terminal</a></li>
+</ul>
+</li>
+<li><a href="#org996d8d7">6. End of File</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org90871bf" class="outline-2">
+<h2 id="org90871bf"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-Terminal emulators and shell integration within Emacs.
+Comprehensive terminal and shell integration for Emacs, providing multiple options for command-line interaction:
 </p>
 
+<ul class="org-ul">
+<li><b><b>Terminal Emulators</b></b>: eat and vterm for full terminal emulation</li>
+<li><b><b>Shell Mode</b></b>: Traditional comint-based shell with readline support</li>
+<li><b><b>Eshell</b></b>: Pure Elisp shell with deep Emacs integration</li>
+<li><b><b>Custom Utilities</b></b>: Enhanced async shell commands with project awareness</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4a039f8" class="outline-2">
+<h2 id="org4a039f8"><span class="section-number-2">2.</span> Terminal Emulators</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Full-featured terminal emulators that support complex TUI applications like <code>vim</code>, <code>htop</code>, <code>ncurses</code> programs, etc.
+</p>
+</div>
+
+<div id="outline-container-org15877b6" class="outline-3">
+<h3 id="org15877b6"><span class="section-number-3">2.1.</span> Eat (Emulate A Terminal)</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+A fast, feature-complete terminal emulator written in pure Elisp. Works great on all platforms and integrates seamlessly with eshell.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Pure Elisp implementation (no external dependencies)</li>
+<li>Full 256-color support</li>
+<li>Mouse support</li>
+<li>Integration with eshell for visual commands</li>
+<li>Fast and lightweight</li>
+<li>Kill buffer on exit for cleaner workflow</li>
+</ul>
+
+<p>
+Usage:
+</p>
+<ul class="org-ul">
+<li><code>C-c `</code> : Open eat terminal</li>
+<li><code>C-c t e</code> : Alternative binding</li>
+<li>Works automatically in eshell for visual commands</li>
+</ul>
+
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Summary  -*- lexical-binding: t; -*-
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el --- Shell and Terminal Configuration  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Comprehensive configuration for terminal emulators, shell modes,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">and Emacs shell (eshell) with custom utilities.
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>(<span class="org-keyword">when</span> (eq system-type 'gnu/linux)
-  (<span class="org-keyword">use-package</span> eat
-      <span class="org-builtin">:custom</span>
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">Use eat-256color for best compatibility with interactive programs
-</span>      (eat-term-name <span class="org-string">"eat-256color"</span>)
-      (eat-enable-yank-to-terminal t)
-      (eat-kill-buffer-on-exit t)
-      <span class="org-builtin">:bind</span>
-      (<span class="org-string">"C-c `"</span> . eat)  <span class="org-comment-delimiter">; </span><span class="org-comment">Also available for standalone terminal use
-</span>      <span class="org-builtin">:config</span>
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">CRITICAL: Compile terminfo database for eat
-</span>      (<span class="org-keyword">unless</span> (file-exists-p (expand-file-name <span class="org-string">"~/.terminfo/e/eat-256color"</span>))
-      (eat-compile-terminfo))
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable eat in eshell for better terminal emulation
-</span>      (add-hook 'eshell-load-hook #'eat-eshell-mode)
-      (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">Performance optimizations for eat
-</span>      (add-hook 'eat-mode-hook
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Terminal Emulators
+</span>(<span class="org-keyword">use-package</span> eat
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Use eat-256color for best compatibility with interactive programs
+</span>  (eat-term-name <span class="org-string">"eat-256color"</span>)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable yanking to terminal
+</span>  (eat-enable-yank-to-terminal t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Clean up buffers when terminal exits
+</span>  (eat-kill-buffer-on-exit t)
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-c `"</span> . eat)         <span class="org-comment-delimiter">; </span><span class="org-comment">Open eat terminal
+</span>   (<span class="org-string">"C-c t e"</span> . eat))      <span class="org-comment-delimiter">; </span><span class="org-comment">Alternative binding
+</span>  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">CRITICAL: Compile terminfo database for eat
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">This is required for proper terminal emulation
+</span>  (<span class="org-keyword">unless</span> (file-exists-p (expand-file-name <span class="org-string">"~/.terminfo/e/eat-256color"</span>))
+    (eat-compile-terminfo))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable eat in eshell for better terminal emulation
+</span>  (add-hook 'eshell-load-hook #'eat-eshell-mode)
+  (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Performance optimizations
+</span>  (add-hook 'eat-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">Disable line numbers in terminal
+</span>              (<span class="org-keyword">setq-local</span> display-line-numbers nil)
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">Disable word wrap
+</span>              (<span class="org-keyword">setq-local</span> truncate-lines t))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga0e1b64" class="outline-3">
+<h3 id="orga0e1b64"><span class="section-number-3">2.2.</span> Vterm (Terminal Emulator)</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+High-performance terminal emulator using libvterm. Requires compilation but provides the best terminal emulation.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Native libvterm integration (C library)</li>
+<li>Excellent performance</li>
+<li>Full terminal emulation (better than eat for some edge cases)</li>
+<li>Proper 256-color and true-color support</li>
+<li>Good for running complex TUI applications</li>
+</ul>
+
+<p>
+Note: Requires <code>cmake</code> and <code>libtool</code> for compilation. Only enabled if cmake is available.
+</p>
+
+<p>
+Usage:
+</p>
+<ul class="org-ul">
+<li><code>C-c t v</code> : Open vterm</li>
+<li><code>C-c t n</code> : Open vterm in other window</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Vterm - only if cmake is available for compilation
+</span>(<span class="org-keyword">when</span> (executable-find <span class="org-string">"cmake"</span>)
+  (<span class="org-keyword">use-package</span> vterm
+    <span class="org-builtin">:ensure</span> t
+    <span class="org-builtin">:custom</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Scrollback buffer size (larger = more history)
+</span>    (vterm-max-scrollback 10000)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Buffer naming
+</span>    (vterm-buffer-name-string <span class="org-string">"vterm %s"</span>)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Clean up on exit
+</span>    (vterm-kill-buffer-on-exit t)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Redisplay optimization
+</span>    (vterm-timer-delay nil)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Always try to compile the module
+</span>    (vterm-always-compile-module t)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Set proper TERM environment
+</span>    (vterm-environment '(<span class="org-string">"TERM=xterm-256color"</span>))
+    (vterm-term-environment-variable <span class="org-string">"xterm-256color"</span>)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Shell to use (defaults to $SHELL or /bin/bash)
+</span>    (vterm-shell (<span class="org-keyword">or</span> (getenv <span class="org-string">"SHELL"</span>) <span class="org-string">"/bin/bash"</span>))
+    <span class="org-builtin">:bind</span>
+    ((<span class="org-string">"C-c t v"</span> . vterm)
+     (<span class="org-string">"C-c t n"</span> . vterm-other-window))
+    <span class="org-builtin">:config</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Don't query when killing vterm buffer
+</span>    (add-hook 'vterm-mode-hook
               (<span class="org-keyword">lambda</span> ()
-                              (<span class="org-keyword">setq-local</span> display-line-numbers nil))))
+                (<span class="org-keyword">setq-local</span> confirm-kill-processes nil)
+                (<span class="org-keyword">setq-local</span> display-line-numbers nil)))))
+</pre>
+</div>
+</div>
+</div>
+</div>
 
-  (<span class="org-keyword">when</span> (executable-find <span class="org-string">"cmake"</span>)
-    (<span class="org-keyword">use-package</span> vterm
-        <span class="org-builtin">:custom</span>
-        (vterm-max-scrollback 1000)           <span class="org-comment-delimiter">; </span><span class="org-comment">Very small scrollback for speed
-</span>        (vterm-buffer-name-string <span class="org-string">"vterm %s"</span>)
-        (vterm-kill-buffer-on-exit t)
-        (vterm-timer-delay nil)               <span class="org-comment-delimiter">; </span><span class="org-comment">Use Emacs redisplay (fastest on macOS)
-</span>        (vterm-always-compile-module t)
-        <span class="org-comment-delimiter">;; </span><span class="org-comment">CRITICAL: Set proper TERM environment variable
-</span>        <span class="org-comment-delimiter">;; </span><span class="org-comment">Must be a list of strings
-</span>        (vterm-environment '(<span class="org-string">"TERM=xterm-256color"</span>))
-        <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: set term name vterm reports to shell
-</span>        (vterm-term-environment-variable <span class="org-string">"xterm-256color"</span>))))
+<div id="outline-container-org7d15c09" class="outline-2">
+<h2 id="org7d15c09"><span class="section-number-2">3.</span> Shell Mode</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Traditional comint-based shell mode that runs your system shell (bash, zsh, etc.) in an Emacs buffer.
+</p>
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Shell
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Uses your default system shell</li>
+<li>Full readline support</li>
+<li>History navigation with <code>M-p</code> / <code>M-n</code></li>
+<li>Command completion with <code>TAB</code></li>
+<li>Read-only prompt to prevent accidental edits</li>
+<li>Echo process output for better display</li>
+</ul>
+
+<p>
+When to use:
+</p>
+<ul class="org-ul">
+<li>Quick shell commands that don't need full terminal emulation</li>
+<li>When you want Emacs-style editing of command lines</li>
+<li>Simple tasks that benefit from Emacs integration</li>
+</ul>
+
+<p>
+Usage:
+</p>
+<ul class="org-ul">
+<li><code>M-x shell</code> : Open shell buffer</li>
+<li><code>C-x p s</code> : Open shell in project root (via project.el)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Shell Mode
 </span>(<span class="org-keyword">use-package</span> shell
   <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:custom</span>
-  (comint-prompt-read-only t)
-  (comint-process-echoes t))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Make prompt read-only to prevent accidental edits
+</span>  (comint-prompt-read-only t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Process should echo output (prevents duplication)
+</span>  (comint-process-echoes t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Scrollback buffer size
+</span>  (comint-buffer-maximum-size 10000)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Always scroll to bottom on input
+</span>  (comint-scroll-to-bottom-on-input t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Move point to end before sending input
+</span>  (comint-move-point-for-output t)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable ANSI colors in shell output
+</span>  (add-hook 'shell-mode-hook #'ansi-color-for-comint-mode-on)
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Eshell
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Make shell buffers more distinctive
+</span>  (add-hook 'shell-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              (<span class="org-keyword">setq-local</span> scroll-margin 0))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge714359" class="outline-2">
+<h2 id="orge714359"><span class="section-number-2">4.</span> Eshell</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Emacs Shell (eshell) is a pure Elisp command shell that provides deep integration with Emacs. Unlike shell-mode, eshell doesn't run a separate shell process but implements shell features directly in Elisp.
+</p>
+</div>
+
+<div id="outline-container-org6c1453e" class="outline-3">
+<h3 id="org6c1453e"><span class="section-number-3">4.1.</span> Core Configuration</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Pure Elisp implementation (no subprocess)</li>
+<li>Cross-platform consistency</li>
+<li>Mix shell commands with Elisp functions</li>
+<li>Powerful scripting with Elisp</li>
+<li>Visual command support for TUI apps</li>
+<li>Smart history with deduplication</li>
+</ul>
+
+<p>
+When to use:
+</p>
+<ul class="org-ul">
+<li>Cross-platform scripts (same behavior on Windows/Linux/macOS)</li>
+<li>Mix shell and Elisp commands seamlessly</li>
+<li>When you want deep Emacs integration</li>
+<li>Scripting that needs Elisp functions</li>
+</ul>
+
+<p>
+Usage:
+</p>
+<ul class="org-ul">
+<li><code>M-x eshell</code> : Open eshell buffer</li>
+<li><code>C-x p e</code> : Open eshell in project root (via project.el)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Eshell
 </span>(<span class="org-keyword">use-package</span> eshell
+  <span class="org-builtin">:ensure</span> nil
   <span class="org-builtin">:defer</span> t
   <span class="org-builtin">:custom</span>
-  (eshell-history-size 10000)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">History settings
+</span>  (eshell-history-size 10000)
   (eshell-buffer-maximum-lines 10000)
   (eshell-hist-ignoredups t)
-  (eshell-scroll-to-bottom-on-input 'all)
-  (eshell-scroll-to-bottom-on-output t)
-  (eshell-error-if-no-glob t)
   (eshell-save-history-on-exit t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Scrolling behavior
+</span>  (eshell-scroll-to-bottom-on-input 'all)
+  (eshell-scroll-to-bottom-on-output t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Command behavior
+</span>  (eshell-error-if-no-glob t)
   (eshell-prefer-lisp-functions t)
   (eshell-destroy-buffer-when-process-dies t)
-  (eshell-visual-commands '(<span class="org-string">"vi"</span> <span class="org-string">"screen"</span> <span class="org-string">"top"</span> <span class="org-string">"htop"</span> <span class="org-string">"btm"</span> <span class="org-string">"less"</span> <span class="org-string">"more"</span> 
-                                                      <span class="org-string">"lynx"</span> <span class="org-string">"ncftp"</span> <span class="org-string">"pine"</span> <span class="org-string">"tin"</span> <span class="org-string">"trn"</span> <span class="org-string">"elm"</span> <span class="org-string">"irssi"</span> 
-                                                      <span class="org-string">"nmtui-connect"</span> <span class="org-string">"nethack"</span> <span class="org-string">"vim"</span> <span class="org-string">"alsamixer"</span> <span class="org-string">"nvim"</span> 
-                                                      <span class="org-string">"w3m"</span> <span class="org-string">"ncmpcpp"</span> <span class="org-string">"newsbeuter"</span> <span class="org-string">"nethack"</span> <span class="org-string">"mutt"</span> 
-                                                      <span class="org-string">"fzf"</span> <span class="org-string">"claude"</span>))
-  <span class="org-builtin">:hook</span>
-  (eshell-load . eat-eshell-mode)
-  (eshell-load . eat-eshell-visual-command-mode))
 
-(<span class="org-keyword">use-package</span> eshell-prompt-extras
-  <span class="org-builtin">:hook</span>
-  (eshell-first-time-mode . fu/eshell-init)
-  <span class="org-builtin">:custom</span>
-  (eshell-highlight-prompt t)
-  (eshell-prompt-function 'epe-theme-lambda)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Visual commands (use terminal emulation for these)
+</span>  (eshell-visual-commands
+   '(<span class="org-string">"vi"</span> <span class="org-string">"vim"</span> <span class="org-string">"nvim"</span> <span class="org-string">"screen"</span> <span class="org-string">"tmux"</span> <span class="org-string">"top"</span> <span class="org-string">"htop"</span> <span class="org-string">"btm"</span>
+     <span class="org-string">"less"</span> <span class="org-string">"more"</span> <span class="org-string">"lynx"</span> <span class="org-string">"ncftp"</span> <span class="org-string">"mutt"</span> <span class="org-string">"pine"</span> <span class="org-string">"tin"</span> <span class="org-string">"trn"</span> <span class="org-string">"elm"</span>
+     <span class="org-string">"irssi"</span> <span class="org-string">"nmtui"</span> <span class="org-string">"nmtui-connect"</span> <span class="org-string">"nethack"</span> <span class="org-string">"alsamixer"</span>
+     <span class="org-string">"w3m"</span> <span class="org-string">"ncmpcpp"</span> <span class="org-string">"newsbeuter"</span> <span class="org-string">"fzf"</span> <span class="org-string">"ssh"</span> <span class="org-string">"tail"</span>))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Subcommands that should use visual mode
+</span>  (eshell-visual-subcommands
+   '((<span class="org-string">"git"</span> <span class="org-string">"log"</span> <span class="org-string">"diff"</span> <span class="org-string">"show"</span>)
+     (<span class="org-string">"docker"</span> <span class="org-string">"logs"</span>)
+     (<span class="org-string">"kubectl"</span> <span class="org-string">"logs"</span>)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Options for visual commands
+</span>  (eshell-visual-options
+   '((<span class="org-string">"git"</span> <span class="org-string">"--paginate"</span> <span class="org-string">"--help"</span>)))
+
   <span class="org-builtin">:config</span>
-  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/eshell-init</span> ()
-      (eshell/alias <span class="org-string">"l"</span> <span class="org-string">"ls -hl"</span>)
-      (eshell/alias <span class="org-string">"ll"</span> <span class="org-string">"ls -hl"</span>)
-      (eshell/alias <span class="org-string">"la"</span> <span class="org-string">"ls -ahl"</span>)
-      (eshell/alias <span class="org-string">"gs"</span> <span class="org-string">"git status"</span>)
-      (eshell/alias <span class="org-string">"gd"</span> <span class="org-string">"git diff"</span>)
-      (eshell/alias <span class="org-string">"gl"</span> <span class="org-string">"git log --oneline"</span>)
-      (eshell/alias <span class="org-string">".."</span> <span class="org-string">"cd .."</span>)))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Load common Eshell modules
+</span>  (<span class="org-keyword">require</span> '<span class="org-constant">eshell</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">em-smart</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">em-tramp</span>)
 
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu/async-shell-command</span> (command)
-  <span class="org-doc">"Run `</span><span class="org-doc"><span class="org-constant">async-shell-command</span></span><span class="org-doc">' with COMMAND in project root."</span>
-  (<span class="org-keyword">interactive</span> (list (read-string <span class="org-string">"Shell command: "</span>)))
-  (<span class="org-keyword">let*</span> ((output-buffer-time (format-time-string <span class="org-string">"%Y-%m-%dT%H:%M:%S"</span>))
-         (output-buffer-name (format <span class="org-string">"*Shell Command [%s]: %s*"</span> output-buffer-time command))
-         (error-buffer-name  (format <span class="org-string">"*Shell Error [%s]: %s*"</span> output-buffer-time command))
-         (current-project    (project-current))
-         (default-directory  (<span class="org-keyword">if</span> current-project (project-root current-project) default-directory)))
-    (async-shell-command command output-buffer-name)
-    (<span class="org-keyword">when-let</span> ((proc (get-buffer-process output-buffer-name)))
-      (set-process-sentinel
-       proc
-       (<span class="org-keyword">lambda</span> (process event)
-         (<span class="org-keyword">when</span> (buffer-live-p (process-buffer process))
-           (<span class="org-keyword">with-current-buffer</span> (process-buffer process)
-             (<span class="org-keyword">let</span> ((inhibit-read-only t))
-               (goto-char (point-max))
-               (insert <span class="org-string">"\n"</span> (make-string 60 ?-) <span class="org-string">"\n"</span>)
-               (insert (format <span class="org-string">"Process %s %s"</span> (process-name process) (string-trim event)))
-               (insert (format <span class="org-string">" at %s\n"</span> (format-time-string <span class="org-string">"%Y-%m-%d %H:%M:%S"</span>)))
-               (<span class="org-keyword">when</span> (process-exit-status process)
-                 (insert (format <span class="org-string">"Exit code: %s\n"</span> (process-exit-status process))))
-               (insert (make-string 60 ?-) <span class="org-string">"\n"</span>)))))))))
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Smart display behavior
+</span>  (add-hook 'eshell-mode-hook
+            (<span class="org-keyword">lambda</span> ()
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">Plan text mode for better performance
+</span>              (<span class="org-keyword">setq-local</span> global-hl-line-mode nil)
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">Disable line numbers
+</span>              (<span class="org-keyword">setq-local</span> display-line-numbers nil))))
+</pre>
+</div>
+</div>
+</div>
 
-(<span class="org-keyword">provide</span> '<span class="org-constant">shell-conf</span>)
+<div id="outline-container-org2508e2d" class="outline-3">
+<h3 id="org2508e2d"><span class="section-number-3">4.2.</span> Eshell Prompt</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Beautiful and functional prompt with git integration and directory shortening.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Lambda-style prompt</li>
+<li>Git branch and status integration</li>
+<li>Syntax highlighting</li>
+<li>Clean and minimal design</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Eshell Prompt Extras
+</span>(<span class="org-keyword">use-package</span> eshell-prompt-extras
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:after</span> eshell
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable prompt highlighting
+</span>  (eshell-highlight-prompt t)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Use lambda theme for clean look
+</span>  (eshell-prompt-function 'epe-theme-lambda)
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Custom prompt regexp for eshell-prompt-extras
+</span>  (<span class="org-keyword">setq</span> eshell-prompt-regexp <span class="org-string">"^[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">#$\n]* [#$] "</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf1fb54b" class="outline-3">
+<h3 id="orgf1fb54b"><span class="section-number-3">4.3.</span> Eshell Aliases</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Convenient aliases for common commands to improve productivity.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Eshell Aliases
+</span>(<span class="org-keyword">with-eval-after-load</span> 'eshell
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/eshell-setup-aliases</span> ()
+    <span class="org-doc">"Set up common eshell aliases."</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Navigation
+</span>    (eshell/alias <span class="org-string">".."</span> <span class="org-string">"cd .."</span>)
+    (eshell/alias <span class="org-string">"..."</span> <span class="org-string">"cd ../.."</span>)
+    (eshell/alias <span class="org-string">"...."</span> <span class="org-string">"cd ../../.."</span>)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">List files
+</span>    (eshell/alias <span class="org-string">"l"</span> <span class="org-string">"ls -lh $*"</span>)
+    (eshell/alias <span class="org-string">"ll"</span> <span class="org-string">"ls -lh $*"</span>)
+    (eshell/alias <span class="org-string">"la"</span> <span class="org-string">"ls -alh $*"</span>)
+    (eshell/alias <span class="org-string">"lt"</span> <span class="org-string">"ls -lht $*"</span>)  <span class="org-comment-delimiter">; </span><span class="org-comment">by time
+</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Git shortcuts
+</span>    (eshell/alias <span class="org-string">"gs"</span> <span class="org-string">"git status"</span>)
+    (eshell/alias <span class="org-string">"gd"</span> <span class="org-string">"git diff $*"</span>)
+    (eshell/alias <span class="org-string">"gl"</span> <span class="org-string">"git log --oneline --graph --decorate $*"</span>)
+    (eshell/alias <span class="org-string">"gp"</span> <span class="org-string">"git pull"</span>)
+    (eshell/alias <span class="org-string">"gP"</span> <span class="org-string">"git push"</span>)
+    (eshell/alias <span class="org-string">"ga"</span> <span class="org-string">"git add $*"</span>)
+    (eshell/alias <span class="org-string">"gc"</span> <span class="org-string">"git commit $*"</span>)
+    (eshell/alias <span class="org-string">"gco"</span> <span class="org-string">"git checkout $*"</span>)
+    (eshell/alias <span class="org-string">"gb"</span> <span class="org-string">"git branch $*"</span>)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Emacs shortcuts
+</span>    (eshell/alias <span class="org-string">"e"</span> <span class="org-string">"find-file $1"</span>)
+    (eshell/alias <span class="org-string">"ee"</span> <span class="org-string">"find-file-other-window $1"</span>)
+    (eshell/alias <span class="org-string">"d"</span> <span class="org-string">"dired $1"</span>)
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Clear screen
+</span>    (eshell/alias <span class="org-string">"clear"</span> <span class="org-string">"clear-scrollback"</span>))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Set up aliases on first eshell invocation
+</span>  (add-hook 'eshell-first-time-mode-hook #'fu/eshell-setup-aliases))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org93b0d22" class="outline-3">
+<h3 id="org93b0d22"><span class="section-number-3">4.4.</span> Eshell Banner</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Customize the eshell banner to be more informative and welcoming.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span class="org-comment-delimiter">;; </span><span class="org-comment">Custom Eshell Banner
+</span>  (<span class="org-keyword">with-eval-after-load</span> 'eshell
+    (<span class="org-keyword">setq</span> eshell-banner-message
+          (format <span class="org-string">"%s
+Welcome to Eshell - the Emacs Shell
+Type '</span><span class="org-string"><span class="org-constant">help</span></span><span class="org-string">' for common commands, or any Elisp expression to evaluate
+
+Current directory: %s
+"</span>
+                  (propertize <span class="org-string">"&#9581;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9582;\n&#9474;                                          &#9474;\n&#9474;    Eshell - Emacs Shell Environment      &#9474;\n&#9474;                                          &#9474;\n&#9584;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9583;"</span>
+                              'face '(<span class="org-builtin">:foreground</span> <span class="org-string">"cyan"</span>))
+                  (abbreviate-file-name default-directory))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org272debf" class="outline-2">
+<h2 id="org272debf"><span class="section-number-2">5.</span> Custom Shell Utilities</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Enhanced utilities for running shell commands with better integration.
+</p>
+</div>
+
+<div id="outline-container-org37da2bd" class="outline-3">
+<h3 id="org37da2bd"><span class="section-number-3">5.1.</span> Async Shell Command</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Improved async shell command that runs commands in project root and provides better output formatting.
+</p>
+
+<p>
+Features:
+</p>
+<ul class="org-ul">
+<li>Automatically runs in project root if in a project</li>
+<li>Timestamped output buffers</li>
+<li>Process completion notifications</li>
+<li>Exit code reporting</li>
+<li>Separate error buffers</li>
+</ul>
+
+<p>
+Usage:
+</p>
+<ul class="org-ul">
+<li><code>M-x fu/async-shell-command</code> : Run async command with enhanced output</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span class="org-comment-delimiter">;; </span><span class="org-comment">Custom Shell Utilities
+</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">fu/async-shell-command</span> (command)
+    <span class="org-doc">"Run `</span><span class="org-doc"><span class="org-constant">async-shell-command</span></span><span class="org-doc">' with COMMAND in project root.
+Provides better output formatting and runs in project context."</span>
+    (<span class="org-keyword">interactive</span> (list (read-string <span class="org-string">"Shell command: "</span>)))
+    (<span class="org-keyword">let*</span> ((output-buffer-time (format-time-string <span class="org-string">"%Y-%m-%dT%H:%M:%S"</span>))
+           (output-buffer-name (format <span class="org-string">"*Shell Command [%s]: %s*"</span> output-buffer-time command))
+           (error-buffer-name  (format <span class="org-string">"*Shell Error [%s]: %s*"</span> output-buffer-time command))
+           (current-project    (project-current))
+           (default-directory  (<span class="org-keyword">if</span> current-project
+                                   (project-root current-project)
+                                 default-directory)))
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Run the command
+</span>      (async-shell-command command output-buffer-name error-buffer-name)
+
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Add process sentinel for completion notification
+</span>      (<span class="org-keyword">when-let</span> ((proc (get-buffer-process output-buffer-name)))
+        (set-process-sentinel
+         proc
+         (<span class="org-keyword">lambda</span> (process event)
+           (<span class="org-keyword">when</span> (buffer-live-p (process-buffer process))
+             (<span class="org-keyword">with-current-buffer</span> (process-buffer process)
+               (<span class="org-keyword">let</span> ((inhibit-read-only t))
+                 (goto-char (point-max))
+                 (insert <span class="org-string">"\n"</span> (make-string 60 ?-) <span class="org-string">"\n"</span>)
+                 (insert (format <span class="org-string">"Process %s %s"</span> (process-name process) (string-trim event)))
+                 (insert (format <span class="org-string">" at %s\n"</span> (format-time-string <span class="org-string">"%Y-%m-%d %H:%M:%S"</span>)))
+                 (<span class="org-keyword">when</span> (process-exit-status process)
+                   (insert (format <span class="org-string">"Exit code: %s\n"</span> (process-exit-status process))))
+                 (insert (make-string 60 ?-) <span class="org-string">"\n"</span>)))))))))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Bind to convenient key
+</span>  (global-set-key (kbd <span class="org-string">"C-c !"</span>) #'fu/async-shell-command)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga39c6c7" class="outline-3">
+<h3 id="orga39c6c7"><span class="section-number-3">5.2.</span> Quick Shell Command in Project</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Run a quick shell command in the current project's root directory.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">fu/shell-command-in-project</span> (command)
+  <span class="org-doc">"Run COMMAND synchronously in project root and display output."</span>
+  (<span class="org-keyword">interactive</span> <span class="org-string">"sShell command in project: "</span>)
+  (<span class="org-keyword">let*</span> ((project (project-current))
+         (default-directory (<span class="org-keyword">if</span> project
+                                (project-root project)
+                              default-directory)))
+    (shell-command command)))
+
+(global-set-key (kbd <span class="org-string">"C-c |"</span>) #'fu/shell-command-in-project)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge51524b" class="outline-3">
+<h3 id="orge51524b"><span class="section-number-3">5.3.</span> Open External Terminal</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Open an external terminal application in the current directory or project root.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">fu/open-external-terminal</span> ()
+  <span class="org-doc">"Open external terminal in current directory or project root."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((dir (<span class="org-keyword">if-let</span> ((project (project-current)))
+                 (project-root project)
+               default-directory)))
+    (<span class="org-keyword">cond</span>
+     <span class="org-comment-delimiter">;; </span><span class="org-comment">macOS
+</span>     ((eq system-type 'darwin)
+      (call-process <span class="org-string">"open"</span> nil 0 nil <span class="org-string">"-a"</span> <span class="org-string">"Terminal"</span> dir))
+     <span class="org-comment-delimiter">;; </span><span class="org-comment">Linux with GNOME
+</span>     ((<span class="org-keyword">and</span> (eq system-type 'gnu/linux)
+           (executable-find <span class="org-string">"gnome-terminal"</span>))
+      (call-process <span class="org-string">"gnome-terminal"</span> nil 0 nil
+                   (concat <span class="org-string">"--working-directory="</span> dir)))
+     <span class="org-comment-delimiter">;; </span><span class="org-comment">Linux with other terminal
+</span>     ((executable-find <span class="org-string">"xterm"</span>)
+      (start-process <span class="org-string">"xterm"</span> nil <span class="org-string">"xterm"</span> <span class="org-string">"-e"</span> <span class="org-string">"cd"</span> dir))
+     (t
+      (message <span class="org-string">"No external terminal configured for your system"</span>)))))
+
+(global-set-key (kbd <span class="org-string">"C-c t x"</span>) #'fu/open-external-terminal)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org996d8d7" class="outline-2">
+<h2 id="org996d8d7"><span class="section-number-2">6.</span> End of File</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">shell-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">shell-conf.el ends here</span>
 </pre>
+</div>
+</div>
 </div>
 </main>
 </body>
