@@ -30,8 +30,6 @@ Key features:
     :ensure nil
     :commands (dired dired-jump)
     :bind (("C-x C-j" . dired-jump))
-    :hook
-    ((dired-mode-hook . dired-hide-details-mode))
     :custom
     ;; Listing switches: all files, human-readable sizes, long format
     (dired-listing-switches "-ahl --group-directories-first")
@@ -45,6 +43,7 @@ Key features:
     ;; Kill buffer when deleting directory
     (dired-kill-when-opening-new-dired-buffer t)
     :config
+    (add-hook 'dired-mode-hook #'dired-hide-details-mode)
     ;; Use 'a' to open files in same buffer
     (put 'dired-find-alternate-file 'disabled nil))
 #+end_src

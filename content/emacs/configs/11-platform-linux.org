@@ -12,7 +12,7 @@ Settings that only apply on Linux systems.
   ;;; Code:
   (defun m180/font-set ()
     "Font settings for linux."
-    (set-face-attribute 'default nil :family "Iosevka Nerd Font Mono" :height 120 :weight 'light)
+    (set-face-attribute 'default nil :family "Iosevka Nerd Font Mono" :height 120 :weight 'regular)
     (set-fontset-font t 'hangul (font-spec :name "NotoSansKR")))
 
   (if (daemonp)
