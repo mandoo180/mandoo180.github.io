@@ -433,6 +433,206 @@ Open an external terminal application in the current directory or project root.
   (global-set-key (kbd "C-c t x") #'fu/open-external-terminal)
 #+end_src
 
+** DWIM Shell Command
+
+A "Do What I Mean" shell command wrapper that intelligently operates on files in Dired or the current buffer. It provides powerful template placeholders for working with files and integrates seamlessly with Emacs workflows.
+
+Features:
+- Smart file selection from Dired marked files or current buffer
+- Template placeholders for flexible command construction
+- Async execution with progress tracking
+- Works with single files, multiple files, or clipboard content
+- Automatic output buffer management
+
+Template Placeholders:
+- =<<f>>= : Current file or marked files (iterates for each file)
+- =<<fne>>= : File name without extension
+- =<<e>>= : File extension only
+- =<<td>>= : Temporary directory
+- =<<cb>>= : Clipboard content
+- =<<*>>= : All marked files at once (not iterating)
+
+Usage:
+- =M-!= : Run DWIM shell command (remapped from =shell-command=)
+- In Dired: =!= runs command on marked files
+- Example: =convert <<f>> <<fne>>.png= converts images to PNG
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  (use-package dwim-shell-command
+    :ensure t
+    :bind (([remap shell-command] . dwim-shell-command)
+           :map dired-mode-map
+           ([remap dired-do-async-shell-command] . dwim-shell-command)
+           ([remap dired-do-shell-command] . dwim-shell-command)
+           ([remap dired-smart-shell-command] . dwim-shell-command))
+    :config
+    ;; Load additional command templates
+    (require 'dwim-shell-commands nil t))
+#+end_src
+
+** Agent Shell
+
+A native Emacs interface to interact with LLM agents powered by ACP (Agent Client Protocol). Agent Shell enables chatting directly with AI coding assistants from within Emacs, supporting multiple providers while maintaining session state.
+
+*** Agent Shell Core
+
+The core agent-shell package provides the foundation for AI agent interaction in Emacs.
+
+Features:
+- Native Emacs buffer for AI agent interaction
+- Built on =shell-maker= and =acp.el= for robust communication
+- Multiple provider support with unified interface
+- MCP (Model Context Protocol) server integration
+- Container and devcontainer execution support
+- Environment variable configuration (inherit, .env files)
+- Source block syntax highlighting
+- File completion and read/write capabilities
+- Screenshot capture support
+
+Supported Agents:
+- **Anthropic Claude Code**: =npm install -g @anthropic-ai/claude-code-acp=
+- **Google Gemini CLI**: Requires =--experimental-acp= flag support
+- **OpenAI Codex**: =npm install -g @anthropic-ai/codex-acp=
+- **Goose CLI**: Standard installation from repository
+- **Cursor Agent**: =npm install -g @blowmage/cursor-agent-acp=
+- **Qwen Code**: =npm install -g @anthropic-ai/qwen-code@latest=
+
+Usage:
+- =M-x agent-shell= : Start agent shell (interactive agent selection)
+- =C-u M-x agent-shell= : Force new session
+- =M-x agent-shell-anthropic-start-claude-code= : Start Claude directly
+- =M-x agent-shell-google-start-gemini= : Start Gemini directly
+- =C-c C-c= : Interrupt current operation
+- =TAB= / =S-TAB= : Navigate interactive elements
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;; Agent Shell - LLM agents via ACP in Emacs
+  (use-package agent-shell
+    :ensure t
+    :custom
+    ;; Display welcome message on start
+    (agent-shell-show-welcome-message t)
+    ;; Enable source block highlighting
+    (agent-shell-highlight-blocks t)
+    ;; Enable file completion
+    (agent-shell-file-completion-enabled t)
+    ;; Enable file read/write capabilities
+    (agent-shell-text-file-capabilities t)
+    ;; Show icons in agent selection
+    (agent-shell-show-config-icons t)
+    :config
+    ;; Set preferred/default agent (Claude Code)
+    (setq agent-shell-preferred-agent-config
+          (agent-shell-anthropic-make-claude-code-config))
+
+    ;; Authentication for Anthropic (uses interactive login)
+    (setq agent-shell-anthropic-authentication
+          (agent-shell-anthropic-make-authentication :login t))
+
+    ;; Optional: Configure MCP servers
+    ;; (setq agent-shell-mcp-servers
+    ;;       '(((name . "filesystem")
+    ;;          (type . "stdio")
+    ;;          (command . "npx")
+    ;;          (args . ("-y" "@modelcontextprotocol/server-filesystem" "/path")))))
+
+    ;; Optional: Environment variables (inherit from Emacs)
+    ;; (setq agent-shell-anthropic-claude-environment
+    ;;       (agent-shell-make-environment-variables :inherit-env t))
+
+    ;; Optional: Devcontainer support
+    ;; (setq agent-shell-container-command-runner
+    ;;       '("devcontainer" "exec" "--workspace-folder" "."))
+    )
+#+end_src
+
+*** Agent Shell Manager
+
+A buffer management tool for agent-shell that provides a tabulated list view of all open agent-shell buffers with real-time status monitoring and management capabilities.
+
+Repository: [[https://github.com/jethrokuan/agent-shell-manager][jethrokuan/agent-shell-manager]]
+
+Features:
+- Tabulated display showing folder paths, status (ready/working/waiting/initializing/killed), session status, and mode
+- Auto-refresh capability (updates every 2 seconds)
+- Process controls for killing, restarting, and creating agent-shell instances
+- Session management with mode cycling and interrupt functions
+- Debugging utilities including traffic log viewing and ACP logging toggles
+- Visual organization with color-coded statuses and killed processes displayed separately
+
+Usage:
+- =M-x agent-shell-manager-toggle= : Toggle the manager interface
+- =RET= : Switch to buffer
+- =g= : Refresh the list
+- =k= : Kill process
+- =c= / =r= / =d= : Create / restart / delete buffers
+- =m= / =M= : Set or cycle session mode
+- =t= / =l= : View logs or toggle logging
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;; Agent Shell Manager - buffer management for agent-shell
+  (use-package agent-shell-manager
+    :ensure t
+    :vc (:url "https://github.com/jethrokuan/agent-shell-manager"
+         :rev :newest)
+    :after agent-shell
+    :custom
+    ;; Window positioning: 'left, 'right, 'top, 'bottom, or nil
+    ;; When nil, defers to display-buffer-alist
+    (agent-shell-manager-side 'right)
+    :bind
+    ;; Convenient binding to open manager
+    ("C-c t m" . agent-shell-manager-toggle))
+#+end_src
+
+*** Agent Shell Sidebar
+
+A persistent sidebar interface for agent-shell, providing a treemacs-like side panel for interacting with LLM agents. The sidebar is project-aware and maintains state across visibility toggles.
+
+Repository: [[https://github.com/cmacrae/agent-shell-sidebar][cmacrae/agent-shell-sidebar]]
+
+Requirements:
+- Emacs 29.1 or later
+- agent-shell 0.5.1 or newer
+
+Features:
+- Project-aware with individual sidebar state per project
+- Persistent sidebar that maintains state across visibility toggles
+- Configurable width, position (left/right), and locking behavior
+- Locked sidebars adapt automatically to frame size changes
+
+Usage:
+- =M-x agent-shell-sidebar-toggle= : Toggle sidebar visibility for current project
+- =M-x agent-shell-sidebar-switch-to-buffer= : Switch focus between sidebar and other buffers
+- =M-x agent-shell-sidebar-set-config= : Change LLM provider on demand
+- =M-x agent-shell-sidebar-reset= : Reset sidebar state
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;; Agent Shell Sidebar - persistent sidebar for agent-shell
+  (use-package agent-shell-sidebar
+    :ensure t
+    :vc (:url "https://github.com/cmacrae/agent-shell-sidebar"
+         :rev :newest)
+    :after agent-shell
+    :custom
+    ;; Panel width (integer or percentage string)
+    (agent-shell-sidebar-width "25%")
+    ;; Minimum width threshold
+    (agent-shell-sidebar-minimum-width 80)
+    ;; Maximum width limit
+    (agent-shell-sidebar-maximum-width "50%")
+    ;; Placement: 'left or 'right
+    (agent-shell-sidebar-position 'right)
+    ;; Fixed vs. resizable mode
+    (agent-shell-sidebar-locked t)
+    ;; Optional: Set default LLM provider
+    ;; (agent-shell-sidebar-default-config
+    ;;  (agent-shell-anthropic-make-claude-code-config))
+    :bind
+    ;; Toggle sidebar
+    ("C-c t s" . agent-shell-sidebar-toggle))
+#+end_src
+
 * End of File
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el

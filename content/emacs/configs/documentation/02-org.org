@@ -116,9 +116,7 @@ Core Org-mode settings including babel languages, templates, and basic customiza
 
     (add-hook 'org-mode-hook #'handle-org-mode-hook)
 
-    ;; Load org-remoteimg for remote image display
-    (add-to-list 'load-path (expand-file-name "elisp/settings" user-emacs-directory))
-    (require 'org-remoteimg))
+)
 #+end_src
 
 * Org Download
@@ -203,9 +201,9 @@ Features:
 
     ;; Block delimiters
     (org-modern-block-name '(("src" "»" "«")
-                            ("example" "»–" "–«")
-                            ("quote" "❝" "❞")
-                            ("export" "⏩" "⏪")))
+                             ("example" "»–" "–«")
+                             ("quote" "❝" "❞")
+                             ("export" "⏩" "⏪")))
 
     ;; Keywords styling
     (org-modern-keyword t)
@@ -224,8 +222,8 @@ Features:
     (org-modern-todo t)
     (org-modern-todo-faces
      '(("TODO" :background "#ff6c6b" :foreground "#282c34" :weight bold)
-       ("NEXT" :background "#51afef" :foreground "#282c34" :weight bold)
-       ("WAIT" :background "#ecbe7b" :foreground "#282c34" :weight bold)
+       ("DOING" :background "#51afef" :foreground "#282c34" :weight bold)
+       ("REVIEW" :background "#ecbe7b" :foreground "#282c34" :weight bold)
        ("DONE" :background "#98be65" :foreground "#282c34" :weight bold)
        ("CANCEL" :background "#5B6268" :foreground "#282c34" :weight bold))))
 #+end_src
@@ -306,242 +304,20 @@ Bidirectional sync between Org-mode and Google Calendar. Disabled for now.
      ("C-c g r" . org-gcal-refresh-token)))
 #+end_src
 
-* Org Remote Images
+* Org Image Preview
 
 Display remote HTTP/HTTPS images inline in org buffers with automatic caching.
+Uses the =org-image-preview= package from GitHub.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/org-remoteimg.el
-  ;;; org-remoteimg.el --- Display remote inline images in org-mode -*- lexical-binding: t -*-
-
-  ;; Copyright (C) 2023 Dean Gao - MIT License
-  ;; Author: Dean Gao <gao.dean@hotmail.com>
-  ;; Description: Inline display of remote images in org-mode
-  ;; Homepage: https://github.com/gaoDean/org-imgtog
-  ;; Package-Requires: ((emacs "25.1"))
-
-  ;; Permission is hereby granted, free of charge, to any person obtaining a copy
-  ;; of this software and associated documentation files (the "Software"), to deal
-  ;; in the Software without restriction, including without limitation the rights
-  ;; to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ;; copies of the Software, and to permit persons to whom the Software is
-  ;; furnished to do so, subject to the following conditions:
-  ;;
-  ;; The above copyright notice and this permission notice shall be included in all
-  ;; copies or substantial portions of the Software.
-  ;;
-  ;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ;; AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  ;; SOFTWARE.
-
-  ;;; Commentary:
-
-  ;; This package displays remote images inline in org-mode with automatic caching.
-  ;; This means you can do \[\[https://my-file.png\]\], and have it display inline.
-  ;; The next time you visit the file or fetch the image, it will be instantly
-  ;; fetched from the cache.
-
-  ;;; Code:
-
-  (require 'org)
-  (require 'org-element)
-  (require 'url)
-  (require 'url-cache)
-
-  (unless (fboundp 'image-supported-file-p)
-    ;; `image-supported-file-p' isn't available before Emacs 28
-    ;; Add alias to not break Emacs <28.
-    (defalias 'image-type-from-file-name 'image-supported-file-p))
-
-  ;; Compatibility definitions for Org-mode < 9.8
-  ;; In Org < 9.8, the variable is called org-inline-image-overlays
-  ;; In Org >= 9.8, it was renamed to org-link-preview-overlays
-  (unless (boundp 'org-link-preview-overlays)
-    (defvaralias 'org-link-preview-overlays 'org-inline-image-overlays
-      "Compatibility alias for org-inline-image-overlays in Org < 9.8."))
-
-  (defun org-image-update-overlay (file link &optional data-p refresh)
-    "Create image overlay for FILE associtated with org-element LINK.
-  If DATA-P is non-nil FILE is not a file name but a string with the image data.
-  If REFRESH is non-nil don't download the file but refresh the image.
-  See also `create-image'.
-  This function is almost a duplicate of a part of `org-display-inline-images'."
-    (when (or data-p (file-exists-p file))
-      (let ((width
-             ;; Apply `org-image-actual-width' specifications.
-             (cond
-              ((eq org-image-actual-width t) nil)
-              ((listp org-image-actual-width)
-               (or
-                ;; First try to find a width among
-                ;; attributes associated to the paragraph
-                ;; containing link.
-                (let ((paragraph
-                       (let ((e link))
-                         (while (and (setq e (org-element-property
-                                              :parent e))
-                                     (not (eq (org-element-type e)
-                                              'paragraph))))
-                         e)))
-                  (when paragraph
-                    (save-excursion
-                      (goto-char (org-element-property :begin paragraph))
-                      (when
-                          (re-search-forward
-                           "^[ \t]*#\\+attr_.*?: +.*?:width +\\(\\S-+\\)"
-                           (org-element-property
-                            :post-affiliated paragraph)
-                           t)
-                        (string-to-number (match-string 1))))))
-                ;; Otherwise, fall-back to provided number.
-                (car org-image-actual-width)))
-              ((numberp org-image-actual-width)
-               org-image-actual-width)))
-            (old (get-char-property-and-overlay
-                  (org-element-property :begin link)
-                  'org-image-overlay)))
-        (if (and (car-safe old) refresh)
-            (image-flush (overlay-get (cdr old) 'display))
-          (let ((image (create-image file
-                                     (and (image-type-available-p 'imagemagick)
-                                          width
-                                          'imagemagick)
-                                     data-p
-                                     :width width)))
-            (when image
-              (let* ((link
-                      ;; If inline image is the description
-                      ;; of another link, be sure to
-                      ;; consider the latter as the one to
-                      ;; apply the overlay on.
-                      (let ((parent
-                             (org-element-property :parent link)))
-                        (if (eq (org-element-type parent) 'link)
-                            parent
-                          link)))
-                     (ov (make-overlay
-                          (org-element-property :begin link)
-                          (progn
-                            (goto-char
-                             (org-element-property :end link))
-                            (skip-chars-backward " \t")
-                            (point)))))
-                (overlay-put ov 'display image)
-                (overlay-put ov 'face 'default)
-                (overlay-put ov 'org-image-overlay t)
-                (overlay-put
-                 ov 'modification-hooks
-                 (list 'org-display-inline-remove-overlay))
-                (push ov org-link-preview-overlays)
-                ov)))))))
-
-  (defun org-display-user-inline-images (&optional _include-linked _refresh beg end)
-    "Like `org-display-inline-images' but for image data links.
-  _INCLUDE-LINKED and _REFRESH are ignored.
-  Restrict to region between BEG and END if both are non-nil.
-  Image data links have a :image-data-fun parameter.
-  \(See `org-link-set-parameters'.)
-  The value of the :image-data-fun parameter is a function
-  taking the PROTOCOL, the LINK, and the DESCRIPTION as arguments.
-  If that function returns nil the link is not interpreted as image.
-  Otherwise the return value is the image data string to be displayed.
-
-  Note that only bracket links are allowed as image data links
-  with one of the formats
-   [[PROTOCOL:LINK]]
-  or
-   [[PROTOCOL:LINK][DESCRIPTION]]
-  are recognized.
-  Full credit goes to org-yt by Tobias Zawada for this function."
-    (interactive)
-    (when (and (called-interactively-p 'any)
-               (use-region-p))
-      (setq beg (region-beginning)
-            end (region-end)))
-    (when (display-graphic-p)
-      (org-with-wide-buffer
-       (goto-char (or beg (point-min)))
-       (when-let* ((image-data-link-parameters
-		 (cl-loop for link-par-entry in org-link-parameters
-			  with fun
-			  when (setq fun (plist-get (cdr link-par-entry) :image-data-fun))
-			  collect (cons (car link-par-entry) fun)))
-		(image-data-link-re (regexp-opt (mapcar 'car image-data-link-parameters)))
-		(re (format "\\[\\[\\(%s\\):\\([^]]+\\)\\]\\(?:\\[\\([^]]+\\)\\]\\)?\\]"
-			    image-data-link-re)))
-         (while (re-search-forward re end t)
-           (let* ((protocol (match-string-no-properties 1))
-		(link (match-string-no-properties 2))
-		(description (match-string-no-properties 3))
-		(image-data-link (assoc-string protocol image-data-link-parameters))
-		(el (save-excursion (goto-char (match-beginning 1)) (org-element-context)))
-		image-data)
-             (when el
-               (setq image-data
-                     (or (let ((old (get-char-property-and-overlay
-                                     (org-element-property :begin el)
-                                     'org-image-overlay)))
-                           (and old
-                                (car-safe old)
-                                (overlay-get (cdr old) 'display)))
-		       (funcall (cdr image-data-link) protocol link description)))
-               (when image-data
-                 (let ((ol (org-image-update-overlay image-data el t t)))
-                   (when (and ol description)
-                     (overlay-put ol 'after-string description)))))))))))
-
-  (defun org-remoteimg--fetch-image (protocol link _description)
-    "Synchronously retrieve image from cache or web."
-    (when (and (image-supported-file-p link)
-               (not (eq org-display-remote-inline-images 'skip)))
-      (let* ((cache (eq org-display-remote-inline-images 'cache))
-             (url-automatic-caching (if cache
-                                        t
-                                      url-automatic-caching))
-             (url (concat protocol ":" link))
-             (silent-output (file-exists-p (url-cache-create-filename url))))
-        (if-let* ((buf (url-retrieve-synchronously url
-                                                     silent-output
-                                                     nil
-                                                     30)))
-                (with-current-buffer buf
-                  (goto-char (point-min))
-                  (re-search-forward "\r?\n\r?\n" nil t)
-                  (buffer-substring-no-properties (point) (point-max)))
-              (error "Download of image \"%s\" failed" link)
-              nil))))
-
-  (defun org-link-preview-http (ov _path link)
-    "Generate preview OV for LINK in PATH."
-    (when-let* ((raw-link (org-element-property :raw-link link))
-                (image-type (image-supported-file-p raw-link))
-                ;; cache?
-                (image-buffer (org-remoteimg--fetch-image nil raw-link nil)))
-          (overlay-put ov 'display (create-image image-buffer
-                                        ;; scale?
-                                     ;; (and (image-type-available-p 'imagemagick)
-                                     ;;      width
-                                     ;;      'imagemagick)
-                                                               ;; :width width
-                                                               image-type
-                                                               t))
-          t))
-
-  (if (fboundp 'org-display-inline-images)
-      (progn
-        (advice-add #'org-display-inline-images :after #'org-display-user-inline-images)
-        (org-link-set-parameters "http"  :image-data-fun #'org-remoteimg--fetch-image)
-        (org-link-set-parameters "https" :image-data-fun #'org-remoteimg--fetch-image))
-    (org-link-set-parameters "http" :preview #'org-link-preview-http)
-    (org-link-set-parameters "https" :preview #'org-link-preview-http))
-
-  (provide 'org-remoteimg)
-
-  ;;; org-remoteimg.el ends here
-
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
+  (use-package org-image-preview
+    :vc (:url "https://github.com/mandoo180/org-image-preview"
+         :branch "main")
+    :after org
+    :custom
+    ;; Enable caching for better performance
+    ;; Options: 'skip (disable), 'download (no cache), 'cache (recommended)
+    (org-display-remote-inline-images 'cache))
 #+end_src
 
 * Org-Roam Configuration
@@ -851,6 +627,197 @@ Key principles to follow when using org-roam:
 2. Update all linking notes
 3. Delete the file normally
 4. =M-x org-roam-db-sync= to clean up the database
+
+
+* Org-Jira
+
+=org-jira= provides a seamless integration between Emacs Org-mode and Atlassian Jira. It allows you to sync, create, update, and manage Jira issues directly from Org-mode buffers, bringing the power of Org's task management to your Jira workflow.
+
+** Key Features
+
+- *Bidirectional Sync*: Pull issues from Jira into Org files and push updates back
+- *Issue Management*: Create, update, and transition issues without leaving Emacs
+- *Worklog Tracking*: Log time spent on issues directly from Org-mode
+- *Comment Support*: Add and view comments on Jira issues
+- *Custom JQL Queries*: Define custom queries to fetch specific sets of issues
+- *Org Integration*: Issues are stored as standard Org headings with properties
+
+** Configuration
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
+  (use-package org-jira
+    :after org
+    :custom
+    ;; Directory to store org-jira files
+    (org-jira-working-dir (expand-file-name "jira/" org-directory))
+
+    ;; Default JQL query for fetching issues
+    (org-jira-default-jql
+     "assignee = currentUser() AND resolution = Unresolved ORDER BY priority DESC, updated DESC")
+
+    ;; How to handle issue priority in Org
+    (org-jira-priority-to-org-priority-alist
+     '(("Highest" . ?A)
+       ("High"    . ?B)
+       ("Medium"  . ?C)
+       ("Low"     . ?D)
+       ("Lowest"  . ?E)))
+
+    ;; Map Jira status to Org TODO keywords
+    (org-jira-jira-status-to-org-keyword-alist
+     '(("To Do"       . "TODO")
+       ("In Progress" . "DOING")
+       ("In Review"   . "REVIEW")
+       ("Done"        . "DONE")
+       ("Closed"      . "DONE")))
+
+    :config
+    ;; Ensure jira working directory exists
+    (unless (file-directory-p org-jira-working-dir)
+      (make-directory org-jira-working-dir t))
+
+    :bind
+    (("C-c j g" . org-jira-get-issues)                      ;; Fetch issues with default JQL
+     ("C-c j q" . org-jira-get-issues-from-custom-jql)      ;; Fetch from custom JQL
+     ("C-c j c" . org-jira-create-issue)                    ;; Create a new issue
+     ("C-c j u" . org-jira-update-issue)                    ;; Update current issue
+     ("C-c j p" . org-jira-progress-issue)                  ;; Transition issue status
+     ("C-c j a" . org-jira-assign-issue)                    ;; Assign issue to someone
+     ("C-c j r" . org-jira-refresh-issue)                   ;; Refresh current issue
+     ("C-c j w" . org-jira-update-worklogs-from-org-clocks) ;; Sync worklogs
+     ("C-c j t" . org-jira-todo-to-jira)                    ;; Create Jira issue from TODO
+     ("C-c j b" . org-jira-browse-issue)))                  ;; Open issue in browser
+#+end_src
+
+** Authentication Setup
+
+For Jira Cloud, you need to use Basic Auth with your email and an API token.
+
+*** Getting an API Token
+
+1. Go to https://id.atlassian.com/manage-profile/security/api-tokens
+2. Click "Create API token"
+3. Give it a label (e.g., "Emacs org-jira")
+4. Copy the generated token
+
+*** Configuring Authentication
+
+Set these in your private configuration (=private.el= or similar - DO NOT commit!):
+
+#+begin_src emacs-lisp :tangle no
+  ;; Jira Cloud authentication
+  (setq jiralib-url "https://your-company.atlassian.net")
+
+  ;; For Jira Cloud, use Basic Auth with email:token
+  (setq jiralib-token
+        (cons "Authorization"
+              (concat "Basic "
+                      (base64-encode-string
+                       "your-email@company.com:your-api-token-here"
+                       t))))  ; 't' prevents newlines in base64
+#+end_src
+
+** JQL Query Language
+
+JQL (Jira Query Language) is used to filter and sort issues. Use it with =C-c j g= or in custom queries.
+
+*** Common JQL Examples
+
+#+begin_example
+# My open issues, sorted by priority
+assignee = currentUser() AND resolution = Unresolved ORDER BY priority DESC
+
+# Issues in current sprint
+project = PROJ AND sprint in openSprints() ORDER BY rank
+
+# Recently updated issues (last 7 days)
+assignee = currentUser() AND updated >= -7d ORDER BY updated DESC
+
+# Filter by status
+status IN ("To Do", "In Progress") AND assignee = currentUser()
+
+# Filter by label
+labels = "backend" AND resolution = Unresolved
+
+# Specific project, exclude done
+project = MYPROJ AND status != Done ORDER BY created DESC
+
+# Issues I'm watching
+watcher = currentUser()
+
+# Issues I reported
+reporter = currentUser() AND created >= -30d ORDER BY created DESC
+#+end_example
+
+*** ORDER BY Options
+
+| Field    | Description                |
+|----------+----------------------------|
+| =priority= | Issue priority             |
+| =created=  | Creation date              |
+| =updated=  | Last update date           |
+| =duedate=  | Due date                   |
+| =rank=     | Sprint board order         |
+| =status=   | Issue status               |
+| =summary=  | Issue title (alphabetical) |
+
+Use =DESC= (descending) or =ASC= (ascending) after the field name.
+
+** Custom JQL Queries
+
+Define saved queries for quick access via =C-c j q= (=org-jira-get-issues-from-custom-jql=):
+
+#+begin_src emacs-lisp :tangle no
+  ;; Custom JQL queries - add to your config
+  (setq org-jira-custom-jqls
+        '(;; Current sprint issues
+          (:jql "project = PROJ AND sprint in openSprints() ORDER BY rank"
+           :filename "current-sprint")
+
+          ;; My in-progress work
+          (:jql "assignee = currentUser() AND status = 'In Progress' ORDER BY updated DESC"
+           :filename "in-progress")
+
+          ;; Issues I reported
+          (:jql "reporter = currentUser() AND created >= -30d ORDER BY created DESC"
+           :filename "my-reported")
+
+          ;; High priority unresolved
+          (:jql "assignee = currentUser() AND priority IN (Highest, High) AND resolution = Unresolved"
+           :filename "high-priority")
+
+          ;; Recently updated across team
+          (:jql "project = PROJ AND updated >= -1d ORDER BY updated DESC"
+           :filename "team-recent")))
+#+end_src
+
+** Common Workflows
+
+*** Syncing Issues from Jira
+1. =C-c j g= - Fetch issues using default JQL
+2. =C-c j q= - Select from custom saved queries
+3. Issues are saved to =org-jira-working-dir=
+
+*** Creating an Issue
+1. =C-c j c= (org-jira-create-issue)
+2. Select project and issue type
+3. Fill in summary and description
+4. Issue is created in Jira and synced locally
+
+*** Updating an Issue
+1. Position cursor on issue heading
+2. Make changes to summary, description, or properties
+3. =C-c j u= (org-jira-update-issue)
+
+*** Transitioning Issue Status
+1. Position cursor on issue heading
+2. =C-c j p= (org-jira-progress-issue)
+3. Select new status from available transitions
+
+*** Logging Work Time
+1. Use =org-clock-in= and =org-clock-out= on issue headings
+2. =C-c j w= (org-jira-update-worklogs-from-org-clocks)
+3. Clock entries are synced to Jira worklogs
 
 * End of File
 
