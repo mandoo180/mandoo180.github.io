@@ -700,7 +700,7 @@ Visual customization including color theme, mode line, and UI elements.
      ;; Accent colour only used sparingly.
      `(font-lock-string-face
        ((t :foreground ,(hasliberg-theme-hex-for 'accent-500)
-           :weight thin)))
+           :weight regular)))
      ;; Any user defined fields are based on one variant.
      `(font-lock-function-name-face
        ((t :foreground ,(hasliberg-theme-hex-for 'primary-400)
@@ -731,11 +731,11 @@ Visual customization including color theme, mode line, and UI elements.
      `(font-lock-comment-face
        ((t :inherit (fixed-pitch oblique-only)
            :foreground ,(hasliberg-theme-hex-for 'neutral-200)
-           :weight thin)))
+           :weight light)))
      `(font-lock-comment-delimiter-face
        ((t :inherit (fixed-pitch oblique-only)
            :foreground ,(hasliberg-theme-hex-for 'primary-200)
-           :weight thin)))
+           :weight light)))
      `(font-lock-doc-face
        ((t :inherit (fixed-pitch oblique-only)
            :foreground ,(hasliberg-theme-hex-for 'info-700))))
