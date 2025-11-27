@@ -22,35 +22,35 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge712e44">1. Overview</a></li>
-<li><a href="#orgb8f90e6">2. File Structure</a></li>
-<li><a href="#orga3f0d79">3. Usage</a>
+<li><a href="#org562998c">1. Overview</a></li>
+<li><a href="#org0b0e2f5">2. File Structure</a></li>
+<li><a href="#orga515d7b">3. Usage</a>
 <ul>
-<li><a href="#orgf37d992">3.1. Tangling (Generating Configuration Files)</a>
+<li><a href="#org7a6f2a1">3.1. Tangling (Generating Configuration Files)</a>
 <ul>
-<li><a href="#orgaac742c">3.1.1. Tangle All Files</a></li>
-<li><a href="#orgff163f8">3.1.2. Tangle Individual File</a></li>
+<li><a href="#orge0b24db">3.1.1. Tangle All Files</a></li>
+<li><a href="#org8a59033">3.1.2. Tangle Individual File</a></li>
 </ul>
 </li>
-<li><a href="#orge4fb4d2">3.2. HTML Export</a></li>
+<li><a href="#org256f910">3.2. HTML Export</a></li>
 </ul>
 </li>
-<li><a href="#org98434ac">4. Editing</a>
+<li><a href="#org3a8ef28">4. Editing</a>
 <ul>
-<li><a href="#org8b30312">4.1. Adding Documentation</a></li>
-<li><a href="#org78b6ede">4.2. Adding New Configuration</a></li>
-<li><a href="#orge16ae9e">4.3. Creating New Modules</a></li>
+<li><a href="#org4ced7b9">4.1. Adding Documentation</a></li>
+<li><a href="#orgc9ae64c">4.2. Adding New Configuration</a></li>
+<li><a href="#org35e6fa1">4.3. Creating New Modules</a></li>
 </ul>
 </li>
-<li><a href="#org3f37bb6">5. Benefits of This Structure</a></li>
-<li><a href="#orgb30893a">6. Tangling Details</a></li>
-<li><a href="#org17a8610">7. Backup</a></li>
+<li><a href="#org07a8f82">5. Benefits of This Structure</a></li>
+<li><a href="#orgb772455">6. Tangling Details</a></li>
+<li><a href="#org12648f8">7. Backup</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orge712e44" class="outline-2">
-<h2 id="orge712e44"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-org562998c" class="outline-2">
+<h2 id="org562998c"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This directory contains modular Emacs configuration files, split from a single large <code>emacs-configs.org</code> file for better organization and maintainability.
@@ -58,8 +58,8 @@ This directory contains modular Emacs configuration files, split from a single l
 </div>
 </div>
 
-<div id="outline-container-orgb8f90e6" class="outline-2">
-<h2 id="orgb8f90e6"><span class="section-number-2">2.</span> File Structure</h2>
+<div id="outline-container-org0b0e2f5" class="outline-2">
+<h2 id="org0b0e2f5"><span class="section-number-2">2.</span> File Structure</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each configuration module is a separate Org file:
@@ -171,16 +171,16 @@ Each configuration module is a separate Org file:
 </div>
 </div>
 
-<div id="outline-container-orga3f0d79" class="outline-2">
-<h2 id="orga3f0d79"><span class="section-number-2">3.</span> Usage</h2>
+<div id="outline-container-orga515d7b" class="outline-2">
+<h2 id="orga515d7b"><span class="section-number-2">3.</span> Usage</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgf37d992" class="outline-3">
-<h3 id="orgf37d992"><span class="section-number-3">3.1.</span> Tangling (Generating Configuration Files)</h3>
+<div id="outline-container-org7a6f2a1" class="outline-3">
+<h3 id="org7a6f2a1"><span class="section-number-3">3.1.</span> Tangling (Generating Configuration Files)</h3>
 <div class="outline-text-3" id="text-3-1">
 </div>
-<div id="outline-container-orgaac742c" class="outline-4">
-<h4 id="orgaac742c"><span class="section-number-4">3.1.1.</span> Tangle All Files</h4>
+<div id="outline-container-orge0b24db" class="outline-4">
+<h4 id="orge0b24db"><span class="section-number-4">3.1.1.</span> Tangle All Files</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <p>
 From the repository root:
@@ -203,14 +203,14 @@ This will:
 </div>
 </div>
 
-<div id="outline-container-orgff163f8" class="outline-4">
-<h4 id="orgff163f8"><span class="section-number-4">3.1.2.</span> Tangle Individual File</h4>
+<div id="outline-container-org8a59033" class="outline-4">
+<h4 id="org8a59033"><span class="section-number-4">3.1.2.</span> Tangle Individual File</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <p>
 Open any config file in Emacs and run:
 </p>
 
-<pre class="example" id="orga0698bd">
+<pre class="example" id="org41cff58">
 M-x org-babel-tangle
 </pre>
 
@@ -221,8 +221,8 @@ Or use the keybinding: <code>C-c C-v t</code>
 </div>
 </div>
 
-<div id="outline-container-orge4fb4d2" class="outline-3">
-<h3 id="orge4fb4d2"><span class="section-number-3">3.2.</span> HTML Export</h3>
+<div id="outline-container-org256f910" class="outline-3">
+<h3 id="org256f910"><span class="section-number-3">3.2.</span> HTML Export</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 The main <code>emacs-configs.org</code> file uses <code>#+INCLUDE</code> directives to bring all modules together for export.
@@ -250,12 +250,12 @@ Alternatively, the whole site can be built using:
 </div>
 </div>
 
-<div id="outline-container-org98434ac" class="outline-2">
-<h2 id="org98434ac"><span class="section-number-2">4.</span> Editing</h2>
+<div id="outline-container-org3a8ef28" class="outline-2">
+<h2 id="org3a8ef28"><span class="section-number-2">4.</span> Editing</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org8b30312" class="outline-3">
-<h3 id="org8b30312"><span class="section-number-3">4.1.</span> Adding Documentation</h3>
+<div id="outline-container-org4ced7b9" class="outline-3">
+<h3 id="org4ced7b9"><span class="section-number-3">4.1.</span> Adding Documentation</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Each module should have:
@@ -269,8 +269,8 @@ Each module should have:
 </div>
 </div>
 
-<div id="outline-container-org78b6ede" class="outline-3">
-<h3 id="org78b6ede"><span class="section-number-3">4.2.</span> Adding New Configuration</h3>
+<div id="outline-container-orgc9ae64c" class="outline-3">
+<h3 id="orgc9ae64c"><span class="section-number-3">4.2.</span> Adding New Configuration</h3>
 <div class="outline-text-3" id="text-4-2">
 <ol class="org-ol">
 <li>Identify the appropriate module (or create a new one)</li>
@@ -281,8 +281,8 @@ Each module should have:
 </div>
 </div>
 
-<div id="outline-container-orge16ae9e" class="outline-3">
-<h3 id="orge16ae9e"><span class="section-number-3">4.3.</span> Creating New Modules</h3>
+<div id="outline-container-org35e6fa1" class="outline-3">
+<h3 id="org35e6fa1"><span class="section-number-3">4.3.</span> Creating New Modules</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 If adding a new module:
@@ -298,8 +298,8 @@ If adding a new module:
 </div>
 </div>
 
-<div id="outline-container-org3f37bb6" class="outline-2">
-<h2 id="org3f37bb6"><span class="section-number-2">5.</span> Benefits of This Structure</h2>
+<div id="outline-container-org07a8f82" class="outline-2">
+<h2 id="org07a8f82"><span class="section-number-2">5.</span> Benefits of This Structure</h2>
 <div class="outline-text-2" id="text-5">
 <ul class="org-ul">
 <li><b>Easier Navigation</b>: Jump directly to the section you need</li>
@@ -312,8 +312,8 @@ If adding a new module:
 </div>
 </div>
 
-<div id="outline-container-orgb30893a" class="outline-2">
-<h2 id="orgb30893a"><span class="section-number-2">6.</span> Tangling Details</h2>
+<div id="outline-container-orgb772455" class="outline-2">
+<h2 id="orgb772455"><span class="section-number-2">6.</span> Tangling Details</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 All modules preserve their original <code>:tangle</code> directives, so:
@@ -327,14 +327,14 @@ All modules preserve their original <code>:tangle</code> directives, so:
 </div>
 </div>
 
-<div id="outline-container-org17a8610" class="outline-2">
-<h2 id="org17a8610"><span class="section-number-2">7.</span> Backup</h2>
+<div id="outline-container-org12648f8" class="outline-2">
+<h2 id="org12648f8"><span class="section-number-2">7.</span> Backup</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 The original monolithic file is backed up as:
 </p>
 
-<pre class="example" id="org86e34e1">
+<pre class="example" id="org0c7a8f7">
 ../emacs-configs.org.backup
 </pre>
 </div>

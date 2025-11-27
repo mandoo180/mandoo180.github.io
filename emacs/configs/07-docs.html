@@ -22,30 +22,31 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org45fa088">1. Module Organization</a>
+<li><a href="#org7e78c12">1. Module Organization</a>
 <ul>
-<li><a href="#org3359d6f">1.1. Loader Configuration</a></li>
-<li><a href="#org033e833">1.2. Documentation Configuration Loader</a></li>
-<li><a href="#orgc58935f">1.3. General Configuration</a></li>
-<li><a href="#orgd8936cd">1.4. General Documentation Configuration</a></li>
-<li><a href="#org8211504">1.5. End of File</a></li>
-<li><a href="#orgf0e5f73">1.6. Org Configuration</a></li>
-<li><a href="#org30df577">1.7. Introduction</a></li>
-<li><a href="#orgee85ff1">1.8. Org Mode Core Configuration</a></li>
-<li><a href="#org3dbf4d7">1.9. Org Download</a></li>
-<li><a href="#org2f80ef8">1.10. Org Appear (Disabled)</a></li>
-<li><a href="#org1dd5b3f">1.11. Pretty Org - Visual Enhancements</a></li>
-<li><a href="#org2b5e073">1.12. Org Google Calendar</a></li>
-<li><a href="#org19fed14">1.13. Org Remote Images</a></li>
-<li><a href="#org6b3befd">1.14. Org-Roam Configuration</a></li>
-<li><a href="#org9fd7ac5">1.15. End of File</a></li>
-<li><a href="#orgf9f75cd">1.16. Markdown Configuration</a></li>
-<li><a href="#org74e9c3a">1.17. Introduction</a></li>
-<li><a href="#orge2d95ea">1.18. Markdown Mode</a></li>
-<li><a href="#org27c4042">1.19. Table of Contents</a></li>
-<li><a href="#orgd222ce1">1.20. Org Table Integration</a></li>
-<li><a href="#orgbc0d52b">1.21. Live GitHub Preview</a></li>
-<li><a href="#org8b6b4a8">1.22. End of File</a></li>
+<li><a href="#org689d9b1">1.1. Loader Configuration</a></li>
+<li><a href="#org6eb1bed">1.2. Documentation Configuration Loader</a></li>
+<li><a href="#orgad04bc8">1.3. General Configuration</a></li>
+<li><a href="#org4b2a6bb">1.4. General Documentation Configuration</a></li>
+<li><a href="#orge4bf34a">1.5. End of File</a></li>
+<li><a href="#org9017963">1.6. Org Configuration</a></li>
+<li><a href="#org51e359d">1.7. Introduction</a></li>
+<li><a href="#orgd031bba">1.8. Org Mode Core Configuration</a></li>
+<li><a href="#org1af0775">1.9. Org Download</a></li>
+<li><a href="#orge03845a">1.10. Org Appear (Disabled)</a></li>
+<li><a href="#org4b2af3d">1.11. Pretty Org - Visual Enhancements</a></li>
+<li><a href="#org9c92706">1.12. Org Google Calendar</a></li>
+<li><a href="#orge66202e">1.13. Org Image Preview</a></li>
+<li><a href="#org27bfd7c">1.14. Org-Roam Configuration</a></li>
+<li><a href="#org692e117">1.15. Org-Jira</a></li>
+<li><a href="#org3aa48d6">1.16. End of File</a></li>
+<li><a href="#org53339d4">1.17. Markdown Configuration</a></li>
+<li><a href="#org0366864">1.18. Introduction</a></li>
+<li><a href="#org94f5a12">1.19. Markdown Mode</a></li>
+<li><a href="#org02e7b97">1.20. Table of Contents</a></li>
+<li><a href="#org661395a">1.21. Org Table Integration</a></li>
+<li><a href="#orgfdb7aa6">1.22. Live GitHub Preview</a></li>
+<li><a href="#org110899a">1.23. End of File</a></li>
 </ul>
 </li>
 </ul>
@@ -55,8 +56,8 @@
 Configuration for documentation.
 </p>
 
-<div id="outline-container-org45fa088" class="outline-2">
-<h2 id="org45fa088"><span class="section-number-2">1.</span> Module Organization</h2>
+<div id="outline-container-org7e78c12" class="outline-2">
+<h2 id="org7e78c12"><span class="section-number-2">1.</span> Module Organization</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The documentation configuration is split into focused modules:
@@ -107,19 +108,19 @@ The documentation configuration is split into focused modules:
 </table>
 </div>
 
-<div id="outline-container-org3359d6f" class="outline-3">
-<h3 id="org3359d6f"><span class="section-number-3">1.1.</span> Loader Configuration</h3>
+<div id="outline-container-org689d9b1" class="outline-3">
+<h3 id="org689d9b1"><span class="section-number-3">1.1.</span> Loader Configuration</h3>
 </div>
-<div id="outline-container-org033e833" class="outline-3">
-<h3 id="org033e833"><span class="section-number-3">1.2.</span> Documentation Configuration Loader</h3>
+<div id="outline-container-org6eb1bed" class="outline-3">
+<h3 id="org6eb1bed"><span class="section-number-3">1.2.</span> Documentation Configuration Loader</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 This file serves as the main entry point for all documentation-related configurations. It loads document format-specific modules.
 </p>
 </div>
 
-<div id="outline-container-orgd44bc54" class="outline-4">
-<h4 id="orgd44bc54"><span class="section-number-4">1.2.1.</span> Purpose</h4>
+<div id="outline-container-org1e7d42a" class="outline-4">
+<h4 id="org1e7d42a"><span class="section-number-4">1.2.1.</span> Purpose</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 The loader (<code>doc-conf.el</code>) is responsible for:
@@ -132,14 +133,14 @@ The loader (<code>doc-conf.el</code>) is responsible for:
 </div>
 </div>
 
-<div id="outline-container-orgac9f444" class="outline-4">
-<h4 id="orgac9f444"><span class="section-number-4">1.2.2.</span> Architecture</h4>
+<div id="outline-container-orgaa8eedc" class="outline-4">
+<h4 id="orgaa8eedc"><span class="section-number-4">1.2.2.</span> Architecture</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <p>
 The documentation configuration is modular:
 </p>
 
-<pre class="example" id="org5f2edc8">
+<pre class="example" id="orgbfb2f4b">
 doc-conf.el (this file)
 ├── doc-general-conf.el   → General documentation settings
 ├── doc-org-conf.el       → Org-mode settings
@@ -148,8 +149,8 @@ doc-conf.el (this file)
 </div>
 </div>
 
-<div id="outline-container-orgadf9d51" class="outline-4">
-<h4 id="orgadf9d51"><span class="section-number-4">1.2.3.</span> Loader Implementation</h4>
+<div id="outline-container-org9eedfcd" class="outline-4">
+<h4 id="org9eedfcd"><span class="section-number-4">1.2.3.</span> Loader Implementation</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-conf.el --- Documentation configuration loader -*- lexical-binding: t; -*-
@@ -175,19 +176,19 @@ doc-conf.el (this file)
 </div>
 </div>
 
-<div id="outline-container-orgc58935f" class="outline-3">
-<h3 id="orgc58935f"><span class="section-number-3">1.3.</span> General Configuration</h3>
+<div id="outline-container-orgad04bc8" class="outline-3">
+<h3 id="orgad04bc8"><span class="section-number-3">1.3.</span> General Configuration</h3>
 </div>
-<div id="outline-container-orgd8936cd" class="outline-3">
-<h3 id="orgd8936cd"><span class="section-number-3">1.4.</span> General Documentation Configuration</h3>
+<div id="outline-container-org4b2a6bb" class="outline-3">
+<h3 id="org4b2a6bb"><span class="section-number-3">1.4.</span> General Documentation Configuration</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 Common documentation tools and utilities that apply across all document formats (Org-mode, Markdown, etc.).
 </p>
 </div>
 
-<div id="outline-container-orgf314186" class="outline-4">
-<h4 id="orgf314186"><span class="section-number-4">1.4.1.</span> Overview</h4>
+<div id="outline-container-org7da1be1" class="outline-4">
+<h4 id="org7da1be1"><span class="section-number-4">1.4.1.</span> Overview</h4>
 <div class="outline-text-4" id="text-1-4-1">
 <p>
 This module provides:
@@ -199,8 +200,8 @@ This module provides:
 </div>
 </div>
 
-<div id="outline-container-org8105676" class="outline-4">
-<h4 id="org8105676"><span class="section-number-4">1.4.2.</span> What's Included</h4>
+<div id="outline-container-orgb02f262" class="outline-4">
+<h4 id="orgb02f262"><span class="section-number-4">1.4.2.</span> What's Included</h4>
 <div class="outline-text-4" id="text-1-4-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -226,8 +227,8 @@ This module provides:
 </div>
 </div>
 
-<div id="outline-container-org4ba55bb" class="outline-4">
-<h4 id="org4ba55bb"><span class="section-number-4">1.4.3.</span> General</h4>
+<div id="outline-container-orgc87af22" class="outline-4">
+<h4 id="orgc87af22"><span class="section-number-4">1.4.3.</span> General</h4>
 <div class="outline-text-4" id="text-1-4-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-general-conf.el --- General documentation configuration -*- lexical-binding: t; -*-
@@ -248,8 +249,8 @@ This module provides:
 </div>
 </div>
 
-<div id="outline-container-org8211504" class="outline-3">
-<h3 id="org8211504"><span class="section-number-3">1.5.</span> End of File</h3>
+<div id="outline-container-orge4bf34a" class="outline-3">
+<h3 id="orge4bf34a"><span class="section-number-3">1.5.</span> End of File</h3>
 <div class="outline-text-3" id="text-1-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">doc-general-conf</span>)
@@ -259,11 +260,11 @@ This module provides:
 </div>
 </div>
 
-<div id="outline-container-orgf0e5f73" class="outline-3">
-<h3 id="orgf0e5f73"><span class="section-number-3">1.6.</span> Org Configuration</h3>
+<div id="outline-container-org9017963" class="outline-3">
+<h3 id="org9017963"><span class="section-number-3">1.6.</span> Org Configuration</h3>
 </div>
-<div id="outline-container-org30df577" class="outline-3">
-<h3 id="org30df577"><span class="section-number-3">1.7.</span> Introduction</h3>
+<div id="outline-container-org51e359d" class="outline-3">
+<h3 id="org51e359d"><span class="section-number-3">1.7.</span> Introduction</h3>
 <div class="outline-text-3" id="text-1-7">
 <p>
 Configuration for Org-mode and knowledge management tools including org-roam, org-gcal, and related packages.
@@ -271,133 +272,131 @@ Configuration for Org-mode and knowledge management tools including org-roam, or
 </div>
 </div>
 
-<div id="outline-container-orgee85ff1" class="outline-3">
-<h3 id="orgee85ff1"><span class="section-number-3">1.8.</span> Org Mode Core Configuration</h3>
+<div id="outline-container-orgd031bba" class="outline-3">
+<h3 id="orgd031bba"><span class="section-number-3">1.8.</span> Org Mode Core Configuration</h3>
 <div class="outline-text-3" id="text-1-8">
 <p>
 Core Org-mode settings including babel languages, templates, and basic customization.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-org-conf.el --- Org-mode and knowledge management configuration  -*- lexical-binding: t; -*-
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+<pre class="src src-emacs-lisp">  <span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-org-conf.el --- Org-mode and knowledge management configuration  -*- lexical-binding: t; -*-
+</span>  <span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span>  <span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
 </span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Configure browser for opening URLs (fixes LaTeXiT issue on macOS)
-</span>(<span class="org-keyword">setq</span> browse-url-browser-function 'browse-url-default-macosx-browser)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Configure browser for opening URLs (fixes LaTeXiT issue on macOS)
+</span>  (<span class="org-keyword">setq</span> browse-url-browser-function 'browse-url-default-macosx-browser)
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Required packages for org extensions
-</span>(<span class="org-keyword">use-package</span> org-contrib)
-(<span class="org-keyword">use-package</span> ob-typescript)
-(<span class="org-keyword">use-package</span> ob-powershell)
-(<span class="org-keyword">use-package</span> ob-http)
-(<span class="org-keyword">use-package</span> ob-restclient)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Required packages for org extensions
+</span>  (<span class="org-keyword">use-package</span> org-contrib)
+  (<span class="org-keyword">use-package</span> ob-typescript)
+  (<span class="org-keyword">use-package</span> ob-powershell)
+  (<span class="org-keyword">use-package</span> ob-http)
+  (<span class="org-keyword">use-package</span> ob-restclient)
 
-(<span class="org-keyword">use-package</span> org
-  <span class="org-builtin">:pin</span> org
-  <span class="org-builtin">:commands</span> (org-capture org-agenda)
-  <span class="org-builtin">:custom</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Agenda and logging
-</span>  (org-agenda-start-with-log-mode t)
-  (org-log-done 'time)
-  (org-log-into-drawer t)
+  (<span class="org-keyword">use-package</span> org
+    <span class="org-builtin">:pin</span> org
+    <span class="org-builtin">:commands</span> (org-capture org-agenda)
+    <span class="org-builtin">:custom</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Agenda and logging
+</span>    (org-agenda-start-with-log-mode t)
+    (org-log-done 'time)
+    (org-log-into-drawer t)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Editing behavior
-</span>  (org-catch-invisible-edits 'show)
-  (org-edit-timestamp-down-means-later t)
-  (org-fast-tag-selection-single-key 'expert)
-  (org-src-window-setup 'current-window)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Editing behavior
+</span>    (org-catch-invisible-edits 'show)
+    (org-edit-timestamp-down-means-later t)
+    (org-fast-tag-selection-single-key 'expert)
+    (org-src-window-setup 'current-window)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Export settings
-</span>  (org-export-coding-system 'utf-8)
-  (org-export-kill-product-buffer-when-displayed t)
-  (org-html-validation-link nil)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Export settings
+</span>    (org-export-coding-system 'utf-8)
+    (org-export-kill-product-buffer-when-displayed t)
+    (org-html-validation-link nil)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">LaTeX export
-</span>  (org-latex-compiler <span class="org-string">"xelatex"</span>)
-  (org-latex-pdf-process '(<span class="org-string">"latexmk -xelatex -synctex=1 -f -interaction=nonstopmode -output-directory=%o %f"</span>))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">LaTeX export
+</span>    (org-latex-compiler <span class="org-string">"xelatex"</span>)
+    (org-latex-pdf-process '(<span class="org-string">"latexmk -xelatex -synctex=1 -f -interaction=nonstopmode -output-directory=%o %f"</span>))
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Display and appearance
-</span>  (org-hide-emphasis-markers t)
-  (org-pretty-entities nil)
-  (org-startup-indented nil)
-  (org-startup-with-inline-images t)
-  (org-display-remote-inline-images 'download)
-  (org-image-actual-width '(450))
-  (org-tags-column 80)
-  <span class="org-builtin">:hook</span>
-  ((org-mode-hook . olivetti-mode))
-  <span class="org-builtin">:config</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Load org-tempo for easy template expansion
-</span>  (<span class="org-keyword">require</span> '<span class="org-constant">org-tempo</span>)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Display and appearance
+</span>    (org-hide-emphasis-markers t)
+    (org-pretty-entities nil)
+    (org-startup-indented nil)
+    (org-startup-with-inline-images t)
+    (org-display-remote-inline-images 'download)
+    (org-image-actual-width '(450))
+    (org-tags-column 80)
+    <span class="org-builtin">:hook</span>
+    ((org-mode-hook . olivetti-mode))
+    <span class="org-builtin">:config</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Load org-tempo for easy template expansion
+</span>    (<span class="org-keyword">require</span> '<span class="org-constant">org-tempo</span>)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Load babel language support
-</span>  (<span class="org-keyword">require</span> '<span class="org-constant">ob-js</span>)
-  (<span class="org-keyword">require</span> '<span class="org-constant">ob-typescript</span>)
-  (<span class="org-keyword">require</span> '<span class="org-constant">ob-ruby</span>)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Load babel language support
+</span>    (<span class="org-keyword">require</span> '<span class="org-constant">ob-js</span>)
+    (<span class="org-keyword">require</span> '<span class="org-constant">ob-typescript</span>)
+    (<span class="org-keyword">require</span> '<span class="org-constant">ob-ruby</span>)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Add custom structure templates
-</span>  (add-to-list 'org-structure-template-alist '(<span class="org-string">"txt"</span>  . <span class="org-string">"src text"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"cc"</span>   . <span class="org-string">"src C"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"sh"</span>   . <span class="org-string">"src shell"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"zsh"</span>  . <span class="org-string">"src zsh"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"bash"</span> . <span class="org-string">"src bash"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"posh"</span> . <span class="org-string">"src powershell"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"el"</span>   . <span class="org-string">"src emacs-lisp"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"py"</span>   . <span class="org-string">"src python"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"js"</span>   . <span class="org-string">"src js"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"ts"</span>   . <span class="org-string">"src typescript"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"java"</span> . <span class="org-string">"src java"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"scm"</span>  . <span class="org-string">"src scheme"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"sql"</span>  . <span class="org-string">"src sql"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"rust"</span> . <span class="org-string">"src rust"</span>))
-  (add-to-list 'org-structure-template-alist '(<span class="org-string">"rb"</span>   . <span class="org-string">"src ruby"</span>))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Add custom structure templates
+</span>    (add-to-list 'org-structure-template-alist '(<span class="org-string">"txt"</span>  . <span class="org-string">"src text"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"cc"</span>   . <span class="org-string">"src C"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"sh"</span>   . <span class="org-string">"src shell"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"zsh"</span>  . <span class="org-string">"src zsh"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"bash"</span> . <span class="org-string">"src bash"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"posh"</span> . <span class="org-string">"src powershell"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"el"</span>   . <span class="org-string">"src emacs-lisp"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"py"</span>   . <span class="org-string">"src python"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"js"</span>   . <span class="org-string">"src js"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"ts"</span>   . <span class="org-string">"src typescript"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"java"</span> . <span class="org-string">"src java"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"scm"</span>  . <span class="org-string">"src scheme"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"sql"</span>  . <span class="org-string">"src sql"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"rust"</span> . <span class="org-string">"src rust"</span>))
+    (add-to-list 'org-structure-template-alist '(<span class="org-string">"rb"</span>   . <span class="org-string">"src ruby"</span>))
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable babel languages - only load those that are available
-</span>  (org-babel-do-load-languages
-   'org-babel-load-languages
-   (seq-filter
-    (<span class="org-keyword">lambda</span> (pair)
-      (locate-library (concat <span class="org-string">"ob-"</span> (symbol-name (car pair)))))
-    '((dot        . t)
-      (C          . t)
-      (gnuplot    . t)
-      (latex      . t)
-      (python     . t)
-      (js         . t)
-      (typescript . t)
-      (shell      . t)
-      (zsh        . t)
-      (bash       . t)
-      (posh       . t)
-      (powershell . t)
-      (scheme     . t)
-      (sql        . t)
-      (sqlite     . t)
-      (ruby       . t)
-      (emacs-lisp . t)
-      (http       . t)
-      (restclient . t))))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable babel languages - only load those that are available
+</span>    (org-babel-do-load-languages
+     'org-babel-load-languages
+     (seq-filter
+      (<span class="org-keyword">lambda</span> (pair)
+        (locate-library (concat <span class="org-string">"ob-"</span> (symbol-name (car pair)))))
+      '((dot        . t)
+        (C          . t)
+        (gnuplot    . t)
+        (latex      . t)
+        (python     . t)
+        (js         . t)
+        (typescript . t)
+        (shell      . t)
+        (zsh        . t)
+        (bash       . t)
+        (posh       . t)
+        (powershell . t)
+        (scheme     . t)
+        (sql        . t)
+        (sqlite     . t)
+        (ruby       . t)
+        (emacs-lisp . t)
+        (http       . t)
+        (restclient . t))))
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Fix electric-pair-mode for org-mode angle brackets
-</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">handle-electric-pair-inhibit</span> (c)
-    (<span class="org-keyword">if</span> (char-equal c ?&lt;) t (,electric-pair-inhibit-predicate c)))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Fix electric-pair-mode for org-mode angle brackets
+</span>    (<span class="org-keyword">defun</span> <span class="org-function-name">handle-electric-pair-inhibit</span> (c)
+      (<span class="org-keyword">if</span> (char-equal c ?&lt;) t (,electric-pair-inhibit-predicate c)))
 
-  (<span class="org-keyword">defun</span> <span class="org-function-name">handle-org-mode-hook</span>()
-    (<span class="org-keyword">setq-local</span> electric-pair-inhibit-predicate #'handle-electric-pair-inhibit))
+    (<span class="org-keyword">defun</span> <span class="org-function-name">handle-org-mode-hook</span>()
+      (<span class="org-keyword">setq-local</span> electric-pair-inhibit-predicate #'handle-electric-pair-inhibit))
 
-  (add-hook 'org-mode-hook #'handle-org-mode-hook)
+    (add-hook 'org-mode-hook #'handle-org-mode-hook)
 
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Load org-remoteimg for remote image display
-</span>  (add-to-list 'load-path (expand-file-name <span class="org-string">"elisp/settings"</span> user-emacs-directory))
-  (<span class="org-keyword">require</span> '<span class="org-constant">org-remoteimg</span>))
+)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3dbf4d7" class="outline-3">
-<h3 id="org3dbf4d7"><span class="section-number-3">1.9.</span> Org Download</h3>
+<div id="outline-container-org1af0775" class="outline-3">
+<h3 id="org1af0775"><span class="section-number-3">1.9.</span> Org Download</h3>
 <div class="outline-text-3" id="text-1-9">
 <p>
 Drag-and-drop images and screenshots into org buffers.
@@ -427,8 +426,8 @@ Automatically skipped on server/headless environments (requires GUI for screensh
 </div>
 </div>
 
-<div id="outline-container-org2f80ef8" class="outline-3">
-<h3 id="org2f80ef8"><span class="section-number-3">1.10.</span> Org Appear (Disabled)</h3>
+<div id="outline-container-orge03845a" class="outline-3">
+<h3 id="orge03845a"><span class="section-number-3">1.10.</span> Org Appear (Disabled)</h3>
 <div class="outline-text-3" id="text-1-10">
 <p>
 Shows hidden emphasis markers and links when cursor is on them. Currently disabled.
@@ -452,16 +451,16 @@ Shows hidden emphasis markers and links when cursor is on them. Currently disabl
 </div>
 </div>
 
-<div id="outline-container-org1dd5b3f" class="outline-3">
-<h3 id="org1dd5b3f"><span class="section-number-3">1.11.</span> Pretty Org - Visual Enhancements</h3>
+<div id="outline-container-org4b2af3d" class="outline-3">
+<h3 id="org4b2af3d"><span class="section-number-3">1.11.</span> Pretty Org - Visual Enhancements</h3>
 <div class="outline-text-3" id="text-1-11">
 <p>
 Modern, beautiful styling for Org-mode with enhanced typography, icons, and visual elements.
 </p>
 </div>
 
-<div id="outline-container-org2194d76" class="outline-4">
-<h4 id="org2194d76"><span class="section-number-4">1.11.1.</span> Org Modern</h4>
+<div id="outline-container-org98bafc7" class="outline-4">
+<h4 id="org98bafc7"><span class="section-number-4">1.11.1.</span> Org Modern</h4>
 <div class="outline-text-4" id="text-1-11-1">
 <p>
 The <code>org-modern</code> package provides a clean, modern appearance for Org-mode with better typography, styling, and visual hierarchy.
@@ -501,9 +500,9 @@ Features:
 </span>
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Block delimiters
 </span>  (org-modern-block-name '((<span class="org-string">"src"</span> <span class="org-string">"&#187;"</span> <span class="org-string">"&#171;"</span>)
-                          (<span class="org-string">"example"</span> <span class="org-string">"&#187;&#8211;"</span> <span class="org-string">"&#8211;&#171;"</span>)
-                          (<span class="org-string">"quote"</span> <span class="org-string">"&#10077;"</span> <span class="org-string">"&#10078;"</span>)
-                          (<span class="org-string">"export"</span> <span class="org-string">"&#9193;"</span> <span class="org-string">"&#9194;"</span>)))
+                           (<span class="org-string">"example"</span> <span class="org-string">"&#187;&#8211;"</span> <span class="org-string">"&#8211;&#171;"</span>)
+                           (<span class="org-string">"quote"</span> <span class="org-string">"&#10077;"</span> <span class="org-string">"&#10078;"</span>)
+                           (<span class="org-string">"export"</span> <span class="org-string">"&#9193;"</span> <span class="org-string">"&#9194;"</span>)))
 
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Keywords styling
 </span>  (org-modern-keyword t)
@@ -522,8 +521,8 @@ Features:
 </span>  (org-modern-todo t)
   (org-modern-todo-faces
    '((<span class="org-string">"TODO"</span> <span class="org-builtin">:background</span> <span class="org-string">"#ff6c6b"</span> <span class="org-builtin">:foreground</span> <span class="org-string">"#282c34"</span> <span class="org-builtin">:weight</span> bold)
-     (<span class="org-string">"NEXT"</span> <span class="org-builtin">:background</span> <span class="org-string">"#51afef"</span> <span class="org-builtin">:foreground</span> <span class="org-string">"#282c34"</span> <span class="org-builtin">:weight</span> bold)
-     (<span class="org-string">"WAIT"</span> <span class="org-builtin">:background</span> <span class="org-string">"#ecbe7b"</span> <span class="org-builtin">:foreground</span> <span class="org-string">"#282c34"</span> <span class="org-builtin">:weight</span> bold)
+     (<span class="org-string">"DOING"</span> <span class="org-builtin">:background</span> <span class="org-string">"#51afef"</span> <span class="org-builtin">:foreground</span> <span class="org-string">"#282c34"</span> <span class="org-builtin">:weight</span> bold)
+     (<span class="org-string">"REVIEW"</span> <span class="org-builtin">:background</span> <span class="org-string">"#ecbe7b"</span> <span class="org-builtin">:foreground</span> <span class="org-string">"#282c34"</span> <span class="org-builtin">:weight</span> bold)
      (<span class="org-string">"DONE"</span> <span class="org-builtin">:background</span> <span class="org-string">"#98be65"</span> <span class="org-builtin">:foreground</span> <span class="org-string">"#282c34"</span> <span class="org-builtin">:weight</span> bold)
      (<span class="org-string">"CANCEL"</span> <span class="org-builtin">:background</span> <span class="org-string">"#5B6268"</span> <span class="org-builtin">:foreground</span> <span class="org-string">"#282c34"</span> <span class="org-builtin">:weight</span> bold))))
 </pre>
@@ -532,8 +531,8 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org2b5e073" class="outline-3">
-<h3 id="org2b5e073"><span class="section-number-3">1.12.</span> Org Google Calendar</h3>
+<div id="outline-container-org9c92706" class="outline-3">
+<h3 id="org9c92706"><span class="section-number-3">1.12.</span> Org Google Calendar</h3>
 <div class="outline-text-3" id="text-1-12">
 <p>
 Bidirectional sync between Org-mode and Google Calendar. Disabled for now.
@@ -614,260 +613,38 @@ Bidirectional sync between Org-mode and Google Calendar. Disabled for now.
 </div>
 </div>
 
-<div id="outline-container-org19fed14" class="outline-3">
-<h3 id="org19fed14"><span class="section-number-3">1.13.</span> Org Remote Images</h3>
+<div id="outline-container-orge66202e" class="outline-3">
+<h3 id="orge66202e"><span class="section-number-3">1.13.</span> Org Image Preview</h3>
 <div class="outline-text-3" id="text-1-13">
 <p>
 Display remote HTTP/HTTPS images inline in org buffers with automatic caching.
+Uses the <code>org-image-preview</code> package from GitHub.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">org-remoteimg.el --- Display remote inline images in org-mode -*- lexical-binding: t -*-
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Copyright (C) 2023 Dean Gao - MIT License
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Author: Dean Gao <a href="mailto:gao.dean%40hotmail.com">&lt;gao.dean@hotmail.com&gt;</a>
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Description: Inline display of remote images in org-mode
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Homepage: https://github.com/gaoDean/org-imgtog
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Package-Requires: ((emacs "25.1"))
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Permission is hereby granted, free of charge, to any person obtaining a copy
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">of this software and associated documentation files (the "Software"), to deal
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">in the Software without restriction, including without limitation the rights
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">copies of the Software, and to permit persons to whom the Software is
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">furnished to do so, subject to the following conditions:
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">The above copyright notice and this permission notice shall be included in all
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">copies or substantial portions of the Software.
-</span><span class="org-comment-delimiter">;;</span><span class="org-comment">
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">SOFTWARE.
-</span>
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">This package displays remote images inline in org-mode with automatic caching.
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">This means you can do \[\[https://my-file.png\]\], and have it display inline.
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">The next time you visit the file or fetch the image, it will be instantly
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">fetched from the cache.
-</span>
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>
-(<span class="org-keyword">require</span> '<span class="org-constant">org</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">org-element</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">url</span>)
-(<span class="org-keyword">require</span> '<span class="org-constant">url-cache</span>)
-
-(<span class="org-keyword">unless</span> (fboundp 'image-supported-file-p)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">`</span><span class="org-comment"><span class="org-constant">image-supported-file-p</span></span><span class="org-comment">' isn't available before Emacs 28
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Add alias to not break Emacs &lt;28.
-</span>  (<span class="org-keyword">defalias</span> '<span class="org-function-name">image-type-from-file-name</span> 'image-supported-file-p))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Compatibility definitions for Org-mode &lt; 9.8
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">In Org &lt; 9.8, the variable is called org-inline-image-overlays
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">In Org &gt;= 9.8, it was renamed to org-link-preview-overlays
-</span>(<span class="org-keyword">unless</span> (boundp 'org-link-preview-overlays)
-  (<span class="org-keyword">defvaralias</span> '<span class="org-variable-name">org-link-preview-overlays</span> 'org-inline-image-overlays
-    <span class="org-doc">"Compatibility alias for org-inline-image-overlays in Org &lt; 9.8."</span>))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">org-image-update-overlay</span> (file link <span class="org-type">&amp;optional</span> data-p refresh)
-  <span class="org-doc">"Create image overlay for FILE associtated with org-element LINK.
-If DATA-P is non-nil FILE is not a file name but a string with the image data.
-If REFRESH is non-nil don't download the file but refresh the image.
-See also `</span><span class="org-doc"><span class="org-constant">create-image</span></span><span class="org-doc">'.
-This function is almost a duplicate of a part of `</span><span class="org-doc"><span class="org-constant">org-display-inline-images</span></span><span class="org-doc">'."</span>
-  (<span class="org-keyword">when</span> (<span class="org-keyword">or</span> data-p (file-exists-p file))
-    (<span class="org-keyword">let</span> ((width
-           <span class="org-comment-delimiter">;; </span><span class="org-comment">Apply `</span><span class="org-comment"><span class="org-constant">org-image-actual-width</span></span><span class="org-comment">' specifications.
-</span>           (<span class="org-keyword">cond</span>
-            ((eq org-image-actual-width t) nil)
-            ((listp org-image-actual-width)
-             (<span class="org-keyword">or</span>
-              <span class="org-comment-delimiter">;; </span><span class="org-comment">First try to find a width among
-</span>              <span class="org-comment-delimiter">;; </span><span class="org-comment">attributes associated to the paragraph
-</span>              <span class="org-comment-delimiter">;; </span><span class="org-comment">containing link.
-</span>              (<span class="org-keyword">let</span> ((paragraph
-                     (<span class="org-keyword">let</span> ((e link))
-                       (<span class="org-keyword">while</span> (<span class="org-keyword">and</span> (<span class="org-keyword">setq</span> e (org-element-property
-                                            <span class="org-builtin">:parent</span> e))
-                                   (not (eq (org-element-type e)
-                                            'paragraph))))
-                       e)))
-                (<span class="org-keyword">when</span> paragraph
-                  (<span class="org-keyword">save-excursion</span>
-                    (goto-char (org-element-property <span class="org-builtin">:begin</span> paragraph))
-                    (<span class="org-keyword">when</span>
-                        (re-search-forward
-                         <span class="org-string">"^[ \t]*#\\+attr_.*?: +.*?:width +</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">\\S-+</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">"</span>
-                         (org-element-property
-                          <span class="org-builtin">:post-affiliated</span> paragraph)
-                         t)
-                      (string-to-number (match-string 1))))))
-              <span class="org-comment-delimiter">;; </span><span class="org-comment">Otherwise, fall-back to provided number.
-</span>              (car org-image-actual-width)))
-            ((numberp org-image-actual-width)
-             org-image-actual-width)))
-          (old (get-char-property-and-overlay
-                (org-element-property <span class="org-builtin">:begin</span> link)
-                'org-image-overlay)))
-      (<span class="org-keyword">if</span> (<span class="org-keyword">and</span> (car-safe old) refresh)
-          (image-flush (overlay-get (cdr old) 'display))
-        (<span class="org-keyword">let</span> ((image (create-image file
-                                   (<span class="org-keyword">and</span> (image-type-available-p 'imagemagick)
-                                        width
-                                        'imagemagick)
-                                   data-p
-                                   <span class="org-builtin">:width</span> width)))
-          (<span class="org-keyword">when</span> image
-            (<span class="org-keyword">let*</span> ((link
-                    <span class="org-comment-delimiter">;; </span><span class="org-comment">If inline image is the description
-</span>                    <span class="org-comment-delimiter">;; </span><span class="org-comment">of another link, be sure to
-</span>                    <span class="org-comment-delimiter">;; </span><span class="org-comment">consider the latter as the one to
-</span>                    <span class="org-comment-delimiter">;; </span><span class="org-comment">apply the overlay on.
-</span>                    (<span class="org-keyword">let</span> ((parent
-                           (org-element-property <span class="org-builtin">:parent</span> link)))
-                      (<span class="org-keyword">if</span> (eq (org-element-type parent) 'link)
-                          parent
-                        link)))
-                   (ov (make-overlay
-                        (org-element-property <span class="org-builtin">:begin</span> link)
-                        (<span class="org-keyword">progn</span>
-                          (goto-char
-                           (org-element-property <span class="org-builtin">:end</span> link))
-                          (skip-chars-backward <span class="org-string">" \t"</span>)
-                          (point)))))
-              (overlay-put ov 'display image)
-              (overlay-put ov 'face 'default)
-              (overlay-put ov 'org-image-overlay t)
-              (overlay-put
-               ov 'modification-hooks
-               (list 'org-display-inline-remove-overlay))
-              (<span class="org-keyword">push</span> ov org-link-preview-overlays)
-              ov)))))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">org-display-user-inline-images</span> (<span class="org-type">&amp;optional</span> _include-linked _refresh beg end)
-  <span class="org-doc">"Like `</span><span class="org-doc"><span class="org-constant">org-display-inline-images</span></span><span class="org-doc">' but for image data links.
-_INCLUDE-LINKED and _REFRESH are ignored.
-Restrict to region between BEG and END if both are non-nil.
-Image data links have a :image-data-fun parameter.
-\(See `</span><span class="org-doc"><span class="org-constant">org-link-set-parameters</span></span><span class="org-doc">'.)
-The value of the :image-data-fun parameter is a function
-taking the PROTOCOL, the LINK, and the DESCRIPTION as arguments.
-If that function returns nil the link is not interpreted as image.
-Otherwise the return value is the image data string to be displayed.
-
-Note that only bracket links are allowed as image data links
-with one of the formats
- [[PROTOCOL:LINK]]
-or
- [[PROTOCOL:LINK][DESCRIPTION]]
-are recognized.
-Full credit goes to org-yt by Tobias Zawada for this function."</span>
-  (<span class="org-keyword">interactive</span>)
-  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (called-interactively-p 'any)
-             (use-region-p))
-    (<span class="org-keyword">setq</span> beg (region-beginning)
-          end (region-end)))
-  (<span class="org-keyword">when</span> (display-graphic-p)
-    (<span class="org-keyword">org-with-wide-buffer</span>
-     (goto-char (<span class="org-keyword">or</span> beg (point-min)))
-     (<span class="org-keyword">when-let*</span> ((image-data-link-parameters
-               (<span class="org-keyword">cl-loop</span> for link-par-entry in org-link-parameters
-                        with fun
-                        when (<span class="org-keyword">setq</span> fun (plist-get (cdr link-par-entry) <span class="org-builtin">:image-data-fun</span>))
-                        collect (cons (car link-par-entry) fun)))
-              (image-data-link-re (regexp-opt (mapcar 'car image-data-link-parameters)))
-              (re (format <span class="org-string">"\\[\\[</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">%s</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">:</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">]]+</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">\\]</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(?:</span></span><span class="org-string">\\[</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">]]+</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">\\]</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">?\\]"</span>
-                          image-data-link-re)))
-       (<span class="org-keyword">while</span> (re-search-forward re end t)
-         (<span class="org-keyword">let*</span> ((protocol (match-string-no-properties 1))
-              (link (match-string-no-properties 2))
-              (description (match-string-no-properties 3))
-              (image-data-link (assoc-string protocol image-data-link-parameters))
-              (el (<span class="org-keyword">save-excursion</span> (goto-char (match-beginning 1)) (org-element-context)))
-              image-data)
-           (<span class="org-keyword">when</span> el
-             (<span class="org-keyword">setq</span> image-data
-                   (<span class="org-keyword">or</span> (<span class="org-keyword">let</span> ((old (get-char-property-and-overlay
-                                   (org-element-property <span class="org-builtin">:begin</span> el)
-                                   'org-image-overlay)))
-                         (<span class="org-keyword">and</span> old
-                              (car-safe old)
-                              (overlay-get (cdr old) 'display)))
-                     (funcall (cdr image-data-link) protocol link description)))
-             (<span class="org-keyword">when</span> image-data
-               (<span class="org-keyword">let</span> ((ol (org-image-update-overlay image-data el t t)))
-                 (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> ol description)
-                   (overlay-put ol 'after-string description)))))))))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">org-remoteimg--fetch-image</span> (protocol link _description)
-  <span class="org-doc">"Synchronously retrieve image from cache or web."</span>
-  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (image-supported-file-p link)
-             (not (eq org-display-remote-inline-images 'skip)))
-    (<span class="org-keyword">let*</span> ((cache (eq org-display-remote-inline-images 'cache))
-           (url-automatic-caching (<span class="org-keyword">if</span> cache
-                                      t
-                                    url-automatic-caching))
-           (url (concat protocol <span class="org-string">":"</span> link))
-           (silent-output (file-exists-p (url-cache-create-filename url))))
-      (<span class="org-keyword">if-let*</span> ((buf (url-retrieve-synchronously url
-                                                   silent-output
-                                                   nil
-                                                   30)))
-              (<span class="org-keyword">with-current-buffer</span> buf
-                (goto-char (point-min))
-                (re-search-forward <span class="org-string">"\r?\n\r?\n"</span> nil t)
-                (buffer-substring-no-properties (point) (point-max)))
-            (<span class="org-warning">error</span> <span class="org-string">"Download of image \"%s\" failed"</span> link)
-            nil))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">org-link-preview-http</span> (ov _path link)
-  <span class="org-doc">"Generate preview OV for LINK in PATH."</span>
-  (<span class="org-keyword">when-let*</span> ((raw-link (org-element-property <span class="org-builtin">:raw-link</span> link))
-              (image-type (image-supported-file-p raw-link))
-              <span class="org-comment-delimiter">;; </span><span class="org-comment">cache?
-</span>              (image-buffer (org-remoteimg--fetch-image nil raw-link nil)))
-        (overlay-put ov 'display (create-image image-buffer
-                                      <span class="org-comment-delimiter">;; </span><span class="org-comment">scale?
-</span>                                   <span class="org-comment-delimiter">;; </span><span class="org-comment">(and (image-type-available-p 'imagemagick)
-</span>                                   <span class="org-comment-delimiter">;;      </span><span class="org-comment">width
-</span>                                   <span class="org-comment-delimiter">;;      </span><span class="org-comment">'imagemagick)
-</span>                                                             <span class="org-comment-delimiter">;; </span><span class="org-comment">:width width
-</span>                                                             image-type
-                                                             t))
-        t))
-
-(<span class="org-keyword">if</span> (fboundp 'org-display-inline-images)
-    (<span class="org-keyword">progn</span>
-      (advice-add #'org-display-inline-images <span class="org-builtin">:after</span> #'org-display-user-inline-images)
-      (org-link-set-parameters <span class="org-string">"http"</span>  <span class="org-builtin">:image-data-fun</span> #'org-remoteimg--fetch-image)
-      (org-link-set-parameters <span class="org-string">"https"</span> <span class="org-builtin">:image-data-fun</span> #'org-remoteimg--fetch-image))
-  (org-link-set-parameters <span class="org-string">"http"</span> <span class="org-builtin">:preview</span> #'org-link-preview-http)
-  (org-link-set-parameters <span class="org-string">"https"</span> <span class="org-builtin">:preview</span> #'org-link-preview-http))
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">org-remoteimg</span>)
-
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">org-remoteimg.el ends here
-</span>
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> org-image-preview
+  <span class="org-builtin">:vc</span> (<span class="org-builtin">:url</span> <span class="org-string">"https://github.com/mandoo180/org-image-preview"</span>
+       <span class="org-builtin">:branch</span> <span class="org-string">"main"</span>)
+  <span class="org-builtin">:after</span> org
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable caching for better performance
+</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">Options: 'skip (disable), 'download (no cache), 'cache (recommended)
+</span>  (org-display-remote-inline-images 'cache))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6b3befd" class="outline-3">
-<h3 id="org6b3befd"><span class="section-number-3">1.14.</span> Org-Roam Configuration</h3>
+<div id="outline-container-org27bfd7c" class="outline-3">
+<h3 id="org27bfd7c"><span class="section-number-3">1.14.</span> Org-Roam Configuration</h3>
 <div class="outline-text-3" id="text-1-14">
 <p>
 Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org-mode. It enables networked thought through bidirectional linking and provides tools for knowledge management inspired by Roam Research.
 </p>
 </div>
 
-<div id="outline-container-org7d83c5e" class="outline-4">
-<h4 id="org7d83c5e"><span class="section-number-4">1.14.1.</span> Core Setup</h4>
+<div id="outline-container-org2ee4dcb" class="outline-4">
+<h4 id="org2ee4dcb"><span class="section-number-4">1.14.1.</span> Core Setup</h4>
 <div class="outline-text-4" id="text-1-14-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> org-roam
@@ -910,8 +687,8 @@ Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org
 </div>
 </div>
 
-<div id="outline-container-orgd6e991d" class="outline-4">
-<h4 id="orgd6e991d"><span class="section-number-4">1.14.2.</span> Capture Templates</h4>
+<div id="outline-container-orga0a4fbc" class="outline-4">
+<h4 id="orga0a4fbc"><span class="section-number-4">1.14.2.</span> Capture Templates</h4>
 <div class="outline-text-4" id="text-1-14-2">
 <p>
 Define templates for different types of notes. This follows the best practice of having different note types (fleeting, permanent, literature, etc.).
@@ -956,8 +733,8 @@ Define templates for different types of notes. This follows the best practice of
 </div>
 </div>
 
-<div id="outline-container-org1aa5e9a" class="outline-4">
-<h4 id="org1aa5e9a"><span class="section-number-4">1.14.3.</span> Daily Notes Configuration</h4>
+<div id="outline-container-orgf6e2863" class="outline-4">
+<h4 id="orgf6e2863"><span class="section-number-4">1.14.3.</span> Daily Notes Configuration</h4>
 <div class="outline-text-4" id="text-1-14-3">
 <p>
 Daily notes are essential for journaling and capturing fleeting thoughts. This configuration follows best practices for daily note organization.
@@ -1002,8 +779,8 @@ Daily notes are essential for journaling and capturing fleeting thoughts. This c
 </div>
 </div>
 
-<div id="outline-container-orgb08fa5a" class="outline-4">
-<h4 id="orgb08fa5a"><span class="section-number-4">1.14.4.</span> Enhanced Node Display</h4>
+<div id="outline-container-org70a071b" class="outline-4">
+<h4 id="org70a071b"><span class="section-number-4">1.14.4.</span> Enhanced Node Display</h4>
 <div class="outline-text-4" id="text-1-14-4">
 <p>
 Customize how nodes appear in completion and searches for better usability.
@@ -1037,8 +814,8 @@ Customize how nodes appear in completion and searches for better usability.
 </div>
 </div>
 
-<div id="outline-container-org3d23b62" class="outline-4">
-<h4 id="org3d23b62"><span class="section-number-4">1.14.5.</span> Graph Visualization</h4>
+<div id="outline-container-org4314ce9" class="outline-4">
+<h4 id="org4314ce9"><span class="section-number-4">1.14.5.</span> Graph Visualization</h4>
 <div class="outline-text-4" id="text-1-14-5">
 <p>
 Configure org-roam's graph visualization for better insights into your knowledge network.
@@ -1068,8 +845,8 @@ Configure org-roam's graph visualization for better insights into your knowledge
 </div>
 </div>
 
-<div id="outline-container-org6d6ef39" class="outline-4">
-<h4 id="org6d6ef39"><span class="section-number-4">1.14.6.</span> UI Enhancement with org-roam-ui</h4>
+<div id="outline-container-org060afce" class="outline-4">
+<h4 id="org060afce"><span class="section-number-4">1.14.6.</span> UI Enhancement with org-roam-ui</h4>
 <div class="outline-text-4" id="text-1-14-6">
 <p>
 Optional web-based graph visualization interface (requires separate package).
@@ -1094,8 +871,8 @@ Automatically skipped on server/headless environments.
 </div>
 </div>
 
-<div id="outline-container-org1c94d64" class="outline-4">
-<h4 id="org1c94d64"><span class="section-number-4">1.14.7.</span> Performance Optimizations</h4>
+<div id="outline-container-org5a1e83e" class="outline-4">
+<h4 id="org5a1e83e"><span class="section-number-4">1.14.7.</span> Performance Optimizations</h4>
 <div class="outline-text-4" id="text-1-14-7">
 <p>
 Best practices for maintaining good performance with large note collections.
@@ -1152,8 +929,8 @@ If called from within a note, can use current note."</span>
 </div>
 </div>
 
-<div id="outline-container-orgc975eba" class="outline-4">
-<h4 id="orgc975eba"><span class="section-number-4">1.14.8.</span> Best Practices Summary</h4>
+<div id="outline-container-org6405bb6" class="outline-4">
+<h4 id="org6405bb6"><span class="section-number-4">1.14.8.</span> Best Practices Summary</h4>
 <div class="outline-text-4" id="text-1-14-8">
 <p>
 Key principles to follow when using org-roam:
@@ -1173,13 +950,13 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org83179c4" class="outline-4">
-<h4 id="org83179c4"><span class="section-number-4">1.14.9.</span> Common Workflows</h4>
+<div id="outline-container-orgdb6f3d1" class="outline-4">
+<h4 id="orgdb6f3d1"><span class="section-number-4">1.14.9.</span> Common Workflows</h4>
 <div class="outline-text-4" id="text-1-14-9">
 </div>
 <ul class="org-ul">
-<li><a id="org1cca8cf"></a>Creating a New Note<br />
-<div class="outline-text-5" id="text-org1cca8cf">
+<li><a id="org0713d1c"></a>Creating a New Note<br />
+<div class="outline-text-5" id="text-org0713d1c">
 <ol class="org-ol">
 <li><code>C-c n f</code> (org-roam-node-find)</li>
 <li>Type the note title</li>
@@ -1189,8 +966,8 @@ Key principles to follow when using org-roam:
 </div>
 </li>
 
-<li><a id="org5484b8f"></a>Linking Notes<br />
-<div class="outline-text-5" id="text-org5484b8f">
+<li><a id="org9ae50bd"></a>Linking Notes<br />
+<div class="outline-text-5" id="text-org9ae50bd">
 <ol class="org-ol">
 <li><code>C-c n i</code> (org-roam-node-insert) while writing</li>
 <li>Search for existing note or create new one</li>
@@ -1199,8 +976,8 @@ Key principles to follow when using org-roam:
 </div>
 </li>
 
-<li><a id="org0ad814f"></a>Daily Journaling<br />
-<div class="outline-text-5" id="text-org0ad814f">
+<li><a id="org4ec26c9"></a>Daily Journaling<br />
+<div class="outline-text-5" id="text-org4ec26c9">
 <ol class="org-ol">
 <li><code>C-c n j</code> (org-roam-dailies-capture-today)</li>
 <li>Select template (journal, meeting, task, etc.)</li>
@@ -1209,8 +986,8 @@ Key principles to follow when using org-roam:
 </div>
 </li>
 
-<li><a id="orgea9c8b6"></a>Reviewing Connections<br />
-<div class="outline-text-5" id="text-orgea9c8b6">
+<li><a id="org2c48ca2"></a>Reviewing Connections<br />
+<div class="outline-text-5" id="text-org2c48ca2">
 <ol class="org-ol">
 <li><code>C-c n l</code> (org-roam-buffer-toggle) to see backlinks</li>
 <li><code>C-c n g</code> (org-roam-graph) for visual exploration</li>
@@ -1219,8 +996,8 @@ Key principles to follow when using org-roam:
 </div>
 </li>
 
-<li><a id="orgdcfbf01"></a>Deleting Notes Safely<br />
-<div class="outline-text-5" id="text-orgdcfbf01">
+<li><a id="org29d53cd"></a>Deleting Notes Safely<br />
+<div class="outline-text-5" id="text-org29d53cd">
 <p>
 <b>Method 1: Delete from anywhere (recommended)</b>
 </p>
@@ -1257,9 +1034,321 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org9fd7ac5" class="outline-3">
-<h3 id="org9fd7ac5"><span class="section-number-3">1.15.</span> End of File</h3>
+
+<div id="outline-container-org692e117" class="outline-3">
+<h3 id="org692e117"><span class="section-number-3">1.15.</span> Org-Jira</h3>
 <div class="outline-text-3" id="text-1-15">
+<p>
+<code>org-jira</code> provides a seamless integration between Emacs Org-mode and Atlassian Jira. It allows you to sync, create, update, and manage Jira issues directly from Org-mode buffers, bringing the power of Org's task management to your Jira workflow.
+</p>
+</div>
+
+<div id="outline-container-org12dea9e" class="outline-4">
+<h4 id="org12dea9e"><span class="section-number-4">1.15.1.</span> Key Features</h4>
+<div class="outline-text-4" id="text-1-15-1">
+<ul class="org-ul">
+<li><b>Bidirectional Sync</b>: Pull issues from Jira into Org files and push updates back</li>
+<li><b>Issue Management</b>: Create, update, and transition issues without leaving Emacs</li>
+<li><b>Worklog Tracking</b>: Log time spent on issues directly from Org-mode</li>
+<li><b>Comment Support</b>: Add and view comments on Jira issues</li>
+<li><b>Custom JQL Queries</b>: Define custom queries to fetch specific sets of issues</li>
+<li><b>Org Integration</b>: Issues are stored as standard Org headings with properties</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgaa10aa5" class="outline-4">
+<h4 id="orgaa10aa5"><span class="section-number-4">1.15.2.</span> Configuration</h4>
+<div class="outline-text-4" id="text-1-15-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> org-jira
+  <span class="org-builtin">:after</span> org
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Directory to store org-jira files
+</span>  (org-jira-working-dir (expand-file-name <span class="org-string">"jira/"</span> org-directory))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Default JQL query for fetching issues
+</span>  (org-jira-default-jql
+   <span class="org-string">"assignee = currentUser() AND resolution = Unresolved ORDER BY priority DESC, updated DESC"</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">How to handle issue priority in Org
+</span>  (org-jira-priority-to-org-priority-alist
+   '((<span class="org-string">"Highest"</span> . ?A)
+     (<span class="org-string">"High"</span>    . ?B)
+     (<span class="org-string">"Medium"</span>  . ?C)
+     (<span class="org-string">"Low"</span>     . ?D)
+     (<span class="org-string">"Lowest"</span>  . ?E)))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Map Jira status to Org TODO keywords
+</span>  (org-jira-jira-status-to-org-keyword-alist
+   '((<span class="org-string">"To Do"</span>       . <span class="org-string">"TODO"</span>)
+     (<span class="org-string">"In Progress"</span> . <span class="org-string">"DOING"</span>)
+     (<span class="org-string">"In Review"</span>   . <span class="org-string">"REVIEW"</span>)
+     (<span class="org-string">"Done"</span>        . <span class="org-string">"DONE"</span>)
+     (<span class="org-string">"Closed"</span>      . <span class="org-string">"DONE"</span>)))
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Ensure jira working directory exists
+</span>  (<span class="org-keyword">unless</span> (file-directory-p org-jira-working-dir)
+    (make-directory org-jira-working-dir t))
+
+  <span class="org-builtin">:bind</span>
+  ((<span class="org-string">"C-c j g"</span> . org-jira-get-issues)                      <span class="org-comment-delimiter">;; </span><span class="org-comment">Fetch issues with default JQL
+</span>   (<span class="org-string">"C-c j q"</span> . org-jira-get-issues-from-custom-jql)      <span class="org-comment-delimiter">;; </span><span class="org-comment">Fetch from custom JQL
+</span>   (<span class="org-string">"C-c j c"</span> . org-jira-create-issue)                    <span class="org-comment-delimiter">;; </span><span class="org-comment">Create a new issue
+</span>   (<span class="org-string">"C-c j u"</span> . org-jira-update-issue)                    <span class="org-comment-delimiter">;; </span><span class="org-comment">Update current issue
+</span>   (<span class="org-string">"C-c j p"</span> . org-jira-progress-issue)                  <span class="org-comment-delimiter">;; </span><span class="org-comment">Transition issue status
+</span>   (<span class="org-string">"C-c j a"</span> . org-jira-assign-issue)                    <span class="org-comment-delimiter">;; </span><span class="org-comment">Assign issue to someone
+</span>   (<span class="org-string">"C-c j r"</span> . org-jira-refresh-issue)                   <span class="org-comment-delimiter">;; </span><span class="org-comment">Refresh current issue
+</span>   (<span class="org-string">"C-c j w"</span> . org-jira-update-worklogs-from-org-clocks) <span class="org-comment-delimiter">;; </span><span class="org-comment">Sync worklogs
+</span>   (<span class="org-string">"C-c j t"</span> . org-jira-todo-to-jira)                    <span class="org-comment-delimiter">;; </span><span class="org-comment">Create Jira issue from TODO
+</span>   (<span class="org-string">"C-c j b"</span> . org-jira-browse-issue)))                  <span class="org-comment-delimiter">;; </span><span class="org-comment">Open issue in browser</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc030ae1" class="outline-4">
+<h4 id="orgc030ae1"><span class="section-number-4">1.15.3.</span> Authentication Setup</h4>
+<div class="outline-text-4" id="text-1-15-3">
+<p>
+For Jira Cloud, you need to use Basic Auth with your email and an API token.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="orgb07725e"></a>Getting an API Token<br />
+<div class="outline-text-5" id="text-orgb07725e">
+<ol class="org-ol">
+<li>Go to <a href="https://id.atlassian.com/manage-profile/security/api-tokens">https://id.atlassian.com/manage-profile/security/api-tokens</a></li>
+<li>Click "Create API token"</li>
+<li>Give it a label (e.g., "Emacs org-jira")</li>
+<li>Copy the generated token</li>
+</ol>
+</div>
+</li>
+
+<li><a id="orgba131a6"></a>Configuring Authentication<br />
+<div class="outline-text-5" id="text-orgba131a6">
+<p>
+Set these in your private configuration (<code>private.el</code> or similar - DO NOT commit!):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Jira Cloud authentication
+</span>(<span class="org-keyword">setq</span> jiralib-url <span class="org-string">"https://your-company.atlassian.net"</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">For Jira Cloud, use Basic Auth with email:token
+</span>(<span class="org-keyword">setq</span> jiralib-token
+      (cons <span class="org-string">"Authorization"</span>
+            (concat <span class="org-string">"Basic "</span>
+                    (base64-encode-string
+                     <span class="org-string">"your-email@company.com:your-api-token-here"</span>
+                     t))))  <span class="org-comment-delimiter">; </span><span class="org-comment">'</span><span class="org-comment"><span class="org-constant">t</span></span><span class="org-comment">' prevents newlines in base64</span>
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org057cd26" class="outline-4">
+<h4 id="org057cd26"><span class="section-number-4">1.15.4.</span> JQL Query Language</h4>
+<div class="outline-text-4" id="text-1-15-4">
+<p>
+JQL (Jira Query Language) is used to filter and sort issues. Use it with <code>C-c j g</code> or in custom queries.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="org8812399"></a>Common JQL Examples<br />
+<div class="outline-text-5" id="text-org8812399">
+<pre class="example" id="org22a5c5c">
+# My open issues, sorted by priority
+assignee = currentUser() AND resolution = Unresolved ORDER BY priority DESC
+
+# Issues in current sprint
+project = PROJ AND sprint in openSprints() ORDER BY rank
+
+# Recently updated issues (last 7 days)
+assignee = currentUser() AND updated &gt;= -7d ORDER BY updated DESC
+
+# Filter by status
+status IN ("To Do", "In Progress") AND assignee = currentUser()
+
+# Filter by label
+labels = "backend" AND resolution = Unresolved
+
+# Specific project, exclude done
+project = MYPROJ AND status != Done ORDER BY created DESC
+
+# Issues I'm watching
+watcher = currentUser()
+
+# Issues I reported
+reporter = currentUser() AND created &gt;= -30d ORDER BY created DESC
+</pre>
+</div>
+</li>
+
+<li><a id="org67abcdc"></a>ORDER BY Options<br />
+<div class="outline-text-5" id="text-org67abcdc">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Field</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>priority</code></td>
+<td class="org-left">Issue priority</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>created</code></td>
+<td class="org-left">Creation date</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>updated</code></td>
+<td class="org-left">Last update date</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>duedate</code></td>
+<td class="org-left">Due date</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rank</code></td>
+<td class="org-left">Sprint board order</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>status</code></td>
+<td class="org-left">Issue status</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>summary</code></td>
+<td class="org-left">Issue title (alphabetical)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Use <code>DESC</code> (descending) or <code>ASC</code> (ascending) after the field name.
+</p>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-orgc4782a5" class="outline-4">
+<h4 id="orgc4782a5"><span class="section-number-4">1.15.5.</span> Custom JQL Queries</h4>
+<div class="outline-text-4" id="text-1-15-5">
+<p>
+Define saved queries for quick access via <code>C-c j q</code> (<code>org-jira-get-issues-from-custom-jql</code>):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Custom JQL queries - add to your config
+</span>(<span class="org-keyword">setq</span> org-jira-custom-jqls
+      '(<span class="org-comment-delimiter">;; </span><span class="org-comment">Current sprint issues
+</span>        (<span class="org-builtin">:jql</span> <span class="org-string">"project = PROJ AND sprint in openSprints() ORDER BY rank"</span>
+         <span class="org-builtin">:filename</span> <span class="org-string">"current-sprint"</span>)
+
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">My in-progress work
+</span>        (<span class="org-builtin">:jql</span> <span class="org-string">"assignee = currentUser() AND status = 'In Progress' ORDER BY updated DESC"</span>
+         <span class="org-builtin">:filename</span> <span class="org-string">"in-progress"</span>)
+
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Issues I reported
+</span>        (<span class="org-builtin">:jql</span> <span class="org-string">"reporter = currentUser() AND created &gt;= -30d ORDER BY created DESC"</span>
+         <span class="org-builtin">:filename</span> <span class="org-string">"my-reported"</span>)
+
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">High priority unresolved
+</span>        (<span class="org-builtin">:jql</span> <span class="org-string">"assignee = currentUser() AND priority IN (Highest, High) AND resolution = Unresolved"</span>
+         <span class="org-builtin">:filename</span> <span class="org-string">"high-priority"</span>)
+
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">Recently updated across team
+</span>        (<span class="org-builtin">:jql</span> <span class="org-string">"project = PROJ AND updated &gt;= -1d ORDER BY updated DESC"</span>
+         <span class="org-builtin">:filename</span> <span class="org-string">"team-recent"</span>)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfee8342" class="outline-4">
+<h4 id="orgfee8342"><span class="section-number-4">1.15.6.</span> Common Workflows</h4>
+<div class="outline-text-4" id="text-1-15-6">
+</div>
+<ul class="org-ul">
+<li><a id="orgd086e91"></a>Syncing Issues from Jira<br />
+<div class="outline-text-5" id="text-orgd086e91">
+<ol class="org-ol">
+<li><code>C-c j g</code> - Fetch issues using default JQL</li>
+<li><code>C-c j q</code> - Select from custom saved queries</li>
+<li>Issues are saved to <code>org-jira-working-dir</code></li>
+</ol>
+</div>
+</li>
+
+<li><a id="org4fb454c"></a>Creating an Issue<br />
+<div class="outline-text-5" id="text-org4fb454c">
+<ol class="org-ol">
+<li><code>C-c j c</code> (org-jira-create-issue)</li>
+<li>Select project and issue type</li>
+<li>Fill in summary and description</li>
+<li>Issue is created in Jira and synced locally</li>
+</ol>
+</div>
+</li>
+
+<li><a id="orgee09063"></a>Updating an Issue<br />
+<div class="outline-text-5" id="text-orgee09063">
+<ol class="org-ol">
+<li>Position cursor on issue heading</li>
+<li>Make changes to summary, description, or properties</li>
+<li><code>C-c j u</code> (org-jira-update-issue)</li>
+</ol>
+</div>
+</li>
+
+<li><a id="orgafabb73"></a>Transitioning Issue Status<br />
+<div class="outline-text-5" id="text-orgafabb73">
+<ol class="org-ol">
+<li>Position cursor on issue heading</li>
+<li><code>C-c j p</code> (org-jira-progress-issue)</li>
+<li>Select new status from available transitions</li>
+</ol>
+</div>
+</li>
+
+<li><a id="org011dc25"></a>Logging Work Time<br />
+<div class="outline-text-5" id="text-org011dc25">
+<ol class="org-ol">
+<li>Use <code>org-clock-in</code> and <code>org-clock-out</code> on issue headings</li>
+<li><code>C-c j w</code> (org-jira-update-worklogs-from-org-clocks)</li>
+<li>Clock entries are synced to Jira worklogs</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3aa48d6" class="outline-3">
+<h3 id="org3aa48d6"><span class="section-number-3">1.16.</span> End of File</h3>
+<div class="outline-text-3" id="text-1-16">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">doc-org-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-org-conf.el ends here</span>
@@ -1268,21 +1357,21 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-orgf9f75cd" class="outline-3">
-<h3 id="orgf9f75cd"><span class="section-number-3">1.16.</span> Markdown Configuration</h3>
+<div id="outline-container-org53339d4" class="outline-3">
+<h3 id="org53339d4"><span class="section-number-3">1.17.</span> Markdown Configuration</h3>
 </div>
-<div id="outline-container-org74e9c3a" class="outline-3">
-<h3 id="org74e9c3a"><span class="section-number-3">1.17.</span> Introduction</h3>
-<div class="outline-text-3" id="text-1-17">
+<div id="outline-container-org0366864" class="outline-3">
+<h3 id="org0366864"><span class="section-number-3">1.18.</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-18">
 <p>
 This configuration sets up a complete Markdown editing environment in Emacs with support for GitHub-Flavored Markdown, table of contents generation, live preview, and distraction-free writing.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orge2d95ea" class="outline-3">
-<h3 id="orge2d95ea"><span class="section-number-3">1.18.</span> Markdown Mode</h3>
-<div class="outline-text-3" id="text-1-18">
+<div id="outline-container-org94f5a12" class="outline-3">
+<h3 id="org94f5a12"><span class="section-number-3">1.19.</span> Markdown Mode</h3>
+<div class="outline-text-3" id="text-1-19">
 <p>
 The <code>markdown-mode</code> package provides comprehensive support for editing Markdown files with syntax highlighting, live preview, and convenient keybindings.
 </p>
@@ -1319,9 +1408,9 @@ Key features:
 </div>
 </div>
 
-<div id="outline-container-org27c4042" class="outline-3">
-<h3 id="org27c4042"><span class="section-number-3">1.19.</span> Table of Contents</h3>
-<div class="outline-text-3" id="text-1-19">
+<div id="outline-container-org02e7b97" class="outline-3">
+<h3 id="org02e7b97"><span class="section-number-3">1.20.</span> Table of Contents</h3>
+<div class="outline-text-3" id="text-1-20">
 <p>
 The <code>markdown-toc</code> package automatically generates and updates table of contents in Markdown files. Use <code>C-c C-t</code> (bound above) to insert or refresh the TOC based on your headers.
 </p>
@@ -1335,9 +1424,9 @@ The <code>markdown-toc</code> package automatically generates and updates table 
 </div>
 </div>
 
-<div id="outline-container-orgd222ce1" class="outline-3">
-<h3 id="orgd222ce1"><span class="section-number-3">1.20.</span> Org Table Integration</h3>
-<div class="outline-text-3" id="text-1-20">
+<div id="outline-container-org661395a" class="outline-3">
+<h3 id="org661395a"><span class="section-number-3">1.21.</span> Org Table Integration</h3>
+<div class="outline-text-3" id="text-1-21">
 <p>
 This integration enables Org-mode's powerful table editor within Markdown files. When editing Markdown tables, you can use <code>TAB</code> to navigate between cells and automatically format tables, just like in Org-mode.
 </p>
@@ -1352,9 +1441,9 @@ This integration enables Org-mode's powerful table editor within Markdown files.
 </div>
 </div>
 
-<div id="outline-container-orgbc0d52b" class="outline-3">
-<h3 id="orgbc0d52b"><span class="section-number-3">1.21.</span> Live GitHub Preview</h3>
-<div class="outline-text-3" id="text-1-21">
+<div id="outline-container-orgfdb7aa6" class="outline-3">
+<h3 id="orgfdb7aa6"><span class="section-number-3">1.22.</span> Live GitHub Preview</h3>
+<div class="outline-text-3" id="text-1-22">
 <p>
 The <code>grip-mode</code> package provides live preview of Markdown files as they would appear on GitHub. It uses the GitHub Markdown API to render your files in real-time. Toggle the preview with <code>C-c C-p</code>.
 </p>
@@ -1373,9 +1462,9 @@ Note: grip-mode requires the <code>grip</code> Python package to be installed (<
 </div>
 </div>
 
-<div id="outline-container-org8b6b4a8" class="outline-3">
-<h3 id="org8b6b4a8"><span class="section-number-3">1.22.</span> End of File</h3>
-<div class="outline-text-3" id="text-1-22">
+<div id="outline-container-org110899a" class="outline-3">
+<h3 id="org110899a"><span class="section-number-3">1.23.</span> End of File</h3>
+<div class="outline-text-3" id="text-1-23">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">doc-md-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-md-conf.el ends here</span>
