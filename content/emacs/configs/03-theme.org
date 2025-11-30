@@ -24,9 +24,9 @@ Visual customization including color theme, mode line, and UI elements.
   		(load-theme 'hasliberg t))))
 
   ;; Load custom mode-line configuration
-  (let ((mode-line-file (expand-file-name "elisp/themes/fu-mode-line.el" user-emacs-directory)))
-    (if (file-exists-p mode-line-file)
-        (load-file mode-line-file)))
+  ;; (let ((mode-line-file (expand-file-name "elisp/themes/fu-mode-line.el" user-emacs-directory)))
+  ;;   (if (file-exists-p mode-line-file)
+  ;;       (load-file mode-line-file)))
 
   ;; Skip icon packages on server (requires GUI fonts)
   ;; (unless emacs-server-mode

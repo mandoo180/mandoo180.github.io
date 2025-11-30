@@ -320,6 +320,17 @@ Uses the =org-image-preview= package from GitHub.
     (org-display-remote-inline-images 'cache))
 #+end_src
 
+* Org HTML Preview
+
+Live HTML preview for Org-mode buffers in browser. Auto-refreshes on save.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-org-conf.el :results none
+  (use-package org-html-preview
+    :vc (:url "https://github.com/mandoo180/org-html-preview"
+         :branch "main")
+    :after org)
+#+end_src
+
 * Org-Roam Configuration
 
 Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org-mode. It enables networked thought through bidirectional linking and provides tools for knowledge management inspired by Roam Research.
@@ -484,8 +495,8 @@ Configure org-roam's graph visualization for better insights into your knowledge
     (org-roam-graph-executable (executable-find "dot"))
 
     ;; Exclude certain tags from the graph for cleaner visualization
-    (org-roam-graph-exclude-matcher '("daily" "fleeting"))
-
+    ;; (org-roam-graph-exclude-matcher '("daily" "fleeting"))
+    (org-roam-graph-exclude-matcher '())
     ;; Use specific program for graph generation
     (org-roam-graph-viewer (executable-find "open"))  ;; macOS
     ;; For Linux: (org-roam-graph-viewer "xdg-open")

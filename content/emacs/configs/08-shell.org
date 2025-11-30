@@ -470,11 +470,11 @@ Usage:
     (require 'dwim-shell-commands nil t))
 #+end_src
 
-** Agent Shell
+* Agent Shell
 
 A native Emacs interface to interact with LLM agents powered by ACP (Agent Client Protocol). Agent Shell enables chatting directly with AI coding assistants from within Emacs, supporting multiple providers while maintaining session state.
 
-*** Agent Shell Core
+** Agent Shell Core
 
 The core agent-shell package provides the foundation for AI agent interaction in Emacs.
 
@@ -511,7 +511,7 @@ Usage:
     :ensure t
     :custom
     ;; Display welcome message on start
-    (agent-shell-show-welcome-message t)
+    (agent-shell-show-welcome-message nil)
     ;; Enable source block highlighting
     (agent-shell-highlight-blocks t)
     ;; Enable file completion
@@ -520,6 +520,7 @@ Usage:
     (agent-shell-text-file-capabilities t)
     ;; Show icons in agent selection
     (agent-shell-show-config-icons t)
+    (agent-shell-header-style 'graphical)
     :config
     ;; Set preferred/default agent (Claude Code)
     (setq agent-shell-preferred-agent-config
@@ -546,7 +547,7 @@ Usage:
     )
 #+end_src
 
-*** Agent Shell Manager
+** Agent Shell Manager
 
 A buffer management tool for agent-shell that provides a tabulated list view of all open agent-shell buffers with real-time status monitoring and management capabilities.
 
@@ -569,7 +570,7 @@ Usage:
 - =m= / =M= : Set or cycle session mode
 - =t= / =l= : View logs or toggle logging
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; Agent Shell Manager - buffer management for agent-shell
   (use-package agent-shell-manager
     :ensure t
@@ -585,7 +586,7 @@ Usage:
     ("C-c t m" . agent-shell-manager-toggle))
 #+end_src
 
-*** Agent Shell Sidebar
+** Agent Shell Sidebar
 
 A persistent sidebar interface for agent-shell, providing a treemacs-like side panel for interacting with LLM agents. The sidebar is project-aware and maintains state across visibility toggles.
 
@@ -607,7 +608,7 @@ Usage:
 - =M-x agent-shell-sidebar-set-config= : Change LLM provider on demand
 - =M-x agent-shell-sidebar-reset= : Reset sidebar state
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; Agent Shell Sidebar - persistent sidebar for agent-shell
   (use-package agent-shell-sidebar
     :ensure t

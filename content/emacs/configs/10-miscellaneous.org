@@ -553,9 +553,9 @@ Comprehensive keybinding setup for all PDF operations.
       (define-key map (kbd "l") 'image-forward-hscroll)
       (define-key map (kbd "J") 'pdf-view-next-page)
       (define-key map (kbd "K") 'pdf-view-previous-page)
-      (define-key map (kbd "g g") 'pdf-view-first-page)
+      ;; (define-key map (kbd "g g") 'pdf-view-first-page)
       (define-key map (kbd "G") 'pdf-view-last-page)
-      (define-key map (kbd "g t") 'pdf-view-goto-page)
+      ;; (define-key map (kbd "g t") 'pdf-view-goto-page)
 
       ;; Search
       (define-key map (kbd "C-s") 'isearch-forward)

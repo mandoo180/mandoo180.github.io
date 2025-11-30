@@ -1,6 +1,7 @@
 .mcp.json
 *.backup
 
+.agent-shell/
 .packages/
 tmp/
 content/tmp/
