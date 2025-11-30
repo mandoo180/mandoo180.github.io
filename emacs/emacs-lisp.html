@@ -22,132 +22,132 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org10eade4">1. Introduction</a></li>
-<li><a href="#orgd34ac74">2. Basic Syntax and Evaluation</a>
+<li><a href="#org85edf51">1. Introduction</a></li>
+<li><a href="#orgcb511c9">2. Basic Syntax and Evaluation</a>
 <ul>
-<li><a href="#orgc977d6d">2.1. S-expressions (Symbolic Expressions)</a></li>
-<li><a href="#org20cef49">2.2. Variables</a></li>
+<li><a href="#orga91b20f">2.1. S-expressions (Symbolic Expressions)</a></li>
+<li><a href="#org096f35a">2.2. Variables</a></li>
 </ul>
 </li>
-<li><a href="#org9030bb0">3. Control Flow</a>
+<li><a href="#org586517b">3. Control Flow</a>
 <ul>
-<li><a href="#org9cca08c">3.1. Conditionals</a>
+<li><a href="#orgd233d93">3.1. Conditionals</a>
 <ul>
-<li><a href="#org37ff5b1">3.1.1. if/else</a></li>
-<li><a href="#org7f60a61">3.1.2. when and unless</a></li>
-<li><a href="#org13bafce">3.1.3. cond (switch/case equivalent)</a></li>
-<li><a href="#orgafbbbfb">3.1.4. pcase (pattern matching)</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org49f70d9">4. Loops and Iteration</a>
-<ul>
-<li><a href="#orga96b670">4.1. while loop</a></li>
-<li><a href="#org43cf4bc">4.2. dotimes (for loop with counter)</a></li>
-<li><a href="#org26945f0">4.3. dolist (foreach loop)</a></li>
-<li><a href="#org09939fd">4.4. cl-loop (powerful iteration macro)</a></li>
-<li><a href="#org2833606">4.5. mapcar (map/transform)</a></li>
-<li><a href="#org5113e53">4.6. seq-filter (filter)</a></li>
-</ul>
-</li>
-<li><a href="#org26c7019">5. Recursion</a>
-<ul>
-<li><a href="#org9060110">5.1. Understanding Tail-Call Optimization</a></li>
-<li><a href="#orgb2e5558">5.2. Simple Recursion</a></li>
-<li><a href="#orgc08ca07">5.3. Tail Recursion with Named let</a></li>
-<li><a href="#orga9ac1f2">5.4. List Recursion</a></li>
-<li><a href="#org861ccfc">5.5. Tree Recursion</a></li>
-</ul>
-</li>
-<li><a href="#org910ded8">6. Functions</a>
-<ul>
-<li><a href="#orgc37ce26">6.1. Defining Functions</a></li>
-<li><a href="#org3354cc9">6.2. Lambda Functions (Anonymous Functions)</a></li>
-<li><a href="#org45802ed">6.3. Interactive Functions (Commands)</a></li>
-</ul>
-</li>
-<li><a href="#orga222fb1">7. Data Structures</a>
-<ul>
-<li><a href="#org60ef65d">7.1. Lists</a></li>
-<li><a href="#org9c2b928">7.2. Association Lists (alists)</a></li>
-<li><a href="#org06ba011">7.3. Hash Tables</a></li>
-<li><a href="#orgda1ec68">7.4. Vectors (Arrays)</a></li>
-</ul>
-</li>
-<li><a href="#orgbf5cc98">8. String Operations</a></li>
-<li><a href="#orgffa9b07">9. Practical Emacs Functions</a>
-<ul>
-<li><a href="#org1268f05">9.1. Buffer and File Manipulation</a>
-<ul>
-<li><a href="#org7669636">9.1.1. Quick File Opening</a></li>
-<li><a href="#orgdbb27bd">9.1.2. Duplicate Current Line</a></li>
-<li><a href="#org2843d32">9.1.3. Move Line Up/Down</a></li>
-</ul>
-</li>
-<li><a href="#orgd9d300b">9.2. Text Processing</a>
-<ul>
-<li><a href="#org53bfe5c">9.2.1. Sort Lines by Length</a></li>
-<li><a href="#org05629d8">9.2.2. Insert UUID</a></li>
-<li><a href="#org3c9a566">9.2.3. Count Words in Region</a></li>
-</ul>
-</li>
-<li><a href="#org58806ad">9.3. Window and Buffer Management</a>
-<ul>
-<li><a href="#org528b787">9.3.1. Split Window and Move to It</a></li>
-<li><a href="#org0f28c66">9.3.2. Kill Other Buffers</a></li>
-<li><a href="#org1213b13">9.3.3. Toggle Between Most Recent Buffers</a></li>
-</ul>
-</li>
-<li><a href="#org7e492a5">9.4. Search and Navigation</a>
-<ul>
-<li><a href="#org40e1dcc">9.4.1. Search in Project</a></li>
-<li><a href="#org80d0cc2">9.4.2. Jump to Previous/Next Blank Line</a></li>
-</ul>
-</li>
-<li><a href="#org3b15a30">9.5. Development Helpers</a>
-<ul>
-<li><a href="#org53e0029">9.5.1. Insert Current Timestamp</a></li>
-<li><a href="#org9e44359">9.5.2. Comment or Uncomment Region with Repeat</a></li>
-<li><a href="#org878760d">9.5.3. Open URL at Point</a></li>
-</ul>
-</li>
-<li><a href="#org4803aa9">9.6. Automation and Workflow</a>
-<ul>
-<li><a href="#org19e78fc">9.6.1. Auto-Insert File Headers</a></li>
-<li><a href="#orgceb8406">9.6.2. Quick Scratch Buffer</a></li>
-</ul>
-</li>
-<li><a href="#org777357a">9.7. Advanced: Macros and Code Generation</a>
-<ul>
-<li><a href="#org36634ea">9.7.1. Create Getters and Setters</a></li>
+<li><a href="#org0110915">3.1.1. if/else</a></li>
+<li><a href="#org687f209">3.1.2. when and unless</a></li>
+<li><a href="#org5e71570">3.1.3. cond (switch/case equivalent)</a></li>
+<li><a href="#orgb132833">3.1.4. pcase (pattern matching)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org3d482bb">10. Error Handling</a></li>
-<li><a href="#org3dba712">11. Common Pitfalls for New Users</a>
+<li><a href="#orgf00b69d">4. Loops and Iteration</a>
 <ul>
-<li><a href="#org6d9bb4b">11.1. 1. nil vs '()</a></li>
-<li><a href="#orgedc9340">11.2. 2. t vs non-nil</a></li>
-<li><a href="#org318d6bb">11.3. 3. setq vs setf vs let</a></li>
-<li><a href="#org5d64193">11.4. 4. Quote vs Backquote</a></li>
+<li><a href="#org6e796ba">4.1. while loop</a></li>
+<li><a href="#org3d7444e">4.2. dotimes (for loop with counter)</a></li>
+<li><a href="#orgd678f26">4.3. dolist (foreach loop)</a></li>
+<li><a href="#orgdeb78a0">4.4. cl-loop (powerful iteration macro)</a></li>
+<li><a href="#orgdc5f82c">4.5. mapcar (map/transform)</a></li>
+<li><a href="#org188886c">4.6. seq-filter (filter)</a></li>
 </ul>
 </li>
-<li><a href="#org97b0723">12. Resources and Next Steps</a>
+<li><a href="#org6dda8c9">5. Recursion</a>
 <ul>
-<li><a href="#org8d5841c">12.1. Learning More</a></li>
-<li><a href="#org9de3b59">12.2. Practice Exercises</a></li>
-<li><a href="#orgb2c5902">12.3. Common Libraries</a></li>
+<li><a href="#orgf15e95d">5.1. Understanding Tail-Call Optimization</a></li>
+<li><a href="#orga6f9a62">5.2. Simple Recursion</a></li>
+<li><a href="#orgcfead36">5.3. Tail Recursion with Named let</a></li>
+<li><a href="#org6ccfbd2">5.4. List Recursion</a></li>
+<li><a href="#orgc4ea5a3">5.5. Tree Recursion</a></li>
 </ul>
 </li>
-<li><a href="#orge2a2acd">13. Conclusion</a></li>
+<li><a href="#org1d5f75c">6. Functions</a>
+<ul>
+<li><a href="#org5c8cce3">6.1. Defining Functions</a></li>
+<li><a href="#org905f36c">6.2. Lambda Functions (Anonymous Functions)</a></li>
+<li><a href="#orgbf5416b">6.3. Interactive Functions (Commands)</a></li>
+</ul>
+</li>
+<li><a href="#orgacc7542">7. Data Structures</a>
+<ul>
+<li><a href="#org3fd6cd6">7.1. Lists</a></li>
+<li><a href="#org6a10b76">7.2. Association Lists (alists)</a></li>
+<li><a href="#orgcea2ecd">7.3. Hash Tables</a></li>
+<li><a href="#org8eb97e7">7.4. Vectors (Arrays)</a></li>
+</ul>
+</li>
+<li><a href="#org6d6e89d">8. String Operations</a></li>
+<li><a href="#orgae71675">9. Practical Emacs Functions</a>
+<ul>
+<li><a href="#org4f8ca5f">9.1. Buffer and File Manipulation</a>
+<ul>
+<li><a href="#org0227adc">9.1.1. Quick File Opening</a></li>
+<li><a href="#org425c792">9.1.2. Duplicate Current Line</a></li>
+<li><a href="#org8b84521">9.1.3. Move Line Up/Down</a></li>
+</ul>
+</li>
+<li><a href="#org2c4acbb">9.2. Text Processing</a>
+<ul>
+<li><a href="#org2641595">9.2.1. Sort Lines by Length</a></li>
+<li><a href="#org8b8a395">9.2.2. Insert UUID</a></li>
+<li><a href="#orgb33d58b">9.2.3. Count Words in Region</a></li>
+</ul>
+</li>
+<li><a href="#org21c0ac5">9.3. Window and Buffer Management</a>
+<ul>
+<li><a href="#orgea0ee91">9.3.1. Split Window and Move to It</a></li>
+<li><a href="#orgb352d8f">9.3.2. Kill Other Buffers</a></li>
+<li><a href="#org44d82cf">9.3.3. Toggle Between Most Recent Buffers</a></li>
+</ul>
+</li>
+<li><a href="#org1769cdf">9.4. Search and Navigation</a>
+<ul>
+<li><a href="#org9049851">9.4.1. Search in Project</a></li>
+<li><a href="#org6ee65fe">9.4.2. Jump to Previous/Next Blank Line</a></li>
+</ul>
+</li>
+<li><a href="#orgca51973">9.5. Development Helpers</a>
+<ul>
+<li><a href="#org55a5ab4">9.5.1. Insert Current Timestamp</a></li>
+<li><a href="#org100fc47">9.5.2. Comment or Uncomment Region with Repeat</a></li>
+<li><a href="#org07fe84b">9.5.3. Open URL at Point</a></li>
+</ul>
+</li>
+<li><a href="#org6fb6313">9.6. Automation and Workflow</a>
+<ul>
+<li><a href="#orgfbbeccc">9.6.1. Auto-Insert File Headers</a></li>
+<li><a href="#org925467b">9.6.2. Quick Scratch Buffer</a></li>
+</ul>
+</li>
+<li><a href="#org4f128df">9.7. Advanced: Macros and Code Generation</a>
+<ul>
+<li><a href="#org681c1c6">9.7.1. Create Getters and Setters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org1316ca5">10. Error Handling</a></li>
+<li><a href="#org9540c65">11. Common Pitfalls for New Users</a>
+<ul>
+<li><a href="#orgae8d128">11.1. 1. nil vs '()</a></li>
+<li><a href="#org1aff60c">11.2. 2. t vs non-nil</a></li>
+<li><a href="#org5d0d52e">11.3. 3. setq vs setf vs let</a></li>
+<li><a href="#org771042a">11.4. 4. Quote vs Backquote</a></li>
+</ul>
+</li>
+<li><a href="#org5e6f113">12. Resources and Next Steps</a>
+<ul>
+<li><a href="#org76f3cec">12.1. Learning More</a></li>
+<li><a href="#orgf22c58f">12.2. Practice Exercises</a></li>
+<li><a href="#org1581d1c">12.3. Common Libraries</a></li>
+</ul>
+</li>
+<li><a href="#org3d47202">13. Conclusion</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org10eade4" class="outline-2">
-<h2 id="org10eade4"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org85edf51" class="outline-2">
+<h2 id="org85edf51"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 If you're coming from Python, JavaScript, Java, or similar languages, Emacs Lisp (Elisp) might look unfamiliar with its parentheses-heavy syntax. But the concepts are the same. This guide will help you map what you already know to Elisp idioms.
@@ -159,12 +159,12 @@ Emacs Lisp is a dialect of Lisp that powers Emacs. It's dynamically typed, has f
 </div>
 </div>
 
-<div id="outline-container-orgd34ac74" class="outline-2">
-<h2 id="orgd34ac74"><span class="section-number-2">2.</span> Basic Syntax and Evaluation</h2>
+<div id="outline-container-orgcb511c9" class="outline-2">
+<h2 id="orgcb511c9"><span class="section-number-2">2.</span> Basic Syntax and Evaluation</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgc977d6d" class="outline-3">
-<h3 id="orgc977d6d"><span class="section-number-3">2.1.</span> S-expressions (Symbolic Expressions)</h3>
+<div id="outline-container-orga91b20f" class="outline-3">
+<h3 id="orga91b20f"><span class="section-number-3">2.1.</span> S-expressions (Symbolic Expressions)</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 In Lisp, code and data share the same structure: lists enclosed in parentheses.
@@ -187,8 +187,8 @@ The first element in a list is the function, followed by its arguments. This is 
 </div>
 </div>
 
-<div id="outline-container-org20cef49" class="outline-3">
-<h3 id="org20cef49"><span class="section-number-3">2.2.</span> Variables</h3>
+<div id="outline-container-org096f35a" class="outline-3">
+<h3 id="org096f35a"><span class="section-number-3">2.2.</span> Variables</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Local variable (lexically scoped)
@@ -236,16 +236,16 @@ Compare to other languages:
 </div>
 </div>
 
-<div id="outline-container-org9030bb0" class="outline-2">
-<h2 id="org9030bb0"><span class="section-number-2">3.</span> Control Flow</h2>
+<div id="outline-container-org586517b" class="outline-2">
+<h2 id="org586517b"><span class="section-number-2">3.</span> Control Flow</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org9cca08c" class="outline-3">
-<h3 id="org9cca08c"><span class="section-number-3">3.1.</span> Conditionals</h3>
+<div id="outline-container-orgd233d93" class="outline-3">
+<h3 id="orgd233d93"><span class="section-number-3">3.1.</span> Conditionals</h3>
 <div class="outline-text-3" id="text-3-1">
 </div>
-<div id="outline-container-org37ff5b1" class="outline-4">
-<h4 id="org37ff5b1"><span class="section-number-4">3.1.1.</span> if/else</h4>
+<div id="outline-container-org0110915" class="outline-4">
+<h4 id="org0110915"><span class="section-number-4">3.1.1.</span> if/else</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Basic if
@@ -286,8 +286,8 @@ Compare to:
 </div>
 </div>
 
-<div id="outline-container-org7f60a61" class="outline-4">
-<h4 id="org7f60a61"><span class="section-number-4">3.1.2.</span> when and unless</h4>
+<div id="outline-container-org687f209" class="outline-4">
+<h4 id="org687f209"><span class="section-number-4">3.1.2.</span> when and unless</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <p>
 These are cleaner for single-branch conditions:
@@ -323,8 +323,8 @@ Compare to:
 </div>
 </div>
 
-<div id="outline-container-org13bafce" class="outline-4">
-<h4 id="org13bafce"><span class="section-number-4">3.1.3.</span> cond (switch/case equivalent)</h4>
+<div id="outline-container-org5e71570" class="outline-4">
+<h4 id="org5e71570"><span class="section-number-4">3.1.3.</span> cond (switch/case equivalent)</h4>
 <div class="outline-text-4" id="text-3-1-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">cond</span>
@@ -377,8 +377,8 @@ Compare to:
 </div>
 </div>
 
-<div id="outline-container-orgafbbbfb" class="outline-4">
-<h4 id="orgafbbbfb"><span class="section-number-4">3.1.4.</span> pcase (pattern matching)</h4>
+<div id="outline-container-orgb132833" class="outline-4">
+<h4 id="orgb132833"><span class="section-number-4">3.1.4.</span> pcase (pattern matching)</h4>
 <div class="outline-text-4" id="text-3-1-4">
 <p>
 Modern Elisp has powerful pattern matching:
@@ -400,12 +400,12 @@ Modern Elisp has powerful pattern matching:
 </div>
 </div>
 
-<div id="outline-container-org49f70d9" class="outline-2">
-<h2 id="org49f70d9"><span class="section-number-2">4.</span> Loops and Iteration</h2>
+<div id="outline-container-orgf00b69d" class="outline-2">
+<h2 id="orgf00b69d"><span class="section-number-2">4.</span> Loops and Iteration</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orga96b670" class="outline-3">
-<h3 id="orga96b670"><span class="section-number-3">4.1.</span> while loop</h3>
+<div id="outline-container-org6e796ba" class="outline-3">
+<h3 id="org6e796ba"><span class="section-number-3">4.1.</span> while loop</h3>
 <div class="outline-text-3" id="text-4-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">let</span> ((i 0))
@@ -429,8 +429,8 @@ Compare to:
 </div>
 </div>
 
-<div id="outline-container-org43cf4bc" class="outline-3">
-<h3 id="org43cf4bc"><span class="section-number-3">4.2.</span> dotimes (for loop with counter)</h3>
+<div id="outline-container-org3d7444e" class="outline-3">
+<h3 id="org3d7444e"><span class="section-number-3">4.2.</span> dotimes (for loop with counter)</h3>
 <div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Loop from 0 to 4
@@ -463,8 +463,8 @@ Compare to:
 </div>
 </div>
 
-<div id="outline-container-org26945f0" class="outline-3">
-<h3 id="org26945f0"><span class="section-number-3">4.3.</span> dolist (foreach loop)</h3>
+<div id="outline-container-orgd678f26" class="outline-3">
+<h3 id="orgd678f26"><span class="section-number-3">4.3.</span> dolist (foreach loop)</h3>
 <div class="outline-text-3" id="text-4-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">dolist</span> (item '(apple banana cherry))
@@ -505,8 +505,8 @@ Compare to:
 </div>
 </div>
 
-<div id="outline-container-org09939fd" class="outline-3">
-<h3 id="org09939fd"><span class="section-number-3">4.4.</span> cl-loop (powerful iteration macro)</h3>
+<div id="outline-container-orgdeb78a0" class="outline-3">
+<h3 id="orgdeb78a0"><span class="section-number-3">4.4.</span> cl-loop (powerful iteration macro)</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 The <code>cl-loop</code> macro from Common Lisp is very powerful:
@@ -541,8 +541,8 @@ The <code>cl-loop</code> macro from Common Lisp is very powerful:
 </div>
 </div>
 
-<div id="outline-container-org2833606" class="outline-3">
-<h3 id="org2833606"><span class="section-number-3">4.5.</span> mapcar (map/transform)</h3>
+<div id="outline-container-orgdc5f82c" class="outline-3">
+<h3 id="orgdc5f82c"><span class="section-number-3">4.5.</span> mapcar (map/transform)</h3>
 <div class="outline-text-3" id="text-4-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Square each number
@@ -574,8 +574,8 @@ Compare to:
 </div>
 </div>
 
-<div id="outline-container-org5113e53" class="outline-3">
-<h3 id="org5113e53"><span class="section-number-3">4.6.</span> seq-filter (filter)</h3>
+<div id="outline-container-org188886c" class="outline-3">
+<h3 id="org188886c"><span class="section-number-3">4.6.</span> seq-filter (filter)</h3>
 <div class="outline-text-3" id="text-4-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">seq</span>)
@@ -605,16 +605,16 @@ Compare to:
 </div>
 </div>
 
-<div id="outline-container-org26c7019" class="outline-2">
-<h2 id="org26c7019"><span class="section-number-2">5.</span> Recursion</h2>
+<div id="outline-container-org6dda8c9" class="outline-2">
+<h2 id="org6dda8c9"><span class="section-number-2">5.</span> Recursion</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Recursion in Elisp works just like other languages, but be aware that Elisp doesn't have tail-call optimization by default.
 </p>
 </div>
 
-<div id="outline-container-org9060110" class="outline-3">
-<h3 id="org9060110"><span class="section-number-3">5.1.</span> Understanding Tail-Call Optimization</h3>
+<div id="outline-container-orgf15e95d" class="outline-3">
+<h3 id="orgf15e95d"><span class="section-number-3">5.1.</span> Understanding Tail-Call Optimization</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 In many functional programming languages, <b>tail-call optimization</b> (TCO) allows recursive functions to run without consuming stack space when the recursive call is in "tail position" (the last operation before returning). This means you can write recursive functions that iterate millions of times without stack overflow.
@@ -661,8 +661,8 @@ For most Emacs Lisp programming, prefer iteration over deep recursion. Recursion
 </div>
 </div>
 
-<div id="outline-container-orgb2e5558" class="outline-3">
-<h3 id="orgb2e5558"><span class="section-number-3">5.2.</span> Simple Recursion</h3>
+<div id="outline-container-orga6f9a62" class="outline-3">
+<h3 id="orga6f9a62"><span class="section-number-3">5.2.</span> Simple Recursion</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Factorial
@@ -689,8 +689,8 @@ For most Emacs Lisp programming, prefer iteration over deep recursion. Recursion
 </div>
 </div>
 
-<div id="outline-container-orgc08ca07" class="outline-3">
-<h3 id="orgc08ca07"><span class="section-number-3">5.3.</span> Tail Recursion with Named let</h3>
+<div id="outline-container-orgcfead36" class="outline-3">
+<h3 id="orgcfead36"><span class="section-number-3">5.3.</span> Tail Recursion with Named let</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">cl-lib</span>)
@@ -710,8 +710,8 @@ For most Emacs Lisp programming, prefer iteration over deep recursion. Recursion
 </div>
 </div>
 
-<div id="outline-container-orga9ac1f2" class="outline-3">
-<h3 id="orga9ac1f2"><span class="section-number-3">5.4.</span> List Recursion</h3>
+<div id="outline-container-org6ccfbd2" class="outline-3">
+<h3 id="org6ccfbd2"><span class="section-number-3">5.4.</span> List Recursion</h3>
 <div class="outline-text-3" id="text-5-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Sum a list recursively
@@ -736,8 +736,8 @@ For most Emacs Lisp programming, prefer iteration over deep recursion. Recursion
 </div>
 </div>
 
-<div id="outline-container-org861ccfc" class="outline-3">
-<h3 id="org861ccfc"><span class="section-number-3">5.5.</span> Tree Recursion</h3>
+<div id="outline-container-orgc4ea5a3" class="outline-3">
+<h3 id="orgc4ea5a3"><span class="section-number-3">5.5.</span> Tree Recursion</h3>
 <div class="outline-text-3" id="text-5-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Flatten a nested list
@@ -758,12 +758,12 @@ For most Emacs Lisp programming, prefer iteration over deep recursion. Recursion
 </div>
 </div>
 
-<div id="outline-container-org910ded8" class="outline-2">
-<h2 id="org910ded8"><span class="section-number-2">6.</span> Functions</h2>
+<div id="outline-container-org1d5f75c" class="outline-2">
+<h2 id="org1d5f75c"><span class="section-number-2">6.</span> Functions</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orgc37ce26" class="outline-3">
-<h3 id="orgc37ce26"><span class="section-number-3">6.1.</span> Defining Functions</h3>
+<div id="outline-container-org5c8cce3" class="outline-3">
+<h3 id="org5c8cce3"><span class="section-number-3">6.1.</span> Defining Functions</h3>
 <div class="outline-text-3" id="text-6-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Basic function
@@ -797,8 +797,8 @@ For most Emacs Lisp programming, prefer iteration over deep recursion. Recursion
 </div>
 </div>
 
-<div id="outline-container-org3354cc9" class="outline-3">
-<h3 id="org3354cc9"><span class="section-number-3">6.2.</span> Lambda Functions (Anonymous Functions)</h3>
+<div id="outline-container-org905f36c" class="outline-3">
+<h3 id="org905f36c"><span class="section-number-3">6.2.</span> Lambda Functions (Anonymous Functions)</h3>
 <div class="outline-text-3" id="text-6-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Lambda function
@@ -840,8 +840,8 @@ square(5);  <span class="org-comment-delimiter">// </span><span class="org-comme
 </div>
 </div>
 
-<div id="outline-container-org45802ed" class="outline-3">
-<h3 id="org45802ed"><span class="section-number-3">6.3.</span> Interactive Functions (Commands)</h3>
+<div id="outline-container-orgbf5416b" class="outline-3">
+<h3 id="orgbf5416b"><span class="section-number-3">6.3.</span> Interactive Functions (Commands)</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 Interactive functions can be called with <code>M-x</code> or bound to keys:
@@ -871,12 +871,12 @@ Interactive functions can be called with <code>M-x</code> or bound to keys:
 </div>
 </div>
 
-<div id="outline-container-orga222fb1" class="outline-2">
-<h2 id="orga222fb1"><span class="section-number-2">7.</span> Data Structures</h2>
+<div id="outline-container-orgacc7542" class="outline-2">
+<h2 id="orgacc7542"><span class="section-number-2">7.</span> Data Structures</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org60ef65d" class="outline-3">
-<h3 id="org60ef65d"><span class="section-number-3">7.1.</span> Lists</h3>
+<div id="outline-container-org3fd6cd6" class="outline-3">
+<h3 id="org3fd6cd6"><span class="section-number-3">7.1.</span> Lists</h3>
 <div class="outline-text-3" id="text-7-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Creating lists
@@ -904,8 +904,8 @@ Interactive functions can be called with <code>M-x</code> or bound to keys:
 </div>
 </div>
 
-<div id="outline-container-org9c2b928" class="outline-3">
-<h3 id="org9c2b928"><span class="section-number-3">7.2.</span> Association Lists (alists)</h3>
+<div id="outline-container-org6a10b76" class="outline-3">
+<h3 id="org6a10b76"><span class="section-number-3">7.2.</span> Association Lists (alists)</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 Like dictionaries or hash maps:
@@ -930,8 +930,8 @@ Like dictionaries or hash maps:
 </div>
 </div>
 
-<div id="outline-container-org06ba011" class="outline-3">
-<h3 id="org06ba011"><span class="section-number-3">7.3.</span> Hash Tables</h3>
+<div id="outline-container-orgcea2ecd" class="outline-3">
+<h3 id="orgcea2ecd"><span class="section-number-3">7.3.</span> Hash Tables</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
 For large datasets, hash tables are more efficient:
@@ -964,8 +964,8 @@ For large datasets, hash tables are more efficient:
 </div>
 </div>
 
-<div id="outline-container-orgda1ec68" class="outline-3">
-<h3 id="orgda1ec68"><span class="section-number-3">7.4.</span> Vectors (Arrays)</h3>
+<div id="outline-container-org8eb97e7" class="outline-3">
+<h3 id="org8eb97e7"><span class="section-number-3">7.4.</span> Vectors (Arrays)</h3>
 <div class="outline-text-3" id="text-7-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Creating vectors
@@ -991,8 +991,8 @@ For large datasets, hash tables are more efficient:
 </div>
 </div>
 
-<div id="outline-container-orgbf5cc98" class="outline-2">
-<h2 id="orgbf5cc98"><span class="section-number-2">8.</span> String Operations</h2>
+<div id="outline-container-org6d6e89d" class="outline-2">
+<h2 id="org6d6e89d"><span class="section-number-2">8.</span> String Operations</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">String concatenation
@@ -1036,20 +1036,20 @@ For large datasets, hash tables are more efficient:
 </div>
 </div>
 
-<div id="outline-container-orgffa9b07" class="outline-2">
-<h2 id="orgffa9b07"><span class="section-number-2">9.</span> Practical Emacs Functions</h2>
+<div id="outline-container-orgae71675" class="outline-2">
+<h2 id="orgae71675"><span class="section-number-2">9.</span> Practical Emacs Functions</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 Here are some useful functions that demonstrate real-world Elisp usage and can inspire your own customizations.
 </p>
 </div>
 
-<div id="outline-container-org1268f05" class="outline-3">
-<h3 id="org1268f05"><span class="section-number-3">9.1.</span> Buffer and File Manipulation</h3>
+<div id="outline-container-org4f8ca5f" class="outline-3">
+<h3 id="org4f8ca5f"><span class="section-number-3">9.1.</span> Buffer and File Manipulation</h3>
 <div class="outline-text-3" id="text-9-1">
 </div>
-<div id="outline-container-org7669636" class="outline-4">
-<h4 id="org7669636"><span class="section-number-4">9.1.1.</span> Quick File Opening</h4>
+<div id="outline-container-org0227adc" class="outline-4">
+<h4 id="org0227adc"><span class="section-number-4">9.1.1.</span> Quick File Opening</h4>
 <div class="outline-text-4" id="text-9-1-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">open-config-file</span> ()
@@ -1068,8 +1068,8 @@ Why this is useful: Instead of navigating through directories, you can instantly
 </div>
 </div>
 
-<div id="outline-container-orgdbb27bd" class="outline-4">
-<h4 id="orgdbb27bd"><span class="section-number-4">9.1.2.</span> Duplicate Current Line</h4>
+<div id="outline-container-org425c792" class="outline-4">
+<h4 id="org425c792"><span class="section-number-4">9.1.2.</span> Duplicate Current Line</h4>
 <div class="outline-text-4" id="text-9-1-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">duplicate-line</span> ()
@@ -1093,8 +1093,8 @@ Why this is useful: Many modern editors have this feature built-in. This shows h
 </div>
 </div>
 
-<div id="outline-container-org2843d32" class="outline-4">
-<h4 id="org2843d32"><span class="section-number-4">9.1.3.</span> Move Line Up/Down</h4>
+<div id="outline-container-org8b84521" class="outline-4">
+<h4 id="org8b84521"><span class="section-number-4">9.1.3.</span> Move Line Up/Down</h4>
 <div class="outline-text-4" id="text-9-1-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">move-line-up</span> ()
@@ -1123,12 +1123,12 @@ Why this is useful: Quick line reordering without cut-paste. Demonstrates cursor
 </div>
 </div>
 
-<div id="outline-container-orgd9d300b" class="outline-3">
-<h3 id="orgd9d300b"><span class="section-number-3">9.2.</span> Text Processing</h3>
+<div id="outline-container-org2c4acbb" class="outline-3">
+<h3 id="org2c4acbb"><span class="section-number-3">9.2.</span> Text Processing</h3>
 <div class="outline-text-3" id="text-9-2">
 </div>
-<div id="outline-container-org53bfe5c" class="outline-4">
-<h4 id="org53bfe5c"><span class="section-number-4">9.2.1.</span> Sort Lines by Length</h4>
+<div id="outline-container-org2641595" class="outline-4">
+<h4 id="org2641595"><span class="section-number-4">9.2.1.</span> Sort Lines by Length</h4>
 <div class="outline-text-4" id="text-9-2-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">sort-lines-by-length</span> (reverse beg end)
@@ -1158,8 +1158,8 @@ Why this is useful: Shows advanced region manipulation and custom sorting. Usefu
 </div>
 </div>
 
-<div id="outline-container-org05629d8" class="outline-4">
-<h4 id="org05629d8"><span class="section-number-4">9.2.2.</span> Insert UUID</h4>
+<div id="outline-container-org8b8a395" class="outline-4">
+<h4 id="org8b8a395"><span class="section-number-4">9.2.2.</span> Insert UUID</h4>
 <div class="outline-text-4" id="text-9-2-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">insert-uuid</span> ()
@@ -1175,8 +1175,8 @@ Why this is useful: Demonstrates calling external commands and inserting their o
 </div>
 </div>
 
-<div id="outline-container-org3c9a566" class="outline-4">
-<h4 id="org3c9a566"><span class="section-number-4">9.2.3.</span> Count Words in Region</h4>
+<div id="outline-container-orgb33d58b" class="outline-4">
+<h4 id="orgb33d58b"><span class="section-number-4">9.2.3.</span> Count Words in Region</h4>
 <div class="outline-text-4" id="text-9-2-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">count-words-region</span> (beg end)
@@ -1197,12 +1197,12 @@ Why this is useful: Provides quick statistics about selected text. Shows how to 
 </div>
 </div>
 
-<div id="outline-container-org58806ad" class="outline-3">
-<h3 id="org58806ad"><span class="section-number-3">9.3.</span> Window and Buffer Management</h3>
+<div id="outline-container-org21c0ac5" class="outline-3">
+<h3 id="org21c0ac5"><span class="section-number-3">9.3.</span> Window and Buffer Management</h3>
 <div class="outline-text-3" id="text-9-3">
 </div>
-<div id="outline-container-org528b787" class="outline-4">
-<h4 id="org528b787"><span class="section-number-4">9.3.1.</span> Split Window and Move to It</h4>
+<div id="outline-container-orgea0ee91" class="outline-4">
+<h4 id="orgea0ee91"><span class="section-number-4">9.3.1.</span> Split Window and Move to It</h4>
 <div class="outline-text-4" id="text-9-3-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">split-window-below-and-focus</span> ()
@@ -1229,8 +1229,8 @@ Why this is useful: Improves the default split behavior by automatically moving 
 </div>
 </div>
 
-<div id="outline-container-org0f28c66" class="outline-4">
-<h4 id="org0f28c66"><span class="section-number-4">9.3.2.</span> Kill Other Buffers</h4>
+<div id="outline-container-orgb352d8f" class="outline-4">
+<h4 id="orgb352d8f"><span class="section-number-4">9.3.2.</span> Kill Other Buffers</h4>
 <div class="outline-text-4" id="text-9-3-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">kill-other-buffers</span> ()
@@ -1252,8 +1252,8 @@ Why this is useful: Clean workspace quickly. Shows buffer iteration and filterin
 </div>
 </div>
 
-<div id="outline-container-org1213b13" class="outline-4">
-<h4 id="org1213b13"><span class="section-number-4">9.3.3.</span> Toggle Between Most Recent Buffers</h4>
+<div id="outline-container-org44d82cf" class="outline-4">
+<h4 id="org44d82cf"><span class="section-number-4">9.3.3.</span> Toggle Between Most Recent Buffers</h4>
 <div class="outline-text-4" id="text-9-3-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">switch-to-previous-buffer</span> ()
@@ -1273,12 +1273,12 @@ Why this is useful: Quick toggling between two files, like Alt+Tab for buffers.
 </div>
 </div>
 
-<div id="outline-container-org7e492a5" class="outline-3">
-<h3 id="org7e492a5"><span class="section-number-3">9.4.</span> Search and Navigation</h3>
+<div id="outline-container-org1769cdf" class="outline-3">
+<h3 id="org1769cdf"><span class="section-number-3">9.4.</span> Search and Navigation</h3>
 <div class="outline-text-3" id="text-9-4">
 </div>
-<div id="outline-container-org40e1dcc" class="outline-4">
-<h4 id="org40e1dcc"><span class="section-number-4">9.4.1.</span> Search in Project</h4>
+<div id="outline-container-org9049851" class="outline-4">
+<h4 id="org9049851"><span class="section-number-4">9.4.1.</span> Search in Project</h4>
 <div class="outline-text-4" id="text-9-4-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">search-in-project</span> (search-term)
@@ -1296,8 +1296,8 @@ Why this is useful: Quick project-wide search. Shows integration with external t
 </div>
 </div>
 
-<div id="outline-container-org80d0cc2" class="outline-4">
-<h4 id="org80d0cc2"><span class="section-number-4">9.4.2.</span> Jump to Previous/Next Blank Line</h4>
+<div id="outline-container-org6ee65fe" class="outline-4">
+<h4 id="org6ee65fe"><span class="section-number-4">9.4.2.</span> Jump to Previous/Next Blank Line</h4>
 <div class="outline-text-4" id="text-9-4-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">jump-to-previous-blank-line</span> ()
@@ -1325,12 +1325,12 @@ Why this is useful: Navigate by logical blocks instead of lines. Shows regex sea
 </div>
 </div>
 
-<div id="outline-container-org3b15a30" class="outline-3">
-<h3 id="org3b15a30"><span class="section-number-3">9.5.</span> Development Helpers</h3>
+<div id="outline-container-orgca51973" class="outline-3">
+<h3 id="orgca51973"><span class="section-number-3">9.5.</span> Development Helpers</h3>
 <div class="outline-text-3" id="text-9-5">
 </div>
-<div id="outline-container-org53e0029" class="outline-4">
-<h4 id="org53e0029"><span class="section-number-4">9.5.1.</span> Insert Current Timestamp</h4>
+<div id="outline-container-org55a5ab4" class="outline-4">
+<h4 id="org55a5ab4"><span class="section-number-4">9.5.1.</span> Insert Current Timestamp</h4>
 <div class="outline-text-4" id="text-9-5-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">insert-timestamp</span> ()
@@ -1351,8 +1351,8 @@ Why this is useful: Quick logging and note-taking. Shows time formatting.
 </div>
 </div>
 
-<div id="outline-container-org9e44359" class="outline-4">
-<h4 id="org9e44359"><span class="section-number-4">9.5.2.</span> Comment or Uncomment Region with Repeat</h4>
+<div id="outline-container-org100fc47" class="outline-4">
+<h4 id="org100fc47"><span class="section-number-4">9.5.2.</span> Comment or Uncomment Region with Repeat</h4>
 <div class="outline-text-4" id="text-9-5-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">toggle-comment-line-or-region</span> ()
@@ -1373,8 +1373,8 @@ Why this is useful: Unified commenting that works on both regions and lines. Sho
 </div>
 </div>
 
-<div id="outline-container-org878760d" class="outline-4">
-<h4 id="org878760d"><span class="section-number-4">9.5.3.</span> Open URL at Point</h4>
+<div id="outline-container-org07fe84b" class="outline-4">
+<h4 id="org07fe84b"><span class="section-number-4">9.5.3.</span> Open URL at Point</h4>
 <div class="outline-text-4" id="text-9-5-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">open-url-at-point</span> ()
@@ -1394,12 +1394,12 @@ Why this is useful: Quick link opening from any buffer. Shows text property dete
 </div>
 </div>
 
-<div id="outline-container-org4803aa9" class="outline-3">
-<h3 id="org4803aa9"><span class="section-number-3">9.6.</span> Automation and Workflow</h3>
+<div id="outline-container-org6fb6313" class="outline-3">
+<h3 id="org6fb6313"><span class="section-number-3">9.6.</span> Automation and Workflow</h3>
 <div class="outline-text-3" id="text-9-6">
 </div>
-<div id="outline-container-org19e78fc" class="outline-4">
-<h4 id="org19e78fc"><span class="section-number-4">9.6.1.</span> Auto-Insert File Headers</h4>
+<div id="outline-container-orgfbbeccc" class="outline-4">
+<h4 id="orgfbbeccc"><span class="section-number-4">9.6.1.</span> Auto-Insert File Headers</h4>
 <div class="outline-text-4" id="text-9-6-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">insert-elisp-header</span> ()
@@ -1426,8 +1426,8 @@ Why this is useful: Standardizes file structure. Shows file name manipulation an
 </div>
 </div>
 
-<div id="outline-container-orgceb8406" class="outline-4">
-<h4 id="orgceb8406"><span class="section-number-4">9.6.2.</span> Quick Scratch Buffer</h4>
+<div id="outline-container-org925467b" class="outline-4">
+<h4 id="org925467b"><span class="section-number-4">9.6.2.</span> Quick Scratch Buffer</h4>
 <div class="outline-text-4" id="text-9-6-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">create-scratch-buffer</span> ()
@@ -1447,12 +1447,12 @@ Why this is useful: Create temporary workspaces without affecting the main scrat
 </div>
 </div>
 
-<div id="outline-container-org777357a" class="outline-3">
-<h3 id="org777357a"><span class="section-number-3">9.7.</span> Advanced: Macros and Code Generation</h3>
+<div id="outline-container-org4f128df" class="outline-3">
+<h3 id="org4f128df"><span class="section-number-3">9.7.</span> Advanced: Macros and Code Generation</h3>
 <div class="outline-text-3" id="text-9-7">
 </div>
-<div id="outline-container-org36634ea" class="outline-4">
-<h4 id="org36634ea"><span class="section-number-4">9.7.1.</span> Create Getters and Setters</h4>
+<div id="outline-container-org681c1c6" class="outline-4">
+<h4 id="org681c1c6"><span class="section-number-4">9.7.1.</span> Create Getters and Setters</h4>
 <div class="outline-text-4" id="text-9-7-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">create-accessor-functions</span> (struct-name fields)
@@ -1483,8 +1483,8 @@ Why this is useful: Demonstrates metaprogramming and code generation. Shows how 
 </div>
 </div>
 
-<div id="outline-container-org3d482bb" class="outline-2">
-<h2 id="org3d482bb"><span class="section-number-2">10.</span> Error Handling</h2>
+<div id="outline-container-org1316ca5" class="outline-2">
+<h2 id="org1316ca5"><span class="section-number-2">10.</span> Error Handling</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Basic error handling with condition-case
@@ -1515,12 +1515,12 @@ Why this is useful: Demonstrates metaprogramming and code generation. Shows how 
 </div>
 </div>
 
-<div id="outline-container-org3dba712" class="outline-2">
-<h2 id="org3dba712"><span class="section-number-2">11.</span> Common Pitfalls for New Users</h2>
+<div id="outline-container-org9540c65" class="outline-2">
+<h2 id="org9540c65"><span class="section-number-2">11.</span> Common Pitfalls for New Users</h2>
 <div class="outline-text-2" id="text-11">
 </div>
-<div id="outline-container-org6d9bb4b" class="outline-3">
-<h3 id="org6d9bb4b"><span class="section-number-3">11.1.</span> 1. nil vs '()</h3>
+<div id="outline-container-orgae8d128" class="outline-3">
+<h3 id="orgae8d128"><span class="section-number-3">11.1.</span> 1. nil vs '()</h3>
 <div class="outline-text-3" id="text-11-1">
 <p>
 In Elisp, <code>nil</code> and <code>'()</code> are equivalent (both represent false and empty list):
@@ -1535,8 +1535,8 @@ In Elisp, <code>nil</code> and <code>'()</code> are equivalent (both represent f
 </div>
 </div>
 
-<div id="outline-container-orgedc9340" class="outline-3">
-<h3 id="orgedc9340"><span class="section-number-3">11.2.</span> 2. t vs non-nil</h3>
+<div id="outline-container-org1aff60c" class="outline-3">
+<h3 id="org1aff60c"><span class="section-number-3">11.2.</span> 2. t vs non-nil</h3>
 <div class="outline-text-3" id="text-11-2">
 <p>
 Any non-nil value is considered true:
@@ -1551,8 +1551,8 @@ Any non-nil value is considered true:
 </div>
 </div>
 
-<div id="outline-container-org318d6bb" class="outline-3">
-<h3 id="org318d6bb"><span class="section-number-3">11.3.</span> 3. setq vs setf vs let</h3>
+<div id="outline-container-org5d0d52e" class="outline-3">
+<h3 id="org5d0d52e"><span class="section-number-3">11.3.</span> 3. setq vs setf vs let</h3>
 <div class="outline-text-3" id="text-11-3">
 <ul class="org-ul">
 <li><code>setq</code>: Set a variable (quote the variable name)</li>
@@ -1572,8 +1572,8 @@ Any non-nil value is considered true:
 </div>
 </div>
 
-<div id="outline-container-org5d64193" class="outline-3">
-<h3 id="org5d64193"><span class="section-number-3">11.4.</span> 4. Quote vs Backquote</h3>
+<div id="outline-container-org771042a" class="outline-3">
+<h3 id="org771042a"><span class="section-number-3">11.4.</span> 4. Quote vs Backquote</h3>
 <div class="outline-text-3" id="text-11-4">
 <ul class="org-ul">
 <li><code>'</code> (quote): Everything is literal</li>
@@ -1592,12 +1592,12 @@ Any non-nil value is considered true:
 </div>
 </div>
 
-<div id="outline-container-org97b0723" class="outline-2">
-<h2 id="org97b0723"><span class="section-number-2">12.</span> Resources and Next Steps</h2>
+<div id="outline-container-org5e6f113" class="outline-2">
+<h2 id="org5e6f113"><span class="section-number-2">12.</span> Resources and Next Steps</h2>
 <div class="outline-text-2" id="text-12">
 </div>
-<div id="outline-container-org8d5841c" class="outline-3">
-<h3 id="org8d5841c"><span class="section-number-3">12.1.</span> Learning More</h3>
+<div id="outline-container-org76f3cec" class="outline-3">
+<h3 id="org76f3cec"><span class="section-number-3">12.1.</span> Learning More</h3>
 <div class="outline-text-3" id="text-12-1">
 <ul class="org-ul">
 <li><b>Info Manual</b>: Press <code>C-h i</code> and select "Elisp" to read the comprehensive Emacs Lisp manual</li>
@@ -1608,8 +1608,8 @@ Any non-nil value is considered true:
 </div>
 </div>
 
-<div id="outline-container-org9de3b59" class="outline-3">
-<h3 id="org9de3b59"><span class="section-number-3">12.2.</span> Practice Exercises</h3>
+<div id="outline-container-orgf22c58f" class="outline-3">
+<h3 id="orgf22c58f"><span class="section-number-3">12.2.</span> Practice Exercises</h3>
 <div class="outline-text-3" id="text-12-2">
 <ol class="org-ol">
 <li>Write a function that reverses words in a sentence (but not the sentence itself)
@@ -1629,8 +1629,8 @@ Any non-nil value is considered true:
 </div>
 </div>
 
-<div id="outline-container-orgb2c5902" class="outline-3">
-<h3 id="orgb2c5902"><span class="section-number-3">12.3.</span> Common Libraries</h3>
+<div id="outline-container-org1581d1c" class="outline-3">
+<h3 id="org1581d1c"><span class="section-number-3">12.3.</span> Common Libraries</h3>
 <div class="outline-text-3" id="text-12-3">
 <ul class="org-ul">
 <li><code>cl-lib</code>: Common Lisp extensions (more powerful iteration, data structures)</li>
@@ -1657,8 +1657,8 @@ Example using <code>rx</code> for regex:
 </div>
 </div>
 
-<div id="outline-container-orge2a2acd" class="outline-2">
-<h2 id="orge2a2acd"><span class="section-number-2">13.</span> Conclusion</h2>
+<div id="outline-container-org3d47202" class="outline-2">
+<h2 id="org3d47202"><span class="section-number-2">13.</span> Conclusion</h2>
 <div class="outline-text-2" id="text-13">
 <p>
 Emacs Lisp is a powerful language for customizing and extending your editor. The key differences from other languages are:

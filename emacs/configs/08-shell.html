@@ -22,44 +22,44 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org13b6827">1. Introduction</a></li>
-<li><a href="#org2dc4aec">2. Terminal Emulators</a>
+<li><a href="#orga0ab8de">1. Introduction</a></li>
+<li><a href="#org9472546">2. Terminal Emulators</a>
 <ul>
-<li><a href="#org24df53d">2.1. Eat (Emulate A Terminal)</a></li>
-<li><a href="#org43612eb">2.2. Vterm (Terminal Emulator)</a></li>
+<li><a href="#org15273c8">2.1. Eat (Emulate A Terminal)</a></li>
+<li><a href="#org2f4152f">2.2. Vterm (Terminal Emulator)</a></li>
 </ul>
 </li>
-<li><a href="#orgacfa7a9">3. Shell Mode</a></li>
-<li><a href="#org5a06128">4. Eshell</a>
+<li><a href="#org66bd6c5">3. Shell Mode</a></li>
+<li><a href="#org0746c40">4. Eshell</a>
 <ul>
-<li><a href="#org587002b">4.1. Core Configuration</a></li>
-<li><a href="#org3062882">4.2. Eshell Prompt</a></li>
-<li><a href="#orgfd0bb72">4.3. Eshell Aliases</a></li>
-<li><a href="#orgfdcf550">4.4. Eshell Banner</a></li>
+<li><a href="#org9dc60bd">4.1. Core Configuration</a></li>
+<li><a href="#org4aaef65">4.2. Eshell Prompt</a></li>
+<li><a href="#orgc1e2129">4.3. Eshell Aliases</a></li>
+<li><a href="#orga9055e1">4.4. Eshell Banner</a></li>
 </ul>
 </li>
-<li><a href="#org8df98e5">5. Custom Shell Utilities</a>
+<li><a href="#org77d69f6">5. Custom Shell Utilities</a>
 <ul>
-<li><a href="#orgb78344b">5.1. Async Shell Command</a></li>
-<li><a href="#org87646e7">5.2. Quick Shell Command in Project</a></li>
-<li><a href="#org96f81fd">5.3. Open External Terminal</a></li>
-<li><a href="#org5071e7c">5.4. DWIM Shell Command</a></li>
+<li><a href="#orgcc6a490">5.1. Async Shell Command</a></li>
+<li><a href="#orgb8eacf0">5.2. Quick Shell Command in Project</a></li>
+<li><a href="#org4d5bacc">5.3. Open External Terminal</a></li>
+<li><a href="#org091fcbd">5.4. DWIM Shell Command</a></li>
 </ul>
 </li>
-<li><a href="#org10e0281">6. Agent Shell</a>
+<li><a href="#org4c968b9">6. Agent Shell</a>
 <ul>
-<li><a href="#org0f2cd87">6.1. Agent Shell Core</a></li>
-<li><a href="#org0cd8ae9">6.2. Agent Shell Manager</a></li>
-<li><a href="#orge8764ee">6.3. Agent Shell Sidebar</a></li>
+<li><a href="#org9b1e309">6.1. Agent Shell Core</a></li>
+<li><a href="#org316e08a">6.2. Agent Shell Manager</a></li>
+<li><a href="#orge385a86">6.3. Agent Shell Sidebar</a></li>
 </ul>
 </li>
-<li><a href="#org6b1a5dd">7. End of File</a></li>
+<li><a href="#orgf4d366b">7. End of File</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org13b6827" class="outline-2">
-<h2 id="org13b6827"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-orga0ab8de" class="outline-2">
+<h2 id="orga0ab8de"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Comprehensive terminal and shell integration for Emacs, providing multiple options for command-line interaction:
@@ -74,16 +74,16 @@ Comprehensive terminal and shell integration for Emacs, providing multiple optio
 </div>
 </div>
 
-<div id="outline-container-org2dc4aec" class="outline-2">
-<h2 id="org2dc4aec"><span class="section-number-2">2.</span> Terminal Emulators</h2>
+<div id="outline-container-org9472546" class="outline-2">
+<h2 id="org9472546"><span class="section-number-2">2.</span> Terminal Emulators</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Full-featured terminal emulators that support complex TUI applications like <code>vim</code>, <code>htop</code>, <code>ncurses</code> programs, etc.
 </p>
 </div>
 
-<div id="outline-container-org24df53d" class="outline-3">
-<h3 id="org24df53d"><span class="section-number-3">2.1.</span> Eat (Emulate A Terminal)</h3>
+<div id="outline-container-org15273c8" class="outline-3">
+<h3 id="org15273c8"><span class="section-number-3">2.1.</span> Eat (Emulate A Terminal)</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 A fast, feature-complete terminal emulator written in pure Elisp. Works great on all platforms and integrates seamlessly with eshell.
@@ -152,8 +152,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org43612eb" class="outline-3">
-<h3 id="org43612eb"><span class="section-number-3">2.2.</span> Vterm (Terminal Emulator)</h3>
+<div id="outline-container-org2f4152f" class="outline-3">
+<h3 id="org2f4152f"><span class="section-number-3">2.2.</span> Vterm (Terminal Emulator)</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 High-performance terminal emulator using libvterm. Requires compilation but provides the best terminal emulation.
@@ -218,8 +218,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-orgacfa7a9" class="outline-2">
-<h2 id="orgacfa7a9"><span class="section-number-2">3.</span> Shell Mode</h2>
+<div id="outline-container-org66bd6c5" class="outline-2">
+<h2 id="org66bd6c5"><span class="section-number-2">3.</span> Shell Mode</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Traditional comint-based shell mode that runs your system shell (bash, zsh, etc.) in an Emacs buffer.
@@ -282,16 +282,16 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org5a06128" class="outline-2">
-<h2 id="org5a06128"><span class="section-number-2">4.</span> Eshell</h2>
+<div id="outline-container-org0746c40" class="outline-2">
+<h2 id="org0746c40"><span class="section-number-2">4.</span> Eshell</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Emacs Shell (eshell) is a pure Elisp command shell that provides deep integration with Emacs. Unlike shell-mode, eshell doesn't run a separate shell process but implements shell features directly in Elisp.
 </p>
 </div>
 
-<div id="outline-container-org587002b" class="outline-3">
-<h3 id="org587002b"><span class="section-number-3">4.1.</span> Core Configuration</h3>
+<div id="outline-container-org9dc60bd" class="outline-3">
+<h3 id="org9dc60bd"><span class="section-number-3">4.1.</span> Core Configuration</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Features:
@@ -379,8 +379,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org3062882" class="outline-3">
-<h3 id="org3062882"><span class="section-number-3">4.2.</span> Eshell Prompt</h3>
+<div id="outline-container-org4aaef65" class="outline-3">
+<h3 id="org4aaef65"><span class="section-number-3">4.2.</span> Eshell Prompt</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Beautiful and functional prompt with git integration and directory shortening.
@@ -414,8 +414,8 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgfd0bb72" class="outline-3">
-<h3 id="orgfd0bb72"><span class="section-number-3">4.3.</span> Eshell Aliases</h3>
+<div id="outline-container-orgc1e2129" class="outline-3">
+<h3 id="orgc1e2129"><span class="section-number-3">4.3.</span> Eshell Aliases</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 Convenient aliases for common commands to improve productivity.
@@ -463,8 +463,8 @@ Convenient aliases for common commands to improve productivity.
 </div>
 </div>
 
-<div id="outline-container-orgfdcf550" class="outline-3">
-<h3 id="orgfdcf550"><span class="section-number-3">4.4.</span> Eshell Banner</h3>
+<div id="outline-container-orga9055e1" class="outline-3">
+<h3 id="orga9055e1"><span class="section-number-3">4.4.</span> Eshell Banner</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 Customize the eshell banner to be more informative and welcoming.
@@ -489,16 +489,16 @@ Current directory: %s
 </div>
 </div>
 
-<div id="outline-container-org8df98e5" class="outline-2">
-<h2 id="org8df98e5"><span class="section-number-2">5.</span> Custom Shell Utilities</h2>
+<div id="outline-container-org77d69f6" class="outline-2">
+<h2 id="org77d69f6"><span class="section-number-2">5.</span> Custom Shell Utilities</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Enhanced utilities for running shell commands with better integration.
 </p>
 </div>
 
-<div id="outline-container-orgb78344b" class="outline-3">
-<h3 id="orgb78344b"><span class="section-number-3">5.1.</span> Async Shell Command</h3>
+<div id="outline-container-orgcc6a490" class="outline-3">
+<h3 id="orgcc6a490"><span class="section-number-3">5.1.</span> Async Shell Command</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Improved async shell command that runs commands in project root and provides better output formatting.
@@ -562,8 +562,8 @@ Provides better output formatting and runs in project context."</span>
 </div>
 </div>
 
-<div id="outline-container-org87646e7" class="outline-3">
-<h3 id="org87646e7"><span class="section-number-3">5.2.</span> Quick Shell Command in Project</h3>
+<div id="outline-container-orgb8eacf0" class="outline-3">
+<h3 id="orgb8eacf0"><span class="section-number-3">5.2.</span> Quick Shell Command in Project</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Run a quick shell command in the current project's root directory.
@@ -585,8 +585,8 @@ Run a quick shell command in the current project's root directory.
 </div>
 </div>
 
-<div id="outline-container-org96f81fd" class="outline-3">
-<h3 id="org96f81fd"><span class="section-number-3">5.3.</span> Open External Terminal</h3>
+<div id="outline-container-org4d5bacc" class="outline-3">
+<h3 id="org4d5bacc"><span class="section-number-3">5.3.</span> Open External Terminal</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Open an external terminal application in the current directory or project root.
@@ -620,8 +620,8 @@ Open an external terminal application in the current directory or project root.
 </div>
 </div>
 
-<div id="outline-container-org5071e7c" class="outline-3">
-<h3 id="org5071e7c"><span class="section-number-3">5.4.</span> DWIM Shell Command</h3>
+<div id="outline-container-org091fcbd" class="outline-3">
+<h3 id="org091fcbd"><span class="section-number-3">5.4.</span> DWIM Shell Command</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 A "Do What I Mean" shell command wrapper that intelligently operates on files in Dired or the current buffer. It provides powerful template placeholders for working with files and integrates seamlessly with Emacs workflows.
@@ -668,6 +668,7 @@ Usage:
          ([remap dired-do-shell-command] . dwim-shell-command)
          ([remap dired-smart-shell-command] . dwim-shell-command))
   <span class="org-builtin">:config</span>
+  (<span class="org-keyword">setq</span> dwim-shell-command-git-clone-dirs '(<span class="org-string">"~/Projects"</span>))
   <span class="org-comment-delimiter">;; </span><span class="org-comment">Load additional command templates
 </span>  (<span class="org-keyword">require</span> '<span class="org-constant">dwim-shell-commands</span> nil t))
 </pre>
@@ -676,16 +677,16 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org10e0281" class="outline-2">
-<h2 id="org10e0281"><span class="section-number-2">6.</span> Agent Shell</h2>
+<div id="outline-container-org4c968b9" class="outline-2">
+<h2 id="org4c968b9"><span class="section-number-2">6.</span> Agent Shell</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 A native Emacs interface to interact with LLM agents powered by ACP (Agent Client Protocol). Agent Shell enables chatting directly with AI coding assistants from within Emacs, supporting multiple providers while maintaining session state.
 </p>
 </div>
 
-<div id="outline-container-org0f2cd87" class="outline-3">
-<h3 id="org0f2cd87"><span class="section-number-3">6.1.</span> Agent Shell Core</h3>
+<div id="outline-container-org9b1e309" class="outline-3">
+<h3 id="org9b1e309"><span class="section-number-3">6.1.</span> Agent Shell Core</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 The core agent-shell package provides the foundation for AI agent interaction in Emacs.
@@ -710,12 +711,11 @@ Features:
 Supported Agents:
 </p>
 <ul class="org-ul">
-<li><b><b>Anthropic Claude Code</b></b>: <code>npm install -g @anthropic-ai/claude-code-acp</code></li>
-<li><b><b>Google Gemini CLI</b></b>: Requires <code>--experimental-acp</code> flag support</li>
-<li><b><b>OpenAI Codex</b></b>: <code>npm install -g @anthropic-ai/codex-acp</code></li>
-<li><b><b>Goose CLI</b></b>: Standard installation from repository</li>
-<li><b><b>Cursor Agent</b></b>: <code>npm install -g @blowmage/cursor-agent-acp</code></li>
-<li><b><b>Qwen Code</b></b>: <code>npm install -g @anthropic-ai/qwen-code@latest</code></li>
+<li><b><b>Anthropic Claude Code</b></b>: <code>npm install -g @anthropic-ai/claude-code</code> (native ACP support with <code>--acp</code> flag)</li>
+<li><b><b>Google Gemini CLI</b></b>: <code>npm install -g @google/gemini-cli</code> (use <code>gemini --acp</code> flag)</li>
+<li><b><b>OpenAI Codex</b></b>: <code>npm install -g @openai/codex</code></li>
+<li><b><b>Goose CLI</b></b>: Install from <a href="https://github.com/block/goose">block/goose</a> repository</li>
+<li><b><b>Cursor Agent</b></b>: Install <a href="https://github.com/roshan-c/cursor-acp">cursor-acp</a> adapter to bridge Cursor CLI to ACP</li>
 </ul>
 
 <p>
@@ -775,8 +775,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org0cd8ae9" class="outline-3">
-<h3 id="org0cd8ae9"><span class="section-number-3">6.2.</span> Agent Shell Manager</h3>
+<div id="outline-container-org316e08a" class="outline-3">
+<h3 id="org316e08a"><span class="section-number-3">6.2.</span> Agent Shell Manager</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 A buffer management tool for agent-shell that provides a tabulated list view of all open agent-shell buffers with real-time status monitoring and management capabilities.
@@ -830,8 +830,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-orge8764ee" class="outline-3">
-<h3 id="orge8764ee"><span class="section-number-3">6.3.</span> Agent Shell Sidebar</h3>
+<div id="outline-container-orge385a86" class="outline-3">
+<h3 id="orge385a86"><span class="section-number-3">6.3.</span> Agent Shell Sidebar</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 A persistent sidebar interface for agent-shell, providing a treemacs-like side panel for interacting with LLM agents. The sidebar is project-aware and maintains state across visibility toggles.
@@ -899,8 +899,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org6b1a5dd" class="outline-2">
-<h2 id="org6b1a5dd"><span class="section-number-2">7.</span> End of File</h2>
+<div id="outline-container-orgf4d366b" class="outline-2">
+<h2 id="orgf4d366b"><span class="section-number-2">7.</span> End of File</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">shell-conf</span>)
