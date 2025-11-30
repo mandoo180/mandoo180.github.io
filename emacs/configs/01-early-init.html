@@ -22,21 +22,21 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgaa0a9fa">1. Why Early Init?</a></li>
-<li><a href="#orgcda995c">2. Native Compilation Setup</a>
+<li><a href="#orgfe2abc5">1. Why Early Init?</a></li>
+<li><a href="#orga9802e7">2. Native Compilation Setup</a>
 <ul>
-<li><a href="#org8936886">2.1. How It Works</a></li>
+<li><a href="#orga003663">2.1. How It Works</a></li>
 </ul>
 </li>
-<li><a href="#org5bc4f70">3. Startup Performance Optimizations</a>
+<li><a href="#orga26e126">3. Startup Performance Optimizations</a>
 <ul>
-<li><a href="#org1f7107f">3.1. Garbage Collection</a></li>
-<li><a href="#org5b659be">3.2. Version Control</a></li>
+<li><a href="#org26f124c">3.1. Garbage Collection</a></li>
+<li><a href="#orgfe583f3">3.2. Version Control</a></li>
 </ul>
 </li>
-<li><a href="#orgb863d78">4. Prevent Visual Flash</a></li>
-<li><a href="#org4dda2e0">5. Frame Configuration</a></li>
-<li><a href="#org5b401a0">6. Disable Unused UI Elements</a></li>
+<li><a href="#org3062809">4. Prevent Visual Flash</a></li>
+<li><a href="#org616025c">5. Frame Configuration</a></li>
+<li><a href="#org822135d">6. Disable Unused UI Elements</a></li>
 </ul>
 </div>
 </div>
@@ -44,8 +44,8 @@
 The <code>early-init.el</code> file is loaded before the package system and GUI is initialized. This is the perfect place for performance optimizations and settings that must be applied before any packages load.
 </p>
 
-<div id="outline-container-orgaa0a9fa" class="outline-2">
-<h2 id="orgaa0a9fa"><span class="section-number-2">1.</span> Why Early Init?</h2>
+<div id="outline-container-orgfe2abc5" class="outline-2">
+<h2 id="orgfe2abc5"><span class="section-number-2">1.</span> Why Early Init?</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Emacs 27+ introduced <code>early-init.el</code> which loads before:
@@ -67,16 +67,16 @@ This allows us to:
 </div>
 </div>
 
-<div id="outline-container-orgcda995c" class="outline-2">
-<h2 id="orgcda995c"><span class="section-number-2">2.</span> Native Compilation Setup</h2>
+<div id="outline-container-orga9802e7" class="outline-2">
+<h2 id="orga9802e7"><span class="section-number-2">2.</span> Native Compilation Setup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Modern Emacs supports native compilation of Emacs Lisp to machine code for better performance. On macOS with Homebrew, we need to configure the GCC library paths.
 </p>
 </div>
 
-<div id="outline-container-org8936886" class="outline-3">
-<h3 id="org8936886"><span class="section-number-3">2.1.</span> How It Works</h3>
+<div id="outline-container-orga003663" class="outline-3">
+<h3 id="orga003663"><span class="section-number-3">2.1.</span> How It Works</h3>
 <div class="outline-text-3" id="text-2-1">
 <ol class="org-ol">
 <li>Checks if native compilation is available</li>
@@ -125,16 +125,16 @@ Modern Emacs supports native compilation of Emacs Lisp to machine code for bette
 </div>
 </div>
 
-<div id="outline-container-org5bc4f70" class="outline-2">
-<h2 id="org5bc4f70"><span class="section-number-2">3.</span> Startup Performance Optimizations</h2>
+<div id="outline-container-orga26e126" class="outline-2">
+<h2 id="orga26e126"><span class="section-number-2">3.</span> Startup Performance Optimizations</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 These settings dramatically improve Emacs startup time by deferring expensive operations until after initialization.
 </p>
 </div>
 
-<div id="outline-container-org1f7107f" class="outline-3">
-<h3 id="org1f7107f"><span class="section-number-3">3.1.</span> Garbage Collection</h3>
+<div id="outline-container-org26f124c" class="outline-3">
+<h3 id="org26f124c"><span class="section-number-3">3.1.</span> Garbage Collection</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 We temporarily disable garbage collection during startup by setting <code>gc-cons-threshold</code> to maximum. This prevents GC pauses during the critical startup phase.
@@ -146,8 +146,8 @@ We temporarily disable garbage collection during startup by setting <code>gc-con
 </div>
 </div>
 
-<div id="outline-container-org5b659be" class="outline-3">
-<h3 id="org5b659be"><span class="section-number-3">3.2.</span> Version Control</h3>
+<div id="outline-container-orgfe583f3" class="outline-3">
+<h3 id="orgfe583f3"><span class="section-number-3">3.2.</span> Version Control</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 We limit <code>vc-handled-backends</code> to only Git, skipping checks for other VCS systems we don't use.
@@ -164,8 +164,8 @@ We limit <code>vc-handled-backends</code> to only Git, skipping checks for other
 </div>
 </div>
 
-<div id="outline-container-orgb863d78" class="outline-2">
-<h2 id="orgb863d78"><span class="section-number-2">4.</span> Prevent Visual Flash</h2>
+<div id="outline-container-org3062809" class="outline-2">
+<h2 id="org3062809"><span class="section-number-2">4.</span> Prevent Visual Flash</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 When Emacs starts, there's often a brief flash of the default theme before your custom theme loads. This function prevents that by:
@@ -192,8 +192,8 @@ When Emacs starts, there's often a brief flash of the default theme before your 
 </div>
 </div>
 
-<div id="outline-container-org4dda2e0" class="outline-2">
-<h2 id="org4dda2e0"><span class="section-number-2">5.</span> Frame Configuration</h2>
+<div id="outline-container-org616025c" class="outline-2">
+<h2 id="org616025c"><span class="section-number-2">5.</span> Frame Configuration</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Configure frame (window) behavior before the GUI initializes:
@@ -217,8 +217,8 @@ Configure frame (window) behavior before the GUI initializes:
 </div>
 </div>
 
-<div id="outline-container-org5b401a0" class="outline-2">
-<h2 id="org5b401a0"><span class="section-number-2">6.</span> Disable Unused UI Elements</h2>
+<div id="outline-container-org822135d" class="outline-2">
+<h2 id="org822135d"><span class="section-number-2">6.</span> Disable Unused UI Elements</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Remove visual clutter and improve performance by disabling UI elements we don't need:

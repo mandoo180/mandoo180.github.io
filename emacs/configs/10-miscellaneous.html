@@ -22,52 +22,52 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3c8a799">1. Introduction</a></li>
-<li><a href="#orgf8d165d">2. Email Configuration</a>
+<li><a href="#org6fdd8a6">1. Introduction</a></li>
+<li><a href="#orgcdc2885">2. Email Configuration</a>
 <ul>
-<li><a href="#org4a4f1b2">2.1. Notmuch</a></li>
-<li><a href="#org16b2e94">2.2. Email Sending</a></li>
+<li><a href="#orge3c1548">2.1. Notmuch</a></li>
+<li><a href="#org483bab8">2.2. Email Sending</a></li>
 </ul>
 </li>
-<li><a href="#org061e07b">3. GPTel - AI Chat Integration</a>
+<li><a href="#org8f85373">3. GPTel - AI Chat Integration</a>
 <ul>
-<li><a href="#org73c89ff">3.1. Core Configuration</a></li>
-<li><a href="#orgb104443">3.2. Backend Configuration</a></li>
-<li><a href="#orgbb5c466">3.3. Easy Model Switching</a></li>
-<li><a href="#org25cb916">3.4. Automatic Chat History Saving</a></li>
-<li><a href="#org0ab86f0">3.5. Enhanced Chat Interface</a></li>
-<li><a href="#orgddda4be">3.6. Usage Guide</a></li>
+<li><a href="#org9ff4736">3.1. Core Configuration</a></li>
+<li><a href="#orgb9c6d0c">3.2. Backend Configuration</a></li>
+<li><a href="#org71a5d6c">3.3. Easy Model Switching</a></li>
+<li><a href="#org3efeee4">3.4. Automatic Chat History Saving</a></li>
+<li><a href="#orge46eab1">3.5. Enhanced Chat Interface</a></li>
+<li><a href="#org62a1c5a">3.6. Usage Guide</a></li>
 </ul>
 </li>
-<li><a href="#org5c47f65">4. PDF Tools</a>
+<li><a href="#org7afc810">4. PDF Tools</a>
 <ul>
-<li><a href="#org68f5790">4.1. Core Features</a></li>
-<li><a href="#org747c4a4">4.2. Basic Setup</a></li>
-<li><a href="#orge1198e5">4.3. Display and Visual Settings</a></li>
-<li><a href="#org35d1816">4.4. Search and Navigation</a></li>
-<li><a href="#orgde57e22">4.5. Annotations and Markup</a></li>
-<li><a href="#org6405534">4.6. Bookmarks and Links</a></li>
-<li><a href="#orgc52eff8">4.7. Keybindings</a></li>
-<li><a href="#org89b91c3">4.8. Helper Functions</a></li>
-<li><a href="#org657ae7d">4.9. PDF Keybinding Reference</a></li>
+<li><a href="#org5b3b394">4.1. Core Features</a></li>
+<li><a href="#orgd1ff8af">4.2. Basic Setup</a></li>
+<li><a href="#org2247ca3">4.3. Display and Visual Settings</a></li>
+<li><a href="#org59304f7">4.4. Search and Navigation</a></li>
+<li><a href="#org6ad7818">4.5. Annotations and Markup</a></li>
+<li><a href="#org3edce07">4.6. Bookmarks and Links</a></li>
+<li><a href="#orgb0fd5ed">4.7. Keybindings</a></li>
+<li><a href="#org40e4dc3">4.8. Helper Functions</a></li>
+<li><a href="#org7fafa69">4.9. PDF Keybinding Reference</a></li>
 </ul>
 </li>
-<li><a href="#org7aaead0">5. Utility Functions</a>
+<li><a href="#orgf836302">5. Utility Functions</a>
 <ul>
-<li><a href="#org7cfe608">5.1. Open in External Application</a></li>
-<li><a href="#orga262b4e">5.2. Copy File Path</a></li>
-<li><a href="#org9814227">5.3. Reload Configuration</a></li>
-<li><a href="#orgb25f81d">5.4. Kill Other Buffers</a></li>
+<li><a href="#org35eb604">5.1. Open in External Application</a></li>
+<li><a href="#orgf9eae3e">5.2. Copy File Path</a></li>
+<li><a href="#orge58ba53">5.3. Reload Configuration</a></li>
+<li><a href="#org8fde5cf">5.4. Kill Other Buffers</a></li>
 </ul>
 </li>
-<li><a href="#orgc69db94">6. Database Configuration (Disabled)</a></li>
-<li><a href="#orge30cbc5">7. End of File</a></li>
+<li><a href="#orge300ad4">6. Database Configuration (Disabled)</a></li>
+<li><a href="#org5a4f878">7. End of File</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org3c8a799" class="outline-2">
-<h2 id="org3c8a799"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org6fdd8a6" class="outline-2">
+<h2 id="org6fdd8a6"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Miscellaneous utilities and configurations including email, AI chat integration, PDF tools, and helper functions.
@@ -75,16 +75,16 @@ Miscellaneous utilities and configurations including email, AI chat integration,
 </div>
 </div>
 
-<div id="outline-container-orgf8d165d" class="outline-2">
-<h2 id="orgf8d165d"><span class="section-number-2">2.</span> Email Configuration</h2>
+<div id="outline-container-orgcdc2885" class="outline-2">
+<h2 id="orgcdc2885"><span class="section-number-2">2.</span> Email Configuration</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Configuration for reading and sending email using notmuch and msmtp.
 </p>
 </div>
 
-<div id="outline-container-org4a4f1b2" class="outline-3">
-<h3 id="org4a4f1b2"><span class="section-number-3">2.1.</span> Notmuch</h3>
+<div id="outline-container-orge3c1548" class="outline-3">
+<h3 id="orge3c1548"><span class="section-number-3">2.1.</span> Notmuch</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Fast email indexing and searching with notmuch.
@@ -107,8 +107,8 @@ Fast email indexing and searching with notmuch.
 </div>
 </div>
 
-<div id="outline-container-org16b2e94" class="outline-3">
-<h3 id="org16b2e94"><span class="section-number-3">2.2.</span> Email Sending</h3>
+<div id="outline-container-org483bab8" class="outline-3">
+<h3 id="org483bab8"><span class="section-number-3">2.2.</span> Email Sending</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Configure email sending with msmtp and authentication.
@@ -131,16 +131,16 @@ Configure email sending with msmtp and authentication.
 </div>
 </div>
 
-<div id="outline-container-org061e07b" class="outline-2">
-<h2 id="org061e07b"><span class="section-number-2">3.</span> GPTel - AI Chat Integration</h2>
+<div id="outline-container-org8f85373" class="outline-2">
+<h2 id="org8f85373"><span class="section-number-2">3.</span> GPTel - AI Chat Integration</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Comprehensive AI chat integration with support for multiple providers (OpenAI, Claude, Gemini, etc.) with easy model switching and automatic chat history saving.
 </p>
 </div>
 
-<div id="outline-container-org73c89ff" class="outline-3">
-<h3 id="org73c89ff"><span class="section-number-3">3.1.</span> Core Configuration</h3>
+<div id="outline-container-org9ff4736" class="outline-3">
+<h3 id="org9ff4736"><span class="section-number-3">3.1.</span> Core Configuration</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">GPTel - AI Chat Integration
@@ -175,8 +175,8 @@ Comprehensive AI chat integration with support for multiple providers (OpenAI, C
 </div>
 </div>
 
-<div id="outline-container-orgb104443" class="outline-3">
-<h3 id="orgb104443"><span class="section-number-3">3.2.</span> Backend Configuration</h3>
+<div id="outline-container-orgb9c6d0c" class="outline-3">
+<h3 id="orgb9c6d0c"><span class="section-number-3">3.2.</span> Backend Configuration</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Set up multiple AI backends with API keys from environment variables or auth-sources.
@@ -236,8 +236,8 @@ SERVICE should be something like '</span><span class="org-doc"><span class="org-
 </div>
 </div>
 
-<div id="outline-container-orgbb5c466" class="outline-3">
-<h3 id="orgbb5c466"><span class="section-number-3">3.3.</span> Easy Model Switching</h3>
+<div id="outline-container-org71a5d6c" class="outline-3">
+<h3 id="org71a5d6c"><span class="section-number-3">3.3.</span> Easy Model Switching</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Convenient functions to switch between different AI models quickly.
@@ -322,8 +322,8 @@ Convenient functions to switch between different AI models quickly.
 </div>
 </div>
 
-<div id="outline-container-org25cb916" class="outline-3">
-<h3 id="org25cb916"><span class="section-number-3">3.4.</span> Automatic Chat History Saving</h3>
+<div id="outline-container-org3efeee4" class="outline-3">
+<h3 id="org3efeee4"><span class="section-number-3">3.4.</span> Automatic Chat History Saving</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Automatically save chat conversations to disk with timestamps and model information.
@@ -394,8 +394,8 @@ Automatically save chat conversations to disk with timestamps and model informat
 </div>
 </div>
 
-<div id="outline-container-org0ab86f0" class="outline-3">
-<h3 id="org0ab86f0"><span class="section-number-3">3.5.</span> Enhanced Chat Interface</h3>
+<div id="outline-container-orge46eab1" class="outline-3">
+<h3 id="orge46eab1"><span class="section-number-3">3.5.</span> Enhanced Chat Interface</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 Improved chat interface with better defaults and keybindings.
@@ -444,16 +444,16 @@ Improved chat interface with better defaults and keybindings.
 </div>
 </div>
 
-<div id="outline-container-orgddda4be" class="outline-3">
-<h3 id="orgddda4be"><span class="section-number-3">3.6.</span> Usage Guide</h3>
+<div id="outline-container-org62a1c5a" class="outline-3">
+<h3 id="org62a1c5a"><span class="section-number-3">3.6.</span> Usage Guide</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 Quick reference for using gptel:
 </p>
 </div>
 
-<div id="outline-container-org6813e66" class="outline-4">
-<h4 id="org6813e66"><span class="section-number-4">3.6.1.</span> Starting a Chat</h4>
+<div id="outline-container-org9c14558" class="outline-4">
+<h4 id="org9c14558"><span class="section-number-4">3.6.1.</span> Starting a Chat</h4>
 <div class="outline-text-4" id="text-3-6-1">
 <ul class="org-ul">
 <li><code>C-c a n</code> : Start new chat with current model</li>
@@ -462,8 +462,8 @@ Quick reference for using gptel:
 </div>
 </div>
 
-<div id="outline-container-org1207c3e" class="outline-4">
-<h4 id="org1207c3e"><span class="section-number-4">3.6.2.</span> Model Switching</h4>
+<div id="outline-container-org8203f02" class="outline-4">
+<h4 id="org8203f02"><span class="section-number-4">3.6.2.</span> Model Switching</h4>
 <div class="outline-text-4" id="text-3-6-2">
 <ul class="org-ul">
 <li><code>C-c a m</code> : Choose from all available models</li>
@@ -474,8 +474,8 @@ Quick reference for using gptel:
 </div>
 </div>
 
-<div id="outline-container-orge216a59" class="outline-4">
-<h4 id="orge216a59"><span class="section-number-4">3.6.3.</span> Chat Management</h4>
+<div id="outline-container-orgc74901c" class="outline-4">
+<h4 id="orgc74901c"><span class="section-number-4">3.6.3.</span> Chat Management</h4>
 <div class="outline-text-4" id="text-3-6-3">
 <ul class="org-ul">
 <li><code>C-c g s</code> : Manually save current chat (in gptel buffer)</li>
@@ -486,8 +486,8 @@ Quick reference for using gptel:
 </div>
 </div>
 
-<div id="outline-container-org48c8f9e" class="outline-4">
-<h4 id="org48c8f9e"><span class="section-number-4">3.6.4.</span> In Chat Buffer</h4>
+<div id="outline-container-orge14fa07" class="outline-4">
+<h4 id="orge14fa07"><span class="section-number-4">3.6.4.</span> In Chat Buffer</h4>
 <div class="outline-text-4" id="text-3-6-4">
 <ul class="org-ul">
 <li><code>C-c RET</code> : Send message</li>
@@ -497,8 +497,8 @@ Quick reference for using gptel:
 </div>
 </div>
 
-<div id="outline-container-org9bb3350" class="outline-4">
-<h4 id="org9bb3350"><span class="section-number-4">3.6.5.</span> Configuration</h4>
+<div id="outline-container-org40a3622" class="outline-4">
+<h4 id="org40a3622"><span class="section-number-4">3.6.5.</span> Configuration</h4>
 <div class="outline-text-4" id="text-3-6-5">
 <p>
 API keys should be set as environment variables:
@@ -521,8 +521,8 @@ Chat history location: <code>~/.emacs.d/gptel-history/</code> (customizable via 
 </div>
 </div>
 
-<div id="outline-container-org5c47f65" class="outline-2">
-<h2 id="org5c47f65"><span class="section-number-2">4.</span> PDF Tools</h2>
+<div id="outline-container-org7afc810" class="outline-2">
+<h2 id="org7afc810"><span class="section-number-2">4.</span> PDF Tools</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Comprehensive PDF viewing and annotation system with powerful search, annotation, bookmark, and navigation features.
@@ -533,8 +533,8 @@ Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElem
 </p>
 </div>
 
-<div id="outline-container-org68f5790" class="outline-3">
-<h3 id="org68f5790"><span class="section-number-3">4.1.</span> Core Features</h3>
+<div id="outline-container-org5b3b394" class="outline-3">
+<h3 id="org5b3b394"><span class="section-number-3">4.1.</span> Core Features</h3>
 <div class="outline-text-3" id="text-4-1">
 <ul class="org-ul">
 <li>High-quality PDF rendering with native performance</li>
@@ -551,8 +551,8 @@ Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElem
 </div>
 </div>
 
-<div id="outline-container-org747c4a4" class="outline-3">
-<h3 id="org747c4a4"><span class="section-number-3">4.2.</span> Basic Setup</h3>
+<div id="outline-container-orgd1ff8af" class="outline-3">
+<h3 id="orgd1ff8af"><span class="section-number-3">4.2.</span> Basic Setup</h3>
 <div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Core Configuration
@@ -584,8 +584,8 @@ Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElem
 </div>
 </div>
 
-<div id="outline-container-orge1198e5" class="outline-3">
-<h3 id="orge1198e5"><span class="section-number-3">4.3.</span> Display and Visual Settings</h3>
+<div id="outline-container-org2247ca3" class="outline-3">
+<h3 id="org2247ca3"><span class="section-number-3">4.3.</span> Display and Visual Settings</h3>
 <div class="outline-text-3" id="text-4-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Display Settings
@@ -607,8 +607,8 @@ Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElem
 </div>
 </div>
 
-<div id="outline-container-org35d1816" class="outline-3">
-<h3 id="org35d1816"><span class="section-number-3">4.4.</span> Search and Navigation</h3>
+<div id="outline-container-org59304f7" class="outline-3">
+<h3 id="org59304f7"><span class="section-number-3">4.4.</span> Search and Navigation</h3>
 <div class="outline-text-3" id="text-4-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Enhanced Search
@@ -633,8 +633,8 @@ Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElem
 </div>
 </div>
 
-<div id="outline-container-orgde57e22" class="outline-3">
-<h3 id="orgde57e22"><span class="section-number-3">4.5.</span> Annotations and Markup</h3>
+<div id="outline-container-org6ad7818" class="outline-3">
+<h3 id="org6ad7818"><span class="section-number-3">4.5.</span> Annotations and Markup</h3>
 <div class="outline-text-3" id="text-4-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Annotations
@@ -688,8 +688,8 @@ Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElem
 </div>
 </div>
 
-<div id="outline-container-org6405534" class="outline-3">
-<h3 id="org6405534"><span class="section-number-3">4.6.</span> Bookmarks and Links</h3>
+<div id="outline-container-org3edce07" class="outline-3">
+<h3 id="org3edce07"><span class="section-number-3">4.6.</span> Bookmarks and Links</h3>
 <div class="outline-text-3" id="text-4-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">PDF Tools - Bookmarks
@@ -727,8 +727,8 @@ Reference: <a href="https://emacselements.com/pdf-tools-settings.html">EmacsElem
 </div>
 </div>
 
-<div id="outline-container-orgc52eff8" class="outline-3">
-<h3 id="orgc52eff8"><span class="section-number-3">4.7.</span> Keybindings</h3>
+<div id="outline-container-orgb0fd5ed" class="outline-3">
+<h3 id="orgb0fd5ed"><span class="section-number-3">4.7.</span> Keybindings</h3>
 <div class="outline-text-3" id="text-4-7">
 <p>
 Comprehensive keybinding setup for all PDF operations.
@@ -745,10 +745,10 @@ Comprehensive keybinding setup for all PDF operations.
     (define-key map (kbd <span class="org-string">"l"</span>) 'image-forward-hscroll)
     (define-key map (kbd <span class="org-string">"J"</span>) 'pdf-view-next-page)
     (define-key map (kbd <span class="org-string">"K"</span>) 'pdf-view-previous-page)
-    (define-key map (kbd <span class="org-string">"g g"</span>) 'pdf-view-first-page)
-    (define-key map (kbd <span class="org-string">"G"</span>) 'pdf-view-last-page)
-    (define-key map (kbd <span class="org-string">"g t"</span>) 'pdf-view-goto-page)
-
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">(define-key map (kbd "g g") 'pdf-view-first-page)
+</span>    (define-key map (kbd <span class="org-string">"G"</span>) 'pdf-view-last-page)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">(define-key map (kbd "g t") 'pdf-view-goto-page)
+</span>
     <span class="org-comment-delimiter">;; </span><span class="org-comment">Search
 </span>    (define-key map (kbd <span class="org-string">"C-s"</span>) 'isearch-forward)
     (define-key map (kbd <span class="org-string">"C-r"</span>) 'isearch-backward)
@@ -804,8 +804,8 @@ Comprehensive keybinding setup for all PDF operations.
 </div>
 </div>
 
-<div id="outline-container-org89b91c3" class="outline-3">
-<h3 id="org89b91c3"><span class="section-number-3">4.8.</span> Helper Functions</h3>
+<div id="outline-container-org40e4dc3" class="outline-3">
+<h3 id="org40e4dc3"><span class="section-number-3">4.8.</span> Helper Functions</h3>
 <div class="outline-text-3" id="text-4-8">
 <p>
 Additional utility functions for enhanced PDF workflow.
@@ -863,8 +863,8 @@ Additional utility functions for enhanced PDF workflow.
 </div>
 </div>
 
-<div id="outline-container-org657ae7d" class="outline-3">
-<h3 id="org657ae7d"><span class="section-number-3">4.9.</span> PDF Keybinding Reference</h3>
+<div id="outline-container-org7fafa69" class="outline-3">
+<h3 id="org7fafa69"><span class="section-number-3">4.9.</span> PDF Keybinding Reference</h3>
 <div class="outline-text-3" id="text-4-9">
 <p>
 Quick reference for PDF Tools keybindings:
@@ -1127,16 +1127,16 @@ Quick reference for PDF Tools keybindings:
 </div>
 </div>
 
-<div id="outline-container-org7aaead0" class="outline-2">
-<h2 id="org7aaead0"><span class="section-number-2">5.</span> Utility Functions</h2>
+<div id="outline-container-orgf836302" class="outline-2">
+<h2 id="orgf836302"><span class="section-number-2">5.</span> Utility Functions</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 General utility functions for improved Emacs workflow.
 </p>
 </div>
 
-<div id="outline-container-org7cfe608" class="outline-3">
-<h3 id="org7cfe608"><span class="section-number-3">5.1.</span> Open in External Application</h3>
+<div id="outline-container-org35eb604" class="outline-3">
+<h3 id="org35eb604"><span class="section-number-3">5.1.</span> Open in External Application</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Open current file or URL in external application.
@@ -1167,8 +1167,8 @@ Open current file or URL in external application.
 </div>
 </div>
 
-<div id="outline-container-orga262b4e" class="outline-3">
-<h3 id="orga262b4e"><span class="section-number-3">5.2.</span> Copy File Path</h3>
+<div id="outline-container-orgf9eae3e" class="outline-3">
+<h3 id="orgf9eae3e"><span class="section-number-3">5.2.</span> Copy File Path</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Copy current file path to clipboard.
@@ -1189,8 +1189,8 @@ Copy current file path to clipboard.
 </div>
 </div>
 
-<div id="outline-container-org9814227" class="outline-3">
-<h3 id="org9814227"><span class="section-number-3">5.3.</span> Reload Configuration</h3>
+<div id="outline-container-orge58ba53" class="outline-3">
+<h3 id="orge58ba53"><span class="section-number-3">5.3.</span> Reload Configuration</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Quickly reload Emacs configuration.
@@ -1209,8 +1209,8 @@ Quickly reload Emacs configuration.
 </div>
 </div>
 
-<div id="outline-container-orgb25f81d" class="outline-3">
-<h3 id="orgb25f81d"><span class="section-number-3">5.4.</span> Kill Other Buffers</h3>
+<div id="outline-container-org8fde5cf" class="outline-3">
+<h3 id="org8fde5cf"><span class="section-number-3">5.4.</span> Kill Other Buffers</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 Kill all buffers except the current one.
@@ -1234,8 +1234,8 @@ Kill all buffers except the current one.
 </div>
 </div>
 
-<div id="outline-container-orgc69db94" class="outline-2">
-<h2 id="orgc69db94"><span class="section-number-2">6.</span> Database Configuration (Disabled)</h2>
+<div id="outline-container-orge300ad4" class="outline-2">
+<h2 id="orge300ad4"><span class="section-number-2">6.</span> Database Configuration (Disabled)</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Example database configuration with ejc-sql. Disabled by default.
@@ -1276,8 +1276,8 @@ Example database configuration with ejc-sql. Disabled by default.
 </div>
 </div>
 
-<div id="outline-container-orge30cbc5" class="outline-2">
-<h2 id="orge30cbc5"><span class="section-number-2">7.</span> End of File</h2>
+<div id="outline-container-org5a4f878" class="outline-2">
+<h2 id="org5a4f878"><span class="section-number-2">7.</span> End of File</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">misc-conf</span>)
