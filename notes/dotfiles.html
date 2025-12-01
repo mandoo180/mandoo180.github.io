@@ -7,36 +7,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dot Files</title>
 <meta name="generator" content="Org Mode" />
-<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
-<style>
-  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
-  body { margin:0; }
-  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
-  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="content">
 <h1 class="title">Dot Files</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org58d1782">1. Ideavim</a></li>
-<li><a href="#org91b6021">2. Alacritty</a></li>
-<li><a href="#org2be936e">3. Zellij</a></li>
-<li><a href="#org94eafc4">4. Powershell</a></li>
-<li><a href="#org320c1b3">5. Emacs J</a>
+<li><a href="#orgf7f8276">1. Ideavim</a></li>
+<li><a href="#orgdf601e7">2. Alacritty</a></li>
+<li><a href="#org4f6d588">3. Zellij</a></li>
+<li><a href="#org29e38f0">4. Powershell</a></li>
+<li><a href="#org8aa6207">5. Emacs J</a>
 <ul>
-<li><a href="#orga079fad">5.1. macOS</a></li>
+<li><a href="#orgc558203">5.1. macOS</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org58d1782" class="outline-2">
-<h2 id="org58d1782"><span class="section-number-2">1.</span> Ideavim</h2>
+<div id="outline-container-orgf7f8276" class="outline-2">
+<h2 id="orgf7f8276"><span class="section-number-2">1.</span> Ideavim</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-text">let mapleader = " "
@@ -161,8 +155,8 @@ map &lt;M-S-5&gt; &lt;Action&gt;(Replace)
 </div>
 </div>
 
-<div id="outline-container-org91b6021" class="outline-2">
-<h2 id="org91b6021"><span class="section-number-2">2.</span> Alacritty</h2>
+<div id="outline-container-orgdf601e7" class="outline-2">
+<h2 id="orgdf601e7"><span class="section-number-2">2.</span> Alacritty</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-toml"><span class="org-comment-delimiter"># </span><span class="org-comment">[terminal]
@@ -203,8 +197,8 @@ map &lt;M-S-5&gt; &lt;Action&gt;(Replace)
 </div>
 </div>
 
-<div id="outline-container-org2be936e" class="outline-2">
-<h2 id="org2be936e"><span class="section-number-2">3.</span> Zellij</h2>
+<div id="outline-container-org4f6d588" class="outline-2">
+<h2 id="org4f6d588"><span class="section-number-2">3.</span> Zellij</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-conf"><span class="org-variable-name">keybinds clear-defaults</span>=true {
@@ -269,8 +263,8 @@ map &lt;M-S-5&gt; &lt;Action&gt;(Replace)
 </div>
 </div>
 
-<div id="outline-container-org94eafc4" class="outline-2">
-<h2 id="org94eafc4"><span class="section-number-2">4.</span> Powershell</h2>
+<div id="outline-container-org29e38f0" class="outline-2">
+<h2 id="org29e38f0"><span class="section-number-2">4.</span> Powershell</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Install <code>oh-my-posh</code> first.
@@ -292,12 +286,12 @@ $env:XDG_DATA_HOME = "$HOME\.local"
 </div>
 </div>
 
-<div id="outline-container-org320c1b3" class="outline-2">
-<h2 id="org320c1b3"><span class="section-number-2">5.</span> Emacs J</h2>
+<div id="outline-container-org8aa6207" class="outline-2">
+<h2 id="org8aa6207"><span class="section-number-2">5.</span> Emacs J</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orga079fad" class="outline-3">
-<h3 id="orga079fad"><span class="section-number-3">5.1.</span> macOS</h3>
+<div id="outline-container-orgc558203" class="outline-3">
+<h3 id="orgc558203"><span class="section-number-3">5.1.</span> macOS</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Path: <code>~/Library/Application Support/JetBrains/&lt;IntelliJ_Version&gt;/keymaps/EmacsJ_macOS.xml</code>

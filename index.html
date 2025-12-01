@@ -7,80 +7,74 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Personal Knowledge Base</title>
 <meta name="generator" content="Org Mode" />
-<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
-<style>
-  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
-  body { margin:0; }
-  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
-  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="content">
 <h1 class="title">Personal Knowledge Base</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org13f4984">1. Welcome</a>
+<li><a href="#orgd49edcc">1. Welcome</a>
 <ul>
-<li><a href="#org9acb5a6">1.1. What's Here</a></li>
-<li><a href="#org64d6b40">1.2. Features</a></li>
+<li><a href="#orga8eaf89">1.1. What's Here</a></li>
+<li><a href="#org1667c90">1.2. Features</a></li>
 </ul>
 </li>
-<li><a href="#orgff8960a">2. Emacs</a>
+<li><a href="#org65fac41">2. Emacs</a>
 <ul>
-<li><a href="#org89f347f">2.1. Emacs Configurations</a></li>
-<li><a href="#org6cb627f">2.2. Learning Emacs Lisp</a></li>
-<li><a href="#org0acbc4b">2.3. Building Emacs from Source</a></li>
+<li><a href="#orgb17d112">2.1. Emacs Configurations</a></li>
+<li><a href="#org42b2f33">2.2. Learning Emacs Lisp</a></li>
+<li><a href="#org4aef328">2.3. Building Emacs from Source</a></li>
 </ul>
 </li>
-<li><a href="#org2ebb464">3. Learning</a>
+<li><a href="#orgae38844">3. Learning</a>
 <ul>
-<li><a href="#orgae2fff7">3.1. GNU sed - Stream Editor</a></li>
-<li><a href="#orgd724c42">3.2. The C Programming Language (K&amp;R)</a></li>
+<li><a href="#orgbc7e5a2">3.1. GNU sed - Stream Editor</a></li>
+<li><a href="#org85543de">3.2. The C Programming Language (K&amp;R)</a></li>
 </ul>
 </li>
-<li><a href="#org122dbd1">4. Notes</a>
+<li><a href="#org53a06e1">4. Notes</a>
 <ul>
-<li><a href="#org598ca21">4.1. Arch Linux Setup Guide</a></li>
-<li><a href="#org218bc1d">4.2. Dotfiles Configuration</a></li>
+<li><a href="#orgc72677c">4.1. Arch Linux Setup Guide</a></li>
+<li><a href="#org3723a8e">4.2. Dotfiles Configuration</a></li>
 </ul>
 </li>
-<li><a href="#org4fa8d51">5. Computer Science</a>
+<li><a href="#orgae153de">5. Computer Science</a>
 <ul>
-<li><a href="#orga8a068e">5.1. Structure and Interpretation of Computer Programs</a></li>
+<li><a href="#org8b0f9dc">5.1. Structure and Interpretation of Computer Programs</a></li>
 </ul>
 </li>
-<li><a href="#org90900ab">6. Recent Updates</a></li>
-<li><a href="#org0ceb8c1">7. Navigation</a>
+<li><a href="#orgb119952">6. Recent Updates</a></li>
+<li><a href="#orgc9e8c3c">7. Navigation</a>
 <ul>
-<li><a href="#org261041d">7.1. By Category</a></li>
-<li><a href="#orgb2cadf2">7.2. Quick Links</a></li>
+<li><a href="#org58aa92a">7.1. By Category</a></li>
+<li><a href="#org988f82d">7.2. Quick Links</a></li>
 </ul>
 </li>
-<li><a href="#org432115f">8. About This Site</a>
+<li><a href="#org33b171a">8. About This Site</a>
 <ul>
-<li><a href="#orgadd8e94">8.1. Technical Details</a></li>
-<li><a href="#org4639106">8.2. Building Locally</a></li>
-<li><a href="#org89d8db0">8.3. Tangling Emacs Configs</a></li>
+<li><a href="#orge1e3f36">8.1. Technical Details</a></li>
+<li><a href="#org04991cd">8.2. Building Locally</a></li>
+<li><a href="#org28995be">8.3. Tangling Emacs Configs</a></li>
 </ul>
 </li>
-<li><a href="#org8d2a27f">9. Contact</a></li>
+<li><a href="#org9b6efd0">9. Contact</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org13f4984" class="outline-2">
-<h2 id="org13f4984"><span class="section-number-2">1.</span> Welcome</h2>
+<div id="outline-container-orgd49edcc" class="outline-2">
+<h2 id="orgd49edcc"><span class="section-number-2">1.</span> Welcome</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This is my personal knowledge base and configuration repository, built with Org-mode and published to GitHub Pages. It contains technical notes, learning resources, and my complete Emacs configuration written in literate programming style.
 </p>
 </div>
 
-<div id="outline-container-org9acb5a6" class="outline-3">
-<h3 id="org9acb5a6"><span class="section-number-3">1.1.</span> What's Here</h3>
+<div id="outline-container-orga8eaf89" class="outline-3">
+<h3 id="orga8eaf89"><span class="section-number-3">1.1.</span> What's Here</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li><b>Emacs Configuration</b>: Comprehensive, modular Emacs setup with detailed explanations</li>
@@ -91,8 +85,8 @@ This is my personal knowledge base and configuration repository, built with Org-
 </div>
 </div>
 
-<div id="outline-container-org64d6b40" class="outline-3">
-<h3 id="org64d6b40"><span class="section-number-3">1.2.</span> Features</h3>
+<div id="outline-container-org1667c90" class="outline-3">
+<h3 id="org1667c90"><span class="section-number-3">1.2.</span> Features</h3>
 <div class="outline-text-3" id="text-1-2">
 <ul class="org-ul">
 <li>📚 <b>Literate Programming</b>: All configurations are documented and explainable</li>
@@ -104,16 +98,16 @@ This is my personal knowledge base and configuration repository, built with Org-
 </div>
 </div>
 
-<div id="outline-container-orgff8960a" class="outline-2">
-<h2 id="orgff8960a"><span class="section-number-2">2.</span> Emacs</h2>
+<div id="outline-container-org65fac41" class="outline-2">
+<h2 id="org65fac41"><span class="section-number-2">2.</span> Emacs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Complete Emacs configuration and learning resources using literate programming with Org-mode.
 </p>
 </div>
 
-<div id="outline-container-org89f347f" class="outline-3">
-<h3 id="org89f347f"><span class="section-number-3">2.1.</span> <a href="emacs/emacs-configs.html">Emacs Configurations</a></h3>
+<div id="outline-container-orgb17d112" class="outline-3">
+<h3 id="orgb17d112"><span class="section-number-3">2.1.</span> <a href="emacs/emacs-configs.html">Emacs Configurations</a></h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 My complete Emacs configuration written in literate programming style. The configuration is split into focused, modular files for better organization and maintainability.
@@ -150,8 +144,8 @@ See also: <a href="emacs/configs/README.html">Configuration Guide</a> | <a href=
 </div>
 </div>
 
-<div id="outline-container-org6cb627f" class="outline-3">
-<h3 id="org6cb627f"><span class="section-number-3">2.2.</span> <a href="emacs/emacs-lisp.html">Learning Emacs Lisp</a></h3>
+<div id="outline-container-org42b2f33" class="outline-3">
+<h3 id="org42b2f33"><span class="section-number-3">2.2.</span> <a href="emacs/emacs-lisp.html">Learning Emacs Lisp</a></h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Comprehensive guide to Emacs Lisp for experienced developers. Covers the language from basics to advanced topics with practical examples.
@@ -181,8 +175,8 @@ Comprehensive guide to Emacs Lisp for experienced developers. Covers the languag
 </div>
 </div>
 
-<div id="outline-container-org0acbc4b" class="outline-3">
-<h3 id="org0acbc4b"><span class="section-number-3">2.3.</span> <a href="emacs/emacs-build.html">Building Emacs from Source</a></h3>
+<div id="outline-container-org4aef328" class="outline-3">
+<h3 id="org4aef328"><span class="section-number-3">2.3.</span> <a href="emacs/emacs-build.html">Building Emacs from Source</a></h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Step-by-step guide for building Emacs from source code on various platforms.
@@ -206,16 +200,16 @@ Step-by-step guide for building Emacs from source code on various platforms.
 </div>
 </div>
 
-<div id="outline-container-org2ebb464" class="outline-2">
-<h2 id="org2ebb464"><span class="section-number-2">3.</span> Learning</h2>
+<div id="outline-container-orgae38844" class="outline-2">
+<h2 id="orgae38844"><span class="section-number-2">3.</span> Learning</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Notes and exercises from programming books and technical documentation.
 </p>
 </div>
 
-<div id="outline-container-orgae2fff7" class="outline-3">
-<h3 id="orgae2fff7"><span class="section-number-3">3.1.</span> <a href="learning/GNU-sed.html">GNU sed - Stream Editor</a></h3>
+<div id="outline-container-orgbc7e5a2" class="outline-3">
+<h3 id="orgbc7e5a2"><span class="section-number-3">3.1.</span> <a href="learning/GNU-sed.html">GNU sed - Stream Editor</a></h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Comprehensive guide to the GNU sed stream editor, from basics to advanced text processing.
@@ -239,8 +233,8 @@ Comprehensive guide to the GNU sed stream editor, from basics to advanced text p
 </div>
 </div>
 
-<div id="outline-container-orgd724c42" class="outline-3">
-<h3 id="orgd724c42"><span class="section-number-3">3.2.</span> <a href="learning/c-programming-language-2nd.html">The C Programming Language (K&amp;R)</a></h3>
+<div id="outline-container-org85543de" class="outline-3">
+<h3 id="org85543de"><span class="section-number-3">3.2.</span> <a href="learning/c-programming-language-2nd.html">The C Programming Language (K&amp;R)</a></h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Notes and exercises from "The C Programming Language, 2nd Edition" by Kernighan and Ritchie.
@@ -262,16 +256,16 @@ Notes and exercises from "The C Programming Language, 2nd Edition" by Kernighan 
 </div>
 </div>
 
-<div id="outline-container-org122dbd1" class="outline-2">
-<h2 id="org122dbd1"><span class="section-number-2">4.</span> Notes</h2>
+<div id="outline-container-org53a06e1" class="outline-2">
+<h2 id="org53a06e1"><span class="section-number-2">4.</span> Notes</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 System configuration, dotfiles, and setup documentation.
 </p>
 </div>
 
-<div id="outline-container-org598ca21" class="outline-3">
-<h3 id="org598ca21"><span class="section-number-3">4.1.</span> <a href="notes/archlinux-setup.html">Arch Linux Setup Guide</a></h3>
+<div id="outline-container-orgc72677c" class="outline-3">
+<h3 id="orgc72677c"><span class="section-number-3">4.1.</span> <a href="notes/archlinux-setup.html">Arch Linux Setup Guide</a></h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Personal guide for setting up and configuring Arch Linux from scratch.
@@ -294,8 +288,8 @@ Personal guide for setting up and configuring Arch Linux from scratch.
 </div>
 </div>
 
-<div id="outline-container-org218bc1d" class="outline-3">
-<h3 id="org218bc1d"><span class="section-number-3">4.2.</span> <a href="notes/dotfiles.html">Dotfiles Configuration</a></h3>
+<div id="outline-container-org3723a8e" class="outline-3">
+<h3 id="org3723a8e"><span class="section-number-3">4.2.</span> <a href="notes/dotfiles.html">Dotfiles Configuration</a></h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 My personal dotfiles and system configuration files with explanations.
@@ -319,12 +313,12 @@ My personal dotfiles and system configuration files with explanations.
 </div>
 </div>
 
-<div id="outline-container-org4fa8d51" class="outline-2">
-<h2 id="org4fa8d51"><span class="section-number-2">5.</span> Computer Science</h2>
+<div id="outline-container-orgae153de" class="outline-2">
+<h2 id="orgae153de"><span class="section-number-2">5.</span> Computer Science</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orga8a068e" class="outline-3">
-<h3 id="orga8a068e"><span class="section-number-3">5.1.</span> <a href="learning/sicp.html">Structure and Interpretation of Computer Programs</a></h3>
+<div id="outline-container-org8b0f9dc" class="outline-3">
+<h3 id="org8b0f9dc"><span class="section-number-3">5.1.</span> <a href="learning/sicp.html">Structure and Interpretation of Computer Programs</a></h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Study notes and exercises from the classic computer science textbook SICP (Abelson &amp; Sussman).
@@ -352,8 +346,8 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 </div>
 </div>
 
-<div id="outline-container-org90900ab" class="outline-2">
-<h2 id="org90900ab"><span class="section-number-2">6.</span> Recent Updates</h2>
+<div id="outline-container-orgb119952" class="outline-2">
+<h2 id="orgb119952"><span class="section-number-2">6.</span> Recent Updates</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>2025-11-20: Split programming configurations by language (web, Python, Ruby)</li>
@@ -365,12 +359,12 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 </div>
 </div>
 
-<div id="outline-container-org0ceb8c1" class="outline-2">
-<h2 id="org0ceb8c1"><span class="section-number-2">7.</span> Navigation</h2>
+<div id="outline-container-orgc9e8c3c" class="outline-2">
+<h2 id="orgc9e8c3c"><span class="section-number-2">7.</span> Navigation</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org261041d" class="outline-3">
-<h3 id="org261041d"><span class="section-number-3">7.1.</span> By Category</h3>
+<div id="outline-container-org58aa92a" class="outline-3">
+<h3 id="org58aa92a"><span class="section-number-3">7.1.</span> By Category</h3>
 <div class="outline-text-3" id="text-7-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -391,25 +385,25 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 </thead>
 <tbody>
 <tr>
-<td class="org-left"><a href="#orgff8960a">Emacs</a></td>
+<td class="org-left"><a href="#org65fac41">Emacs</a></td>
 <td class="org-right">3 main + 18 modules</td>
 <td class="org-left">Configuration and learning resources</td>
 </tr>
 
 <tr>
-<td class="org-left"><a href="#org2ebb464">Learning</a></td>
+<td class="org-left"><a href="#orgae38844">Learning</a></td>
 <td class="org-right">2</td>
 <td class="org-left">Programming books and tools</td>
 </tr>
 
 <tr>
-<td class="org-left"><a href="#org122dbd1">Notes</a></td>
+<td class="org-left"><a href="#org53a06e1">Notes</a></td>
 <td class="org-right">2</td>
 <td class="org-left">System setup and dotfiles</td>
 </tr>
 
 <tr>
-<td class="org-left"><a href="#org4fa8d51">Computer Science</a></td>
+<td class="org-left"><a href="#orgae153de">Computer Science</a></td>
 <td class="org-right">6</td>
 <td class="org-left">SICP chapters and exercises</td>
 </tr>
@@ -418,12 +412,12 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 </div>
 </div>
 
-<div id="outline-container-orgb2cadf2" class="outline-3">
-<h3 id="orgb2cadf2"><span class="section-number-3">7.2.</span> Quick Links</h3>
+<div id="outline-container-org988f82d" class="outline-3">
+<h3 id="org988f82d"><span class="section-number-3">7.2.</span> Quick Links</h3>
 <div class="outline-text-3" id="text-7-2">
 </div>
-<div id="outline-container-orgd5f909f" class="outline-4">
-<h4 id="orgd5f909f"><span class="section-number-4">7.2.1.</span> Configuration</h4>
+<div id="outline-container-orged83937" class="outline-4">
+<h4 id="orged83937"><span class="section-number-4">7.2.1.</span> Configuration</h4>
 <div class="outline-text-4" id="text-7-2-1">
 <ul class="org-ul">
 <li><a href="emacs/emacs-configs.html">View Emacs Configuration</a> - Main literate config file</li>
@@ -433,8 +427,8 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 </div>
 </div>
 
-<div id="outline-container-orgcb4406e" class="outline-4">
-<h4 id="orgcb4406e"><span class="section-number-4">7.2.2.</span> Documentation</h4>
+<div id="outline-container-orgc635ae5" class="outline-4">
+<h4 id="orgc635ae5"><span class="section-number-4">7.2.2.</span> Documentation</h4>
 <div class="outline-text-4" id="text-7-2-2">
 <ul class="org-ul">
 <li><a href="../README.html">Repository README</a> - Complete project documentation</li>
@@ -443,8 +437,8 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 </div>
 </div>
 
-<div id="outline-container-orgf14eedb" class="outline-4">
-<h4 id="orgf14eedb"><span class="section-number-4">7.2.3.</span> External</h4>
+<div id="outline-container-org7db4b34" class="outline-4">
+<h4 id="org7db4b34"><span class="section-number-4">7.2.3.</span> External</h4>
 <div class="outline-text-4" id="text-7-2-3">
 <ul class="org-ul">
 <li><a href="https://github.com/mandoo180">GitHub Profile</a> - Source code and other projects</li>
@@ -455,24 +449,24 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 </div>
 </div>
 
-<div id="outline-container-org432115f" class="outline-2">
-<h2 id="org432115f"><span class="section-number-2">8.</span> About This Site</h2>
+<div id="outline-container-org33b171a" class="outline-2">
+<h2 id="org33b171a"><span class="section-number-2">8.</span> About This Site</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-orgadd8e94" class="outline-3">
-<h3 id="orgadd8e94"><span class="section-number-3">8.1.</span> Technical Details</h3>
+<div id="outline-container-orge1e3f36" class="outline-3">
+<h3 id="orge1e3f36"><span class="section-number-3">8.1.</span> Technical Details</h3>
 <div class="outline-text-3" id="text-8-1">
 <ul class="org-ul">
 <li><b>Generator</b>: Emacs Org-mode (ox-publish)</li>
-<li><b>Styling</b>: Tailwind CSS with typography plugin</li>
+<li><b>Styling</b>: Vanilla CSS with GitHub Flavored Markdown design</li>
 <li><b>Hosting</b>: GitHub Pages</li>
 <li><b>Source</b>: <a href="https://github.com/mandoo180/mandoo180.github.io">mandoo180/mandoo180.github.io</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org4639106" class="outline-3">
-<h3 id="org4639106"><span class="section-number-3">8.2.</span> Building Locally</h3>
+<div id="outline-container-org04991cd" class="outline-3">
+<h3 id="org04991cd"><span class="section-number-3">8.2.</span> Building Locally</h3>
 <div class="outline-text-3" id="text-8-2">
 <div class="org-src-container">
 <pre class="src src-bash"><span class="org-comment-delimiter"># </span><span class="org-comment">Clone repository
@@ -490,8 +484,8 @@ M-x httpd-serve-directory RET ./public RET
 </div>
 </div>
 
-<div id="outline-container-org89d8db0" class="outline-3">
-<h3 id="org89d8db0"><span class="section-number-3">8.3.</span> Tangling Emacs Configs</h3>
+<div id="outline-container-org28995be" class="outline-3">
+<h3 id="org28995be"><span class="section-number-3">8.3.</span> Tangling Emacs Configs</h3>
 <div class="outline-text-3" id="text-8-3">
 <div class="org-src-container">
 <pre class="src src-bash"><span class="org-comment-delimiter"># </span><span class="org-comment">Extract all configurations to ~/.emacs.d/
@@ -502,8 +496,8 @@ M-x httpd-serve-directory RET ./public RET
 </div>
 </div>
 
-<div id="outline-container-org8d2a27f" class="outline-2">
-<h2 id="org8d2a27f"><span class="section-number-2">9.</span> Contact</h2>
+<div id="outline-container-org9b6efd0" class="outline-2">
+<h2 id="org9b6efd0"><span class="section-number-2">9.</span> Contact</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 Feel free to explore, reference, or adapt any content for your own use.

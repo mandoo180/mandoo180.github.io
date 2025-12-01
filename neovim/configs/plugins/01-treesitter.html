@@ -7,37 +7,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Neovim Treesitter Configuration</title>
 <meta name="generator" content="Org Mode" />
-<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
-<style>
-  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
-  body { margin:0; }
-  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
-  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="content">
 <h1 class="title">Neovim Treesitter Configuration</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org982aa84">1. Overview</a></li>
-<li><a href="#orge5e7d1b">2. Configuration</a></li>
-<li><a href="#org7f65863">3. Features Explained</a>
+<li><a href="#orgabb3453">1. Overview</a></li>
+<li><a href="#org05e58e7">2. Configuration</a></li>
+<li><a href="#org3ee7445">3. Features Explained</a>
 <ul>
-<li><a href="#org3c98540">3.1. Ensure Installed</a></li>
-<li><a href="#org7ca850e">3.2. Highlight Configuration</a></li>
-<li><a href="#orge4efd49">3.3. Indentation</a></li>
-<li><a href="#orgdb87ed2">3.4. Text Objects</a></li>
+<li><a href="#org174c91f">3.1. Ensure Installed</a></li>
+<li><a href="#org67289ac">3.2. Highlight Configuration</a></li>
+<li><a href="#org6d2de0a">3.3. Indentation</a></li>
+<li><a href="#org4b9e2cf">3.4. Text Objects</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org982aa84" class="outline-2">
-<h2 id="org982aa84"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-orgabb3453" class="outline-2">
+<h2 id="orgabb3453"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Treesitter provides advanced syntax highlighting, indentation, and text objects based on tree-sitter parsers.
@@ -45,8 +39,8 @@ Treesitter provides advanced syntax highlighting, indentation, and text objects 
 </div>
 </div>
 
-<div id="outline-container-orge5e7d1b" class="outline-2">
-<h2 id="orge5e7d1b"><span class="section-number-2">2.</span> Configuration</h2>
+<div id="outline-container-org05e58e7" class="outline-2">
+<h2 id="org05e58e7"><span class="section-number-2">2.</span> Configuration</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-lua">require("nvim-treesitter.configs").setup({
@@ -132,12 +126,12 @@ Treesitter provides advanced syntax highlighting, indentation, and text objects 
 </div>
 </div>
 
-<div id="outline-container-org7f65863" class="outline-2">
-<h2 id="org7f65863"><span class="section-number-2">3.</span> Features Explained</h2>
+<div id="outline-container-org3ee7445" class="outline-2">
+<h2 id="org3ee7445"><span class="section-number-2">3.</span> Features Explained</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org3c98540" class="outline-3">
-<h3 id="org3c98540"><span class="section-number-3">3.1.</span> Ensure Installed</h3>
+<div id="outline-container-org174c91f" class="outline-3">
+<h3 id="org174c91f"><span class="section-number-3">3.1.</span> Ensure Installed</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 A comprehensive list of tree-sitter parsers to be installed, covering:
@@ -153,8 +147,8 @@ A comprehensive list of tree-sitter parsers to be installed, covering:
 </div>
 </div>
 
-<div id="outline-container-org7ca850e" class="outline-3">
-<h3 id="org7ca850e"><span class="section-number-3">3.2.</span> Highlight Configuration</h3>
+<div id="outline-container-org67289ac" class="outline-3">
+<h3 id="org67289ac"><span class="section-number-3">3.2.</span> Highlight Configuration</h3>
 <div class="outline-text-3" id="text-3-2">
 <ul class="org-ul">
 <li>Enabled by default for syntax highlighting</li>
@@ -164,8 +158,8 @@ A comprehensive list of tree-sitter parsers to be installed, covering:
 </div>
 </div>
 
-<div id="outline-container-orge4efd49" class="outline-3">
-<h3 id="orge4efd49"><span class="section-number-3">3.3.</span> Indentation</h3>
+<div id="outline-container-org6d2de0a" class="outline-3">
+<h3 id="org6d2de0a"><span class="section-number-3">3.3.</span> Indentation</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Treesitter-based indentation is enabled for more accurate auto-indenting.
@@ -173,8 +167,8 @@ Treesitter-based indentation is enabled for more accurate auto-indenting.
 </div>
 </div>
 
-<div id="outline-container-orgdb87ed2" class="outline-3">
-<h3 id="orgdb87ed2"><span class="section-number-3">3.4.</span> Text Objects</h3>
+<div id="outline-container-org4b9e2cf" class="outline-3">
+<h3 id="org4b9e2cf"><span class="section-number-3">3.4.</span> Text Objects</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Custom text objects for better code navigation:

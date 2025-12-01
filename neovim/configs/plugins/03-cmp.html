@@ -7,44 +7,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>nvim-cmp Completion Configuration</title>
 <meta name="generator" content="Org Mode" />
-<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
-<style>
-  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
-  body { margin:0; }
-  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
-  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="content">
 <h1 class="title">nvim-cmp Completion Configuration</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc7603a3">1. Overview</a></li>
-<li><a href="#orgd737b03">2. Setup</a></li>
-<li><a href="#org0d3cc1d">3. Load Snippets</a></li>
-<li><a href="#orgf4f5bed">4. Configuration Explained</a>
+<li><a href="#org882a4c5">1. Overview</a></li>
+<li><a href="#org5a1f04f">2. Setup</a></li>
+<li><a href="#orgb791a24">3. Load Snippets</a></li>
+<li><a href="#orga066b94">4. Configuration Explained</a>
 <ul>
-<li><a href="#orgfb65247">4.1. Snippet Engine</a></li>
-<li><a href="#orgd3f00b6">4.2. Key Mappings</a>
+<li><a href="#orgac6b603">4.1. Snippet Engine</a></li>
+<li><a href="#orgba55153">4.2. Key Mappings</a>
 <ul>
-<li><a href="#orgba30003">4.2.1. Tab Behavior</a></li>
-<li><a href="#org94f8077">4.2.2. Navigation</a></li>
+<li><a href="#org4ba8970">4.2.1. Tab Behavior</a></li>
+<li><a href="#org22c42c7">4.2.2. Navigation</a></li>
 </ul>
 </li>
-<li><a href="#orgb0b72c6">4.3. Completion Sources</a></li>
-<li><a href="#org66d5f83">4.4. Completion Options</a></li>
-<li><a href="#org2b1eb0f">4.5. Snippets</a></li>
+<li><a href="#org66b8735">4.3. Completion Sources</a></li>
+<li><a href="#org223352a">4.4. Completion Options</a></li>
+<li><a href="#org58a7bbe">4.5. Snippets</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc7603a3" class="outline-2">
-<h2 id="orgc7603a3"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-org882a4c5" class="outline-2">
+<h2 id="org882a4c5"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 nvim-cmp is a completion engine plugin for Neovim, providing intelligent code completion with support for LSP, snippets, buffers, and file paths.
@@ -52,8 +46,8 @@ nvim-cmp is a completion engine plugin for Neovim, providing intelligent code co
 </div>
 </div>
 
-<div id="outline-container-orgd737b03" class="outline-2">
-<h2 id="orgd737b03"><span class="section-number-2">2.</span> Setup</h2>
+<div id="outline-container-org5a1f04f" class="outline-2">
+<h2 id="org5a1f04f"><span class="section-number-2">2.</span> Setup</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-lua">local cmp = require "cmp"
@@ -103,8 +97,8 @@ cmp.setup({
 </div>
 </div>
 
-<div id="outline-container-org0d3cc1d" class="outline-2">
-<h2 id="org0d3cc1d"><span class="section-number-2">3.</span> Load Snippets</h2>
+<div id="outline-container-orgb791a24" class="outline-2">
+<h2 id="orgb791a24"><span class="section-number-2">3.</span> Load Snippets</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-lua">require "luasnip.loaders.from_vscode".lazy_load()
@@ -113,12 +107,12 @@ cmp.setup({
 </div>
 </div>
 
-<div id="outline-container-orgf4f5bed" class="outline-2">
-<h2 id="orgf4f5bed"><span class="section-number-2">4.</span> Configuration Explained</h2>
+<div id="outline-container-orga066b94" class="outline-2">
+<h2 id="orga066b94"><span class="section-number-2">4.</span> Configuration Explained</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgfb65247" class="outline-3">
-<h3 id="orgfb65247"><span class="section-number-3">4.1.</span> Snippet Engine</h3>
+<div id="outline-container-orgac6b603" class="outline-3">
+<h3 id="orgac6b603"><span class="section-number-3">4.1.</span> Snippet Engine</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 LuaSnip is configured as the snippet expansion engine, handling snippet completions and expansions.
@@ -126,12 +120,12 @@ LuaSnip is configured as the snippet expansion engine, handling snippet completi
 </div>
 </div>
 
-<div id="outline-container-orgd3f00b6" class="outline-3">
-<h3 id="orgd3f00b6"><span class="section-number-3">4.2.</span> Key Mappings</h3>
+<div id="outline-container-orgba55153" class="outline-3">
+<h3 id="orgba55153"><span class="section-number-3">4.2.</span> Key Mappings</h3>
 <div class="outline-text-3" id="text-4-2">
 </div>
-<div id="outline-container-orgba30003" class="outline-4">
-<h4 id="orgba30003"><span class="section-number-4">4.2.1.</span> Tab Behavior</h4>
+<div id="outline-container-org4ba8970" class="outline-4">
+<h4 id="org4ba8970"><span class="section-number-4">4.2.1.</span> Tab Behavior</h4>
 <div class="outline-text-4" id="text-4-2-1">
 <p>
 The Tab key has intelligent behavior:
@@ -144,8 +138,8 @@ The Tab key has intelligent behavior:
 </div>
 </div>
 
-<div id="outline-container-org94f8077" class="outline-4">
-<h4 id="org94f8077"><span class="section-number-4">4.2.2.</span> Navigation</h4>
+<div id="outline-container-org22c42c7" class="outline-4">
+<h4 id="org22c42c7"><span class="section-number-4">4.2.2.</span> Navigation</h4>
 <div class="outline-text-4" id="text-4-2-2">
 <ul class="org-ul">
 <li><code>&lt;C-n&gt;</code> - Next completion item (when menu is visible)</li>
@@ -155,8 +149,8 @@ The Tab key has intelligent behavior:
 </div>
 </div>
 
-<div id="outline-container-orgb0b72c6" class="outline-3">
-<h3 id="orgb0b72c6"><span class="section-number-3">4.3.</span> Completion Sources</h3>
+<div id="outline-container-org66b8735" class="outline-3">
+<h3 id="org66b8735"><span class="section-number-3">4.3.</span> Completion Sources</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 The completion sources are prioritized in this order:
@@ -170,8 +164,8 @@ The completion sources are prioritized in this order:
 </div>
 </div>
 
-<div id="outline-container-org66d5f83" class="outline-3">
-<h3 id="org66d5f83"><span class="section-number-3">4.4.</span> Completion Options</h3>
+<div id="outline-container-org223352a" class="outline-3">
+<h3 id="org223352a"><span class="section-number-3">4.4.</span> Completion Options</h3>
 <div class="outline-text-3" id="text-4-4">
 <ul class="org-ul">
 <li><code>menu</code> - Show completion menu</li>
@@ -181,8 +175,8 @@ The completion sources are prioritized in this order:
 </div>
 </div>
 
-<div id="outline-container-org2b1eb0f" class="outline-3">
-<h3 id="org2b1eb0f"><span class="section-number-3">4.5.</span> Snippets</h3>
+<div id="outline-container-org58a7bbe" class="outline-3">
+<h3 id="org58a7bbe"><span class="section-number-3">4.5.</span> Snippets</h3>
 <div class="outline-text-3" id="text-4-5">
 <p>
 Loads snippets from VSCode-style snippet collections via the friendly-snippets plugin.

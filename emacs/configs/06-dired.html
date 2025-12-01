@@ -7,39 +7,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Directory Editor (Dired)</title>
 <meta name="generator" content="Org Mode" />
-<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
-<style>
-  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
-  body { margin:0; }
-  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
-  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="content">
 <h1 class="title">Directory Editor (Dired)</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0a80811">1. Introduction</a></li>
-<li><a href="#org45f8876">2. Core Dired Configuration</a></li>
-<li><a href="#org48ab9da">3. Dired-X (Extra Features)</a></li>
-<li><a href="#org0fade23">4. Subtree Navigation</a></li>
-<li><a href="#org53f9208">5. Filtering and Narrowing</a></li>
-<li><a href="#org0e63bde">6. Advanced File Operations</a>
+<li><a href="#orgfd036a8">1. Introduction</a></li>
+<li><a href="#org338bf90">2. Core Dired Configuration</a></li>
+<li><a href="#orgd9628ef">3. Dired-X (Extra Features)</a></li>
+<li><a href="#org7cb2279">4. Subtree Navigation</a></li>
+<li><a href="#org0bd1577">5. Filtering and Narrowing</a></li>
+<li><a href="#org0a53a41">6. Advanced File Operations</a>
 <ul>
-<li><a href="#org128c64e">6.1. Writable Dired (wdired)</a></li>
+<li><a href="#org2992242">6.1. Writable Dired (wdired)</a></li>
 </ul>
 </li>
-<li><a href="#orgd2c23b7">7. Quick Preview</a></li>
-<li><a href="#org02b34ae">8. Additional Keybindings</a></li>
+<li><a href="#org47f944c">7. Quick Preview</a></li>
+<li><a href="#org09a50f2">8. Additional Keybindings</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org0a80811" class="outline-2">
-<h2 id="org0a80811"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-orgfd036a8" class="outline-2">
+<h2 id="orgfd036a8"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Dired (Directory Editor) is Emacs's built-in file manager that allows you to navigate, view, and manipulate files and directories directly within Emacs. This configuration enhances Dired with modern features like icons, filtering, tree views, and advanced file operations.
@@ -47,8 +41,8 @@ Dired (Directory Editor) is Emacs's built-in file manager that allows you to nav
 </div>
 </div>
 
-<div id="outline-container-org45f8876" class="outline-2">
-<h2 id="org45f8876"><span class="section-number-2">2.</span> Core Dired Configuration</h2>
+<div id="outline-container-org338bf90" class="outline-2">
+<h2 id="org338bf90"><span class="section-number-2">2.</span> Core Dired Configuration</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The base Dired settings provide human-readable file listings, automatic buffer updates, and convenient file operations.
@@ -97,8 +91,8 @@ Key features:
 </div>
 </div>
 
-<div id="outline-container-org48ab9da" class="outline-2">
-<h2 id="org48ab9da"><span class="section-number-2">3.</span> Dired-X (Extra Features)</h2>
+<div id="outline-container-orgd9628ef" class="outline-2">
+<h2 id="orgd9628ef"><span class="section-number-2">3.</span> Dired-X (Extra Features)</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Dired-X provides additional functionality including omitting uninteresting files, jumping to the current file's directory, and advanced marking operations.
@@ -130,8 +124,8 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org0fade23" class="outline-2">
-<h2 id="org0fade23"><span class="section-number-2">4.</span> Subtree Navigation</h2>
+<div id="outline-container-org7cb2279" class="outline-2">
+<h2 id="org7cb2279"><span class="section-number-2">4.</span> Subtree Navigation</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The <code>dired-subtree</code> package allows you to expand and collapse directories inline, creating a tree-like view without opening multiple buffers.
@@ -157,8 +151,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-org53f9208" class="outline-2">
-<h2 id="org53f9208"><span class="section-number-2">5.</span> Filtering and Narrowing</h2>
+<div id="outline-container-org0bd1577" class="outline-2">
+<h2 id="org0bd1577"><span class="section-number-2">5.</span> Filtering and Narrowing</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 The <code>dired-filter</code> package provides powerful filtering capabilities to narrow down file lists based on various criteria.
@@ -186,12 +180,12 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org0e63bde" class="outline-2">
-<h2 id="org0e63bde"><span class="section-number-2">6.</span> Advanced File Operations</h2>
+<div id="outline-container-org0a53a41" class="outline-2">
+<h2 id="org0a53a41"><span class="section-number-2">6.</span> Advanced File Operations</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org128c64e" class="outline-3">
-<h3 id="org128c64e"><span class="section-number-3">6.1.</span> Writable Dired (wdired)</h3>
+<div id="outline-container-org2992242" class="outline-3">
+<h3 id="org2992242"><span class="section-number-3">6.1.</span> Writable Dired (wdired)</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Edit file names directly in the dired buffer as if it were a text file. Perfect for batch renaming files.
@@ -223,8 +217,8 @@ Usage:
 </div>
 </div>
 
-<div id="outline-container-orgd2c23b7" class="outline-2">
-<h2 id="orgd2c23b7"><span class="section-number-2">7.</span> Quick Preview</h2>
+<div id="outline-container-org47f944c" class="outline-2">
+<h2 id="org47f944c"><span class="section-number-2">7.</span> Quick Preview</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 The <code>peep-dired</code> package provides a quick file preview without opening the file, similar to macOS Finder's Quick Look.
@@ -247,8 +241,8 @@ Usage: Press <code>P</code> to toggle preview mode, then navigate files to see p
 </div>
 </div>
 
-<div id="outline-container-org02b34ae" class="outline-2">
-<h2 id="org02b34ae"><span class="section-number-2">8.</span> Additional Keybindings</h2>
+<div id="outline-container-org09a50f2" class="outline-2">
+<h2 id="org09a50f2"><span class="section-number-2">8.</span> Additional Keybindings</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 Some useful Dired commands to remember:

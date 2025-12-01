@@ -7,87 +7,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
 <meta name="generator" content="Org Mode" />
-<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
-<style>
-  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
-  body { margin:0; }
-  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
-  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="content">
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbd1e16d">1. Introduction</a></li>
-<li><a href="#org4bcc5f3">2. Org Mode Core Configuration</a></li>
-<li><a href="#org06019d3">3. Org Download</a></li>
-<li><a href="#orgd69eacf">4. Org Appear (Disabled)</a></li>
-<li><a href="#orgd8f1609">5. Pretty Org - Visual Enhancements</a>
+<li><a href="#orgbbf48b9">1. Introduction</a></li>
+<li><a href="#orgc5565bb">2. Org Mode Core Configuration</a></li>
+<li><a href="#org31691de">3. Org Download</a></li>
+<li><a href="#org6c8a977">4. Org Appear (Disabled)</a></li>
+<li><a href="#org9a44214">5. Pretty Org - Visual Enhancements</a>
 <ul>
-<li><a href="#orgfa8267c">5.1. Org Modern</a></li>
+<li><a href="#org820607e">5.1. Org Modern</a></li>
 </ul>
 </li>
-<li><a href="#orgc712848">6. Org Google Calendar</a></li>
-<li><a href="#orgcc7798a">7. Org Image Preview</a></li>
-<li><a href="#orgb7b9111">8. Org HTML Preview</a></li>
-<li><a href="#orgaf88ca0">9. Org-Roam Configuration</a>
+<li><a href="#org5de2938">6. Org Google Calendar</a></li>
+<li><a href="#org690ac34">7. Org Image Preview</a></li>
+<li><a href="#org2c13878">8. Org HTML Preview</a></li>
+<li><a href="#orgdcced9b">9. Org-Roam Configuration</a>
 <ul>
-<li><a href="#org087d22d">9.1. Core Setup</a></li>
-<li><a href="#org3aedcaa">9.2. Capture Templates</a></li>
-<li><a href="#org5a0de70">9.3. Daily Notes Configuration</a></li>
-<li><a href="#org1f8ddcf">9.4. Enhanced Node Display</a></li>
-<li><a href="#orgb0fec9b">9.5. Graph Visualization</a></li>
-<li><a href="#org29bfc9d">9.6. UI Enhancement with org-roam-ui</a></li>
-<li><a href="#orge4b1c33">9.7. Performance Optimizations</a></li>
-<li><a href="#org498802e">9.8. Best Practices Summary</a></li>
-<li><a href="#org696c298">9.9. Common Workflows</a>
+<li><a href="#org7fcd4a0">9.1. Core Setup</a></li>
+<li><a href="#orge8fc4dd">9.2. Capture Templates</a></li>
+<li><a href="#orgd356c07">9.3. Daily Notes Configuration</a></li>
+<li><a href="#org4ae68e4">9.4. Enhanced Node Display</a></li>
+<li><a href="#org2415941">9.5. Graph Visualization</a></li>
+<li><a href="#org4f40504">9.6. UI Enhancement with org-roam-ui</a></li>
+<li><a href="#orgebeab7a">9.7. Performance Optimizations</a></li>
+<li><a href="#org240df5d">9.8. Best Practices Summary</a></li>
+<li><a href="#orgd7e8a43">9.9. Common Workflows</a>
 <ul>
-<li><a href="#orga237564">9.9.1. Creating a New Note</a></li>
-<li><a href="#orgf04622b">9.9.2. Linking Notes</a></li>
-<li><a href="#orgea097db">9.9.3. Daily Journaling</a></li>
-<li><a href="#org743c55a">9.9.4. Reviewing Connections</a></li>
-<li><a href="#org4857747">9.9.5. Deleting Notes Safely</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#orgdd75cec">10. Org-Jira</a>
-<ul>
-<li><a href="#org122204a">10.1. Key Features</a></li>
-<li><a href="#org32b206e">10.2. Configuration</a></li>
-<li><a href="#orga1141bc">10.3. Authentication Setup</a>
-<ul>
-<li><a href="#org14ca474">10.3.1. Getting an API Token</a></li>
-<li><a href="#org8a8ce44">10.3.2. Configuring Authentication</a></li>
-</ul>
-</li>
-<li><a href="#org15f5854">10.4. JQL Query Language</a>
-<ul>
-<li><a href="#orga0f6732">10.4.1. Common JQL Examples</a></li>
-<li><a href="#orgedf9ac2">10.4.2. ORDER BY Options</a></li>
-</ul>
-</li>
-<li><a href="#orgd584e07">10.5. Custom JQL Queries</a></li>
-<li><a href="#org8beabee">10.6. Common Workflows</a>
-<ul>
-<li><a href="#org86c5615">10.6.1. Syncing Issues from Jira</a></li>
-<li><a href="#org2284d66">10.6.2. Creating an Issue</a></li>
-<li><a href="#org6b57c8f">10.6.3. Updating an Issue</a></li>
-<li><a href="#orga749eb1">10.6.4. Transitioning Issue Status</a></li>
-<li><a href="#orgd27f9d1">10.6.5. Logging Work Time</a></li>
+<li><a href="#orgf082f21">9.9.1. Creating a New Note</a></li>
+<li><a href="#org579314f">9.9.2. Linking Notes</a></li>
+<li><a href="#orgdd0a00f">9.9.3. Daily Journaling</a></li>
+<li><a href="#org0b6d3a9">9.9.4. Reviewing Connections</a></li>
+<li><a href="#org9895d66">9.9.5. Deleting Notes Safely</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org59c84b5">11. End of File</a></li>
+<li><a href="#org0e672fc">10. Org-Jira</a>
+<ul>
+<li><a href="#org0e4caa3">10.1. Key Features</a></li>
+<li><a href="#org52d59e9">10.2. Configuration</a></li>
+<li><a href="#org5825e70">10.3. Authentication Setup</a>
+<ul>
+<li><a href="#org0c9b4fc">10.3.1. Getting an API Token</a></li>
+<li><a href="#orgc7928f8">10.3.2. Configuring Authentication</a></li>
+</ul>
+</li>
+<li><a href="#org03fb890">10.4. JQL Query Language</a>
+<ul>
+<li><a href="#org8356e46">10.4.1. Common JQL Examples</a></li>
+<li><a href="#org9758101">10.4.2. ORDER BY Options</a></li>
+</ul>
+</li>
+<li><a href="#org95a86d8">10.5. Custom JQL Queries</a></li>
+<li><a href="#org6bdb439">10.6. Common Workflows</a>
+<ul>
+<li><a href="#orge3e4755">10.6.1. Syncing Issues from Jira</a></li>
+<li><a href="#org5b10da6">10.6.2. Creating an Issue</a></li>
+<li><a href="#orga898d49">10.6.3. Updating an Issue</a></li>
+<li><a href="#org47046c8">10.6.4. Transitioning Issue Status</a></li>
+<li><a href="#org99f12b1">10.6.5. Logging Work Time</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orge1e9034">11. End of File</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbd1e16d" class="outline-2">
-<h2 id="orgbd1e16d"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-orgbbf48b9" class="outline-2">
+<h2 id="orgbbf48b9"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Configuration for Org-mode and knowledge management tools including org-roam, org-gcal, and related packages.
@@ -95,8 +89,8 @@ Configuration for Org-mode and knowledge management tools including org-roam, or
 </div>
 </div>
 
-<div id="outline-container-org4bcc5f3" class="outline-2">
-<h2 id="org4bcc5f3"><span class="section-number-2">2.</span> Org Mode Core Configuration</h2>
+<div id="outline-container-orgc5565bb" class="outline-2">
+<h2 id="orgc5565bb"><span class="section-number-2">2.</span> Org Mode Core Configuration</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Core Org-mode settings including babel languages, templates, and basic customization.
@@ -221,8 +215,8 @@ Core Org-mode settings including babel languages, templates, and basic customiza
 </div>
 </div>
 
-<div id="outline-container-org06019d3" class="outline-2">
-<h2 id="org06019d3"><span class="section-number-2">3.</span> Org Download</h2>
+<div id="outline-container-org31691de" class="outline-2">
+<h2 id="org31691de"><span class="section-number-2">3.</span> Org Download</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Drag-and-drop images and screenshots into org buffers.
@@ -252,8 +246,8 @@ Automatically skipped on server/headless environments (requires GUI for screensh
 </div>
 </div>
 
-<div id="outline-container-orgd69eacf" class="outline-2">
-<h2 id="orgd69eacf"><span class="section-number-2">4.</span> Org Appear (Disabled)</h2>
+<div id="outline-container-org6c8a977" class="outline-2">
+<h2 id="org6c8a977"><span class="section-number-2">4.</span> Org Appear (Disabled)</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Shows hidden emphasis markers and links when cursor is on them. Currently disabled.
@@ -277,16 +271,16 @@ Shows hidden emphasis markers and links when cursor is on them. Currently disabl
 </div>
 </div>
 
-<div id="outline-container-orgd8f1609" class="outline-2">
-<h2 id="orgd8f1609"><span class="section-number-2">5.</span> Pretty Org - Visual Enhancements</h2>
+<div id="outline-container-org9a44214" class="outline-2">
+<h2 id="org9a44214"><span class="section-number-2">5.</span> Pretty Org - Visual Enhancements</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Modern, beautiful styling for Org-mode with enhanced typography, icons, and visual elements.
 </p>
 </div>
 
-<div id="outline-container-orgfa8267c" class="outline-3">
-<h3 id="orgfa8267c"><span class="section-number-3">5.1.</span> Org Modern</h3>
+<div id="outline-container-org820607e" class="outline-3">
+<h3 id="org820607e"><span class="section-number-3">5.1.</span> Org Modern</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 The <code>org-modern</code> package provides a clean, modern appearance for Org-mode with better typography, styling, and visual hierarchy.
@@ -357,8 +351,8 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgc712848" class="outline-2">
-<h2 id="orgc712848"><span class="section-number-2">6.</span> Org Google Calendar</h2>
+<div id="outline-container-org5de2938" class="outline-2">
+<h2 id="org5de2938"><span class="section-number-2">6.</span> Org Google Calendar</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Bidirectional sync between Org-mode and Google Calendar. Disabled for now.
@@ -439,8 +433,8 @@ Bidirectional sync between Org-mode and Google Calendar. Disabled for now.
 </div>
 </div>
 
-<div id="outline-container-orgcc7798a" class="outline-2">
-<h2 id="orgcc7798a"><span class="section-number-2">7.</span> Org Image Preview</h2>
+<div id="outline-container-org690ac34" class="outline-2">
+<h2 id="org690ac34"><span class="section-number-2">7.</span> Org Image Preview</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Display remote HTTP/HTTPS images inline in org buffers with automatic caching.
@@ -461,8 +455,8 @@ Uses the <code>org-image-preview</code> package from GitHub.
 </div>
 </div>
 
-<div id="outline-container-orgb7b9111" class="outline-2">
-<h2 id="orgb7b9111"><span class="section-number-2">8.</span> Org HTML Preview</h2>
+<div id="outline-container-org2c13878" class="outline-2">
+<h2 id="org2c13878"><span class="section-number-2">8.</span> Org HTML Preview</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 Live HTML preview for Org-mode buffers in browser. Auto-refreshes on save.
@@ -478,16 +472,16 @@ Live HTML preview for Org-mode buffers in browser. Auto-refreshes on save.
 </div>
 </div>
 
-<div id="outline-container-orgaf88ca0" class="outline-2">
-<h2 id="orgaf88ca0"><span class="section-number-2">9.</span> Org-Roam Configuration</h2>
+<div id="outline-container-orgdcced9b" class="outline-2">
+<h2 id="orgdcced9b"><span class="section-number-2">9.</span> Org-Roam Configuration</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org-mode. It enables networked thought through bidirectional linking and provides tools for knowledge management inspired by Roam Research.
 </p>
 </div>
 
-<div id="outline-container-org087d22d" class="outline-3">
-<h3 id="org087d22d"><span class="section-number-3">9.1.</span> Core Setup</h3>
+<div id="outline-container-org7fcd4a0" class="outline-3">
+<h3 id="org7fcd4a0"><span class="section-number-3">9.1.</span> Core Setup</h3>
 <div class="outline-text-3" id="text-9-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> org-roam
@@ -530,8 +524,8 @@ Org-roam is a powerful Zettelkasten-style note-taking system built on top of Org
 </div>
 </div>
 
-<div id="outline-container-org3aedcaa" class="outline-3">
-<h3 id="org3aedcaa"><span class="section-number-3">9.2.</span> Capture Templates</h3>
+<div id="outline-container-orge8fc4dd" class="outline-3">
+<h3 id="orge8fc4dd"><span class="section-number-3">9.2.</span> Capture Templates</h3>
 <div class="outline-text-3" id="text-9-2">
 <p>
 Define templates for different types of notes. This follows the best practice of having different note types (fleeting, permanent, literature, etc.).
@@ -576,8 +570,8 @@ Define templates for different types of notes. This follows the best practice of
 </div>
 </div>
 
-<div id="outline-container-org5a0de70" class="outline-3">
-<h3 id="org5a0de70"><span class="section-number-3">9.3.</span> Daily Notes Configuration</h3>
+<div id="outline-container-orgd356c07" class="outline-3">
+<h3 id="orgd356c07"><span class="section-number-3">9.3.</span> Daily Notes Configuration</h3>
 <div class="outline-text-3" id="text-9-3">
 <p>
 Daily notes are essential for journaling and capturing fleeting thoughts. This configuration follows best practices for daily note organization.
@@ -622,8 +616,8 @@ Daily notes are essential for journaling and capturing fleeting thoughts. This c
 </div>
 </div>
 
-<div id="outline-container-org1f8ddcf" class="outline-3">
-<h3 id="org1f8ddcf"><span class="section-number-3">9.4.</span> Enhanced Node Display</h3>
+<div id="outline-container-org4ae68e4" class="outline-3">
+<h3 id="org4ae68e4"><span class="section-number-3">9.4.</span> Enhanced Node Display</h3>
 <div class="outline-text-3" id="text-9-4">
 <p>
 Customize how nodes appear in completion and searches for better usability.
@@ -657,8 +651,8 @@ Customize how nodes appear in completion and searches for better usability.
 </div>
 </div>
 
-<div id="outline-container-orgb0fec9b" class="outline-3">
-<h3 id="orgb0fec9b"><span class="section-number-3">9.5.</span> Graph Visualization</h3>
+<div id="outline-container-org2415941" class="outline-3">
+<h3 id="org2415941"><span class="section-number-3">9.5.</span> Graph Visualization</h3>
 <div class="outline-text-3" id="text-9-5">
 <p>
 Configure org-roam's graph visualization for better insights into your knowledge network.
@@ -688,8 +682,8 @@ Configure org-roam's graph visualization for better insights into your knowledge
 </div>
 </div>
 
-<div id="outline-container-org29bfc9d" class="outline-3">
-<h3 id="org29bfc9d"><span class="section-number-3">9.6.</span> UI Enhancement with org-roam-ui</h3>
+<div id="outline-container-org4f40504" class="outline-3">
+<h3 id="org4f40504"><span class="section-number-3">9.6.</span> UI Enhancement with org-roam-ui</h3>
 <div class="outline-text-3" id="text-9-6">
 <p>
 Optional web-based graph visualization interface (requires separate package).
@@ -714,8 +708,8 @@ Automatically skipped on server/headless environments.
 </div>
 </div>
 
-<div id="outline-container-orge4b1c33" class="outline-3">
-<h3 id="orge4b1c33"><span class="section-number-3">9.7.</span> Performance Optimizations</h3>
+<div id="outline-container-orgebeab7a" class="outline-3">
+<h3 id="orgebeab7a"><span class="section-number-3">9.7.</span> Performance Optimizations</h3>
 <div class="outline-text-3" id="text-9-7">
 <p>
 Best practices for maintaining good performance with large note collections.
@@ -772,8 +766,8 @@ If called from within a note, can use current note."</span>
 </div>
 </div>
 
-<div id="outline-container-org498802e" class="outline-3">
-<h3 id="org498802e"><span class="section-number-3">9.8.</span> Best Practices Summary</h3>
+<div id="outline-container-org240df5d" class="outline-3">
+<h3 id="org240df5d"><span class="section-number-3">9.8.</span> Best Practices Summary</h3>
 <div class="outline-text-3" id="text-9-8">
 <p>
 Key principles to follow when using org-roam:
@@ -793,12 +787,12 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org696c298" class="outline-3">
-<h3 id="org696c298"><span class="section-number-3">9.9.</span> Common Workflows</h3>
+<div id="outline-container-orgd7e8a43" class="outline-3">
+<h3 id="orgd7e8a43"><span class="section-number-3">9.9.</span> Common Workflows</h3>
 <div class="outline-text-3" id="text-9-9">
 </div>
-<div id="outline-container-orga237564" class="outline-4">
-<h4 id="orga237564"><span class="section-number-4">9.9.1.</span> Creating a New Note</h4>
+<div id="outline-container-orgf082f21" class="outline-4">
+<h4 id="orgf082f21"><span class="section-number-4">9.9.1.</span> Creating a New Note</h4>
 <div class="outline-text-4" id="text-9-9-1">
 <ol class="org-ol">
 <li><code>C-c n f</code> (org-roam-node-find)</li>
@@ -809,8 +803,8 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-orgf04622b" class="outline-4">
-<h4 id="orgf04622b"><span class="section-number-4">9.9.2.</span> Linking Notes</h4>
+<div id="outline-container-org579314f" class="outline-4">
+<h4 id="org579314f"><span class="section-number-4">9.9.2.</span> Linking Notes</h4>
 <div class="outline-text-4" id="text-9-9-2">
 <ol class="org-ol">
 <li><code>C-c n i</code> (org-roam-node-insert) while writing</li>
@@ -820,8 +814,8 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-orgea097db" class="outline-4">
-<h4 id="orgea097db"><span class="section-number-4">9.9.3.</span> Daily Journaling</h4>
+<div id="outline-container-orgdd0a00f" class="outline-4">
+<h4 id="orgdd0a00f"><span class="section-number-4">9.9.3.</span> Daily Journaling</h4>
 <div class="outline-text-4" id="text-9-9-3">
 <ol class="org-ol">
 <li><code>C-c n j</code> (org-roam-dailies-capture-today)</li>
@@ -831,8 +825,8 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org743c55a" class="outline-4">
-<h4 id="org743c55a"><span class="section-number-4">9.9.4.</span> Reviewing Connections</h4>
+<div id="outline-container-org0b6d3a9" class="outline-4">
+<h4 id="org0b6d3a9"><span class="section-number-4">9.9.4.</span> Reviewing Connections</h4>
 <div class="outline-text-4" id="text-9-9-4">
 <ol class="org-ol">
 <li><code>C-c n l</code> (org-roam-buffer-toggle) to see backlinks</li>
@@ -842,8 +836,8 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org4857747" class="outline-4">
-<h4 id="org4857747"><span class="section-number-4">9.9.5.</span> Deleting Notes Safely</h4>
+<div id="outline-container-org9895d66" class="outline-4">
+<h4 id="org9895d66"><span class="section-number-4">9.9.5.</span> Deleting Notes Safely</h4>
 <div class="outline-text-4" id="text-9-9-5">
 <p>
 <b>Method 1: Delete from anywhere (recommended)</b>
@@ -881,16 +875,16 @@ Key principles to follow when using org-roam:
 </div>
 
 
-<div id="outline-container-orgdd75cec" class="outline-2">
-<h2 id="orgdd75cec"><span class="section-number-2">10.</span> Org-Jira</h2>
+<div id="outline-container-org0e672fc" class="outline-2">
+<h2 id="org0e672fc"><span class="section-number-2">10.</span> Org-Jira</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 <code>org-jira</code> provides a seamless integration between Emacs Org-mode and Atlassian Jira. It allows you to sync, create, update, and manage Jira issues directly from Org-mode buffers, bringing the power of Org's task management to your Jira workflow.
 </p>
 </div>
 
-<div id="outline-container-org122204a" class="outline-3">
-<h3 id="org122204a"><span class="section-number-3">10.1.</span> Key Features</h3>
+<div id="outline-container-org0e4caa3" class="outline-3">
+<h3 id="org0e4caa3"><span class="section-number-3">10.1.</span> Key Features</h3>
 <div class="outline-text-3" id="text-10-1">
 <ul class="org-ul">
 <li><b>Bidirectional Sync</b>: Pull issues from Jira into Org files and push updates back</li>
@@ -903,8 +897,8 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-org32b206e" class="outline-3">
-<h3 id="org32b206e"><span class="section-number-3">10.2.</span> Configuration</h3>
+<div id="outline-container-org52d59e9" class="outline-3">
+<h3 id="org52d59e9"><span class="section-number-3">10.2.</span> Configuration</h3>
 <div class="outline-text-3" id="text-10-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> org-jira
@@ -954,16 +948,16 @@ Key principles to follow when using org-roam:
 </div>
 </div>
 
-<div id="outline-container-orga1141bc" class="outline-3">
-<h3 id="orga1141bc"><span class="section-number-3">10.3.</span> Authentication Setup</h3>
+<div id="outline-container-org5825e70" class="outline-3">
+<h3 id="org5825e70"><span class="section-number-3">10.3.</span> Authentication Setup</h3>
 <div class="outline-text-3" id="text-10-3">
 <p>
 For Jira Cloud, you need to use Basic Auth with your email and an API token.
 </p>
 </div>
 
-<div id="outline-container-org14ca474" class="outline-4">
-<h4 id="org14ca474"><span class="section-number-4">10.3.1.</span> Getting an API Token</h4>
+<div id="outline-container-org0c9b4fc" class="outline-4">
+<h4 id="org0c9b4fc"><span class="section-number-4">10.3.1.</span> Getting an API Token</h4>
 <div class="outline-text-4" id="text-10-3-1">
 <ol class="org-ol">
 <li>Go to <a href="https://id.atlassian.com/manage-profile/security/api-tokens">https://id.atlassian.com/manage-profile/security/api-tokens</a></li>
@@ -974,8 +968,8 @@ For Jira Cloud, you need to use Basic Auth with your email and an API token.
 </div>
 </div>
 
-<div id="outline-container-org8a8ce44" class="outline-4">
-<h4 id="org8a8ce44"><span class="section-number-4">10.3.2.</span> Configuring Authentication</h4>
+<div id="outline-container-orgc7928f8" class="outline-4">
+<h4 id="orgc7928f8"><span class="section-number-4">10.3.2.</span> Configuring Authentication</h4>
 <div class="outline-text-4" id="text-10-3-2">
 <p>
 Set these in your private configuration (<code>private.el</code> or similar - DO NOT commit!):
@@ -998,18 +992,18 @@ Set these in your private configuration (<code>private.el</code> or similar - DO
 </div>
 </div>
 
-<div id="outline-container-org15f5854" class="outline-3">
-<h3 id="org15f5854"><span class="section-number-3">10.4.</span> JQL Query Language</h3>
+<div id="outline-container-org03fb890" class="outline-3">
+<h3 id="org03fb890"><span class="section-number-3">10.4.</span> JQL Query Language</h3>
 <div class="outline-text-3" id="text-10-4">
 <p>
 JQL (Jira Query Language) is used to filter and sort issues. Use it with <code>C-c j g</code> or in custom queries.
 </p>
 </div>
 
-<div id="outline-container-orga0f6732" class="outline-4">
-<h4 id="orga0f6732"><span class="section-number-4">10.4.1.</span> Common JQL Examples</h4>
+<div id="outline-container-org8356e46" class="outline-4">
+<h4 id="org8356e46"><span class="section-number-4">10.4.1.</span> Common JQL Examples</h4>
 <div class="outline-text-4" id="text-10-4-1">
-<pre class="example" id="orge8f2463">
+<pre class="example" id="org08732d0">
 # My open issues, sorted by priority
 assignee = currentUser() AND resolution = Unresolved ORDER BY priority DESC
 
@@ -1037,8 +1031,8 @@ reporter = currentUser() AND created &gt;= -30d ORDER BY created DESC
 </div>
 </div>
 
-<div id="outline-container-orgedf9ac2" class="outline-4">
-<h4 id="orgedf9ac2"><span class="section-number-4">10.4.2.</span> ORDER BY Options</h4>
+<div id="outline-container-org9758101" class="outline-4">
+<h4 id="org9758101"><span class="section-number-4">10.4.2.</span> ORDER BY Options</h4>
 <div class="outline-text-4" id="text-10-4-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1099,8 +1093,8 @@ Use <code>DESC</code> (descending) or <code>ASC</code> (ascending) after the fie
 </div>
 </div>
 
-<div id="outline-container-orgd584e07" class="outline-3">
-<h3 id="orgd584e07"><span class="section-number-3">10.5.</span> Custom JQL Queries</h3>
+<div id="outline-container-org95a86d8" class="outline-3">
+<h3 id="org95a86d8"><span class="section-number-3">10.5.</span> Custom JQL Queries</h3>
 <div class="outline-text-3" id="text-10-5">
 <p>
 Define saved queries for quick access via <code>C-c j q</code> (<code>org-jira-get-issues-from-custom-jql</code>):
@@ -1133,12 +1127,12 @@ Define saved queries for quick access via <code>C-c j q</code> (<code>org-jira-g
 </div>
 </div>
 
-<div id="outline-container-org8beabee" class="outline-3">
-<h3 id="org8beabee"><span class="section-number-3">10.6.</span> Common Workflows</h3>
+<div id="outline-container-org6bdb439" class="outline-3">
+<h3 id="org6bdb439"><span class="section-number-3">10.6.</span> Common Workflows</h3>
 <div class="outline-text-3" id="text-10-6">
 </div>
-<div id="outline-container-org86c5615" class="outline-4">
-<h4 id="org86c5615"><span class="section-number-4">10.6.1.</span> Syncing Issues from Jira</h4>
+<div id="outline-container-orge3e4755" class="outline-4">
+<h4 id="orge3e4755"><span class="section-number-4">10.6.1.</span> Syncing Issues from Jira</h4>
 <div class="outline-text-4" id="text-10-6-1">
 <ol class="org-ol">
 <li><code>C-c j g</code> - Fetch issues using default JQL</li>
@@ -1148,8 +1142,8 @@ Define saved queries for quick access via <code>C-c j q</code> (<code>org-jira-g
 </div>
 </div>
 
-<div id="outline-container-org2284d66" class="outline-4">
-<h4 id="org2284d66"><span class="section-number-4">10.6.2.</span> Creating an Issue</h4>
+<div id="outline-container-org5b10da6" class="outline-4">
+<h4 id="org5b10da6"><span class="section-number-4">10.6.2.</span> Creating an Issue</h4>
 <div class="outline-text-4" id="text-10-6-2">
 <ol class="org-ol">
 <li><code>C-c j c</code> (org-jira-create-issue)</li>
@@ -1160,8 +1154,8 @@ Define saved queries for quick access via <code>C-c j q</code> (<code>org-jira-g
 </div>
 </div>
 
-<div id="outline-container-org6b57c8f" class="outline-4">
-<h4 id="org6b57c8f"><span class="section-number-4">10.6.3.</span> Updating an Issue</h4>
+<div id="outline-container-orga898d49" class="outline-4">
+<h4 id="orga898d49"><span class="section-number-4">10.6.3.</span> Updating an Issue</h4>
 <div class="outline-text-4" id="text-10-6-3">
 <ol class="org-ol">
 <li>Position cursor on issue heading</li>
@@ -1171,8 +1165,8 @@ Define saved queries for quick access via <code>C-c j q</code> (<code>org-jira-g
 </div>
 </div>
 
-<div id="outline-container-orga749eb1" class="outline-4">
-<h4 id="orga749eb1"><span class="section-number-4">10.6.4.</span> Transitioning Issue Status</h4>
+<div id="outline-container-org47046c8" class="outline-4">
+<h4 id="org47046c8"><span class="section-number-4">10.6.4.</span> Transitioning Issue Status</h4>
 <div class="outline-text-4" id="text-10-6-4">
 <ol class="org-ol">
 <li>Position cursor on issue heading</li>
@@ -1182,8 +1176,8 @@ Define saved queries for quick access via <code>C-c j q</code> (<code>org-jira-g
 </div>
 </div>
 
-<div id="outline-container-orgd27f9d1" class="outline-4">
-<h4 id="orgd27f9d1"><span class="section-number-4">10.6.5.</span> Logging Work Time</h4>
+<div id="outline-container-org99f12b1" class="outline-4">
+<h4 id="org99f12b1"><span class="section-number-4">10.6.5.</span> Logging Work Time</h4>
 <div class="outline-text-4" id="text-10-6-5">
 <ol class="org-ol">
 <li>Use <code>org-clock-in</code> and <code>org-clock-out</code> on issue headings</li>
@@ -1195,8 +1189,8 @@ Define saved queries for quick access via <code>C-c j q</code> (<code>org-jira-g
 </div>
 </div>
 
-<div id="outline-container-org59c84b5" class="outline-2">
-<h2 id="org59c84b5"><span class="section-number-2">11.</span> End of File</h2>
+<div id="outline-container-orge1e9034" class="outline-2">
+<h2 id="orge1e9034"><span class="section-number-2">11.</span> End of File</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">doc-org-conf</span>)

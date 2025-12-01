@@ -7,47 +7,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Neovim Base Configuration</title>
 <meta name="generator" content="Org Mode" />
-<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
-<style>
-  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
-  body { margin:0; }
-  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
-  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="content">
 <h1 class="title">Neovim Base Configuration</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0a1c42d">1. Header</a></li>
-<li><a href="#org665b19f">2. Theme &amp; Transparency</a></li>
-<li><a href="#org725c294">3. Basic Settings</a>
+<li><a href="#orgd0da2a2">1. Header</a></li>
+<li><a href="#orgf04bcfa">2. Theme &amp; Transparency</a></li>
+<li><a href="#org4156cb5">3. Basic Settings</a>
 <ul>
-<li><a href="#org725378e">3.1. Line Numbers and Display</a></li>
-<li><a href="#org6c461ce">3.2. Indentation</a></li>
-<li><a href="#orgcea4960">3.3. Search Settings</a></li>
+<li><a href="#orgb56a88d">3.1. Line Numbers and Display</a></li>
+<li><a href="#orga084e23">3.2. Indentation</a></li>
+<li><a href="#orgeeeb80e">3.3. Search Settings</a></li>
 </ul>
 </li>
-<li><a href="#org805d5a8">4. Visual Settings</a></li>
-<li><a href="#org6a84d4a">5. File Handling</a></li>
-<li><a href="#org74d9b5b">6. Behavior Settings</a></li>
-<li><a href="#org959fc45">7. Cursor Settings</a></li>
-<li><a href="#orgd52b3a1">8. Folding Settings</a></li>
-<li><a href="#org1538bd0">9. Split Behavior</a></li>
-<li><a href="#org302fbad">10. Leader Key</a></li>
-<li><a href="#orgaef8f6c">11. Window Settings</a></li>
-<li><a href="#org4a767d2">12. Tab Display</a></li>
-<li><a href="#org2eb736a">13. Completion and Diff Settings</a></li>
-<li><a href="#orgfc255fe">14. Undo Directory Setup</a></li>
+<li><a href="#org0317227">4. Visual Settings</a></li>
+<li><a href="#org2f03200">5. File Handling</a></li>
+<li><a href="#orga2e4b0f">6. Behavior Settings</a></li>
+<li><a href="#org3d5d86f">7. Cursor Settings</a></li>
+<li><a href="#orgec8082d">8. Folding Settings</a></li>
+<li><a href="#org59d12fc">9. Split Behavior</a></li>
+<li><a href="#org3cecd2e">10. Leader Key</a></li>
+<li><a href="#orgcc4f15e">11. Window Settings</a></li>
+<li><a href="#org0815b4e">12. Tab Display</a></li>
+<li><a href="#org6bc5033">13. Completion and Diff Settings</a></li>
+<li><a href="#org644e4e3">14. Undo Directory Setup</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org0a1c42d" class="outline-2">
-<h2 id="org0a1c42d"><span class="section-number-2">1.</span> Header</h2>
+<div id="outline-container-orgd0da2a2" class="outline-2">
+<h2 id="orgd0da2a2"><span class="section-number-2">1.</span> Header</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-lua">-- ================================================================================================
@@ -59,8 +53,8 @@
 </div>
 </div>
 
-<div id="outline-container-org665b19f" class="outline-2">
-<h2 id="org665b19f"><span class="section-number-2">2.</span> Theme &amp; Transparency</h2>
+<div id="outline-container-orgf04bcfa" class="outline-2">
+<h2 id="orgf04bcfa"><span class="section-number-2">2.</span> Theme &amp; Transparency</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-lua">-- theme &amp; transparency
@@ -73,12 +67,12 @@ vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
 </div>
 </div>
 
-<div id="outline-container-org725c294" class="outline-2">
-<h2 id="org725c294"><span class="section-number-2">3.</span> Basic Settings</h2>
+<div id="outline-container-org4156cb5" class="outline-2">
+<h2 id="org4156cb5"><span class="section-number-2">3.</span> Basic Settings</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org725378e" class="outline-3">
-<h3 id="org725378e"><span class="section-number-3">3.1.</span> Line Numbers and Display</h3>
+<div id="outline-container-orgb56a88d" class="outline-3">
+<h3 id="orgb56a88d"><span class="section-number-3">3.1.</span> Line Numbers and Display</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-lua">-- Basic settings
@@ -93,8 +87,8 @@ vim.opt.sidescrolloff = 8     -- Keep 8 columns left/right of cursor
 </div>
 </div>
 
-<div id="outline-container-org6c461ce" class="outline-3">
-<h3 id="org6c461ce"><span class="section-number-3">3.2.</span> Indentation</h3>
+<div id="outline-container-orga084e23" class="outline-3">
+<h3 id="orga084e23"><span class="section-number-3">3.2.</span> Indentation</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
 <pre class="src src-lua">-- Indentation
@@ -109,8 +103,8 @@ vim.opt.autoindent = true  -- Copy indent from current line
 </div>
 </div>
 
-<div id="outline-container-orgcea4960" class="outline-3">
-<h3 id="orgcea4960"><span class="section-number-3">3.3.</span> Search Settings</h3>
+<div id="outline-container-orgeeeb80e" class="outline-3">
+<h3 id="orgeeeb80e"><span class="section-number-3">3.3.</span> Search Settings</h3>
 <div class="outline-text-3" id="text-3-3">
 <div class="org-src-container">
 <pre class="src src-lua">-- Search settings
@@ -124,8 +118,8 @@ vim.opt.incsearch = true  -- Show matches as you type
 </div>
 </div>
 
-<div id="outline-container-org805d5a8" class="outline-2">
-<h2 id="org805d5a8"><span class="section-number-2">4.</span> Visual Settings</h2>
+<div id="outline-container-org0317227" class="outline-2">
+<h2 id="org0317227"><span class="section-number-2">4.</span> Visual Settings</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-lua">-- Visual settings
@@ -149,8 +143,8 @@ vim.opt.synmaxcol = 300                           -- Syntax highlighting limit
 </div>
 </div>
 
-<div id="outline-container-org6a84d4a" class="outline-2">
-<h2 id="org6a84d4a"><span class="section-number-2">5.</span> File Handling</h2>
+<div id="outline-container-org2f03200" class="outline-2">
+<h2 id="org2f03200"><span class="section-number-2">5.</span> File Handling</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-lua">-- File handling
@@ -169,8 +163,8 @@ vim.opt.autowrite = false                         -- Don't auto save
 </div>
 </div>
 
-<div id="outline-container-org74d9b5b" class="outline-2">
-<h2 id="org74d9b5b"><span class="section-number-2">6.</span> Behavior Settings</h2>
+<div id="outline-container-orga2e4b0f" class="outline-2">
+<h2 id="orga2e4b0f"><span class="section-number-2">6.</span> Behavior Settings</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-lua">-- Behavior settings
@@ -190,8 +184,8 @@ vim.opt.encoding = "UTF-8"              -- Set encoding
 </div>
 </div>
 
-<div id="outline-container-org959fc45" class="outline-2">
-<h2 id="org959fc45"><span class="section-number-2">7.</span> Cursor Settings</h2>
+<div id="outline-container-org3d5d86f" class="outline-2">
+<h2 id="org3d5d86f"><span class="section-number-2">7.</span> Cursor Settings</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-lua">-- Cursor settings
@@ -208,8 +202,8 @@ vim.opt.guicursor = {
 </div>
 </div>
 
-<div id="outline-container-orgd52b3a1" class="outline-2">
-<h2 id="orgd52b3a1"><span class="section-number-2">8.</span> Folding Settings</h2>
+<div id="outline-container-orgec8082d" class="outline-2">
+<h2 id="orgec8082d"><span class="section-number-2">8.</span> Folding Settings</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
 <pre class="src src-lua">-- Folding settings
@@ -221,8 +215,8 @@ vim.opt.foldlevel = 99                          -- Start with all folds open
 </div>
 </div>
 
-<div id="outline-container-org1538bd0" class="outline-2">
-<h2 id="org1538bd0"><span class="section-number-2">9.</span> Split Behavior</h2>
+<div id="outline-container-org59d12fc" class="outline-2">
+<h2 id="org59d12fc"><span class="section-number-2">9.</span> Split Behavior</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
 <pre class="src src-lua">-- Split behavior
@@ -233,8 +227,8 @@ vim.opt.splitright = true -- Vertical splits go right
 </div>
 </div>
 
-<div id="outline-container-org302fbad" class="outline-2">
-<h2 id="org302fbad"><span class="section-number-2">10.</span> Leader Key</h2>
+<div id="outline-container-org3cecd2e" class="outline-2">
+<h2 id="org3cecd2e"><span class="section-number-2">10.</span> Leader Key</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-lua">-- Key mappings
@@ -245,8 +239,8 @@ vim.g.maplocalleader = " " -- Set local leader key (NEW)
 </div>
 </div>
 
-<div id="outline-container-orgaef8f6c" class="outline-2">
-<h2 id="orgaef8f6c"><span class="section-number-2">11.</span> Window Settings</h2>
+<div id="outline-container-orgcc4f15e" class="outline-2">
+<h2 id="orgcc4f15e"><span class="section-number-2">11.</span> Window Settings</h2>
 <div class="outline-text-2" id="text-11">
 <div class="org-src-container">
 <pre class="src src-lua">-- Looks
@@ -256,8 +250,8 @@ vim.o.winborder = "rounded"
 </div>
 </div>
 
-<div id="outline-container-org4a767d2" class="outline-2">
-<h2 id="org4a767d2"><span class="section-number-2">12.</span> Tab Display</h2>
+<div id="outline-container-org0815b4e" class="outline-2">
+<h2 id="org0815b4e"><span class="section-number-2">12.</span> Tab Display</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-lua">-- ============================================================================
@@ -277,8 +271,8 @@ vim.cmd([[
 </div>
 </div>
 
-<div id="outline-container-org2eb736a" class="outline-2">
-<h2 id="org2eb736a"><span class="section-number-2">13.</span> Completion and Diff Settings</h2>
+<div id="outline-container-org6bc5033" class="outline-2">
+<h2 id="org6bc5033"><span class="section-number-2">13.</span> Completion and Diff Settings</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-lua">-- Command-line completion
@@ -297,8 +291,8 @@ vim.opt.maxmempattern = 20000
 </div>
 </div>
 
-<div id="outline-container-orgfc255fe" class="outline-2">
-<h2 id="orgfc255fe"><span class="section-number-2">14.</span> Undo Directory Setup</h2>
+<div id="outline-container-org644e4e3" class="outline-2">
+<h2 id="org644e4e3"><span class="section-number-2">14.</span> Undo Directory Setup</h2>
 <div class="outline-text-2" id="text-14">
 <div class="org-src-container">
 <pre class="src src-lua">-- Create undo directory if it doesn't exist

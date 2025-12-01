@@ -7,40 +7,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
 <meta name="generator" content="Org Mode" />
-<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
-<style>
-  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
-  body { margin:0; }
-  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
-  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
-</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
 </head>
 <body>
-<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<main id="content" class="content">
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org05e8d83">1. Documentation Configuration Loader</a>
+<li><a href="#orgfe87d9c">1. Documentation Configuration Loader</a>
 <ul>
-<li><a href="#org5a2ac5e">1.1. Purpose</a></li>
-<li><a href="#orgae48f06">1.2. Architecture</a></li>
-<li><a href="#org564889d">1.3. Loader Implementation</a></li>
+<li><a href="#org0ea4704">1.1. Purpose</a></li>
+<li><a href="#org5c12c73">1.2. Architecture</a></li>
+<li><a href="#org19ba88f">1.3. Loader Implementation</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org05e8d83" class="outline-2">
-<h2 id="org05e8d83"><span class="section-number-2">1.</span> Documentation Configuration Loader</h2>
+<div id="outline-container-orgfe87d9c" class="outline-2">
+<h2 id="orgfe87d9c"><span class="section-number-2">1.</span> Documentation Configuration Loader</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This file serves as the main entry point for all documentation-related configurations. It loads document format-specific modules.
 </p>
 </div>
 
-<div id="outline-container-org5a2ac5e" class="outline-3">
-<h3 id="org5a2ac5e"><span class="section-number-3">1.1.</span> Purpose</h3>
+<div id="outline-container-org0ea4704" class="outline-3">
+<h3 id="org0ea4704"><span class="section-number-3">1.1.</span> Purpose</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 The loader (<code>doc-conf.el</code>) is responsible for:
@@ -53,14 +47,14 @@ The loader (<code>doc-conf.el</code>) is responsible for:
 </div>
 </div>
 
-<div id="outline-container-orgae48f06" class="outline-3">
-<h3 id="orgae48f06"><span class="section-number-3">1.2.</span> Architecture</h3>
+<div id="outline-container-org5c12c73" class="outline-3">
+<h3 id="org5c12c73"><span class="section-number-3">1.2.</span> Architecture</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 The documentation configuration is modular:
 </p>
 
-<pre class="example" id="org5b5fb8f">
+<pre class="example" id="org0543c6b">
 doc-conf.el (this file)
 ├── doc-general-conf.el   → General documentation settings
 ├── doc-org-conf.el       → Org-mode settings
@@ -69,8 +63,8 @@ doc-conf.el (this file)
 </div>
 </div>
 
-<div id="outline-container-org564889d" class="outline-3">
-<h3 id="org564889d"><span class="section-number-3">1.3.</span> Loader Implementation</h3>
+<div id="outline-container-org19ba88f" class="outline-3">
+<h3 id="org19ba88f"><span class="section-number-3">1.3.</span> Loader Implementation</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-conf.el --- Documentation configuration loader -*- lexical-binding: t; -*-
