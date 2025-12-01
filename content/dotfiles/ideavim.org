@@ -1,0 +1,124 @@
+#+TITLE: Ideavim Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+PROPERTY: header-args :emacs-lisp :mkdirp yes :results none
+
+#+begin_src text :tangle ~/.config/.ideavimrc
+  let mapleader = " "
+
+  "" Source your .vimrc
+  "source ~/.vimrc
+
+  set ideajoin
+  set NERDTree
+  "set sneak
+  "set quickscope
+  set easymotion
+
+  map s <Plug>(easymotion-f)
+  map S <Plug>(easymotion-F)
+  map <Leader><Leader>w <Plug>(easymotion-w)
+  map <Leader><Leader>W <Plug>(easymotion-W)
+  map <Leader><Leader>b <Plug>(easymotion-b)
+  map <Leader><Leader>B <Plug>(easymotion-B)
+  map <Leader><Leader>e <Plug>(easymotion-e)
+  map <Leader><Leader>E <Plug>(easymotion-E)
+  map <Leader><Leader>ge <Plug>(easymotion-ge)
+  map <Leader><Leader>gE <Plug>(easymotion-gE)
+  map <Leader><Leader>j <Plug>(easymotion-j)
+  map <Leader><Leader>k <Plug>(easymotion-k)
+  map <Leader><Leader>n <Plug>(easymotion-n)
+  map <Leader><Leader>N <Plug>(easymotion-N)
+  map <Leader><Leader>s <Plug>(easymotion-s)
+  map <Leader>s <Plug>(easymotion-jumptoanywhere)
+
+  inoremap jj <ESC>
+
+  " basic emacs navigation in insert mode, some cua mode
+  inoremap <C-f> <Right>
+  inoremap <C-b> <Left>
+  inoremap <C-n> <Down>
+  inoremap <C-p> <Up>
+  inoremap <C-e> <End>
+  inoremap <C-a> <Home>
+  inoremap <C-d> <Del>
+  inoremap <M-f> <C-o>w
+  inoremap <M-b> <C-o>b
+  inoremap <M-d> <C-o>dw
+  inoremap <M-BS> <C-o>db
+  inoremap <C-y> <C-o>P
+  vnoremap <C-c> y
+  inoremap <C-v> <C-o>P
+  vnoremap <C-w> <C-o>d
+  vnoremap <M-w> <C-o>y
+
+  nnoremap <Leader>k :q<CR>
+
+  vnoremap x "_x
+  nnoremap x "_x
+  vnoremap p "_dp
+  vnoremap P "_dP
+
+  nnoremap - <C-x>
+  nnoremap + <C-a>
+
+  set clipboard=unnamed
+  set clipboard+=ideaput
+  set showmode
+  set showcmd
+  set scrolloff=8
+
+  vnoremap > >gv
+  vnoremap < <gv
+
+  "vnoremap ( c()<ESC>P
+  "vnoremap [ c[]<ESC>P
+  "vnoremap { c{}<ESC>P
+
+  nnoremap <C-3> ciw#{}<ESC>P
+  inoremap <C-g> <ESC>
+  vnoremap <C-g> <ESC>
+  nnoremap <C-g> <ESC>
+
+  map <M-g> <Action>(Generate)
+  map <C-,> <Action>(ShowSettings)
+  map <C-S-,> <Action>(ShowProjectStructureSettings)
+  map <M-q> <Action>(CloseEditor)
+  map <M-a><M-q> <Action>(CloseAllEditor)
+  map <M-n> <Action>(MethodDown)
+  map <M-p> <Action>(MethodUp)
+  map <M-S-j> <Action>(MoveLineDown)
+  map <M-S-k> <Action>(MoveLineUp)
+
+  map gs <Action>(ActivateStructureToolWindow)
+  map gr <Action>(FindUsages)
+
+  vmap gc <Action>(CommentByLineComment)
+  nmap gcc <Action>(CommentByLineComment)
+
+  map <Leader>rr <Action>(UpdateRunningApplication)
+  map <Leader>` <Action>(ActivateTerminalToolWindow)
+  map <Leader>ns <Action>(NewScratchFile)
+  map <Leader>fl <Action>(ReformatCode)
+  map <Leader>8 <Action>(ToggleLineBreakpoint)
+  map <Leader>rf <Action>(RenameFile)
+  map <Leader>rn <Action>(RenameElement)
+  map <Leader><Space> <Action>(GotoAction)
+  map <M-x> <Action>(GotoAction)
+  map <Leader>ff <Action>(GotoFile)
+  map <Leader>fc <Action>(GotoClass)
+  map <Leader>fo <Action>(RecentFiles)
+  map <Leader>fs <Action>(ActivateStructureToolWindow)
+  map <Leader>e <Action>(ActivateProjectToolWindow)
+  map <Leader>1 <Action>(SelectIn)
+  map <Leader>] <Action>(NextTab)
+  map <Leader>[ <Action>(PreviousTab)
+
+  map <Leader>w <Action>(EditorSelectWord)
+  map <Leader>W <Action>(EditorUnSelectWord)
+  map <M-h> <Action>(EditorSelectWord)
+  map <M-S-h> <Action>(EditorUnSelectWord)
+
+  map <C-s> <Action>(Find)
+  map <M-S-5> <Action>(Replace)
+#+end_src

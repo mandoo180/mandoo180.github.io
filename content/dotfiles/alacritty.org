@@ -1,0 +1,40 @@
+#+TITLE: Alacritty Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+PROPERTY: header-args :emacs-lisp :mkdirp yes :results none
+
+#+begin_src toml :tangle ~/.config/alacritty/alacritty.toml
+  # [terminal]
+  # shell = { program = "wsl", args = ["--cd ~"] }
+  # shell = { program = "pwsh" }
+
+  [font]
+  size = 12
+
+  [font.normal]
+  family = "Iosevka Nerd Font Mono"
+  style = "Regular"
+
+  [font.bold]
+  family = "Iosevka Nerd Font Mono"
+  style = "Semi Bold"
+
+  [font.italic]
+  family = "Iosevka Nerd Font Mono"
+  style = "Italic"
+
+  [window]
+  dimensions = { columns = 120, lines = 30 }
+  padding = { x = 3, y = 3 }
+
+  [cursor]
+  style = { shape = "Block", blinking = "Always" }
+
+  [mouse]
+  hide_when_typing = true
+  bindings = [
+    { mouse = "Right", mods = "Shift", action = "Paste" },
+    { mouse = "Right", action = "Copy" },
+    { mouse = "Right", action = "ClearSelection" },
+  ]
+#+end_src

@@ -63,6 +63,7 @@ Core Org-mode settings including babel languages, templates, and basic customiza
     (require 'ob-js)
     (require 'ob-typescript)
     (require 'ob-ruby)
+    (require 'ob-lua nil t)  ; 'nil t' means don't error if not found
 
     ;; Add custom structure templates
     (add-to-list 'org-structure-template-alist '("txt"  . "src text"))
@@ -80,6 +81,7 @@ Core Org-mode settings including babel languages, templates, and basic customiza
     (add-to-list 'org-structure-template-alist '("sql"  . "src sql"))
     (add-to-list 'org-structure-template-alist '("rust" . "src rust"))
     (add-to-list 'org-structure-template-alist '("rb"   . "src ruby"))
+    (add-to-list 'org-structure-template-alist '("lua"  . "src lua"))
 
     ;; Enable babel languages - only load those that are available
     (org-babel-do-load-languages
@@ -94,6 +96,7 @@ Core Org-mode settings including babel languages, templates, and basic customiza
         (python     . t)
         (js         . t)
         (typescript . t)
+        (lua        . t)
         (shell      . t)
         (zsh        . t)
         (bash       . t)
@@ -116,7 +119,7 @@ Core Org-mode settings including babel languages, templates, and basic customiza
 
     (add-hook 'org-mode-hook #'handle-org-mode-hook)
 
-)
+    )
 #+end_src
 
 * Org Download

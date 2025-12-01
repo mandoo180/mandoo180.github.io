@@ -1,0 +1,108 @@
+#+TITLE: Neovim Configuration Modules
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-12-01
+
+* Overview
+
+This directory contains modular Neovim configuration files, organized from a single =init.lua= configuration into structured Org-mode files for better documentation and maintainability.
+
+* File Structure
+
+Each configuration module is a separate Org file:
+
+| File               | Description                                  | Tangles To                         |
+|--------------------+----------------------------------------------+------------------------------------|
+| =01-init.org=        | Core Neovim settings and basic configuration | =~/.config/nvim/init.lua=            |
+| =02-keybindings.org= | All keybindings and mappings                 | =~/.config/nvim/init.lua= (appended) |
+
+* Configuration Architecture
+
+The configuration is structured to follow Neovim's Lua-based configuration approach:
+
+- *Core Settings*: Basic vim options, display settings, file handling
+- *Keybindings*: Organized by mode (normal, visual, insert, command)
+- *LSP Configuration*: Language Server Protocol setup for various languages
+- *Plugins*: Plugin management and configuration
+- *Autocommands*: Event-driven configurations
+
+* Usage
+
+To tangle these configuration files into your Neovim config:
+
+1. Open the desired org file in Emacs
+2. Run =C-c C-v t= (or =M-x org-babel-tangle=)
+3. The configuration will be written to =~/.config/nvim/=
+
+Alternatively, you can tangle all files at once using a script or batch command.
+
+* Features
+
+** Core Features
+- Suckless philosophy: minimal, efficient configuration
+- Transparent background support
+- Smart indentation and search settings
+- Persistent undo with dedicated directory
+- System clipboard integration
+
+** Key Mappings
+- Space as leader key
+- Emacs-style navigation in insert mode
+- Buffer and window management shortcuts
+- Visual mode enhancements
+
+** Language Support (via LSP)
+- Lua (lua-language-server)
+- Markdown (markdown-oxide, marksman)
+- Python (pyright)
+- Web technologies (HTML, CSS, JavaScript, TypeScript)
+- Ruby (ruby-lsp)
+- Java (jdtls)
+- XML (lemminx)
+
+** Plugin Ecosystem
+- Telescope for fuzzy finding
+- Treesitter for syntax highlighting
+- nvim-cmp for completion
+- Mason for LSP management
+- Neo-tree for file exploration
+
+* Dependencies
+
+External tools needed for full functionality:
+
+- =lua-language-server= - Lua LSP
+- =pyright= - Python LSP
+- =typescript-language-server= - TypeScript/JavaScript LSP
+- =vscode-langservers-extracted= - HTML/CSS/JSON LSPs
+- =markdown-oxide= - Markdown LSP with preview
+- =marksman= - Additional Markdown support
+- =ruby-lsp= - Ruby language server
+
+Install these via your package manager or the recommended installation method for each tool.
+
+* Directory Structure
+
+#+begin_example
+  ~/.config/nvim/
+  ├── init.lua                 # Main configuration file
+  ├── lua/
+  │   └── pengling/           # Custom namespace
+  │       ├── plugins/        # Plugin configurations
+  │       │   ├── init.lua
+  │       │   ├── treesitter.lua
+  │       │   ├── telescope.lua
+  │       │   ├── cmp.lua
+  │       │   └── theme.lua
+  │       └── utils/          # Utility functions
+  │           └── douzone.lua
+  └── ftplugin/              # Filetype-specific settings
+      ├── java.lua
+      └── markdown.lua
+#+end_example
+
+* Notes
+
+- The configuration uses =vim.pack.add= for native package management
+- Folding is configured to use Treesitter expressions
+- Terminal mode includes a custom floating terminal implementation
+- The configuration maintains compatibility with both GUI and terminal Neovim

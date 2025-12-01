@@ -1,0 +1,23 @@
+#+TITLE: Dotfiles Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+
+This section contains configuration files for various tools and applications.
+
+* Configuration Files
+
+- [[file:ideavim.org][IdeaVim]] - Vim emulation configuration for JetBrains IDEs
+- [[file:alacritty.org][Alacritty]] - Cross-platform terminal emulator configuration  
+- [[file:zellij.org][Zellij]] - Terminal workspace multiplexer configuration
+- [[file:powershell.org][PowerShell]] - PowerShell profile and aliases configuration
+- [[file:emacs-j.org][Emacs J]] - EmacsJ keymap for IntelliJ on macOS
+
+* About
+
+These configuration files are designed to be tangled using Org-mode's babel functionality. Each file contains code blocks that can be extracted to their appropriate locations in your home directory or configuration folders.
+
+To tangle a file in Emacs:
+1. Open the org file
+2. Run =C-c C-v t= (or =M-x org-babel-tangle=)
+
+This will extract the code blocks to the paths specified in the =:tangle= headers.

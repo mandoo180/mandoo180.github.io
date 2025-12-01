@@ -1,0 +1,103 @@
+#+TITLE: Neovim Plugin Loader
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-12-01
+#+PROPERTY: header-args:lua :tangle ~/.config/nvim/lua/pengling/plugins/init.lua :mkdirp yes
+
+* Plugin Management
+
+This file defines all the plugins to be loaded using Neovim's built-in package management system.
+
+* Plugin List
+
+#+begin_src lua
+  vim.pack.add {
+
+    { src = "https://github.com/nvim-lua/plenary.nvim" },
+    { src = "https://github.com/nvim-telescope/telescope.nvim" },
+
+    { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+    { src = "https://github.com/MunifTanjim/nui.nvim" },
+    { src = "https://github.com/nvim-neo-tree/neo-tree.nvim" },
+    { src = "https://github.com/akinsho/bufferline.nvim" },
+    { src = "https://github.com/nvim-lualine/lualine.nvim" },
+
+    { src = "https://github.com/nvim-neotest/nvim-nio" },
+    { src = "https://github.com/rcarriga/nvim-dap-ui" },
+    { src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
+    { src = "https://github.com/mfussenegger/nvim-dap" },
+
+    { src = "https://github.com/mfussenegger/nvim-jdtls" },
+
+    { src = "https://github.com/navarasu/onedark.nvim" },
+
+    { src = "https://github.com/echasnovski/mini.pairs" },
+
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
+
+    { src = "https://github.com/mattn/emmet-vim" },
+
+    { src = "https://github.com/tpope/vim-repeat" },
+    { src = "https://github.com/ggandor/leap.nvim" },
+
+    { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
+    { src = "https://github.com/hrsh7th/cmp-buffer" },
+    { src = "https://github.com/hrsh7th/cmp-path" },
+    { src = "https://github.com/L3MON4D3/LuaSnip" },
+    { src = "https://github.com/saadparwaiz1/cmp_luasnip" },
+    { src = "https://github.com/hrsh7th/nvim-cmp" },
+    { src = "https://github.com/rafamadriz/friendly-snippets" },
+
+    { src = "https://github.com/neovim/nvim-lspconfig" },
+    { src = "https://github.com/mason-org/mason.nvim" },
+    { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+
+  }
+#+end_src
+
+* Plugin Categories
+
+** Core Dependencies
+- **plenary.nvim**: Lua functions library used by many plugins
+- **nui.nvim**: UI component library
+
+** File Management & Navigation
+- **telescope.nvim**: Fuzzy finder for files, buffers, and more
+- **neo-tree.nvim**: File explorer tree
+- **nvim-web-devicons**: File type icons
+
+** UI Enhancements
+- **bufferline.nvim**: Enhanced buffer/tab line
+- **lualine.nvim**: Statusline plugin
+- **onedark.nvim**: OneDark color scheme
+
+** Debugging
+- **nvim-dap**: Debug Adapter Protocol client
+- **nvim-dap-ui**: UI for nvim-dap
+- **nvim-dap-virtual-text**: Virtual text support for debugging
+- **nvim-nio**: Async I/O library
+
+** Syntax & Editing
+- **nvim-treesitter**: Treesitter configurations
+- **nvim-treesitter-textobjects**: Additional text objects based on treesitter
+- **mini.pairs**: Auto pairs for brackets and quotes
+- **emmet-vim**: Emmet support for web development
+
+** Motion & Navigation
+- **leap.nvim**: General-purpose motion plugin
+- **vim-repeat**: Enable repeating plugin maps
+
+** Completion
+- **nvim-cmp**: Completion plugin
+- **cmp-nvim-lsp**: LSP source for nvim-cmp
+- **cmp-buffer**: Buffer source for nvim-cmp
+- **cmp-path**: Path source for nvim-cmp
+- **LuaSnip**: Snippet engine
+- **cmp_luasnip**: LuaSnip source for nvim-cmp
+- **friendly-snippets**: Collection of snippets
+
+** Language Server Protocol
+- **nvim-lspconfig**: Quickstart configurations for LSP
+- **mason.nvim**: Portable package manager for LSP servers
+- **mason-lspconfig.nvim**: Bridge between mason and lspconfig
+- **nvim-jdtls**: Extensions for Java development

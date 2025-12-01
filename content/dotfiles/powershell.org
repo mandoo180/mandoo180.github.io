@@ -1,0 +1,19 @@
+#+TITLE: PowerShell Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+PROPERTY: header-args :emacs-lisp :mkdirp yes :results none
+
+Install =oh-my-posh= first.
+
+#+begin_src powershell :tangle no
+  oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\amro.omp.json" | Invoke-Expression
+
+  Set-Alias -Name "ll" ls
+  Set-Alias -Name "l" ls
+  Set-Alias -Name "vi" nvim
+
+  Set-PSReadLineOption -EditMode Emacs
+
+  $env:XDG_CONFIG_HOME = "$HOME\.config"
+  $env:XDG_DATA_HOME = "$HOME\.local"
+#+end_src

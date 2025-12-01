@@ -1,0 +1,310 @@
+#+TITLE: Lua Programming Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-12-01
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-lua-conf.el :mkdirp yes :results no
+
+* Lua Development Environment
+
+Configuration for Lua programming, including syntax highlighting, LSP support, and REPL integration.
+
+* Lua Mode
+
+Core Lua editing mode with syntax highlighting and indentation.
+
+#+begin_src emacs-lisp
+  ;;; prog-lua-conf.el --- Lua programming configuration  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Lua development environment setup including LSP and REPL support
+  ;;; Code:
+
+  (use-package lua-mode
+    :ensure t
+    :mode "\\.lua\\'"
+    :interpreter "lua"
+    :custom
+    ;; Indentation settings
+    (lua-indent-level 2)
+    (lua-indent-string-contents t)
+    (lua-indent-nested-block-content-align nil)
+    (lua-indent-close-paren-align nil)
+    
+    ;; Documentation lookup
+    (lua-documentation-url "https://www.lua.org/manual/5.4/")
+    
+    ;; :config
+    ;; Set up company completion for Lua
+    ;; (add-hook 'lua-mode-hook
+    ;;           (lambda ()
+    ;;             (setq-local company-backends
+    ;;                         '((company-lsp
+    ;;                            company-lua
+    ;;                            company-keywords
+    ;;                            company-gtags
+    ;;                            company-yasnippet
+    ;;                            company-files)))))
+    
+    ;; Enable electric pair mode for automatic bracket pairing
+    ;; (add-hook 'lua-mode-hook #'electric-pair-local-mode)
+    
+    ;; Enable show-paren-mode for matching parentheses
+    ;; (add-hook 'lua-mode-hook #'show-paren-mode)
+    
+    ;; Enable line numbers
+    ;; (add-hook 'lua-mode-hook #'display-line-numbers-mode)
+    
+    ;; :bind
+    ;; (:map lua-mode-map
+    ;;       ("C-c C-d" . lua-search-documentation)
+    ;;       ("C-c C-r" . lua-send-region)
+    ;;       ("C-c C-l" . lua-send-buffer)
+    ;;       ("C-c C-c" . lua-send-current-line))
+    )
+#+end_src
+
+#+RESULTS:
+: ((lua . lua-mode) (python3 . python) (python . python) (node . js2-mode) (nbb . clojurescript-mode) (bb . clojure-mode) (j?ruby\(?:[0-9.]+\) . ruby-mode) (jruby . ruby-mode) (rbx . ruby-mode) (ruby . ruby-mode) (python[0-9.]* . python-mode) (rhino . js-mode) (gjs . js-mode) (nodejs . js-mode) (node . js-mode) (gawk . awk-mode) (nawk . awk-mode) (mawk . awk-mode) (awk . awk-mode) (pike . pike-mode) (\(mini\)?perl5? . perl-mode) (wishx? . tcl-mode) (tcl\(sh\)? . tcl-mode) (expect . tcl-mode) (octave . octave-mode) (scm . scheme-mode) ([acjkwz]sh . sh-mode) (r?bash2? . sh-mode) (dash . sh-mode) (mksh . sh-mode) (\(dt\|pd\|w\)ksh . sh-mode) (es . sh-mode) (i?tcsh . sh-mode) (oash . sh-mode) (rc . sh-mode) (rpm . sh-mode) (sh5? . sh-mode) (tail . text-mode) (more . text-mode) (less . text-mode) (pg . text-mode) (make . makefile-gmake-mode) (guile . scheme-mode) (clisp . lisp-mode) (emacs . emacs-lisp-mode))
+
+* LSP Support for Lua
+
+Configure Language Server Protocol support using lua-language-server (sumneko_lua).
+
+#+begin_src emacs-lisp :tangle no
+(use-package lsp-mode
+  :hook (lua-mode . lsp-deferred)
+  :custom
+  ;; Lua LSP specific settings
+  (lsp-lua-runtime-version "Lua 5.4")
+  (lsp-lua-diagnostics-globals '("vim" "awesome" "love"))  ; Add global variables to ignore
+  (lsp-lua-workspace-library
+   '("/usr/share/awesome/lib"  ; For AwesomeWM development
+     "/usr/share/lua/5.4"))     ; System Lua libraries
+  (lsp-lua-completion-call-snippet "Replace")
+  (lsp-lua-telemetry-enable nil)  ; Disable telemetry
+  
+  :config
+  ;; Register lua-language-server if not already registered
+  (unless (member 'lua-language-server (mapcar #'car lsp-clients))
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection "lua-language-server")
+      :major-modes '(lua-mode)
+      :server-id 'lua-language-server
+      :priority 1))))
+#+end_src
+
+* Lua REPL Integration
+
+Interactive Lua development with inferior Lua process.
+
+#+begin_src emacs-lisp :tangle no
+(use-package lua-mode
+  :custom
+  ;; Configure Lua interpreter
+  (lua-default-application "lua")
+  
+  ;; For LuaJIT
+  ;; (lua-default-application "luajit")
+  
+  ;; Custom Lua interpreter with arguments
+  ;; (lua-default-application '("lua" "-i" "-e" "_PROMPT='> '"))
+  
+  :config
+  ;; Function to start Lua REPL in a split window
+  (defun my/lua-start-repl ()
+    "Start Lua REPL in a split window."
+    (interactive)
+    (if (get-buffer lua-process-buffer)
+        (switch-to-buffer-other-window lua-process-buffer)
+      (progn
+        (split-window-below)
+        (other-window 1)
+        (lua-start-process))))
+  
+  ;; Function to send current function to REPL
+  (defun my/lua-send-function ()
+    "Send the current function to Lua REPL."
+    (interactive)
+    (save-excursion
+      (lua-beginning-of-proc)
+      (let ((start (point)))
+        (lua-end-of-proc)
+        (lua-send-region start (point)))))
+  
+  :bind
+  (:map lua-mode-map
+        ("C-c C-z" . my/lua-start-repl)
+        ("C-c C-f" . my/lua-send-function)))
+#+end_src
+
+* Love2D Support (Optional)
+
+Configuration for Love2D game development framework.
+
+#+begin_src emacs-lisp :tangle no
+;; Only load if doing Love2D development
+(when (executable-find "love")
+  (use-package love-minor-mode
+    :ensure t
+    :hook (lua-mode . love-minor-mode)
+    :custom
+    (love-exe "love")  ; Path to Love2D executable
+    :config
+    ;; Add Love2D API to LSP globals
+    (when (featurep 'lsp-mode)
+      (add-to-list 'lsp-lua-diagnostics-globals "love"))))
+#+end_src
+
+* Debugging Support
+
+Configure debugging support for Lua using DAP (Debug Adapter Protocol).
+
+#+begin_src emacs-lisp :tangle no
+(use-package dap-mode
+  :after lua-mode
+  :config
+  ;; Lua debugging configuration
+  (require 'dap-lua)
+  
+  ;; Local Lua debugging template
+  (dap-register-debug-template
+   "Lua Run"
+   (list :type "lua"
+         :request "launch"
+         :name "Lua Run"
+         :program (lambda () (buffer-file-name))
+         :cwd (lambda () (project-root (project-current)))))
+  
+  ;; Love2D debugging template
+  (dap-register-debug-template
+   "Love2D Run"
+   (list :type "lua"
+         :request "launch"
+         :name "Love2D Run"
+         :program "love"
+         :args (lambda () (list (project-root (project-current))))
+         :cwd (lambda () (project-root (project-current))))))
+#+end_src
+
+* Code Formatting
+
+Setup automatic code formatting using lua-fmt or stylua.
+
+#+begin_src emacs-lisp :tangle no
+;; Use stylua if available (recommended)
+(when (executable-find "stylua")
+  (use-package reformatter
+    :ensure t
+    :config
+    ;; Define stylua formatter
+    (reformatter-define lua-stylua
+      :program "stylua"
+      :args '("-")
+      :lighter " StyLua")
+    
+    ;; Enable on save
+    (add-hook 'lua-mode-hook #'lua-stylua-on-save-mode)
+    
+    ;; Bind to key
+    (define-key lua-mode-map (kbd "C-c C-f") #'lua-stylua-buffer)))
+
+;; Alternative: lua-fmt (if stylua not available)
+(unless (executable-find "stylua")
+  (when (executable-find "lua-fmt")
+    (use-package reformatter
+      :ensure t
+      :config
+      (reformatter-define lua-fmt
+        :program "lua-fmt"
+        :args '()
+        :lighter " LuaFmt")
+      
+      (add-hook 'lua-mode-hook #'lua-fmt-on-save-mode)
+      (define-key lua-mode-map (kbd "C-c C-f") #'lua-fmt-buffer))))
+#+end_src
+
+* Project Templates
+
+Snippets and templates for common Lua patterns.
+
+#+begin_src emacs-lisp :tangle no
+(use-package yasnippet
+  :hook (lua-mode . yas-minor-mode)
+  :config
+  ;; Define some useful Lua snippets
+  (yas-define-snippets
+   'lua-mode
+   '(;; Function definition
+     ("fn" "function ${1:name}(${2:args})\n    $0\nend" "function")
+     
+     ;; Local function
+     ("lfn" "local function ${1:name}(${2:args})\n    $0\nend" "local function")
+     
+     ;; Module definition
+     ("mod" "local M = {}\n\n$0\n\nreturn M" "module")
+     
+     ;; Class definition (OOP style)
+     ("class" "local ${1:Class} = {}\n${1:$(capitalize yas-text)}.mt = { __index = ${1:$(capitalize yas-text)} }\n\nfunction ${1:$(capitalize yas-text)}.new(${2:args})\n    local self = setmetatable({}, ${1:$(capitalize yas-text)}.mt)\n    $0\n    return self\nend\n\nreturn ${1:$(capitalize yas-text)}" "class")
+     
+     ;; For loop
+     ("for" "for ${1:i} = ${2:1}, ${3:10} do\n    $0\nend" "for loop")
+     
+     ;; For in loop
+     ("fori" "for ${1:k}, ${2:v} in ${3:pairs}(${4:table}) do\n    $0\nend" "for in loop")
+     
+     ;; Require
+     ("req" "local ${1:module} = require('${2:module}')" "require"))))
+#+end_src
+
+* Keybindings Summary
+
+| Keybinding | Function                 | Description                |
+|------------+--------------------------+----------------------------|
+| =C-c C-d=    | lua-search-documentation | Search Lua documentation   |
+| =C-c C-r=    | lua-send-region          | Send region to Lua REPL    |
+| =C-c C-l=    | lua-send-buffer          | Send entire buffer to REPL |
+| =C-c C-c=    | lua-send-current-line    | Send current line to REPL  |
+| =C-c C-z=    | my/lua-start-repl        | Start/switch to Lua REPL   |
+| =C-c C-f=    | lua-stylua-buffer        | Format buffer with stylua  |
+
+* Installation Requirements
+
+To get the most out of this configuration, install:
+
+1. **lua-language-server**: For LSP support
+   #+begin_src bash :tangle no
+   # macOS with Homebrew
+   brew install lua-language-server
+   
+   # Or build from source
+   git clone https://github.com/sumneko/lua-language-server
+   cd lua-language-server
+   git submodule update --init --recursive
+   cd 3rd/luamake
+   ./compile.sh
+   cd ../..
+   ./3rd/luamake/luamake rebuild
+   #+end_src
+
+2. **stylua**: For code formatting
+   #+begin_src bash :tangle no
+   # Using cargo
+   cargo install stylua
+   
+   # Or download binary from GitHub releases
+   #+end_src
+
+3. **Love2D** (optional): For game development
+   #+begin_src bash :tangle no
+   # macOS
+   brew install --cask love
+   
+   # Linux
+   sudo apt install love
+   #+end_src
+
+* End of Configuration
+
+#+begin_src emacs-lisp
+(provide 'prog-lua-conf)
+;;; prog-lua-conf.el ends here
+#+end_src

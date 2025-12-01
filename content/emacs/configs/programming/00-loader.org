@@ -6,7 +6,7 @@ This file serves as the main entry point for all programming-related configurati
 
 The loader (=prog-conf.el=) is responsible for:
 - Loading general programming settings (=prog-general-conf=)
-- Loading language-specific configurations (web, Python, Ruby)
+- Loading language-specific configurations (web, Python, Ruby, Lua)
 - Conditionally loading platform-specific tools
 - Managing Clojure, SQL, and tree-sitter integrations
 
@@ -19,7 +19,8 @@ prog-conf.el (this file)
 ├── prog-general-conf.el   → General programming settings
 ├── prog-web-conf.el       → Web development (HTML/CSS/JS/TS)
 ├── prog-python-conf.el    → Python development
-└── prog-ruby-conf.el      → Ruby development
+├── prog-ruby-conf.el      → Ruby development
+└── prog-lua-conf.el       → Lua development
 #+end_example
 
 ** Loader Implementation
@@ -38,6 +39,7 @@ prog-conf.el (this file)
   (require 'prog-web-conf)
   (require 'prog-python-conf)
   (require 'prog-ruby-conf)
+  (require 'prog-lua-conf)
 
   ;; Platform-specific and additional tools
   (unless (eq system-type 'windows-nt)

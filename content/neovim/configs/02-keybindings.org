@@ -1,0 +1,199 @@
+#+TITLE: Neovim Keybindings Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-12-01
+#+PROPERTY: header-args:lua :tangle ~/.config/nvim/init.lua :mkdirp yes
+
+* Normal Mode Mappings
+
+** Basic Keymaps
+
+#+begin_src lua
+-- Normal mode mappings
+vim.keymap.set("n", "<leader>c", ":nohlsearch<CR>", { desc = "Clear search highlights" })
+
+-- Y to EOL
+vim.keymap.set("n", "Y", "y$", { desc = "Yank to end of line" })
+#+end_src
+
+** Navigation with Centering
+
+#+begin_src lua
+-- Center screen when jumping
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centered)" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centered)" })
+#+end_src
+
+** Buffer Navigation
+
+#+begin_src lua
+-- Buffer navigation
+vim.keymap.set("n", "<leader>]", ":bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>[", ":bprevious<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>k", ":bd%<CR>", { desc = "Kill current buffer" })
+#+end_src
+
+** Window Management
+
+#+begin_src lua
+-- Splitting & Resizing
+vim.keymap.set("n", "<leader>|", ":vsplit<CR>", { desc = "Split window vertically" })
+vim.keymap.set("n", "<leader>_", ":split<CR>", { desc = "Split window horizontally" })
+vim.keymap.set("n", "<C-Up>", ":resize +2<CR>", { desc = "Increase window height" })
+vim.keymap.set("n", "<C-Down>", ":resize -2<CR>", { desc = "Decrease window height" })
+vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
+vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
+#+end_src
+
+** Line Movement
+
+#+begin_src lua
+-- Move lines up/down
+vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
+vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
+#+end_src
+
+** File Operations
+
+#+begin_src lua
+-- Quick file navigation
+-- vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { desc = "Open file explorer" })
+vim.keymap.set("n", "<leader>ff", ":find ", { desc = "Find file" })
+
+-- Quick config editing
+vim.keymap.set("n", "<leader>rc", ":e ~/.config/nvim/init.lua<CR>", { desc = "Edit config" })
+#+end_src
+
+** Miscellaneous
+
+#+begin_src lua
+-- Better J behavior
+vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines and keep cursor position" })
+
+-- Escape mapping
+local opts = { noremap = true, silent = true }
+vim.keymap.set("n", "<C-g>", "<ESC>", opts)
+#+end_src
+
+* Visual Mode Mappings
+
+** Paste and Delete
+
+#+begin_src lua
+-- Better paste behavior
+vim.keymap.set("x", "<leader>p", '"_dP', { desc = "Paste without yanking" })
+
+-- Delete without yanking
+vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without yanking" })
+#+end_src
+
+** Line Movement in Visual Mode
+
+#+begin_src lua
+vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+#+end_src
+
+** Indentation
+
+#+begin_src lua
+-- Better indenting in visual mode
+vim.keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
+vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
+#+end_src
+
+** Escape in Visual Mode
+
+#+begin_src lua
+vim.keymap.set("v", "<C-g>", "<ESC>", opts)
+#+end_src
+
+* Insert Mode Mappings
+
+** Quick Escape
+
+#+begin_src lua
+-- Motions in insert mode
+vim.keymap.set("i", "jj", "<ESC>", opts)
+vim.keymap.set("i", "<C-g>", "<ESC>", opts)
+#+end_src
+
+** Emacs-style Navigation
+
+#+begin_src lua
+vim.keymap.set("i", "<C-f>", "<Right>", opts)
+vim.keymap.set("i", "<C-b>", "<Left>", opts)
+vim.keymap.set("i", "<C-n>", "<Down>", opts)
+vim.keymap.set("i", "<C-p>", "<Up>", opts)
+vim.keymap.set("i", "<C-a>", "<Home>", opts)
+vim.keymap.set("i", "<M-m>", "<C-o>_", opts)
+vim.keymap.set("i", "<C-e>", "<End>", opts)
+vim.keymap.set("i", "<C-d>", "<Del>", opts)
+#+end_src
+
+** Word Navigation
+
+#+begin_src lua
+vim.keymap.set("i", "<M-Right>", "<C-o>w", opts)
+vim.keymap.set("i", "<M-f>", "<C-o>w", opts)
+vim.keymap.set("i", "<M-Left>", "<C-o>b", opts)
+vim.keymap.set("i", "<M-b>", "<C-o>b", opts)
+#+end_src
+
+** Word Deletion
+
+#+begin_src lua
+vim.keymap.set("i", "<M-BS>", "<C-o>db", opts)
+vim.keymap.set("i", "<M-DEL>", "<C-o>dw", opts)
+vim.keymap.set("i", "<M-d>", "<C-o>dw", opts)
+#+end_src
+
+* Command Mode Mappings
+
+** Navigation
+
+#+begin_src lua
+-- Motions in minibuffer
+vim.keymap.set("c", "<C-f>", "<Right>")
+vim.keymap.set("c", "<C-b>", "<Left>")
+vim.keymap.set("c", "<C-p>", "<Up>")
+vim.keymap.set("c", "<M-p>", "<Up>")
+vim.keymap.set("c", "<C-n>", "<Down>")
+vim.keymap.set("c", "<M-n>", "<Down>")
+#+end_src
+
+** Word Movement
+
+#+begin_src lua
+vim.keymap.set("c", "<M-f>", "<C-Right>")
+vim.keymap.set("c", "<M-b>", "<C-Left>")
+vim.keymap.set("c", "<C-a>", "<Home>")
+vim.keymap.set("c", "<C-e>", "<End>")
+#+end_src
+
+** Deletion
+
+#+begin_src lua
+vim.keymap.set("c", "<C-d>", "<Del>")
+vim.keymap.set("c", "<M-d>", "<C-Del>")
+vim.keymap.set("c", "<M-BS>", "<C-BS>")
+vim.keymap.set("c", "<C-g>", "<ESC>")
+#+end_src
+
+* Useful Functions
+
+** Copy Full File Path
+
+#+begin_src lua
+-- ============================================================================
+-- USEFUL FUNCTIONS
+-- ============================================================================
+
+-- Copy Full File-Path
+vim.keymap.set("n", "<leader>pa", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  print("file:", path)
+end)
+#+end_src

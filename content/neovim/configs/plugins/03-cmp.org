@@ -1,0 +1,94 @@
+#+TITLE: nvim-cmp Completion Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-12-01
+#+PROPERTY: header-args:lua :tangle ~/.config/nvim/lua/pengling/plugins/cmp.lua :mkdirp yes
+
+* Overview
+
+nvim-cmp is a completion engine plugin for Neovim, providing intelligent code completion with support for LSP, snippets, buffers, and file paths.
+
+* Setup
+
+#+begin_src lua
+  local cmp = require "cmp"
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        require("luasnip").lsp_expand(args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.confirm({ select = true }) -- Accept current / first suggestion
+        elseif require("luasnip").expand_or_jumpable() then
+          require("luasnip").expand_or_jump()
+        else
+          fallback() -- Normal tab behavior
+        end
+      end, { "i", "s" }),
+      ["<C-n>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          fallback()
+        end
+      end),
+      ["<C-p>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          fallback()
+        end
+      end),
+    }),
+    sources = cmp.config.sources({
+      { name = "nvim_lsp" },
+      { name = "luasnip" },
+      { name = "buffer" },
+      { name = "path" },
+    }),
+    completion = {
+      completeopt = "menu,menuone,noinsert"
+    }
+  })
+#+end_src
+
+* Load Snippets
+
+#+begin_src lua
+  require "luasnip.loaders.from_vscode".lazy_load()
+#+end_src
+
+* Configuration Explained
+
+** Snippet Engine
+LuaSnip is configured as the snippet expansion engine, handling snippet completions and expansions.
+
+** Key Mappings
+
+*** Tab Behavior
+The Tab key has intelligent behavior:
+1. If completion menu is visible → Accept the selected/first suggestion
+2. If inside a snippet → Jump to next placeholder
+3. Otherwise → Normal tab insertion
+
+*** Navigation
+- =<C-n>= - Next completion item (when menu is visible)
+- =<C-p>= - Previous completion item (when menu is visible)
+
+** Completion Sources
+
+The completion sources are prioritized in this order:
+1. **nvim_lsp** - Language Server Protocol completions
+2. **luasnip** - Snippet completions
+3. **buffer** - Words from current buffer
+4. **path** - File system paths
+
+** Completion Options
+- =menu= - Show completion menu
+- =menuone= - Show menu even with only one item
+- =noinsert= - Don't insert text until explicitly selected
+
+** Snippets
+Loads snippets from VSCode-style snippet collections via the friendly-snippets plugin.

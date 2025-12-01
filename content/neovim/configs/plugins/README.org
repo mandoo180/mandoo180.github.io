@@ -1,0 +1,124 @@
+#+TITLE: Neovim Plugin Configurations
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-12-01
+
+* Overview
+
+This directory contains modular configurations for Neovim plugins. Each file represents a specific plugin or group of related plugins, organized to be tangled to the appropriate location in your Neovim configuration.
+
+* File Structure
+
+| File                | Description                                      | Tangles To                                          |
+|---------------------+--------------------------------------------------+-----------------------------------------------------|
+| =00-loader.org=     | Plugin definitions using vim.pack.add            | =~/.config/nvim/lua/pengling/plugins/init.lua=      |
+| =01-treesitter.org= | Treesitter syntax highlighting and text objects | =~/.config/nvim/lua/pengling/plugins/treesitter.lua= |
+| =02-telescope.org=  | Fuzzy finder configuration and keymaps          | =~/.config/nvim/lua/pengling/plugins/telescope.lua=  |
+| =03-cmp.org=        | Completion engine setup with sources            | =~/.config/nvim/lua/pengling/plugins/cmp.lua=        |
+
+* Plugin Categories
+
+** Core Infrastructure
+- **plenary.nvim**: Lua utility functions required by many plugins
+- **nui.nvim**: UI component library for floating windows and more
+
+** Navigation & Search
+- **telescope.nvim**: Extensible fuzzy finder with LSP integration
+- **neo-tree.nvim**: File explorer with tree view
+- **leap.nvim**: Fast motion plugin for cursor movement
+
+** Code Intelligence
+- **nvim-treesitter**: Advanced syntax highlighting and code understanding
+- **nvim-treesitter-textobjects**: Additional text objects based on syntax tree
+- **nvim-lspconfig**: Language Server Protocol configurations
+- **mason.nvim**: Portable package manager for LSP servers
+
+** Completion & Snippets
+- **nvim-cmp**: Modular completion framework
+- **cmp-nvim-lsp**: LSP completion source
+- **cmp-buffer**: Buffer words completion source
+- **cmp-path**: File path completion source
+- **LuaSnip**: Snippet engine
+- **friendly-snippets**: Collection of useful snippets
+
+** UI Enhancements
+- **bufferline.nvim**: Enhanced buffer/tab display
+- **lualine.nvim**: Fast and customizable statusline
+- **nvim-web-devicons**: File type icons support
+- **onedark.nvim**: Popular color scheme
+
+** Development Tools
+- **nvim-dap**: Debug Adapter Protocol client for debugging
+- **nvim-dap-ui**: UI extensions for debugging
+- **nvim-jdtls**: Java development tools
+- **emmet-vim**: HTML/CSS expansion toolkit
+
+** Editor Enhancement
+- **mini.pairs**: Automatic bracket/quote pairs
+- **vim-repeat**: Dot repeat for plugin commands
+
+* Usage
+
+To tangle all plugin configurations:
+
+1. Open each =.org= file in Emacs
+2. Run =C-c C-v t= (or =M-x org-babel-tangle=)
+3. Files will be created in =~/.config/nvim/lua/pengling/plugins/=
+
+Or create a batch tangle script to process all files at once.
+
+* Loading Order
+
+1. **Plugin Definition** (=00-loader.org=) - Must be loaded first to install plugins
+2. **Individual Configs** - Each plugin configuration file can be loaded independently
+3. **Main Init** - These are typically required from the main =init.lua=:
+   #+begin_src lua
+     require "pengling.plugins.init"
+     require "pengling.plugins.treesitter"
+     require "pengling.plugins.telescope"
+     require "pengling.plugins.cmp"
+   #+end_src
+
+* Dependencies
+
+External programs needed:
+
+** For Treesitter
+- C compiler (gcc/clang) for building parsers
+- =tree-sitter= CLI (optional, for grammar development)
+
+** For Telescope
+- =ripgrep= (rg) - For live grep functionality
+- =fd= - For better file finding performance (optional)
+
+** For LSP/Completion
+- Language servers for your languages (installed via Mason or manually)
+- Node.js - For many language servers
+
+* Customization
+
+Each configuration file contains detailed explanations of the settings. Common customization points:
+
+- **Treesitter**: Add/remove languages in =ensure_installed=
+- **Telescope**: Modify keybindings and search behavior
+- **nvim-cmp**: Adjust completion sources and priorities
+- **Theme**: Change colorscheme or transparency settings
+
+* Troubleshooting
+
+** Plugins Not Loading
+- Ensure you've run the tangle command on =00-loader.org=
+- Check that files are created in correct locations
+- Restart Neovim after adding new plugins
+
+** Treesitter Errors
+- Run =:TSInstall <language>= to install missing parsers
+- Check compiler availability with =:checkhealth nvim-treesitter=
+
+** Telescope Not Finding Files
+- Install =ripgrep= and =fd= for better performance
+- Check =.gitignore= - Telescope respects it by default
+
+** Completion Not Working
+- Ensure LSP servers are installed and running
+- Check =:LspInfo= for server status
+- Verify completion sources in =cmp.org=

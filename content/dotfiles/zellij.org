@@ -1,0 +1,64 @@
+#+TITLE: Zellij Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+PROPERTY: header-args :emacs-lisp :mkdirp yes :results none
+
+#+begin_src conf :tangle ~/.config/zellij/config.kdl
+  keybinds clear-defaults=true {
+      locked {
+  	  bind "Ctrl x" { SwitchToMode "normal"; }
+      }
+      normal {
+  	  bind "Ctrl x" { SwitchToMode "locked"; }
+  	  bind "|" { NewPane "right"; SwitchToMode "locked"; }
+  	  bind "_" { NewPane "down"; SwitchToMode "locked"; }
+  	  bind "t" { NewTab; SwitchToMode "locked"; }
+  	  bind "1" { GoToTab 1; SwitchToMode "locked"; }
+  	  bind "2" { GoToTab 2; SwitchToMode "locked"; }
+  	  bind "3" { GoToTab 3; SwitchToMode "locked"; }
+  	  bind "4" { GoToTab 4; SwitchToMode "locked"; }
+  	  bind "5" { GoToTab 5; SwitchToMode "locked"; }
+  	  bind "6" { GoToTab 6; SwitchToMode "locked"; }
+  	  bind "7" { GoToTab 7; SwitchToMode "locked"; }
+  	  bind "8" { GoToTab 8; SwitchToMode "locked"; }
+  	  bind "9" { GoToTab 9; SwitchToMode "locked"; }
+  	  bind "p" { GoToPreviousTab; SwitchToMode "locked"; }
+  	  bind "]" { GoToPreviousTab; SwitchToMode "locked"; }
+  	  bind "n" { GoToNextTab; SwitchToMode "locked"; }
+  	  bind "[" { GoToNextTab; SwitchToMode "locked"; }
+  	  bind "left" { MoveFocus "left"; SwitchToMode "locked"; }
+  	  bind "down" { MoveFocus "down"; SwitchToMode "locked"; }
+  	  bind "up" { MoveFocus "up"; SwitchToMode "locked"; }
+  	  bind "right" { MoveFocus "right"; SwitchToMode "locked"; }
+  	  bind "h" { MoveFocus "left"; SwitchToMode "locked"; }
+  	  bind "j" { MoveFocus "down"; SwitchToMode "locked"; }
+  	  bind "k" { MoveFocus "up"; SwitchToMode "locked"; }
+  	  bind "l" { MoveFocus "right"; SwitchToMode "locked"; }
+  	  bind "o" { SwitchFocus; SwitchToMode "locked"; }
+  	  bind "x" { CloseFocus; SwitchToMode "locked"; }
+  	  bind "k" { CloseFocus; SwitchToMode "locked"; }
+      }
+      pane {
+  	  bind "left" { MoveFocus "left"; }
+  	  bind "down" { MoveFocus "down"; }
+  	  bind "up" { MoveFocus "up"; }
+  	  bind "right" { MoveFocus "right"; }
+  	  bind "h" { MoveFocus "left"; }
+  	  bind "j" { MoveFocus "down"; }
+  	  bind "k" { MoveFocus "up"; }
+  	  bind "l" { MoveFocus "right"; }
+  	  bind "c" { SwitchToMode "renamepane"; PaneNameInput 0; }
+  	  bind "d" { NewPane "down"; SwitchToMode "locked"; }
+  	  bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "locked"; }
+  	  bind "f" { ToggleFocusFullscreen; SwitchToMode "locked"; }
+  	  bind "i" { TogglePanePinned; SwitchToMode "locked"; }
+  	  bind "n" { NewPane; SwitchToMode "locked"; }
+  	  bind "p" { SwitchToMode "normal"; }
+  	  bind "r" { NewPane "right"; SwitchToMode "locked"; }
+  	  bind "w" { ToggleFloatingPanes; SwitchToMode "locked"; }
+  	  bind "x" { CloseFocus; SwitchToMode "locked"; }
+  	  bind "z" { TogglePaneFrames; SwitchToMode "locked"; }
+  	  bind "tab" { SwitchFocus; }
+      }
+  }
+#+end_src
