@@ -466,6 +466,7 @@ Usage:
            ([remap dired-do-shell-command] . dwim-shell-command)
            ([remap dired-smart-shell-command] . dwim-shell-command))
     :config
+    (setq dwim-shell-command-git-clone-dirs '("~/Projects"))
     ;; Load additional command templates
     (require 'dwim-shell-commands nil t))
 #+end_src
@@ -490,12 +491,11 @@ Features:
 - Screenshot capture support
 
 Supported Agents:
-- **Anthropic Claude Code**: =npm install -g @anthropic-ai/claude-code-acp=
-- **Google Gemini CLI**: Requires =--experimental-acp= flag support
-- **OpenAI Codex**: =npm install -g @anthropic-ai/codex-acp=
-- **Goose CLI**: Standard installation from repository
-- **Cursor Agent**: =npm install -g @blowmage/cursor-agent-acp=
-- **Qwen Code**: =npm install -g @anthropic-ai/qwen-code@latest=
+- **Anthropic Claude Code**: =npm install -g @anthropic-ai/claude-code= (native ACP support with =--acp= flag)
+- **Google Gemini CLI**: =npm install -g @google/gemini-cli= (use =gemini --acp= flag)
+- **OpenAI Codex**: =npm install -g @openai/codex=
+- **Goose CLI**: Install from [[https://github.com/block/goose][block/goose]] repository
+- **Cursor Agent**: Install [[https://github.com/roshan-c/cursor-acp][cursor-acp]] adapter to bridge Cursor CLI to ACP
 
 Usage:
 - =M-x agent-shell= : Start agent shell (interactive agent selection)
