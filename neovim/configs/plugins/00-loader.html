@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neovim Plugin Loader</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Neovim Plugin Loader</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org9f13197">1. Plugin Management</a></li>
+<li><a href="#org77dc457">2. Plugin List</a></li>
+<li><a href="#org9b26b5b">3. Plugin Categories</a>
+<ul>
+<li><a href="#org752ed1b">3.1. Core Dependencies</a></li>
+<li><a href="#org967a21e">3.2. File Management &amp; Navigation</a></li>
+<li><a href="#orgb14add4">3.3. UI Enhancements</a></li>
+<li><a href="#org8345033">3.4. Debugging</a></li>
+<li><a href="#org9a66608">3.5. Syntax &amp; Editing</a></li>
+<li><a href="#orgae842ef">3.6. Motion &amp; Navigation</a></li>
+<li><a href="#org3c3f7c8">3.7. Completion</a></li>
+<li><a href="#org614b7f3">3.8. Language Server Protocol</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9f13197" class="outline-2">
+<h2 id="org9f13197"><span class="section-number-2">1.</span> Plugin Management</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This file defines all the plugins to be loaded using Neovim's built-in package management system.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org77dc457" class="outline-2">
+<h2 id="org77dc457"><span class="section-number-2">2.</span> Plugin List</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-lua">vim.pack.add {
+
+  { src = "https://github.com/nvim-lua/plenary.nvim" },
+  { src = "https://github.com/nvim-telescope/telescope.nvim" },
+
+  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+  { src = "https://github.com/MunifTanjim/nui.nvim" },
+  { src = "https://github.com/nvim-neo-tree/neo-tree.nvim" },
+  { src = "https://github.com/akinsho/bufferline.nvim" },
+  { src = "https://github.com/nvim-lualine/lualine.nvim" },
+
+  { src = "https://github.com/nvim-neotest/nvim-nio" },
+  { src = "https://github.com/rcarriga/nvim-dap-ui" },
+  { src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
+  { src = "https://github.com/mfussenegger/nvim-dap" },
+
+  { src = "https://github.com/mfussenegger/nvim-jdtls" },
+
+  { src = "https://github.com/navarasu/onedark.nvim" },
+
+  { src = "https://github.com/echasnovski/mini.pairs" },
+
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
+
+  { src = "https://github.com/mattn/emmet-vim" },
+
+  { src = "https://github.com/tpope/vim-repeat" },
+  { src = "https://github.com/ggandor/leap.nvim" },
+
+  { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
+  { src = "https://github.com/hrsh7th/cmp-buffer" },
+  { src = "https://github.com/hrsh7th/cmp-path" },
+  { src = "https://github.com/L3MON4D3/LuaSnip" },
+  { src = "https://github.com/saadparwaiz1/cmp_luasnip" },
+  { src = "https://github.com/hrsh7th/nvim-cmp" },
+  { src = "https://github.com/rafamadriz/friendly-snippets" },
+
+  { src = "https://github.com/neovim/nvim-lspconfig" },
+  { src = "https://github.com/mason-org/mason.nvim" },
+  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9b26b5b" class="outline-2">
+<h2 id="org9b26b5b"><span class="section-number-2">3.</span> Plugin Categories</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org752ed1b" class="outline-3">
+<h3 id="org752ed1b"><span class="section-number-3">3.1.</span> Core Dependencies</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li><b><b>plenary.nvim</b></b>: Lua functions library used by many plugins</li>
+<li><b><b>nui.nvim</b></b>: UI component library</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org967a21e" class="outline-3">
+<h3 id="org967a21e"><span class="section-number-3">3.2.</span> File Management &amp; Navigation</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li><b><b>telescope.nvim</b></b>: Fuzzy finder for files, buffers, and more</li>
+<li><b><b>neo-tree.nvim</b></b>: File explorer tree</li>
+<li><b><b>nvim-web-devicons</b></b>: File type icons</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb14add4" class="outline-3">
+<h3 id="orgb14add4"><span class="section-number-3">3.3.</span> UI Enhancements</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li><b><b>bufferline.nvim</b></b>: Enhanced buffer/tab line</li>
+<li><b><b>lualine.nvim</b></b>: Statusline plugin</li>
+<li><b><b>onedark.nvim</b></b>: OneDark color scheme</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8345033" class="outline-3">
+<h3 id="org8345033"><span class="section-number-3">3.4.</span> Debugging</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li><b><b>nvim-dap</b></b>: Debug Adapter Protocol client</li>
+<li><b><b>nvim-dap-ui</b></b>: UI for nvim-dap</li>
+<li><b><b>nvim-dap-virtual-text</b></b>: Virtual text support for debugging</li>
+<li><b><b>nvim-nio</b></b>: Async I/O library</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9a66608" class="outline-3">
+<h3 id="org9a66608"><span class="section-number-3">3.5.</span> Syntax &amp; Editing</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li><b><b>nvim-treesitter</b></b>: Treesitter configurations</li>
+<li><b><b>nvim-treesitter-textobjects</b></b>: Additional text objects based on treesitter</li>
+<li><b><b>mini.pairs</b></b>: Auto pairs for brackets and quotes</li>
+<li><b><b>emmet-vim</b></b>: Emmet support for web development</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgae842ef" class="outline-3">
+<h3 id="orgae842ef"><span class="section-number-3">3.6.</span> Motion &amp; Navigation</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li><b><b>leap.nvim</b></b>: General-purpose motion plugin</li>
+<li><b><b>vim-repeat</b></b>: Enable repeating plugin maps</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3c3f7c8" class="outline-3">
+<h3 id="org3c3f7c8"><span class="section-number-3">3.7.</span> Completion</h3>
+<div class="outline-text-3" id="text-3-7">
+<ul class="org-ul">
+<li><b><b>nvim-cmp</b></b>: Completion plugin</li>
+<li><b><b>cmp-nvim-lsp</b></b>: LSP source for nvim-cmp</li>
+<li><b><b>cmp-buffer</b></b>: Buffer source for nvim-cmp</li>
+<li><b><b>cmp-path</b></b>: Path source for nvim-cmp</li>
+<li><b><b>LuaSnip</b></b>: Snippet engine</li>
+<li><b><b>cmp<sub>luasnip</sub></b></b>: LuaSnip source for nvim-cmp</li>
+<li><b><b>friendly-snippets</b></b>: Collection of snippets</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org614b7f3" class="outline-3">
+<h3 id="org614b7f3"><span class="section-number-3">3.8.</span> Language Server Protocol</h3>
+<div class="outline-text-3" id="text-3-8">
+<ul class="org-ul">
+<li><b><b>nvim-lspconfig</b></b>: Quickstart configurations for LSP</li>
+<li><b><b>mason.nvim</b></b>: Portable package manager for LSP servers</li>
+<li><b><b>mason-lspconfig.nvim</b></b>: Bridge between mason and lspconfig</li>
+<li><b><b>nvim-jdtls</b></b>: Extensions for Java development</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<p class="date">Date: 2025-12-01</p>
+</footer>
+</body>
+</html>

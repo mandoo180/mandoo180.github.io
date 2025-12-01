@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neovim Keybindings Configuration</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Neovim Keybindings Configuration</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org29ac8bd">1. Normal Mode Mappings</a>
+<ul>
+<li><a href="#orgbb76c6b">1.1. Basic Keymaps</a></li>
+<li><a href="#org23f5e9b">1.2. Navigation with Centering</a></li>
+<li><a href="#org3d4316e">1.3. Buffer Navigation</a></li>
+<li><a href="#org8d3cf83">1.4. Window Management</a></li>
+<li><a href="#org244e7d6">1.5. Line Movement</a></li>
+<li><a href="#org5608dc9">1.6. File Operations</a></li>
+<li><a href="#org2429f14">1.7. Miscellaneous</a></li>
+</ul>
+</li>
+<li><a href="#org97e4a41">2. Visual Mode Mappings</a>
+<ul>
+<li><a href="#orgf209ff9">2.1. Paste and Delete</a></li>
+<li><a href="#org81c564e">2.2. Line Movement in Visual Mode</a></li>
+<li><a href="#org3d73def">2.3. Indentation</a></li>
+<li><a href="#orgb3ee3f7">2.4. Escape in Visual Mode</a></li>
+</ul>
+</li>
+<li><a href="#org86da126">3. Insert Mode Mappings</a>
+<ul>
+<li><a href="#orgddf6490">3.1. Quick Escape</a></li>
+<li><a href="#orgdebb03e">3.2. Emacs-style Navigation</a></li>
+<li><a href="#org71f100e">3.3. Word Navigation</a></li>
+<li><a href="#org42c8880">3.4. Word Deletion</a></li>
+</ul>
+</li>
+<li><a href="#orgeecfc3d">4. Command Mode Mappings</a>
+<ul>
+<li><a href="#org8854fc0">4.1. Navigation</a></li>
+<li><a href="#org688d5cc">4.2. Word Movement</a></li>
+<li><a href="#org42df5b6">4.3. Deletion</a></li>
+</ul>
+</li>
+<li><a href="#orgcaef3d4">5. Useful Functions</a>
+<ul>
+<li><a href="#org89061f3">5.1. Copy Full File Path</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org29ac8bd" class="outline-2">
+<h2 id="org29ac8bd"><span class="section-number-2">1.</span> Normal Mode Mappings</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgbb76c6b" class="outline-3">
+<h3 id="orgbb76c6b"><span class="section-number-3">1.1.</span> Basic Keymaps</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-lua">-- Normal mode mappings
+vim.keymap.set("n", "&lt;leader&gt;c", ":nohlsearch&lt;CR&gt;", { desc = "Clear search highlights" })
+
+-- Y to EOL
+vim.keymap.set("n", "Y", "y$", { desc = "Yank to end of line" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org23f5e9b" class="outline-3">
+<h3 id="org23f5e9b"><span class="section-number-3">1.2.</span> Navigation with Centering</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-lua">-- Center screen when jumping
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
+vim.keymap.set("n", "&lt;C-d&gt;", "&lt;C-d&gt;zz", { desc = "Half page down (centered)" })
+vim.keymap.set("n", "&lt;C-u&gt;", "&lt;C-u&gt;zz", { desc = "Half page up (centered)" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3d4316e" class="outline-3">
+<h3 id="org3d4316e"><span class="section-number-3">1.3.</span> Buffer Navigation</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-lua">-- Buffer navigation
+vim.keymap.set("n", "&lt;leader&gt;]", ":bnext&lt;CR&gt;", { desc = "Next buffer" })
+vim.keymap.set("n", "&lt;leader&gt;[", ":bprevious&lt;CR&gt;", { desc = "Previous buffer" })
+vim.keymap.set("n", "&lt;leader&gt;k", ":bd%&lt;CR&gt;", { desc = "Kill current buffer" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8d3cf83" class="outline-3">
+<h3 id="org8d3cf83"><span class="section-number-3">1.4.</span> Window Management</h3>
+<div class="outline-text-3" id="text-1-4">
+<div class="org-src-container">
+<pre class="src src-lua">-- Splitting &amp; Resizing
+vim.keymap.set("n", "&lt;leader&gt;|", ":vsplit&lt;CR&gt;", { desc = "Split window vertically" })
+vim.keymap.set("n", "&lt;leader&gt;_", ":split&lt;CR&gt;", { desc = "Split window horizontally" })
+vim.keymap.set("n", "&lt;C-Up&gt;", ":resize +2&lt;CR&gt;", { desc = "Increase window height" })
+vim.keymap.set("n", "&lt;C-Down&gt;", ":resize -2&lt;CR&gt;", { desc = "Decrease window height" })
+vim.keymap.set("n", "&lt;C-Left&gt;", ":vertical resize -2&lt;CR&gt;", { desc = "Decrease window width" })
+vim.keymap.set("n", "&lt;C-Right&gt;", ":vertical resize +2&lt;CR&gt;", { desc = "Increase window width" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org244e7d6" class="outline-3">
+<h3 id="org244e7d6"><span class="section-number-3">1.5.</span> Line Movement</h3>
+<div class="outline-text-3" id="text-1-5">
+<div class="org-src-container">
+<pre class="src src-lua">-- Move lines up/down
+vim.keymap.set("n", "&lt;A-j&gt;", ":m .+1&lt;CR&gt;==", { desc = "Move line down" })
+vim.keymap.set("n", "&lt;A-k&gt;", ":m .-2&lt;CR&gt;==", { desc = "Move line up" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5608dc9" class="outline-3">
+<h3 id="org5608dc9"><span class="section-number-3">1.6.</span> File Operations</h3>
+<div class="outline-text-3" id="text-1-6">
+<div class="org-src-container">
+<pre class="src src-lua">-- Quick file navigation
+-- vim.keymap.set("n", "&lt;leader&gt;e", ":Neotree toggle&lt;CR&gt;", { desc = "Open file explorer" })
+vim.keymap.set("n", "&lt;leader&gt;ff", ":find ", { desc = "Find file" })
+
+-- Quick config editing
+vim.keymap.set("n", "&lt;leader&gt;rc", ":e ~/.config/nvim/init.lua&lt;CR&gt;", { desc = "Edit config" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2429f14" class="outline-3">
+<h3 id="org2429f14"><span class="section-number-3">1.7.</span> Miscellaneous</h3>
+<div class="outline-text-3" id="text-1-7">
+<div class="org-src-container">
+<pre class="src src-lua">-- Better J behavior
+vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines and keep cursor position" })
+
+-- Escape mapping
+local opts = { noremap = true, silent = true }
+vim.keymap.set("n", "&lt;C-g&gt;", "&lt;ESC&gt;", opts)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org97e4a41" class="outline-2">
+<h2 id="org97e4a41"><span class="section-number-2">2.</span> Visual Mode Mappings</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgf209ff9" class="outline-3">
+<h3 id="orgf209ff9"><span class="section-number-3">2.1.</span> Paste and Delete</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-lua">-- Better paste behavior
+vim.keymap.set("x", "&lt;leader&gt;p", '"_dP', { desc = "Paste without yanking" })
+
+-- Delete without yanking
+vim.keymap.set({ "n", "v" }, "&lt;leader&gt;d", '"_d', { desc = "Delete without yanking" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org81c564e" class="outline-3">
+<h3 id="org81c564e"><span class="section-number-3">2.2.</span> Line Movement in Visual Mode</h3>
+<div class="outline-text-3" id="text-2-2">
+<div class="org-src-container">
+<pre class="src src-lua">vim.keymap.set("v", "&lt;A-j&gt;", ":m '&gt;+1&lt;CR&gt;gv=gv", { desc = "Move selection down" })
+vim.keymap.set("v", "&lt;A-k&gt;", ":m '&lt;-2&lt;CR&gt;gv=gv", { desc = "Move selection up" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3d73def" class="outline-3">
+<h3 id="org3d73def"><span class="section-number-3">2.3.</span> Indentation</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-lua">-- Better indenting in visual mode
+vim.keymap.set("v", "&lt;", "&lt;gv", { desc = "Indent left and reselect" })
+vim.keymap.set("v", "&gt;", "&gt;gv", { desc = "Indent right and reselect" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb3ee3f7" class="outline-3">
+<h3 id="orgb3ee3f7"><span class="section-number-3">2.4.</span> Escape in Visual Mode</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+<pre class="src src-lua">vim.keymap.set("v", "&lt;C-g&gt;", "&lt;ESC&gt;", opts)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org86da126" class="outline-2">
+<h2 id="org86da126"><span class="section-number-2">3.</span> Insert Mode Mappings</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgddf6490" class="outline-3">
+<h3 id="orgddf6490"><span class="section-number-3">3.1.</span> Quick Escape</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-lua">-- Motions in insert mode
+vim.keymap.set("i", "jj", "&lt;ESC&gt;", opts)
+vim.keymap.set("i", "&lt;C-g&gt;", "&lt;ESC&gt;", opts)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdebb03e" class="outline-3">
+<h3 id="orgdebb03e"><span class="section-number-3">3.2.</span> Emacs-style Navigation</h3>
+<div class="outline-text-3" id="text-3-2">
+<div class="org-src-container">
+<pre class="src src-lua">vim.keymap.set("i", "&lt;C-f&gt;", "&lt;Right&gt;", opts)
+vim.keymap.set("i", "&lt;C-b&gt;", "&lt;Left&gt;", opts)
+vim.keymap.set("i", "&lt;C-n&gt;", "&lt;Down&gt;", opts)
+vim.keymap.set("i", "&lt;C-p&gt;", "&lt;Up&gt;", opts)
+vim.keymap.set("i", "&lt;C-a&gt;", "&lt;Home&gt;", opts)
+vim.keymap.set("i", "&lt;M-m&gt;", "&lt;C-o&gt;_", opts)
+vim.keymap.set("i", "&lt;C-e&gt;", "&lt;End&gt;", opts)
+vim.keymap.set("i", "&lt;C-d&gt;", "&lt;Del&gt;", opts)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org71f100e" class="outline-3">
+<h3 id="org71f100e"><span class="section-number-3">3.3.</span> Word Navigation</h3>
+<div class="outline-text-3" id="text-3-3">
+<div class="org-src-container">
+<pre class="src src-lua">vim.keymap.set("i", "&lt;M-Right&gt;", "&lt;C-o&gt;w", opts)
+vim.keymap.set("i", "&lt;M-f&gt;", "&lt;C-o&gt;w", opts)
+vim.keymap.set("i", "&lt;M-Left&gt;", "&lt;C-o&gt;b", opts)
+vim.keymap.set("i", "&lt;M-b&gt;", "&lt;C-o&gt;b", opts)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org42c8880" class="outline-3">
+<h3 id="org42c8880"><span class="section-number-3">3.4.</span> Word Deletion</h3>
+<div class="outline-text-3" id="text-3-4">
+<div class="org-src-container">
+<pre class="src src-lua">vim.keymap.set("i", "&lt;M-BS&gt;", "&lt;C-o&gt;db", opts)
+vim.keymap.set("i", "&lt;M-DEL&gt;", "&lt;C-o&gt;dw", opts)
+vim.keymap.set("i", "&lt;M-d&gt;", "&lt;C-o&gt;dw", opts)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeecfc3d" class="outline-2">
+<h2 id="orgeecfc3d"><span class="section-number-2">4.</span> Command Mode Mappings</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org8854fc0" class="outline-3">
+<h3 id="org8854fc0"><span class="section-number-3">4.1.</span> Navigation</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-lua">-- Motions in minibuffer
+vim.keymap.set("c", "&lt;C-f&gt;", "&lt;Right&gt;")
+vim.keymap.set("c", "&lt;C-b&gt;", "&lt;Left&gt;")
+vim.keymap.set("c", "&lt;C-p&gt;", "&lt;Up&gt;")
+vim.keymap.set("c", "&lt;M-p&gt;", "&lt;Up&gt;")
+vim.keymap.set("c", "&lt;C-n&gt;", "&lt;Down&gt;")
+vim.keymap.set("c", "&lt;M-n&gt;", "&lt;Down&gt;")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org688d5cc" class="outline-3">
+<h3 id="org688d5cc"><span class="section-number-3">4.2.</span> Word Movement</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+<pre class="src src-lua">vim.keymap.set("c", "&lt;M-f&gt;", "&lt;C-Right&gt;")
+vim.keymap.set("c", "&lt;M-b&gt;", "&lt;C-Left&gt;")
+vim.keymap.set("c", "&lt;C-a&gt;", "&lt;Home&gt;")
+vim.keymap.set("c", "&lt;C-e&gt;", "&lt;End&gt;")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org42df5b6" class="outline-3">
+<h3 id="org42df5b6"><span class="section-number-3">4.3.</span> Deletion</h3>
+<div class="outline-text-3" id="text-4-3">
+<div class="org-src-container">
+<pre class="src src-lua">vim.keymap.set("c", "&lt;C-d&gt;", "&lt;Del&gt;")
+vim.keymap.set("c", "&lt;M-d&gt;", "&lt;C-Del&gt;")
+vim.keymap.set("c", "&lt;M-BS&gt;", "&lt;C-BS&gt;")
+vim.keymap.set("c", "&lt;C-g&gt;", "&lt;ESC&gt;")
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcaef3d4" class="outline-2">
+<h2 id="orgcaef3d4"><span class="section-number-2">5.</span> Useful Functions</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org89061f3" class="outline-3">
+<h3 id="org89061f3"><span class="section-number-3">5.1.</span> Copy Full File Path</h3>
+<div class="outline-text-3" id="text-5-1">
+<div class="org-src-container">
+<pre class="src src-lua">-- ============================================================================
+-- USEFUL FUNCTIONS
+-- ============================================================================
+
+-- Copy Full File-Path
+vim.keymap.set("n", "&lt;leader&gt;pa", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  print("file:", path)
+end)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<p class="date">Date: 2025-12-01</p>
+</footer>
+</body>
+</html>

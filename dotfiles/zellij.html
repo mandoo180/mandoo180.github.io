@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Zellij Configuration</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Zellij Configuration</h1>
+<div class="org-src-container">
+<pre class="src src-conf"><span class="org-variable-name">keybinds clear-defaults</span>=true {
+    <span class="org-type">locked</span> {
+        bind <span class="org-string">"Ctrl x"</span> { SwitchToMode <span class="org-string">"normal"</span>; }
+    }
+    <span class="org-type">normal</span> {
+        bind <span class="org-string">"Ctrl x"</span> { SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"|"</span> { NewPane <span class="org-string">"right"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"_"</span> { NewPane <span class="org-string">"down"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"t"</span> { NewTab; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"1"</span> { GoToTab 1; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"2"</span> { GoToTab 2; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"3"</span> { GoToTab 3; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"4"</span> { GoToTab 4; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"5"</span> { GoToTab 5; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"6"</span> { GoToTab 6; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"7"</span> { GoToTab 7; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"8"</span> { GoToTab 8; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"9"</span> { GoToTab 9; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"p"</span> { GoToPreviousTab; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"]"</span> { GoToPreviousTab; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"n"</span> { GoToNextTab; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"["</span> { GoToNextTab; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"left"</span> { MoveFocus <span class="org-string">"left"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"down"</span> { MoveFocus <span class="org-string">"down"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"up"</span> { MoveFocus <span class="org-string">"up"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"right"</span> { MoveFocus <span class="org-string">"right"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"h"</span> { MoveFocus <span class="org-string">"left"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"j"</span> { MoveFocus <span class="org-string">"down"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"k"</span> { MoveFocus <span class="org-string">"up"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"l"</span> { MoveFocus <span class="org-string">"right"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"o"</span> { SwitchFocus; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"x"</span> { CloseFocus; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"k"</span> { CloseFocus; SwitchToMode <span class="org-string">"locked"</span>; }
+    }
+    <span class="org-type">pane</span> {
+        bind <span class="org-string">"left"</span> { MoveFocus <span class="org-string">"left"</span>; }
+        bind <span class="org-string">"down"</span> { MoveFocus <span class="org-string">"down"</span>; }
+        bind <span class="org-string">"up"</span> { MoveFocus <span class="org-string">"up"</span>; }
+        bind <span class="org-string">"right"</span> { MoveFocus <span class="org-string">"right"</span>; }
+        bind <span class="org-string">"h"</span> { MoveFocus <span class="org-string">"left"</span>; }
+        bind <span class="org-string">"j"</span> { MoveFocus <span class="org-string">"down"</span>; }
+        bind <span class="org-string">"k"</span> { MoveFocus <span class="org-string">"up"</span>; }
+        bind <span class="org-string">"l"</span> { MoveFocus <span class="org-string">"right"</span>; }
+        bind <span class="org-string">"c"</span> { SwitchToMode <span class="org-string">"renamepane"</span>; PaneNameInput 0; }
+        bind <span class="org-string">"d"</span> { NewPane <span class="org-string">"down"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"e"</span> { TogglePaneEmbedOrFloating; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"f"</span> { ToggleFocusFullscreen; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"i"</span> { TogglePanePinned; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"n"</span> { NewPane; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"p"</span> { SwitchToMode <span class="org-string">"normal"</span>; }
+        bind <span class="org-string">"r"</span> { NewPane <span class="org-string">"right"</span>; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"w"</span> { ToggleFloatingPanes; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"x"</span> { CloseFocus; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"z"</span> { TogglePaneFrames; SwitchToMode <span class="org-string">"locked"</span>; }
+        bind <span class="org-string">"tab"</span> { SwitchFocus; }
+    }
+}
+</pre>
+</div>
+</main>
+</body>
+</html>

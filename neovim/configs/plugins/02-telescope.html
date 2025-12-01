@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Telescope Configuration</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Telescope Configuration</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0d1bd37">1. Overview</a></li>
+<li><a href="#org796b544">2. Setup and Configuration</a></li>
+<li><a href="#orgc48960a">3. Keybindings</a></li>
+<li><a href="#org03812cd">4. Features</a>
+<ul>
+<li><a href="#org33b0eca">4.1. File Navigation</a></li>
+<li><a href="#org4448b4a">4.2. Help and Documentation</a></li>
+<li><a href="#org0bb431f">4.3. Navigation Aids</a></li>
+<li><a href="#orgb068b38">4.4. LSP Integration</a></li>
+<li><a href="#org6b9b35a">4.5. Custom Mappings</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0d1bd37" class="outline-2">
+<h2 id="org0d1bd37"><span class="section-number-2">1.</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Telescope is a highly extendable fuzzy finder for Neovim, providing fast file navigation, grep search, and LSP integration.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org796b544" class="outline-2">
+<h2 id="org796b544"><span class="section-number-2">2.</span> Setup and Configuration</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-lua">local telescope = require("telescope")
+telescope.setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["&lt;C-g&gt;"] = require("telescope.actions").close,
+      },
+      n = {
+        ["&lt;C-g&gt;"] = require("telescope.actions").close,
+      },
+    },
+  },
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc48960a" class="outline-2">
+<h2 id="orgc48960a"><span class="section-number-2">3.</span> Keybindings</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-lua">local builtin = require("telescope.builtin")
+-- https://github.com/nvim-telescope/telescope.nvim?tab=readme-ov-file#neovim-lsp-pickers
+vim.keymap.set("n", "&lt;leader&gt;ff", builtin.find_files, { desc = "Find files" })
+vim.keymap.set("n", "&lt;leader&gt;fg", builtin.live_grep, { desc = "Find grep" })
+vim.keymap.set("n", "&lt;leader&gt;fb", builtin.buffers, { desc = "Find buffers" })
+vim.keymap.set("n", "&lt;leader&gt;bb", builtin.buffers, { desc = "Find buffers" })
+vim.keymap.set("n", "&lt;leader&gt;fh", builtin.help_tags, { desc = "Find help tags" })
+vim.keymap.set("n", "&lt;leader&gt;fm", builtin.marks, { desc = "Find marks" })
+vim.keymap.set("n", "&lt;leader&gt;fp", builtin.registers, { desc = "Find registers" })
+vim.keymap.set("n", "&lt;leader&gt;fs", builtin.lsp_document_symbols, { desc = "Find symbols" })
+vim.keymap.set("n", "&lt;leader&gt;fw", builtin.lsp_workspace_symbols, { desc = "Find workspace's symbols" })
+vim.keymap.set("n", "&lt;leader&gt;fr", builtin.lsp_references, { desc = "Find references" })
+vim.keymap.set("n", "&lt;leader&gt;fi", builtin.lsp_implementations, { desc = "Find implementations", })
+vim.keymap.set("n", "&lt;leader&gt;fd", builtin.lsp_definitions, { desc = "Find definitions", })
+vim.keymap.set("n", "&lt;leader&gt;ft", builtin.lsp_type_definitions, { desc = "Find type definitions", })
+vim.keymap.set("n", "&lt;leader&gt;fe", builtin.diagnostics, { desc = "Find errors(diagnostics)" })
+vim.keymap.set("n", "&lt;leader&gt;fc", builtin.commands, { desc = "Find commands" })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org03812cd" class="outline-2">
+<h2 id="org03812cd"><span class="section-number-2">4.</span> Features</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org33b0eca" class="outline-3">
+<h3 id="org33b0eca"><span class="section-number-3">4.1.</span> File Navigation</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li><code>&lt;leader&gt;ff</code> - Find files in the current directory</li>
+<li><code>&lt;leader&gt;fg</code> - Live grep search through files</li>
+<li><code>&lt;leader&gt;fb</code> / <code>&lt;leader&gt;bb</code> - Browse open buffers</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4448b4a" class="outline-3">
+<h3 id="org4448b4a"><span class="section-number-3">4.2.</span> Help and Documentation</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li><code>&lt;leader&gt;fh</code> - Search help tags</li>
+<li><code>&lt;leader&gt;fc</code> - Browse available commands</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0bb431f" class="outline-3">
+<h3 id="org0bb431f"><span class="section-number-3">4.3.</span> Navigation Aids</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li><code>&lt;leader&gt;fm</code> - Browse marks</li>
+<li><code>&lt;leader&gt;fp</code> - Browse registers</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb068b38" class="outline-3">
+<h3 id="orgb068b38"><span class="section-number-3">4.4.</span> LSP Integration</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li><code>&lt;leader&gt;fs</code> - Find symbols in current document</li>
+<li><code>&lt;leader&gt;fw</code> - Find symbols in workspace</li>
+<li><code>&lt;leader&gt;fr</code> - Find references to symbol under cursor</li>
+<li><code>&lt;leader&gt;fi</code> - Find implementations</li>
+<li><code>&lt;leader&gt;fd</code> - Find definitions</li>
+<li><code>&lt;leader&gt;ft</code> - Find type definitions</li>
+<li><code>&lt;leader&gt;fe</code> - Browse diagnostics/errors</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6b9b35a" class="outline-3">
+<h3 id="org6b9b35a"><span class="section-number-3">4.5.</span> Custom Mappings</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li><code>&lt;C-g&gt;</code> - Close telescope window (both insert and normal mode)</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<p class="date">Date: 2025-12-01</p>
+</footer>
+</body>
+</html>

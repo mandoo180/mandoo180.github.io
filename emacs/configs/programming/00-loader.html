@@ -21,16 +21,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgea91304">1. Programming Configuration Loader</a>
+<li><a href="#org1cf822c">1. Programming Configuration Loader</a>
 <ul>
-<li><a href="#orge40130e">1.1. Purpose</a></li>
-<li><a href="#orgf26a08a">1.2. Architecture</a></li>
-<li><a href="#org8a8aa0e">1.3. Loader Implementation</a></li>
-<li><a href="#org9f3e64d">1.4. Non-Windows Tools</a>
+<li><a href="#orgecb7df8">1.1. Purpose</a></li>
+<li><a href="#org9202f98">1.2. Architecture</a></li>
+<li><a href="#org1597b2a">1.3. Loader Implementation</a></li>
+<li><a href="#org42ead35">1.4. Non-Windows Tools</a>
 <ul>
-<li><a href="#orgf71a796">1.4.1. Clojure Development (CIDER)</a></li>
-<li><a href="#orgba4f34a">1.4.2. SQL Database Interaction (ejc-sql)</a></li>
-<li><a href="#org84c827f">1.4.3. Tree-sitter</a></li>
+<li><a href="#org2fc4c56">1.4.1. Clojure Development (CIDER)</a></li>
+<li><a href="#org2989a80">1.4.2. SQL Database Interaction (ejc-sql)</a></li>
+<li><a href="#org808c3f4">1.4.3. Tree-sitter</a></li>
 </ul>
 </li>
 </ul>
@@ -38,48 +38,49 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgea91304" class="outline-2">
-<h2 id="orgea91304"><span class="section-number-2">1.</span> Programming Configuration Loader</h2>
+<div id="outline-container-org1cf822c" class="outline-2">
+<h2 id="org1cf822c"><span class="section-number-2">1.</span> Programming Configuration Loader</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This file serves as the main entry point for all programming-related configurations. It loads language-specific modules and platform-specific tools.
 </p>
 </div>
 
-<div id="outline-container-orge40130e" class="outline-3">
-<h3 id="orge40130e"><span class="section-number-3">1.1.</span> Purpose</h3>
+<div id="outline-container-orgecb7df8" class="outline-3">
+<h3 id="orgecb7df8"><span class="section-number-3">1.1.</span> Purpose</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 The loader (<code>prog-conf.el</code>) is responsible for:
 </p>
 <ul class="org-ul">
 <li>Loading general programming settings (<code>prog-general-conf</code>)</li>
-<li>Loading language-specific configurations (web, Python, Ruby)</li>
+<li>Loading language-specific configurations (web, Python, Ruby, Lua)</li>
 <li>Conditionally loading platform-specific tools</li>
 <li>Managing Clojure, SQL, and tree-sitter integrations</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgf26a08a" class="outline-3">
-<h3 id="orgf26a08a"><span class="section-number-3">1.2.</span> Architecture</h3>
+<div id="outline-container-org9202f98" class="outline-3">
+<h3 id="org9202f98"><span class="section-number-3">1.2.</span> Architecture</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 The programming configuration is modular:
 </p>
 
-<pre class="example" id="org29b064a">
+<pre class="example" id="org89efbd8">
 prog-conf.el (this file)
 ├── prog-general-conf.el   → General programming settings
 ├── prog-web-conf.el       → Web development (HTML/CSS/JS/TS)
 ├── prog-python-conf.el    → Python development
-└── prog-ruby-conf.el      → Ruby development
+├── prog-ruby-conf.el      → Ruby development
+└── prog-lua-conf.el       → Lua development
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org8a8aa0e" class="outline-3">
-<h3 id="org8a8aa0e"><span class="section-number-3">1.3.</span> Loader Implementation</h3>
+<div id="outline-container-org1597b2a" class="outline-3">
+<h3 id="org1597b2a"><span class="section-number-3">1.3.</span> Loader Implementation</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-conf.el --- Programming configuration loader -*- lexical-binding: t; -*-
@@ -95,6 +96,7 @@ prog-conf.el (this file)
 </span>(<span class="org-keyword">require</span> '<span class="org-constant">prog-web-conf</span>)
 (<span class="org-keyword">require</span> '<span class="org-constant">prog-python-conf</span>)
 (<span class="org-keyword">require</span> '<span class="org-constant">prog-ruby-conf</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">prog-lua-conf</span>)
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Platform-specific and additional tools
 </span>(<span class="org-keyword">unless</span> (eq system-type 'windows-nt)
@@ -129,16 +131,16 @@ prog-conf.el (this file)
 </div>
 </div>
 
-<div id="outline-container-org9f3e64d" class="outline-3">
-<h3 id="org9f3e64d"><span class="section-number-3">1.4.</span> Non-Windows Tools</h3>
+<div id="outline-container-org42ead35" class="outline-3">
+<h3 id="org42ead35"><span class="section-number-3">1.4.</span> Non-Windows Tools</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 Several tools are only loaded on non-Windows systems:
 </p>
 </div>
 
-<div id="outline-container-orgf71a796" class="outline-4">
-<h4 id="orgf71a796"><span class="section-number-4">1.4.1.</span> Clojure Development (CIDER)</h4>
+<div id="outline-container-org2fc4c56" class="outline-4">
+<h4 id="org2fc4c56"><span class="section-number-4">1.4.1.</span> Clojure Development (CIDER)</h4>
 <div class="outline-text-4" id="text-1-4-1">
 <ul class="org-ul">
 <li>Interactive Clojure development environment</li>
@@ -148,8 +150,8 @@ Several tools are only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-orgba4f34a" class="outline-4">
-<h4 id="orgba4f34a"><span class="section-number-4">1.4.2.</span> SQL Database Interaction (ejc-sql)</h4>
+<div id="outline-container-org2989a80" class="outline-4">
+<h4 id="org2989a80"><span class="section-number-4">1.4.2.</span> SQL Database Interaction (ejc-sql)</h4>
 <div class="outline-text-4" id="text-1-4-2">
 <ul class="org-ul">
 <li>Connect to databases directly from Emacs</li>
@@ -159,8 +161,8 @@ Several tools are only loaded on non-Windows systems:
 </div>
 </div>
 
-<div id="outline-container-org84c827f" class="outline-4">
-<h4 id="org84c827f"><span class="section-number-4">1.4.3.</span> Tree-sitter</h4>
+<div id="outline-container-org808c3f4" class="outline-4">
+<h4 id="org808c3f4"><span class="section-number-4">1.4.3.</span> Tree-sitter</h4>
 <div class="outline-text-4" id="text-1-4-3">
 <ul class="org-ul">
 <li>Fast, incremental parsing library</li>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ideavim Configuration</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Ideavim Configuration</h1>
+<div class="org-src-container">
+<pre class="src src-text">let mapleader = " "
+
+"" Source your .vimrc
+"source ~/.vimrc
+
+set ideajoin
+set NERDTree
+"set sneak
+"set quickscope
+set easymotion
+
+map s &lt;Plug&gt;(easymotion-f)
+map S &lt;Plug&gt;(easymotion-F)
+map &lt;Leader&gt;&lt;Leader&gt;w &lt;Plug&gt;(easymotion-w)
+map &lt;Leader&gt;&lt;Leader&gt;W &lt;Plug&gt;(easymotion-W)
+map &lt;Leader&gt;&lt;Leader&gt;b &lt;Plug&gt;(easymotion-b)
+map &lt;Leader&gt;&lt;Leader&gt;B &lt;Plug&gt;(easymotion-B)
+map &lt;Leader&gt;&lt;Leader&gt;e &lt;Plug&gt;(easymotion-e)
+map &lt;Leader&gt;&lt;Leader&gt;E &lt;Plug&gt;(easymotion-E)
+map &lt;Leader&gt;&lt;Leader&gt;ge &lt;Plug&gt;(easymotion-ge)
+map &lt;Leader&gt;&lt;Leader&gt;gE &lt;Plug&gt;(easymotion-gE)
+map &lt;Leader&gt;&lt;Leader&gt;j &lt;Plug&gt;(easymotion-j)
+map &lt;Leader&gt;&lt;Leader&gt;k &lt;Plug&gt;(easymotion-k)
+map &lt;Leader&gt;&lt;Leader&gt;n &lt;Plug&gt;(easymotion-n)
+map &lt;Leader&gt;&lt;Leader&gt;N &lt;Plug&gt;(easymotion-N)
+map &lt;Leader&gt;&lt;Leader&gt;s &lt;Plug&gt;(easymotion-s)
+map &lt;Leader&gt;s &lt;Plug&gt;(easymotion-jumptoanywhere)
+
+inoremap jj &lt;ESC&gt;
+
+" basic emacs navigation in insert mode, some cua mode
+inoremap &lt;C-f&gt; &lt;Right&gt;
+inoremap &lt;C-b&gt; &lt;Left&gt;
+inoremap &lt;C-n&gt; &lt;Down&gt;
+inoremap &lt;C-p&gt; &lt;Up&gt;
+inoremap &lt;C-e&gt; &lt;End&gt;
+inoremap &lt;C-a&gt; &lt;Home&gt;
+inoremap &lt;C-d&gt; &lt;Del&gt;
+inoremap &lt;M-f&gt; &lt;C-o&gt;w
+inoremap &lt;M-b&gt; &lt;C-o&gt;b
+inoremap &lt;M-d&gt; &lt;C-o&gt;dw
+inoremap &lt;M-BS&gt; &lt;C-o&gt;db
+inoremap &lt;C-y&gt; &lt;C-o&gt;P
+vnoremap &lt;C-c&gt; y
+inoremap &lt;C-v&gt; &lt;C-o&gt;P
+vnoremap &lt;C-w&gt; &lt;C-o&gt;d
+vnoremap &lt;M-w&gt; &lt;C-o&gt;y
+
+nnoremap &lt;Leader&gt;k :q&lt;CR&gt;
+
+vnoremap x "_x
+nnoremap x "_x
+vnoremap p "_dp
+vnoremap P "_dP
+
+nnoremap - &lt;C-x&gt;
+nnoremap + &lt;C-a&gt;
+
+set clipboard=unnamed
+set clipboard+=ideaput
+set showmode
+set showcmd
+set scrolloff=8
+
+vnoremap &gt; &gt;gv
+vnoremap &lt; &lt;gv
+
+"vnoremap ( c()&lt;ESC&gt;P
+"vnoremap [ c[]&lt;ESC&gt;P
+"vnoremap { c{}&lt;ESC&gt;P
+
+nnoremap &lt;C-3&gt; ciw#{}&lt;ESC&gt;P
+inoremap &lt;C-g&gt; &lt;ESC&gt;
+vnoremap &lt;C-g&gt; &lt;ESC&gt;
+nnoremap &lt;C-g&gt; &lt;ESC&gt;
+
+map &lt;M-g&gt; &lt;Action&gt;(Generate)
+map &lt;C-,&gt; &lt;Action&gt;(ShowSettings)
+map &lt;C-S-,&gt; &lt;Action&gt;(ShowProjectStructureSettings)
+map &lt;M-q&gt; &lt;Action&gt;(CloseEditor)
+map &lt;M-a&gt;&lt;M-q&gt; &lt;Action&gt;(CloseAllEditor)
+map &lt;M-n&gt; &lt;Action&gt;(MethodDown)
+map &lt;M-p&gt; &lt;Action&gt;(MethodUp)
+map &lt;M-S-j&gt; &lt;Action&gt;(MoveLineDown)
+map &lt;M-S-k&gt; &lt;Action&gt;(MoveLineUp)
+
+map gs &lt;Action&gt;(ActivateStructureToolWindow)
+map gr &lt;Action&gt;(FindUsages)
+
+vmap gc &lt;Action&gt;(CommentByLineComment)
+nmap gcc &lt;Action&gt;(CommentByLineComment)
+
+map &lt;Leader&gt;rr &lt;Action&gt;(UpdateRunningApplication)
+map &lt;Leader&gt;` &lt;Action&gt;(ActivateTerminalToolWindow)
+map &lt;Leader&gt;ns &lt;Action&gt;(NewScratchFile)
+map &lt;Leader&gt;fl &lt;Action&gt;(ReformatCode)
+map &lt;Leader&gt;8 &lt;Action&gt;(ToggleLineBreakpoint)
+map &lt;Leader&gt;rf &lt;Action&gt;(RenameFile)
+map &lt;Leader&gt;rn &lt;Action&gt;(RenameElement)
+map &lt;Leader&gt;&lt;Space&gt; &lt;Action&gt;(GotoAction)
+map &lt;M-x&gt; &lt;Action&gt;(GotoAction)
+map &lt;Leader&gt;ff &lt;Action&gt;(GotoFile)
+map &lt;Leader&gt;fc &lt;Action&gt;(GotoClass)
+map &lt;Leader&gt;fo &lt;Action&gt;(RecentFiles)
+map &lt;Leader&gt;fs &lt;Action&gt;(ActivateStructureToolWindow)
+map &lt;Leader&gt;e &lt;Action&gt;(ActivateProjectToolWindow)
+map &lt;Leader&gt;1 &lt;Action&gt;(SelectIn)
+map &lt;Leader&gt;] &lt;Action&gt;(NextTab)
+map &lt;Leader&gt;[ &lt;Action&gt;(PreviousTab)
+
+map &lt;Leader&gt;w &lt;Action&gt;(EditorSelectWord)
+map &lt;Leader&gt;W &lt;Action&gt;(EditorUnSelectWord)
+map &lt;M-h&gt; &lt;Action&gt;(EditorSelectWord)
+map &lt;M-S-h&gt; &lt;Action&gt;(EditorUnSelectWord)
+
+map &lt;C-s&gt; &lt;Action&gt;(Find)
+map &lt;M-S-5&gt; &lt;Action&gt;(Replace)
+</pre>
+</div>
+</main>
+</body>
+</html>

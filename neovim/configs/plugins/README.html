@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neovim Plugin Configurations</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.tailwindcss.com?plugins=typography"></script><script>window.tailwind = window.tailwind || {};window.tailwind.config = { darkMode: 'media' }; /* follow browser */</script>
+<style>
+  :root { color-scheme: light dark; }      /* hint to UA widgets, form controls */
+  body { margin:0; }
+  @media (prefers-color-scheme: light) { body { background: #ffffff; } }
+  @media (prefers-color-scheme: dark)  { body { background: #0b0b0b; } }
+</style><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="prose prose-zinc dark:prose-invert mx-auto w-full max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4 sm:px-6 lg:px-8">
+<h1 class="title">Neovim Plugin Configurations</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org2bf4d51">1. Overview</a></li>
+<li><a href="#orgeab15a8">2. File Structure</a></li>
+<li><a href="#org3810a56">3. Plugin Categories</a>
+<ul>
+<li><a href="#orgbb492fb">3.1. Core Infrastructure</a></li>
+<li><a href="#orgcbea3cb">3.2. Navigation &amp; Search</a></li>
+<li><a href="#org2076702">3.3. Code Intelligence</a></li>
+<li><a href="#org60d2e11">3.4. Completion &amp; Snippets</a></li>
+<li><a href="#org0ad49cc">3.5. UI Enhancements</a></li>
+<li><a href="#orgb89ebf3">3.6. Development Tools</a></li>
+<li><a href="#orga19264b">3.7. Editor Enhancement</a></li>
+</ul>
+</li>
+<li><a href="#org731b504">4. Usage</a></li>
+<li><a href="#org92376f7">5. Loading Order</a></li>
+<li><a href="#orgd76b306">6. Dependencies</a>
+<ul>
+<li><a href="#org4097cbd">6.1. For Treesitter</a></li>
+<li><a href="#org8896e5b">6.2. For Telescope</a></li>
+<li><a href="#org4f159ed">6.3. For LSP/Completion</a></li>
+</ul>
+</li>
+<li><a href="#org2a3d1b5">7. Customization</a></li>
+<li><a href="#orgbc5cba2">8. Troubleshooting</a>
+<ul>
+<li><a href="#org1343ad5">8.1. Plugins Not Loading</a></li>
+<li><a href="#orgdf4e0b9">8.2. Treesitter Errors</a></li>
+<li><a href="#orgb50aeaf">8.3. Telescope Not Finding Files</a></li>
+<li><a href="#orgcb4899e">8.4. Completion Not Working</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2bf4d51" class="outline-2">
+<h2 id="org2bf4d51"><span class="section-number-2">1.</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This directory contains modular configurations for Neovim plugins. Each file represents a specific plugin or group of related plugins, organized to be tangled to the appropriate location in your Neovim configuration.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeab15a8" class="outline-2">
+<h2 id="orgeab15a8"><span class="section-number-2">2.</span> File Structure</h2>
+<div class="outline-text-2" id="text-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">File</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Tangles To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>00-loader.org</code></td>
+<td class="org-left">Plugin definitions using vim.pack.add</td>
+<td class="org-left"><code>~/.config/nvim/lua/pengling/plugins/init.lua</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>01-treesitter.org</code></td>
+<td class="org-left">Treesitter syntax highlighting and text objects</td>
+<td class="org-left"><code>~/.config/nvim/lua/pengling/plugins/treesitter.lua</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>02-telescope.org</code></td>
+<td class="org-left">Fuzzy finder configuration and keymaps</td>
+<td class="org-left"><code>~/.config/nvim/lua/pengling/plugins/telescope.lua</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>03-cmp.org</code></td>
+<td class="org-left">Completion engine setup with sources</td>
+<td class="org-left"><code>~/.config/nvim/lua/pengling/plugins/cmp.lua</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org3810a56" class="outline-2">
+<h2 id="org3810a56"><span class="section-number-2">3.</span> Plugin Categories</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgbb492fb" class="outline-3">
+<h3 id="orgbb492fb"><span class="section-number-3">3.1.</span> Core Infrastructure</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li><b><b>plenary.nvim</b></b>: Lua utility functions required by many plugins</li>
+<li><b><b>nui.nvim</b></b>: UI component library for floating windows and more</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcbea3cb" class="outline-3">
+<h3 id="orgcbea3cb"><span class="section-number-3">3.2.</span> Navigation &amp; Search</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li><b><b>telescope.nvim</b></b>: Extensible fuzzy finder with LSP integration</li>
+<li><b><b>neo-tree.nvim</b></b>: File explorer with tree view</li>
+<li><b><b>leap.nvim</b></b>: Fast motion plugin for cursor movement</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2076702" class="outline-3">
+<h3 id="org2076702"><span class="section-number-3">3.3.</span> Code Intelligence</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li><b><b>nvim-treesitter</b></b>: Advanced syntax highlighting and code understanding</li>
+<li><b><b>nvim-treesitter-textobjects</b></b>: Additional text objects based on syntax tree</li>
+<li><b><b>nvim-lspconfig</b></b>: Language Server Protocol configurations</li>
+<li><b><b>mason.nvim</b></b>: Portable package manager for LSP servers</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org60d2e11" class="outline-3">
+<h3 id="org60d2e11"><span class="section-number-3">3.4.</span> Completion &amp; Snippets</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li><b><b>nvim-cmp</b></b>: Modular completion framework</li>
+<li><b><b>cmp-nvim-lsp</b></b>: LSP completion source</li>
+<li><b><b>cmp-buffer</b></b>: Buffer words completion source</li>
+<li><b><b>cmp-path</b></b>: File path completion source</li>
+<li><b><b>LuaSnip</b></b>: Snippet engine</li>
+<li><b><b>friendly-snippets</b></b>: Collection of useful snippets</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0ad49cc" class="outline-3">
+<h3 id="org0ad49cc"><span class="section-number-3">3.5.</span> UI Enhancements</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li><b><b>bufferline.nvim</b></b>: Enhanced buffer/tab display</li>
+<li><b><b>lualine.nvim</b></b>: Fast and customizable statusline</li>
+<li><b><b>nvim-web-devicons</b></b>: File type icons support</li>
+<li><b><b>onedark.nvim</b></b>: Popular color scheme</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb89ebf3" class="outline-3">
+<h3 id="orgb89ebf3"><span class="section-number-3">3.6.</span> Development Tools</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li><b><b>nvim-dap</b></b>: Debug Adapter Protocol client for debugging</li>
+<li><b><b>nvim-dap-ui</b></b>: UI extensions for debugging</li>
+<li><b><b>nvim-jdtls</b></b>: Java development tools</li>
+<li><b><b>emmet-vim</b></b>: HTML/CSS expansion toolkit</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga19264b" class="outline-3">
+<h3 id="orga19264b"><span class="section-number-3">3.7.</span> Editor Enhancement</h3>
+<div class="outline-text-3" id="text-3-7">
+<ul class="org-ul">
+<li><b><b>mini.pairs</b></b>: Automatic bracket/quote pairs</li>
+<li><b><b>vim-repeat</b></b>: Dot repeat for plugin commands</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org731b504" class="outline-2">
+<h2 id="org731b504"><span class="section-number-2">4.</span> Usage</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+To tangle all plugin configurations:
+</p>
+
+<ol class="org-ol">
+<li>Open each <code>.org</code> file in Emacs</li>
+<li>Run <code>C-c C-v t</code> (or <code>M-x org-babel-tangle</code>)</li>
+<li>Files will be created in <code>~/.config/nvim/lua/pengling/plugins/</code></li>
+</ol>
+
+<p>
+Or create a batch tangle script to process all files at once.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org92376f7" class="outline-2">
+<h2 id="org92376f7"><span class="section-number-2">5.</span> Loading Order</h2>
+<div class="outline-text-2" id="text-5">
+<ol class="org-ol">
+<li><b><b>Plugin Definition</b></b> (<code>00-loader.org</code>) - Must be loaded first to install plugins</li>
+<li><b><b>Individual Configs</b></b> - Each plugin configuration file can be loaded independently</li>
+<li><p>
+<b><b>Main Init</b></b> - These are typically required from the main <code>init.lua</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-lua">require "pengling.plugins.init"
+require "pengling.plugins.treesitter"
+require "pengling.plugins.telescope"
+require "pengling.plugins.cmp"
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgd76b306" class="outline-2">
+<h2 id="orgd76b306"><span class="section-number-2">6.</span> Dependencies</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+External programs needed:
+</p>
+</div>
+
+<div id="outline-container-org4097cbd" class="outline-3">
+<h3 id="org4097cbd"><span class="section-number-3">6.1.</span> For Treesitter</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>C compiler (gcc/clang) for building parsers</li>
+<li><code>tree-sitter</code> CLI (optional, for grammar development)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8896e5b" class="outline-3">
+<h3 id="org8896e5b"><span class="section-number-3">6.2.</span> For Telescope</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li><code>ripgrep</code> (rg) - For live grep functionality</li>
+<li><code>fd</code> - For better file finding performance (optional)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4f159ed" class="outline-3">
+<h3 id="org4f159ed"><span class="section-number-3">6.3.</span> For LSP/Completion</h3>
+<div class="outline-text-3" id="text-6-3">
+<ul class="org-ul">
+<li>Language servers for your languages (installed via Mason or manually)</li>
+<li>Node.js - For many language servers</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2a3d1b5" class="outline-2">
+<h2 id="org2a3d1b5"><span class="section-number-2">7.</span> Customization</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Each configuration file contains detailed explanations of the settings. Common customization points:
+</p>
+
+<ul class="org-ul">
+<li><b><b>Treesitter</b></b>: Add/remove languages in <code>ensure_installed</code></li>
+<li><b><b>Telescope</b></b>: Modify keybindings and search behavior</li>
+<li><b><b>nvim-cmp</b></b>: Adjust completion sources and priorities</li>
+<li><b><b>Theme</b></b>: Change colorscheme or transparency settings</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbc5cba2" class="outline-2">
+<h2 id="orgbc5cba2"><span class="section-number-2">8.</span> Troubleshooting</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org1343ad5" class="outline-3">
+<h3 id="org1343ad5"><span class="section-number-3">8.1.</span> Plugins Not Loading</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>Ensure you've run the tangle command on <code>00-loader.org</code></li>
+<li>Check that files are created in correct locations</li>
+<li>Restart Neovim after adding new plugins</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdf4e0b9" class="outline-3">
+<h3 id="orgdf4e0b9"><span class="section-number-3">8.2.</span> Treesitter Errors</h3>
+<div class="outline-text-3" id="text-8-2">
+<ul class="org-ul">
+<li>Run <code>:TSInstall &lt;language&gt;</code> to install missing parsers</li>
+<li>Check compiler availability with <code>:checkhealth nvim-treesitter</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb50aeaf" class="outline-3">
+<h3 id="orgb50aeaf"><span class="section-number-3">8.3.</span> Telescope Not Finding Files</h3>
+<div class="outline-text-3" id="text-8-3">
+<ul class="org-ul">
+<li>Install <code>ripgrep</code> and <code>fd</code> for better performance</li>
+<li>Check <code>.gitignore</code> - Telescope respects it by default</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcb4899e" class="outline-3">
+<h3 id="orgcb4899e"><span class="section-number-3">8.4.</span> Completion Not Working</h3>
+<div class="outline-text-3" id="text-8-4">
+<ul class="org-ul">
+<li>Ensure LSP servers are installed and running</li>
+<li>Check <code>:LspInfo</code> for server status</li>
+<li>Verify completion sources in <code>cmp.org</code></li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<p class="date">Date: 2025-12-01</p>
+</footer>
+</body>
+</html>
