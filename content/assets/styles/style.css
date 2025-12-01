@@ -1,0 +1,525 @@
+/**
+ * Main Stylesheet - GitHub Flavored Markdown Style
+ * 
+ * A clean, readable vanilla CSS stylesheet inspired by GitHub's markdown rendering.
+ * Includes responsive layout, typography, code blocks, tables, and dark mode support.
+ */
+
+/* ============================================================================
+   CSS RESET & BASE STYLES
+   ============================================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #24292f;
+  background-color: #ffffff;
+  word-wrap: break-word;
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #e6edf3;
+    background-color: #0d1117;
+  }
+}
+
+/* ============================================================================
+   LAYOUT & CONTAINER
+   ============================================================================ */
+
+main.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  main.content {
+    padding: 3rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  main.content {
+    padding: 4rem 2.5rem;
+  }
+}
+
+/* Note: Sidebar margin adjustments are in toc-sidebar.css */
+
+/* ============================================================================
+   TYPOGRAPHY
+   ============================================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.25;
+  color: inherit;
+}
+
+h1 { 
+  font-size: 2em; 
+  border-bottom: 1px solid #d0d7de;
+  padding-bottom: 0.3em;
+  margin-top: 0;
+}
+
+h2 { 
+  font-size: 1.5em; 
+  border-bottom: 1px solid #d0d7de;
+  padding-bottom: 0.3em;
+}
+
+h3 { font-size: 1.25em; }
+h4 { font-size: 1em; }
+h5 { font-size: 0.875em; }
+h6 { font-size: 0.85em; color: #57606a; }
+
+@media (prefers-color-scheme: dark) {
+  h1, h2 {
+    border-bottom-color: #21262d;
+  }
+  
+  h6 {
+    color: #8b949e;
+  }
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+/* ============================================================================
+   LINKS
+   ============================================================================ */
+
+a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #8250df;
+}
+
+@media (prefers-color-scheme: dark) {
+  a {
+    color: #58a6ff;
+  }
+  
+  a:visited {
+    color: #bc8cff;
+  }
+}
+
+/* ============================================================================
+   LISTS
+   ============================================================================ */
+
+ul, ol {
+  padding-left: 2em;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+li {
+  margin-bottom: 0.25em;
+}
+
+li > p {
+  margin-top: 1em;
+}
+
+li + li {
+  margin-top: 0.25em;
+}
+
+/* ============================================================================
+   CODE BLOCKS
+   ============================================================================ */
+
+code, kbd, pre, samp {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.875em;
+}
+
+/* Inline code */
+code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  background-color: rgba(175, 184, 193, 0.2);
+  border-radius: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  code {
+    background-color: rgba(110, 118, 129, 0.4);
+  }
+}
+
+/* Code blocks */
+pre {
+  padding: 1em;
+  overflow: auto;
+  font-size: 0.875em;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+pre code {
+  display: block;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  pre {
+    background-color: #161b22;
+  }
+}
+
+/* Syntax highlighting for org-mode htmlize output */
+.org-keyword { color: #d73a49; font-weight: bold; }
+.org-type { color: #005cc5; }
+.org-comment, .org-comment-delimiter { color: #6a737d; font-style: italic; }
+.org-string { color: #032f62; }
+.org-variable-name { color: #e36209; }
+.org-function-name { color: #6f42c1; font-weight: bold; }
+.org-builtin { color: #005cc5; }
+.org-constant { color: #005cc5; }
+
+@media (prefers-color-scheme: dark) {
+  .org-keyword { color: #ff7b72; }
+  .org-type { color: #79c0ff; }
+  .org-comment, .org-comment-delimiter { color: #8b949e; }
+  .org-string { color: #a5d6ff; }
+  .org-variable-name { color: #ffa657; }
+  .org-function-name { color: #d2a8ff; }
+  .org-builtin { color: #79c0ff; }
+  .org-constant { color: #79c0ff; }
+}
+
+/* ============================================================================
+   BLOCKQUOTES
+   ============================================================================ */
+
+blockquote {
+  margin: 0 0 1em 0;
+  padding: 0 1em;
+  color: #57606a;
+  border-left: 0.25em solid #d0d7de;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  blockquote {
+    color: #8b949e;
+    border-left-color: #3b434b;
+  }
+}
+
+/* ============================================================================
+   TABLES
+   ============================================================================ */
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+table th {
+  font-weight: 600;
+}
+
+table th,
+table td {
+  padding: 6px 13px;
+  border: 1px solid #d0d7de;
+}
+
+table tr {
+  background-color: #ffffff;
+  border-top: 1px solid #d8dee4;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+@media (prefers-color-scheme: dark) {
+  table th,
+  table td {
+    border-color: #3b434b;
+  }
+  
+  table tr {
+    background-color: #0d1117;
+    border-top-color: #21262d;
+  }
+  
+  table tr:nth-child(2n) {
+    background-color: #161b22;
+  }
+}
+
+/* ============================================================================
+   IMAGES
+   ============================================================================ */
+
+img {
+  max-width: 100%;
+  height: auto;
+  box-sizing: content-box;
+  background-color: #ffffff;
+  border-radius: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  img {
+    background-color: #0d1117;
+  }
+}
+
+/* ============================================================================
+   HORIZONTAL RULE
+   ============================================================================ */
+
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 1.5em 0;
+  background-color: #d0d7de;
+  border: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  hr {
+    background-color: #21262d;
+  }
+}
+
+/* ============================================================================
+   MISCELLANEOUS
+   ============================================================================ */
+
+/* Definition lists */
+dt {
+  font-weight: 600;
+  margin-top: 1em;
+}
+
+dd {
+  margin-left: 0;
+  padding-left: 2em;
+}
+
+/* Task lists */
+input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+/* Details/Summary */
+details {
+  margin-bottom: 1em;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Keyboard keys */
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 0.875em;
+  line-height: 1;
+  color: #24292f;
+  vertical-align: middle;
+  background-color: #f6f8fa;
+  border: solid 1px rgba(175, 184, 193, 0.4);
+  border-bottom-color: rgba(175, 184, 193, 0.4);
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 rgba(175, 184, 193, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  kbd {
+    color: #e6edf3;
+    background-color: #161b22;
+    border-color: rgba(110, 118, 129, 0.4);
+    box-shadow: inset 0 -1px 0 rgba(110, 118, 129, 0.4);
+  }
+}
+
+/* ============================================================================
+   HEADER & FOOTER
+   ============================================================================ */
+
+header.preamble,
+footer.postamble {
+  padding: 1rem 1.5rem;
+  color: #57606a;
+  font-size: 0.875em;
+}
+
+@media (prefers-color-scheme: dark) {
+  header.preamble,
+  footer.postamble {
+    color: #8b949e;
+  }
+}
+
+/* ============================================================================
+   ORG-MODE SPECIFIC ELEMENTS
+   ============================================================================ */
+
+/* Outline numbers */
+.outline-2, .outline-3, .outline-4, .outline-5, .outline-6 {
+  margin-top: 2em;
+}
+
+.outline-text-2, .outline-text-3, .outline-text-4 {
+  margin-left: 0;
+}
+
+/* Timestamps */
+.timestamp {
+  color: #57606a;
+  font-size: 0.875em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .timestamp {
+    color: #8b949e;
+  }
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  margin-left: 0.5em;
+  font-size: 0.75em;
+  font-weight: 500;
+  line-height: 1;
+  color: #0969da;
+  background-color: rgba(9, 105, 218, 0.1);
+  border-radius: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tag {
+    color: #58a6ff;
+    background-color: rgba(88, 166, 255, 0.1);
+  }
+}
+
+/* Todo keywords */
+.todo, .done {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  margin-right: 0.5em;
+  font-size: 0.875em;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 6px;
+}
+
+.todo {
+  color: #cf222e;
+  background-color: rgba(207, 34, 46, 0.1);
+}
+
+.done {
+  color: #1a7f37;
+  background-color: rgba(26, 127, 55, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .todo {
+    color: #ff7b72;
+    background-color: rgba(255, 123, 114, 0.1);
+  }
+  
+  .done {
+    color: #7ee787;
+    background-color: rgba(126, 231, 135, 0.1);
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9375rem;
+  }
+  
+  h1 { font-size: 1.75em; }
+  h2 { font-size: 1.375em; }
+  h3 { font-size: 1.125em; }
+  
+  pre {
+    padding: 0.75em;
+  }
+  
+  table {
+    font-size: 0.875em;
+  }
+  
+  table th,
+  table td {
+    padding: 4px 8px;
+  }
+}

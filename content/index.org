@@ -194,7 +194,7 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 ** Technical Details
 
 - *Generator*: Emacs Org-mode (ox-publish)
-- *Styling*: Tailwind CSS with typography plugin
+- *Styling*: Vanilla CSS with GitHub Flavored Markdown design
 - *Hosting*: GitHub Pages
 - *Source*: [[https://github.com/mandoo180/mandoo180.github.io][mandoo180/mandoo180.github.io]]
 

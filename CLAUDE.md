@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a static site generator that converts Org-mode files to HTML and publishes to GitHub Pages. The site uses Emacs Org-mode's publishing system with Tailwind CSS for styling.
+This is a static site generator that converts Org-mode files to HTML and publishes to GitHub Pages. The site uses Emacs Org-mode's publishing system with vanilla CSS for styling.
 
 ## Build System
 
@@ -18,8 +18,8 @@ The build process is orchestrated through Emacs Lisp:
 This runs `emacs -Q --script build-site.el` which:
 1. Installs dependencies (htmlize package) into `./.packages`
 2. Converts all `.org` files in `content/` to HTML in `public/`
-3. Copies `content/assets/` to `public/assets/`
-4. Applies Tailwind CSS styling with dark mode support
+3. Copies `content/assets/` to `public/assets/` (includes CSS, JavaScript, fonts, images)
+4. Applies GitHub Flavored Markdown styling with dark mode support
 
 **Development server (in Emacs):**
 ```emacs-lisp
@@ -37,20 +37,24 @@ M-x httpd-serve-directory RET ./public RET
 ### Key Build Configuration (build-site.el)
 
 The build script configures:
-- **HTML head:** Tailwind CDN with typography plugin, responsive viewport meta, dark mode config
-- **Dark mode:** Uses `prefers-color-scheme: media` following browser/system preference
-- **Content wrapper:** Post-export filter (`local/org-html-add-tailwind-container`) injects Tailwind prose classes for responsive typography
+- **HTML head:** Links to vanilla CSS stylesheets, responsive viewport meta
+- **Stylesheets:**
+  - `assets/styles/style.css` - Main GitHub Flavored Markdown styling
+  - `assets/styles/toc-sidebar.css` - Sticky floating table of contents
+- **Dark mode:** Uses `prefers-color-scheme` media query following browser/system preference
 - **Org settings:**
   - Babel enabled for shell and emacs-lisp
   - `org-confirm-babel-evaluate` set to nil (code blocks execute without confirmation)
-  - InfoJS integration for navigation at `assets/scripts/org-info.js`
+  - TOC sidebar integration via JavaScript at `assets/scripts/toc-sidebar.js`
   - Htmlize uses CSS output type
 
 ### Styling
-- Tailwind CSS loaded via CDN with typography plugin
-- Dark mode follows system preference (automatic)
-- Responsive max-width containers (3xl to 6xl breakpoints)
-- Semantic HTML5 elements (header/main/footer for preamble/content/postamble)
+- **Vanilla CSS** - No framework dependencies, all styling self-hosted
+- **GitHub-inspired design** - Clean, readable typography and spacing
+- **Dark mode** - Automatic switching based on system preference
+- **Responsive layout** - Mobile-first design with breakpoints at 768px, 1024px, 1280px, 1536px
+- **Syntax highlighting** - GitHub-style colors for code blocks (light/dark)
+- **Semantic HTML5** - header/main/footer elements for preamble/content/postamble
 
 ## Deployment
 

@@ -8,13 +8,15 @@
 ## Code Style & Conventions
 - **Language:** Emacs Lisp for build system, Org-mode for content
 - **Elisp style:** Use lexical-binding, package headers (Summary/Commentary/Code), `;;;` file headers
-- **Naming:** `local/` prefix for custom functions (e.g., `local/org-html-add-tailwind-container`)
+- **Naming:** `local/` prefix for custom functions (e.g., `local/org-html-head`)
 - **Variables:** Use `defvar` or `setq`, descriptive names with namespace prefixes
 - **Indentation:** Standard Emacs Lisp (2 spaces), use `emacs-lisp-mode` auto-indent
+- **CSS:** Vanilla CSS only, GitHub Flavored Markdown style, mobile-first responsive design
 
 ## Architecture Notes
 - Content lives in `content/` (Org files), builds to `public/` (gitignored)
 - Assets in `content/assets/` are copied to `public/assets/`
 - Dependencies installed to `./.packages` via MELPA/ELPA
-- Tailwind CSS via CDN, dark mode follows system preference
+- Vanilla CSS with GitHub-style design, dark mode via `prefers-color-scheme`
+- No CSS frameworks - all styling is self-hosted and lightweight
 - See CLAUDE.md for detailed architecture and build system info
