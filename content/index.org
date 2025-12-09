@@ -79,6 +79,27 @@ Step-by-step guide for building Emacs from source code on various platforms.
 
 *Platforms*: Linux, macOS, Windows
 
+* Development Tools
+
+Configuration and documentation for development tools and AI assistants.
+
+** [[file:agents/claude-code/index.org][Claude Code Configurations]]
+
+Literate configuration for Claude Code (Anthropic's AI coding assistant) written in Org-mode with comprehensive documentation.
+
+*Structure*:
+- Project settings and permissions
+- 11 slash commands for common workflows (explain, review, test, git, etc.)
+- 4 agent skills for autonomous capabilities (TypeScript types, test coverage, Emacs integration, documentation)
+- MCP server integrations (Emacs, filesystem)
+- All configs with detailed inline documentation
+
+*Format*: Literate programming with tangle support to =.claude/= directory
+
+*Total*: ~2,000 lines across 7 modules
+
+See also: [[file:agents/claude-code/README.org][Configuration Guide]]
+
 * Learning
 
 Notes and exercises from programming books and technical documentation.
@@ -170,6 +191,7 @@ Study notes and exercises from the classic computer science textbook SICP (Abels
 | Category                                |               Files | Description                          |
 |-----------------------------------------+---------------------+--------------------------------------|
 | [[*Emacs][Emacs]]                       | 3 main + 18 modules | Configuration and learning resources |
+| [[*Development Tools][Development Tools]] |           7 modules | AI assistant and tool configurations |
 | [[*Learning][Learning]]                 |                   2 | Programming books and tools          |
 | [[*Notes][Notes]]                       |                   2 | System setup and dotfiles            |
 | [[*Computer Science][Computer Science]] |                   6 | SICP chapters and exercises          |

@@ -1,0 +1,1169 @@
+#+TITLE: Slash Commands
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:markdown :mkdirp yes :results none
+
+* Introduction
+
+Slash commands are user-invoked prompt templates stored as Markdown files. Type =/= in Claude Code to see available commands and invoke them on demand.
+
+** How Slash Commands Work
+
+1. *Discovery*: Claude Code finds all =*.md= files in =.claude/commands/=
+2. *Menu display*: Commands appear in the =/= menu with their descriptions
+3. *Invocation*: User types =/command-name= (optionally with arguments)
+4. *Expansion*: Command content replaces the slash command in conversation
+5. *Execution*: Claude processes the expanded prompt
+
+** File Structure
+
+- *Location*: =.claude/commands/*.md= (project) or =~/.claude/commands/*.md= (user)
+- *Format*: Markdown with optional YAML frontmatter
+- *Naming*: Filename becomes command name (=explain.md= → =/explain=)
+
+** Frontmatter Options
+
+#+begin_example yaml
+---
+description: Brief description shown in command menu
+argument-hint: "what to pass as argument"
+allowed-tools:
+  - Read
+  - Grep
+  - Write
+model: "opus"  # Override default model
+---
+#+end_example
+
+** Arguments and Input
+
+Use ={{{ input }}}= or =$ARGUMENTS= for user-provided text:
+
+#+begin_example markdown
+User's question: {{{ input }}}
+#+end_example
+
+When invoked as =/explain how this works=, ={{{ input }}}= becomes ="how this works"=.
+
+* Documentation Commands
+
+Commands for explaining, documenting, and understanding code.
+
+** Explain Code
+
+Generate detailed code explanations with architectural context.
+
+#+begin_src markdown :tangle no
+---
+description: Explain code with detailed analysis
+argument-hint: "[optional focus area]"
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+---
+
+# Code Explanation Request
+
+Please analyze the code in my current context and provide a comprehensive explanation.
+
+## Analysis Structure
+
+1. **Purpose**: What does this code do at a high level?
+2. **Architecture**: How is it organized and structured?
+3. **Key Concepts**: Important patterns, algorithms, or techniques used
+4. **Dependencies**: External libraries or modules used
+5. **Data Flow**: How data moves through the system
+6. **Edge Cases**: How does it handle special conditions?
+7. **Potential Issues**: Any concerns, bugs, or improvement opportunities
+
+## Focus Area
+
+{{{ input }}}
+
+## Output Format
+
+- Use clear headings for each section
+- Reference specific code with file paths and line numbers (e.g., `file.ts:42`)
+- Provide concrete examples where helpful
+- Use code snippets to illustrate points
+- Highlight key insights or non-obvious behavior
+#+end_src
+
+** Generate Documentation
+
+Create comprehensive documentation for functions, classes, or modules.
+
+#+begin_src markdown :tangle no
+---
+description: Generate comprehensive documentation
+allowed-tools:
+  - Read
+  - Grep
+  - Write
+---
+
+# Documentation Generator
+
+Generate detailed documentation for the current code.
+
+## Documentation Requirements
+
+### Function/Method Documentation
+- **Purpose**: Clear description of what it does
+- **Parameters**: Each parameter with type and description
+- **Return Value**: Type and meaning
+- **Exceptions**: What errors can be thrown
+- **Examples**: Practical usage examples
+- **Notes**: Side effects, performance, thread safety
+
+### Class/Module Documentation
+- **Overview**: Responsibility and purpose
+- **Public API**: All public methods/functions
+- **Usage Examples**: Common use cases
+- **Dependencies**: Required imports or modules
+- **Design Patterns**: Patterns used (if any)
+
+### File/Package Documentation
+- **Overview**: What this file/package provides
+- **Exports**: What's exposed to other modules
+- **Internal Structure**: Major components
+- **Examples**: How to use the package
+
+## Format Guidelines
+
+- Use the appropriate documentation format for the language:
+  - **JavaScript/TypeScript**: JSDoc
+  - **Python**: Docstrings (Google or NumPy style)
+  - **Java**: Javadoc
+  - **C/C++**: Doxygen
+  - **Go**: Go doc comments
+  - **Rust**: Rustdoc
+  - **Markdown**: For READMEs and guides
+
+## Additional Context
+
+{{{ input }}}
+#+end_src
+
+* Development Commands
+
+Commands for code review, testing, and development workflows.
+
+** Code Review
+
+Systematic code review with actionable feedback.
+
+#+begin_src markdown :tangle no
+---
+description: Comprehensive code review
+argument-hint: "[focus: security|performance|style]"
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+---
+
+# Code Review Request
+
+Perform a thorough code review of the current code or specified files.
+
+## Review Checklist
+
+### Correctness
+- [ ] Does it work as intended?
+- [ ] Are there logic errors or bugs?
+- [ ] Are edge cases handled properly?
+- [ ] Is error handling appropriate?
+
+### Security
+- [ ] Any security vulnerabilities?
+- [ ] Input validation present?
+- [ ] No injection risks (SQL, XSS, command injection)?
+- [ ] Secrets/credentials properly handled?
+- [ ] Authentication/authorization correct?
+
+### Performance
+- [ ] Any obvious performance bottlenecks?
+- [ ] Unnecessary loops or redundant operations?
+- [ ] Appropriate data structures used?
+- [ ] Database queries optimized?
+- [ ] Memory leaks or excessive allocations?
+
+### Maintainability
+- [ ] Code is readable and clear?
+- [ ] Proper naming conventions?
+- [ ] Functions/methods are appropriately sized?
+- [ ] Duplication minimized (DRY principle)?
+- [ ] Comments explain "why", not "what"?
+
+### Testing
+- [ ] Adequate test coverage?
+- [ ] Tests are meaningful and not brittle?
+- [ ] Edge cases tested?
+- [ ] Integration tests if needed?
+
+### Best Practices
+- [ ] Follows language/framework conventions?
+- [ ] Proper error handling?
+- [ ] Resources properly cleaned up?
+- [ ] Thread-safe if concurrent?
+- [ ] Accessibility considerations (if UI)?
+
+## Focus Area
+
+{{{ input }}}
+
+## Output Format
+
+For each issue found:
+1. **Severity**: Critical / Important / Minor / Suggestion
+2. **Location**: File and line number
+3. **Issue**: What's wrong or could be improved
+4. **Recommendation**: Specific, actionable fix
+5. **Example**: Code snippet showing the improvement (if helpful)
+
+Prioritize critical and important issues. Be constructive and specific.
+#+end_src
+
+** Add Tests
+
+Generate comprehensive test cases for code.
+
+#+begin_src markdown :tangle no
+---
+description: Generate comprehensive test cases
+allowed-tools:
+  - Read
+  - Write
+  - Grep
+  - Glob
+---
+
+# Test Generation
+
+Generate comprehensive tests for the current code.
+
+## Test Types
+
+### Unit Tests
+- Test individual functions/methods in isolation
+- Mock external dependencies
+- Cover happy paths and edge cases
+- Fast and deterministic
+
+### Integration Tests
+- Test component interactions
+- Use real dependencies where practical
+- Test realistic scenarios
+- May be slower but more comprehensive
+
+### Edge Cases
+- Boundary conditions (empty, null, zero, max values)
+- Error conditions
+- Unexpected input
+- Concurrent access (if applicable)
+
+## Test Framework
+
+Use the appropriate testing framework for the language:
+- **JavaScript/TypeScript**: Jest, Mocha, Vitest
+- **Python**: pytest, unittest
+- **Java**: JUnit, TestNG
+- **Go**: testing package
+- **Rust**: built-in test framework
+- **Ruby**: RSpec, Minitest
+
+## Test Structure
+
+Follow the Arrange-Act-Assert (AAA) pattern:
+
+```
+describe('feature', () => {
+  it('should do something specific', () => {
+    // Arrange: Set up test data and dependencies
+    const input = ...;
+
+    // Act: Execute the code under test
+    const result = functionUnderTest(input);
+
+    // Assert: Verify the results
+    expect(result).toBe(expected);
+  });
+});
+```
+
+## Test Requirements
+
+- **Descriptive names**: Test names clearly state what is being tested
+- **Independence**: Each test runs independently
+- **Repeatability**: Tests produce same results every time
+- **Comprehensive**: Cover happy paths, edge cases, and errors
+- **Fixtures**: Create sample data where needed
+- **Cleanup**: Properly tear down after tests
+
+## Additional Context
+
+{{{ input }}}
+#+end_src
+
+** Refactor Code
+
+Suggest and implement refactorings to improve code quality.
+
+#+begin_src markdown :tangle no
+---
+description: Refactor code for better quality
+argument-hint: "[specific concern or 'general']"
+allowed-tools:
+  - Read
+  - Write
+  - Grep
+  - Glob
+---
+
+# Code Refactoring
+
+Analyze code and propose refactorings to improve quality, maintainability, and performance.
+
+## Refactoring Goals
+
+### Code Clarity
+- Improve naming (variables, functions, classes)
+- Extract complex expressions into named variables
+- Break down large functions into smaller, focused ones
+- Remove dead code
+- Reduce nesting depth
+
+### Design Improvement
+- Extract repeated code into functions
+- Apply design patterns where appropriate
+- Improve separation of concerns
+- Reduce coupling, increase cohesion
+- Simplify complex conditionals
+
+### Performance
+- Optimize algorithms (reduce complexity)
+- Eliminate unnecessary computations
+- Improve data structure choices
+- Reduce memory allocations
+- Cache expensive operations
+
+## Refactoring Process
+
+1. **Identify Issues**: What needs improvement?
+2. **Propose Changes**: Specific refactorings to apply
+3. **Show Before/After**: Code snippets demonstrating the change
+4. **Explain Benefits**: Why this improves the code
+5. **Preserve Behavior**: Ensure functionality stays the same
+
+## Safety
+
+- Refactor incrementally (small steps)
+- Ensure tests pass after each refactoring
+- Don't change behavior (unless that's the goal)
+- Preserve edge case handling
+
+## Focus
+
+{{{ input }}}
+
+If no specific focus provided, perform a general refactoring review.
+#+end_src
+
+* Git Commands
+
+Commands for git workflows and commit message generation.
+
+** Generate Commit Message
+
+Create conventional commit messages from staged changes.
+
+#+begin_src markdown :tangle ~/.claude/commands/commit-message.md
+  ---
+  description: Generate conventional commit message
+  allowed-tools:
+    - Bash(git:*)
+    - mcp__emacs__*
+  ---
+
+  # Commit Message Generator
+
+  Based on the staged changes (=git diff --staged=), generate a commit message following conventional commits format.
+
+  ## Workflow
+
+  ,**IMPORTANT**: Always start by checking if Emacs is available.
+
+  ### Step 1: Check Emacs Availability
+
+  First, try to ping the Emacs MCP server:
+  ```
+  mcp__emacs__ping_emacs
+  ```
+
+  If successful, Emacs daemon is running and you MUST use the magit workflow (Step 2A).
+  If it fails, Emacs is not available and you should use the CLI workflow (Step 2B).
+
+  ### Step 2A: Emacs/Magit Workflow (if Emacs is running)
+
+  1. **Review changes**: Run `git diff --staged` to see what's being committed
+  2. **Get staged files**: Run `git diff --staged --name-only` to get list of files
+  3. **Analyze intent**: Understand what the changes accomplish
+  4. **Generate message**: Create a properly formatted commit message
+  5. **Extract commit type**: Identify the type (feat, fix, docs, etc.) from your generated message
+  6. **Open in magit**: Call `mcp__emacs__prepare_commit_with_magit` with:
+     - `files`: Array of staged file paths from step 2
+     - `description`: The complete commit message you generated
+     - `commit_type`: The type prefix (feat, fix, docs, etc.)
+
+  This opens magit-commit buffer in Emacs where the user can review and finalize.
+
+  ### Step 2B: CLI Workflow (if Emacs is not available)
+
+  1. **Review changes**: Run `git diff --staged` to see what's being committed
+  2. **Analyze intent**: Understand what the changes accomplish
+  3. **Generate message**: Create a properly formatted commit message
+  4. **Ask user**: "Would you like me to create this commit with the above message?"
+  5. **If yes**: Execute `git commit -m "$(cat <<'EOF'...EOF)"` with the generated message
+  6. **If no**: Let user handle the commit themselves
+
+  ## Conventional Commits Format
+
+  ```
+  <type>(<scope>): <subject>
+
+  <body>
+
+  <footer>
+  ```
+
+  ### Type
+
+  Choose the most appropriate type:
+  - **feat**: New feature
+  - **fix**: Bug fix
+  - **docs**: Documentation only
+  - **style**: Code style changes (formatting, missing semicolons, etc.)
+  - **refactor**: Code change that neither fixes a bug nor adds a feature
+  - **perf**: Performance improvement
+  - **test**: Adding or updating tests
+  - **build**: Changes to build system or dependencies
+  - **ci**: Changes to CI configuration files
+  - **chore**: Other changes that don't modify src or test files
+
+  ### Scope (Optional)
+
+  The scope specifies what part of the codebase is affected (e.g., =parser=, =auth=, =api=).
+
+  ### Subject
+
+  - Use imperative mood ("add" not "added" or "adds")
+  - Don't capitalize first letter
+  - No period at the end
+  - Maximum 50 characters
+
+  ### Body (Optional)
+
+  - Explain the "why" behind the change, not the "what"
+  - Wrap at 72 characters
+  - Separate from subject with blank line
+
+  ### Footer (Optional)
+
+  - Breaking changes: =BREAKING CHANGE: description=
+  - Issue references: =Closes #123=, =Fixes #456=
+
+  ## Example Messages
+
+  ```
+  feat(auth): add OAuth2 authentication support
+
+  Implement OAuth2 flow for third-party authentication.
+  Supports Google, GitHub, and Microsoft providers.
+
+  Closes #234
+  ```
+
+  ```
+  fix(parser): handle edge case with empty input
+
+  Previously crashed when given empty string. Now returns
+  empty result gracefully.
+
+  Fixes #567
+  ```
+
+  ```
+  docs: update README with installation instructions
+  ```
+
+  ## Output
+
+  Generate a commit message following the format above. The message should accurately reflect the staged changes.
+
+  ,**Important**: Do NOT append the Claude Code attribution footer (🤖 Generated with Claude Code / Co-Authored-By). Generate a clean, standard commit message only.
+
+  ## Implementation Notes
+
+  ### Detecting Emacs Availability
+
+  Try calling =mcp__emacs__ping_emacs= or =mcp__emacs__get_current_context= to check if Emacs MCP server is available.
+
+  ### Using Magit Integration
+
+  If Emacs is available:
+  1. Get list of staged files with =git diff --staged --name-only=
+  2. Extract commit type from generated message (feat, fix, docs, etc.)
+  3. Call =mcp__emacs__prepare_commit_with_magit= with:
+     - =files=: Array of staged file paths
+     - =description=: The complete commit message (subject + body)
+     - =commit_type=: The type prefix (feat, fix, docs, etc.)
+
+  This will:
+  - Stage the specified files (if not already staged)
+  - Open magit-status buffer
+  - Open magit-commit buffer with pre-filled commit message
+  - Allow user to review, edit, and finalize in their familiar Emacs environment
+
+  ### Fallback to Manual Commit
+
+  If Emacs is not available:
+  1. Present the generated commit message to the user
+  2. Ask: "Would you like me to create this commit?"
+  3. If yes: Execute =git commit -m "$(cat <<'EOF'...EOF)"= with the generated message
+  4. If no: Let user copy the message or make their own commit
+
+  This approach provides the best of both worlds: seamless Emacs integration when available, and standard CLI workflow when not.
+#+end_src
+
+** Review PR Changes
+
+Review changes in a pull request or branch.
+
+#+begin_src markdown :tangle no
+---
+description: Review pull request changes
+argument-hint: "[PR number or branch name]"
+allowed-tools:
+  - Bash(git:*)
+  - Bash(gh:*)
+  - Read
+  - Grep
+---
+
+# Pull Request Review
+
+Review changes in a pull request or git branch.
+
+## Process
+
+1. **Get PR info**: Use =gh pr view= or git commands to see changes
+2. **Review commits**: Check commit messages and history
+3. **Analyze changes**: Review the actual code changes
+4. **Check tests**: Verify tests are included and passing
+5. **Provide feedback**: Constructive, specific comments
+
+## What to Review
+
+### Code Quality
+- Follows project conventions
+- Properly structured and organized
+- No obvious bugs or issues
+
+### Testing
+- Tests included for new features
+- Tests cover edge cases
+- Existing tests still pass
+
+### Documentation
+- Public APIs documented
+- README updated if needed
+- Comments explain complex logic
+
+### Commits
+- Meaningful commit messages
+- Logical commit structure
+- Each commit is coherent
+
+### Breaking Changes
+- Identified and documented
+- Migration guide provided
+- Versioning updated
+
+## PR Information
+
+{{{ input }}}
+
+If a PR number is provided, fetch it with =gh pr view <number>=.
+If a branch name is provided, compare with =git diff main...<branch>=.
+#+end_src
+
+* Emacs Integration Commands
+
+Commands that leverage Emacs MCP server for context-aware assistance.
+
+** Emacs Context Helper
+
+Ask questions with automatic Emacs context gathering.
+
+#+begin_src markdown :tangle no
+---
+description: Ask about code with Emacs context
+argument-hint: "your question"
+allowed-tools:
+  - mcp__emacs__get_current_context
+  - mcp__emacs__lsp_*
+  - mcp__emacs__*
+---
+
+# Emacs Context-Aware Assistant
+
+You are helping a user working in Emacs. Gather their current context to provide the best assistance.
+
+## Instructions
+
+### 1. Gather Context
+
+Use =mcp__emacs__get_current_context= to get:
+- Current buffer name and file path
+- Cursor position (line and column)
+- Full buffer content
+- Major mode (language/file type)
+- Project information
+- Modified status
+
+### 2. Analyze Context
+
+Review the gathered information to understand:
+- What file/code they're working in
+- What code is at or near the cursor position
+- The surrounding context and structure
+- The language and project type
+
+### 3. Use LSP if Needed
+
+If LSP is active and relevant:
+- =mcp__emacs__lsp_hover= - Get symbol documentation
+- =mcp__emacs__lsp_diagnostics= - Check for errors/warnings
+- =mcp__emacs__lsp_definition= - Find symbol definitions
+- =mcp__emacs__lsp_references= - Find symbol usages
+
+### 4. Process Request
+
+Provide helpful assistance based on the context:
+- Explain code or concepts at cursor position
+- Suggest improvements specific to the code
+- Identify and explain issues
+- Answer questions with full context awareness
+- Reference exact line numbers and code snippets
+
+### 5. Be Specific
+
+When responding:
+- Reference specific line numbers (e.g., "line 42")
+- Quote relevant code snippets
+- Mention the file path
+- Use function/class names from the code
+- Provide context-appropriate suggestions
+
+## User's Question
+
+{{{ input }}}
+
+---
+
+**Important**: Always call =mcp__emacs__get_current_context= first before responding. This ensures your answer is relevant to what the user is actually working on.
+#+end_src
+
+** Emacs LSP Fix
+
+Fix code issues using LSP code actions.
+
+#+begin_src markdown :tangle no
+  ---
+  description: Fix code issues using LSP
+  argument-hint: "[optional: specific issue]"
+  allowed-tools:
+    - mcp__emacs__get_current_context
+    - mcp__emacs__lsp_diagnostics
+    - mcp__emacs__lsp_code_actions
+    - mcp__emacs__lsp_execute_code_action
+  ---
+
+  # Emacs LSP Code Fix
+
+  Use LSP to identify and fix code issues in the current buffer.
+
+  ## Process
+
+  ### 1. Get Current Context
+
+  Call =mcp__emacs__get_current_context= to know:
+  - What file we're working with
+  - Cursor position
+  - Current code
+
+  ### 2. Check Diagnostics
+
+  Call =mcp__emacs__lsp_diagnostics= to find:
+  - Errors (type errors, syntax errors)
+  - Warnings (unused variables, deprecated APIs)
+  - Suggestions (style improvements)
+
+  ### 3. Get Code Actions
+
+  For each issue, call =mcp__emacs__lsp_code_actions= at the issue location to see:
+  - Quick fixes available
+  - Refactoring options
+  - Import additions
+  - Other automatic fixes
+
+  ### 4. Execute Fixes
+
+  Either:
+  - Suggest which code action to apply
+  - Execute code action with =mcp__emacs__lsp_execute_code_action=
+  - Provide manual fix if no code action available
+
+  ### 5. Verify
+
+  After applying fixes:
+  - Check if diagnostics are resolved
+  - Ensure code still works correctly
+  - Format if needed (=mcp__emacs__lsp_format=)
+
+  ## Focus
+
+  {{{ input }}}
+
+  If no specific issue mentioned, review all diagnostics and suggest fixes.
+#+end_src
+
+* Org-Mode Commands
+
+Commands for working with Org-mode files.
+
+** Org-Roam Capture
+
+Create org-roam notes with automatic linking and knowledge graph integration.
+
+#+begin_src markdown :tangle ~/.claude/commands/roam-capture.md
+    ---
+    description: Create org-roam note
+    argument-hint: "note title and content"
+    allowed-tools:
+    - Bash(emacsclient:*)
+    - mcp__emacs__list_buffers
+    - mcp__emacs__get_buffer_content
+    ---
+
+  # Org-Roam Capture Helper
+
+  Create a new org-roam note using the capture system. This integrates with your Zettelkasten-style knowledge base.
+
+  ## Note Types
+
+  Based on your org-roam configuration, you have several capture templates available:
+
+  ### Default Note (template: "d")
+  General-purpose note for any content.
+
+  ,**Structure:**
+  - Title
+  - Date timestamp
+  - Filetags
+  - Content
+
+  ,**File location:** `~/org-roam/TIMESTAMP--slug.org`
+
+  ### Permanent Note (template: "p")
+  Well-developed, atomic ideas that form the core of your knowledge base.
+
+  ,**Structure:**
+  - Source (where the idea came from)
+  - Content (the main idea explained)
+  - Links (connections to other notes)
+
+  ,**File location:** `~/org-roam/permanent/TIMESTAMP--slug.org`
+  ,**Tags:** `:permanent:`
+
+  ### Literature Note (template: "l")
+  Notes about books, papers, articles, or other references.
+
+  ,**Structure:**
+  - Source (Author, Title, Year)
+  - Summary
+  - Key Points
+  - Quotes
+  - Related notes
+
+  ,**File location:** `~/org-roam/literature/TIMESTAMP--slug.org`
+  ,**Tags:** `:literature:`
+
+  ### Concept Note (template: "c")
+  Definitions and explanations of specific concepts or terms.
+
+  ,**Structure:**
+  - Definition
+  - Examples
+  - Related Concepts
+
+  ,**File location:** `~/org-roam/concepts/TIMESTAMP--slug.org`
+  ,**Tags:** `:concept:`
+
+  ### Reference Note (template: "r")
+  Quick reference materials, cheatsheets, and lookups for commands, syntax, and tools.
+
+  ,**Structure:**
+  - Organized sections (by category, command type, etc.)
+  - Concise, scannable format
+  - Code examples and syntax
+  - Common use cases
+
+  ,**File location:** `~/org-roam/reference/TIMESTAMP--slug.org`
+  ,**Tags:** `:reference:`
+
+  ,**Perfect for:**
+  - Command cheatsheets (git, docker, kubectl, etc.)
+  - Language syntax references (regex, SQL, bash)
+  - Tool configuration snippets
+  - API quick references
+  - Keyboard shortcuts
+
+  ## Daily Notes
+
+  For daily journaling, meetings, and tasks, use the daily notes system (separate command: `/roam-daily`).
+
+  ## Workflow
+
+  ,**CRITICAL**: Use org-roam-capture to open CAPTURE buffer, then fill it with generated content.
+
+  ### Step 1: Parse User Input
+
+  Understand what type of note to create:
+  - General notes → "d" (default)
+  - Well-formed ideas → "p" (permanent)
+  - Book/article notes → "l" (literature)
+  - Term definitions → "c" (concept)
+  - Quick reference → "r" (reference)
+
+  ### Step 2: Extract Title
+
+  Get the note title from user input (e.g., "Git Commands Cheatsheet")
+
+  ### Step 3: Invoke org-roam-capture
+
+  Call org-roam-capture via emacsclient to open the CAPTURE buffer:
+
+  ``` bash
+  emacsclient -e "(org-roam-capture- :keys \"r\" :node (org-roam-node-create :title \"Git Commands Cheatsheet\"))"
+  ```
+
+  This opens a buffer named like: `CAPTURE-20231215T143022-git-commands-cheatsheet.org`
+
+  ### Step 4: Generate Complete Content
+
+  Create the full note content according to the template structure.
+
+  ### Step 5: Insert Content into CAPTURE Buffer
+
+  Use `mcp__emacs__get_buffer_content` to find the CAPTURE buffer, then insert the generated content:
+
+  ```
+  1. Find CAPTURE buffer (name starts with "CAPTURE-")
+  2. Use emacsclient to insert content into that buffer:
+  emacsclient -e "(with-current-buffer \"CAPTURE-...-title.org\" (goto-char (point-max)) (insert \"content\"))"
+  ```
+
+  ### Step 6: User Takes Over
+
+  From this point, the user:
+  - Reviews the generated content in the CAPTURE buffer
+  - Can edit/modify as needed
+  - Finalizes with `C-c C-c` to save or `C-c C-k` to abort
+
+  ## Content to Capture
+
+  {{{ input }}}
+
+  ## Examples
+
+  ### Creating a Permanent Note
+
+  ,**User input:** "Create a note about the Observer pattern - it's a behavioral design pattern where an object maintains a list of dependents and notifies them of state changes"
+
+  ,**Action:**
+    ```
+    template_key: "p"
+    content: "Observer Pattern\n\n* Source\n\nGang of Four Design Patterns book\n\n* Content\n\nThe Observer pattern is a behavioral design pattern where an object (the subject) maintains a list of its dependents (observers) and notifies them automatically of any state changes, usually by calling one of their methods.\n\nKey characteristics:\n- One-to-many dependency between objects\n- Loose coupling between subject and observers\n- Automatic notification on state changes\n\n\n* Links\n\n- [[Software Design Patterns]]\n- [[Behavioral Patterns]]\n- [[Event-Driven Architecture]]\n\n"
+    ```
+
+  ### Creating a Literature Note
+
+  ,**User input:** "Add notes from 'The Pragmatic Programmer' by Hunt and Thomas, published 1999"
+
+  ,**Action:**
+    ```
+    template_key: "l"
+    content: "The Pragmatic Programmer\n\n* Source\n\nAuthor: Andrew Hunt and David Thomas\nTitle: The Pragmatic Programmer\nYear: 1999\n\n* Summary\n\nA practical guide to software craftsmanship covering best practices, tools, and mindset for professional developers.\n\n* Key Points\n\n- DRY principle (Don't Repeat Yourself)\n- Orthogonality in design\n- Tracer bullets vs prototypes\n- The broken window theory\n- Programming by coincidence vs deliberate programming\n\n* Quotes\n\n'Care about your craft'\n'Think! About your work'\n* Related\n\n[[Software Engineering Books]]\n[[Clean Code Principles]]\n\n"
+    ```
+
+  ### Creating a Concept Note
+
+  ,**User input:** "Define idempotence - an operation that produces the same result no matter how many times it's executed"
+
+  ,**Action:**
+    ```
+    template_key: "c"
+    content: "Idempotence\n\n* Definition\n\nIdempotence is a property of operations where executing the operation multiple times has the same effect as executing it once. The result remains the same regardless of how many times the operation is applied.\n\n* Examples\n\n- HTTP GET requests (reading data doesn't change it)\n- Setting a value: x = 5 (doing it twice doesn't change the outcome)\n- DELETE requests (deleting a non-existent resource is the same as deleting an existing one)\n- Mathematical: abs(abs(x)) = abs(x)\n\nNon-idempotent examples:\n- POST requests (creates multiple resources)\n- Incrementing: x++ (changes value each time)\n\n* Related Concepts\n\n[[HTTP Methods]]\n[[REST API Design]]\n[[Functional Programming]]\n\n"
+    ```
+
+  ### Creating a Default Note
+
+  ,**User input:** "Quick note about using MCP servers with Claude Code"
+
+  ,**Action:**
+    ```
+    template_key: "d"
+    content: "MCP Servers with Claude Code\nMCP (Model Context Protocol) servers extend Claude Code with external tools and capabilities. They enable integration with:\n\n- File systems\n- Development tools (Emacs, LSP)\n- APIs and external services\n- Custom tooling\n\nConfiguration is done via .mcp.json at project root.\n\nSee also: [[Claude Code Configuration]]\n\n"
+    ```
+
+  ### Creating a Reference Note (Cheatsheet)
+
+  ,**User input:** "Create a git cheatsheet with common commands I use"
+
+  ,**Action:**
+    ```
+    template_key: "r"
+    content: "Git Cheatsheet\n\n* Basic Commands\n\n** Status and Information\n#+begin_src bash\ngit status              # Show working tree status\ngit log --oneline -10  # Show last 10 commits\ngit diff               # Show unstaged changes\ngit diff --staged      # Show staged changes\n#+end_src\n\n** Staging and Committing\n#+begin_src bash\ngit add <file>         # Stage specific file\ngit add .              # Stage all changes\ngit commit -m \"msg\"    # Commit with message\ngit commit --amend     # Amend last commit\n#+end_src\n\n** Branching\n#+begin_src bash\ngit branch             # List branches\ngit branch <name>      # Create branch\ngit checkout <branch>  # Switch branch\ngit checkout -b <name> # Create and switch\ngit branch -d <name>   # Delete branch\n#+end_src\n\n** Remote Operations\n#+begin_src bash\ngit fetch              # Fetch from remote\ngit pull               # Fetch and merge\ngit push               # Push to remote\ngit push -u origin <branch>  # Push and set upstream\n#+end_src\n\n** Undoing Changes\n#+begin_src bash\ngit restore <file>     # Discard working changes\ngit restore --staged <file>  # Unstage file\ngit reset HEAD~1       # Undo last commit (keep changes)\ngit reset --hard HEAD~1  # Undo last commit (discard changes)\n#+end_src\n\n* Advanced\n\n** Stashing\n#+begin_src bash\ngit stash              # Stash changes\ngit stash pop          # Apply and remove stash\ngit stash list         # List stashes\n#+end_src\n\n** Rebasing\n#+begin_src bash\ngit rebase main        # Rebase onto main\ngit rebase -i HEAD~3   # Interactive rebase last 3 commits\n#+end_src\n\nSee also: [[Version Control]] [[Git Workflows]]\n"
+    ```
+
+  ,**User input:** "Create a docker commands reference"
+
+  ,**Action:**
+    ```
+    template_key: "r"
+    content: "Docker Commands Reference\n\n* Container Management\n\n** Running Containers\n#+begin_src bash\ndocker run -it ubuntu bash           # Run interactive container\ndocker run -d nginx                  # Run detached\ndocker run -p 8080:80 nginx         # Port mapping\ndocker run -v $(pwd):/app myimage   # Volume mount\n#+end_src\n\n** Container Operations\n#+begin_src bash\ndocker ps              # List running containers\ndocker ps -a           # List all containers\ndocker stop <id>       # Stop container\ndocker rm <id>         # Remove container\ndocker logs <id>       # View logs\ndocker exec -it <id> bash  # Execute command in container\n#+end_src\n\n* Image Management\n\n#+begin_src bash\ndocker images          # List images\ndocker pull <image>    # Pull image\ndocker build -t name . # Build image from Dockerfile\ndocker rmi <image>     # Remove image\ndocker tag <img> <new> # Tag image\n#+end_src\n\n* Cleanup\n\n#+begin_src bash\ndocker system prune    # Remove unused data\ndocker volume prune    # Remove unused volumes\ndocker image prune     # Remove dangling images\n#+end_src\n\n* Docker Compose\n\n#+begin_src bash\ndocker-compose up      # Start services\ndocker-compose up -d   # Start detached\ndocker-compose down    # Stop and remove\ndocker-compose logs -f # Follow logs\n#+end_src\n\nSee also: [[Containerization]] [[DevOps Tools]]\n"
+    ```
+
+  ,**User input:** "Regex cheatsheet for common patterns"
+
+  ,**Action:**
+    ```
+    template_key: "r"
+    content: "Regular Expressions Cheatsheet\n\n* Basic Patterns\n\n| Pattern | Meaning                    | Example           |\n|---------+----------------------------+-------------------|\n| .       | Any character              | a.c matches abc   |\n| \\d      | Digit [0-9]                | \\d+ matches 123   |\n| \\w      | Word char [a-zA-Z0-9_]     | \\w+ matches hello |\n| \\s      | Whitespace                 | a\\sb matches a b  |\n| ^       | Start of line              | ^Hello            |\n| $       | End of line                | world$            |\n\n* Quantifiers\n\n| Pattern | Meaning           | Example              |\n|---------+-------------------+----------------------|\n| *       | 0 or more         | ab*c matches ac, abc |\n| +       | 1 or more         | ab+c matches abc     |\n| ?       | 0 or 1            | ab?c matches ac, abc |\n| {n}     | Exactly n         | a{3} matches aaa     |\n| {n,}    | n or more         | a{2,} matches aa     |\n| {n,m}   | Between n and m   | a{2,4} matches aa    |\n\n* Common Use Cases\n\n** Email Validation\n#+begin_src text\n[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\n#+end_src\n\n** URL Pattern\n#+begin_src text\nhttps?://[\\w.-]+\\.[a-z]{2,}(/[\\w.-]*)*\n#+end_src\n\n** Phone Number (US)\n#+begin_src text\n\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}\n#+end_src\n\n** IP Address\n#+begin_src text\n\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b\n#+end_src\n\n** Date (YYYY-MM-DD)\n#+begin_src text\n\\d{4}-\\d{2}-\\d{2}\n#+end_src\n\n* Groups and Capturing\n\n| Pattern   | Meaning               |\n|-----------+-----------------------|\n| (...)     | Capturing group       |\n| (?:...)   | Non-capturing group   |\n| (?<name>) | Named capture group   |\n| \\1        | Backreference to group 1 |\n\n* Character Classes\n\n#+begin_src text\n[abc]      # Match a, b, or c\n[^abc]     # Match anything except a, b, c\n[a-z]      # Match lowercase letters\n[A-Z]      # Match uppercase letters\n[0-9]      # Match digits\n#+end_src\n\nSee also: [[Text Processing]] [[String Manipulation]]\n"
+    ```
+
+  ## Best Practices
+
+  1. **Atomic notes**: One main idea per note
+  2. **Link liberally**: Reference related notes with [[brackets]]
+  3. **Use appropriate templates**: Choose the template that fits the content type
+  4. **Add context**: Include source information and relationships
+  5. **Tag consistently**: Use the template's default tags, add custom tags as needed
+  6. **Keep it structured**: Follow the template's section structure
+
+  ## Implementation Details
+
+  ### Step-by-Step Process
+
+  ,**1. Invoke org-roam-capture**
+
+    ``` bash
+    emacsclient -e "(org-roam-capture- :keys \"r\" :node (org-roam-node-create :title \"Git Commands Cheatsheet\"))"
+    ```
+
+  - Replace `"r"` with appropriate template key (d/p/l/c/r)
+  - Replace title with extracted title from user input
+  - This returns `t` if successful
+
+  ,**2. Find the CAPTURE buffer**
+
+  Use `mcp__emacs__list_buffers` to find the buffer that starts with "CAPTURE-":
+
+    ```
+    Look for buffer name matching pattern: CAPTURE-*
+    Example: CAPTURE-20231215T143022-git-commands-cheatsheet.org
+    ```
+
+  ,**3. Generate the note content**
+
+  Create content following the template structure. For reference notes:
+
+    ```
+    ,* Section Name
+
+    ,** Subsection
+    ,#+begin_src bash
+    command --option
+    ,** Another Subsection
+    ...
+
+    See also: [[Related Note]]
+    ```
+    ,**4. Insert content into CAPTURE buffer**
+    
+  ``` bash
+    emacsclient -e "(with-current-buffer \"CAPTURE-20231215T143022-git-commands-cheatsheet.org\"
+      (goto-char (point-max))
+      (insert \"content-here\"))"
+  ```
+
+  - Use the actual buffer name from step 2
+  - Content should be properly escaped (use \\n for newlines, escape quotes)
+  - `goto-char (point-max)` ensures content goes after the org-roam frontmatter
+
+  ,**5. Inform user**
+
+  Let user know the CAPTURE buffer is ready for review in Emacs.
+
+  ### Important Notes
+
+  - **Template keys**: "d"=default, "p"=permanent, "l"=literature, "c"=concept, "r"=reference
+  - **Buffer name**: Always starts with "CAPTURE-" followed by timestamp and slug
+  - **Content format**: Plain org-mode text, properly escaped for elisp string insertion
+  - **User finalization**: User must press `C-c C-c` in Emacs to finalize the capture
+  - **Abort**: User can press `C-c C-k` to abort and discard the capture
+  - **DO NOT** use `mcp__emacs__org_capture` - it's for regular org-capture, not org-roam
+  - **DO NOT** try to finalize the capture programmatically - let user do it in Emacs
+  #+end_src
+
+* Additional Commands
+
+** Find and Replace
+
+Find and replace text across files.
+
+#+begin_src markdown :tangle no
+---
+description: Find and replace across files
+argument-hint: "find/replace pattern [in scope]"
+allowed-tools:
+  - Grep
+  - Read
+  - Edit
+  - Glob
+---
+
+# Find and Replace
+
+Find text or patterns and replace them across files.
+
+## Instructions
+
+1. **Parse request**: Extract find pattern, replace text, and scope
+2. **Search**: Use Grep to find all occurrences
+3. **Review**: Show what will be changed
+4. **Confirm**: Ask user to confirm before making changes
+5. **Replace**: Use Edit tool to replace in each file
+6. **Report**: Summarize changes made
+
+## Pattern
+
+{{{ input }}}
+
+Expected format: "find pattern / replace text [in scope]"
+
+Examples:
+- "oldFunction / newFunction in *.ts"
+- "TODO: fix this / DONE: fixed"
+- "var foo / const foo in src/**/*.js"
+
+## Safety
+
+- Show all matches before replacing
+- Ask for confirmation if more than 5 files affected
+- Create backup suggestion for large changes
+- Support undo instructions
+#+end_src
+
+** Benchmark Code
+
+Benchmark and profile code performance.
+
+#+begin_src markdown :tangle no
+---
+description: Benchmark code performance
+argument-hint: "[code to benchmark]"
+allowed-tools:
+  - Read
+  - Write
+  - Bash
+---
+
+# Code Benchmarking
+
+Create and run benchmarks for code performance analysis.
+
+## Process
+
+1. **Identify code**: What needs benchmarking?
+2. **Create benchmark**: Write benchmark code using appropriate tool:
+   - JavaScript: `console.time()` or benchmark.js
+   - Python: `timeit` module
+   - Go: `testing.B` benchmarks
+   - Rust: `criterion` crate
+   - Java: JMH
+
+3. **Run benchmark**: Execute and collect results
+4. **Analyze**: Interpret performance data
+5. **Suggest optimizations**: Based on results
+
+## Benchmark Focus
+
+{{{ input }}}
+
+## Reporting
+
+Include:
+- Operations per second
+- Average execution time
+- Memory usage (if available)
+- Comparison with alternatives (if applicable)
+- Recommendations for optimization
+#+end_src
+
+* Best Practices
+
+** Command Design
+
+- *Single purpose*: Each command should do one thing well
+- *Clear description*: Help users understand when to use it
+- *Flexible input*: Support both arguments and no arguments gracefully
+- *Consistent output*: Follow similar formatting across commands
+
+** Documentation
+
+- Explain what the command does
+- Show example usage
+- Document any special requirements
+- Note any limitations or caveats
+
+** Tool Restrictions
+
+Use =allowed-tools= to limit what a command can do:
+- Improves security
+- Makes intent clear
+- Prevents accidental operations
+
+** Testing
+
+After creating a command:
+1. Tangle the file
+2. Test with =/command-name=
+3. Try with and without arguments
+4. Verify it respects =allowed-tools=
+
+* Related Configuration
+
+- [[file:01-settings.org][Settings]] - Configure permissions for tools used by commands
+- [[file:03-skills.org][Skills]] - Autonomous alternatives to user-invoked commands
+- [[file:04-mcp-servers.org][MCP Servers]] - External tools that commands can use
+
+* Resources
+
+- [[https://code.anthropic.com/docs/slash-commands][Slash Commands Documentation]]
+- [[https://www.conventionalcommits.org][Conventional Commits Specification]]
+- [[https://orgmode.org/manual/Capture.html][Org Capture Documentation]]

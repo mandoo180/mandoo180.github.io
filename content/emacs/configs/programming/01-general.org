@@ -69,7 +69,8 @@ Features:
     ;; enable corfu-candidate-overlay mode globally
     ;; this relies on having corfu-auto set to nil
     (corfu-candidate-overlay-mode 1)
-    (global-set-key (kbd "C-<tab>") 'completion-at-point))
+    ;; (global-set-key (kbd "C-<tab>") 'completion-at-point)
+    )
 #+end_src
 
 ** Compilation and Build Tools

@@ -1,0 +1,157 @@
+#+TITLE: Claude Code Configurations
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2
+#+PROPERTY: header-args :tangle no :results none
+
+* Introduction
+
+This directory contains Claude Code configuration written in literate programming style using Org-mode. Configurations include slash commands, agent skills, MCP servers, and project settings.
+
+** What is Claude Code?
+
+Claude Code is Anthropic's AI-powered coding assistant that extends Claude with tools for reading/writing files, running commands, and integrating with development workflows.
+
+Key capabilities:
+- File operations (read, write, edit)
+- Code execution and shell commands
+- Git integration
+- Web search and fetching
+- MCP (Model Context Protocol) server integration
+- Extensible via slash commands and skills
+
+** How This Works
+
+- *Tangling*: Extract configurations to =.claude/= directory using Org-mode's babel
+- *Documentation*: Each config includes detailed explanations of what it does and why
+- *Modular*: Separate files for different config types for easy navigation
+- *Team-Shareable*: Project configs can be version-controlled and shared
+
+** Literate Configuration Philosophy
+
+Following the pattern established in the [[file:../../emacs/emacs-configs.org][Emacs configurations]], these Claude Code configs use literate programming:
+1. Documentation comes first - explain the "why" before the "what"
+2. Code blocks use =:tangle= directives to generate actual config files
+3. Examples and best practices inline with implementation
+4. Easy to understand, modify, and extend
+
+* Configuration Modules
+
+** [[file:01-settings.org][Project Settings]]
+Permissions, environment variables, model selection, hooks
+
+Configure what tools Claude Code can use, set environment variables for your project, and control behavior through hooks.
+
+** [[file:02-commands.org][Slash Commands]]
+Custom prompt templates for repeated workflows
+
+User-invoked commands accessed by typing =/= in Claude Code. Includes documentation, code review, testing, and git workflow commands.
+
+** [[file:03-skills.org][Agent Skills]]
+Model-invoked capabilities for autonomous assistance
+
+Skills that Claude automatically activates based on context. Includes TypeScript type generation, test coverage analysis, Emacs integration, and documentation checking.
+
+** [[file:04-mcp-servers.org][MCP Servers]]
+External tool integrations via Model Context Protocol
+
+Connect Claude Code to external services and tools. Configured for Emacs integration and project-scoped filesystem access.
+
+** [[file:05-subagents.org][Custom Subagents]]
+Specialized agents for specific tasks (future)
+
+Placeholder for upcoming custom subagent functionality. Will be updated when the feature becomes available.
+
+* Quick Reference
+
+| Type          | Project Location        | User Location              | Format   |
+|---------------+-------------------------+----------------------------+----------|
+| Settings      | .claude/settings.json   | ~/.claude/settings.json    | JSON     |
+| Commands      | .claude/commands/*.md   | ~/.claude/commands/*.md    | Markdown |
+| Skills        | .claude/skills/*/       | ~/.claude/skills/*/        | Markdown |
+| MCP Servers   | .mcp.json               | ~/.claude.json             | JSON     |
+
+*Project-level* configurations are version-controlled and shared with your team. *User-level* configurations are personal preferences stored in your home directory.
+
+* Usage
+
+See [[file:README.org][README]] for detailed tangling instructions, editing guide, and troubleshooting.
+
+** Quick Start
+
+1. *Review configs*: Read through the org files to understand what each config does
+2. *Customize paths*: Edit MCP server paths in =04-mcp-servers.org= if needed
+3. *Tangle configs*: Run =./tangle-claude.sh= from project root
+4. *Reload Claude Code*: Restart or reload to pick up new configurations
+
+** Tangling Individual Files
+
+From Emacs:
+- Open any org file
+- Run =M-x org-babel-tangle= or =C-c C-v t=
+
+From command line:
+#+begin_src bash
+emacs -Q --batch \
+  --eval "(require 'org)" \
+  --eval "(setq org-confirm-babel-evaluate nil)" \
+  --eval "(find-file \"01-settings.org\")" \
+  --eval "(org-babel-tangle)" \
+  --kill
+#+end_src
+
+* Project vs User Configuration
+
+** Project-Level (Version Controlled)
+
+Use for configurations that should be shared with your team:
+- Permission policies for the project
+- MCP servers everyone uses
+- Common slash commands (=/review=, =/commit-msg=)
+- Team-wide skills
+- Project-specific settings
+
+Files: =.claude/settings.json=, =.claude/commands/=, =.claude/skills/=, =.mcp.json=
+
+** User-Level (Personal)
+
+Use for personal preferences not in version control:
+- Personal notification preferences
+- Local development tools
+- Experimental commands/skills
+- API keys and credentials
+- Personal MCP servers
+
+Files: =~/.claude/settings.json=, =~/.claude/commands/=, =~/.claude/skills/=
+
+* Integration
+
+This configuration is part of a larger knowledge base. See [[file:../../index.org][main index]] for other configurations.
+
+** Related Configurations
+
+- [[file:../../emacs/emacs-configs.org][Emacs Configurations]] - Similar literate config approach
+- [[file:../../neovim/01-init.org][Neovim Configurations]] - Alternative editor setup
+- [[file:../../dotfiles/index.org][Dotfiles]] - Other development tool configs
+
+** Build Integration
+
+These org files are automatically processed by the site's build system:
+- =./build.sh= converts org files to HTML
+- Generated files appear in =public/agents/claude-code/=
+- Styling matches the rest of the site (GitHub Flavored Markdown theme)
+- Floating table of contents for easy navigation
+
+* Resources
+
+** Official Documentation
+- [[https://code.anthropic.com/docs][Claude Code Documentation]]
+- [[https://modelcontextprotocol.org][Model Context Protocol Specification]]
+- [[https://github.com/anthropics/claude-code][Claude Code GitHub]]
+
+** Community Resources
+- [[https://awesomeclaude.ai/code-cheatsheet][Claude Code Developer Cheatsheet]]
+- [[https://mcpcat.io][MCP Server Directory]]
+
+** Site Documentation
+- [[file:../../../CLAUDE.md][CLAUDE.md]] - Instructions for Claude when working in this repo

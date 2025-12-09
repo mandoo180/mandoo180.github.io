@@ -1,0 +1,368 @@
+#+TITLE: Claude Code Configuration Guide
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2
+
+* Overview
+
+This directory contains Claude Code configuration files written in literate programming style using Org-mode. All configurations include detailed documentation explaining what they do and why.
+
+*Important*: Before tangling, back up your existing =.claude/= directory if you have one. Tangling will overwrite existing files.
+
+* File Structure
+
+| File                  | Generates                              | Description                    |
+|-----------------------+----------------------------------------+--------------------------------|
+| =01-settings.org=     | =.claude/settings.json=                | Project settings and permissions |
+|                       | =.claude/settings.local.json=          | Personal settings              |
+| =02-commands.org=     | =.claude/commands/*.md=                | Slash commands                 |
+| =03-skills.org=       | =.claude/skills/*/SKILL.md=            | Agent skills                   |
+| =04-mcp-servers.org=  | =.mcp.json=                            | MCP server configs             |
+| =05-subagents.org=    | =.claude/agents/*= (future)            | Custom subagents               |
+| =index.org=           | -                                      | Navigation and overview        |
+| =README.org=          | -                                      | This guide                     |
+
+* Usage
+
+** Before You Begin
+
+1. *Back up existing configs*: If you have =.claude/= configs, back them up:
+   #+begin_src bash
+   cp -r .claude .claude.backup
+   cp .mcp.json .mcp.json.backup  # if it exists
+   #+end_src
+
+2. *Customize MCP paths*: Edit =04-mcp-servers.org= to update placeholder paths:
+   - Change =/path/to/mcp-emacs/= to your actual MCP server locations
+   - Update any other project-specific paths
+
+3. *Review settings*: Check =01-settings.org= for permission policies
+
+** Tangling Configurations
+
+*** Tangle All Files (Recommended)
+
+From the repository root:
+
+#+begin_src bash
+./tangle-claude.sh
+#+end_src
+
+This script tangles all org files in one command.
+
+*** Tangle Individual File
+
+**** From Emacs
+
+Open any config file in Emacs and:
+
+- Run: =M-x org-babel-tangle=
+- Or: =C-c C-v t=
+- Or: =C-u C-c C-v t= to tangle with a different target file
+
+**** From Command Line
+
+#+begin_src bash
+emacs -Q --batch \
+  --eval "(require 'org)" \
+  --eval "(setq org-confirm-babel-evaluate nil)" \
+  --eval "(find-file \"content/agents/claude-code/01-settings.org\")" \
+  --eval "(org-babel-tangle)" \
+  --kill
+#+end_src
+
+** Viewing Documentation
+
+*** HTML Export
+
+Build the entire site:
+
+#+begin_src bash
+./build.sh
+#+end_src
+
+Then view in browser at =public/agents/claude-code/index.html=
+
+*** In Emacs
+
+Navigate through org files directly with:
+- =C-c C-o= on links to open files
+- =TAB= to expand/collapse sections
+- =S-TAB= to cycle visibility
+
+* Configuration Types
+
+** Project vs User Level
+
+*** Project-Level Configurations
+
+Location: =.claude/=, =.mcp.json= (in project root)
+- Version-controlled and shared with team
+- Use for: common commands, shared skills, project settings
+- Tangle to: Relative paths in project directory
+
+*What should be project-level:*
+- Permission policies for the project
+- MCP servers everyone uses (Emacs, filesystem)
+- Common slash commands (=/review=, =/commit-msg=)
+- Team-wide skills
+- Project-specific environment variables
+
+*** User-Level Configurations
+
+Location: =~/.claude/= (in home directory)
+- Personal preferences, not in version control
+- Use for: personal commands, experimental skills, local tools
+- Tangle to: Absolute paths with =~/.claude/=
+
+*What should be user-level:*
+- Personal notification preferences
+- Local development tools
+- Experimental commands/skills
+- API keys and credentials
+- Personal MCP servers
+
+** Choosing Tangle Targets
+
+Each code block in the org files has a =:tangle= directive. To switch between project and user level:
+
+*Example - Slash Command:*
+
+#+begin_example org
+# Project level (default in our configs)
+#+begin_src markdown :tangle .claude/commands/my-command.md
+...
+#+end_src
+
+# User level (change to home directory)
+#+begin_src markdown :tangle ~/.claude/commands/my-command.md
+...
+#+end_src
+#+end_example
+
+* Editing Guide
+
+** Adding a New Slash Command
+
+1. Open =02-commands.org=
+2. Add a new section under appropriate category:
+
+#+begin_example org
+*** My Custom Command
+
+Description of what this command does and when to use it.
+
+#+begin_src markdown :tangle .claude/commands/my-command.md
+---
+description: Brief description for command menu
+argument-hint: "[what to pass]"
+---
+
+# My Custom Command
+
+Instructions for Claude on how to handle this command.
+
+User input: {{{ input }}}
+#+end_src
+#+end_example
+
+3. Tangle the file: =C-c C-v t=
+4. Test with =/my-command= in Claude Code
+
+** Creating a New Skill
+
+1. Open =03-skills.org=
+2. Add section under appropriate category:
+
+#+begin_example org
+*** My Custom Skill
+
+Description and use cases.
+
+#+begin_src markdown :tangle .claude/skills/my-skill/SKILL.md
+---
+name: My Skill Name
+description: Clear description of when and how this skill activates
+allowed-tools:
+  - Read
+  - Write
+---
+
+# My Skill Instructions
+
+Detailed instructions for Claude on:
+1. When to activate
+2. What to do
+3. How to do it
+#+end_src
+#+end_example
+
+3. Tangle the file
+4. Skill auto-activates based on description
+
+** Adding an MCP Server
+
+1. Open =04-mcp-servers.org=
+2. Add server to appropriate section:
+
+#+begin_example org
+*** My MCP Server
+
+Description of what this server provides.
+
+#+begin_src json :tangle .mcp.json
+{
+  "mcpServers": {
+    "existing-server": { ... },
+    "my-server": {
+      "type": "stdio",
+      "command": "/path/to/command",
+      "args": ["arg1", "arg2"]
+    }
+  }
+}
+#+end_src
+#+end_example
+
+3. Tangle and restart Claude Code
+
+** Modifying Settings
+
+1. Open =01-settings.org=
+2. Update appropriate section
+3. Tangle to regenerate JSON
+4. Settings take effect on next Claude Code session
+
+* Best Practices
+
+** Documentation
+
+- Explain *why*, not just *what* - help future you understand the reasoning
+- Include examples in code blocks to demonstrate usage
+- Reference specific use cases to make it concrete
+- Note any gotchas, limitations, or platform-specific behavior
+
+** Code Blocks
+
+- Use appropriate language for syntax highlighting (=:markdown=, =:json=, =:bash=)
+- Include =:mkdirp yes= for nested paths to auto-create directories
+- Set =:results none= to avoid output cluttering the org file
+- Use descriptive section headers that explain what the config does
+
+** Organization
+
+- Group related configs together under the same parent heading
+- Use consistent heading levels throughout files
+- Keep examples practical and tested - don't include broken code
+- Update navigation links when adding new files
+
+** Version Control
+
+*Do commit:*
+- Org source files (=*.org=)
+- Generated project configs (=.claude/settings.json=, =.mcp.json=)
+- Tangle script (=tangle-claude.sh=)
+
+*Do NOT commit:*
+- Personal configs (=.claude/settings.local.json=)
+- Generated user configs in =~/.claude/=
+- API keys or credentials
+
+*Update =.gitignore=:*
+#+begin_example
+# Claude Code - ignore personal settings
+.claude/settings.local.json
+#+end_example
+
+* Troubleshooting
+
+** Tangle Paths Not Working
+
+*Symptom*: Tangling doesn't create files in expected location
+
+*Solutions*:
+- Ensure paths are correct (absolute vs relative)
+- Check that parent directories exist (or use =:mkdirp yes=)
+- Verify org-mode is properly loaded in Emacs
+- Check that the buffer has a filename (org file must be saved)
+- Try using absolute paths if relative paths don't work
+
+** JSON Syntax Errors
+
+*Symptom*: Claude Code reports invalid JSON in settings or MCP config
+
+*Solutions*:
+- Validate JSON after tangling: =jq . .mcp.json=
+- Check for trailing commas (not allowed in JSON)
+- Ensure proper escaping of quotes and special characters
+- Verify matching braces and brackets
+
+** Commands Not Appearing
+
+*Symptom*: Slash command doesn't show up in =/= menu
+
+*Solutions*:
+- Verify file is in =.claude/commands/= directory
+- Check filename has =.md= extension
+- Restart Claude Code to reload commands
+- Check YAML frontmatter syntax (must be valid YAML)
+- Ensure =description= field is present in frontmatter
+
+** Skills Not Activating
+
+*Symptom*: Skill doesn't automatically activate when expected
+
+*Solutions*:
+- Ensure =SKILL.md= is in a subdirectory (e.g., =.claude/skills/skill-name/SKILL.md=)
+- Verify frontmatter is valid YAML
+- Check that =description= clearly explains when to activate
+- Make description more specific and contextual
+- Test with explicit scenarios that match the description
+
+** MCP Servers Not Working
+
+*Symptom*: MCP tools not available or server fails to start
+
+*Solutions*:
+- Verify paths in =.mcp.json= are correct (use absolute paths)
+- Check that MCP server executable exists and is executable
+- Test server command manually in terminal
+- Check Claude Code logs for specific error messages
+- Ensure Python/Node/etc runtime is available for the server
+- Verify =enableAllProjectMcpServers= is =true= in settings
+
+** Files Overwritten Unexpectedly
+
+*Symptom*: Your custom edits to tangled files were lost
+
+*Explanation*: Tangling regenerates files from org source. This is by design.
+
+*Solutions*:
+- Always edit the org files, not the generated files
+- Use version control to track changes
+- Back up files before tangling if you have manual edits
+- Consider keeping a separate =.local.json= for overrides
+
+* Integration
+
+This configuration is part of the larger personal knowledge base. See:
+
+- [[file:../../index.org][Main Index]] - Full site navigation
+- [[file:../../emacs/emacs-configs.org][Emacs Configurations]] - Similar literate config approach
+- [[file:../../../CLAUDE.md][CLAUDE.md]] - Instructions for Claude when working in this repo
+
+* Resources
+
+** Official Documentation
+- [[https://code.anthropic.com/docs][Claude Code Documentation]]
+- [[https://modelcontextprotocol.org][MCP Specification]]
+- [[https://orgmode.org/manual/Working-with-Source-Code.html][Org-mode Babel Documentation]]
+
+** Examples and Inspiration
+- [[https://awesomeclaude.ai/code-cheatsheet][Claude Code Developer Cheatsheet]]
+- [[https://mcpcat.io][MCP Server Directory]]
+- [[file:../../emacs/configs/README.org][Emacs Config Guide]] - Similar literate config structure
+
+** Community
+- [[https://github.com/anthropics/claude-code/issues][Claude Code GitHub Issues]]
+- [[https://github.com/modelcontextprotocol][Model Context Protocol GitHub]]

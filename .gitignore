@@ -1,8 +1,16 @@
-.mcp.json
 *.backup
 
+# Claude Code - ignore personal settings, keep project configs
+.claude/settings.local.json
+
+# Agent and package directories
 .agent-shell/
 .packages/
+
+# Temporary directories
 tmp/
 content/tmp/
+
+# Generated site (regenerated on each build)
 public/
+.mcp.json

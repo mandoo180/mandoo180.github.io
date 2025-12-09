@@ -389,31 +389,31 @@ Define templates for different types of notes. This follows the best practice of
     (org-roam-capture-templates
      '(("d" "default" plain
         "%?"
-        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+        :target (file+head "%<%Y%m%dT%H%M%S>--${slug}.org"
                            "#+title: ${title}\n#+date: %U\n#+filetags: \n\n")
         :unnarrowed t)
 
        ("p" "permanent" plain
         "* Source\n\n%?\n\n* Content\n\n\n* Links\n"
-        :target (file+head "permanent/%<%Y%m%d%H%M%S>-${slug}.org"
+        :target (file+head "permanent/%<%Y%m%dT%H%M%S>--${slug}.org"
                            "#+title: ${title}\n#+date: %U\n#+filetags: :permanent:\n\n")
         :unnarrowed t)
 
        ("l" "literature" plain
         "* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n%?\n\n* Summary\n\n\n* Key Points\n\n\n* Quotes\n\n\n* Related\n"
-        :target (file+head "literature/%<%Y%m%d%H%M%S>-${slug}.org"
+        :target (file+head "literature/%<%Y%m%dT%H%M%S>--${slug}.org"
                            "#+title: ${title}\n#+date: %U\n#+filetags: :literature:\n\n")
         :unnarrowed t)
 
        ("c" "concept" plain
         "* Definition\n\n%?\n\n* Examples\n\n\n* Related Concepts\n"
-        :target (file+head "concepts/%<%Y%m%d%H%M%S>-${slug}.org"
+        :target (file+head "concepts/%<%Y%m%dT%H%M%S>--${slug}.org"
                            "#+title: ${title}\n#+date: %U\n#+filetags: :concept:\n\n")
         :unnarrowed t)
 
        ("r" "reference" plain
         "* %?\n"
-        :target (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org"
+        :target (file+head "reference/%<%Y%m%dT%H%M%S>--${slug}.org"
                            "#+title: ${title}\n#+date: %U\n#+filetags: :reference:\n\n")
         :unnarrowed t))))
 #+end_src
@@ -431,7 +431,7 @@ Daily notes are essential for journaling and capturing fleeting thoughts. This c
     ;; Capture templates for daily notes
     (org-roam-dailies-capture-templates
      '(("d" "default" entry
-        "* %<%H:%M> %?"
+        "* %?"
         :target (file+head "%<%Y-%m-%d>.org"
                            "#+title: %<%Y-%m-%d (%A)>\n#+filetags: :daily:\n\n"))
 

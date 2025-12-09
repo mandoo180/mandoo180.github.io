@@ -1,0 +1,320 @@
+#+TITLE: Custom Subagents
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2
+#+PROPERTY: header-args :tangle no :results none
+
+* Introduction
+
+Custom subagents are specialized AI agents for specific workflows and domains. This feature is under active development in Claude Code and documentation will be expanded when it becomes fully available.
+
+** What Are Subagents?
+
+Subagents are specialized instances of Claude with:
+- Specific expertise or focus area
+- Custom system prompts and instructions
+- Defined tool access and permissions
+- Ability to handle complex, multi-step workflows
+
+** Difference from Skills
+
+| Feature           | Skills                    | Subagents                |
+|-------------------+---------------------------+--------------------------|
+| Activation        | Context-based, automatic  | Explicit invocation      |
+| Scope             | Single task or check      | Multi-step workflows     |
+| Complexity        | Simple, focused           | Complex, stateful        |
+| Duration          | Brief, immediate          | Extended conversations   |
+| State             | Stateless                 | Can maintain state       |
+
+** Expected Structure
+
+Based on early documentation, custom subagents will likely be configured in:
+- Location: =.claude/agents/= (project) or =~/.claude/agents/= (user)
+- Format: Configuration files (format TBD)
+- Purpose: Specialized workflows, domain expertise, complex tasks
+
+* Planned Use Cases
+
+While the exact implementation is pending, here are potential use cases for custom subagents:
+
+** Code Review Agent
+
+A specialized agent focused entirely on code review with:
+- Deep knowledge of code review best practices
+- Security vulnerability detection expertise
+- Performance optimization experience
+- Access to static analysis tools
+- Checklist-driven review process
+
+*Potential workflow:*
+1. Analyze changed files
+2. Run security scanners
+3. Check performance implications
+4. Review test coverage
+5. Generate comprehensive review report
+
+** Documentation Agent
+
+An agent specialized in creating and maintaining documentation:
+- Technical writing expertise
+- Documentation structure knowledge
+- API reference generation
+- Tutorial and guide creation
+- Keeping docs in sync with code
+
+*Potential workflow:*
+1. Analyze code structure
+2. Identify undocumented APIs
+3. Generate draft documentation
+4. Create usage examples
+5. Suggest improvements to existing docs
+
+** Test Generation Agent
+
+Focused on comprehensive test creation:
+- Testing framework expertise
+- Coverage analysis
+- Edge case identification
+- Mock and fixture creation
+- Test refactoring
+
+*Potential workflow:*
+1. Analyze code to be tested
+2. Identify test scenarios
+3. Generate unit tests
+4. Generate integration tests
+5. Create test fixtures
+6. Verify coverage
+
+** Refactoring Agent
+
+Specialized in code quality improvement:
+- Design pattern knowledge
+- Code smell detection
+- Refactoring techniques
+- Safe transformation steps
+- Impact analysis
+
+*Potential workflow:*
+1. Analyze code structure
+2. Identify improvement opportunities
+3. Propose refactoring plan
+4. Execute transformations incrementally
+5. Verify tests still pass
+
+** Database Migration Agent
+
+Expert in database schema evolution:
+- SQL knowledge
+- Migration strategies
+- Data preservation
+- Rollback planning
+- Performance considerations
+
+*Potential workflow:*
+1. Analyze schema changes needed
+2. Generate migration scripts
+3. Create rollback scripts
+4. Test on sample data
+5. Document breaking changes
+
+* Configuration Concepts
+
+While the exact format is TBD, configuration might include:
+
+** Agent Definition
+
+#+begin_example yaml
+name: Code Review Agent
+description: Specialized agent for comprehensive code reviews
+expertise:
+  - security analysis
+  - performance optimization
+  - code quality
+tools:
+  - Read
+  - Grep
+  - Bash(security-scanner:*)
+system_prompt: |
+  You are a code review expert focused on security,
+  performance, and code quality. Always check for:
+  - Security vulnerabilities
+  - Performance bottlenecks
+  - Best practice violations
+  - Test coverage
+#+end_example
+
+** Workflow Definition
+
+#+begin_example yaml
+workflow:
+  - step: analyze_changes
+    description: Review all changed files
+  - step: security_scan
+    description: Run security analysis
+  - step: performance_check
+    description: Check for performance issues
+  - step: generate_report
+    description: Create comprehensive review
+#+end_example
+
+** Tool Restrictions
+
+#+begin_example yaml
+allowed_tools:
+  - Read
+  - Grep
+  - Bash(git:*)
+  - Bash(security-scanner:*)
+denied_tools:
+  - Write  # Review agent shouldn't modify code
+  - Bash(rm:*)
+#+end_example
+
+* Future Updates
+
+This file will be updated when:
+1. Custom subagent functionality is released
+2. Configuration format is documented
+3. API and structure are finalized
+4. Examples become available
+
+** Tracking Progress
+
+Follow Claude Code development:
+- [[https://github.com/anthropics/claude-code][Claude Code GitHub]]
+- [[https://code.anthropic.com/docs][Official Documentation]]
+- [[https://anthropic.com/blog][Anthropic Blog]]
+- Release notes and changelogs
+
+* Current Alternatives
+
+While waiting for custom subagents, use:
+
+** Built-in Subagents
+
+Claude Code has built-in subagents accessible via the Task tool:
+- =general-purpose= - Research and multi-step tasks
+- =Explore= - Codebase exploration and search
+- =Plan= - Implementation planning
+
+*Usage:*
+#+begin_example
+Claude, use the Explore agent to find all authentication code
+#+end_example
+
+** Skills (Automatic)
+
+Create skills for automatic activation:
+- [[file:03-skills.org][Agent Skills]] - Configure in =.claude/skills/=
+- Context-based activation
+- Single-purpose, focused tasks
+
+** Slash Commands (Manual)
+
+Create commands for explicit invocation:
+- [[file:02-commands.org][Slash Commands]] - Configure in =.claude/commands/=
+- User-invoked workflows
+- Parameterized prompts
+
+** MCP Servers (External Tools)
+
+Extend capabilities with MCP:
+- [[file:04-mcp-servers.org][MCP Servers]] - Configure in =.mcp.json=
+- External service integration
+- Language-specific tooling
+
+* Design Considerations
+
+If/when designing custom subagents, consider:
+
+** Specialization Depth
+
+- *Narrow focus*: Expert in one specific domain
+- *Complementary*: Works alongside other agents
+- *Non-overlapping*: Doesn't duplicate built-in functionality
+
+** Workflow Clarity
+
+- *Clear entry point*: When should this agent be used?
+- *Defined steps*: What's the agent's process?
+- *Clear exit*: How does the agent finish?
+
+** Tool Access
+
+- *Minimum necessary*: Only tools needed for the task
+- *Safety*: Can't perform dangerous operations
+- *Audit trail*: Actions are logged and reviewable
+
+** Integration
+
+- *Composable*: Can work with other agents
+- *Stateful*: Maintains context across steps
+- *Resumable*: Can pause and resume workflows
+
+* Examples from Community
+
+While official custom subagents are pending, the community has explored similar concepts:
+
+** Agentic Workflows
+
+Using the Task tool to create multi-step workflows:
+#+begin_example
+Task(
+  subagent_type="general-purpose",
+  prompt="First, analyze the codebase. Then, identify issues. Finally, propose fixes."
+)
+#+end_example
+
+** Chain of Thought Prompts
+
+Embedding complex workflows in slash commands:
+#+begin_example markdown
+---
+description: Multi-step code analysis
+---
+
+# Analysis Workflow
+
+1. **Understand**: Read and comprehend the code
+2. **Identify**: Find issues and opportunities
+3. **Analyze**: Deep dive into each issue
+4. **Propose**: Suggest specific improvements
+5. **Prioritize**: Rank by impact
+
+[Detailed instructions for each step...]
+#+end_example
+
+** Specialized Skills
+
+Creating highly focused skills:
+- One skill per specific task
+- Clear activation triggers
+- Defined tool access
+- Single responsibility
+
+* Related Configuration
+
+- [[file:02-commands.org][Slash Commands]] - User-invoked alternatives
+- [[file:03-skills.org][Agent Skills]] - Automatic alternatives
+- [[file:01-settings.org][Settings]] - Tool permissions and configuration
+- [[file:04-mcp-servers.org][MCP Servers]] - External tool integration
+
+* Resources
+
+** Official Sources
+- [[https://code.anthropic.com/docs][Claude Code Documentation]]
+- [[https://github.com/anthropics/claude-code][Claude Code GitHub]]
+- [[https://anthropic.com/blog][Anthropic Blog]]
+
+** Community
+- [[https://github.com/anthropics/claude-code/discussions][GitHub Discussions]]
+- [[https://github.com/anthropics/claude-code/issues][GitHub Issues]]
+
+** Similar Concepts
+- [[https://www.anthropic.com/research/agent-computer-use][Anthropic Agent Research]]
+- [[https://github.com/anthropics/anthropic-sdk-python][Anthropic SDK]]
+
+---
+
+*Note*: This file serves as a placeholder and will be significantly expanded when custom subagent functionality becomes available in Claude Code. Check back for updates.

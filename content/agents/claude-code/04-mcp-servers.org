@@ -1,0 +1,693 @@
+#+TITLE: MCP Servers
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:json :mkdirp yes :results none
+
+* Introduction
+
+Model Context Protocol (MCP) servers extend Claude Code with external tools and capabilities beyond the built-in functionality. MCP provides a standardized way for Claude to interact with external systems.
+
+** What MCP Servers Provide
+
+- **File system access** - Read/write files with specific permissions
+- **API integrations** - Connect to external services
+- **Database connections** - Query and manipulate data
+- **Development tools** - IDE integration, build systems, testing frameworks
+- **External services** - Web search, documentation lookup, code analysis
+
+** Configuration Locations
+
+*** Project Scope (=.mcp.json=)
+
+Located at project root, version-controlled, shared with team.
+
+*Use for:*
+- Servers needed by the project
+- Team-shared integrations
+- Project-specific tools
+
+*** User Scope (=~/.claude.json=)
+
+Located in home directory, personal, not version-controlled.
+
+*Use for:*
+- Personal tools and preferences
+- API keys and credentials
+- Experimental servers
+
+** Server Types
+
+*** stdio (Standard Input/Output)
+
+Process-based communication:
+#+begin_example json
+{
+  "type": "stdio",
+  "command": "/path/to/executable",
+  "args": ["arg1", "arg2"]
+}
+#+end_example
+
+Most common type, works with any language that can read stdin/write stdout.
+
+*** SSE (Server-Sent Events)
+
+HTTP streaming:
+#+begin_example json
+{
+  "type": "sse",
+  "url": "https://api.example.com/mcp"
+}
+#+end_example
+
+For cloud-hosted MCP servers.
+
+*** HTTP
+
+Traditional HTTP requests:
+#+begin_example json
+{
+  "type": "http",
+  "url": "https://api.example.com/mcp"
+}
+#+end_example
+
+For REST-style MCP servers.
+
+* Project MCP Servers
+
+Configuration for team-shared MCP servers in this project.
+
+*Important:* Update the paths below to match your actual MCP server locations before tangling.
+
+** Full Configuration
+
+#+begin_src json :tangle .mcp.json
+{
+  "mcpServers": {
+    "emacs": {
+      "type": "stdio",
+      "command": "/path/to/mcp-emacs/venv/bin/python",
+      "args": [
+        "/path/to/mcp-emacs/src/mcp_emacs/server.py"
+      ],
+      "env": {}
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/kyeongsoo/Projects/mandoo180.github.io"
+      ]
+    }
+  }
+}
+#+end_src
+
+** Customization Instructions
+
+Before tangling, edit the paths:
+
+1. **Emacs MCP Server:**
+   - =command=: Path to Python in your mcp-emacs virtualenv
+   - =args[0]=: Path to your mcp-emacs server.py
+
+2. **Filesystem Server:**
+   - =args[2]=: Path to your project root (already set correctly)
+
+** Server Descriptions
+
+*** Emacs MCP Server
+
+Provides deep Emacs integration for context-aware coding assistance.
+
+*Installation:*
+#+begin_src bash
+# Clone the MCP Emacs server
+git clone https://github.com/your-org/mcp-emacs.git
+cd mcp-emacs
+
+# Create virtual environment and install
+python -m venv venv
+source venv/bin/activate
+pip install -e .
+
+# Start Emacs daemon if not already running
+emacs --daemon
+#+end_src
+
+*Configuration:*
+Update the paths in =.mcp.json= above to point to:
+- Your mcp-emacs installation directory
+- The Python executable in the venv
+- The server.py script path
+
+*Capabilities:*
+
+**Buffer Operations:**
+- =get_buffer_content= - Read buffer contents
+- =list_buffers= - List all open buffers
+- =open_file= - Open files in Emacs
+- =get_current_context= - Get cursor position and context
+
+**LSP Integration:**
+- =lsp_hover= - Get documentation at cursor
+- =lsp_diagnostics= - Get errors and warnings
+- =lsp_completion= - Get code completions
+- =lsp_definition= - Jump to definitions
+- =lsp_references= - Find all references
+- =lsp_rename= - Rename symbols
+- =lsp_format= - Format code
+- =lsp_code_actions= - Get available fixes
+- =lsp_document_symbols= - Get file outline
+- =lsp_workspace_symbols= - Search for symbols
+
+**Project Management:**
+- =list_projects= - List known projects
+- =get_current_project= - Get active project
+- =switch_project= - Switch to different project
+
+**Org-Mode:**
+- =org_agenda_todos= - Get TODO items from agenda
+- =org_capture= - Create capture entries
+- =org_get_file_todos= - Get TODOs from specific file
+
+**File Proposals:**
+- =propose_file_change= - Propose edits with ediff review
+- =apply_proposed_change= - Apply after review
+- =reject_proposed_change= - Reject and clean up
+
+**Compilation:**
+- =compile_project= - Run build command
+- =get_compilation_errors= - Get structured error list
+- =recompile= - Re-run last compilation
+- =kill_compilation= - Stop running compilation
+
+*Use Cases:*
+- Context-aware code explanations (knows your cursor position)
+- Emacs-specific assistance (knows your config, buffers, projects)
+- LSP-powered refactoring (rename, format, fix)
+- Org file management (capture TODOs, manage agenda)
+- Safe file editing with ediff review
+
+*** Filesystem Server
+
+Provides safe filesystem access restricted to the project directory.
+
+*Installation:*
+No installation needed - uses npx to run on-demand.
+
+*Configuration:*
+The server is restricted to the project root directory specified in args[2].
+
+*Capabilities:*
+- Read files within allowed paths
+- Write files with proper permissions
+- List directory contents
+- Get file metadata (size, modified time, etc.)
+- Safe operations (can't escape allowed paths)
+
+*Security:*
+- Access restricted to specified directory
+- No access outside project root
+- Safe for team sharing in version control
+- Prevents accidental system file access
+
+*Use Cases:*
+- Project-scoped file operations
+- Safe file manipulation
+- Directory traversal within project
+- Metadata queries
+
+*Configuration:*
+Update =args[2]= to your project's absolute path. The current value is already set for this project.
+
+* User MCP Servers (Examples)
+
+These configurations would go in =~/.claude.json= for personal use. They are not tangled by default - add them manually if desired.
+
+** User Configuration Structure
+
+User MCP servers go in =~/.claude.json=:
+
+#+begin_example json
+{
+  "mcpServers": {
+    "server-name": {
+      "type": "stdio",
+      "command": "command",
+      "args": ["args"]
+    }
+  }
+}
+#+end_example
+
+** Popular MCP Servers
+
+*** GitHub
+
+Interact with GitHub repositories, PRs, and issues.
+
+#+begin_example json
+{
+  "github": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-github"
+    ],
+    "env": {
+      "GITHUB_TOKEN": "your-token-here"
+    }
+  }
+}
+#+end_example
+
+*Capabilities:*
+- List and search repositories
+- Create and manage issues
+- Review and comment on pull requests
+- Search code across repositories
+- Manage branches and commits
+
+*Setup:*
+1. Create GitHub personal access token
+2. Set =GITHUB_TOKEN= environment variable
+3. Add to =~/.claude.json=
+
+*** Perplexity
+
+Web research and real-time information.
+
+#+begin_example json
+{
+  "perplexity": {
+    "type": "sse",
+    "url": "https://api.perplexity.ai/mcp",
+    "env": {
+      "PERPLEXITY_API_KEY": "your-key-here"
+    }
+  }
+}
+#+end_example
+
+*Capabilities:*
+- Web search with citations
+- Up-to-date information
+- Technical documentation lookup
+- Research assistance
+
+*** Sequential Thinking
+
+Enhanced reasoning and problem-solving.
+
+#+begin_example json
+{
+  "sequential-thinking": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-sequential-thinking"
+    ]
+  }
+}
+#+end_example
+
+*Capabilities:*
+- Break down complex problems
+- Step-by-step reasoning
+- Structured problem solving
+- Task decomposition
+
+*** Context7
+
+Access to up-to-date technical documentation.
+
+#+begin_example json
+{
+  "context7": {
+    "type": "sse",
+    "url": "https://api.context7.com/mcp",
+    "env": {
+      "CONTEXT7_API_KEY": "your-key-here"
+    }
+  }
+}
+#+end_example
+
+*Capabilities:*
+- Latest framework documentation
+- API references
+- Package documentation
+- Version-specific docs
+
+*** Brave Search
+
+Privacy-focused web search.
+
+#+begin_example json
+{
+  "brave-search": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-brave-search"
+    ],
+    "env": {
+      "BRAVE_API_KEY": "your-key-here"
+    }
+  }
+}
+#+end_example
+
+*Capabilities:*
+- Web search
+- News search
+- Image search
+- Video search
+
+*** PostgreSQL
+
+Database access and queries.
+
+#+begin_example json
+{
+  "postgres": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-postgres"
+    ],
+    "env": {
+      "POSTGRES_CONNECTION_STRING": "postgresql://user:pass@localhost:5432/dbname"
+    }
+  }
+}
+#+end_example
+
+*Capabilities:*
+- Execute SQL queries
+- Inspect database schema
+- Manage tables and data
+- Database introspection
+
+*Security*: Only use in personal config, never commit credentials.
+
+* Adding New MCP Servers
+
+** Via CLI
+
+Claude Code provides commands to add MCP servers:
+
+#+begin_src bash
+# Add stdio server
+claude mcp add myserver npx -y @scope/server-name arg1 arg2
+
+# Add SSE server
+claude mcp add --transport sse myserver https://api.example.com/mcp
+
+# Add HTTP server
+claude mcp add --transport http myserver https://api.example.com/mcp
+#+end_src
+
+** Manual Configuration
+
+1. **Edit configuration file:**
+   - Project: =.mcp.json=
+   - User: =~/.claude.json=
+
+2. **Add server entry:**
+   #+begin_example json
+   {
+     "mcpServers": {
+       "existing-server": { ... },
+       "new-server": {
+         "type": "stdio",
+         "command": "/path/to/command",
+         "args": ["arg1", "arg2"],
+         "env": {
+           "VAR": "value"
+         }
+       }
+     }
+   }
+   #+end_example
+
+3. **Restart Claude Code** or reload project
+
+4. **Enable server in settings** if =enableAllProjectMcpServers= is =false=
+
+** Finding MCP Servers
+
+- [[https://mcpcat.io][MCP Server Directory (mcpcat.io)]]
+- [[https://github.com/modelcontextprotocol][MCP GitHub Organization]]
+- [[https://www.npmjs.com/search?q=%40modelcontextprotocol][NPM MCP Packages]]
+- Community forums and discussions
+
+* Server Development
+
+Want to create a custom MCP server? Here's the process.
+
+** MCP Protocol Overview
+
+MCP uses JSON-RPC 2.0 over stdio, SSE, or HTTP:
+
+1. **Client** (Claude Code) sends request
+2. **Server** processes and responds
+3. **Protocol** handles bidirectional communication
+
+** Creating a Server
+
+*** 1. Choose Transport
+
+- **stdio**: Best for local tools, any language
+- **SSE**: For cloud-hosted servers
+- **HTTP**: For REST-style services
+
+*** 2. Implement Protocol
+
+Minimal server structure:
+
+#+begin_example python
+from mcp.server import Server, NotificationOptions
+from mcp.server.models import InitializationOptions
+import mcp.server.stdio
+import mcp.types as types
+
+# Create server
+server = Server("my-server")
+
+# Define capabilities
+@server.list_tools()
+async def list_tools() -> list[types.Tool]:
+    return [
+        types.Tool(
+            name="my_tool",
+            description="What this tool does",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "param": {"type": "string"}
+                }
+            }
+        )
+    ]
+
+@server.call_tool()
+async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
+    if name == "my_tool":
+        result = do_something(arguments["param"])
+        return [types.TextContent(type="text", text=result)]
+
+# Run server
+async def main():
+    async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
+        await server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="my-server",
+                server_version="1.0.0"
+            )
+        )
+#+end_example
+
+*** 3. Define Tools
+
+Each tool needs:
+- **name**: Unique identifier
+- **description**: When/how to use it
+- **inputSchema**: JSON Schema for parameters
+- **handler**: Function that executes the tool
+
+*** 4. Test Locally
+
+#+begin_src bash
+# Test stdio server
+echo '{"jsonrpc":"2.0","method":"tools/list","id":1}' | python server.py
+
+# Should respond with tool list
+#+end_src
+
+*** 5. Package and Distribute
+
+- **Python**: PyPI package
+- **Node**: NPM package
+- **Other**: Docker image or binary
+
+** MCP SDK Libraries
+
+Official SDKs:
+- **Python**: =pip install mcp=
+- **TypeScript**: =npm install @modelcontextprotocol/sdk=
+
+Community SDKs:
+- Go, Rust, Java, and more
+
+* Troubleshooting
+
+** MCP Server Not Working
+
+*Symptom:* MCP tools not available or server fails to start
+
+*Solutions:*
+1. **Verify paths**: Check paths in =.mcp.json= are correct and absolute
+2. **Test command**: Run the command manually in terminal
+3. **Check logs**: Look at Claude Code logs for error messages
+4. **Verify runtime**: Ensure Python/Node/etc is available
+5. **Check permissions**: Ensure files are executable (=chmod +x=)
+6. **Restart**: Restart Claude Code after config changes
+
+** Server Starts But Tools Don't Work
+
+*Symptom:* Server connects but tools fail or give errors
+
+*Solutions:*
+1. **Check tool implementation**: Verify tool handler works
+2. **Validate input**: Ensure arguments match inputSchema
+3. **Test independently**: Run server and send test requests
+4. **Check dependencies**: Verify all required packages installed
+5. **Review logs**: Check both server and Claude Code logs
+
+** Permission Denied Errors
+
+*Symptom:* Server can't access files or resources
+
+*Solutions:*
+1. **Filesystem scope**: Check allowed paths in filesystem server config
+2. **File permissions**: Verify files are readable/writable
+3. **Environment variables**: Ensure credentials are set
+4. **API keys**: Check API keys are valid and have correct permissions
+
+** Server Connection Timeout
+
+*Symptom:* Server takes too long to start or respond
+
+*Solutions:*
+1. **Check server startup**: Ensure server starts quickly
+2. **Network issues**: For SSE/HTTP servers, check network connectivity
+3. **Resource constraints**: Server might be resource-heavy
+4. **Increase timeout**: Adjust timeout settings if available
+
+** Multiple Servers Conflict
+
+*Symptom:* Tools with same name from different servers
+
+*Solutions:*
+1. **Rename tools**: Use prefixes (=github_search=, =local_search=)
+2. **Disable servers**: Disable conflicting servers selectively
+3. **Namespace tools**: Update server to namespace tool names
+
+* Security Considerations
+
+** Principle of Least Privilege
+
+- Grant minimum necessary access
+- Restrict filesystem to project directory
+- Use read-only access when possible
+- Isolate sensitive operations
+
+** Credential Management
+
+- Never commit API keys to =.mcp.json=
+- Use environment variables for secrets
+- Store credentials in =~/.claude.json= (user-level)
+- Rotate keys regularly
+
+** Code Execution Risks
+
+MCP servers execute code:
+- Review server code before using
+- Trust official servers
+- Be cautious with community servers
+- Sandbox when possible
+
+** Network Security
+
+For SSE/HTTP servers:
+- Use HTTPS only
+- Validate certificates
+- Be aware of data transmission
+- Consider VPN for sensitive data
+
+* Best Practices
+
+** Project vs User Servers
+
+*Project (=.mcp.json=):*
+- Essential project tools
+- Safe for version control
+- No credentials
+- Team-shared functionality
+
+*User (=~/.claude.json=):*
+- Personal preferences
+- Servers with credentials
+- Experimental servers
+- User-specific tools
+
+** Documentation
+
+For each server, document:
+- What it does
+- How to install
+- Required credentials
+- Security considerations
+- Example usage
+
+** Testing
+
+Before committing project MCP config:
+1. Test on your machine
+2. Test with team members
+3. Verify cross-platform compatibility
+4. Document setup steps
+
+** Maintenance
+
+- Keep servers updated
+- Monitor for security issues
+- Remove unused servers
+- Review permissions regularly
+
+* Related Configuration
+
+- [[file:01-settings.org][Settings]] - Enable/disable MCP servers
+- [[file:02-commands.org][Slash Commands]] - Commands can use MCP tools
+- [[file:03-skills.org][Agent Skills]] - Skills can use MCP tools
+
+* Resources
+
+- [[https://modelcontextprotocol.org][MCP Official Site]]
+- [[https://github.com/modelcontextprotocol/specification][MCP Specification]]
+- [[https://mcpcat.io][MCP Server Directory]]
+- [[https://github.com/modelcontextprotocol/python-sdk][Python SDK]]
+- [[https://github.com/modelcontextprotocol/typescript-sdk][TypeScript SDK]]
+- [[https://code.anthropic.com/docs/mcp][Claude Code MCP Guide]]

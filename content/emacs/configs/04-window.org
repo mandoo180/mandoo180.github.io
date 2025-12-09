@@ -4,7 +4,7 @@
 #+OPTIONS: toc:2 num:3
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
-Configuration for window splitting, sizing, and navigation.
+Configuration for window splitting, sizing, navigation, and workspace tab management.
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/window-conf.el
   ;;; window-conf.el --- Summary  -*- lexical-binding: t; -*-
@@ -49,4 +49,353 @@ Configuration for window splitting, sizing, and navigation.
   (provide 'window-conf)
   ;;; window-conf.el ends here
 #+end_src
+
+* Tab Bar Mode (Built-in, Emacs 27+)
+
+Tab-bar-mode is Emacs' built-in workspace management system. Unlike buffer tabs, each tab represents an independent window configuration (workspace), making it perfect for organizing different projects, tasks, or contexts.
+
+** Overview
+
+Tab-bar provides native workspace management:
+
+- *Workspace-based*: Each tab maintains its own window layout, not just a single buffer
+- *Project organization*: Separate tabs for different projects or tasks  
+- *Persistent layouts*: Window configurations can be saved between sessions
+- *Lightweight*: Built into Emacs, no external packages needed
+- *Highly customizable*: Full control over appearance and behavior
+
+** Basic Configuration
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/window-conf.el
+  ;; Tab Bar Mode - Built-in workspace tabs (Emacs 27+)
+  (use-package tab-bar
+    :ensure nil
+    :config
+    ;; Enable tab bar mode
+    (tab-bar-mode 1)
+    
+    :custom
+    ;; Display settings
+    (tab-bar-show 1)                      ; Show tab bar when there are 2+ tabs
+    (tab-bar-close-button-show nil)       ; Hide close button on tabs
+    (tab-bar-new-button-show nil)         ; Hide new tab button
+    (tab-bar-tab-hints t)                 ; Show tab numbers for quick switching
+    
+    ;; Tab naming
+    (tab-bar-tab-name-function 'tab-bar-tab-name-truncated)
+    (tab-bar-tab-name-truncated-max 20)   ; Max length of tab names
+    
+    ;; New tab behavior
+    (tab-bar-new-tab-choice "*scratch*")  ; Buffer to show in new tabs
+    (tab-bar-new-tab-to 'rightmost)       ; Where to create new tabs
+    (tab-bar-close-tab-select 'recent)    ; Which tab to select after closing
+    
+    ;; Tab bar position
+    (tab-bar-position 'top)               ; Position at top of frame
+    
+    ;; Format: show tabs and separator
+    (tab-bar-format '(tab-bar-format-tabs tab-bar-separator))
+    
+    ;; History settings
+    (tab-bar-history-mode 1)              ; Enable tab history navigation
+    
+    :bind
+    ;; Tab management
+    (("C-x t n" . tab-bar-new-tab)               ; Create new tab
+     ("C-x t c" . tab-bar-close-tab)             ; Close current tab
+     ("C-x t k" . tab-bar-close-tab)             ; Alternative close
+     ("C-x t o" . tab-bar-switch-to-next-tab)    ; Next tab
+     ("C-<tab>" . tab-bar-switch-to-next-tab)    ; Next tab
+     ("C-x t O" . tab-bar-switch-to-prev-tab)    ; Previous tab
+     ("C-S-<tab>" . tab-bar-switch-to-prev-tab)  ; Previous tab
+     ("C-x t r" . tab-bar-rename-tab)            ; Rename current tab
+     ("C-x t m" . tab-bar-move-tab)              ; Move tab position
+     
+     ;; Quick tab switching (Alt+1 through Alt+9)
+     ("M-1" . (lambda () (interactive) (tab-bar-select-tab 1)))
+     ("M-2" . (lambda () (interactive) (tab-bar-select-tab 2)))
+     ("M-3" . (lambda () (interactive) (tab-bar-select-tab 3)))
+     ("M-4" . (lambda () (interactive) (tab-bar-select-tab 4)))
+     ("M-5" . (lambda () (interactive) (tab-bar-select-tab 5)))
+     ("M-6" . (lambda () (interactive) (tab-bar-select-tab 6)))
+     ("M-7" . (lambda () (interactive) (tab-bar-select-tab 7)))
+     ("M-8" . (lambda () (interactive) (tab-bar-select-tab 8)))
+     ("M-9" . (lambda () (interactive) (tab-bar-select-tab 9)))
+     
+     ;; History navigation
+     ("C-x t <left>" . tab-bar-history-back)
+     ("C-x t <right>" . tab-bar-history-forward)))
+#+end_src
+
+** Custom Tab Naming
+
+Create more informative tab names based on project context:
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/window-conf.el
+  ;; Custom tab naming function
+  (defun fu/tab-bar-tab-name-with-project ()
+    "Generate tab name showing project and buffer."
+    (let ((project-name (when (project-current)
+                          (file-name-nondirectory
+                           (directory-file-name
+                            (project-root (project-current))))))
+          (buffer-name (buffer-name)))
+      (if project-name
+          (format "%s: %s" project-name buffer-name)
+        buffer-name)))
+
+  ;; Alternative: Show only project name
+  (defun fu/tab-bar-tab-name-project-only ()
+    "Show only the project name for the tab."
+    (if (project-current)
+        (file-name-nondirectory
+         (directory-file-name
+          (project-root (project-current))))
+      (buffer-name)))
+
+  ;; Use custom naming (uncomment one)
+  (setq tab-bar-tab-name-function 'fu/tab-bar-tab-name-with-project)
+  ;; (setq tab-bar-tab-name-function 'fu/tab-bar-tab-name-project-only)
+#+end_src
+
+** Appearance Customization
+
+Dynamically adapt tab bar to match your current theme:
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/window-conf.el
+  ;; Customize tab-bar appearance to automatically match current theme
+  (defun fu/tab-bar-setup-appearance ()
+    "Dynamically customize tab-bar to match the current theme.
+  Inherits colors from mode-line and other faces for seamless integration."
+    (let* (;; Get colors from existing theme faces
+           (mode-line-bg (face-attribute 'mode-line :background nil 'default))
+           (mode-line-fg (face-attribute 'mode-line :foreground nil 'default))
+           (mode-line-inactive-bg (face-attribute 'mode-line-inactive :background nil 'default))
+           (mode-line-inactive-fg (face-attribute 'mode-line-inactive :foreground nil 'default))
+           (default-bg (face-attribute 'default :background nil 'default))
+           (default-fg (face-attribute 'default :foreground nil 'default))
+           
+           ;; Try to get highlight color for active tab emphasis
+           (highlight-bg (or (and (face-attribute 'highlight :background nil 'default)
+                                  (not (string= (face-attribute 'highlight :background nil 'default) "unspecified"))
+                                  (face-attribute 'highlight :background nil 'default))
+                             mode-line-bg))
+           
+           ;; Check if we have valid colors from theme
+           (has-mode-line (and (stringp mode-line-bg)
+                               (not (string= mode-line-bg "unspecified")))))
+      
+      ;; Active tab - make it prominent using mode-line or highlight
+      (if has-mode-line
+          (set-face-attribute 'tab-bar-tab nil
+                              :foreground mode-line-fg
+                              :background highlight-bg
+                              :weight 'bold
+                              :box `(:line-width 2 :color ,highlight-bg :style nil)
+                              :inherit 'unspecified)
+        ;; Fallback if theme doesn't define mode-line properly
+        (set-face-attribute 'tab-bar-tab nil
+                            :inherit 'mode-line
+                            :weight 'bold
+                            :box nil))
+      
+      ;; Inactive tabs - subtle, using mode-line-inactive
+      (if (and (stringp mode-line-inactive-bg)
+               (not (string= mode-line-inactive-bg "unspecified")))
+          (set-face-attribute 'tab-bar-tab-inactive nil
+                              :foreground mode-line-inactive-fg
+                              :background mode-line-inactive-bg
+                              :weight 'normal
+                              :box `(:line-width 2 :color ,mode-line-inactive-bg :style nil)
+                              :inherit 'unspecified)
+        ;; Fallback
+        (set-face-attribute 'tab-bar-tab-inactive nil
+                            :inherit 'mode-line-inactive
+                            :weight 'normal
+                            :box nil))
+      
+      ;; Tab bar background - blend with frame background
+      (set-face-attribute 'tab-bar nil
+                          :background (if (and (stringp default-bg)
+                                               (not (string= default-bg "unspecified")))
+                                          default-bg
+                                        (face-attribute 'mode-line-inactive :background nil 'default))
+                          :foreground default-fg
+                          :box nil
+                          :inherit 'unspecified)))
+
+  ;; Refresh tab-bar appearance when theme changes
+  (defun fu/tab-bar-refresh-appearance (&rest _)
+    "Refresh tab-bar appearance after theme changes.
+  This ensures tab-bar always matches the active theme."
+    (when (fboundp 'fu/tab-bar-setup-appearance)
+      (fu/tab-bar-setup-appearance)))
+
+  ;; Hook into theme loading to auto-update appearance
+  (advice-add 'load-theme :after #'fu/tab-bar-refresh-appearance)
+  (advice-add 'enable-theme :after #'fu/tab-bar-refresh-appearance)
+
+  ;; Apply appearance for daemon and regular Emacs
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (with-selected-frame frame
+                    (fu/tab-bar-setup-appearance))))
+    (fu/tab-bar-setup-appearance))
+#+end_src
+
+** Project-Based Tabs
+
+Create tabs for projects with the native project-switch workflow:
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/window-conf.el
+  ;; Create a new tab for a selected project
+  (defun fu/project-tab-bar-new ()
+    "Switch to a project in a new tab using project-switch-project.
+  
+  Workflow:
+  1. Prompt user to select a project
+  2. User selects an action (f=find-file, d=find-directory, m=magit, etc.)
+  3. Create a new tab named after the project
+  4. Execute the selected action in the new tab"
+    (interactive)
+    ;; Capture the project directory before switching
+    (let* ((project-dir (project-prompt-project-dir))
+           (project-name (file-name-nondirectory
+                         (directory-file-name project-dir))))
+      ;; Step 1 & 2: Create new tab first
+      (tab-bar-new-tab)
+      (tab-bar-rename-tab project-name)
+      ;; Step 3 & 4: Use native project-switch-project which prompts for action
+      (let ((project-current-directory-override project-dir))
+        (project-switch-project project-dir))))
+
+  ;; Bind to convenient key
+  (global-set-key (kbd "C-x p t") #'fu/project-tab-bar-new)
+#+end_src
+
+** Workspace Presets
+
+Define predefined workspace layouts for common tasks:
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/window-conf.el
+  ;; Define workspace presets
+  (defun fu/tab-bar-workspace-coding ()
+    "Create a coding workspace with three-pane layout."
+    (interactive)
+    (tab-bar-new-tab)
+    (tab-bar-rename-tab "Coding")
+    (delete-other-windows)
+    (when (file-exists-p "~/Projects")
+      (dired "~/Projects"))
+    (split-window-right)
+    (other-window 1)
+    (split-window-below))
+
+  (defun fu/tab-bar-workspace-writing ()
+    "Create a focused writing workspace."
+    (interactive)
+    (tab-bar-new-tab)
+    (tab-bar-rename-tab "Writing")
+    (delete-other-windows)
+    (when (file-exists-p "~/org-roam")
+      (dired "~/org-roam")))
+
+  ;; Keybindings for workspace presets
+  (global-set-key (kbd "C-x t w c") #'fu/tab-bar-workspace-coding)
+  (global-set-key (kbd "C-x t w w") #'fu/tab-bar-workspace-writing)
+#+end_src
+
+** Session Persistence
+
+Save and restore tab configurations between Emacs sessions:
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/window-conf.el
+  ;; Desktop save mode for tab persistence
+  (use-package desktop
+    :ensure nil
+    :custom
+    ;; Save tab-bar configuration
+    (desktop-restore-frames t)
+    (desktop-restore-in-current-display t)
+    (desktop-restore-forces-onscreen nil)
+    
+    ;; Desktop file location
+    (desktop-dirname user-emacs-directory)
+    (desktop-path (list user-emacs-directory))
+    
+    :config
+    ;; Enable desktop save mode
+    (desktop-save-mode 1))
+#+end_src
+
+** Keybindings Summary
+
+| Keybinding    | Function                   | Description                    |
+|---------------+----------------------------+--------------------------------|
+| =C-x t n=       | tab-bar-new-tab            | Create new tab                 |
+| =C-x t c=       | tab-bar-close-tab          | Close current tab              |
+| =C-x t o=       | tab-bar-switch-to-next-tab | Switch to next tab             |
+| =C-<tab>=       | tab-bar-switch-to-next-tab | Switch to next tab             |
+| =C-x t O=       | tab-bar-switch-to-prev-tab | Switch to previous tab         |
+| =C-S-<tab>=     | tab-bar-switch-to-prev-tab | Switch to previous tab         |
+| =M-1= to =M-9=    | tab-bar-select-tab         | Jump to tab by number          |
+| =C-x t r=       | tab-bar-rename-tab         | Rename current tab             |
+| =C-x t m=       | tab-bar-move-tab           | Move tab to different position |
+| =C-x t p=       | (custom)                   | Create project tab             |
+| =C-x t <left>=  | tab-bar-history-back       | Go back in tab history         |
+| =C-x t <right>= | tab-bar-history-forward    | Go forward in tab history      |
+| =C-x t w c=     | (custom)                   | Create coding workspace        |
+| =C-x t w w=     | (custom)                   | Create writing workspace       |
+| =C-x t w r=     | (custom)                   | Create research workspace      |
+
+** Tips and Best Practices
+
+1. *One tab per project*: Keep related files in the same tab workspace
+2. *Name your tabs*: Use descriptive names for easy identification (=C-x t r=)
+3. *Use tab numbers*: Quick switching with =M-1= through =M-9=
+4. *Workspace presets*: Create functions for your common layouts
+5. *Save sessions*: Enable =desktop-save-mode= for persistence across restarts
+6. *History navigation*: Use =C-x t <left/right>= to navigate tab history
+
+** Common Workflows
+
+*** Starting a New Project
+1. =C-x t p= - Create new project tab
+2. Tab is automatically named after the project
+3. All project windows stay in this workspace
+
+*** Daily Work Organization
+- Tab 1: Email/Communication
+- Tab 2: Main project workspace
+- Tab 3: Reference/Documentation
+- Tab 4: Scratch/Experiments
+
+*** Tab Organization Strategy
+- Keep permanent tabs (email, org agenda) on the left
+- Group related project tabs together
+- Use temporary tabs on the right (close when done)
+- Rename tabs with meaningful names for quick identification
+
+** Troubleshooting
+
+*** Tab Bar Not Showing
+- Check if enabled: =M-x tab-bar-mode=
+- Verify setting: =(setq tab-bar-show 1)= requires 2+ tabs
+- Use =(setq tab-bar-show t)= to always show the tab bar
+
+*** Tabs Not Persisting Between Sessions
+- Enable =desktop-save-mode=: =(desktop-save-mode 1)=
+- Set desktop directory: =(setq desktop-dirname user-emacs-directory)=
+- Ensure =desktop-restore-frames= is =t=
+
+*** Theme Integration Issues
+- Run =(fu/tab-bar-setup-appearance)= after loading your theme
+- Check if theme overrides tab-bar faces
+- Use =M-x describe-face= to inspect current face values
+
+*** Performance
+- Tab-bar is very lightweight and handles many tabs efficiently
+- Consider closing unused tabs regularly
+- Use tab history (=C-x t <left/right>=) to navigate recently used tabs
 

@@ -1,0 +1,444 @@
+#+TITLE: Claude Code Settings
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:json :mkdirp yes :results none
+
+* Introduction
+
+Claude Code uses a hierarchical settings system with multiple configuration files. Settings are merged with the following precedence (highest to lowest):
+
+1. Enterprise managed policies
+2. Command-line arguments
+3. Local project settings (=.claude/settings.local.json=)
+4. Shared project settings (=.claude/settings.json=)
+5. User settings (=~/.claude/settings.json=)
+
+This means local settings override shared project settings, which override user settings.
+
+** Settings Philosophy
+
+- *Project settings*: Version-controlled, shared with team
+- *Local settings*: Git-ignored, personal overrides
+- *User settings*: Personal defaults for all projects
+
+** Common Use Cases
+
+- Restrict dangerous tools (project settings)
+- Set project-specific environment variables (project settings)
+- Configure personal notification hooks (local settings)
+- Set default model preference (local/user settings)
+
+* Project Settings (Shared)
+
+These settings are version-controlled and shared with the team. Configure project-wide policies, permissions, and environment variables here.
+
+** Core Configuration
+
+#+begin_src json :tangle .claude/settings.json
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": []
+  },
+  "env": {
+    "PROJECT_ROOT": "/Users/kyeongsoo/Projects/mandoo180.github.io"
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "emacs",
+    "filesystem"
+  ]
+}
+#+end_src
+
+** Permissions Explained
+
+*** Allow List
+
+The =allow= list explicitly permits specific tools or tool patterns:
+
+- =WebSearch= - Allow web searches for up-to-date information
+- =Bash(mkdir:*)= - Safe directory creation
+- =Bash(mv:*)= - File moving operations
+- =Bash(git add:*)= - Staging changes
+- =Bash(git commit:*)= - Creating commits
+- =Bash(git push:*)= - Pushing to remote
+
+*Pattern matching*: Use =*= as wildcard. =Bash(git:*)= would match all git commands.
+
+*** Deny List
+
+The =deny= list blocks specific operations. Empty by default, but you might add:
+
+#+begin_example json
+"deny": [
+  "Bash(rm -rf:*)",
+  "Bash(dd:*)",
+  "Bash(mkfs:*)"
+]
+#+end_example
+
+This prevents destructive operations that could cause data loss.
+
+*** Tool Names
+
+Common tools you can allow/deny:
+- =Read= - Reading files
+- =Write= - Writing files
+- =Edit= - Editing files
+- =Bash(command:*)= - Bash commands (use wildcards)
+- =WebSearch= - Web searching
+- =WebFetch= - Fetching URLs
+- =Glob= - File pattern matching
+- =Grep= - Content searching
+
+** Environment Variables
+
+Set project-specific environment variables available to all Claude Code sessions:
+
+#+begin_example json
+"env": {
+  "PROJECT_ROOT": "/path/to/project",
+  "NODE_ENV": "development",
+  "PYTHONPATH": "./src:./lib",
+  "CUSTOM_VAR": "value"
+}
+#+end_example
+
+*Use cases*:
+- Project root path for scripts
+- Environment type (dev/staging/prod)
+- Custom paths (Python, Node modules)
+- Feature flags
+
+** MCP Server Configuration
+
+*** Enable All Project Servers
+
+#+begin_example json
+"enableAllProjectMcpServers": true
+#+end_example
+
+When =true=, all servers defined in =.mcp.json= are automatically enabled.
+
+*** Selective Server Enablement
+
+#+begin_example json
+"enableAllProjectMcpServers": false,
+"enabledMcpjsonServers": [
+  "emacs",
+  "filesystem"
+]
+#+end_example
+
+Explicitly list which MCP servers to enable from =.mcp.json=.
+
+* Local Settings (Personal)
+
+These settings are git-ignored and personal to each developer. Use for preferences, experimental features, and local tools.
+
+** Example Configuration
+
+#+begin_src json :tangle .claude/settings.local.json
+{
+  "model": "sonnet",
+  "alwaysThinkingEnabled": false
+}
+#+end_src
+
+** Common Local Settings
+
+*** Model Selection
+
+#+begin_example json
+{
+  "model": "sonnet"  // or "opus", "haiku"
+}
+#+end_example
+
+Override the default model for this project.
+
+*** Thinking Mode
+
+#+begin_example json
+{
+  "alwaysThinkingEnabled": false
+}
+#+end_example
+
+Control whether Claude shows internal reasoning by default.
+
+*** Notification Hooks
+
+#+begin_example json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title 'Claude Code' -message 'Awaiting input'"
+          }
+        ]
+      }
+    ]
+  }
+}
+#+end_example
+
+Run system notifications when Claude needs input (macOS example).
+
+* Advanced Configuration
+
+** Hooks System
+
+Hooks execute commands before/after tool usage, enabling powerful workflow automation.
+
+*** Hook Structure
+
+#+begin_example json
+{
+  "hooks": {
+    "ToolName": [
+      {
+        "matcher": "pattern",
+        "hooks": [
+          {
+            "type": "command",
+            "position": "before",  // or "after"
+            "command": "command to run",
+            "blocking": true
+          }
+        ]
+      }
+    ]
+  }
+}
+#+end_example
+
+*** Example: Git Status Before Commit
+
+#+begin_example json
+{
+  "hooks": {
+    "Bash": [
+      {
+        "matcher": "git commit",
+        "hooks": [
+          {
+            "type": "command",
+            "position": "before",
+            "command": "git status",
+            "blocking": true
+          }
+        ]
+      }
+    ]
+  }
+}
+#+end_example
+
+Shows git status before any commit command.
+
+*** Example: Notification on Completion
+
+#+begin_example json
+{
+  "hooks": {
+    "Bash": [
+      {
+        "matcher": "npm test",
+        "hooks": [
+          {
+            "type": "command",
+            "position": "after",
+            "command": "terminal-notifier -title 'Tests' -message 'Test run complete'"
+          }
+        ]
+      }
+    ]
+  }
+}
+#+end_example
+
+Desktop notification when tests finish.
+
+*** Hook Parameters
+
+- =matcher= - Pattern to match (empty string matches all)
+- =type= - Currently only ="command"= is supported
+- =position= - ="before"= or ="after"= tool execution
+- =command= - Shell command to execute
+- =blocking= - If =true=, wait for command to complete
+
+** Sandbox Settings
+
+Control sandboxing behavior for added security.
+
+#+begin_example json
+{
+  "sandbox": {
+    "enabled": true,
+    "allowedPaths": [
+      "/Users/kyeongsoo/Projects"
+    ]
+  }
+}
+#+end_example
+
+*Warning*: Modifying sandbox settings can affect security. Only change if you understand the implications.
+
+** Custom Tool Permissions
+
+Fine-grained control over tool behavior.
+
+#+begin_example json
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write(/path/to/allowed/*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": [
+      "Write(/etc/*)",
+      "Bash(sudo:*)"
+    ]
+  }
+}
+#+end_example
+
+Use path patterns for =Write= and command patterns for =Bash=.
+
+* Settings Hierarchy Example
+
+Understanding how settings merge:
+
+** User Settings (=~/.claude/settings.json=)
+
+#+begin_example json
+{
+  "model": "sonnet",
+  "alwaysThinkingEnabled": false,
+  "permissions": {
+    "allow": ["Read", "Write"]
+  }
+}
+#+end_example
+
+** Project Settings (=.claude/settings.json=)
+
+#+begin_example json
+{
+  "permissions": {
+    "allow": ["Read", "Write", "Bash(git:*)"]
+  },
+  "env": {
+    "PROJECT_ROOT": "/path/to/project"
+  }
+}
+#+end_example
+
+** Local Settings (=.claude/settings.local.json=)
+
+#+begin_example json
+{
+  "model": "opus",
+  "hooks": {
+    "Notification": [...]
+  }
+}
+#+end_example
+
+** Effective Settings
+
+After merging (local > project > user):
+
+#+begin_example json
+{
+  "model": "opus",  // from local (overrides user)
+  "alwaysThinkingEnabled": false,  // from user
+  "permissions": {
+    "allow": ["Read", "Write", "Bash(git:*)"]  // from project
+  },
+  "env": {
+    "PROJECT_ROOT": "/path/to/project"  // from project
+  },
+  "hooks": {
+    "Notification": [...]  // from local
+  }
+}
+#+end_example
+
+* Best Practices
+
+** Do's
+
+- *Version control* =.claude/settings.json= for team consistency
+- *Use local settings* for personal preferences
+- *Document* why specific tools are allowed/denied
+- *Test hooks* before committing them to project settings
+- *Use environment variables* for project-specific paths
+
+** Don'ts
+
+- *Don't commit* =.claude/settings.local.json= (it's personal)
+- *Don't hardcode* absolute paths in project settings when possible
+- *Don't allow* overly broad permissions (=Bash(*:*)= is dangerous)
+- *Don't store* secrets or API keys in settings (use environment variables)
+- *Don't override* security policies without understanding implications
+
+** Security Considerations
+
+1. *Principle of least privilege*: Only allow tools that are needed
+2. *Deny dangerous operations*: =rm -rf=, =dd=, =mkfs=, =sudo=
+3. *Restrict filesystem access*: Use path patterns in =Write= permissions
+4. *Review hooks carefully*: Hooks execute arbitrary commands
+5. *Version control project settings*: Team reviews for security
+
+* Troubleshooting
+
+** Settings Not Taking Effect
+
+- Restart Claude Code after changing settings
+- Check JSON syntax with =jq . .claude/settings.json=
+- Verify file is in correct location
+- Check settings precedence (local > project > user)
+
+** Permission Denied Errors
+
+- Check =permissions.allow= includes required tool
+- Verify no =deny= rule is blocking it
+- Check pattern matching (=*= wildcard usage)
+- Try more specific pattern if broad pattern doesn't work
+
+** Hooks Not Running
+
+- Verify JSON syntax is correct
+- Check =matcher= pattern matches the tool usage
+- Test command manually in terminal first
+- Check Claude Code logs for error messages
+- Ensure =blocking= is set if you need sequential execution
+
+* Related Configuration
+
+- [[file:02-commands.org][Slash Commands]] - Custom commands can reference environment variables
+- [[file:03-skills.org][Agent Skills]] - Skills respect permission settings
+- [[file:04-mcp-servers.org][MCP Servers]] - Enable/disable via settings
+
+* Resources
+
+- [[https://code.anthropic.com/docs/settings][Official Settings Documentation]]
+- [[https://code.anthropic.com/docs/permissions][Permissions Guide]]
+- [[https://code.anthropic.com/docs/hooks][Hooks Documentation]]
