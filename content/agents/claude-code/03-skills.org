@@ -55,1060 +55,55 @@ The =description= is crucial - it determines when the skill activates.
 - "Types" (too vague)
 - "Does TypeScript stuff" (unclear when to activate)
 
-* Development Skills
+* Skill Categories
 
-Skills for code development, type generation, and quality improvement.
+This directory contains skills organized by category. Each category has its own file for better navigation and maintenance.
 
-** TypeScript Type Generator
+** [[file:03-skills-javascript.org][JavaScript/TypeScript Development Skills]]
 
-Automatically generate TypeScript types from data structures.
+JavaScript and TypeScript development skills for modern syntax, type safety, security, and testing.
 
-#+begin_src markdown :tangle .claude/skills/typescript-types/SKILL.md
----
-name: TypeScript Type Generator
-description: Automatically generate TypeScript type definitions from API responses, JSON data, or existing JavaScript code when working in TypeScript projects
-allowed-tools:
-  - Read
-  - Write
-  - Grep
-  - Bash(npx:*)
----
+*Includes:*
+- JavaScript/TypeScript Conventions Enforcer (✓ tangled)
+- TypeScript Type Generator (✓ tangled)
+- JavaScript/TypeScript Security Checker (✓ tangled)
 
-# TypeScript Type Generation Skill
+** [[file:03-skills-rails.org][Rails Development Skills]]
 
-## Activation Triggers
+Ruby on Rails specific skills for conventions, security, performance, and testing.
 
-Automatically activate when detecting:
-- API response handling without type definitions
-- JSON parsing in TypeScript files without types
-- Type errors related to implicit 'any' type
-- Data transformation operations lacking type safety
-- Props or state definitions without interfaces/types
-- Function parameters or return types marked as 'any'
+*Includes:*
+- Rails Convention Enforcer (✓ tangled)
+- N+1 Query Detector (example)
+- Rails Security Checker (✓ tangled)
+- Test Coverage Assistant (Rails) (example)
+- Migration Safety Checker (✓ tangled)
+- Rails Upgrade Helper (example)
 
-## Analysis Process
+** [[file:03-skills-python.org][Python Development Skills]]
 
-### 1. Identify Data Source
-- API response objects
-- JSON configuration files
-- Function return values
-- Component props/state
-- Database query results
+Python development skills for PEP 8, type safety, testing, security, and common pitfalls.
 
-### 2. Analyze Structure
-- Object shape and nesting
-- Array vs single values
-- Optional vs required fields
-- Value types (string, number, boolean, etc.)
-- Union types (multiple possible types)
-- Null/undefined handling
+*Includes:*
+- Python Conventions Enforcer (✓ tangled)
+- Type Hints Assistant (example)
+- Python Testing Assistant (example)
+- Python Security Checker (✓ tangled)
+- Python Common Pitfalls (example)
 
-### 3. Generate Types
+** [[file:03-skills-emacs.org][Emacs Integration Skills]]
 
-Create appropriate TypeScript definitions:
+Skills that leverage the Emacs MCP server for enhanced context-aware assistance.
 
-**Interfaces** for object shapes:
-```typescript
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: 'admin' | 'user' | 'guest';
-  profile?: UserProfile;
-}
-```
+*Includes:*
+- Emacs Context Helper (✓ tangled)
 
-**Type Aliases** for unions, intersections, and utilities:
-```typescript
-type UserId = number;
-type UserRole = 'admin' | 'user' | 'guest';
-type PartialUser = Partial<User>;
-```
+** [[file:03-skills-documentation.org][Documentation Skills]]
 
-**Generics** where appropriate:
-```typescript
-interface ApiResponse<T> {
-  data: T;
-  status: number;
-  message: string;
-}
-```
+Skills for maintaining and improving documentation quality.
 
-### 4. Add Documentation
-
-Include JSDoc comments:
-```typescript
-/**
- * Represents a user in the system
- * @property {number} id - Unique user identifier
- * @property {string} name - User's full name
- * @property {string} email - User's email address
- */
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-```
-
-### 5. Handle Complexity
-
-**Nested Objects:**
-```typescript
-interface User {
-  id: number;
-  profile: {
-    avatar: string;
-    bio: string;
-  };
-}
-
-// Or extract nested type:
-interface UserProfile {
-  avatar: string;
-  bio: string;
-}
-
-interface User {
-  id: number;
-  profile: UserProfile;
-}
-```
-
-**Arrays:**
-```typescript
-interface User {
-  id: number;
-  tags: string[];
-  posts: Array<Post>;
-}
-```
-
-**Optional Fields:**
-```typescript
-interface User {
-  id: number;
-  name: string;
-  nickname?: string;  // Optional
-  age: number | undefined;  // Can be undefined
-}
-```
-
-## Best Practices
-
-### Type vs Interface
-
-**Use Interface when:**
-- Defining object shapes
-- You might extend it later
-- Describing class contracts
-
-**Use Type when:**
-- Creating union types
-- Creating intersection types
-- Using utility types (Partial, Pick, etc.)
-- Aliasing primitives or tuples
-
-### Naming Conventions
-
-- PascalCase for interfaces and types
-- Descriptive names (=User=, not =U=)
-- Suffix with context if needed (=UserResponse=, =UserDTO=)
-- Avoid "I" prefix (use =User=, not =IUser=)
-
-### Type Safety
-
-**Prefer:**
-```typescript
-type Status = 'pending' | 'approved' | 'rejected';
-```
-
-**Over:**
-```typescript
-type Status = string;  // Too loose
-```
-
-**Use =unknown= over =any=:**
-```typescript
-function parse(data: unknown): User {
-  // Type-safe: must validate before use
-}
-```
-
-### Utility Types
-
-Leverage built-in utility types:
-```typescript
-type PartialUser = Partial<User>;
-type RequiredUser = Required<User>;
-type UserKeys = keyof User;
-type PickName = Pick<User, 'name' | 'email'>;
-type OmitPassword = Omit<User, 'password'>;
-type ReadonlyUser = Readonly<User>;
-```
-
-## Examples
-
-### API Response
-
-**Given response:**
-```json
-{
-  "id": 1,
-  "name": "John Doe",
-  "email": "john@example.com",
-  "posts": [
-    {"id": 1, "title": "Hello", "published": true}
-  ]
-}
-```
-
-**Generate types:**
-```typescript
-interface Post {
-  id: number;
-  title: string;
-  published: boolean;
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  posts: Post[];
-}
-```
-
-### React Component Props
-
-**Given component:**
-```typescript
-function UserCard(props) {
-  return <div>{props.user.name}</div>;
-}
-```
-
-**Generate types:**
-```typescript
-interface UserCardProps {
-  user: User;
-  onEdit?: (user: User) => void;
-  className?: string;
-}
-
-function UserCard({ user, onEdit, className }: UserCardProps) {
-  return <div className={className}>{user.name}</div>;
-}
-```
-
-## Validation
-
-After generating types:
-1. Verify no type errors remain
-2. Check that types are as specific as possible
-3. Ensure optional fields are correctly marked
-4. Confirm type names are clear and descriptive
-5. Add JSDoc comments for complex types
-#+end_src
-
-** Test Coverage Analyzer
-
-Monitor and improve test coverage automatically.
-
-#+begin_src markdown :tangle .claude/skills/test-coverage/SKILL.md
----
-name: Test Coverage Analyzer
-description: Automatically analyze test coverage and suggest missing test cases when code is added or modified without adequate tests
-allowed-tools:
-  - Read
-  - Grep
-  - Bash(npm:*)
-  - Bash(pytest:*)
-  - Bash(go:*)
----
-
-# Test Coverage Analysis Skill
-
-## Activation Triggers
-
-Activate when:
-- New code is added without accompanying tests
-- Existing code is modified and tests might be affected
-- User mentions testing, coverage, or test cases
-- Test commands are run (npm test, pytest, etc.)
-- Code review context includes testing concerns
-
-## Analysis Process
-
-### 1. Identify Test Framework
-
-Detect the testing framework:
-- **JavaScript/TypeScript**: Jest, Mocha, Vitest, Jasmine
-- **Python**: pytest, unittest, nose
-- **Go**: testing package
-- **Rust**: built-in test framework
-- **Java**: JUnit, TestNG
-- **Ruby**: RSpec, Minitest
-
-### 2. Locate Test Files
-
-Find test files related to the code:
-- Pattern matching (=*.test.ts=, =*_test.go=, =test_*.py=)
-- Test directory structure (=__tests__=, =tests/=, =spec/=)
-- Co-located tests (next to source files)
-
-### 3. Analyze Coverage
-
-Identify what's tested and what's not:
-
-**Functions/Methods:**
-- Which are tested?
-- Which lack tests?
-- Are all code paths covered?
-
-**Edge Cases:**
-- Boundary conditions (empty, null, zero, max)
-- Error conditions
-- Unexpected input
-- Concurrent access scenarios
-
-**Integration Points:**
-- API endpoints
-- Database queries
-- External service calls
-- File system operations
-
-### 4. Suggest Test Cases
-
-Recommend specific tests to add:
-
-**Unit Tests:**
-```typescript
-describe('calculateDiscount', () => {
-  it('should apply 10% discount for orders over $100', () => {
-    expect(calculateDiscount(100)).toBe(90);
-  });
-
-  it('should not apply discount for orders under $100', () => {
-    expect(calculateDiscount(50)).toBe(50);
-  });
-
-  it('should handle zero amount', () => {
-    expect(calculateDiscount(0)).toBe(0);
-  });
-
-  it('should handle negative amounts', () => {
-    expect(() => calculateDiscount(-10)).toThrow();
-  });
-});
-```
-
-**Edge Cases:**
-```typescript
-describe('edge cases', () => {
-  it('should handle empty array', () => {
-    expect(processArray([])).toEqual([]);
-  });
-
-  it('should handle null input', () => {
-    expect(() => processArray(null)).toThrow(TypeError);
-  });
-
-  it('should handle maximum safe integer', () => {
-    expect(processNumber(Number.MAX_SAFE_INTEGER)).toBeDefined();
-  });
-});
-```
-
-### 5. Prioritize Tests
-
-Focus on high-value tests:
-
-**Priority 1 - Critical:**
-- Authentication/authorization
-- Payment processing
-- Data validation
-- Security-sensitive operations
-
-**Priority 2 - Important:**
-- Core business logic
-- User-facing features
-- Data transformations
-- API endpoints
-
-**Priority 3 - Nice to Have:**
-- Utility functions
-- UI formatting
-- Logging
-- Helper methods
-
-## Coverage Metrics
-
-### Line Coverage
-Percentage of code lines executed during tests.
-*Target*: >80%
-
-### Branch Coverage
-Percentage of conditional branches taken.
-*Target*: >75%
-
-### Function Coverage
-Percentage of functions called during tests.
-*Target*: 100% for public APIs
-
-### Mutation Coverage
-How many injected bugs are caught by tests.
-*Target*: >60%
-
-## Test Quality
-
-Beyond coverage percentage, assess test quality:
-
-**Good Tests:**
-- Test behavior, not implementation
-- Have clear, descriptive names
-- Follow AAA pattern (Arrange, Act, Assert)
-- Are independent and isolated
-- Run quickly
-- Are deterministic (no flakiness)
-
-**Bad Tests:**
-- Test private implementation details
-- Are tightly coupled to code structure
-- Depend on each other or external state
-- Are slow or flaky
-- Have unclear names or assertions
-
-## Examples
-
-### Missing Unit Test
-
-**Code without test:**
-```typescript
-function validateEmail(email: string): boolean {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-```
-
-**Suggested test:**
-```typescript
-describe('validateEmail', () => {
-  it('should accept valid email addresses', () => {
-    expect(validateEmail('user@example.com')).toBe(true);
-    expect(validateEmail('name.last@company.co.uk')).toBe(true);
-  });
-
-  it('should reject invalid email addresses', () => {
-    expect(validateEmail('invalid')).toBe(false);
-    expect(validateEmail('missing@domain')).toBe(false);
-    expect(validateEmail('@example.com')).toBe(false);
-    expect(validateEmail('user@.com')).toBe(false);
-  });
-
-  it('should handle edge cases', () => {
-    expect(validateEmail('')).toBe(false);
-    expect(validateEmail('   ')).toBe(false);
-  });
-});
-```
-
-### Missing Integration Test
-
-**API endpoint without integration test:**
-```typescript
-app.post('/api/users', async (req, res) => {
-  const user = await createUser(req.body);
-  res.json(user);
-});
-```
-
-**Suggested test:**
-```typescript
-describe('POST /api/users', () => {
-  it('should create a new user', async () => {
-    const response = await request(app)
-      .post('/api/users')
-      .send({ name: 'John', email: 'john@example.com' })
-      .expect(200);
-
-    expect(response.body).toHaveProperty('id');
-    expect(response.body.name).toBe('John');
-  });
-
-  it('should validate required fields', async () => {
-    await request(app)
-      .post('/api/users')
-      .send({ name: 'John' })  // missing email
-      .expect(400);
-  });
-
-  it('should prevent duplicate emails', async () => {
-    const userData = { name: 'John', email: 'john@example.com' };
-    await request(app).post('/api/users').send(userData);
-
-    await request(app)
-      .post('/api/users')
-      .send(userData)
-      .expect(409);  // Conflict
-  });
-});
-```
-
-## Running Coverage Reports
-
-**JavaScript (Jest):**
-```bash
-npm test -- --coverage
-```
-
-**Python (pytest):**
-```bash
-pytest --cov=src --cov-report=html
-```
-
-**Go:**
-```bash
-go test -coverprofile=coverage.out ./...
-go tool cover -html=coverage.out
-```
-
-## Offering to Generate Tests
-
-When gaps identified, offer:
-1. Show what's not covered
-2. Explain why it's important
-3. Suggest specific test cases
-4. Offer to generate the test code
-5. Explain how to run the tests
-
-Be proactive but not pushy - respect if user declines.
-#+end_src
-
-* Emacs Integration Skills
-
-Skills that leverage the Emacs MCP server for enhanced capabilities.
-
-** Emacs Context Helper
-
-Automatically gather Emacs context when helping with code.
-
-#+begin_src markdown :tangle .claude/skills/emacs-context/SKILL.md
----
-name: Emacs Context Helper
-description: Automatically gather Emacs buffer context when user asks questions about code or mentions Emacs, providing context-aware assistance based on their current buffer and cursor position
-allowed-tools:
-  - mcp__emacs__get_current_context
-  - mcp__emacs__lsp_hover
-  - mcp__emacs__lsp_diagnostics
-  - mcp__emacs__get_buffer_content
----
-
-# Emacs Context Helper Skill
-
-## Activation Triggers
-
-Automatically activate when:
-- User asks questions about code without specifying a file
-- User mentions "current buffer", "this file", or "here"
-- User asks about errors or issues without context
-- User wants explanations of code at cursor
-- User asks Emacs-specific questions
-- User mentions "where I am" or "what I'm looking at"
-
-## Context Gathering Process
-
-### 1. Get Current Context
-
-Call =mcp__emacs__get_current_context= to retrieve:
-- **Buffer name**: Name of the current buffer
-- **File path**: Full path to the file (if visiting a file)
-- **Cursor position**: Line and column numbers
-- **Buffer content**: Full text of the buffer
-- **Major mode**: Current major mode (e.g., python-mode, typescript-mode)
-- **Project info**: Current project root and name
-- **Modified status**: Whether buffer has unsaved changes
-
-### 2. Analyze Context
-
-Based on gathered context, understand:
-
-**Location:**
-- What file is the user working in?
-- What line and column is the cursor at?
-- Is this part of a larger project?
-
-**Code at Cursor:**
-- What function/class/method is at cursor position?
-- What's the surrounding code context?
-- Are there any obvious issues or patterns?
-
-**Language/Framework:**
-- What programming language?
-- What frameworks are in use?
-- What's the project structure?
-
-**State:**
-- Are there unsaved changes?
-- Is this a new file or existing?
-
-### 3. Use LSP if Available
-
-If LSP is active for the buffer, enhance context with:
-
-**Hover Information:**
-```elisp
-(mcp__emacs__lsp_hover filepath line column)
-```
-Returns:
-- Function/variable documentation
-- Type information
-- Signature help
-
-**Diagnostics:**
-```elisp
-(mcp__emacs__lsp_diagnostics filepath)
-```
-Returns:
-- Errors (type errors, syntax errors)
-- Warnings (unused variables, deprecated APIs)
-- Information messages
-
-**Use diagnostics to:**
-- Proactively mention errors at cursor
-- Suggest fixes for warnings
-- Explain type mismatches
-
-### 4. Provide Context-Aware Response
-
-When answering, always:
-
-**Reference Specific Code:**
-- "On line 42, the function `calculateTotal`..."
-- "In `src/utils/parser.ts:156`, this code..."
-- "The variable at your cursor position (line 89)..."
-
-**Quote Relevant Code:**
-```typescript
-// From line 42-45:
-function calculateTotal(items: Item[]): number {
-  return items.reduce((sum, item) => sum + item.price, 0);
-}
-```
-
-**Provide Targeted Suggestions:**
-- Based on actual code at cursor
-- Considering the file's language and patterns
-- Respecting the project's structure
-
-**Acknowledge Context:**
-- "I see you're working in the `UserService` class"
-- "Looking at your Python unit test file"
-- "In your TypeScript React component"
-
-## Example Interactions
-
-### Example 1: Explaining Code
-
-**User**: "What does this do?"
-
-**Skill Action**:
-1. Call =mcp__emacs__get_current_context=
-2. Identify code at cursor position (e.g., line 42)
-3. Analyze the function/block at that location
-4. Check LSP hover for additional info
-
-**Response**: "At line 42 in `src/parser.ts`, the `parseJSON` function converts a JSON string into a JavaScript object. It uses `try-catch` to handle invalid JSON and returns `null` on error..."
-
-### Example 2: Finding Errors
-
-**User**: "Why isn't this working?"
-
-**Skill Action**:
-1. Get current context
-2. Call =mcp__emacs__lsp_diagnostics=
-3. Find errors near cursor position
-4. Get hover info to understand types
-
-**Response**: "I see a TypeScript error on line 38: 'Property price does not exist on type Item'. The issue is that you're accessing `item.price` but the `Item` interface doesn't have a `price` property. You might need to add it to the interface or use `item.cost` instead."
-
-### Example 3: Code Improvement
-
-**User**: "How can I improve this?"
-
-**Skill Action**:
-1. Get current context and surrounding code
-2. Identify the code block at cursor
-3. Check for diagnostics
-4. Analyze patterns and structure
-
-**Response**: "Looking at your `fetchUser` function on line 102, here are some improvements:
-
-1. Add error handling for network failures
-2. Use TypeScript types for the response
-3. Consider extracting the API URL to a constant
-4. Add timeout handling
-
-Here's a refactored version: ..."
-
-## Best Practices
-
-### Always Get Context First
-
-Before responding to questions:
-1. Call =mcp__emacs__get_current_context=
-2. Understand what the user is working on
-3. Then provide relevant answer
-
-### Be Specific
-
-- Use exact line numbers
-- Quote actual code
-- Reference file paths
-- Mention function/class names from the code
-
-### Use LSP When Appropriate
-
-For questions about:
-- Types and signatures → =lsp_hover=
-- Errors and warnings → =lsp_diagnostics=
-- Finding definitions → =lsp_definition=
-- Finding usages → =lsp_references=
-
-### Respect Privacy
-
-The buffer content might contain:
-- Proprietary code
-- Sensitive data
-- API keys or credentials
-
-Don't suggest sharing or exposing sensitive information.
-
-### Handle Edge Cases
-
-**No file associated:**
-- Buffer might be =*scratch*= or other special buffer
-- Focus on buffer content, not file path
-
-**LSP not available:**
-- Fall back to buffer content analysis
-- Still provide helpful suggestions
-
-**Modified buffer:**
-- Note there are unsaved changes if relevant
-- Content reflects current state, not saved state
-
-## Integration with Commands
-
-This skill complements slash commands:
-- =/emacs-ask= - Explicitly gather context
-- =/explain= - Use context to explain better
-- =/review= - Context-aware code review
-
-Skills activate automatically, commands are user-invoked.
-#+end_src
-
-* Documentation Skills
-
-Skills for maintaining and improving documentation.
-
-** Documentation Completeness Checker
-
-Ensure comprehensive documentation automatically.
-
-#+begin_src markdown :tangle .claude/skills/doc-checker/SKILL.md
----
-name: Documentation Completeness Checker
-description: Automatically check for missing or incomplete documentation when viewing code, preparing for code review, or when documentation quality is a concern
-allowed-tools:
-  - Read
-  - Grep
-  - Write
----
-
-# Documentation Completeness Checker
-
-## Activation Triggers
-
-Activate when:
-- Viewing undocumented code files
-- Adding new public APIs or functions
-- Preparing for pull request or code review
-- User mentions documentation, docs, or comments
-- README or documentation files are opened
-- User asks "is this documented?"
-
-## Check Criteria
-
-### Function/Method Documentation
-
-For each public function, check:
-
-- [ ] **Purpose** clearly stated
-- [ ] **Parameters** documented with types and descriptions
-- [ ] **Return value** documented with type and meaning
-- [ ] **Exceptions/Errors** documented (what errors can occur)
-- [ ] **Usage examples** provided for complex functions
-- [ ] **Edge cases** noted (boundary conditions, special handling)
-- [ ] **Time complexity** noted for algorithms (if relevant)
-
-**Example - Well Documented:**
-```typescript
-/**
- * Calculates the total price including tax and discount.
- *
- * @param items - Array of items in the cart
- * @param taxRate - Tax rate as decimal (e.g., 0.08 for 8%)
- * @param discountCode - Optional discount code to apply
- * @returns Total price after tax and discount
- * @throws {InvalidDiscountError} If discount code is invalid
- *
- * @example
- * const total = calculateTotal(
- *   [{ price: 10 }, { price: 20 }],
- *   0.08,
- *   'SAVE10'
- * );
- */
-function calculateTotal(
-  items: Item[],
-  taxRate: number,
-  discountCode?: string
-): number {
-  // implementation
-}
-```
-
-### Class/Module Documentation
-
-For classes and modules, check:
-
-- [ ] **Overview** of responsibility and purpose
-- [ ] **Public API** all public methods documented
-- [ ] **Usage examples** showing typical usage patterns
-- [ ] **Dependencies** external requirements noted
-- [ ] **Thread safety** concurrency considerations (if applicable)
-- [ ] **Design patterns** patterns used (if notable)
-
-**Example:**
-```typescript
-/**
- * UserService handles user account operations.
- *
- * Provides methods for creating, updating, and authenticating users.
- * All methods are async and use the database connection from the
- * constructor.
- *
- * @example
- * const userService = new UserService(database);
- * const user = await userService.createUser({
- *   name: 'John',
- *   email: 'john@example.com'
- * });
- */
-class UserService {
-  // implementation
-}
-```
-
-### File/Package Documentation
-
-For files and packages, check:
-
-- [ ] **File header** explaining purpose and contents
-- [ ] **Exports** what's exposed to other modules
-- [ ] **Module overview** high-level description
-- [ ] **Usage examples** how to use the module
-- [ ] **License** licensing information (if applicable)
-
-### README Documentation
-
-For README files, check:
-
-- [ ] **Project description** what the project does
-- [ ] **Installation instructions** how to install
-- [ ] **Quick start** basic usage example
-- [ ] **Configuration** how to configure
-- [ ] **API documentation** or link to it
-- [ ] **Examples** practical usage examples
-- [ ] **Contributing guidelines** how to contribute
-- [ ] **License** license information
-- [ ] **Contact/Support** how to get help
-
-### API Documentation
-
-For API endpoints, check:
-
-- [ ] **Endpoint description** what it does
-- [ ] **HTTP method and path** clearly stated
-- [ ] **Request parameters** query params, body, headers
-- [ ] **Request examples** sample requests
-- [ ] **Response format** what's returned
-- [ ] **Response examples** sample responses
-- [ ] **Status codes** possible HTTP status codes
-- [ ] **Error responses** error formats and codes
-- [ ] **Authentication** auth requirements
-
-## Documentation Levels
-
-Assess and report on documentation level:
-
-**Level 5 - Excellent:**
-- All public APIs fully documented
-- Examples provided for complex functions
-- Edge cases and errors documented
-- README comprehensive
-- Usage patterns clear
-
-**Level 4 - Good:**
-- Most public APIs documented
-- Basic examples provided
-- Common errors documented
-- README covers essentials
-
-**Level 3 - Adequate:**
-- Core APIs documented
-- Some examples present
-- README exists with basics
-- Missing some details
-
-**Level 2 - Minimal:**
-- Some APIs documented
-- Few or no examples
-- Basic README only
-- Many gaps
-
-**Level 1 - Poor:**
-- Little to no documentation
-- No examples
-- Missing or bare README
-- Major documentation gaps
-
-## Output Format
-
-When checking documentation, provide:
-
-### 1. Summary
-- Overall documentation level (1-5)
-- Percentage of public APIs documented
-- Number of missing doc blocks
-
-### 2. Missing Documentation
-List what's undocumented:
-```
-Missing documentation:
-- Function `processPayment` (src/payment.ts:42)
-- Class `UserCache` (src/cache.ts:15)
-- API endpoint POST /api/users (src/routes.ts:89)
-```
-
-### 3. Incomplete Documentation
-List what's partially documented:
-```
-Incomplete documentation:
-- Function `validateEmail`: missing examples
-- Class `Database`: missing constructor docs
-- README: missing configuration section
-```
-
-### 4. Priorities
-Rank by importance:
-```
-High Priority:
-- Public API functions (user-facing)
-- Security-sensitive operations
-- Complex algorithms
-
-Medium Priority:
-- Internal modules
-- Utility functions
-- Helper classes
-
-Low Priority:
-- Private methods
-- Simple getters/setters
-- Test utilities
-```
-
-### 5. Offer to Help
-
-After reporting:
-- "Would you like me to generate documentation for the missing items?"
-- "I can create JSDoc comments for these functions"
-- "Should I draft a README section for configuration?"
-
-## Best Practices
-
-### Document Intent, Not Implementation
-
-**Good:**
-```typescript
-/**
- * Validates user input to prevent SQL injection attacks.
- */
-```
-
-**Bad:**
-```typescript
-/**
- * Uses regex pattern to check string.
- */
-```
-
-### Use Examples for Complex Functions
-
-For anything non-obvious, show usage:
-```typescript
-/**
- * @example
- * // Simple case
- * const result = parseDate('2024-01-15');
- *
- * @example
- * // With timezone
- * const result = parseDate('2024-01-15', 'America/New_York');
- */
-```
-
-### Document Edge Cases
-
-Explain boundary conditions:
-```typescript
-/**
- * @param age - User's age (must be 0-150)
- * @throws {RangeError} If age is negative or over 150
- */
-```
-
-### Keep Documentation Updated
-
-Flag outdated documentation:
-- Function signature changed but docs didn't
-- New parameters not documented
-- Return type changed but docs still show old type
-
-## Language-Specific Formats
-
-**JavaScript/TypeScript:** JSDoc
-**Python:** Docstrings (Google or NumPy style)
-**Java:** Javadoc
-**C/C++:** Doxygen
-**Go:** Go doc comments
-**Rust:** Rustdoc
-**Ruby:** RDoc or YARD
-
-Use the appropriate format for the language.
-
-## When to Skip
-
-Don't be overly pedantic about:
-- Private helper functions (use discretion)
-- Test code (unless it's a test utility library)
-- Obvious trivial getters/setters
-- Generated code
-
-Focus on user-facing, public, and complex code.
-#+end_src
+*Includes:*
+- Documentation Completeness Checker (example)
 
 * Best Practices for Skills
 
@@ -1206,7 +201,121 @@ Example: Test Coverage
 
 * Resources
 
+** General Skills
+
 - [[https://code.anthropic.com/docs/skills][Skills Documentation]]
-- [[https://www.typescriptlang.org/docs/][TypeScript Documentation]]
-- [[https://jsdoc.app/][JSDoc Documentation]]
-- [[https://docs.pytest.org/][pytest Documentation]]
+
+** JavaScript/TypeScript Development
+
+*** Official Documentation
+- [[https://developer.mozilla.org/en-US/docs/Web/JavaScript][MDN JavaScript Documentation]] - Comprehensive JavaScript reference
+- [[https://www.typescriptlang.org/docs/][TypeScript Documentation]] - Official TypeScript handbook
+- [[https://tc39.es/ecma262/][ECMAScript Specification]] - JavaScript language specification
+
+*** TypeScript & Type Safety
+- [[https://www.typescriptlang.org/docs/handbook/intro.html][TypeScript Handbook]] - Complete TypeScript guide
+- [[https://github.com/total-typescript/beginners-typescript-tutorial][Total TypeScript]] - TypeScript learning resources
+- [[https://quicktype.io/][QuickType]] - Generate types from JSON
+- [[https://zod.dev/][Zod]] - TypeScript-first schema validation
+
+*** JavaScript/TypeScript Testing
+- [[https://jestjs.io/][Jest]] - JavaScript testing framework
+- [[https://vitest.dev/][Vitest]] - Fast unit testing for Vite projects
+- [[https://testing-library.com/][Testing Library]] - React/Vue/Angular testing utilities
+- [[https://playwright.dev/][Playwright]] - End-to-end testing
+
+*** JavaScript/TypeScript Security
+- [[https://eslint.org/docs/latest/rules/][ESLint Security Rules]] - Linting for security
+- [[https://github.com/cure53/DOMPurify][DOMPurify]] - XSS sanitizer
+- [[https://snyk.io/][Snyk]] - Dependency vulnerability scanner
+- [[https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html][OWASP Node.js Security]] - Node.js security best practices
+
+*** Code Quality & Formatting
+- [[https://eslint.org/][ESLint]] - JavaScript/TypeScript linter
+- [[https://prettier.io/][Prettier]] - Code formatter
+- [[https://typescript-eslint.io/][TypeScript ESLint]] - TypeScript-specific linting
+- [[https://biomejs.dev/][Biome]] - Fast formatter and linter
+
+*** Frameworks & Libraries
+- [[https://react.dev/][React Documentation]] - Official React docs
+- [[https://nextjs.org/docs][Next.js Documentation]] - React framework
+- [[https://vuejs.org/guide/introduction.html][Vue.js Guide]] - Vue.js framework
+- [[https://nodejs.org/docs/latest/api/][Node.js Documentation]] - Server-side JavaScript
+
+** Python Development
+
+*** Official Python Documentation
+- [[https://docs.python.org/3/][Python 3 Documentation]] - Official comprehensive documentation
+- [[https://peps.python.org/pep-0008/][PEP 8]] - Python style guide
+- [[https://peps.python.org/pep-0257/][PEP 257]] - Docstring conventions
+- [[https://peps.python.org/pep-0484/][PEP 484]] - Type hints
+- [[https://docs.python.org/3/library/typing.html][typing module]] - Type hints documentation
+
+*** Python Testing
+- [[https://docs.pytest.org/][pytest Documentation]] - Popular testing framework
+- [[https://docs.python.org/3/library/unittest.html][unittest]] - Built-in testing framework
+- [[https://docs.python.org/3/library/unittest.mock.html][unittest.mock]] - Mocking library
+- [[https://coverage.readthedocs.io/][Coverage.py]] - Code coverage measurement
+- [[https://hypothesis.readthedocs.io/][Hypothesis]] - Property-based testing
+
+*** Python Security
+- [[https://bandit.readthedocs.io/][Bandit]] - Python security linter
+- [[https://github.com/pyupio/safety][Safety]] - Check dependencies for vulnerabilities
+- [[https://github.com/pypa/pip-audit][pip-audit]] - Audit Python packages
+- [[https://owasp.org/www-project-top-ten/][OWASP Top 10]] - Web security vulnerabilities
+- [[https://cheatsheetseries.owasp.org/cheatsheets/Python_Security_Cheat_Sheet.html][OWASP Python Security]] - Python security best practices
+
+*** Python Code Quality
+- [[https://black.readthedocs.io/][Black]] - Code formatter
+- [[https://flake8.pycqa.org/][Flake8]] - Linting tool
+- [[https://pycqa.github.io/isort/][isort]] - Import sorting
+- [[https://pylint.readthedocs.io/][Pylint]] - Code analyzer
+- [[https://mypy.readthedocs.io/][mypy]] - Static type checker
+
+*** Python Type Hints
+- [[https://mypy.readthedocs.io/][mypy Documentation]] - Type checking
+- [[https://typing-extensions.readthedocs.io/][typing_extensions]] - Backported typing features
+- [[https://docs.pydantic.dev/][Pydantic]] - Data validation using type hints
+- [[https://pyright-python.readthedocs.io/][Pyright]] - Microsoft's type checker
+
+** Rails Development
+
+*** Official Rails Documentation
+- [[https://guides.rubyonrails.org/][Rails Guides]] - Official comprehensive guides
+- [[https://guides.rubyonrails.org/security.html][Rails Security Guide]] - Security best practices
+- [[https://guides.rubyonrails.org/active_record_migrations.html][Rails Migrations Guide]] - Migration documentation
+- [[https://guides.rubyonrails.org/upgrading_ruby_on_rails.html][Rails Upgrading Guide]] - Version upgrade instructions
+- [[https://api.rubyonrails.org/][Rails API Documentation]] - Complete API reference
+
+*** Rails Security
+- [[https://github.com/presidentbeef/brakeman][Brakeman]] - Static security analyzer for Rails
+- [[https://github.com/rubysec/bundler-audit][bundler-audit]] - Check for vulnerable gem versions
+- [[https://owasp.org/www-project-top-ten/][OWASP Top 10]] - Common web vulnerabilities
+- [[https://brakemanscanner.org/][Brakeman Scanner]] - Rails security scanning tool
+
+*** Rails Performance
+- [[https://github.com/flyerhzm/bullet][Bullet gem]] - N+1 query detector
+- [[https://github.com/charkost/prosopite][Prosopite]] - Alternative N+1 detector
+- [[https://github.com/palkan/n_plus_one_control][n_plus_one_control]] - RSpec/Minitest matchers for N+1
+- [[https://github.com/MiniProfiler/rack-mini-profiler][rack-mini-profiler]] - Performance profiling
+
+*** Rails Migration Safety
+- [[https://github.com/ankane/strong_migrations][strong_migrations gem]] - Catch unsafe migrations
+- [[https://github.com/fatkodima/online_migrations][online_migrations gem]] - Advanced PostgreSQL migration safety
+- [[https://www.postgresql.org/docs/current/sql-altertable.html][PostgreSQL ALTER TABLE]] - Understanding database locks
+
+*** Rails Testing
+- [[https://rspec.info/][RSpec]] - Behavior-driven testing framework
+- [[https://github.com/thoughtbot/factory_bot][FactoryBot]] - Fixture replacement for testing
+- [[https://github.com/simplecov-ruby/simplecov][SimpleCov]] - Code coverage analysis
+- [[https://github.com/teamcapybara/capybara][Capybara]] - Integration testing framework
+
+*** Rails Conventions
+- [[https://rails.rubystyle.guide/][Rails Style Guide]] - Community-driven style guide
+- [[https://github.com/rubocop/rubocop-rails][RuboCop Rails]] - Rails-specific linting
+- [[https://github.com/troessner/reek][Reek]] - Code smell detector
+
+*** Rails Upgrade Resources
+- [[https://railsdiff.org][RailsDiff.org]] - Compare Rails versions side-by-side
+- [[https://guides.rubyonrails.org/7_2_release_notes.html][Rails 7.2 Release Notes]]
+- [[https://guides.rubyonrails.org/8_0_release_notes.html][Rails 8.0 Release Notes]]

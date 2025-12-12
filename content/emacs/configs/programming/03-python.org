@@ -14,11 +14,12 @@ This module provides Python development support including:
 
 ** Key Features
 
-*** Python Mode
-- Syntax highlighting
+*** Python Mode & Tree-Sitter
+- Syntax highlighting (enhanced with tree-sitter)
 - Intelligent indentation
 - Code navigation
 - Integration with debugging tools
+- Automatic mode selection based on tree-sitter availability
 
 *** Virtual Environment Management
 - Automatic venv detection
@@ -49,20 +50,59 @@ This module provides Python development support including:
   ;;; Code:
 
   ;; Python mode settings
+  ;; (use-package python
+  ;;   :ensure nil
+  ;;   :mode ("\\.py\\'" . python-mode)
+  ;;   :interpreter ("python" "python3")
+  ;;   :custom
+  ;;   (python-indent-offset 4)
+  ;;   (python-indent-guess-indent-offset nil)
+  ;;   (python-shell-interpreter "python3")
+  ;;   (python-shell-completion-native-enable nil)  ; Avoid readline issues
+  ;;   :config
+  ;;   ;; Remove trailing whitespace on save
+  ;;   (add-hook 'python-mode-hook
+  ;;             (lambda ()
+  ;;               (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))))
+
+  ;; Python Tree-Sitter mode configuration
+  ;; Emacs 29+ includes built-in tree-sitter support
   (use-package python
     :ensure nil
-    :mode ("\\.py\\'" . python-mode)
-    :interpreter ("python" "python3")
+    :mode ("\\.py\\'" . python-ts-mode)
+    :interpreter ("python" . python-ts-mode)
     :custom
     (python-indent-offset 4)
     (python-indent-guess-indent-offset nil)
     (python-shell-interpreter "python3")
     (python-shell-completion-native-enable nil)  ; Avoid readline issues
+    :init
+    ;; Remap python-mode to python-ts-mode when tree-sitter is available
+    (when (and (fboundp 'treesit-available-p)
+               (treesit-available-p))
+      (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
+
     :config
-    ;; Remove trailing whitespace on save
-    (add-hook 'python-mode-hook
-              (lambda ()
-                (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))))
+    ;; Ensure tree-sitter grammar is installed
+    (defun fu-python-ensure-treesit-grammar ()
+      "Ensure Python tree-sitter grammar is installed."
+      (when (and (fboundp 'treesit-available-p)
+                 (treesit-available-p)
+                 (not (treesit-language-available-p 'python)))
+        (message "Python tree-sitter grammar not found. Install with M-x treesit-install-language-grammar RET python RET")))
+
+    (add-hook 'after-init-hook #'fu-python-ensure-treesit-grammar)
+
+    ;; Common settings for both python-mode and python-ts-mode
+    (defun fu-python-common-setup ()
+      "Common setup for Python modes."
+      (setq-local tab-width 4)
+      (setq-local indent-tabs-mode nil)
+      ;; Remove trailing whitespace on save
+      (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
+
+    (add-hook 'python-mode-hook #'fu-python-common-setup)
+    (add-hook 'python-ts-mode-hook #'fu-python-common-setup))
 
   ;; Virtual environment management
   (use-package pyvenv
@@ -87,13 +127,14 @@ This module provides Python development support including:
           (pyvenv-activate venv-path)
           (message "Activated virtual environment: %s" venv-path))))
 
-    (add-hook 'python-mode-hook #'fu-python-auto-activate-venv))
+    (add-hook 'python-mode-hook #'fu-python-auto-activate-venv)
+    (add-hook 'python-ts-mode-hook #'fu-python-auto-activate-venv))
 
   ;; Python formatting with Black
   (use-package python-black
     :defer t
     :commands (python-black-buffer python-black-region python-black-on-save-mode)
-    :hook (python-mode . python-black-on-save-mode-enable-dwim)
+    :hook ((python-mode python-ts-mode) . python-black-on-save-mode-enable-dwim)
     :config
     (defun python-black-on-save-mode-enable-dwim ()
       "Enable python-black-on-save-mode if black is available."
@@ -107,57 +148,13 @@ This module provides Python development support including:
     :hook (before-save . fu-python-isort-before-save)
     :config
     (defun fu-python-isort-before-save ()
-      "Run isort before saving if in python-mode and isort is available."
-      (when (and (eq major-mode 'python-mode)
+      "Run isort before saving if in python-mode or python-ts-mode and isort is available."
+      (when (and (derived-mode-p 'python-mode 'python-ts-mode)
                  (executable-find "isort"))
         (py-isort-buffer))))
 
-  ;; Testing with pytest
-  (use-package python-pytest
-    :defer t
-    :commands (python-pytest-popup
-               python-pytest-function
-               python-pytest-function-dwim
-               python-pytest-file
-               python-pytest-file-dwim)
-    :bind (:map python-mode-map
-                ("C-c t t" . python-pytest-popup)
-                ("C-c t f" . python-pytest-function-dwim)
-                ("C-c t m" . python-pytest-file-dwim)
-                ("C-c t p" . python-pytest)
-                ("C-c t r" . python-pytest-repeat))
-    :custom
-    (python-pytest-confirm nil))  ; Don't ask for confirmation
-
-  ;; Poetry integration
-  (use-package poetry
-    :defer t
-    :commands (poetry-venv-workon poetry-track-virtualenv)
-    :config
-    ;; Auto-activate poetry virtualenv when entering a poetry project
-    (defun fu-python-poetry-auto-activate ()
-      "Auto-activate poetry virtualenv if pyproject.toml exists."
-      (when (and (executable-find "poetry")
-                 (locate-dominating-file default-directory "pyproject.toml"))
-        (poetry-track-virtualenv)))
-
-    (add-hook 'python-mode-hook #'fu-python-poetry-auto-activate))
-
-  ;; Pip requirements management
-  (use-package pip-requirements
-    :mode (("requirements\\.txt\\'" . pip-requirements-mode)
-           ("requirements-.*\\.txt\\'" . pip-requirements-mode)
-           ("requirements/.*\\.txt\\'" . pip-requirements-mode)))
-
-  ;; Python docstring support
-  (use-package sphinx-doc
-    :defer t
-    :hook (python-mode . sphinx-doc-mode)
-    :bind (:map python-mode-map
-                ("C-c d" . sphinx-doc)))
-
   ;; Python REPL enhancements
-  (use-package python-mode
+  (use-package python
     :ensure nil
     :config
     ;; Send region/buffer to Python REPL
@@ -174,12 +171,18 @@ This module provides Python development support including:
       (python-shell-send-defun nil)
       (python-nav-forward-defun))
 
-    :bind (:map python-mode-map
-                ("C-c C-c" . fu-python-shell-send-region-or-buffer)
-                ("C-c C-n" . fu-python-shell-send-defun-and-step)
-                ("C-c C-r" . python-shell-send-region)
-                ("C-c C-b" . python-shell-send-buffer)
-                ("C-c C-z" . python-shell-switch-to-shell)))
+    :bind ((:map python-mode-map
+                 ("C-c C-c" . fu-python-shell-send-region-or-buffer)
+                 ("C-c C-n" . fu-python-shell-send-defun-and-step)
+                 ("C-c C-r" . python-shell-send-region)
+                 ("C-c C-b" . python-shell-send-buffer)
+                 ("C-c C-z" . python-shell-switch-to-shell))
+           (:map python-ts-mode-map
+                 ("C-c C-c" . fu-python-shell-send-region-or-buffer)
+                 ("C-c C-n" . fu-python-shell-send-defun-and-step)
+                 ("C-c C-r" . python-shell-send-region)
+                 ("C-c C-b" . python-shell-send-buffer)
+                 ("C-c C-z" . python-shell-switch-to-shell))))
 
   ;; Python debugger (pdb) integration
   (use-package realgud
@@ -210,7 +213,8 @@ This module provides Python development support including:
                    '(python-mode . ("pyright-langserver" "--stdio"))))
 
     ;; Enable eglot for Python
-    (add-hook 'python-mode-hook #'eglot-ensure))
+    (add-hook 'python-mode-hook #'eglot-ensure)
+    (add-hook 'python-ts-mode-hook #'eglot-ensure))
 
   ;; Flycheck for additional linting (optional, alongside Flymake)
   ;; (use-package flycheck

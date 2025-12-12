@@ -384,7 +384,7 @@ Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements PD
 
 ** Basic Setup
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; PDF Tools - Core Configuration
   (use-package pdf-tools
     :ensure t
@@ -413,7 +413,7 @@ Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements PD
 
 ** Display and Visual Settings
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; PDF Tools - Display Settings
   (with-eval-after-load 'pdf-view
     ;; Midnight mode colors (dark mode)
@@ -432,7 +432,7 @@ Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements PD
 
 ** Search and Navigation
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; PDF Tools - Enhanced Search
   (with-eval-after-load 'pdf-isearch
     ;; Search settings
@@ -454,7 +454,7 @@ Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements PD
 
 ** Annotations and Markup
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; PDF Tools - Annotations
   (with-eval-after-load 'pdf-annot
     ;; Annotation list settings
@@ -505,7 +505,7 @@ Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements PD
 
 ** Bookmarks and Links
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; PDF Tools - Bookmarks
   (with-eval-after-load 'pdf-view
     ;; Enable bookmark support
@@ -542,7 +542,7 @@ Reference: [[https://emacselements.com/pdf-tools-settings.html][EmacsElements PD
 
 Comprehensive keybinding setup for all PDF operations.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; PDF Tools - Keybindings
   (with-eval-after-load 'pdf-view
     (let ((map pdf-view-mode-map))
@@ -613,7 +613,7 @@ Comprehensive keybinding setup for all PDF operations.
 
 Additional utility functions for enhanced PDF workflow.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; PDF Tools - Helper Functions
 
   (defun fu/pdf-print-buffer ()
@@ -825,6 +825,69 @@ Example database configuration with ejc-sql. Disabled by default.
        :user           "username"
        :password       "password"
        :separator      "/")))
+#+end_src
+
+* Scratch Buffers
+
+Create temporary scratch buffers with specific major modes for quick testing and experimentation.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  (defun create-scratch-with-mode (mode)
+    "Create a new scratch buffer in the specified MODE.
+  Prompts for a major mode interactively and creates a uniquely
+  named scratch buffer in that mode."
+    (interactive
+     (list
+      (intern
+       (completing-read
+        "Major mode for scratch buffer: "
+        (let ((modes nil))
+          (mapatoms
+           (lambda (symbol)
+             (when (and (functionp symbol)
+                        (string-match-p "-mode$" (symbol-name symbol))
+                        (not (string-match-p "-minor-mode$" (symbol-name symbol))))
+               (push (symbol-name symbol) modes))))
+          modes)
+        nil nil nil nil "fundamental-mode"))))
+    (let* ((mode-name (replace-regexp-in-string "-mode$" "" (symbol-name mode)))
+           (buffer-name (generate-new-buffer-name (format "*scratch-%s*" mode-name)))
+           (buf (get-buffer-create buffer-name)))
+      (with-current-buffer buf
+        (funcall mode)
+        ;; Use mode's comment character or default to nothing if no comments
+        (when comment-start
+          (let ((comment (string-trim comment-start)))
+            (insert (format "%s Scratch buffer in %s\n%s Evaluate expressions and experiment freely!\n\n"
+                            comment (symbol-name mode)
+                            comment)))))
+      (switch-to-buffer buf)
+      (message "Created scratch buffer '%s' in %s" buffer-name (symbol-name mode))))
+
+  ;; Quick shortcut for common modes
+  (defun scratch-elisp ()
+    "Create a scratch buffer in `emacs-lisp-mode'."
+    (interactive)
+    (create-scratch-with-mode 'emacs-lisp-mode))
+
+  (defun scratch-org ()
+    "Create a scratch buffer in `org-mode'."
+    (interactive)
+    (create-scratch-with-mode 'org-mode))
+
+  (defun scratch-text ()
+    "Create a scratch buffer in `text-mode'."
+    (interactive)
+    (create-scratch-with-mode 'text-mode))
+
+  (defun scratch-python ()
+    "Create a scratch buffer in `python-mode'."
+    (interactive)
+    (create-scratch-with-mode 'python-mode))
+
+  ;; Bind to a convenient key if desired:
+  ;; (global-set-key (kbd "C-c s") 'create-scratch-with-mode)
+
 #+end_src
 
 * End of File

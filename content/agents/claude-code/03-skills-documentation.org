@@ -1,0 +1,323 @@
+#+TITLE: Agent Skills - Documentation
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:markdown :mkdirp yes :results none
+#+PROPERTY: SKILL_BASE_DIR ~/.claude/skills
+
+# Tangle Path Configuration
+#
+# By default, skills are tangled to ~/.claude/skills/
+#
+# To use project-specific skill directories, you have two options:
+#
+# Option 1: Change SKILL_BASE_DIR property above (affects this file only)
+#   #+PROPERTY: SKILL_BASE_DIR /path/to/project/.claude/skills
+#
+# Option 2: Use the retarget script (affects all skill files):
+#   ./retarget-skills.sh /path/to/project/.claude/skills
+#
+# After changing paths, run: ./tangle-claude.sh
+
+* Documentation Skills
+
+Skills for maintaining and improving documentation.
+
+** Documentation Completeness Checker
+
+Ensure comprehensive documentation automatically.
+
+#+begin_src markdown :tangle no
+---
+name: Documentation Completeness Checker
+description: Automatically check for missing or incomplete documentation when viewing code, preparing for code review, or when documentation quality is a concern
+allowed-tools:
+  - Read
+  - Grep
+  - Write
+---
+
+# Documentation Completeness Checker
+
+## Activation Triggers
+
+Activate when:
+- Viewing undocumented code files
+- Adding new public APIs or functions
+- Preparing for pull request or code review
+- User mentions documentation, docs, or comments
+- README or documentation files are opened
+- User asks "is this documented?"
+
+## Check Criteria
+
+### Function/Method Documentation
+
+For each public function, check:
+
+- [ ] **Purpose** clearly stated
+- [ ] **Parameters** documented with types and descriptions
+- [ ] **Return value** documented with type and meaning
+- [ ] **Exceptions/Errors** documented (what errors can occur)
+- [ ] **Usage examples** provided for complex functions
+- [ ] **Edge cases** noted (boundary conditions, special handling)
+- [ ] **Time complexity** noted for algorithms (if relevant)
+
+**Example - Well Documented:**
+```typescript
+/**
+ * Calculates the total price including tax and discount.
+ *
+ * @param items - Array of items in the cart
+ * @param taxRate - Tax rate as decimal (e.g., 0.08 for 8%)
+ * @param discountCode - Optional discount code to apply
+ * @returns Total price after tax and discount
+ * @throws {InvalidDiscountError} If discount code is invalid
+ *
+ * @example
+ * const total = calculateTotal(
+ *   [{ price: 10 }, { price: 20 }],
+ *   0.08,
+ *   'SAVE10'
+ * );
+ */
+function calculateTotal(
+  items: Item[],
+  taxRate: number,
+  discountCode?: string
+): number {
+  // implementation
+}
+```
+
+### Class/Module Documentation
+
+For classes and modules, check:
+
+- [ ] **Overview** of responsibility and purpose
+- [ ] **Public API** all public methods documented
+- [ ] **Usage examples** showing typical usage patterns
+- [ ] **Dependencies** external requirements noted
+- [ ] **Thread safety** concurrency considerations (if applicable)
+- [ ] **Design patterns** patterns used (if notable)
+
+**Example:**
+```typescript
+/**
+ * UserService handles user account operations.
+ *
+ * Provides methods for creating, updating, and authenticating users.
+ * All methods are async and use the database connection from the
+ * constructor.
+ *
+ * @example
+ * const userService = new UserService(database);
+ * const user = await userService.createUser({
+ *   name: 'John',
+ *   email: 'john@example.com'
+ * });
+ */
+class UserService {
+  // implementation
+}
+```
+
+### File/Package Documentation
+
+For files and packages, check:
+
+- [ ] **File header** explaining purpose and contents
+- [ ] **Exports** what's exposed to other modules
+- [ ] **Module overview** high-level description
+- [ ] **Usage examples** how to use the module
+- [ ] **License** licensing information (if applicable)
+
+### README Documentation
+
+For README files, check:
+
+- [ ] **Project description** what the project does
+- [ ] **Installation instructions** how to install
+- [ ] **Quick start** basic usage example
+- [ ] **Configuration** how to configure
+- [ ] **API documentation** or link to it
+- [ ] **Examples** practical usage examples
+- [ ] **Contributing guidelines** how to contribute
+- [ ] **License** license information
+- [ ] **Contact/Support** how to get help
+
+### API Documentation
+
+For API endpoints, check:
+
+- [ ] **Endpoint description** what it does
+- [ ] **HTTP method and path** clearly stated
+- [ ] **Request parameters** query params, body, headers
+- [ ] **Request examples** sample requests
+- [ ] **Response format** what's returned
+- [ ] **Response examples** sample responses
+- [ ] **Status codes** possible HTTP status codes
+- [ ] **Error responses** error formats and codes
+- [ ] **Authentication** auth requirements
+
+## Documentation Levels
+
+Assess and report on documentation level:
+
+**Level 5 - Excellent:**
+- All public APIs fully documented
+- Examples provided for complex functions
+- Edge cases and errors documented
+- README comprehensive
+- Usage patterns clear
+
+**Level 4 - Good:**
+- Most public APIs documented
+- Basic examples provided
+- Common errors documented
+- README covers essentials
+
+**Level 3 - Adequate:**
+- Core APIs documented
+- Some examples present
+- README exists with basics
+- Missing some details
+
+**Level 2 - Minimal:**
+- Some APIs documented
+- Few or no examples
+- Basic README only
+- Many gaps
+
+**Level 1 - Poor:**
+- Little to no documentation
+- No examples
+- Missing or bare README
+- Major documentation gaps
+
+## Output Format
+
+When checking documentation, provide:
+
+### 1. Summary
+- Overall documentation level (1-5)
+- Percentage of public APIs documented
+- Number of missing doc blocks
+
+### 2. Missing Documentation
+List what's undocumented:
+```
+Missing documentation:
+- Function `processPayment` (src/payment.ts:42)
+- Class `UserCache` (src/cache.ts:15)
+- API endpoint POST /api/users (src/routes.ts:89)
+```
+
+### 3. Incomplete Documentation
+List what's partially documented:
+```
+Incomplete documentation:
+- Function `validateEmail`: missing examples
+- Class `Database`: missing constructor docs
+- README: missing configuration section
+```
+
+### 4. Priorities
+Rank by importance:
+```
+High Priority:
+- Public API functions (user-facing)
+- Security-sensitive operations
+- Complex algorithms
+
+Medium Priority:
+- Internal modules
+- Utility functions
+- Helper classes
+
+Low Priority:
+- Private methods
+- Simple getters/setters
+- Test utilities
+```
+
+### 5. Offer to Help
+
+After reporting:
+- "Would you like me to generate documentation for the missing items?"
+- "I can create JSDoc comments for these functions"
+- "Should I draft a README section for configuration?"
+
+## Best Practices
+
+### Document Intent, Not Implementation
+
+**Good:**
+```typescript
+/**
+ * Validates user input to prevent SQL injection attacks.
+ */
+```
+
+**Bad:**
+```typescript
+/**
+ * Uses regex pattern to check string.
+ */
+```
+
+### Use Examples for Complex Functions
+
+For anything non-obvious, show usage:
+```typescript
+/**
+ * @example
+ * // Simple case
+ * const result = parseDate('2024-01-15');
+ *
+ * @example
+ * // With timezone
+ * const result = parseDate('2024-01-15', 'America/New_York');
+ */
+```
+
+### Document Edge Cases
+
+Explain boundary conditions:
+```typescript
+/**
+ * @param age - User's age (must be 0-150)
+ * @throws {RangeError} If age is negative or over 150
+ */
+```
+
+### Keep Documentation Updated
+
+Flag outdated documentation:
+- Function signature changed but docs didn't
+- New parameters not documented
+- Return type changed but docs still show old type
+
+## Language-Specific Formats
+
+**JavaScript/TypeScript:** JSDoc
+**Python:** Docstrings (Google or NumPy style)
+**Java:** Javadoc
+**C/C++:** Doxygen
+**Go:** Go doc comments
+**Rust:** Rustdoc
+**Ruby:** RDoc or YARD
+
+Use the appropriate format for the language.
+
+## When to Skip
+
+Don't be overly pedantic about:
+- Private helper functions (use discretion)
+- Test code (unless it's a test utility library)
+- Obvious trivial getters/setters
+- Generated code
+
+Focus on user-facing, public, and complex code.
+#+end_src
+

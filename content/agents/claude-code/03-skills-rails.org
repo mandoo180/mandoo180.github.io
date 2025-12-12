@@ -1,0 +1,3267 @@
+#+TITLE: Agent Skills - Rails Development
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:markdown :mkdirp yes :results none
+#+PROPERTY: SKILL_BASE_DIR ~/.claude/skills
+
+# Tangle Path Configuration
+#
+# By default, skills are tangled to ~/.claude/skills/
+#
+# To use project-specific skill directories, you have two options:
+#
+# Option 1: Change SKILL_BASE_DIR property above (affects this file only)
+#   #+PROPERTY: SKILL_BASE_DIR /path/to/project/.claude/skills
+#
+# Option 2: Use the retarget script (affects all skill files):
+#   ./retarget-skills.sh /path/to/project/.claude/skills
+#
+# After changing paths, run: ./tangle-claude.sh
+
+* Rails Development Skills
+
+Skills for Ruby on Rails development, covering conventions, security, performance, and testing.
+
+** Overview
+
+Rails has strong conventions and best practices. These skills help enforce Rails patterns, detect performance issues, identify security vulnerabilities, ensure migration safety, and maintain comprehensive test coverage.
+
+These skills activate automatically when working in Rails projects (detected by presence of =Gemfile=, =config/routes.rb=, or =app/= directory).
+
+*Note:* Requires tool permissions in =.claude/settings.json=:
+- =Bash(bundle:*)=
+- =Bash(rails:*)=
+- =Bash(bundle exec:*)=
+- =Bash(bundle audit:*)=
+
+** Rails Convention Enforcer
+
+Automatically enforce Rails conventions for file placement, naming, routing patterns, and architectural structure.
+
+#+begin_src markdown :tangle ~/.claude/skills/rails-conventions/SKILL.md
+---
+name: Rails Convention Enforcer
+description: Automatically enforce Rails conventions for file placement, naming, routing, and architectural patterns when working in Ruby on Rails projects
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(bundle:*)
+  - Bash(rails:*)
+---
+
+# Rails Convention Enforcer
+
+## Activation Triggers
+
+Automatically activate when:
+- Detecting Rails project (=Gemfile= with =gem 'rails'=, =config/application.rb=, =app/= directory)
+- Creating new controllers, models, views, migrations
+- Modifying =config/routes.rb=
+- Adding services, concerns, helpers, or jobs
+- File or class naming inconsistencies detected
+- User mentions "Rails conventions" or "Rails structure"
+
+## Convention Categories
+
+### 1. File Placement & Directory Structure
+
+Rails has a specific directory structure. Check that files are in the correct location:
+
+,**Standard Directories:**
+- =app/models/= → ActiveRecord models, model concerns
+- =app/controllers/= → Controller classes, controller concerns
+- =app/views/= → View templates (ERB, Haml, Slim)
+- =app/helpers/= → View helpers
+- =app/services/= → Service objects (business logic)
+- =app/jobs/= → Background jobs (ActiveJob, Sidekiq)
+- =app/mailers/= → Email mailers
+- =app/channels/= → Action Cable channels (WebSockets)
+- =config/= → Configuration files, initializers, routes
+- =db/migrate/= → Database migrations
+- =lib/= → Non-app code, custom libraries
+- =spec/= or =test/= → Tests (RSpec or Minitest)
+
+,**Common Mistakes:**
+```ruby
+# WRONG - service in models directory
+app/models/user_registration_service.rb
+
+# CORRECT - service in services directory
+app/services/user_registration_service.rb
+```
+
+### 2. Naming Conventions
+
+Rails uses strong naming conventions. Enforce consistent naming:
+
+,**Controllers:**
+- File: Plural, snake_case, ends with =_controller.rb=
+- Class: Plural, PascalCase, ends with =Controller=
+- Example: =app/controllers/users_controller.rb= → =UsersController=
+
+,**Models:**
+- File: Singular, snake_case, ends with =.rb=
+- Class: Singular, PascalCase
+- Example: =app/models/user.rb= → =User=
+
+,**Database Tables:**
+- Plural, snake_case
+- Example: =users=, =blog_posts=, =order_items=
+
+,**Associations:**
+- =has_many= → plural, snake_case (=has_many :posts=)
+- =belongs_to= → singular, snake_case (=belongs_to :user=)
+- =has_one= → singular, snake_case (=has_one :profile=)
+
+,**Views:**
+- Directory: Plural, snake_case, matches controller name
+- Files: Action name, snake_case
+- Example: =app/views/users/show.html.erb=
+
+,**Examples:**
+
+**Good:**
+```ruby
+# app/controllers/blog_posts_controller.rb
+class BlogPostsController < ApplicationController
+  def index
+    @blog_posts = BlogPost.all
+  end
+end
+
+# app/models/blog_post.rb
+class BlogPost < ApplicationRecord
+  belongs_to :author, class_name: 'User'
+  has_many :comments
+end
+```
+
+**Bad:**
+```ruby
+# WRONG - singular controller name
+# app/controllers/blog_post_controller.rb
+class BlogPostController < ApplicationController
+end
+
+# WRONG - plural model name
+# app/models/blog_posts.rb
+class BlogPosts < ApplicationRecord
+end
+```
+
+### 3. RESTful Routing Patterns
+
+Rails promotes RESTful routes. Encourage standard resource routes:
+
+,**Standard REST Actions:**
+- =index= - List resources (GET /users)
+- =show= - Show one resource (GET /users/:id)
+- =new= - Form to create (GET /users/new)
+- =create= - Create resource (POST /users)
+- =edit= - Form to edit (GET /users/:id/edit)
+- =update= - Update resource (PATCH /users/:id)
+- =destroy= - Delete resource (DELETE /users/:id)
+
+,**Good Routing:**
+```ruby
+# config/routes.rb
+resources :users
+resources :posts, only: [:index, :show]
+resources :comments, except: [:destroy]
+
+# Nested resources
+resources :users do
+  resources :posts
+end
+```
+
+,**Bad Routing:**
+```ruby
+# AVOID - non-RESTful custom routes
+get '/get_user/:id', to: 'users#get_user'
+post '/create_user', to: 'users#create_user'
+get '/delete_user/:id', to: 'users#delete_user'
+
+# Instead use:
+resources :users, only: [:show, :create, :destroy]
+```
+
+,**Custom Actions:**
+When adding custom actions, use =member= or =collection=:
+```ruby
+resources :posts do
+  member do
+    post :publish      # /posts/:id/publish
+    post :unpublish
+  end
+
+  collection do
+    get :archived      # /posts/archived
+  end
+end
+```
+
+### 4. MVC Boundaries (Separation of Concerns)
+
+Rails follows Model-View-Controller pattern. Enforce proper separation:
+
+,**Models:**
+- Business logic, validations, associations
+- Database queries (scopes, class methods)
+- Callbacks (before_save, after_create, etc.)
+
+,**Controllers:**
+- Handle HTTP requests/responses
+- Authentication/authorization checks
+- Set instance variables for views
+- Render or redirect
+- Should be thin (delegate to models/services)
+
+,**Views:**
+- Display data
+- Simple logic via helpers
+- NO database queries
+- NO business logic
+
+,**Good:**
+```ruby
+# app/models/user.rb
+class User < ApplicationRecord
+  validates :email, presence: true, uniqueness: true
+
+  scope :active, -> { where(active: true) }
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+end
+
+# app/controllers/users_controller.rb
+class UsersController < ApplicationController
+  def index
+    @users = User.active.order(created_at: :desc)
+  end
+end
+
+# app/views/users/index.html.erb
+<% @users.each do |user| %>
+  <p><%= user.full_name %></p>
+<% end %>
+```
+
+,**Bad:**
+```ruby
+# BAD - business logic in controller
+class UsersController < ApplicationController
+  def index
+    @users = User.where("active = ? AND created_at > ?", true, 30.days.ago)
+                 .order(created_at: :desc)
+  end
+end
+
+# BAD - database query in view
+# app/views/users/show.html.erb
+<%= User.find(params[:id]).posts.count %>  # Query in view!
+```
+
+### 5. Rails Idioms
+
+Encourage Rails-specific patterns and idioms:
+
+,**Use Concerns Over Deep Inheritance:**
+```ruby
+# Good - use concerns
+# app/models/concerns/taggable.rb
+module Taggable
+  extend ActiveSupport::Concern
+
+  included do
+    has_many :tags, as: :taggable
+  end
+end
+
+# app/models/post.rb
+class Post < ApplicationRecord
+  include Taggable
+end
+```
+
+,**Scopes for Queries:**
+```ruby
+# Good - use scopes
+class Article < ApplicationRecord
+  scope :published, -> { where(published: true) }
+  scope :recent, -> { where('created_at > ?', 1.week.ago) }
+end
+
+# Usage
+Article.published.recent
+```
+
+,**before_action for Filters:**
+```ruby
+# Good
+class PostsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+
+  private
+
+  def set_post
+    @post = Post.find(params[:id])
+  end
+end
+```
+
+,**Service Objects for Complex Logic:**
+```ruby
+# Good - extract complex operations to services
+# app/services/user_registration_service.rb
+class UserRegistrationService
+  def initialize(user_params)
+    @user_params = user_params
+  end
+
+  def call
+    user = User.new(@user_params)
+    if user.save
+      UserMailer.welcome_email(user).deliver_later
+      CreateUserProfileJob.perform_later(user.id)
+    end
+    user
+  end
+end
+
+# In controller
+def create
+  service = UserRegistrationService.new(user_params)
+  @user = service.call
+
+  if @user.persisted?
+    redirect_to @user
+  else
+    render :new
+  end
+end
+```
+
+### 6. Strong Parameters Location
+
+Always use strong parameters in controllers:
+
+```ruby
+# Good - strong parameters in private method
+class UsersController < ApplicationController
+  def create
+    @user = User.new(user_params)
+    # ...
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :bio)
+  end
+end
+
+# BAD - accepting all params
+def create
+  @user = User.new(params[:user])  # Security vulnerability!
+end
+```
+
+## Detection Process
+
+When reviewing Rails code:
+
+1. **Check file location** - Verify file is in correct directory
+2. **Verify naming** - Check file names match class names and conventions
+3. **Scan routes** - Look for non-RESTful patterns
+4. **Check layer boundaries** - Ensure logic is in correct layer (no queries in views)
+5. **Review patterns** - Suggest concerns, scopes, services where appropriate
+6. **Suggest corrections** - Provide specific guidance on how to fix violations
+
+## Examples
+
+### Example 1: Controller Naming
+
+,**User Code:**
+```ruby
+# app/controllers/user.rb
+class User < ApplicationController
+end
+```
+
+,**Issue:** Controller has wrong name (should be plural and end with Controller)
+
+,**Suggestion:**
+"The controller should be named =UsersController= (plural) and the file should be =users_controller.rb=. Rails convention is:
+- File: =app/controllers/users_controller.rb=
+- Class: =class UsersController < ApplicationController="
+
+### Example 2: Non-RESTful Routes
+
+,**User Code:**
+```ruby
+# config/routes.rb
+get '/show_user/:id', to: 'users#show_user'
+post '/add_user', to: 'users#add_user'
+```
+
+,**Issue:** Non-RESTful route naming
+
+,**Suggestion:**
+"These routes don't follow REST conventions. Rails has built-in RESTful routing:
+
+```ruby
+resources :users, only: [:show, :create]
+```
+
+This creates:
+- =GET /users/:id= → =users#show=
+- =POST /users= → =users#create=
+"
+
+### Example 3: Business Logic in Controller
+
+,**User Code:**
+```ruby
+class OrdersController < ApplicationController
+  def create
+    @order = Order.new(order_params)
+    @order.total = @order.line_items.sum(&:price)
+    @order.tax = @order.total * 0.08
+    @order.grand_total = @order.total + @order.tax
+
+    if @order.save
+      OrderMailer.confirmation(@order).deliver_later
+      redirect_to @order
+    else
+      render :new
+    end
+  end
+end
+```
+
+,**Issue:** Business logic in controller
+
+,**Suggestion:**
+"This controller has too much business logic. Move calculations to the model:
+
+```ruby
+# app/models/order.rb
+class Order < ApplicationRecord
+  before_save :calculate_totals
+  after_create :send_confirmation
+
+  private
+
+  def calculate_totals
+    self.total = line_items.sum(&:price)
+    self.tax = total * 0.08
+    self.grand_total = total + tax
+  end
+
+  def send_confirmation
+    OrderMailer.confirmation(self).deliver_later
+  end
+end
+
+# app/controllers/orders_controller.rb
+class OrdersController < ApplicationController
+  def create
+    @order = Order.new(order_params)
+
+    if @order.save
+      redirect_to @order
+    else
+      render :new
+    end
+  end
+end
+```
+
+Or use a service object if the logic is more complex."
+
+## Best Practices
+
+### Keep Controllers Thin
+
+Controllers should:
+- Set up data for views
+- Handle request/response
+- Delegate business logic to models/services
+
+Aim for 5-7 lines per action (excluding private methods).
+
+### Fat Models or Service Objects
+
+Business logic goes in:
+- Models (for simple logic related to one model)
+- Service objects (for complex operations involving multiple models)
+
+### Use Concerns for Shared Behavior
+
+Instead of inheritance, use concerns to share behavior across models or controllers.
+
+### Follow REST When Possible
+
+RESTful routes make your API predictable and easier to understand. Only deviate when there's a good reason.
+
+### Consistent Naming
+
+Consistent naming makes code navigable. Follow Rails conventions strictly for:
+- Files
+- Classes
+- Methods
+- Routes
+- Database tables/columns
+
+## Tools for Convention Checking
+
+,**RuboCop with Rails cops:**
+```ruby
+# .rubocop.yml
+require:
+  - rubocop-rails
+
+Rails:
+  Enabled: true
+```
+
+,**Reek for code smells:**
+Detects long methods, too many instance variables, etc.
+
+,**Rails Best Practices gem:**
+Static code analyzer for Rails-specific anti-patterns.
+
+## When to Skip
+
+Some conventions can be broken with good reason:
+- Legacy code migration (gradual refactoring)
+- Third-party gem integration requirements
+- Performance optimizations (with documentation)
+- Explicit user/team decision (document in README)
+
+Always explain why a convention is being violated if it's intentional.
+#+end_src
+
+** N+1 Query Detector
+
+Detect N+1 query problems in Rails code by identifying missing eager loading.
+
+#+begin_src markdown :tangle no
+---
+name: N+1 Query Detector
+description: Detect N+1 query problems in Rails code by identifying missing includes, eager_load, or preload statements when iterating over associations
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(bundle exec:*)
+---
+
+# N+1 Query Detector
+
+## Activation Triggers
+
+Automatically activate when:
+- Viewing controller actions with ActiveRecord queries
+- Examining code that iterates over model collections
+- Association access patterns detected (=.posts=, =.comments=, etc.)
+- User mentions "slow queries", "performance", or "database"
+- Rails logs show repeated similar queries
+- Testing or profiling code
+
+## What is an N+1 Query?
+
+An N+1 query happens when:
+1. You load N records (e.g., 10 users)
+2. For each record, you trigger another query (e.g., get that user's posts)
+3. Result: 1 query + N queries = N+1 total queries
+
+,**Example:**
+```ruby
+# 1 query to get users
+users = User.all  # SELECT * FROM users
+
+# N queries (one per user)
+users.each do |user|
+  puts user.posts.count  # SELECT COUNT(*) FROM posts WHERE user_id = ?
+end
+
+# Total: 1 + N queries (if 100 users = 101 queries!)
+```
+
+## Detection Patterns
+
+### Pattern 1: Association Iteration Without Eager Loading
+
+,**Problem:**
+```ruby
+# Controller
+@users = User.all
+
+# View
+<% @users.each do |user| %>
+  <%= user.posts.count %>  # N+1!
+  <%= user.profile.avatar %>  # Another N+1!
+<% end %>
+```
+
+,**Solution:**
+```ruby
+# Controller - eager load associations
+@users = User.includes(:posts, :profile)
+
+# Now the view uses preloaded data, no extra queries
+```
+
+### Pattern 2: Mapping Over Collections
+
+,**Problem:**
+```ruby
+User.all.map do |user|
+  {
+    name: user.name,
+    post_count: user.posts.count  # N+1
+  }
+end
+```
+
+,**Solution:**
+```ruby
+User.includes(:posts).map do |user|
+  {
+    name: user.name,
+    post_count: user.posts.size  # Uses preloaded association
+  }
+end
+
+# Or better - use counter cache or database aggregation:
+User.left_joins(:posts)
+    .select('users.*, COUNT(posts.id) as post_count')
+    .group('users.id')
+```
+
+### Pattern 3: Nested Associations
+
+,**Problem:**
+```ruby
+User.includes(:posts)  # Only loads posts
+
+users.each do |user|
+  user.posts.each do |post|
+    post.comments.count  # N+1 on comments!
+  end
+end
+```
+
+,**Solution:**
+```ruby
+# Use nested includes
+User.includes(posts: :comments)
+
+# For deeply nested:
+User.includes(posts: { comments: :author })
+```
+
+### Pattern 4: Conditional Association Access
+
+,**Problem:**
+```ruby
+User.all.select do |user|
+  user.posts.published.any?  # N+1!
+end
+```
+
+,**Solution:**
+```ruby
+# Use joins and where instead
+User.joins(:posts).where(posts: { published: true }).distinct
+
+# Or includes with filter
+User.includes(:posts).where(posts: { published: true }).references(:posts)
+```
+
+### Pattern 5: JSON/API Responses
+
+,**Problem:**
+```ruby
+users = User.all
+render json: users.map { |u|
+  {
+    name: u.name,
+    posts: u.posts.map { |p| p.title }  # N+1
+  }
+}
+```
+
+,**Solution:**
+```ruby
+users = User.includes(:posts)
+render json: users.map { |u|
+  {
+    name: u.name,
+    posts: u.posts.map { |p| p.title }  # Uses preloaded data
+  }
+}
+```
+
+## Eager Loading Strategies
+
+### includes
+
+Most common. Uses separate queries but loads all at once.
+
+```ruby
+User.includes(:posts)
+# Query 1: SELECT * FROM users
+# Query 2: SELECT * FROM posts WHERE user_id IN (1,2,3...)
+```
+
+**Use when:** You'll access the association
+
+### preload
+
+Always uses separate queries (like includes).
+
+```ruby
+User.preload(:posts)
+```
+
+**Use when:** You want to ensure separate queries (for query optimization)
+
+### eager_load
+
+Uses LEFT OUTER JOIN - single query.
+
+```ruby
+User.eager_load(:posts)
+# SELECT * FROM users LEFT OUTER JOIN posts ON posts.user_id = users.id
+```
+
+**Use when:** You need WHERE conditions on associations
+
+### joins
+
+Uses INNER JOIN - doesn't load associations.
+
+```ruby
+User.joins(:posts)
+```
+
+**Use when:** You only need to filter/count, not access association data
+
+## Comparison
+
+| Method | Queries | Loads Association | Use Case |
+|--------|---------|-------------------|----------|
+| includes | 2 (or 1 with join) | Yes | Default choice |
+| preload | 2+ | Yes | Force separate queries |
+| eager_load | 1 (join) | Yes | Need WHERE on association |
+| joins | 1 (join) | No | Filter only, don't need data |
+
+## Counter Caches
+
+For simple counts, use counter caches instead of queries:
+
+```ruby
+# Migration
+class AddPostsCountToUsers < ActiveRecord::Migration[7.0]
+  def change
+    add_column :users, :posts_count, :integer, default: 0
+  end
+end
+
+# Model
+class Post < ApplicationRecord
+  belongs_to :user, counter_cache: true
+end
+
+# Now this is instant (no query):
+user.posts_count  # Reads from column, not COUNT query
+```
+
+## Detection Process
+
+1. **Scan for association access** in loops or maps
+2. **Check if eager loading present** in the query
+3. **Identify nested association access**
+4. **Look for counts/sizes** on associations
+5. **Check API/JSON serialization** code
+6. **Review logs** for repeated similar queries
+
+## Examples
+
+### Example 1: Controller Action
+
+,**Code:**
+```ruby
+class UsersController < ApplicationController
+  def index
+    @users = User.where(active: true)
+  end
+end
+
+# View: app/views/users/index.html.erb
+<% @users.each do |user| %>
+  <div>
+    <h2><%= user.name %></h2>
+    <p>Posts: <%= user.posts.count %></p>
+    <p>Comments: <%= user.comments.count %></p>
+  </div>
+<% end %>
+```
+
+,**Issue:** N+1 on both posts and comments
+
+,**Suggestion:**
+"Add eager loading in the controller:
+```ruby
+@users = User.includes(:posts, :comments).where(active: true)
+```
+
+Or use counter caches for better performance."
+
+### Example 2: API Endpoint
+
+,**Code:**
+```ruby
+def index
+  users = User.all
+  render json: users.map { |u|
+    {
+      id: u.id,
+      name: u.name,
+      recent_posts: u.posts.recent.limit(5).map(&:title)
+    }
+  }
+end
+```
+
+,**Issue:** N+1 on posts
+
+,**Suggestion:**
+"Eager load the association:
+```ruby
+users = User.includes(:posts)
+render json: users.map { |u|
+  {
+    id: u.id,
+    name: u.name,
+    recent_posts: u.posts.recent.limit(5).map(&:title)
+  }
+}
+```
+
+Note: =.recent= is called on the preloaded association in memory."
+
+### Example 3: Complex Nested
+
+,**Code:**
+```ruby
+@blogs = Blog.includes(:posts)
+
+@blogs.each do |blog|
+  blog.posts.each do |post|
+    post.comments.each do |comment|
+      puts comment.author.name  # N+1 on authors!
+    end
+  end
+end
+```
+
+,**Issue:** Missing nested includes
+
+,**Suggestion:**
+"Include the full nesting:
+```ruby
+@blogs = Blog.includes(posts: { comments: :author })
+```
+
+This loads all data in 4 queries instead of potentially hundreds."
+
+## Tools for Detection
+
+### Bullet Gem
+
+The most popular N+1 detector for Rails.
+
+```ruby
+# Gemfile
+group :development do
+  gem 'bullet'
+end
+
+# config/environments/development.rb
+config.after_initialize do
+  Bullet.enable = true
+  Bullet.alert = true
+  Bullet.bullet_logger = true
+  Bullet.console = true
+  Bullet.rails_logger = true
+end
+```
+
+Bullet will notify you when:
+- N+1 queries occur
+- Unused eager loading (over-eager loading)
+- Missing counter caches
+
+### Prosopite
+
+Alternative N+1 detector with different approach.
+
+```ruby
+# Gemfile
+gem 'prosopite'
+
+# In development
+Prosopite.scan
+# Your code here
+Prosopite.finish
+```
+
+### n_plus_one_control
+
+RSpec/Minitest matchers for testing N+1 in specs.
+
+```ruby
+# In spec
+it "avoids N+1 queries" do
+  expect { get :index }.to perform_constant_number_of_queries
+end
+
+# With tolerance
+it "keeps queries constant" do
+  populate { create_list(:user, 3) }
+
+  expect do
+    get :index
+  end.to perform_constant_number_of_queries
+end
+```
+
+### Rails Query Log Tags (Rails 7+)
+
+Shows query origin in logs.
+
+```ruby
+# config/environments/development.rb
+config.active_record.query_log_tags_enabled = true
+```
+
+Logs will show which line triggered each query.
+
+## Best Practices
+
+### Use .size Instead of .count
+
+- =.count= always hits database
+- =.size= uses preloaded data if available
+- =.length= loads all records into memory
+
+```ruby
+# With includes
+users = User.includes(:posts)
+
+users.first.posts.count   # SELECT COUNT(*) - still hits DB
+users.first.posts.size    # Uses preloaded data - no query
+users.first.posts.length  # Uses preloaded data - no query
+```
+
+### Avoid Over-Eager Loading
+
+Only include what you'll actually use:
+
+```ruby
+# Bad - loading associations you won't use
+User.includes(:posts, :comments, :profile, :settings)
+
+# Good - only what's needed
+User.includes(:posts)  # If you only use posts
+```
+
+### Use Scopes for Common Patterns
+
+```ruby
+class User < ApplicationRecord
+  scope :with_posts, -> { includes(:posts) }
+  scope :with_associations, -> { includes(:posts, :profile) }
+end
+
+# Usage
+User.with_posts.where(active: true)
+```
+
+### Consider Database-Level Solutions
+
+For aggregations, use SQL:
+
+```ruby
+# Instead of loading all posts and counting in Ruby:
+users_with_count = User.joins(:posts)
+                       .select('users.*, COUNT(posts.id) as posts_count')
+                       .group('users.id')
+```
+
+## When to Skip
+
+N+1 queries aren't always bad:
+- Small datasets (< 10 records)
+- One-time scripts
+- Background jobs processing one record at a time
+- Complex filtering that's easier with separate queries
+
+Always profile before optimizing.
+
+## Offering Suggestions
+
+When detecting N+1:
+
+1. **Identify the association** being accessed
+2. **Show the N+1 pattern** in the code
+3. **Suggest the fix** with specific code
+4. **Explain the impact** ("This could run 100+ queries")
+5. **Mention tools** like Bullet for ongoing detection
+6. **Offer to refactor** if user wants help
+#+end_src
+
+** Rails Security Checker
+
+Automatically detect common security vulnerabilities in Rails code.
+
+#+begin_src markdown :tangle ~/.claude/skills/rails-security/SKILL.md
+---
+name: Rails Security Checker
+description: Automatically detect common security vulnerabilities in Rails code including SQL injection, mass assignment, CSRF issues, and strong parameters violations
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(bundle:*)
+  - Bash(bundle audit:*)
+---
+
+# Rails Security Checker
+
+## Activation Triggers
+
+Automatically activate when:
+- Viewing controllers with =params= usage
+- Database query construction with string interpolation
+- User input handling (forms, APIs)
+- Authentication or authorization code
+- File upload handling
+- HTML output with =html_safe= or =raw=
+- User mentions "security", "vulnerability", or "safe"
+- Reviewing code for production deployment
+
+## Security Categories
+
+### 1. Strong Parameters (Mass Assignment Protection)
+
+Rails requires explicit parameter whitelisting to prevent mass assignment vulnerabilities.
+
+,**Vulnerable Code:**
+```ruby
+class UsersController < ApplicationController
+  def create
+    # DANGEROUS - accepts all params!
+    @user = User.create(params[:user])
+  end
+
+  def update
+    # DANGEROUS - permits all attributes!
+    @user.update(params.require(:user).permit!)
+  end
+end
+```
+
+,**Issue:** Attacker can set ANY attribute, including:
+- =admin= flag
+- =role= field
+- =verified= status
+- =user_id= (change ownership)
+
+,**Safe Code:**
+```ruby
+class UsersController < ApplicationController
+  def create
+    @user = User.create(user_params)
+  end
+
+  def update
+    @user.update(user_params)
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :bio)
+    # Explicitly list allowed attributes
+  end
+end
+```
+
+,**Detection Pattern:**
+- =params[:model]= passed directly to =create=, =update=, or =new=
+- =.permit!= usage (permits everything)
+- Sensitive attributes in permit list (=:admin=, =:role=, =:verified=)
+
+### 2. SQL Injection
+
+Never use string interpolation or concatenation in SQL queries.
+
+,**Vulnerable Code:**
+```ruby
+# DANGEROUS - SQL injection!
+User.where("email = '#{params[:email]}'")
+User.where("name = '#{params[:name]}' AND active = true")
+
+# Also dangerous
+User.where("id IN (#{params[:ids].join(',')})")
+```
+
+,**Attack Example:**
+```ruby
+params[:email] = "' OR '1'='1"
+User.where("email = '#{params[:email]}'")
+# Becomes: SELECT * FROM users WHERE email = '' OR '1'='1'
+# Returns ALL users!
+```
+
+,**Safe Code:**
+```ruby
+# Safe - parameterized query
+User.where("email = ?", params[:email])
+User.where("name = ? AND active = ?", params[:name], true)
+
+# Safe - hash conditions (ActiveRecord escapes)
+User.where(email: params[:email])
+User.where(name: params[:name], active: true)
+
+# Safe - for IN clauses
+User.where(id: params[:ids])  # Rails handles array escaping
+```
+
+,**Detection Pattern:**
+- =#{...}= interpolation inside SQL strings
+- String concatenation (=+= or =<<) in =where=, =find_by_sql=
+- =params= or user input in raw SQL
+
+### 3. CSRF Protection
+
+Rails protects against Cross-Site Request Forgery by default. Ensure it's enabled.
+
+,**Check Points:**
+
+**1. ApplicationController has CSRF protection:**
+```ruby
+# app/controllers/application_controller.rb
+class ApplicationController < ActionController::Base
+  # Should have one of these:
+  protect_from_forgery with: :exception
+  # or
+  protect_from_forgery with: :null_session  # For APIs
+end
+```
+
+**2. Forms include authenticity token:**
+```erb
+<!-- Good - form helpers include token automatically -->
+<%= form_with model: @user do |f| %>
+  <%= f.text_field :name %>
+<% end %>
+
+<!-- Bad - custom forms need manual token -->
+<form action="/users" method="post">
+  <!-- Missing CSRF token! -->
+  <input name="name">
+</form>
+
+<!-- Good - manual token included -->
+<form action="/users" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <input name="name">
+</form>
+```
+
+**3. API endpoints handle CSRF appropriately:**
+```ruby
+class Api::BaseController < ActionController::Base
+  # APIs don't use cookies, so skip CSRF
+  skip_before_action :verify_authenticity_token
+
+  # But require token-based auth instead
+  before_action :authenticate_api_token!
+end
+```
+
+,**Detection Pattern:**
+- =skip_before_action :verify_authenticity_token= without API auth
+- Custom forms without =form_authenticity_token=
+- Missing =protect_from_forgery= in base controller
+
+### 4. Authentication & Authorization
+
+Always verify users are authenticated AND authorized.
+
+,**Missing Authentication:**
+```ruby
+# BAD - no authentication check
+class UsersController < ApplicationController
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    # Anyone can delete any user!
+  end
+end
+
+# GOOD - require authentication
+class UsersController < ApplicationController
+  before_action :authenticate_user!  # Devise, or custom
+
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+  end
+end
+```
+
+,**Missing Authorization:**
+```ruby
+# BAD - authenticated but not authorized
+class UsersController < ApplicationController
+  before_action :authenticate_user!
+
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    # Any logged-in user can delete ANY user!
+  end
+end
+
+# GOOD - check authorization
+class UsersController < ApplicationController
+  before_action :authenticate_user!
+
+  def destroy
+    @user = User.find(params[:id])
+    authorize @user  # Pundit
+
+    # Or manual check:
+    unless @user == current_user || current_user.admin?
+      redirect_to root_path, alert: "Not authorized"
+      return
+    end
+
+    @user.destroy
+  end
+end
+```
+
+,**Detection Pattern:**
+- Sensitive actions (=create=, =update=, =destroy=) without auth checks
+- =User.find(params[:id])= without authorization
+- Admin-only actions without role checks
+
+### 5. File Upload Security
+
+Validate and sanitize uploaded files.
+
+,**Vulnerable Code:**
+```ruby
+# BAD - no validation
+def upload
+  uploaded_file = params[:file]
+  File.write("public/uploads/#{uploaded_file.original_filename}", uploaded_file.read)
+end
+```
+
+,**Issues:**
+- No file type validation (can upload .exe, .php)
+- No size validation (can upload huge files)
+- Filename not sanitized (directory traversal: =../../etc/passwd=)
+- Files served from =public/= (can execute if server misconfigured)
+
+,**Safe Code:**
+```ruby
+class AvatarUploader < CarrierWave::Uploader::Base
+  # Whitelist file extensions
+  def extension_whitelist
+    %w[jpg jpeg gif png]
+  end
+
+  # Limit file size
+  def size_range
+    1..5.megabytes
+  end
+
+  # Sanitize filename
+  def filename
+    "#{secure_token}.#{file.extension}" if original_filename.present?
+  end
+
+  def secure_token
+    var = :"@#{mounted_as}_secure_token"
+    model.instance_variable_get(var) ||
+      model.instance_variable_set(var, SecureRandom.uuid)
+  end
+end
+
+# In model
+class User < ApplicationRecord
+  mount_uploader :avatar, AvatarUploader
+
+  # Validate file presence
+  validates :avatar, presence: true
+end
+```
+
+,**Detection Pattern:**
+- Direct file writes without validation
+- =File.write= with user-provided filenames
+- No extension whitelist
+- No size limits
+- Files saved in =public/= directory
+
+### 6. XSS (Cross-Site Scripting) Prevention
+
+Rails escapes HTML by default, but watch for unsafe patterns.
+
+,**Vulnerable Code:**
+```ruby
+# BAD - marks user input as safe HTML!
+<%= raw @user.bio %>
+<%= @user.description.html_safe %>
+
+# BAD in controller
+def show
+  @html_content = params[:content].html_safe
+end
+```
+
+,**Attack:**
+```ruby
+params[:bio] = "<script>alert('XSS')</script>"
+# With .html_safe or raw, this executes!
+```
+
+,**Safe Code:**
+```ruby
+# GOOD - Rails escapes by default
+<%= @user.bio %>
+# <script> becomes &lt;script&gt; (harmless text)
+
+# If you MUST allow HTML, sanitize it:
+<%= sanitize @user.bio, tags: %w[b i u], attributes: %w[href] %>
+
+# Use a gem for rich text:
+has_rich_text :bio  # ActionText (Rails 6+)
+```
+
+,**Detection Pattern:**
+- =.html_safe= on user input
+- =raw()= on user input
+- User content in =<script>= tags
+- User content in =href="javascript:..."=
+
+### 7. Hardcoded Secrets
+
+Never commit secrets to the repository.
+
+,**Vulnerable Code:**
+```ruby
+# BAD - hardcoded credentials
+API_KEY = "sk_live_abc123..."
+Database.connect("postgres://user:password@host/db")
+
+# BAD - secrets in code
+AWS.config(access_key: "AKIAIOSFODNN7EXAMPLE")
+```
+
+,**Safe Code:**
+```ruby
+# Use Rails credentials
+api_key = Rails.application.credentials.api_key
+
+# Or environment variables
+api_key = ENV['API_KEY']
+
+# config/credentials.yml.enc (encrypted)
+aws:
+  access_key: <%= ENV['AWS_ACCESS_KEY'] %>
+  secret_key: <%= ENV['AWS_SECRET_KEY'] %>
+```
+
+,**Detection Pattern:**
+- =password=, =secret=, =key= in string literals
+- Long alphanumeric strings that look like tokens
+- Database URLs with credentials in code
+
+### 8. Timing Attacks on Comparisons
+
+Use constant-time comparison for secrets.
+
+,**Vulnerable Code:**
+```ruby
+# BAD - timing attack possible
+def valid_token?(token)
+  token == SECRET_TOKEN
+end
+```
+
+,**Issue:** String comparison exits early on mismatch. Attacker can measure response time to guess token character-by-character.
+
+,**Safe Code:**
+```ruby
+# GOOD - constant-time comparison
+def valid_token?(token)
+  ActiveSupport::SecurityUtils.secure_compare(token, SECRET_TOKEN)
+end
+```
+
+## Vulnerability Severity
+
+When reporting issues, classify by severity:
+
+,**Critical (Fix Immediately):**
+- SQL injection vulnerabilities
+- Mass assignment of admin/role fields
+- Authentication bypass
+- Hardcoded credentials in code
+
+,**High (Fix Soon):**
+- Missing authorization checks
+- CSRF protection disabled
+- File upload without validation
+- XSS vulnerabilities
+
+,**Medium (Should Fix):**
+- Missing authentication on non-critical endpoints
+- Weak session configuration
+- Information disclosure in error messages
+
+,**Low (Nice to Fix):**
+- Missing security headers
+- Verbose error messages
+- Weak password requirements
+
+## Detection Process
+
+1. **Scan for SQL interpolation** - Grep for =#{...}= in =where= clauses
+2. **Check params usage** - Look for =params[:model]= without =permit=
+3. **Review authentication** - Check =before_action= filters
+4. **Examine file uploads** - Verify validation and sanitization
+5. **Check HTML output** - Find =html_safe= and =raw= usage
+6. **Run bundle audit** - Check for vulnerable gem versions
+
+## Tools Integration
+
+### bundle-audit
+
+Check for known vulnerabilities in gems:
+
+```bash
+gem install bundler-audit
+bundle audit check --update
+```
+
+In skill, run:
+```bash
+Bash(bundle audit:*)
+```
+
+### Brakeman
+
+Static analysis security scanner for Rails:
+
+```ruby
+# Gemfile
+group :development do
+  gem 'brakeman'
+end
+
+# Run
+bundle exec brakeman
+```
+
+### RuboCop Security
+
+Security-focused RuboCop rules:
+
+```ruby
+# .rubocop.yml
+require:
+  - rubocop-rails
+
+Security:
+  Enabled: true
+```
+
+## Examples
+
+### Example 1: Mass Assignment
+
+,**User Code:**
+```ruby
+def update
+  @post = Post.find(params[:id])
+  @post.update(params[:post])
+end
+```
+
+,**Issue:** Mass assignment vulnerability (Critical)
+
+,**Suggestion:**
+"This allows users to update ANY field on the post, including =user_id= (changing ownership) or =published= status. Use strong parameters:
+
+```ruby
+def update
+  @post = Post.find(params[:id])
+  @post.update(post_params)
+end
+
+private
+
+def post_params
+  params.require(:post).permit(:title, :body)
+end
+```"
+
+### Example 2: SQL Injection
+
+,**User Code:**
+```ruby
+def search
+  @users = User.where("name LIKE '%#{params[:query]}%'")
+end
+```
+
+,**Issue:** SQL injection (Critical)
+
+,**Suggestion:**
+"This is vulnerable to SQL injection. An attacker could use =params[:query] = "'; DROP TABLE users; --"= to destroy data. Use parameterized queries:
+
+```ruby
+def search
+  @users = User.where('name LIKE ?', "%#{params[:query]}%")
+end
+```"
+
+### Example 3: Missing Authorization
+
+,**User Code:**
+```ruby
+class PostsController < ApplicationController
+  before_action :authenticate_user!
+
+  def destroy
+    @post = Post.find(params[:id])
+    @post.destroy
+    redirect_to posts_path
+  end
+end
+```
+
+,**Issue:** Missing authorization (High)
+
+,**Suggestion:**
+"Users can delete ANY post, not just their own. Add authorization:
+
+```ruby
+def destroy
+  @post = current_user.posts.find(params[:id])
+  # Or use Pundit:
+  @post = Post.find(params[:id])
+  authorize @post
+
+  @post.destroy
+  redirect_to posts_path
+end
+```"
+
+## Best Practices
+
+### Defense in Depth
+
+Layer multiple security measures:
+1. Input validation (strong parameters)
+2. Authorization checks (Pundit, CanCanCan)
+3. Prepared statements (parameterized queries)
+4. Output escaping (Rails default)
+5. Security headers (Secure Headers gem)
+
+### Principle of Least Privilege
+
+- Only permit necessary parameters
+- Grant minimum required permissions
+- Limit database user permissions
+- Restrict file system access
+
+### Fail Securely
+
+When security checks fail:
+- Log the attempt
+- Return generic error (don't reveal details)
+- Redirect to safe page
+- Don't expose stack traces in production
+
+### Keep Dependencies Updated
+
+```bash
+bundle update --security
+bundle audit check
+```
+
+Run regularly and fix vulnerabilities promptly.
+
+## Security Headers
+
+Ensure proper security headers in Rails:
+
+```ruby
+# config/initializers/secure_headers.rb
+SecureHeaders::Configuration.default do |config|
+  config.x_frame_options = "DENY"
+  config.x_content_type_options = "nosniff"
+  config.x_xss_protection = "1; mode=block"
+  config.x_download_options = "noopen"
+  config.x_permitted_cross_domain_policies = "none"
+  config.referrer_policy = "strict-origin-when-cross-origin"
+  config.csp = {
+    default_src: %w['self'],
+    script_src: %w['self']
+  }
+end
+```
+
+## Offering Suggestions
+
+When security issues found:
+
+1. **Clearly state the vulnerability** and its severity
+2. **Explain the attack scenario** (what could go wrong)
+3. **Provide secure code** as a drop-in replacement
+4. **Reference Rails Security Guide** for more context
+5. **Suggest tools** (Brakeman, bundle-audit)
+6. **Offer to fix** if user wants help
+
+Always be clear that security is critical and fixes should be prioritized.
+
+## Resources
+
+- [[https://guides.rubyonrails.org/security.html][Rails Security Guide]] - Official security best practices
+- [[https://github.com/presidentbeef/brakeman][Brakeman]] - Static security analyzer
+- [[https://github.com/rubysec/bundler-audit][bundler-audit]] - Check gem vulnerabilities
+- [[https://owasp.org/www-project-top-ten/][OWASP Top 10]] - Common web vulnerabilities
+#+end_src
+
+** Test Coverage Assistant (Rails)
+
+Analyze Rails-specific test coverage including RSpec, Minitest, and FactoryBot patterns.
+
+This skill extends the generic [[*Test Coverage Analyzer][Test Coverage Analyzer]] with Rails-specific patterns.
+
+#+begin_src markdown :tangle no
+---
+name: Test Coverage Assistant (Rails)
+description: Analyze Rails-specific test coverage including RSpec request/system/model specs, FactoryBot factories, and controller testing patterns
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(bundle exec rspec:*)
+  - Bash(bundle exec rake:*)
+---
+
+# Test Coverage Assistant (Rails)
+
+## Activation Triggers
+
+Automatically activate when:
+- New Rails controllers or models without corresponding tests
+- Modified Rails code without test updates
+- User mentions "testing", "RSpec", "Minitest", or "specs"
+- Running test commands (=rspec=, =rails test=)
+- Test files created or modified
+- User asks about test structure or coverage
+
+## Rails Test Types
+
+### 1. Model Specs (RSpec)
+
+Test ActiveRecord models including validations, associations, scopes, and business logic.
+
+,**Test Coverage Checklist:**
+- [ ] Validations (presence, uniqueness, format, length, numericality)
+- [ ] Associations (has_many, belongs_to, has_one)
+- [ ] Scopes and class methods
+- [ ] Instance methods
+- [ ] Callbacks (before_save, after_create, etc.)
+- [ ] Custom validators
+
+,**Example:**
+```ruby
+# spec/models/user_spec.rb
+RSpec.describe User, type: :model do
+  describe 'validations' do
+    it { should validate_presence_of(:email) }
+    it { should validate_uniqueness_of(:email).case_insensitive }
+    it { should validate_length_of(:name).is_at_least(2) }
+  end
+
+  describe 'associations' do
+    it { should have_many(:posts).dependent(:destroy) }
+    it { should belong_to(:organization) }
+  end
+
+  describe 'scopes' do
+    it 'returns active users' do
+      active = create(:user, active: true)
+      inactive = create(:user, active: false)
+
+      expect(User.active).to include(active)
+      expect(User.active).not_to include(inactive)
+    end
+  end
+
+  describe '#full_name' do
+    it 'combines first and last name' do
+      user = build(:user, first_name: 'John', last_name: 'Doe')
+      expect(user.full_name).to eq('John Doe')
+    end
+  end
+end
+```
+
+### 2. Request Specs (RSpec)
+
+Test full HTTP request/response cycle including routing, controller, and view rendering.
+
+,**Test Coverage Checklist:**
+- [ ] Each route (GET, POST, PATCH, DELETE)
+- [ ] Request parameters handling
+- [ ] HTTP status codes
+- [ ] Response format (HTML, JSON, etc.)
+- [ ] Authentication requirements
+- [ ] Authorization checks
+- [ ] Error handling
+
+,**Example:**
+```ruby
+# spec/requests/users_spec.rb
+RSpec.describe "Users API", type: :request do
+  describe "GET /users" do
+    it "returns a list of users" do
+      create_list(:user, 3)
+
+      get users_path
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body).size).to eq(3)
+    end
+  end
+
+  describe "POST /users" do
+    context "with valid params" do
+      let(:valid_params) { { user: attributes_for(:user) } }
+
+      it "creates a new user" do
+        expect {
+          post users_path, params: valid_params
+        }.to change(User, :count).by(1)
+      end
+
+      it "returns created status" do
+        post users_path, params: valid_params
+        expect(response).to have_http_status(:created)
+      end
+    end
+
+    context "with invalid params" do
+      let(:invalid_params) { { user: { email: '' } } }
+
+      it "does not create a user" do
+        expect {
+          post users_path, params: invalid_params
+        }.not_to change(User, :count)
+      end
+
+      it "returns unprocessable entity status" do
+        post users_path, params: invalid_params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe "PATCH /users/:id" do
+    let(:user) { create(:user) }
+
+    it "updates the user" do
+      patch user_path(user), params: { user: { name: 'New Name' } }
+      expect(user.reload.name).to eq('New Name')
+    end
+  end
+
+  describe "DELETE /users/:id" do
+    let!(:user) { create(:user) }
+
+    it "deletes the user" do
+      expect {
+        delete user_path(user)
+      }.to change(User, :count).by(-1)
+    end
+  end
+end
+```
+
+### 3. System Specs (Feature Tests)
+
+Test full user workflows from browser perspective using Capybara.
+
+,**Test Coverage Checklist:**
+- [ ] Complete user workflows
+- [ ] Form submissions
+- [ ] Link navigation
+- [ ] JavaScript interactions
+- [ ] Error messages displayed
+- [ ] Success messages displayed
+
+,**Example:**
+```ruby
+# spec/system/user_registration_spec.rb
+RSpec.describe "User Registration", type: :system do
+  before do
+    driven_by(:rack_test)
+  end
+
+  it "allows user to register" do
+    visit new_user_registration_path
+
+    fill_in "Email", with: "user@example.com"
+    fill_in "Password", with: "password123"
+    fill_in "Password confirmation", with: "password123"
+
+    click_button "Sign up"
+
+    expect(page).to have_content("Welcome! You have signed up successfully")
+    expect(page).to have_current_path(root_path)
+  end
+
+  it "shows errors for invalid registration" do
+    visit new_user_registration_path
+
+    fill_in "Email", with: ""
+    click_button "Sign up"
+
+    expect(page).to have_content("Email can't be blank")
+  end
+end
+```
+
+### 4. Controller Tests (Minitest)
+
+For projects using Minitest instead of RSpec.
+
+,**Example:**
+```ruby
+# test/controllers/users_controller_test.rb
+class UsersControllerTest < ActionDispatch::IntegrationTest
+  test "should get index" do
+    get users_url
+    assert_response :success
+  end
+
+  test "should create user" do
+    assert_difference('User.count') do
+      post users_url, params: { user: { name: "John", email: "john@example.com" } }
+    end
+
+    assert_redirected_to user_url(User.last)
+  end
+
+  test "should update user" do
+    user = users(:one)
+    patch user_url(user), params: { user: { name: "Updated Name" } }
+
+    assert_redirected_to user_url(user)
+    user.reload
+    assert_equal "Updated Name", user.name
+  end
+
+  test "should destroy user" do
+    user = users(:one)
+    assert_difference('User.count', -1) do
+      delete user_url(user)
+    end
+
+    assert_redirected_to users_url
+  end
+end
+```
+
+## FactoryBot Patterns
+
+FactoryBot is the standard fixture replacement for Rails (used by 70% of Rails developers).
+
+### Basic Factory
+
+```ruby
+# spec/factories/users.rb
+FactoryBot.define do
+  factory :user do
+    name { "John Doe" }
+    sequence(:email) { |n| "user#{n}@example.com" }
+    password { "password123" }
+    active { true }
+  end
+end
+
+# Usage
+user = create(:user)  # Persists to database
+user = build(:user)   # Builds object, doesn't save
+user = build_stubbed(:user)  # Stubbed object (fastest)
+attrs = attributes_for(:user)  # Hash of attributes
+```
+
+### Traits
+
+Use traits for variations:
+
+```ruby
+FactoryBot.define do
+  factory :user do
+    name { "John Doe" }
+    email { Faker::Internet.email }
+
+    trait :admin do
+      role { :admin }
+    end
+
+    trait :with_posts do
+      after(:create) do |user|
+        create_list(:post, 3, user: user)
+      end
+    end
+
+    trait :inactive do
+      active { false }
+    end
+  end
+end
+
+# Usage
+admin = create(:user, :admin)
+user_with_posts = create(:user, :with_posts)
+inactive_admin = create(:user, :admin, :inactive)
+```
+
+### Associations
+
+```ruby
+FactoryBot.define do
+  factory :post do
+    title { "Sample Post" }
+    body { "Lorem ipsum..." }
+    association :user  # Creates associated user
+
+    # Or explicit:
+    user { association :user, :admin }
+  end
+end
+```
+
+### Sequences
+
+```ruby
+FactoryBot.define do
+  factory :user do
+    sequence(:email) { |n| "user#{n}@example.com" }
+    sequence(:username) { |n| "user#{n}" }
+  end
+end
+```
+
+## Test Structure Best Practices
+
+### RSpec Structure
+
+```ruby
+RSpec.describe User, type: :model do
+  # Use describe for methods
+  describe '#full_name' do
+    # Use context for different states
+    context 'when first and last name present' do
+      it 'returns full name' do
+        # Arrange
+        user = build(:user, first_name: 'John', last_name: 'Doe')
+
+        # Act
+        result = user.full_name
+
+        # Assert
+        expect(result).to eq('John Doe')
+      end
+    end
+
+    context 'when only first name present' do
+      it 'returns first name' do
+        user = build(:user, first_name: 'John', last_name: nil)
+        expect(user.full_name).to eq('John')
+      end
+    end
+  end
+
+  describe '.active' do
+    it 'returns only active users' do
+      active_user = create(:user, active: true)
+      inactive_user = create(:user, active: false)
+
+      expect(User.active).to include(active_user)
+      expect(User.active).not_to include(inactive_user)
+    end
+  end
+end
+```
+
+### Use let for Test Data
+
+```ruby
+RSpec.describe PostsController do
+  # let is lazy-evaluated (only when called)
+  let(:user) { create(:user) }
+  let(:post) { create(:post, user: user) }
+
+  # let! is eagerly evaluated (created before each test)
+  let!(:published_posts) { create_list(:post, 3, :published) }
+
+  describe "GET #index" do
+    it "assigns published posts" do
+      get :index
+      expect(assigns(:posts)).to match_array(published_posts)
+    end
+  end
+end
+```
+
+### Shared Examples
+
+```ruby
+# spec/support/shared_examples/authenticatable.rb
+RSpec.shared_examples "authenticatable" do
+  it "requires authentication" do
+    get :index
+    expect(response).to redirect_to(login_path)
+  end
+end
+
+# In spec
+RSpec.describe AdminController do
+  it_behaves_like "authenticatable"
+end
+```
+
+## Coverage Analysis
+
+### Running Coverage Reports
+
+**With SimpleCov (RSpec):**
+```ruby
+# spec/spec_helper.rb
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_filter '/spec/'
+  add_filter '/config/'
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Models', 'app/models'
+  add_group 'Services', 'app/services'
+end
+
+# Run tests
+bundle exec rspec
+
+# View coverage: open coverage/index.html
+```
+
+**With Rails default (Minitest):**
+```bash
+COVERAGE=true rails test
+```
+
+### What to Test
+
+**High Priority:**
+- Models: All validations, associations, important methods
+- Controllers/Requests: All CRUD actions, authentication/authorization
+- Critical business logic
+- API endpoints
+- User-facing workflows
+
+**Medium Priority:**
+- Helper methods
+- Service objects
+- Background jobs
+- Mailers
+
+**Low Priority (Can Skip):**
+- Simple getters/setters
+- Obvious delegations
+- Generated code (devise controllers, etc.)
+
+## Example: Missing Coverage Detection
+
+,**Scenario:** User adds new controller without tests
+
+,**Code:**
+```ruby
+# app/controllers/api/v1/posts_controller.rb
+class Api::V1::PostsController < ApplicationController
+  def index
+    @posts = Post.all
+    render json: @posts
+  end
+
+  def create
+    @post = current_user.posts.build(post_params)
+    if @post.save
+      render json: @post, status: :created
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:title, :body)
+  end
+end
+```
+
+,**Detection:** No corresponding test file at =spec/requests/api/v1/posts_spec.rb=
+
+,**Suggestion:**
+"I notice this controller doesn't have request specs. I recommend adding:
+
+```ruby
+# spec/requests/api/v1/posts_spec.rb
+RSpec.describe 'Api::V1::Posts', type: :request do
+  describe 'GET /api/v1/posts' do
+    it 'returns all posts as JSON' do
+      create_list(:post, 3)
+
+      get '/api/v1/posts'
+
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body).size).to eq(3)
+    end
+  end
+
+  describe 'POST /api/v1/posts' do
+    let(:user) { create(:user) }
+    let(:valid_params) { { post: { title: 'Test', body: 'Content' } } }
+
+    before { sign_in user }
+
+    context 'with valid params' do
+      it 'creates a new post' do
+        expect {
+          post '/api/v1/posts', params: valid_params
+        }.to change(Post, :count).by(1)
+      end
+
+      it 'returns created status' do
+        post '/api/v1/posts', params: valid_params
+        expect(response).to have_http_status(:created)
+      end
+    end
+
+    context 'with invalid params' do
+      let(:invalid_params) { { post: { title: '' } } }
+
+      it 'returns unprocessable entity' do
+        post '/api/v1/posts', params: invalid_params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+end
+```
+
+Would you like me to create these tests?"
+
+## Tools
+
+### RSpec
+
+```bash
+bundle exec rspec  # Run all specs
+bundle exec rspec spec/models  # Run model specs only
+bundle exec rspec spec/models/user_spec.rb:10  # Run specific line
+```
+
+### Minitest
+
+```bash
+rails test  # Run all tests
+rails test test/models  # Run model tests
+rails test test/models/user_test.rb:10  # Run specific test
+```
+
+### Guard
+
+Auto-run tests on file changes:
+
+```ruby
+# Gemfile
+group :development do
+  gem 'guard-rspec'
+end
+
+# Run
+bundle exec guard
+```
+
+## Offering Suggestions
+
+When detecting missing coverage:
+
+1. **Identify what's untested** (model, controller action, service)
+2. **Explain why it's important** ("This endpoint handles payments...")
+3. **Suggest specific test cases** (happy path, edge cases, errors)
+4. **Provide complete test code** ready to use
+5. **Mention coverage goals** (aim for 80%+ on critical code)
+6. **Offer to generate tests** if user wants
+
+Be helpful but not pushy - respect if user declines.
+#+end_src
+
+** Migration Safety Checker
+
+Detect dangerous migration operations that could cause downtime or data loss.
+
+#+begin_src markdown :tangle ~/.claude/skills/rails-migrations/SKILL.md
+  ---
+  name: Migration Safety Checker
+  description: Detect dangerous migration operations that could cause downtime or data loss, based on strong_migrations gem patterns and PostgreSQL best practices
+  allowed-tools:
+    - Read
+    - Grep
+    - Bash(bundle exec rails:*)
+  ---
+
+  # Migration Safety Checker
+
+  ## Activation Triggers
+
+  Automatically activate when:
+  - Creating or editing migration files (=db/migrate/=)
+  - User runs =rails db:migrate= or =rails db:rollback=
+  - Mentions of "database changes", "schema", or "migration"
+  - Production deployment preparation
+  - User asks about migration safety
+
+  ## Dangerous Operations
+
+  ### 1. Adding Column with Default Value
+
+  ,**Problem:**
+  ```ruby
+  # DANGEROUS - locks table for entire rewrite!
+  class AddAdminToUsers < ActiveRecord::Migration[7.0]
+    def change
+      add_column :users, :admin, :boolean, default: false
+    end
+  end
+  ```
+
+  ,**Why Dangerous:**
+  - PostgreSQL < 11: Rewrites entire table, holding exclusive lock
+  - Large tables: Can lock for minutes or hours
+  - Blocks all reads and writes during migration
+  - Can cause cascading failures
+
+  ,**Safe Alternative:**
+  ```ruby
+  # Step 1: Add column without default
+  class AddAdminToUsers < ActiveRecord::Migration[7.0]
+    def change
+      add_column :users, :admin, :boolean
+    end
+  end
+
+  # Step 2: Backfill in batches (separate migration or rake task)
+  class BackfillUserAdmin < ActiveRecord::Migration[7.0]
+    disable_ddl_transaction!
+
+    def up
+      User.in_batches.update_all(admin: false)
+    end
+  end
+
+  # Step 3: Add default
+  class SetAdminDefault < ActiveRecord::Migration[7.0]
+    def change
+      change_column_default :users, :admin, false
+    end
+  end
+  ```
+
+  ,**PostgreSQL 11+ Only:**
+  ```ruby
+  # Safe on PostgreSQL 11+, dangerous on earlier versions
+  add_column :users, :admin, :boolean, default: false
+  ```
+
+  ### 2. Changing Column Type
+
+  ,**Problem:**
+  ```ruby
+  # DANGEROUS - rewrites table, locks it
+  class ChangeEmailType < ActiveRecord::Migration[7.0]
+    def change
+      change_column :users, :email, :text
+    end
+  end
+  ```
+
+  ,**Why Dangerous:**
+  - Rewrites every row in table
+  - Holds exclusive lock during rewrite
+  - Can take hours on large tables
+
+  ,**Safe Alternative:**
+  ```ruby
+  # Step 1: Add new column
+  class AddEmailNew < ActiveRecord::Migration[7.0]
+    def change
+      add_column :users, :email_new, :text
+    end
+  end
+
+  # Step 2: Dual-write (in application code)
+  # Model temporarily writes to both columns
+
+  # Step 3: Backfill data in batches
+  class BackfillEmailNew < ActiveRecord::Migration[7.0]
+    disable_ddl_transaction!
+
+    def up
+      User.find_in_batches do |batch|
+        batch.each do |user|
+          user.update_column(:email_new, user.email)
+        end
+      end
+    end
+  end
+
+  # Step 4: Swap columns
+  class SwapEmailColumns < ActiveRecord::Migration[7.0]
+    def change
+      safety_assured do
+        remove_column :users, :email
+        rename_column :users, :email_new, :email
+      end
+    end
+  end
+  ```
+
+  ### 3. Removing Column
+
+  ,**Problem:**
+  ```ruby
+  # DANGEROUS - causes errors if code still references column
+  class RemoveNameFromUsers < ActiveRecord::Migration[7.0]
+    def change
+      remove_column :users, :name
+    end
+  end
+  ```
+
+  ,**Why Dangerous:**
+  - ActiveRecord caches schema on app start
+  - Running app instances will try to use removed column
+  - =INSERT= and =UPDATE= statements will fail
+  - Can cause app-wide errors until all servers restart
+
+  ,**Safe Alternative:**
+  ```ruby
+  # Step 1: Ignore column in model (deploy this first!)
+  class User < ApplicationRecord
+    self.ignored_columns = ["name"]
+  end
+
+  # Deploy code, wait for all servers to restart
+
+  # Step 2: Remove column (separate deployment)
+  class RemoveNameFromUsers < ActiveRecord::Migration[7.0]
+    def change
+      safety_assured { remove_column :users, :name }
+    end
+  end
+  ```
+
+  ### 4. Adding Index Without Concurrency
+
+  ,**Problem:**
+  ```ruby
+  # DANGEROUS on PostgreSQL - locks table for writes
+  class AddIndexToUsersEmail < ActiveRecord::Migration[7.0]
+    def change
+      add_index :users, :email
+    end
+  end
+  ```
+
+  ,**Why Dangerous:**
+  - PostgreSQL requires =SHARE= lock to create index
+  - Blocks writes (=INSERT=, =UPDATE=, =DELETE=) during index creation
+  - Can take minutes on large tables
+  - Blocks all writes for the entire duration
+
+  ,**Safe Alternative:**
+  ```ruby
+  # Safe - creates index concurrently (PostgreSQL 8.2+)
+  class AddIndexToUsersEmail < ActiveRecord::Migration[7.0]
+    disable_ddl_transaction!  # Required for concurrent indexes
+
+    def change
+      add_index :users, :email, algorithm: :concurrently
+    end
+  end
+  ```
+
+  ,**Note:** Concurrent indexes:
+  - Don't block writes
+  - Take longer to create
+  - Require =disable_ddl_transaction!=
+  - Can't be rolled back automatically
+
+  ### 5. Adding Foreign Key
+
+  ,**Problem:**
+  ```ruby
+  # DANGEROUS - validates all existing data, holds lock
+  class AddForeignKey < ActiveRecord::Migration[7.0]
+    def change
+      add_foreign_key :posts, :users
+    end
+  end
+  ```
+
+  ,**Why Dangerous:**
+  - Validates every row in table
+  - Holds lock during validation
+  - Can take minutes on large tables
+
+  ,**Safe Alternative:**
+  ```ruby
+  # Add FK without validation, then validate separately
+  class AddForeignKey < ActiveRecord::Migration[7.0]
+    def change
+      add_foreign_key :posts, :users, validate: false
+    end
+  end
+
+  class ValidateForeignKey < ActiveRecord::Migration[7.0]
+    def change
+      validate_foreign_key :posts, :users
+    end
+  end
+  ```
+
+  ### 6. Renaming Column
+
+  ,**Problem:**
+  ```ruby
+  # DANGEROUS - breaks running code
+  class RenameUserName < ActiveRecord::Migration[7.0]
+    def change
+      rename_column :users, :name, :full_name
+    end
+  end
+  ```
+
+  ,**Why Dangerous:**
+  - Running app expects old column name
+  - All queries referencing =name= will fail immediately
+
+  ,**Safe Alternative:**
+  ```ruby
+  # Step 1: Add new column
+  add_column :users, :full_name, :string
+
+  # Step 2: Dual-write (update model to write to both)
+  # Step 3: Backfill
+  User.find_in_batches { |batch| batch.update_all("full_name = name") }
+
+  # Step 4: Update code to read from new column
+  # Step 5: Remove old column (after deploy)
+  remove_column :users, :name
+  ```
+
+  ### 7. Renaming Table
+
+  ,**Problem:**
+  ```ruby
+  # DANGEROUS - breaks running code
+  rename_table :users, :accounts
+  ```
+
+  ,**Safe Alternative:**
+  - Create new table
+  - Dual-write to both
+  - Backfill data
+  - Switch reads to new table
+  - Remove old table
+
+  Or use database views as an intermediate step.
+
+  ### 8. Adding NOT NULL Constraint
+
+  ,**Problem:**
+  ```ruby
+  # DANGEROUS - fails if any NULL values exist
+  class AddNotNullToEmail < ActiveRecord::Migration[7.0]
+    def change
+      change_column_null :users, :email, false
+    end
+  end
+  ```
+
+  ,**Safe Alternative:**
+  ```ruby
+  # Step 1: Add constraint with validation (PostgreSQL 12+)
+  class AddNotNullConstraint < ActiveRecord::Migration[7.0]
+    def change
+      add_check_constraint :users, "email IS NOT NULL",
+                          name: "users_email_null",
+                          validate: false
+    end
+  end
+
+  # Step 2: Validate constraint (doesn't block writes)
+  class ValidateNotNullConstraint < ActiveRecord::Migration[7.0]
+    def change
+      validate_check_constraint :users, name: "users_email_null"
+    end
+  end
+
+  # Step 3: Add NOT NULL (now safe, constraint already validated)
+  class SafelyAddNotNull < ActiveRecord::Migration[7.0]
+    def change
+      change_column_null :users, :email, false
+      remove_check_constraint :users, name: "users_email_null"
+    end
+  end
+  ```
+
+  ## Detection Process
+
+  1. **Read migration file** - Check for dangerous methods
+  2. **Identify table size** - Large tables = higher risk
+  3. **Check for safety patterns** - =disable_ddl_transaction!=, =algorithm: :concurrently=
+  4. **Classify severity** - Based on table size and lock duration
+  5. **Suggest safe alternatives** - Provide step-by-step guidance
+
+  ## Vulnerability Severity
+
+  ,**Critical (Never Do in Production):**
+  - Adding column with default on large table (PostgreSQL < 11)
+  - Changing column type on large table
+  - Renaming table or column without dual-write period
+  - Adding index without =:concurrently= on large table
+
+  ,**High (Dangerous, Needs Care):**
+  - Removing column without ignoring first
+  - Adding foreign key without =validate: false=
+  - Adding NOT NULL without constraint validation
+
+  ,**Medium (Can Cause Issues):**
+  - Running long migrations in transaction
+  - Backfilling without batching
+  - Not setting lock timeout
+
+  ,**Low (Best Practice):**
+  - Missing reversibility (=def change= vs =def up/down=)
+  - Not using =safety_assured= when intentionally using dangerous operation
+
+  ## Strong Migrations Integration
+
+  The =strong_migrations= gem detects these issues automatically.
+
+  ,**Installation:**
+  ```ruby
+  # Gemfile
+  gem 'strong_migrations'
+
+  # Install
+  bundle install
+  rails generate strong_migrations:install
+  ```
+
+  ,**Configuration:**
+  ```ruby
+  # config/initializers/strong_migrations.rb
+  StrongMigrations.start_after = 20200101000000  # Skip old migrations
+
+  StrongMigrations.target_version = 7.0  # Target Rails version
+
+  # Customize checks
+  StrongMigrations.check_down = false  # Don't check down methods
+  StrongMigrations.auto_analyze = true  # Auto-analyze after adding indexes
+  ```
+
+  ,**Usage:**
+  ```ruby
+  # Strong migrations will raise error on dangerous operation
+  add_column :users, :admin, :boolean, default: false
+  # => Raises StrongMigrations::UnsafeMigration
+
+  # If you know what you're doing, bypass check:
+  safety_assured do
+    add_column :users, :admin, :boolean, default: false
+  end
+  ```
+
+  ## Best Practices
+
+  ### 1. Set Lock Timeout
+
+  Prevent migrations from blocking indefinitely:
+
+  ```ruby
+  class AddIndex < ActiveRecord::Migration[7.0]
+    disable_ddl_transaction!
+
+    def up
+      # Fail after 5 seconds instead of waiting forever
+      execute "SET lock_timeout = '5s'"
+      add_index :users, :email, algorithm: :concurrently
+    end
+
+    def down
+      remove_index :users, :email
+    end
+  end
+  ```
+
+  ### 2. Batch Large Updates
+
+  Don't update millions of rows at once:
+
+  ```ruby
+  class BackfillData < ActiveRecord::Migration[7.0]
+    disable_ddl_transaction!
+
+    def up
+      User.find_in_batches(batch_size: 1000) do |batch|
+        batch.update_all(role: 'user')
+        sleep 0.01  # Give database a break
+      end
+    end
+  end
+  ```
+
+  ### 3. Test Migrations Locally First
+
+  ```bash
+  # On a copy of production data
+  rails db:migrate:status
+  rails db:migrate
+  rails db:rollback
+  rails db:migrate
+  ```
+
+  ### 4. Use Reversible Migrations
+
+  ```ruby
+  class AddIndex < ActiveRecord::Migration[7.0]
+    def up
+      add_index :users, :email
+    end
+
+    def down
+      remove_index :users, :email
+    end
+  end
+  ```
+
+  ### 5. Monitor Migration Duration
+
+  ```bash
+  # Time the migration
+  time rails db:migrate
+  ```
+
+  ## Example Detections
+
+  ### Example 1: Unsafe Default
+
+  ,**User Code:**
+  ```ruby
+  class AddStatusToOrders < ActiveRecord::Migration[7.0]
+    def change
+      add_column :orders, :status, :string, default: 'pending'
+    end
+  end
+  ```
+
+  ,**Issue:** Adding column with default (Critical on PostgreSQL < 11)
+
+  ,**Suggestion:**
+  "This migration will lock the =orders= table during a full table rewrite, which could take minutes and block all reads/writes.
+
+  Use this safer 3-step approach:
+
+  ```ruby
+  # Migration 1: Add column without default
+  class AddStatusToOrders < ActiveRecord::Migration[7.0]
+    def change
+      add_column :orders, :status, :string
+    end
+  end
+
+  # Migration 2: Backfill in batches
+  class BackfillOrderStatus < ActiveRecord::Migration[7.0]
+    disable_ddl_transaction!
+
+    def up
+      Order.in_batches.update_all(status: 'pending')
+    end
+  end
+
+  # Migration 3: Set default
+  class SetStatusDefault < ActiveRecord::Migration[7.0]
+    def change
+      change_column_default :orders, :status, 'pending'
+    end
+  end
+  ```
+
+  Or if you're on PostgreSQL 11+, this is safe:
+  ```ruby
+  add_column :orders, :status, :string, default: 'pending'
+  ```"
+
+  ### Example 2: Missing Concurrent Index
+
+  ,**User Code:**
+  ```ruby
+  class AddIndexToPostsUserId < ActiveRecord::Migration[7.0]
+    def change
+      add_index :posts, :user_id
+    end
+  end
+  ```
+
+  ,**Issue:** Missing =algorithm: :concurrently= (Critical on large tables)
+
+  ,**Suggestion:**
+  "This index creation will lock the =posts= table for writes until the index is built. Use concurrent index creation:
+
+  ```ruby
+  class AddIndexToPostsUserId < ActiveRecord::Migration[7.0]
+    disable_ddl_transaction!
+
+    def change
+      add_index :posts, :user_id, algorithm: :concurrently
+    end
+  end
+  ```
+
+  Note: Concurrent indexes take longer to build but don't block writes."
+
+  ### Example 3: Removing Column
+
+  ,**User Code:**
+  ```ruby
+  class RemoveAgeFromUsers < ActiveRecord::Migration[7.0]
+    def change
+      remove_column :users, :age
+    end
+  end
+  ```
+
+  ,**Issue:** Removing column without ignoring first (High)
+
+  ,**Suggestion:**
+  "Removing a column immediately will cause errors in running app instances that still reference it.
+
+  Use this 2-step process:
+
+  ```ruby
+  # Step 1: Ignore column in model (deploy first)
+  class User < ApplicationRecord
+    self.ignored_columns = ['age']
+  end
+
+  # Deploy and restart all app servers
+
+  # Step 2: Remove column (separate deployment)
+  class RemoveAgeFromUsers < ActiveRecord::Migration[7.0]
+    def change
+      safety_assured { remove_column :users, :age }
+    end
+  end
+  ```"
+
+  ## When to Use Safety_assured
+
+  Only use =safety_assured= when you:
+  - Understand the risk
+  - Have verified it's safe (e.g., small table)
+  - Are following multi-step process for dangerous operation
+  - Need to remove column after ignoring it
+
+  ```ruby
+  # OK - you've already ignored the column
+  safety_assured do
+    remove_column :users, :deprecated_field
+  end
+
+  # OK - small lookup table
+  safety_assured do
+    add_column :statuses, :color, :string, default: 'gray'
+  end
+
+  # NOT OK - bypassing safety on large table
+  safety_assured do
+    add_column :orders, :total, :decimal, default: 0.0  # BAD!
+  end
+  ```
+
+  ## Resources
+
+  - [[https://github.com/ankane/strong_migrations][strong_migrations gem]] - Catches unsafe migrations
+  - [[https://github.com/fatkodima/online_migrations][online_migrations gem]] - Advanced PostgreSQL safety
+  - [[https://www.postgresql.org/docs/current/sql-altertable.html][PostgreSQL ALTER TABLE docs]] - Understanding locks
+  - [[https://guides.rubyonrails.org/active_record_migrations.html][Rails Migrations Guide]] - Official documentation
+#+end_src
+
+** Rails Upgrade Helper
+
+Detect deprecated Rails patterns and suggest modern alternatives when upgrading Rails versions.
+
+#+begin_src markdown :tangle no
+---
+name: Rails Upgrade Helper
+description: Detect deprecated Rails patterns and version-specific issues when upgrading Rails versions, suggesting modern replacements
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(bundle:*)
+  - Bash(rails:*)
+---
+
+# Rails Upgrade Helper
+
+## Activation Triggers
+
+Automatically activate when:
+- =Gemfile= shows Rails version changes
+- User mentions "upgrading Rails", "Rails upgrade", or specific versions
+- Deprecated pattern detected in code
+- User viewing Rails configuration files
+- User asks about Rails version differences
+
+## Version-Specific Changes
+
+### Rails 7 → Rails 7.2
+
+,**Key Changes:**
+- =@rails/ujs= removed (use Turbo instead)
+- Positional =coder= argument deprecated in =serialize()=
+- Plural association name references deprecated
+- =ConnectionPool#connection= → =ConnectionPool#lease_connection=
+
+,**Example:**
+```ruby
+# Old (Rails 7.0)
+serialize :options, Hash
+
+# New (Rails 7.2)
+serialize :options, coder: Hash  # Or type: Hash in Rails 7.1+
+```
+
+### Rails 7.2 → Rails 8
+
+,**Key Changes:**
+- =config.active_job.use_big_decimal_serializer= removed
+- Deprecated config files removed
+- Parameters hash equality configuration removed
+- Action* classes simplified
+
+### Rails 6 → Rails 7
+
+,**Major Changes:**
+- Zeitwerk autoloading required (was optional in Rails 6)
+- =before_action :verify_authenticity_token= → implicit via =protect_from_forgery=
+- Import maps replace Webpacker by default
+- ActiveStorage variants API updated
+- Turbo replaces Turbolinks
+- CSS bundling changes
+
+,**Example:**
+```ruby
+# Old (Rails 6 with Zeitwerk)
+# config/application.rb
+config.load_defaults 6.1
+config.autoloader = :zeitwerk  # Optional
+
+# New (Rails 7)
+config.load_defaults 7.0
+# Zeitwerk is mandatory, no config needed
+```
+
+## Common Deprecations
+
+### ActiveRecord Query Syntax
+
+,**find_by_* Methods:**
+```ruby
+# Old (deprecated since Rails 4)
+User.find_by_email("user@example.com")
+User.find_all_by_status("active")
+
+# New
+User.find_by(email: "user@example.com")
+User.where(status: "active")
+```
+
+,**Dynamic Finders:**
+```ruby
+# Old
+User.find_or_create_by_email("user@example.com")
+
+# New
+User.find_or_create_by(email: "user@example.com")
+```
+
+### Callback Syntax
+
+,**Proc.new → Lambda:**
+```ruby
+# Old
+before_save :method, if: Proc.new { |user| user.email_changed? }
+
+# New
+before_save :method, if: -> { email_changed? }
+# Or
+before_save :method, if: :email_changed?
+```
+
+### Controller Filters
+
+,**before_filter → before_action:**
+```ruby
+# Old (deprecated since Rails 4)
+class ApplicationController < ActionController::Base
+  before_filter :authenticate_user!
+  after_filter :log_activity
+end
+
+# New
+class ApplicationController < ActionController::Base
+  before_action :authenticate_user!
+  after_action :log_activity
+end
+```
+
+### Iteration Methods
+
+,**all.each → find_each:**
+```ruby
+# Old (loads all records into memory)
+User.all.each do |user|
+  user.send_notification
+end
+
+# New (batched iteration)
+User.find_each do |user|
+  user.send_notification
+end
+
+# Or with batch size
+User.find_each(batch_size: 500) do |user|
+  user.send_notification
+end
+```
+
+### Mass Assignment (Pre-Rails 4)
+
+,**attr_accessible → Strong Parameters:**
+```ruby
+# Old (Rails 3)
+class User < ActiveRecord::Base
+  attr_accessible :name, :email
+end
+
+# New (Rails 4+)
+class User < ApplicationRecord
+  # No attr_accessible
+end
+
+# In controller
+def user_params
+  params.require(:user).permit(:name, :email)
+end
+```
+
+### Asset Pipeline
+
+,**Rails 6 → Rails 7:**
+```ruby
+# Old (Sprockets)
+# app/assets/javascripts/application.js
+//= require rails-ujs
+//= require turbolinks
+//= require_tree .
+
+# New (Import Maps - Rails 7+)
+# config/importmap.rb
+pin "application", preload: true
+pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
+```
+
+### Autoloading
+
+,**Classic → Zeitwerk:**
+```ruby
+# Old (Classic autoloader)
+# Files could be in any case
+app/models/my_model.rb → MyModel  # Works
+app/models/MyModel.rb → MyModel   # Also works
+
+# New (Zeitwerk - strict naming)
+app/models/my_model.rb → MyModel  # Correct
+app/models/MyModel.rb → MyModel   # ERROR - filename must be snake_case
+```
+
+## Detection Patterns
+
+### Pattern 1: Deprecated Methods
+
+,**Detection:**
+```ruby
+# Grep for deprecated patterns
+Grep(pattern: "find_by_\\w+", glob: "**/*.rb")
+Grep(pattern: "find_all_by_\\w+", glob: "**/*.rb")
+Grep(pattern: "before_filter", glob: "**/*.rb")
+Grep(pattern: "after_filter", glob: "**/*.rb")
+Grep(pattern: "\\.all\\.each", glob: "**/*.rb")
+```
+
+### Pattern 2: Rails Version in Gemfile
+
+```ruby
+# Read Gemfile to check Rails version
+Read("Gemfile")
+
+# Look for:
+gem 'rails', '~> 7.0'  # Current version
+```
+
+### Pattern 3: Configuration Files
+
+Check =config/application.rb= for:
+- =config.load_defaults= version
+- Autoloader configuration
+- Deprecated settings
+
+## Upgrade Process Guidance
+
+### Step-by-Step Upgrade
+
+**1. Update Rails version incrementally**
+```ruby
+# Don't jump versions (6.0 → 8.0)
+# Go step by step (6.0 → 6.1 → 7.0 → 7.1 → 7.2 → 8.0)
+
+# Gemfile
+gem 'rails', '~> 7.0.0'  # Specify exact minor version
+```
+
+**2. Update config**
+```ruby
+# config/application.rb
+config.load_defaults 7.0  # Update to new version
+```
+
+**3. Check deprecation warnings**
+```bash
+# Run tests and check logs for deprecation warnings
+bundle exec rspec
+# Look for DEPRECATION WARNING in output
+```
+
+**4. Fix deprecations**
+- Address all deprecation warnings before upgrading to next version
+- Use this skill to identify and fix patterns
+
+**5. Update gems**
+```bash
+bundle update
+# Check for gem compatibility issues
+```
+
+**6. Test thoroughly**
+- Run full test suite
+- Test in staging environment
+- Check for breaking changes
+
+## Example Detections
+
+### Example 1: Dynamic Finder
+
+,**User Code:**
+```ruby
+user = User.find_by_email(params[:email])
+```
+
+,**Issue:** Deprecated dynamic finder (since Rails 4)
+
+,**Suggestion:**
+"The =find_by_*= method style is deprecated. Use =find_by= with hash:
+
+```ruby
+user = User.find_by(email: params[:email])
+```
+
+This is more explicit and supports complex queries:
+```ruby
+user = User.find_by(email: params[:email], active: true)
+```"
+
+### Example 2: before_filter
+
+,**User Code:**
+```ruby
+class ApplicationController < ActionController::Base
+  before_filter :authenticate_user!
+end
+```
+
+,**Issue:** =before_filter= deprecated (since Rails 4)
+
+,**Suggestion:**
+"Use =before_action= instead of =before_filter=:
+
+```ruby
+class ApplicationController < ActionController::Base
+  before_action :authenticate_user!
+end
+```
+
+Same for =after_filter= → =after_action= and =around_filter= → =around_action="
+
+### Example 3: Iterating All Records
+
+,**User Code:**
+```ruby
+User.all.each do |user|
+  UserMailer.welcome_email(user).deliver_later
+end
+```
+
+,**Issue:** Loading all records into memory (inefficient)
+
+,**Suggestion:**
+"Use =find_each= for batched iteration:
+
+```ruby
+User.find_each do |user|
+  UserMailer.welcome_email(user).deliver_later
+end
+```
+
+This loads records in batches of 1000 (configurable), preventing memory issues on large datasets."
+
+### Example 4: Zeitwerk Naming Violation
+
+,**User Code:**
+```ruby
+# File: app/models/MyUser.rb
+class MyUser < ApplicationRecord
+end
+```
+
+,**Issue:** Filename doesn't match Zeitwerk convention
+
+,**Suggestion:**
+"Zeitwerk requires snake_case filenames matching the class name:
+
+File should be: =app/models/my_user.rb=
+
+```ruby
+# app/models/my_user.rb
+class MyUser < ApplicationRecord
+end
+```
+
+Zeitwerk inflects filenames to class names:
+- =my_user.rb= → =MyUser=
+- =blog_post.rb= → =BlogPost=
+- =api_client.rb= → =ApiClient="
+
+## Resources for Upgrade
+
+,**Official Guides:**
+- [[https://guides.rubyonrails.org/upgrading_ruby_on_rails.html][Rails Upgrading Guide]]
+- [[https://railsdiff.org][RailsDiff.org]] - Compare Rails versions
+
+,**Version-Specific Guides:**
+- [[https://guides.rubyonrails.org/7_2_release_notes.html][Rails 7.2 Release Notes]]
+- [[https://guides.rubyonrails.org/8_0_release_notes.html][Rails 8.0 Release Notes]]
+
+,**Tools:**
+```bash
+# Check for deprecated code
+bundle exec rails app:update  # Updates config files
+
+# Run deprecation checks
+bundle exec rake rails:update:configs
+```
+
+## Offering Suggestions
+
+When detecting deprecated patterns:
+
+1. **Identify the deprecation** - What's deprecated and since which version
+2. **Explain why it changed** - Brief context on the change
+3. **Provide modern alternative** - Show exact replacement code
+4. **Note breaking changes** - Mention behavior differences if any
+5. **Link to resources** - Point to official docs for details
+
+## Upgrade Checklist
+
+When user mentions upgrading Rails:
+
+1. **Current Rails version?** - Check =Gemfile.lock=
+2. **Target version?** - What version are they upgrading to?
+3. **Incremental path?** - Plan version-by-version upgrade
+4. **Dependencies compatible?** - Check gem compatibility
+5. **Tests passing?** - Ensure good test coverage before upgrade
+6. **Deprecations addressed?** - Fix warnings in current version first
+7. **Config updated?** - =config.load_defaults= matches version
+8. **Staging tested?** - Test in non-production environment
+
+## When to Activate
+
+This skill should be **suggestive, not aggressive**:
+
+- Point out deprecated patterns when seen
+- Offer upgrade guidance when explicitly asked
+- Don't nag about minor deprecations
+- Focus on critical/breaking changes
+- Respect if user is on legacy version intentionally (maintenance mode)
+
+Always respect that upgrades are significant decisions requiring:
+- Time and resources
+- Testing effort
+- Team coordination
+- Potential for breaking changes
+
+Provide information, not pressure.
+#+end_src
+

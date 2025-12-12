@@ -1,0 +1,3179 @@
+#+TITLE: Agent Skills - Python Development
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:markdown :mkdirp yes :results none
+#+PROPERTY: SKILL_BASE_DIR ~/.claude/skills
+
+# Tangle Path Configuration
+#
+# By default, skills are tangled to ~/.claude/skills/
+#
+# To use project-specific skill directories, you have two options:
+#
+# Option 1: Change SKILL_BASE_DIR property above (affects this file only)
+#   #+PROPERTY: SKILL_BASE_DIR /path/to/project/.claude/skills
+#
+# Option 2: Use the retarget script (affects all skill files):
+#   ./retarget-skills.sh /path/to/project/.claude/skills
+#
+# After changing paths, run: ./tangle-claude.sh
+
+* Python Development Skills
+
+Skills for Python development, covering conventions, type safety, testing, security, and common pitfalls.
+
+** Overview
+
+Python has strong conventions (PEP 8) and best practices. These skills help enforce Python patterns, detect common pitfalls, identify security vulnerabilities, ensure type safety, and maintain comprehensive test coverage.
+
+These skills activate automatically when working in Python projects (detected by presence of =.py= files, =requirements.txt=, =pyproject.toml=, or virtual environments).
+
+*Note:* Requires tool permissions in =.claude/settings.json=:
+- =Bash(python:*)=
+- =Bash(python3:*)=
+- =Bash(pip:*)=
+- =Bash(pytest:*)=
+- =Bash(mypy:*)=
+
+** Python Conventions Enforcer
+
+Automatically enforce Python conventions for code style, naming, and project structure.
+
+#+begin_src markdown :tangle ~/.claude/skills/python-conventions/SKILL.md
+---
+name: Python Conventions Enforcer
+description: Automatically enforce Python conventions for code style (PEP 8), naming patterns, and project structure when working in Python projects
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(python:*)
+  - Bash(python3:*)
+---
+
+# Python Conventions Enforcer
+
+## Activation Triggers
+
+Automatically activate when:
+- Detecting Python project (=.py= files, =requirements.txt=, =pyproject.toml=)
+- Creating new Python modules or packages
+- Viewing Python code with style violations
+- User mentions "PEP 8", "Python style", or "conventions"
+- Code review context for Python files
+
+## Convention Categories
+
+### 1. PEP 8 Code Style
+
+Python has an official style guide (PEP 8) that should be followed.
+
+,**Naming Conventions:**
+```python
+# Good - PEP 8 compliant
+class UserAccount:  # CapWords for classes
+    pass
+
+def calculate_total(items):  # lowercase_with_underscores for functions
+    pass
+
+MAX_CONNECTIONS = 100  # UPPERCASE for constants
+user_count = 0  # lowercase_with_underscores for variables
+
+# Bad - violates PEP 8
+class user_account:  # Should be CapWords
+    pass
+
+def CalculateTotal(items):  # Should be lowercase_with_underscores
+    pass
+
+maxConnections = 100  # Should be UPPERCASE
+UserCount = 0  # Should be lowercase
+```
+
+,**Indentation and Spacing:**
+```python
+# Good
+def function(arg1, arg2):
+    if arg1 > arg2:
+        return arg1
+    return arg2
+
+# Bad - inconsistent indentation
+def function(arg1, arg2):
+  if arg1 > arg2:  # 2 spaces instead of 4
+        return arg1  # Inconsistent
+  return arg2
+
+# Good - proper spacing around operators
+x = 1 + 2
+result = calculate_total(a, b, c)
+
+# Bad - inconsistent spacing
+x=1+2
+result = calculate_total(a,b,c)
+```
+
+,**Line Length:**
+```python
+# Good - under 79 characters (PEP 8 recommendation)
+def short_function(param1, param2):
+    return param1 + param2
+
+# Long lines should be broken
+result = some_function(
+    argument1, argument2,
+    argument3, argument4
+)
+
+# Bad - exceeds 79 characters
+def function_with_very_long_name_and_many_parameters(parameter1, parameter2, parameter3, parameter4, parameter5):
+    pass
+```
+
+,**Imports:**
+```python
+# Good - imports at top, grouped and sorted
+import os
+import sys
+
+from typing import List, Dict
+import requests
+
+from mypackage import module1, module2
+
+# Bad - imports scattered, not grouped
+import sys
+from mypackage import module1
+import os  # Should be with sys
+import requests  # Should be grouped
+from typing import List
+
+# Bad - wildcard import
+from module import *  # Avoid unless in __init__.py
+```
+
+### 2. Project Structure
+
+Standard Python project layout:
+
+```
+project_name/
+├── src/
+│   └── project_name/
+│       ├── __init__.py
+│       ├── module1.py
+│       └── module2.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_module1.py
+│   └── test_module2.py
+├── docs/
+│   └── conf.py
+├── requirements.txt
+├── setup.py or pyproject.toml
+├── README.md
+└── .gitignore
+```
+
+,**Package Structure:**
+- Use =__init__.py= to mark directories as packages
+- Keep modules focused and single-purpose
+- Use relative imports within package
+- Use absolute imports from outside
+
+,**Example:**
+```python
+# Good - in src/mypackage/submodule.py
+from mypackage import utils  # Absolute import
+from . import helpers  # Relative import within package
+
+# Bad
+from ..parent import something  # Avoid going up levels
+```
+
+### 3. Docstrings
+
+Python uses docstrings for documentation (PEP 257).
+
+,**Module Docstring:**
+```python
+"""
+This module provides utility functions for data processing.
+
+Example:
+    from mypackage import utils
+    result = utils.process_data(data)
+"""
+
+import os
+```
+
+,**Function Docstring:**
+```python
+def calculate_total(items, tax_rate=0.0):
+    """
+    Calculate total price including tax.
+
+    Args:
+        items (list): List of items with 'price' attribute
+        tax_rate (float, optional): Tax rate as decimal. Defaults to 0.0.
+
+    Returns:
+        float: Total price after tax
+
+    Raises:
+        ValueError: If items is empty or tax_rate is negative
+
+    Example:
+        >>> items = [{'price': 10}, {'price': 20}]
+        >>> calculate_total(items, 0.08)
+        32.4
+    """
+    if not items:
+        raise ValueError("Items list cannot be empty")
+    if tax_rate < 0:
+        raise ValueError("Tax rate cannot be negative")
+
+    subtotal = sum(item['price'] for item in items)
+    return subtotal * (1 + tax_rate)
+```
+
+,**Class Docstring:**
+```python
+class UserAccount:
+    """
+    Represents a user account with authentication and profile data.
+
+    Attributes:
+        username (str): The user's unique username
+        email (str): The user's email address
+        created_at (datetime): Account creation timestamp
+
+    Example:
+        >>> user = UserAccount("john_doe", "john@example.com")
+        >>> user.activate()
+        True
+    """
+
+    def __init__(self, username, email):
+        """Initialize a new user account."""
+        self.username = username
+        self.email = email
+```
+
+### 4. Pythonic Patterns
+
+Encourage idiomatic Python (Pythonic) code.
+
+,**List Comprehensions:**
+```python
+# Good - Pythonic
+squares = [x**2 for x in range(10)]
+evens = [x for x in numbers if x % 2 == 0]
+
+# Bad - verbose
+squares = []
+for x in range(10):
+    squares.append(x**2)
+```
+
+,**Context Managers:**
+```python
+# Good - use context managers
+with open('file.txt') as f:
+    content = f.read()
+
+# Bad - manual resource management
+f = open('file.txt')
+content = f.read()
+f.close()  # Easy to forget, especially on exception
+```
+
+,**Duck Typing:**
+```python
+# Good - check behavior, not type
+def process(items):
+    """Works with any iterable."""
+    for item in items:
+        print(item)
+
+# Bad - explicit type checking
+def process(items):
+    if not isinstance(items, list):  # Too restrictive
+        raise TypeError("Must be a list")
+```
+
+,**String Formatting:**
+```python
+name = "Alice"
+age = 30
+
+# Good - f-strings (Python 3.6+)
+message = f"Hello, {name}! You are {age} years old."
+
+# Good - str.format()
+message = "Hello, {}! You are {} years old.".format(name, age)
+
+# Bad - old % formatting
+message = "Hello, %s! You are %d years old." % (name, age)
+
+# Bad - string concatenation
+message = "Hello, " + name + "! You are " + str(age) + " years old."
+```
+
+,**Dictionary get() method:**
+```python
+config = {'host': 'localhost', 'port': 8080}
+
+# Good - use get() with default
+timeout = config.get('timeout', 30)
+
+# Bad - manual checking
+if 'timeout' in config:
+    timeout = config['timeout']
+else:
+    timeout = 30
+```
+
+### 5. Type Hints
+
+Use type hints for better code clarity (PEP 484).
+
+```python
+from typing import List, Dict, Optional, Union
+
+def process_items(items: List[str], max_count: Optional[int] = None) -> Dict[str, int]:
+    """
+    Process a list of items and return count statistics.
+
+    Args:
+        items: List of item names
+        max_count: Maximum items to process (None = all)
+
+    Returns:
+        Dictionary mapping item names to counts
+    """
+    result: Dict[str, int] = {}
+    # Implementation
+    return result
+
+# For Python 3.10+, use built-in types
+def modern_function(items: list[str]) -> dict[str, int]:
+    pass
+```
+
+### 6. Exception Handling
+
+```python
+# Good - specific exceptions
+try:
+    value = int(user_input)
+except ValueError as e:
+    print(f"Invalid input: {e}")
+except KeyboardInterrupt:
+    print("Operation cancelled")
+
+# Bad - bare except
+try:
+    value = int(user_input)
+except:  # Too broad, catches everything
+    print("Error")
+
+# Good - raise from for chaining
+try:
+    process_data()
+except DataError as e:
+    raise ProcessingError("Failed to process") from e
+
+# Bad - swallowing exceptions
+try:
+    risky_operation()
+except Exception:
+    pass  # Silent failure
+```
+
+## Detection Process
+
+1. **Check code style** - Verify PEP 8 compliance
+2. **Verify naming** - Check naming conventions
+3. **Review structure** - Ensure proper project layout
+4. **Check docstrings** - Verify documentation present
+5. **Identify unpythonic code** - Suggest more idiomatic alternatives
+
+## Tools Integration
+
+### Black
+
+Auto-formatter for Python code:
+
+```bash
+pip install black
+black .  # Format all Python files
+
+# In pyproject.toml
+[tool.black]
+line-length = 88
+target-version = ['py39']
+```
+
+### Flake8
+
+Linting tool for style guide enforcement:
+
+```bash
+pip install flake8
+flake8 .  # Check all Python files
+
+# .flake8 config
+[flake8]
+max-line-length = 88
+extend-ignore = E203, W503
+```
+
+### isort
+
+Sort and organize imports:
+
+```bash
+pip install isort
+isort .  # Sort imports in all files
+
+# pyproject.toml
+[tool.isort]
+profile = "black"
+```
+
+### pylint
+
+Comprehensive code analyzer:
+
+```bash
+pip install pylint
+pylint mypackage/
+```
+
+## Examples
+
+### Example 1: Naming Convention
+
+,**User Code:**
+```python
+class user_account:
+    def GetUserData(self, UserID):
+        pass
+```
+
+,**Issue:** Violates naming conventions
+
+,**Suggestion:**
+"Class names should use CapWords, methods should use lowercase_with_underscores, and parameters should use lowercase_with_underscores:
+
+```python
+class UserAccount:
+    def get_user_data(self, user_id):
+        pass
+```"
+
+### Example 2: Unpythonic Loop
+
+,**User Code:**
+```python
+result = []
+for i in range(len(items)):
+    if items[i] > 0:
+        result.append(items[i] * 2)
+```
+
+,**Issue:** Not idiomatic Python
+
+,**Suggestion:**
+"Use a list comprehension for more Pythonic code:
+
+```python
+result = [item * 2 for item in items if item > 0]
+```
+
+This is more readable and typically faster."
+
+### Example 3: Missing Docstring
+
+,**User Code:**
+```python
+def calculate(a, b, c):
+    return (a + b) * c
+```
+
+,**Issue:** Missing docstring
+
+,**Suggestion:**
+"Add a docstring to explain the function's purpose:
+
+```python
+def calculate(a, b, c):
+    \"\"\"
+    Calculate the sum of a and b, then multiply by c.
+
+    Args:
+        a (float): First value
+        b (float): Second value
+        c (float): Multiplier
+
+    Returns:
+        float: Result of (a + b) * c
+    \"\"\"
+    return (a + b) * c
+```"
+
+## Best Practices
+
+### Keep It Simple
+
+**Good:**
+```python
+def is_valid_email(email):
+    return '@' in email and '.' in email.split('@')[-1]
+```
+
+**Bad:**
+```python
+def is_valid_email(email):
+    has_at = False
+    has_dot_after_at = False
+    at_index = -1
+
+    for i, char in enumerate(email):
+        if char == '@':
+            has_at = True
+            at_index = i
+
+    if has_at:
+        after_at = email[at_index+1:]
+        if '.' in after_at:
+            has_dot_after_at = True
+
+    return has_at and has_dot_after_at
+```
+
+### Use Standard Library
+
+```python
+# Good - use built-ins
+from pathlib import Path
+from collections import Counter, defaultdict
+from itertools import groupby
+
+# Avoid reinventing the wheel
+```
+
+### Follow PEP 8 Unless You Have Good Reason
+
+Consistency is more important than individual preferences.
+
+## When to Skip
+
+Some conventions can be relaxed:
+- Line length can go to 99 chars if using Black formatter
+- In data science notebooks, different conventions may apply
+- Legacy codebases may have their own style
+- Generated code (protobuf, etc.) shouldn't be modified
+
+Document any intentional deviations from PEP 8.
+#+end_src
+
+** Type Hints Assistant
+
+Automatically suggest and generate type hints for Python code.
+
+#+begin_src markdown :tangle no
+---
+name: Type Hints Assistant
+description: Automatically suggest type hints for Python functions, methods, and variables when working in Python projects, and detect missing or incorrect type annotations
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(python:*)
+  - Bash(mypy:*)
+---
+
+# Type Hints Assistant
+
+## Activation Triggers
+
+Automatically activate when:
+- Functions lack type annotations
+- Type errors detected by mypy
+- User mentions "types", "type hints", or "annotations"
+- Any type used instead of specific types
+- Missing return type annotations
+- Complex data structures without TypedDict or dataclass
+
+## Type Annotation Patterns
+
+### 1. Basic Type Annotations
+
+**Function Parameters and Return Types:**
+```python
+# Good - fully annotated
+def greet(name: str, age: int) -> str:
+    return f"Hello {name}, you are {age} years old"
+
+# Bad - no type hints
+def greet(name, age):
+    return f"Hello {name}, you are {age} years old"
+```
+
+**Variables:**
+```python
+# Good - annotated where helpful
+count: int = 0
+users: list[str] = []
+config: dict[str, str] = {}
+
+# Python 3.9+ can use built-in types
+items: list[int] = [1, 2, 3]
+
+# Python 3.8 and earlier need typing module
+from typing import List, Dict
+items: List[int] = [1, 2, 3]
+config: Dict[str, str] = {}
+```
+
+### 2. Optional and Union Types
+
+```python
+from typing import Optional, Union
+
+# Optional - value can be None
+def find_user(user_id: int) -> Optional[str]:
+    """Returns username or None if not found."""
+    return users.get(user_id)
+
+# Union - value can be multiple types
+def process_id(id_value: Union[int, str]) -> str:
+    return str(id_value)
+
+# Python 3.10+ - use | operator
+def find_user(user_id: int) -> str | None:
+    return users.get(user_id)
+
+def process_id(id_value: int | str) -> str:
+    return str(id_value)
+```
+
+### 3. Collections
+
+```python
+from typing import List, Dict, Set, Tuple, Sequence
+
+# Lists
+def process_names(names: list[str]) -> list[str]:
+    return [name.upper() for name in names]
+
+# Dictionaries
+def get_config() -> dict[str, int]:
+    return {"timeout": 30, "retries": 3}
+
+# Sets
+def unique_ids(ids: list[int]) -> set[int]:
+    return set(ids)
+
+# Tuples - fixed size
+def get_coordinates() -> tuple[float, float]:
+    return (10.5, 20.3)
+
+# Tuples - variable size
+def get_items() -> tuple[str, ...]:
+    return ("a", "b", "c")
+
+# Sequence - accepts list or tuple
+def process_items(items: Sequence[str]) -> int:
+    return len(items)
+```
+
+### 4. Callable Types
+
+```python
+from typing import Callable
+
+# Function that takes a callback
+def apply_operation(
+    value: int,
+    operation: Callable[[int], int]
+) -> int:
+    return operation(value)
+
+# Usage
+def double(x: int) -> int:
+    return x * 2
+
+result = apply_operation(5, double)
+
+# Callable with multiple parameters
+def process(
+    items: list[int],
+    filter_func: Callable[[int, int], bool]
+) -> list[int]:
+    pass
+```
+
+### 5. Generic Types
+
+```python
+from typing import TypeVar, Generic
+
+T = TypeVar('T')
+
+def first(items: list[T]) -> T | None:
+    """Returns first item or None."""
+    return items[0] if items else None
+
+# Generic class
+class Stack(Generic[T]):
+    def __init__(self) -> None:
+        self._items: list[T] = []
+
+    def push(self, item: T) -> None:
+        self._items.append(item)
+
+    def pop(self) -> T | None:
+        return self._items.pop() if self._items else None
+
+# Usage
+int_stack: Stack[int] = Stack()
+int_stack.push(1)
+```
+
+### 6. TypedDict
+
+For structured dictionaries with known keys:
+
+```python
+from typing import TypedDict
+
+# Good - typed dictionary
+class UserDict(TypedDict):
+    id: int
+    name: str
+    email: str
+    active: bool
+
+def create_user(data: UserDict) -> UserDict:
+    # Type checker knows the exact keys
+    return data
+
+# With optional fields
+class UserDictOptional(TypedDict, total=False):
+    id: int
+    name: str
+    nickname: str  # Optional
+
+# Bad - untyped dict
+def create_user(data: dict) -> dict:
+    return data
+```
+
+### 7. Dataclasses
+
+For simple data containers:
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class User:
+    id: int
+    name: str
+    email: str
+    active: bool = True
+
+def process_user(user: User) -> str:
+    return f"{user.name} ({user.email})"
+
+# Frozen dataclass (immutable)
+@dataclass(frozen=True)
+class Point:
+    x: float
+    y: float
+```
+
+### 8. Protocol (Structural Typing)
+
+For duck typing with type safety:
+
+```python
+from typing import Protocol
+
+class Drawable(Protocol):
+    def draw(self) -> None:
+        ...
+
+class Circle:
+    def draw(self) -> None:
+        print("Drawing circle")
+
+class Square:
+    def draw(self) -> None:
+        print("Drawing square")
+
+def render(shape: Drawable) -> None:
+    shape.draw()
+
+# Both work without explicit inheritance
+render(Circle())
+render(Square())
+```
+
+### 9. Literal Types
+
+For specific literal values:
+
+```python
+from typing import Literal
+
+def set_mode(mode: Literal["read", "write", "append"]) -> None:
+    """Mode must be exactly one of these strings."""
+    pass
+
+set_mode("read")  # OK
+set_mode("delete")  # Type error
+
+# Multiple literals
+def format_output(
+    style: Literal["json", "yaml", "xml"]
+) -> str:
+    pass
+```
+
+### 10. Type Aliases
+
+For complex types:
+
+```python
+from typing import TypeAlias
+
+# Simple alias
+UserId: TypeAlias = int
+Username: TypeAlias = str
+
+# Complex alias
+JSONDict: TypeAlias = dict[str, "JSONValue"]
+JSONList: TypeAlias = list["JSONValue"]
+JSONValue: TypeAlias = str | int | float | bool | None | JSONDict | JSONList
+
+def parse_json(data: str) -> JSONValue:
+    pass
+```
+
+## mypy Integration
+
+### Running mypy
+
+```bash
+# Install mypy
+pip install mypy
+
+# Check a file
+mypy script.py
+
+# Check entire project
+mypy src/
+
+# Strict mode (recommended for new projects)
+mypy --strict src/
+```
+
+### Configuration (mypy.ini or pyproject.toml)
+
+```ini
+[mypy]
+python_version = 3.11
+warn_return_any = True
+warn_unused_configs = True
+disallow_untyped_defs = True
+disallow_any_generics = True
+check_untyped_defs = True
+no_implicit_optional = True
+warn_redundant_casts = True
+warn_unused_ignores = True
+warn_no_return = True
+warn_unreachable = True
+strict_equality = True
+```
+
+### Incremental Adoption
+
+For existing codebases:
+
+```python
+# Ignore errors in specific file
+# type: ignore at top of file
+
+# Ignore specific line
+result = old_function()  # type: ignore
+
+# Ignore specific error code
+value = get_value()  # type: ignore[return-value]
+
+# Type comment for older Python
+def legacy_function(x, y):
+    # type: (int, int) -> int
+    return x + y
+```
+
+## Common Patterns
+
+### 1. Self Type
+
+```python
+from typing import Self  # Python 3.11+
+
+class Builder:
+    def set_name(self, name: str) -> Self:
+        self.name = name
+        return self
+
+    def set_age(self, age: int) -> Self:
+        self.age = age
+        return self
+
+# Fluent interface
+builder = Builder().set_name("Alice").set_age(30)
+```
+
+### 2. Overload
+
+For functions with different signatures:
+
+```python
+from typing import overload
+
+@overload
+def process(value: int) -> str: ...
+
+@overload
+def process(value: str) -> int: ...
+
+def process(value: int | str) -> int | str:
+    if isinstance(value, int):
+        return str(value)
+    return len(value)
+```
+
+### 3. Type Guards
+
+```python
+from typing import TypeGuard
+
+def is_str_list(val: list[object]) -> TypeGuard[list[str]]:
+    """Check if list contains only strings."""
+    return all(isinstance(x, str) for x in val)
+
+def process(items: list[object]) -> None:
+    if is_str_list(items):
+        # Type checker knows items is list[str] here
+        print(items[0].upper())
+```
+
+## Best Practices
+
+### Start with Public APIs
+
+```python
+# Good - type public interface
+class Calculator:
+    def add(self, a: int, b: int) -> int:
+        return self._internal_add(a, b)
+
+    def _internal_add(self, a, b):  # Private can wait
+        return a + b
+```
+
+### Use Specific Types
+
+```python
+# Good - specific
+def get_users() -> list[User]:
+    pass
+
+# Bad - too vague
+def get_users() -> list:
+    pass
+
+# Bad - any defeats purpose
+from typing import Any
+def get_users() -> Any:
+    pass
+```
+
+### Avoid Circular Imports
+
+```python
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from myapp.models import User
+
+def process_user(user: "User") -> None:
+    # Use string annotation
+    pass
+```
+
+### Document Complex Types
+
+```python
+from typing import TypeAlias
+
+# Good - documented alias
+UserMap: TypeAlias = dict[int, tuple[str, str]]
+"""Maps user ID to (username, email) tuple."""
+
+def get_users() -> UserMap:
+    pass
+```
+
+## Examples
+
+### Example 1: Untyped Function
+
+**User Code:**
+```python
+def calculate_discount(price, discount_percent):
+    return price * (1 - discount_percent / 100)
+```
+
+**Issue:** No type hints
+
+**Suggestion:**
+"Add type hints to make the function more type-safe:
+
+```python
+def calculate_discount(price: float, discount_percent: float) -> float:
+    return price * (1 - discount_percent / 100)
+```"
+
+### Example 2: Complex Return Type
+
+**User Code:**
+```python
+def get_user_stats(user_id):
+    return {
+        "id": user_id,
+        "posts": 10,
+        "followers": ["alice", "bob"]
+    }
+```
+
+**Issue:** Complex dict return without TypedDict
+
+**Suggestion:**
+"Use TypedDict for structured dictionaries:
+
+```python
+from typing import TypedDict
+
+class UserStats(TypedDict):
+    id: int
+    posts: int
+    followers: list[str]
+
+def get_user_stats(user_id: int) -> UserStats:
+    return {
+        "id": user_id,
+        "posts": 10,
+        "followers": ["alice", "bob"]
+    }
+```"
+
+### Example 3: Missing Optional
+
+**User Code:**
+```python
+def find_user(user_id: int) -> str:
+    return users.get(user_id)  # Can return None!
+```
+
+**Issue:** Function can return None but type says str
+
+**Suggestion:**
+"Use Optional (or | None) when return value can be None:
+
+```python
+def find_user(user_id: int) -> str | None:
+    return users.get(user_id)
+```"
+
+## When to Skip Type Hints
+
+Type hints aren't always necessary:
+- Very short scripts (< 50 lines)
+- Obvious types in local variables
+- Private implementation details
+- Prototyping/exploratory code
+- Performance-critical code (minimal overhead, but exists)
+
+Focus type hints on:
+- Public APIs
+- Complex functions
+- Data validation points
+- Library code
+- Long-lived codebases
+
+## Tool Integration
+
+**VS Code:**
+- Install Pylance extension
+- Automatic type checking
+- IntelliSense based on types
+
+**PyCharm:**
+- Built-in type checking
+- Type inference
+- Quick fixes for type issues
+
+**Pre-commit Hook:**
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.7.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-requests]
+```
+#+end_src
+
+** Python Testing Assistant
+
+Automatically suggest test improvements and detect missing test coverage for Python code.
+
+#+begin_src markdown :tangle no
+---
+name: Python Testing Assistant
+description: Automatically analyze test coverage and suggest missing test cases when Python code is added or modified without adequate tests, with support for pytest, unittest, and common testing patterns
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(python:*)
+  - Bash(pytest:*)
+---
+
+# Python Testing Assistant
+
+## Activation Triggers
+
+Automatically activate when:
+- New Python functions/classes added without tests
+- Existing code modified and tests might be affected
+- User mentions "test", "pytest", "unittest", or "coverage"
+- Test commands are run (pytest, python -m pytest, etc.)
+- Code review context includes testing concerns
+- Missing edge case handling in tests
+
+## Test Framework Detection
+
+### pytest (Recommended)
+
+Most popular Python testing framework:
+```bash
+# Install
+pip install pytest
+
+# Run tests
+pytest
+pytest -v  # Verbose
+pytest tests/  # Specific directory
+pytest test_module.py::test_function  # Specific test
+```
+
+**Key Features:**
+- Simple assert statements (no assertEqual, etc.)
+- Fixtures for setup/teardown
+- Parametrize for multiple test cases
+- Rich plugin ecosystem
+
+### unittest (Built-in)
+
+Python standard library testing:
+```python
+import unittest
+
+class TestCalculator(unittest.TestCase):
+    def setUp(self):
+        self.calc = Calculator()
+
+    def test_add(self):
+        self.assertEqual(self.calc.add(2, 3), 5)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+## Test Structure Patterns
+
+### 1. AAA Pattern (Arrange, Act, Assert)
+
+```python
+def test_user_creation():
+    # Arrange - set up test data
+    username = "alice"
+    email = "alice@example.com"
+
+    # Act - perform the action
+    user = User.create(username, email)
+
+    # Assert - verify the result
+    assert user.username == username
+    assert user.email == email
+    assert user.is_active is True
+```
+
+### 2. Given-When-Then (BDD Style)
+
+```python
+def test_discount_calculation():
+    # Given a shopping cart with items
+    cart = ShoppingCart()
+    cart.add_item(Item("Book", price=20.00))
+    cart.add_item(Item("Pen", price=5.00))
+
+    # When applying a 10% discount
+    discounted_total = cart.get_total(discount_percent=10)
+
+    # Then the total should be 22.50
+    assert discounted_total == 22.50
+```
+
+## pytest Patterns
+
+### 1. Basic Tests
+
+```python
+# test_calculator.py
+from calculator import add, subtract
+
+def test_add():
+    assert add(2, 3) == 5
+    assert add(-1, 1) == 0
+    assert add(0, 0) == 0
+
+def test_subtract():
+    assert subtract(5, 3) == 2
+    assert subtract(0, 0) == 0
+```
+
+### 2. Fixtures
+
+Reusable test setup:
+
+```python
+import pytest
+
+@pytest.fixture
+def sample_user():
+    """Create a test user."""
+    return User(username="testuser", email="test@example.com")
+
+@pytest.fixture
+def database():
+    """Set up and tear down database."""
+    db = Database(":memory:")
+    db.connect()
+    yield db  # Provide to test
+    db.disconnect()  # Cleanup after test
+
+def test_save_user(database, sample_user):
+    database.save(sample_user)
+    retrieved = database.get_user(sample_user.id)
+    assert retrieved.username == sample_user.username
+```
+
+**Fixture Scopes:**
+```python
+@pytest.fixture(scope="function")  # Default, runs for each test
+def user():
+    return User()
+
+@pytest.fixture(scope="module")  # Once per module
+def database():
+    return Database()
+
+@pytest.fixture(scope="session")  # Once per test session
+def config():
+    return Config()
+```
+
+### 3. Parametrize
+
+Test multiple inputs:
+
+```python
+import pytest
+
+@pytest.mark.parametrize("input,expected", [
+    (2, 4),
+    (3, 9),
+    (4, 16),
+    (0, 0),
+])
+def test_square(input, expected):
+    assert square(input) == expected
+
+@pytest.mark.parametrize("username,email,valid", [
+    ("alice", "alice@example.com", True),
+    ("", "test@example.com", False),  # Empty username
+    ("bob", "invalid-email", False),  # Invalid email
+    ("charlie", "", False),  # Empty email
+])
+def test_user_validation(username, email, valid):
+    user = User(username, email)
+    assert user.is_valid() == valid
+```
+
+### 4. Exception Testing
+
+```python
+import pytest
+
+def test_divide_by_zero():
+    with pytest.raises(ZeroDivisionError):
+        divide(10, 0)
+
+def test_invalid_email():
+    with pytest.raises(ValueError, match="Invalid email"):
+        User(email="not-an-email")
+
+def test_exception_details():
+    with pytest.raises(ValueError) as exc_info:
+        process_data(None)
+    assert "cannot be None" in str(exc_info.value)
+```
+
+### 5. Markers
+
+Categorize and filter tests:
+
+```python
+import pytest
+
+@pytest.mark.slow
+def test_large_dataset():
+    # Time-consuming test
+    pass
+
+@pytest.mark.integration
+def test_database_connection():
+    # Integration test
+    pass
+
+@pytest.mark.skip(reason="Not implemented yet")
+def test_future_feature():
+    pass
+
+@pytest.mark.skipif(sys.platform == "win32", reason="Unix only")
+def test_unix_feature():
+    pass
+
+@pytest.mark.xfail(reason="Known bug #123")
+def test_buggy_feature():
+    pass
+```
+
+**Run specific markers:**
+```bash
+pytest -m slow  # Only slow tests
+pytest -m "not slow"  # Exclude slow tests
+pytest -m "integration and not slow"  # Combined
+```
+
+## Mocking and Patching
+
+### 1. unittest.mock
+
+```python
+from unittest.mock import Mock, patch, MagicMock
+
+def test_api_call():
+    # Mock an API client
+    mock_client = Mock()
+    mock_client.get_user.return_value = {"id": 1, "name": "Alice"}
+
+    service = UserService(mock_client)
+    user = service.fetch_user(1)
+
+    assert user["name"] == "Alice"
+    mock_client.get_user.assert_called_once_with(1)
+```
+
+### 2. Patching External Dependencies
+
+```python
+from unittest.mock import patch
+
+def test_file_processing():
+    mock_data = "test content"
+
+    with patch("builtins.open", mock_open(read_data=mock_data)):
+        result = process_file("dummy.txt")
+        assert result == "TEST CONTENT"
+
+def test_api_request():
+    with patch("requests.get") as mock_get:
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = {"data": "test"}
+
+        response = fetch_data("https://api.example.com")
+        assert response["data"] == "test"
+```
+
+### 3. Mock Behaviors
+
+```python
+def test_multiple_calls():
+    mock = Mock()
+    mock.side_effect = [1, 2, 3]
+
+    assert mock() == 1
+    assert mock() == 2
+    assert mock() == 3
+
+def test_exception_raising():
+    mock = Mock()
+    mock.side_effect = ValueError("Error message")
+
+    with pytest.raises(ValueError):
+        mock()
+
+def test_custom_behavior():
+    def custom_func(x):
+        return x * 2
+
+    mock = Mock(side_effect=custom_func)
+    assert mock(5) == 10
+```
+
+## Coverage Analysis
+
+### pytest-cov
+
+```bash
+# Install
+pip install pytest-cov
+
+# Run with coverage
+pytest --cov=src tests/
+
+# Generate HTML report
+pytest --cov=src --cov-report=html tests/
+
+# Show missing lines
+pytest --cov=src --cov-report=term-missing tests/
+```
+
+**Example output:**
+```
+---------- coverage: platform darwin, python 3.11 ----------
+Name                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------
+src/__init__.py               2      0   100%
+src/calculator.py            20      2    90%   45-46
+src/user.py                  35      8    77%   12, 24-30
+-------------------------------------------------------
+TOTAL                        57     10    82%
+```
+
+### Coverage Configuration
+
+```ini
+# .coveragerc or pyproject.toml
+[coverage:run]
+source = src
+omit =
+    */tests/*
+    */migrations/*
+    */__pycache__/*
+
+[coverage:report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+```
+
+## Property-Based Testing
+
+### Hypothesis
+
+Generate test cases automatically:
+
+```python
+from hypothesis import given
+from hypothesis import strategies as st
+
+@given(st.integers(), st.integers())
+def test_add_commutative(a, b):
+    """Addition should be commutative."""
+    assert add(a, b) == add(b, a)
+
+@given(st.text(), st.integers(min_value=0))
+def test_string_multiply(s, n):
+    """String multiplication should work correctly."""
+    result = s * n
+    assert len(result) == len(s) * n
+
+@given(st.lists(st.integers()))
+def test_sort_idempotent(items):
+    """Sorting twice should equal sorting once."""
+    assert sorted(sorted(items)) == sorted(items)
+```
+
+## Test Organization
+
+### Directory Structure
+
+```
+project/
+├── src/
+│   ├── __init__.py
+│   ├── calculator.py
+│   └── user.py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py          # Shared fixtures
+│   ├── test_calculator.py   # Unit tests
+│   ├── test_user.py         # Unit tests
+│   └── integration/
+│       ├── __init__.py
+│       └── test_api.py      # Integration tests
+├── pytest.ini               # pytest configuration
+└── pyproject.toml
+```
+
+### conftest.py
+
+Shared fixtures across tests:
+
+```python
+# tests/conftest.py
+import pytest
+
+@pytest.fixture
+def database():
+    """Database fixture available to all tests."""
+    db = Database(":memory:")
+    db.connect()
+    yield db
+    db.disconnect()
+
+@pytest.fixture
+def sample_data():
+    """Sample test data."""
+    return {
+        "users": [
+            {"id": 1, "name": "Alice"},
+            {"id": 2, "name": "Bob"},
+        ]
+    }
+```
+
+## Best Practices
+
+### 1. Test Names
+
+```python
+# Good - descriptive names
+def test_user_creation_with_valid_email():
+    pass
+
+def test_login_fails_with_wrong_password():
+    pass
+
+def test_calculate_discount_applies_percentage_correctly():
+    pass
+
+# Bad - vague names
+def test_user():
+    pass
+
+def test_login():
+    pass
+
+def test_1():
+    pass
+```
+
+### 2. One Assert Per Test (Generally)
+
+```python
+# Good - focused test
+def test_user_has_username():
+    user = User("alice", "alice@example.com")
+    assert user.username == "alice"
+
+def test_user_has_email():
+    user = User("alice", "alice@example.com")
+    assert user.email == "alice@example.com"
+
+# Acceptable - related assertions
+def test_user_creation():
+    user = User("alice", "alice@example.com")
+    assert user.username == "alice"
+    assert user.email == "alice@example.com"
+    assert user.is_active is True
+```
+
+### 3. Independent Tests
+
+```python
+# Good - independent
+def test_add_user(database):
+    user = User("alice")
+    database.add(user)
+    assert database.count() == 1
+
+def test_remove_user(database):
+    user = User("bob")
+    database.add(user)
+    database.remove(user)
+    assert database.count() == 0
+
+# Bad - dependent (test order matters)
+def test_add_first_user():
+    database.add(User("alice"))
+
+def test_add_second_user():
+    # Depends on previous test!
+    database.add(User("bob"))
+    assert database.count() == 2
+```
+
+### 4. Don't Test Implementation Details
+
+```python
+# Good - test behavior
+def test_user_full_name():
+    user = User(first="Alice", last="Smith")
+    assert user.full_name() == "Alice Smith"
+
+# Bad - test implementation
+def test_user_name_formatting():
+    user = User(first="Alice", last="Smith")
+    # Testing internal implementation
+    assert user._first == "Alice"
+    assert user._last == "Smith"
+    assert user._cached_full_name is None
+```
+
+## Examples
+
+### Example 1: Missing Unit Test
+
+**User Code:**
+```python
+def is_palindrome(text: str) -> bool:
+    cleaned = text.lower().replace(" ", "")
+    return cleaned == cleaned[::-1]
+```
+
+**Issue:** No tests
+
+**Suggestion:**
+"Add tests for the palindrome function:
+
+```python
+import pytest
+
+def test_is_palindrome_simple():
+    assert is_palindrome("racecar") is True
+    assert is_palindrome("python") is False
+
+def test_is_palindrome_mixed_case():
+    assert is_palindrome("RaceCar") is True
+    assert is_palindrome("RaceCar") is True
+
+def test_is_palindrome_with_spaces():
+    assert is_palindrome("race car") is True
+    assert is_palindrome("not a palindrome") is False
+
+def test_is_palindrome_empty():
+    assert is_palindrome("") is True
+
+def test_is_palindrome_single_char():
+    assert is_palindrome("a") is True
+```"
+
+### Example 2: Missing Edge Cases
+
+**Existing Test:**
+```python
+def test_divide():
+    assert divide(10, 2) == 5
+```
+
+**Issue:** Missing edge cases
+
+**Suggestion:**
+"Add edge case tests:
+
+```python
+def test_divide_by_zero():
+    with pytest.raises(ZeroDivisionError):
+        divide(10, 0)
+
+def test_divide_negative_numbers():
+    assert divide(-10, 2) == -5
+    assert divide(10, -2) == -5
+
+def test_divide_floats():
+    assert divide(5, 2) == 2.5
+```"
+
+## Tool Integration
+
+**pytest.ini:**
+```ini
+[pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts =
+    -v
+    --strict-markers
+    --tb=short
+    --cov=src
+    --cov-report=term-missing
+markers =
+    slow: marks tests as slow
+    integration: marks tests as integration tests
+```
+
+**VS Code Integration:**
+```json
+{
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": ["tests"]
+}
+```
+#+end_src
+
+** Python Security Checker
+
+Detect and prevent common security vulnerabilities in Python code.
+
+#+begin_src markdown :tangle ~/.claude/skills/python-security/SKILL.md
+---
+name: Python Security Checker
+description: Automatically detect common security vulnerabilities in Python code including SQL injection, command injection, path traversal, unsafe deserialization, and other OWASP risks
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(python:*)
+  - Bash(pip:*)
+---
+
+# Python Security Checker
+
+## Activation Triggers
+
+Automatically activate when:
+- Database query code detected (SQL)
+- Shell command execution (subprocess, os.system)
+- File path operations (open, Path)
+- User input handling (request.args, input())
+- Pickle/eval usage
+- Cryptographic operations
+- Authentication/authorization code
+- User mentions "security", "vulnerability", or "CVE"
+
+## Security Categories
+
+### 1. SQL Injection
+
+**Vulnerable Code:**
+```python
+# DANGEROUS - SQL injection vulnerability
+def get_user(username):
+    query = f"SELECT * FROM users WHERE username = '{username}'"
+    cursor.execute(query)
+
+# Or with string formatting
+def get_user(username):
+    query = "SELECT * FROM users WHERE username = '%s'" % username
+    cursor.execute(query)
+```
+
+**Attack Example:**
+```python
+# User input: admin' OR '1'='1
+# Resulting query: SELECT * FROM users WHERE username = 'admin' OR '1'='1'
+# Returns all users!
+```
+
+**Safe Code:**
+```python
+# Good - parameterized query
+def get_user(username):
+    query = "SELECT * FROM users WHERE username = %s"
+    cursor.execute(query, (username,))
+
+# Good - ORM (Django, SQLAlchemy)
+def get_user(username):
+    return User.objects.get(username=username)
+
+# Good - psycopg2 parameterized
+def get_user(username):
+    cursor.execute(
+        "SELECT * FROM users WHERE username = %(username)s",
+        {"username": username}
+    )
+```
+
+**Severity:** Critical
+
+### 2. Command Injection
+
+**Vulnerable Code:**
+```python
+import os
+import subprocess
+
+# DANGEROUS - command injection
+def ping_host(hostname):
+    os.system(f"ping -c 1 {hostname}")
+
+# Also dangerous
+def process_file(filename):
+    subprocess.call(f"cat {filename}", shell=True)
+```
+
+**Attack Example:**
+```python
+# User input: example.com; rm -rf /
+# Resulting command: ping -c 1 example.com; rm -rf /
+```
+
+**Safe Code:**
+```python
+import subprocess
+import shlex
+
+# Good - list arguments (no shell)
+def ping_host(hostname):
+    subprocess.run(["ping", "-c", "1", hostname], check=True)
+
+# Good - validate input
+def ping_host(hostname):
+    # Whitelist validation
+    if not re.match(r'^[a-zA-Z0-9.-]+$', hostname):
+        raise ValueError("Invalid hostname")
+    subprocess.run(["ping", "-c", "1", hostname], check=True)
+
+# If shell=True is absolutely necessary, use shlex.quote
+def process_file(filename):
+    safe_filename = shlex.quote(filename)
+    subprocess.run(f"cat {safe_filename}", shell=True, check=True)
+```
+
+**Severity:** Critical
+
+### 3. Path Traversal
+
+**Vulnerable Code:**
+```python
+# DANGEROUS - directory traversal
+def read_user_file(filename):
+    with open(f"/var/www/uploads/{filename}") as f:
+        return f.read()
+```
+
+**Attack Example:**
+```python
+# User input: ../../etc/passwd
+# Resulting path: /var/www/uploads/../../etc/passwd = /etc/passwd
+```
+
+**Safe Code:**
+```python
+from pathlib import Path
+import os
+
+# Good - validate path stays in intended directory
+def read_user_file(filename):
+    base_dir = Path("/var/www/uploads")
+    file_path = (base_dir / filename).resolve()
+
+    # Ensure the resolved path is still within base_dir
+    if not str(file_path).startswith(str(base_dir.resolve())):
+        raise ValueError("Invalid file path")
+
+    with open(file_path) as f:
+        return f.read()
+
+# Good - whitelist filenames
+def read_user_file(filename):
+    allowed_files = {"avatar.jpg", "profile.txt"}
+    if filename not in allowed_files:
+        raise ValueError("File not allowed")
+
+    with open(f"/var/www/uploads/{filename}") as f:
+        return f.read()
+```
+
+**Severity:** High
+
+### 4. Unsafe Deserialization
+
+**Vulnerable Code:**
+```python
+import pickle
+
+# DANGEROUS - arbitrary code execution
+def load_user_data(data):
+    return pickle.loads(data)
+```
+
+**Attack:**
+Pickle can execute arbitrary code during deserialization. Never unpickle untrusted data.
+
+**Safe Code:**
+```python
+import json
+
+# Good - use JSON for untrusted data
+def load_user_data(data):
+    return json.loads(data)
+
+# Good - if pickle is needed, verify source
+def load_trusted_data(data):
+    # Only unpickle from trusted sources
+    # Add signature verification
+    if not verify_signature(data):
+        raise ValueError("Untrusted data")
+    return pickle.loads(data)
+
+# Good - use safer alternatives
+from dataclasses import dataclass
+import json
+
+@dataclass
+class UserData:
+    name: str
+    email: str
+
+def load_user_data(data):
+    parsed = json.loads(data)
+    return UserData(**parsed)
+```
+
+**Severity:** Critical
+
+### 5. Eval/Exec Injection
+
+**Vulnerable Code:**
+```python
+# DANGEROUS - arbitrary code execution
+def calculate(expression):
+    return eval(expression)
+
+def run_code(code):
+    exec(code)
+```
+
+**Attack Example:**
+```python
+# User input: __import__('os').system('rm -rf /')
+calculate("__import__('os').system('rm -rf /')")
+```
+
+**Safe Code:**
+```python
+# Good - use ast.literal_eval for safe evaluation
+import ast
+
+def calculate(expression):
+    # Only evaluates literals: strings, numbers, tuples, lists, dicts, booleans, None
+    return ast.literal_eval(expression)
+
+# Good - use a safe expression evaluator
+from simpleeval import simple_eval
+
+def calculate(expression):
+    return simple_eval(expression)
+
+# Good - parse and validate
+import re
+
+def calculate(expression):
+    # Only allow numbers and basic operators
+    if not re.match(r'^[\d\s\+\-\*\/\(\)\.]+$', expression):
+        raise ValueError("Invalid expression")
+    # Use safe evaluation library
+    return safe_eval(expression)
+```
+
+**Severity:** Critical
+
+### 6. Hardcoded Secrets
+
+**Vulnerable Code:**
+```python
+# DANGEROUS - hardcoded credentials
+API_KEY = "sk-abc123def456"
+PASSWORD = "admin123"
+SECRET_KEY = "my-secret-key-12345"
+
+# Database connection
+db = connect("postgresql://user:password@localhost/db")
+```
+
+**Safe Code:**
+```python
+import os
+from pathlib import Path
+
+# Good - environment variables
+API_KEY = os.environ["API_KEY"]
+PASSWORD = os.environ["PASSWORD"]
+SECRET_KEY = os.environ["SECRET_KEY"]
+
+# Good - config file (not in version control)
+import json
+
+def load_config():
+    config_path = Path.home() / ".config" / "app" / "secrets.json"
+    with open(config_path) as f:
+        return json.load(f)
+
+config = load_config()
+API_KEY = config["api_key"]
+
+# Good - use keyring library
+import keyring
+
+API_KEY = keyring.get_password("my_app", "api_key")
+
+# Good - use secrets management (AWS Secrets Manager, etc.)
+import boto3
+
+def get_secret(secret_name):
+    client = boto3.client('secretsmanager')
+    response = client.get_secret_value(SecretId=secret_name)
+    return json.loads(response['SecretString'])
+```
+
+**Severity:** High
+
+### 7. Weak Cryptography
+
+**Vulnerable Code:**
+```python
+import hashlib
+import random
+
+# DANGEROUS - weak hashing for passwords
+def hash_password(password):
+    return hashlib.md5(password.encode()).hexdigest()
+
+# DANGEROUS - predictable random
+def generate_token():
+    return str(random.randint(1000000, 9999999))
+```
+
+**Safe Code:**
+```python
+import secrets
+import hashlib
+from argon2 import PasswordHasher
+
+# Good - use Argon2 for passwords
+ph = PasswordHasher()
+
+def hash_password(password):
+    return ph.hash(password)
+
+def verify_password(hash, password):
+    try:
+        ph.verify(hash, password)
+        return True
+    except:
+        return False
+
+# Alternative - bcrypt
+import bcrypt
+
+def hash_password(password):
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+
+# Good - cryptographically secure random
+def generate_token():
+    return secrets.token_urlsafe(32)
+
+def generate_secret_key():
+    return secrets.token_hex(32)
+
+# Good - use secrets module for random values
+def generate_session_id():
+    return secrets.token_hex(16)
+```
+
+**Severity:** High
+
+### 8. XML External Entity (XXE)
+
+**Vulnerable Code:**
+```python
+import xml.etree.ElementTree as ET
+
+# DANGEROUS - XXE vulnerability
+def parse_xml(xml_string):
+    return ET.fromstring(xml_string)
+```
+
+**Safe Code:**
+```python
+import defusedxml.ElementTree as ET
+
+# Good - use defusedxml
+def parse_xml(xml_string):
+    return ET.fromstring(xml_string)
+
+# Or configure standard library safely
+import xml.etree.ElementTree as ET
+
+def parse_xml(xml_string):
+    parser = ET.XMLParser()
+    parser.entity = {}  # Disable entity expansion
+    return ET.fromstring(xml_string, parser=parser)
+```
+
+**Severity:** High
+
+### 9. Insecure Temporary Files
+
+**Vulnerable Code:**
+```python
+import os
+
+# DANGEROUS - race condition, predictable name
+def create_temp_file():
+    filename = "/tmp/myapp_temp.txt"
+    with open(filename, "w") as f:
+        f.write("sensitive data")
+    return filename
+```
+
+**Safe Code:**
+```python
+import tempfile
+
+# Good - secure temporary file
+def create_temp_file():
+    with tempfile.NamedTemporaryFile(
+        mode='w',
+        delete=False,
+        suffix='.txt',
+        dir='/tmp'
+    ) as f:
+        f.write("sensitive data")
+        return f.name
+
+# Good - automatic cleanup
+def process_data():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Files in tmpdir are automatically cleaned up
+        filepath = Path(tmpdir) / "data.txt"
+        filepath.write_text("sensitive data")
+        # Process file
+```
+
+**Severity:** Medium
+
+### 10. Timing Attacks
+
+**Vulnerable Code:**
+```python
+# DANGEROUS - timing attack on password comparison
+def verify_token(user_token, valid_token):
+    return user_token == valid_token
+
+# Attacker can deduce token character by character based on response time
+```
+
+**Safe Code:**
+```python
+import secrets
+
+# Good - constant-time comparison
+def verify_token(user_token, valid_token):
+    return secrets.compare_digest(user_token, valid_token)
+
+# Good - for password verification
+from argon2 import PasswordHasher
+
+ph = PasswordHasher()
+
+def verify_password(stored_hash, password):
+    try:
+        ph.verify(stored_hash, password)
+        return True
+    except:
+        return False  # Constant time even on failure
+```
+
+**Severity:** Medium
+
+## Web Framework Security
+
+### Flask Security
+
+```python
+from flask import Flask, request, session
+import secrets
+
+app = Flask(__name__)
+
+# Good - secure session secret
+app.secret_key = secrets.token_hex(32)
+
+# Good - CSRF protection
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect(app)
+
+# Good - parameterized queries
+@app.route('/user/<int:user_id>')
+def get_user(user_id):
+    # user_id is automatically validated as int
+    user = User.query.get(user_id)
+    return render_template('user.html', user=user)
+
+# Good - escape output (Jinja2 does this by default)
+@app.route('/search')
+def search():
+    query = request.args.get('q', '')
+    # {{ query }} in template is auto-escaped
+    return render_template('search.html', query=query)
+```
+
+### Django Security
+
+```python
+from django.db import models
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
+
+# Good - ORM prevents SQL injection
+def get_users(department):
+    return User.objects.filter(department=department)
+
+# Good - CSRF protection (enabled by default)
+@csrf_protect
+def update_profile(request):
+    # Django validates CSRF token
+    pass
+
+# Good - authentication required
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+# Good - permission checking
+from django.contrib.auth.decorators import permission_required
+
+@permission_required('app.delete_user')
+def delete_user(request, user_id):
+    User.objects.get(id=user_id).delete()
+```
+
+## Detection Process
+
+1. **Scan for dangerous functions:**
+   - `eval()`, `exec()`, `compile()`
+   - `pickle.loads()`, `yaml.load()`
+   - `os.system()`, `subprocess.call(shell=True)`
+   - String interpolation in SQL
+   - `random` module for security
+
+2. **Check input validation:**
+   - User input directly in queries/commands
+   - Missing input sanitization
+   - No path validation
+
+3. **Review authentication:**
+   - Hardcoded credentials
+   - Weak hashing (MD5, SHA1 for passwords)
+   - Missing authentication checks
+
+4. **Assess data handling:**
+   - Insecure deserialization
+   - Unencrypted sensitive data
+   - Missing HTTPS in production
+
+## Vulnerability Severity Levels
+
+**Critical (Fix Immediately):**
+- SQL injection
+- Command injection
+- Unsafe deserialization
+- eval/exec with user input
+
+**High (Fix Soon):**
+- Path traversal
+- Hardcoded secrets in code
+- Weak cryptography for sensitive data
+- XXE vulnerabilities
+
+**Medium (Address in Sprint):**
+- Timing attacks
+- Insecure temporary files
+- Missing CSRF protection
+- Insufficient input validation
+
+**Low (Technical Debt):**
+- Deprecated crypto algorithms (where not security-critical)
+- Missing security headers
+- Verbose error messages
+
+## Tools Integration
+
+### Bandit
+
+Static security analyzer for Python:
+
+```bash
+# Install
+pip install bandit
+
+# Scan project
+bandit -r src/
+
+# Generate report
+bandit -r src/ -f json -o security-report.json
+
+# Exclude test files
+bandit -r src/ --exclude src/tests/
+```
+
+**Example Output:**
+```
+[B608] Possible SQL injection
+  Severity: High   Confidence: High
+  Location: src/database.py:45
+  Code: cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
+```
+
+### Safety
+
+Check dependencies for known vulnerabilities:
+
+```bash
+# Install
+pip install safety
+
+# Check installed packages
+safety check
+
+# Check requirements file
+safety check -r requirements.txt
+
+# Generate report
+safety check --json
+```
+
+### pip-audit
+
+Audit Python packages for vulnerabilities:
+
+```bash
+# Install
+pip install pip-audit
+
+# Audit current environment
+pip-audit
+
+# Audit requirements file
+pip-audit -r requirements.txt
+```
+
+## Configuration
+
+**.bandit config:**
+```yaml
+# .bandit
+exclude_dirs:
+  - /tests/
+  - /venv/
+
+tests:
+  - B201  # flask_debug_true
+  - B301  # pickle
+  - B601  # paramiko_calls
+  - B602  # shell_true
+
+skips:
+  - B101  # assert_used (OK in tests)
+```
+
+**Pre-commit Hook:**
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: ['-c', '.bandit']
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.3.1
+    hooks:
+      - id: python-safety-dependencies-check
+```
+
+## Examples
+
+### Example 1: SQL Injection
+
+**Vulnerable Code:**
+```python
+def login(username, password):
+    query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+    return db.execute(query).fetchone()
+```
+
+**Issue:** SQL injection vulnerability
+
+**Suggestion:**
+"This code is vulnerable to SQL injection. Use parameterized queries:
+
+```python
+def login(username, password):
+    query = "SELECT * FROM users WHERE username = %s AND password_hash = %s"
+    password_hash = hash_password(password)
+    return db.execute(query, (username, password_hash)).fetchone()
+```
+
+Also, never store passwords in plain text. Use Argon2 or bcrypt for password hashing."
+
+### Example 2: Command Injection
+
+**Vulnerable Code:**
+```python
+def convert_image(filename):
+    os.system(f"convert {filename} output.png")
+```
+
+**Issue:** Command injection
+
+**Suggestion:**
+"Avoid shell=True and use list arguments:
+
+```python
+import subprocess
+
+def convert_image(filename):
+    # Validate filename first
+    if not filename.endswith(('.jpg', '.png', '.gif')):
+        raise ValueError("Invalid file type")
+
+    subprocess.run(["convert", filename, "output.png"], check=True)
+```"
+
+## Best Practices
+
+1. **Never trust user input** - Validate and sanitize all input
+2. **Use parameterized queries** - Never string interpolation for SQL
+3. **Avoid shell=True** - Use list arguments for subprocess
+4. **Validate file paths** - Prevent directory traversal
+5. **Don't use eval/exec** - Find safer alternatives
+6. **Use secrets module** - For cryptographic randomness
+7. **Hash passwords properly** - Argon2, bcrypt, or PBKDF2
+8. **Keep dependencies updated** - Regular security patches
+9. **Use HTTPS** - Always in production
+10. **Principle of least privilege** - Minimal permissions
+
+## When to Alert
+
+Alert user when:
+- Critical vulnerabilities detected
+- Hardcoded secrets found
+- Dangerous functions used (eval, pickle, etc.)
+- User input in queries/commands without validation
+- Weak cryptography for security-sensitive operations
+- Known vulnerable dependencies
+#+end_src
+
+** Python Common Pitfalls
+
+Detect and warn about common Python programming mistakes and gotchas.
+
+#+begin_src markdown :tangle no
+---
+name: Python Common Pitfalls
+description: Automatically detect common Python programming mistakes, gotchas, and anti-patterns including mutable default arguments, late binding closures, GIL implications, and memory management issues
+allowed-tools:
+  - Read
+  - Grep
+---
+
+# Python Common Pitfalls
+
+## Activation Triggers
+
+Automatically activate when:
+- Function definitions with mutable defaults
+- Loop variable usage in closures
+- Large data structure operations
+- Threading/multiprocessing code
+- Import statement patterns
+- Class attribute vs instance attribute
+- User mentions "bug", "unexpected behavior", or "not working"
+
+## Common Pitfalls
+
+### 1. Mutable Default Arguments
+
+**Problem:**
+```python
+# DANGEROUS - mutable default argument
+def add_item(item, items=[]):
+    items.append(item)
+    return items
+
+# Unexpected behavior!
+print(add_item(1))  # [1]
+print(add_item(2))  # [1, 2]  - NOT [2]!
+print(add_item(3))  # [1, 2, 3]  - NOT [3]!
+```
+
+**Why:** Default arguments are evaluated once when the function is defined, not each time it's called. The same list object is shared across calls.
+
+**Solution:**
+```python
+# Good - use None as default
+def add_item(item, items=None):
+    if items is None:
+        items = []
+    items.append(item)
+    return items
+
+print(add_item(1))  # [1]
+print(add_item(2))  # [2] ✓
+print(add_item(3))  # [3] ✓
+
+# Alternative - use factory function
+def add_item(item, items_factory=list):
+    items = items_factory()
+    items.append(item)
+    return items
+```
+
+### 2. Late Binding Closures
+
+**Problem:**
+```python
+# DANGEROUS - late binding issue
+functions = []
+for i in range(3):
+    functions.append(lambda: i)
+
+# Unexpected results!
+print(functions[0]())  # 2 (not 0!)
+print(functions[1]())  # 2 (not 1!)
+print(functions[2]())  # 2
+```
+
+**Why:** Closures bind to variables, not values. By the time the lambda executes, the loop has finished and `i` is 2.
+
+**Solution:**
+```python
+# Good - capture current value
+functions = []
+for i in range(3):
+    functions.append(lambda x=i: x)
+
+print(functions[0]())  # 0 ✓
+print(functions[1]())  # 1 ✓
+print(functions[2]())  # 2 ✓
+
+# Alternative - use functools.partial
+from functools import partial
+
+def print_value(x):
+    return x
+
+functions = [partial(print_value, i) for i in range(3)]
+
+# Better - list comprehension
+functions = [lambda x=i: x for i in range(3)]
+```
+
+### 3. Class vs Instance Variables
+
+**Problem:**
+```python
+# DANGEROUS - mutable class variable
+class User:
+    roles = []  # Class variable!
+
+    def add_role(self, role):
+        self.roles.append(role)
+
+alice = User()
+alice.add_role("admin")
+
+bob = User()
+bob.add_role("user")
+
+print(alice.roles)  # ['admin', 'user'] - NOT ['admin']!
+```
+
+**Why:** `roles` is a class variable shared by all instances.
+
+**Solution:**
+```python
+# Good - instance variable
+class User:
+    def __init__(self):
+        self.roles = []  # Instance variable ✓
+
+    def add_role(self, role):
+        self.roles.append(role)
+
+alice = User()
+alice.add_role("admin")
+
+bob = User()
+bob.add_role("user")
+
+print(alice.roles)  # ['admin'] ✓
+print(bob.roles)    # ['user'] ✓
+```
+
+### 4. Modifying List During Iteration
+
+**Problem:**
+```python
+# DANGEROUS - modifying while iterating
+numbers = [1, 2, 3, 4, 5]
+for num in numbers:
+    if num % 2 == 0:
+        numbers.remove(num)
+
+print(numbers)  # [1, 3, 4, 5] - missed 4!
+```
+
+**Why:** Removing items changes indices, causing iteration to skip elements.
+
+**Solution:**
+```python
+# Good - iterate over copy
+numbers = [1, 2, 3, 4, 5]
+for num in numbers[:]:  # Create a copy
+    if num % 2 == 0:
+        numbers.remove(num)
+
+print(numbers)  # [1, 3, 5] ✓
+
+# Better - list comprehension
+numbers = [1, 2, 3, 4, 5]
+numbers = [num for num in numbers if num % 2 != 0]
+print(numbers)  # [1, 3, 5] ✓
+
+# Alternative - filter
+numbers = list(filter(lambda x: x % 2 != 0, [1, 2, 3, 4, 5]))
+```
+
+### 5. Integer Division in Python 2 vs 3
+
+**Problem:**
+```python
+# In Python 2
+print(5 / 2)  # 2 (integer division)
+
+# In Python 3
+print(5 / 2)  # 2.5 (float division)
+```
+
+**Solution:**
+```python
+# Explicit integer division (works in both)
+print(5 // 2)  # 2
+
+# Explicit float division
+print(5 / 2)   # 2.5 in Python 3
+print(5 / 2.0) # 2.5 in both
+
+# For Python 2 compatibility
+from __future__ import division
+print(5 / 2)   # 2.5
+print(5 // 2)  # 2
+```
+
+### 6. Name Clashing with Built-ins
+
+**Problem:**
+```python
+# DANGEROUS - shadowing built-ins
+list = [1, 2, 3]  # Shadows built-in list()
+dict = {}         # Shadows built-in dict()
+sum = 10          # Shadows built-in sum()
+
+# Later...
+numbers = list(range(10))  # TypeError: 'list' object is not callable
+```
+
+**Solution:**
+```python
+# Good - don't shadow built-ins
+numbers_list = [1, 2, 3]
+user_dict = {}
+total_sum = 10
+
+# Check for shadowing
+import builtins
+var_name = 'list'
+if var_name in dir(builtins):
+    print(f"Warning: {var_name} shadows a built-in")
+```
+
+### 7. Circular Imports
+
+**Problem:**
+```python
+# module_a.py
+from module_b import function_b
+
+def function_a():
+    return function_b()
+
+# module_b.py
+from module_a import function_a  # Circular import!
+
+def function_b():
+    return function_a()
+```
+
+**Solution:**
+```python
+# Good - import at function level
+# module_a.py
+def function_a():
+    from module_b import function_b  # Import inside function
+    return function_b()
+
+# Better - restructure code
+# common.py
+def common_function():
+    pass
+
+# module_a.py
+from common import common_function
+
+# module_b.py
+from common import common_function
+
+# Best - dependency injection
+def function_a(dependency):
+    return dependency()
+```
+
+### 8. String Concatenation in Loops
+
+**Problem:**
+```python
+# SLOW - inefficient string concatenation
+result = ""
+for i in range(10000):
+    result += str(i)  # Creates new string each iteration
+```
+
+**Why:** Strings are immutable. Each `+=` creates a new string object.
+
+**Solution:**
+```python
+# Good - use join
+result = ''.join(str(i) for i in range(10000))
+
+# For small loops
+result = ''.join([str(i) for i in range(10000)])
+
+# For building complex strings
+from io import StringIO
+output = StringIO()
+for i in range(10000):
+    output.write(str(i))
+result = output.getvalue()
+
+# For formatting
+result = ','.join(map(str, range(10000)))
+```
+
+### 9. Catching All Exceptions
+
+**Problem:**
+```python
+# DANGEROUS - too broad
+try:
+    process_data()
+except:  # Catches EVERYTHING, including KeyboardInterrupt!
+    print("Error occurred")
+
+# Also problematic
+try:
+    process_data()
+except Exception as e:  # Better, but still too broad
+    pass  # Silent failure
+```
+
+**Solution:**
+```python
+# Good - catch specific exceptions
+try:
+    process_data()
+except (ValueError, TypeError) as e:
+    logger.error(f"Invalid data: {e}")
+except IOError as e:
+    logger.error(f"IO error: {e}")
+
+# Allow KeyboardInterrupt and SystemExit to propagate
+try:
+    process_data()
+except Exception as e:  # OK if you log/handle properly
+    logger.exception("Error processing data")  # Logs full traceback
+    raise  # Re-raise to preserve stack trace
+
+# For cleanup only
+try:
+    process_data()
+finally:
+    cleanup()  # Always runs
+```
+
+### 10. Using `is` for Value Comparison
+
+**Problem:**
+```python
+# DANGEROUS - wrong operator
+a = 1000
+b = 1000
+if a is b:  # Might be False!
+    print("Equal")
+
+# String comparison
+s1 = "hello world"
+s2 = "hello world"
+if s1 is s2:  # Might be False!
+    print("Same")
+```
+
+**Why:** `is` checks object identity, not equality. Small integers and short strings are cached (interned), but larger values aren't.
+
+**Solution:**
+```python
+# Good - use == for value comparison
+a = 1000
+b = 1000
+if a == b:  # True ✓
+    print("Equal")
+
+# Use `is` only for None, True, False
+value = None
+if value is None:  # Correct ✓
+    print("Value is None")
+
+if flag is True:  # OK, but...
+    print("Flag is true")
+
+# Better - treat bool as truthy
+if flag:  # More Pythonic ✓
+    print("Flag is true")
+```
+
+### 11. GIL and Threading
+
+**Problem:**
+```python
+# INEFFECTIVE - CPU-bound with threads
+import threading
+
+def compute():
+    total = 0
+    for i in range(10**7):
+        total += i
+    return total
+
+# Threads don't help for CPU-bound tasks!
+threads = [threading.Thread(target=compute) for _ in range(4)]
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+```
+
+**Why:** Global Interpreter Lock (GIL) prevents multiple threads from executing Python code simultaneously.
+
+**Solution:**
+```python
+# Good - use multiprocessing for CPU-bound
+from multiprocessing import Pool
+
+def compute(n):
+    total = 0
+    for i in range(n):
+        total += i
+    return total
+
+with Pool(processes=4) as pool:
+    results = pool.map(compute, [10**7] * 4)
+
+# Good - threads for I/O-bound
+import threading
+import requests
+
+def fetch_url(url):
+    return requests.get(url).text
+
+urls = ['http://example.com'] * 10
+threads = [threading.Thread(target=fetch_url, args=(url,)) for url in urls]
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+
+# Better - use concurrent.futures
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
+# For I/O-bound
+with ThreadPoolExecutor(max_workers=10) as executor:
+    results = executor.map(fetch_url, urls)
+
+# For CPU-bound
+with ProcessPoolExecutor(max_workers=4) as executor:
+    results = executor.map(compute, [10**7] * 4)
+```
+
+### 12. Forgetting to Return
+
+**Problem:**
+```python
+# BUG - forgot to return
+def add(a, b):
+    result = a + b
+    # Oops, no return!
+
+value = add(2, 3)
+print(value)  # None
+```
+
+**Solution:**
+```python
+# Good - explicit return
+def add(a, b):
+    return a + b
+
+# Use type hints to catch
+def add(a: int, b: int) -> int:
+    result = a + b
+    # mypy will warn: missing return statement
+
+# Modern - use expression
+def add(a: int, b: int) -> int:
+    return a + b  # Single line
+```
+
+### 13. Nested Comprehensions
+
+**Problem:**
+```python
+# CONFUSING - hard to read
+result = [[x*y for x in range(10) if x % 2 == 0] for y in range(5) if y != 3]
+```
+
+**Solution:**
+```python
+# Good - use multiple lines
+result = [
+    [x * y for x in range(10) if x % 2 == 0]
+    for y in range(5)
+    if y != 3
+]
+
+# Better - break into separate steps
+even_numbers = [x for x in range(10) if x % 2 == 0]
+valid_ys = [y for y in range(5) if y != 3]
+result = [[x * y for x in even_numbers] for y in valid_ys]
+
+# Best - use regular loops for complex logic
+result = []
+for y in range(5):
+    if y == 3:
+        continue
+    row = []
+    for x in range(10):
+        if x % 2 == 0:
+            row.append(x * y)
+    result.append(row)
+```
+
+### 14. Float Precision
+
+**Problem:**
+```python
+# SURPRISING - float precision issues
+print(0.1 + 0.2)  # 0.30000000000000004
+print(0.1 + 0.2 == 0.3)  # False!
+```
+
+**Solution:**
+```python
+# Good - use decimal for precision
+from decimal import Decimal
+
+a = Decimal('0.1')
+b = Decimal('0.2')
+print(a + b)  # 0.3 ✓
+
+# Good - use math.isclose for comparison
+import math
+
+print(math.isclose(0.1 + 0.2, 0.3))  # True ✓
+
+# Good - round for display
+result = round(0.1 + 0.2, 2)
+print(result)  # 0.3
+
+# For money calculations - use Decimal
+from decimal import Decimal, ROUND_HALF_UP
+
+price = Decimal('19.99')
+quantity = Decimal('3')
+total = (price * quantity).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+```
+
+### 15. Memory Leaks with Circular References
+
+**Problem:**
+```python
+# POTENTIAL LEAK - circular reference
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.parent = None
+        self.children = []
+
+    def add_child(self, child):
+        child.parent = self  # Circular reference
+        self.children.append(child)
+
+# Nodes reference each other, might not be garbage collected
+```
+
+**Solution:**
+```python
+# Good - use weakref for parent reference
+import weakref
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self._parent = None
+        self.children = []
+
+    @property
+    def parent(self):
+        return self._parent() if self._parent else None
+
+    @parent.setter
+    def parent(self, node):
+        self._parent = weakref.ref(node) if node else None
+
+# Alternative - explicitly break cycles
+def cleanup_tree(node):
+    for child in node.children:
+        child.parent = None
+        cleanup_tree(child)
+    node.children.clear()
+```
+
+## Detection Strategy
+
+1. **Scan function signatures** for mutable defaults
+2. **Check loop patterns** for closures and modification during iteration
+3. **Review class definitions** for mutable class variables
+4. **Look for string concatenation** in loops
+5. **Check exception handling** for overly broad catches
+6. **Identify threading code** in CPU-bound contexts
+7. **Find float comparisons** with ==
+8. **Detect built-in shadowing**
+
+## Examples
+
+### Example 1: Mutable Default Argument
+
+**User Code:**
+```python
+def create_user(name, roles=[]):
+    roles.append('user')
+    return {'name': name, 'roles': roles}
+```
+
+**Issue:** Mutable default argument
+
+**Suggestion:**
+"Mutable default arguments are evaluated once and shared across calls:
+
+```python
+def create_user(name, roles=None):
+    if roles is None:
+        roles = []
+    roles.append('user')
+    return {'name': name, 'roles': roles}
+```"
+
+### Example 2: Late Binding
+
+**User Code:**
+```python
+callbacks = [lambda: i for i in range(5)]
+```
+
+**Issue:** Late binding closure
+
+**Suggestion:**
+"Use default argument to capture current value:
+
+```python
+callbacks = [lambda i=i: i for i in range(5)]
+```"
+
+## Best Practices
+
+1. **Always use None for mutable defaults**
+2. **Capture loop variables** in closures with default args
+3. **Separate instance from class variables**
+4. **Use `==` for value comparison**, `is` only for None/True/False
+5. **Don't modify lists while iterating** - create a copy or use comprehension
+6. **Be specific with exception handling**
+7. **Use multiprocessing for CPU-bound**, threads for I/O-bound
+8. **Join strings efficiently** with `str.join()`
+9. **Use Decimal for money calculations**
+10. **Break circular references** with weakref when needed
+
+## When to Alert
+
+Alert when:
+- Function has mutable default argument
+- Lambda/function defined in loop without capturing variable
+- Modifying collection during iteration
+- Using `is` with non-singleton values
+- Bare except clause
+- Threading for CPU-intensive task
+- Float equality comparison
+- Shadowing built-in names
+#+end_src
+

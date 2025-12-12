@@ -390,44 +390,22 @@ Create conventional commit messages from staged changes.
 
   # Commit Message Generator
 
-  Based on the staged changes (=git diff --staged=), generate a commit message following conventional commits format.
+  Generate a commit message from staged changes following conventional commits format.
 
   ## Workflow
 
-  ,**IMPORTANT**: Always start by checking if Emacs is available.
-
-  ### Step 1: Check Emacs Availability
-
-  First, try to ping the Emacs MCP server:
-  ```
-  mcp__emacs__ping_emacs
-  ```
-
-  If successful, Emacs daemon is running and you MUST use the magit workflow (Step 2A).
-  If it fails, Emacs is not available and you should use the CLI workflow (Step 2B).
-
-  ### Step 2A: Emacs/Magit Workflow (if Emacs is running)
-
-  1. **Review changes**: Run `git diff --staged` to see what's being committed
-  2. **Get staged files**: Run `git diff --staged --name-only` to get list of files
-  3. **Analyze intent**: Understand what the changes accomplish
-  4. **Generate message**: Create a properly formatted commit message
-  5. **Extract commit type**: Identify the type (feat, fix, docs, etc.) from your generated message
-  6. **Open in magit**: Call `mcp__emacs__prepare_commit_with_magit` with:
-     - `files`: Array of staged file paths from step 2
-     - `description`: The complete commit message you generated
-     - `commit_type`: The type prefix (feat, fix, docs, etc.)
-
-  This opens magit-commit buffer in Emacs where the user can review and finalize.
-
-  ### Step 2B: CLI Workflow (if Emacs is not available)
-
-  1. **Review changes**: Run `git diff --staged` to see what's being committed
-  2. **Analyze intent**: Understand what the changes accomplish
-  3. **Generate message**: Create a properly formatted commit message
-  4. **Ask user**: "Would you like me to create this commit with the above message?"
-  5. **If yes**: Execute `git commit -m "$(cat <<'EOF'...EOF)"` with the generated message
-  6. **If no**: Let user handle the commit themselves
+  1. **Check Emacs**: `mcp__emacs__ping_emacs`
+  2. **Review changes**: `git diff --staged`
+  3. **Get staged files**: `git diff --staged --name-only`
+  4. **Generate message**: Analyze changes and create commit message
+  5. **Open in Magit** (if Emacs available):
+     ```
+     mcp__emacs__prepare_commit_with_magit
+       files=['file1.py', 'file2.py']
+       description='commit subject and body'
+       commit_type='feat'
+     ```
+  6. **CLI fallback** (if no Emacs): Ask user, then `git commit -m "..."`
 
   ## Conventional Commits Format
 
@@ -439,46 +417,27 @@ Create conventional commit messages from staged changes.
   <footer>
   ```
 
-  ### Type
-
-  Choose the most appropriate type:
+  ### Types
   - **feat**: New feature
   - **fix**: Bug fix
   - **docs**: Documentation only
-  - **style**: Code style changes (formatting, missing semicolons, etc.)
-  - **refactor**: Code change that neither fixes a bug nor adds a feature
+  - **style**: Formatting changes
+  - **refactor**: Code restructuring
   - **perf**: Performance improvement
-  - **test**: Adding or updating tests
-  - **build**: Changes to build system or dependencies
-  - **ci**: Changes to CI configuration files
-  - **chore**: Other changes that don't modify src or test files
+  - **test**: Adding/updating tests
+  - **build**: Build system or dependencies
+  - **ci**: CI configuration
+  - **chore**: Maintenance tasks
 
-  ### Scope (Optional)
+  ### Rules
+  - Subject: imperative mood, no capitalize, no period, max 50 chars
+  - Body: explain "why", wrap at 72 chars
+  - Footer: `BREAKING CHANGE:` or `Closes #123`
 
-  The scope specifies what part of the codebase is affected (e.g., =parser=, =auth=, =api=).
-
-  ### Subject
-
-  - Use imperative mood ("add" not "added" or "adds")
-  - Don't capitalize first letter
-  - No period at the end
-  - Maximum 50 characters
-
-  ### Body (Optional)
-
-  - Explain the "why" behind the change, not the "what"
-  - Wrap at 72 characters
-  - Separate from subject with blank line
-
-  ### Footer (Optional)
-
-  - Breaking changes: =BREAKING CHANGE: description=
-  - Issue references: =Closes #123=, =Fixes #456=
-
-  ## Example Messages
+  ## Examples
 
   ```
-  feat(auth): add OAuth2 authentication support
+  feat(auth): add OAuth2 support
 
   Implement OAuth2 flow for third-party authentication.
   Supports Google, GitHub, and Microsoft providers.
@@ -487,55 +446,22 @@ Create conventional commit messages from staged changes.
   ```
 
   ```
-  fix(parser): handle edge case with empty input
-
-  Previously crashed when given empty string. Now returns
-  empty result gracefully.
-
-  Fixes #567
+  fix(parser): handle empty input edge case
   ```
 
   ```
-  docs: update README with installation instructions
+  refactor(tools): modularize server into tool modules
+
+  Split monolithic server.py into separate modules:
+  - basic.py, buffers.py, files.py, projects.py
+  - org_roam.py, lsp.py, vcs.py
   ```
 
-  ## Output
+  ## Notes
 
-  Generate a commit message following the format above. The message should accurately reflect the staged changes.
-
-  ,**Important**: Do NOT append the Claude Code attribution footer (🤖 Generated with Claude Code / Co-Authored-By). Generate a clean, standard commit message only.
-
-  ## Implementation Notes
-
-  ### Detecting Emacs Availability
-
-  Try calling =mcp__emacs__ping_emacs= or =mcp__emacs__get_current_context= to check if Emacs MCP server is available.
-
-  ### Using Magit Integration
-
-  If Emacs is available:
-  1. Get list of staged files with =git diff --staged --name-only=
-  2. Extract commit type from generated message (feat, fix, docs, etc.)
-  3. Call =mcp__emacs__prepare_commit_with_magit= with:
-     - =files=: Array of staged file paths
-     - =description=: The complete commit message (subject + body)
-     - =commit_type=: The type prefix (feat, fix, docs, etc.)
-
-  This will:
-  - Stage the specified files (if not already staged)
-  - Open magit-status buffer
-  - Open magit-commit buffer with pre-filled commit message
-  - Allow user to review, edit, and finalize in their familiar Emacs environment
-
-  ### Fallback to Manual Commit
-
-  If Emacs is not available:
-  1. Present the generated commit message to the user
-  2. Ask: "Would you like me to create this commit?"
-  3. If yes: Execute =git commit -m "$(cat <<'EOF'...EOF)"= with the generated message
-  4. If no: Let user copy the message or make their own commit
-
-  This approach provides the best of both worlds: seamless Emacs integration when available, and standard CLI workflow when not.
+  - Do NOT add Claude Code attribution footer
+  - Generate clean, standard commit messages only
+  - Magit workflow opens buffer for user review (C-c C-c to commit, C-c C-k to abort)
 #+end_src
 
 ** Review PR Changes
@@ -750,285 +676,59 @@ Commands for working with Org-mode files.
 Create org-roam notes with automatic linking and knowledge graph integration.
 
 #+begin_src markdown :tangle ~/.claude/commands/roam-capture.md
-    ---
-    description: Create org-roam note
-    argument-hint: "note title and content"
-    allowed-tools:
-    - Bash(emacsclient:*)
-    - mcp__emacs__list_buffers
-    - mcp__emacs__get_buffer_content
-    ---
+  ---
+  description: Create org-roam note
+  argument-hint: "note title and content"
+  allowed-tools:
+  - mcp__emacs__org_roam_create_note
+  ---
 
-  # Org-Roam Capture Helper
+  # Org-Roam Capture
 
-  Create a new org-roam note using the capture system. This integrates with your Zettelkasten-style knowledge base.
+  Create a new org-roam note using the MCP tool.
 
-  ## Note Types
+  ## Templates
 
-  Based on your org-roam configuration, you have several capture templates available:
+  | Key | Type       | Location                  | Tags         |
+  |-----|------------|---------------------------|--------------|
+  | d   | default    | ~/org-roam/               | -            |
+  | p   | permanent  | ~/org-roam/permanent/     | :permanent:  |
+  | l   | literature | ~/org-roam/literature/    | :literature: |
+  | c   | concept    | ~/org-roam/concepts/      | :concept:    |
+  | r   | reference  | ~/org-roam/reference/     | :reference:  |
 
-  ### Default Note (template: "d")
-  General-purpose note for any content.
+  ## Template Structures
 
-  ,**Structure:**
-  - Title
-  - Date timestamp
-  - Filetags
-  - Content
-
-  ,**File location:** `~/org-roam/TIMESTAMP--slug.org`
-
-  ### Permanent Note (template: "p")
-  Well-developed, atomic ideas that form the core of your knowledge base.
-
-  ,**Structure:**
-  - Source (where the idea came from)
-  - Content (the main idea explained)
-  - Links (connections to other notes)
-
-  ,**File location:** `~/org-roam/permanent/TIMESTAMP--slug.org`
-  ,**Tags:** `:permanent:`
-
-  ### Literature Note (template: "l")
-  Notes about books, papers, articles, or other references.
-
-  ,**Structure:**
-  - Source (Author, Title, Year)
-  - Summary
-  - Key Points
-  - Quotes
-  - Related notes
-
-  ,**File location:** `~/org-roam/literature/TIMESTAMP--slug.org`
-  ,**Tags:** `:literature:`
-
-  ### Concept Note (template: "c")
-  Definitions and explanations of specific concepts or terms.
-
-  ,**Structure:**
-  - Definition
-  - Examples
-  - Related Concepts
-
-  ,**File location:** `~/org-roam/concepts/TIMESTAMP--slug.org`
-  ,**Tags:** `:concept:`
-
-  ### Reference Note (template: "r")
-  Quick reference materials, cheatsheets, and lookups for commands, syntax, and tools.
-
-  ,**Structure:**
-  - Organized sections (by category, command type, etc.)
-  - Concise, scannable format
-  - Code examples and syntax
-  - Common use cases
-
-  ,**File location:** `~/org-roam/reference/TIMESTAMP--slug.org`
-  ,**Tags:** `:reference:`
-
-  ,**Perfect for:**
-  - Command cheatsheets (git, docker, kubectl, etc.)
-  - Language syntax references (regex, SQL, bash)
-  - Tool configuration snippets
-  - API quick references
-  - Keyboard shortcuts
-
-  ## Daily Notes
-
-  For daily journaling, meetings, and tasks, use the daily notes system (separate command: `/roam-daily`).
+  ,**permanent**: Source → Content → Links
+  ,**literature**: Source (Author/Title/Year) → Summary → Key Points → Quotes → Related
+  ,**concept**: Definition → Examples → Related Concepts
+  ,**reference**: Free-form sections with code blocks
 
   ## Workflow
 
-  ,**CRITICAL**: Use org-roam-capture to open CAPTURE buffer, then fill it with generated content.
+  1. Parse user input to determine note type and title
+  2. Call `mcp__emacs__org_roam_create_note` with:
+     - `title`: extracted from input
+     - `template_key`: d/p/l/c/r
+     - `content`: generated body content
+  3. User finalizes in Emacs with `C-c C-c` (or `C-c C-k` to abort)
 
-  ### Step 1: Parse User Input
-
-  Understand what type of note to create:
-  - General notes → "d" (default)
-  - Well-formed ideas → "p" (permanent)
-  - Book/article notes → "l" (literature)
-  - Term definitions → "c" (concept)
-  - Quick reference → "r" (reference)
-
-  ### Step 2: Extract Title
-
-  Get the note title from user input (e.g., "Git Commands Cheatsheet")
-
-  ### Step 3: Invoke org-roam-capture
-
-  Call org-roam-capture via emacsclient to open the CAPTURE buffer:
-
-  ``` bash
-  emacsclient -e "(org-roam-capture- :keys \"r\" :node (org-roam-node-create :title \"Git Commands Cheatsheet\"))"
-  ```
-
-  This opens a buffer named like: `CAPTURE-20231215T143022-git-commands-cheatsheet.org`
-
-  ### Step 4: Generate Complete Content
-
-  Create the full note content according to the template structure.
-
-  ### Step 5: Insert Content into CAPTURE Buffer
-
-  Use `mcp__emacs__get_buffer_content` to find the CAPTURE buffer, then insert the generated content:
-
-  ```
-  1. Find CAPTURE buffer (name starts with "CAPTURE-")
-  2. Use emacsclient to insert content into that buffer:
-  emacsclient -e "(with-current-buffer \"CAPTURE-...-title.org\" (goto-char (point-max)) (insert \"content\"))"
-  ```
-
-  ### Step 6: User Takes Over
-
-  From this point, the user:
-  - Reviews the generated content in the CAPTURE buffer
-  - Can edit/modify as needed
-  - Finalizes with `C-c C-c` to save or `C-c C-k` to abort
-
-  ## Content to Capture
+  ## User Input
 
   {{{ input }}}
 
-  ## Examples
+  ## Example
 
-  ### Creating a Permanent Note
+  Input: "Create a concept note about idempotence"
 
-  ,**User input:** "Create a note about the Observer pattern - it's a behavioral design pattern where an object maintains a list of dependents and notifies them of state changes"
-
-  ,**Action:**
-    ```
-    template_key: "p"
-    content: "Observer Pattern\n\n* Source\n\nGang of Four Design Patterns book\n\n* Content\n\nThe Observer pattern is a behavioral design pattern where an object (the subject) maintains a list of its dependents (observers) and notifies them automatically of any state changes, usually by calling one of their methods.\n\nKey characteristics:\n- One-to-many dependency between objects\n- Loose coupling between subject and observers\n- Automatic notification on state changes\n\n\n* Links\n\n- [[Software Design Patterns]]\n- [[Behavioral Patterns]]\n- [[Event-Driven Architecture]]\n\n"
-    ```
-
-  ### Creating a Literature Note
-
-  ,**User input:** "Add notes from 'The Pragmatic Programmer' by Hunt and Thomas, published 1999"
-
-  ,**Action:**
-    ```
-    template_key: "l"
-    content: "The Pragmatic Programmer\n\n* Source\n\nAuthor: Andrew Hunt and David Thomas\nTitle: The Pragmatic Programmer\nYear: 1999\n\n* Summary\n\nA practical guide to software craftsmanship covering best practices, tools, and mindset for professional developers.\n\n* Key Points\n\n- DRY principle (Don't Repeat Yourself)\n- Orthogonality in design\n- Tracer bullets vs prototypes\n- The broken window theory\n- Programming by coincidence vs deliberate programming\n\n* Quotes\n\n'Care about your craft'\n'Think! About your work'\n* Related\n\n[[Software Engineering Books]]\n[[Clean Code Principles]]\n\n"
-    ```
-
-  ### Creating a Concept Note
-
-  ,**User input:** "Define idempotence - an operation that produces the same result no matter how many times it's executed"
-
-  ,**Action:**
-    ```
-    template_key: "c"
-    content: "Idempotence\n\n* Definition\n\nIdempotence is a property of operations where executing the operation multiple times has the same effect as executing it once. The result remains the same regardless of how many times the operation is applied.\n\n* Examples\n\n- HTTP GET requests (reading data doesn't change it)\n- Setting a value: x = 5 (doing it twice doesn't change the outcome)\n- DELETE requests (deleting a non-existent resource is the same as deleting an existing one)\n- Mathematical: abs(abs(x)) = abs(x)\n\nNon-idempotent examples:\n- POST requests (creates multiple resources)\n- Incrementing: x++ (changes value each time)\n\n* Related Concepts\n\n[[HTTP Methods]]\n[[REST API Design]]\n[[Functional Programming]]\n\n"
-    ```
-
-  ### Creating a Default Note
-
-  ,**User input:** "Quick note about using MCP servers with Claude Code"
-
-  ,**Action:**
-    ```
-    template_key: "d"
-    content: "MCP Servers with Claude Code\nMCP (Model Context Protocol) servers extend Claude Code with external tools and capabilities. They enable integration with:\n\n- File systems\n- Development tools (Emacs, LSP)\n- APIs and external services\n- Custom tooling\n\nConfiguration is done via .mcp.json at project root.\n\nSee also: [[Claude Code Configuration]]\n\n"
-    ```
-
-  ### Creating a Reference Note (Cheatsheet)
-
-  ,**User input:** "Create a git cheatsheet with common commands I use"
-
-  ,**Action:**
-    ```
-    template_key: "r"
-    content: "Git Cheatsheet\n\n* Basic Commands\n\n** Status and Information\n#+begin_src bash\ngit status              # Show working tree status\ngit log --oneline -10  # Show last 10 commits\ngit diff               # Show unstaged changes\ngit diff --staged      # Show staged changes\n#+end_src\n\n** Staging and Committing\n#+begin_src bash\ngit add <file>         # Stage specific file\ngit add .              # Stage all changes\ngit commit -m \"msg\"    # Commit with message\ngit commit --amend     # Amend last commit\n#+end_src\n\n** Branching\n#+begin_src bash\ngit branch             # List branches\ngit branch <name>      # Create branch\ngit checkout <branch>  # Switch branch\ngit checkout -b <name> # Create and switch\ngit branch -d <name>   # Delete branch\n#+end_src\n\n** Remote Operations\n#+begin_src bash\ngit fetch              # Fetch from remote\ngit pull               # Fetch and merge\ngit push               # Push to remote\ngit push -u origin <branch>  # Push and set upstream\n#+end_src\n\n** Undoing Changes\n#+begin_src bash\ngit restore <file>     # Discard working changes\ngit restore --staged <file>  # Unstage file\ngit reset HEAD~1       # Undo last commit (keep changes)\ngit reset --hard HEAD~1  # Undo last commit (discard changes)\n#+end_src\n\n* Advanced\n\n** Stashing\n#+begin_src bash\ngit stash              # Stash changes\ngit stash pop          # Apply and remove stash\ngit stash list         # List stashes\n#+end_src\n\n** Rebasing\n#+begin_src bash\ngit rebase main        # Rebase onto main\ngit rebase -i HEAD~3   # Interactive rebase last 3 commits\n#+end_src\n\nSee also: [[Version Control]] [[Git Workflows]]\n"
-    ```
-
-  ,**User input:** "Create a docker commands reference"
-
-  ,**Action:**
-    ```
-    template_key: "r"
-    content: "Docker Commands Reference\n\n* Container Management\n\n** Running Containers\n#+begin_src bash\ndocker run -it ubuntu bash           # Run interactive container\ndocker run -d nginx                  # Run detached\ndocker run -p 8080:80 nginx         # Port mapping\ndocker run -v $(pwd):/app myimage   # Volume mount\n#+end_src\n\n** Container Operations\n#+begin_src bash\ndocker ps              # List running containers\ndocker ps -a           # List all containers\ndocker stop <id>       # Stop container\ndocker rm <id>         # Remove container\ndocker logs <id>       # View logs\ndocker exec -it <id> bash  # Execute command in container\n#+end_src\n\n* Image Management\n\n#+begin_src bash\ndocker images          # List images\ndocker pull <image>    # Pull image\ndocker build -t name . # Build image from Dockerfile\ndocker rmi <image>     # Remove image\ndocker tag <img> <new> # Tag image\n#+end_src\n\n* Cleanup\n\n#+begin_src bash\ndocker system prune    # Remove unused data\ndocker volume prune    # Remove unused volumes\ndocker image prune     # Remove dangling images\n#+end_src\n\n* Docker Compose\n\n#+begin_src bash\ndocker-compose up      # Start services\ndocker-compose up -d   # Start detached\ndocker-compose down    # Stop and remove\ndocker-compose logs -f # Follow logs\n#+end_src\n\nSee also: [[Containerization]] [[DevOps Tools]]\n"
-    ```
-
-  ,**User input:** "Regex cheatsheet for common patterns"
-
-  ,**Action:**
-    ```
-    template_key: "r"
-    content: "Regular Expressions Cheatsheet\n\n* Basic Patterns\n\n| Pattern | Meaning                    | Example           |\n|---------+----------------------------+-------------------|\n| .       | Any character              | a.c matches abc   |\n| \\d      | Digit [0-9]                | \\d+ matches 123   |\n| \\w      | Word char [a-zA-Z0-9_]     | \\w+ matches hello |\n| \\s      | Whitespace                 | a\\sb matches a b  |\n| ^       | Start of line              | ^Hello            |\n| $       | End of line                | world$            |\n\n* Quantifiers\n\n| Pattern | Meaning           | Example              |\n|---------+-------------------+----------------------|\n| *       | 0 or more         | ab*c matches ac, abc |\n| +       | 1 or more         | ab+c matches abc     |\n| ?       | 0 or 1            | ab?c matches ac, abc |\n| {n}     | Exactly n         | a{3} matches aaa     |\n| {n,}    | n or more         | a{2,} matches aa     |\n| {n,m}   | Between n and m   | a{2,4} matches aa    |\n\n* Common Use Cases\n\n** Email Validation\n#+begin_src text\n[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\n#+end_src\n\n** URL Pattern\n#+begin_src text\nhttps?://[\\w.-]+\\.[a-z]{2,}(/[\\w.-]*)*\n#+end_src\n\n** Phone Number (US)\n#+begin_src text\n\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}\n#+end_src\n\n** IP Address\n#+begin_src text\n\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b\n#+end_src\n\n** Date (YYYY-MM-DD)\n#+begin_src text\n\\d{4}-\\d{2}-\\d{2}\n#+end_src\n\n* Groups and Capturing\n\n| Pattern   | Meaning               |\n|-----------+-----------------------|\n| (...)     | Capturing group       |\n| (?:...)   | Non-capturing group   |\n| (?<name>) | Named capture group   |\n| \\1        | Backreference to group 1 |\n\n* Character Classes\n\n#+begin_src text\n[abc]      # Match a, b, or c\n[^abc]     # Match anything except a, b, c\n[a-z]      # Match lowercase letters\n[A-Z]      # Match uppercase letters\n[0-9]      # Match digits\n#+end_src\n\nSee also: [[Text Processing]] [[String Manipulation]]\n"
-    ```
-
-  ## Best Practices
-
-  1. **Atomic notes**: One main idea per note
-  2. **Link liberally**: Reference related notes with [[brackets]]
-  3. **Use appropriate templates**: Choose the template that fits the content type
-  4. **Add context**: Include source information and relationships
-  5. **Tag consistently**: Use the template's default tags, add custom tags as needed
-  6. **Keep it structured**: Follow the template's section structure
-
-  ## Implementation Details
-
-  ### Step-by-Step Process
-
-  ,**1. Invoke org-roam-capture**
-
-    ``` bash
-    emacsclient -e "(org-roam-capture- :keys \"r\" :node (org-roam-node-create :title \"Git Commands Cheatsheet\"))"
-    ```
-
-  - Replace `"r"` with appropriate template key (d/p/l/c/r)
-  - Replace title with extracted title from user input
-  - This returns `t` if successful
-
-  ,**2. Find the CAPTURE buffer**
-
-  Use `mcp__emacs__list_buffers` to find the buffer that starts with "CAPTURE-":
-
-    ```
-    Look for buffer name matching pattern: CAPTURE-*
-    Example: CAPTURE-20231215T143022-git-commands-cheatsheet.org
-    ```
-
-  ,**3. Generate the note content**
-
-  Create content following the template structure. For reference notes:
-
-    ```
-    ,* Section Name
-
-    ,** Subsection
-    ,#+begin_src bash
-    command --option
-    ,** Another Subsection
-    ...
-
-    See also: [[Related Note]]
-    ```
-    ,**4. Insert content into CAPTURE buffer**
-    
-  ``` bash
-    emacsclient -e "(with-current-buffer \"CAPTURE-20231215T143022-git-commands-cheatsheet.org\"
-      (goto-char (point-max))
-      (insert \"content-here\"))"
   ```
-
-  - Use the actual buffer name from step 2
-  - Content should be properly escaped (use \\n for newlines, escape quotes)
-  - `goto-char (point-max)` ensures content goes after the org-roam frontmatter
-
-  ,**5. Inform user**
-
-  Let user know the CAPTURE buffer is ready for review in Emacs.
-
-  ### Important Notes
-
-  - **Template keys**: "d"=default, "p"=permanent, "l"=literature, "c"=concept, "r"=reference
-  - **Buffer name**: Always starts with "CAPTURE-" followed by timestamp and slug
-  - **Content format**: Plain org-mode text, properly escaped for elisp string insertion
-  - **User finalization**: User must press `C-c C-c` in Emacs to finalize the capture
-  - **Abort**: User can press `C-c C-k` to abort and discard the capture
-  - **DO NOT** use `mcp__emacs__org_capture` - it's for regular org-capture, not org-roam
-  - **DO NOT** try to finalize the capture programmatically - let user do it in Emacs
-  #+end_src
+  mcp__emacs__org_roam_create_note(
+    title="Idempotence",
+    template_key="c",
+    content="* Definition\n\nAn operation that produces the same result regardless of how many times it's executed.\n\n* Examples\n\n- HTTP GET requests\n- Setting a value: x = 5\n- DELETE requests\n\n* Related Concepts\n\n[[REST API Design]]\n[[Functional Programming]]"
+  )
+  ```
+#+end_src
 
 * Additional Commands
 
