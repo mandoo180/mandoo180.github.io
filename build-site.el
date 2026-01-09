@@ -32,6 +32,7 @@
 (setq org-confirm-babel-evaluate nil)
 (setq org-use-property-inheritance t)
 (setq org-babel-min-lines-for-block-output 0)
+(setq org-export-with-broken-links 'mark) ; mark broken links instead of failing
 (org-babel-do-load-languages 'org-babel-load-languages '((shell . t) (emacs-lisp . t)))
 (setq org-publish-project-alist
       (list (list "org-site:main"

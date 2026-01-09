@@ -280,6 +280,7 @@ Core Emacs settings using use-package. This configures built-in Emacs behavior w
     (require 'shell-conf)
     (require 'prog-conf)
     (require 'misc-conf)
+    (require 'evil-conf)
 
     (require 'douzone-comet-config (expand-file-name "elisp/douzone-comet-config.el" user-emacs-directory) t)
     (require 'douzone-comet-service (expand-file-name "elisp/douzone-comet-service.el" user-emacs-directory) t)

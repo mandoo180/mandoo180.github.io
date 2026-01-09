@@ -1,4 +1,6 @@
 *.backup
+*.bkp
+*#$
 
 # Claude Code - ignore personal settings, keep project configs
 .claude/settings.local.json

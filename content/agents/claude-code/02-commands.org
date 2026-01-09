@@ -385,7 +385,7 @@ Create conventional commit messages from staged changes.
   description: Generate conventional commit message
   allowed-tools:
     - Bash(git:*)
-    - mcp__emacs__*
+    - Write
   ---
 
   # Commit Message Generator
@@ -394,18 +394,21 @@ Create conventional commit messages from staged changes.
 
   ## Workflow
 
-  1. **Check Emacs**: `mcp__emacs__ping_emacs`
-  2. **Review changes**: `git diff --staged`
-  3. **Get staged files**: `git diff --staged --name-only`
-  4. **Generate message**: Analyze changes and create commit message
-  5. **Open in Magit** (if Emacs available):
-     ```
-     mcp__emacs__prepare_commit_with_magit
-       files=['file1.py', 'file2.py']
-       description='commit subject and body'
-       commit_type='feat'
-     ```
-  6. **CLI fallback** (if no Emacs): Ask user, then `git commit -m "..."`
+  1. **Check for staged changes**: `git diff --staged --stat`
+  2. **If no staged changes**: Stop and ask user to stage changes first with `git add`
+  3. **If staged changes exist**:
+     - Run `git diff --staged` to review the actual changes
+     - Run `git diff --staged --name-only` to get list of files
+     - Analyze the changes and generate a commit message in /tmp folder
+  4. **Write commit message**: Create a temporary file with the generated message and advise user to `git commit -t /tmp/commit-message.txt`
+  5. **User finalizes**: User reviews, edits if needed, saves and closes to commit
+
+  ## Commit Process
+
+  ```bash
+  # Check for staged changes
+  git diff --staged --stat
+  ```
 
   ## Conventional Commits Format
 
@@ -457,11 +460,23 @@ Create conventional commit messages from staged changes.
   - org_roam.py, lsp.py, vcs.py
   ```
 
+  ## Implementation Steps
+
+  1. Run `git diff --staged --stat` to check if there are staged changes
+  2. If output is empty, inform user: "No staged changes found. Please stage your changes first with `git add <files>`"
+  3. If changes exist:
+     - Run `git diff --staged` to see the full diff
+     - Analyze changes and generate commit message
+     - Write the message to `/tmp/commit-message.txt`
+     - Ask user to run `git commit -t /tmp/commit-message.txt` to open the editor with the pre-filled message
+  4. User reviews the message in their editor, makes any edits, then saves and closes to commit
+
   ## Notes
 
   - Do NOT add Claude Code attribution footer
   - Generate clean, standard commit messages only
-  - Magit workflow opens buffer for user review (C-c C-c to commit, C-c C-k to abort)
+  - The editor workflow allows user to review and modify before finalizing
+  - If user closes editor without saving, commit is aborted
 #+end_src
 
 ** Review PR Changes

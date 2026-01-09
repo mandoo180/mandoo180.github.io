@@ -43,7 +43,7 @@ Key features:
     ;; Kill buffer when deleting directory
     (dired-kill-when-opening-new-dired-buffer t)
     :config
-    (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+    ;; (add-hook 'dired-mode-hook #'dired-hide-details-mode)
     ;; Use 'a' to open files in same buffer
     (put 'dired-find-alternate-file 'disabled nil))
 #+end_src
@@ -57,7 +57,7 @@ Features:
 - Jump to dired from any buffer (=C-x C-j=)
 - Guess shell commands based on file type
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
+#+begin_src emacs-lisp :tangle no :results none
   (use-package dired-x
     :ensure nil
     :after dired
@@ -137,7 +137,7 @@ The =peep-dired= package provides a quick file preview without opening the file,
 
 Usage: Press =P= to toggle preview mode, then navigate files to see previews.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/dired-conf.el :results none
+#+begin_src emacs-lisp :tangle no :results none
   (use-package peep-dired
     :after dired
     :bind (:map dired-mode-map

@@ -4,90 +4,70 @@
 #+OPTIONS: toc:2 num:3
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
 
-Completion frameworks and interfaces for enhanced productivity.
+Built-in completion using Emacs native functionality. No external packages required.
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/completion-conf.el
-  ;;; completion-conf.el --- Summary  -*- lexical-binding: t; -*-
+  ;;; completion-conf.el --- Built-in Completion  -*- lexical-binding: t; -*-
   ;;; Commentary:
+  ;; Uses only Emacs built-in completion functionality.
+  ;; - icomplete-vertical-mode for minibuffer completion UI
+  ;; - flex completion style for fuzzy matching
+  ;; - completions-detailed for annotations
+  ;; - recentf for recent files
+  ;; - savehist for completion history
   ;;; Code:
-  (use-package vertico
-    :init
-    (vertico-mode))
 
-  (use-package savehist
+  ;;; Minibuffer Completion UI
+  (use-package icomplete
+    :ensure nil
     :init
-    (savehist-mode))
-
-  (use-package orderless
-    :ensure t
+    (icomplete-vertical-mode 1)
     :custom
-    (completion-styles '(orderless basic))
+    (icomplete-delay-completions-threshold 0)
+    (icomplete-compute-delay 0)
+    (icomplete-show-matches-on-no-input t)
+    (icomplete-scroll t)
+    (icomplete-prospects-height 10)
+    :bind (:map icomplete-minibuffer-map
+           ("RET" . icomplete-force-complete-and-exit)
+           ("TAB" . icomplete-force-complete)
+           ("C-n" . icomplete-forward-completions)
+           ("C-p" . icomplete-backward-completions)))
+
+  ;;; Completion Styles
+  (use-package minibuffer
+    :ensure nil
+    :custom
+    (completion-styles '(flex basic partial-completion emacs22))
     (completion-category-defaults nil)
-    (completion-category-overrides '((file (styles partial-completion)))))
+    (completion-category-overrides '((file (styles partial-completion))))
+    (completion-ignore-case t)
+    (read-buffer-completion-ignore-case t)
+    (read-file-name-completion-ignore-case t)
+    (completions-detailed t)
+    (completions-format 'one-column)
+    (completions-max-height 20))
 
-  (use-package marginalia
-    :ensure t
-    :diminish
-    :config
-    (marginalia-mode t))
+  ;;; Recent Files
+  (use-package recentf
+    :ensure nil
+    :init
+    (recentf-mode 1)
+    :custom
+    (recentf-max-saved-items 100)
+    :bind ("C-x C-r" . recentf-open-files))
 
-  (use-package consult
-    :ensure t
-    :bind
-    ;; C-x bindings
-    ("C-x C-r" . consult-recent-file)
-    ("C-x b" . consult-buffer)
-    ("C-x 4 b" . consult-buffer-other-window)
-    ("C-x 5 b" . consult-buffer-other-frame)
-    ("C-x t b" . consult-buffer-other-tab)
-    ("C-x r b" . consult-bookmark)
-    ("C-x p b" . consult-project-buffer)
-    ;; Custom M-# bindings for fast register access
-    ("M-#" . consult-register-load)
-    ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-    ("C-M-#" . consult-register)
-    ("M-y" . consult-yank-pop)
-    ;; M-g bindings
-    ("M-g M-g" . consult-goto-line)
-    ;; C-c s bindings in `search-map'
-    ("C-c s e" . consult-complie-error)
-    ("C-c s f" . consult-flymake)
-    ("C-c s o" . consult-outline)
-    ("C-c s m" . consult-mark)
-    ("C-c s M" . consult-global-mark)
-    ("C-c s i" . consult-imenu)
-    ("C-c s I" . consult-imenu-multi)
-    ("C-c s d" . consult-find)                  ;; Alternative: consult-fd
-    ("C-c s c" . consult-locate)
-    ("C-c s g" . consult-grep)
-    ("C-c s v" . consult-git-grep)
-    ("C-c s r" . consult-ripgrep)
-    ("C-c s l" . consult-line)
-    ("C-c s L" . consult-line-multi)
-    ("C-c s k" . consult-keep-lines)
-    ("C-c s u" . consult-focus-lines)
-    ("C-c s h" . consult-org-heading))
+  ;;; Completion History
+  (use-package savehist
+    :ensure nil
+    :init
+    (savehist-mode 1))
 
-  ;; (use-package corfu
-  ;;   ;; Optional customizations
-  ;;   :custom
-  ;;   (corfu-cycle t)                   ;; Enable cycling for `corfu-next/previous'
-  ;;   (corfu-auto t)                    ;; Enable auto completion
-  ;;   (corfu-auto-delay 0.1)
-  ;;   (corfu-auto-prefix 4)             ;; Minimum prefix length for auto completion
-  ;;   ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;;   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;;   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;;   ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;;   ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;;   ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;;   ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-  ;;   ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
-  ;;   :hook ((prog-mode . corfu-mode))
-  ;;   :config
-  ;;   (keymap-set corfu-map "RET" #'corfu-send))
+  ;;; Keybindings for built-in commands
+  (global-set-key (kbd "M-g i") 'imenu)
+  (global-set-key (kbd "C-c s l") 'occur)
+  (global-set-key (kbd "C-c s g") 'grep)
 
   (provide 'completion-conf)
   ;;; completion-conf.el ends here
 #+end_src
-

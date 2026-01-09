@@ -1,27 +1,27 @@
 #+TITLE: Personal Knowledge Base
 #+AUTHOR: Kyeong Soo Choi
-#+DATE: 2025-11-20
+#+DATE: 2025-12-14
 #+STARTUP: overview
 #+OPTIONS: toc:2
 #+PROPERTY: header-args :tangle no :results none
 
 * Welcome
 
-This is my personal knowledge base and configuration repository, built with Org-mode and published to GitHub Pages. It contains technical notes, learning resources, and my complete Emacs configuration written in literate programming style.
+This is my personal knowledge base and configuration repository, built with Org-mode and published to GitHub Pages. It contains technical notes, learning resources, and editor configurations written in literate programming style.
 
 ** What's Here
 
-- *Emacs Configuration*: Comprehensive, modular Emacs setup with detailed explanations
-- *Learning Notes*: Programming books, tools, and language documentation
+- *Editor Configurations*: Emacs and Neovim setups with detailed explanations
+- *AI Agent Configs*: Claude Code slash commands, skills, and MCP integrations
+- *Learning Notes*: Programming books (SICP, K&R C), tools, and documentation
 - *System Setup*: Linux configuration, dotfiles, and system administration
-- *Computer Science*: SICP study notes and exercises
 
 ** Features
 
-- 📚 *Literate Programming*: All configurations are documented and explainable
-- 🎨 *Floating TOC*: Easy navigation with sticky table of contents
-- 🌓 *Dark Mode*: Automatic theme switching based on system preference
-- 📱 *Responsive*: Works on desktop, tablet, and mobile devices
+- Literate Programming: All configurations are documented and explainable
+- Floating TOC: Easy navigation with sticky table of contents
+- Dark Mode: Automatic theme switching based on system preference
+- Responsive: Works on desktop, tablet, and mobile devices
 
 * Emacs
 
@@ -44,9 +44,22 @@ My complete Emacs configuration written in literate programming style. The confi
 - LSP support for multiple languages
 - Git integration with Magit
 
-*Total*: ~3,800 lines across 18 modular files
+*Total*: ~4,000 lines across 18 modular files
 
 See also: [[file:emacs/configs/README.org][Configuration Guide]] | [[file:emacs/configs/programming/README.org][Programming Config Guide]]
+
+** [[file:neovim/configs/README.org][Neovim Configurations]]
+
+Minimal, efficient Neovim configuration following suckless philosophy.
+
+*Highlights*:
+- Lua-based configuration with lazy loading
+- LSP support for multiple languages (Python, Ruby, TypeScript, Lua)
+- Telescope for fuzzy finding
+- Treesitter for syntax highlighting
+- Mason for LSP management
+
+*Total*: ~800 lines across 5 modules
 
 ** [[file:emacs/emacs-lisp.org][Learning Emacs Lisp]]
 
@@ -89,45 +102,48 @@ Literate configuration for Claude Code (Anthropic's AI coding assistant) written
 
 *Structure*:
 - Project settings and permissions
-- 11 slash commands for common workflows (explain, review, test, git, etc.)
-- 4 agent skills for autonomous capabilities (TypeScript types, test coverage, Emacs integration, documentation)
+- Slash commands for common workflows (commit messages, org-roam capture)
+- Agent skills organized by domain:
+  - Core skills (general development patterns)
+  - Emacs integration skills
+  - Language-specific skills (JavaScript, Python, Rails)
+  - Documentation skills
 - MCP server integrations (Emacs, filesystem)
-- All configs with detailed inline documentation
 
 *Format*: Literate programming with tangle support to =.claude/= directory
 
-*Total*: ~2,000 lines across 7 modules
+*Total*: ~3,500 lines across 11 modules
 
 See also: [[file:agents/claude-code/README.org][Configuration Guide]]
 
 * Learning
 
-Notes and exercises from programming books and technical documentation.
+Notes and exercises from programming books and technical documentation. See [[file:learning/index.org][Learning Index]] for full listing.
+
+** [[file:learning/sicp.org][Structure and Interpretation of Computer Programs]]
+
+Study notes and exercises from the classic computer science textbook SICP (Abelson & Sussman).
+
+*Chapters*:
+1. Building Abstractions with Procedures - Functions, recursion, higher-order procedures
+2. Building Abstractions with Data - Data abstraction, hierarchical data, symbolic data
+3. Modularity, Objects, and State - Assignment, mutable data, concurrency
+4. Metalinguistic Abstraction - Interpreters, lazy evaluation, logic programming
+5. Computing with Register Machines - Machine simulation, compilation
+
+*Language*: Scheme
+
+** [[file:learning/the-c-programming-language-2nd-ed/the-c-programming-language-2nd-ed.org][The C Programming Language (K&R)]]
+
+Complete text of "The C Programming Language, 2nd Edition" by Kernighan and Ritchie in Org-mode format.
+
+*Coverage*: All chapters with code examples and exercises
 
 ** [[file:learning/GNU-sed.org][GNU sed - Stream Editor]]
 
 Comprehensive guide to the GNU sed stream editor, from basics to advanced text processing.
 
-*Topics*:
-- Stream editor fundamentals
-- Regular expressions in sed
-- Common editing operations
-- Pattern space and hold space
-- Multi-line processing
-- Practical examples and use cases
-
-*Use Case*: Text processing, log analysis, automated editing
-
-** [[file:learning/c-programming-language-2nd.org][The C Programming Language (K&R)]]
-
-Notes and exercises from "The C Programming Language, 2nd Edition" by Kernighan and Ritchie.
-
-*Current Coverage*:
-- Chapter 4: Functions and Program Structure
-- Practical examples and code exercises
-- C programming best practices
-
-*Status*: In progress
+*Topics*: Stream editor fundamentals, regular expressions, pattern/hold space, multi-line processing
 
 * Notes
 
@@ -159,53 +175,39 @@ My personal dotfiles and system configuration files with explanations.
 
 *Total*: ~630 lines of documented configurations
 
-* Computer Science
-
-** [[file:learning/sicp.org][Structure and Interpretation of Computer Programs]]
-
-Study notes and exercises from the classic computer science textbook SICP (Abelson & Sussman).
-
-*Chapters*:
-1. *Building Abstractions with Procedures* - Functions, recursion, higher-order procedures
-2. *Building Abstractions with Data* - Data abstraction, hierarchical data, symbolic data
-3. *Modularity, Objects, and State* - Assignment, mutable data, concurrency
-4. *Metalinguistic Abstraction* - Interpreters, lazy evaluation, logic programming
-5. *Computing with Register Machines* - Machine simulation, compilation
-
-*Language*: Scheme (exercises in Emacs Lisp where applicable)
-
-*Format*: Notes with executable code examples
-
 * Recent Updates
 
+- 2025-12-14: Reorganized Claude Code skills by domain (Emacs, JS, Python, Rails, Docs)
+- 2025-12-14: Simplified slash commands (commit-message, roam-capture)
+- 2025-12-14: Updated index files and documentation
+- 2025-12-01: Added Neovim configuration modules
 - 2025-11-20: Split programming configurations by language (web, Python, Ruby)
 - 2025-11-20: Added floating TOC sidebar with mobile toggle
 - 2025-11-19: Restructured Emacs configs into modular files
-- 2025-10-20: Added TOC sidebar feature to all pages
-- 2025-10-01: Initial repository setup with GitHub Pages
 
 * Navigation
 
 ** By Category
 
-| Category                                |               Files | Description                          |
-|-----------------------------------------+---------------------+--------------------------------------|
-| [[*Emacs][Emacs]]                       | 3 main + 18 modules | Configuration and learning resources |
-| [[*Development Tools][Development Tools]] |           7 modules | AI assistant and tool configurations |
-| [[*Learning][Learning]]                 |                   2 | Programming books and tools          |
-| [[*Notes][Notes]]                       |                   2 | System setup and dotfiles            |
-| [[*Computer Science][Computer Science]] |                   6 | SICP chapters and exercises          |
+| Category                                    | Files | Description                          |
+|---------------------------------------------+-------+--------------------------------------|
+| [[*Emacs][Emacs]]                           |    21 | Emacs config modules + learning      |
+| [[file:neovim/configs/README.org][Neovim]]  |     5 | Neovim Lua configuration             |
+| [[*Development Tools][Claude Code]]         |    11 | AI assistant commands, skills, MCP   |
+| [[*Learning][Learning]]                     |     3 | SICP, K&R C, GNU sed                 |
+| [[*Notes][Notes]]                           |     2 | System setup and dotfiles            |
+| [[file:dotfiles/index.org][Dotfiles]]       |     5 | IdeaVim, Alacritty, Zellij, etc.     |
 
 ** Quick Links
 
-*** Configuration
-- [[file:emacs/emacs-configs.org][View Emacs Configuration]] - Main literate config file
-- [[file:emacs/configs/README.org][Configuration Guide]] - How to use and customize
+*** Editor Configs
+- [[file:emacs/emacs-configs.org][Emacs Configuration]] - Main literate config file
+- [[file:neovim/configs/README.org][Neovim Configuration]] - Lua-based config
 - [[file:emacs/configs/programming/README.org][Programming Setup]] - Language-specific configs
 
-*** Documentation
-- [[file:../README.org][Repository README]] - Complete project documentation
-- [[file:../CLAUDE.md][Claude.ai Guide]] - AI integration documentation
+*** AI & Tools
+- [[file:agents/claude-code/index.org][Claude Code Configs]] - Commands, skills, MCP servers
+- [[file:agents/claude-code/README.org][Claude Code Guide]] - How to use and customize
 
 *** External
 - [[https://github.com/mandoo180][GitHub Profile]] - Source code and other projects
@@ -252,4 +254,4 @@ Feel free to explore, reference, or adapt any content for your own use.
 
 ---
 
-/Last updated: 2025-11-20/
+/Last updated: 2025-12-14/

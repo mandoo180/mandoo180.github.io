@@ -1,0 +1,111 @@
+#+TITLE: PowerShell Configuration
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+PROPERTY: header-args :emacs-lisp :mkdirp yes :results none
+
+#+begin_src conf
+# Use C-x as prefix (Emacs-style)
+unbind C-b
+set -g prefix C-x
+bind C-x send-prefix
+
+# Enable mouse support
+set -g mouse on
+
+# Start window/pane numbering at 1
+set -g base-index 1
+setw -g pane-base-index 1
+
+# Renumber windows when one is closed
+set -g renumber-windows on
+
+# Increase scrollback buffer
+set -g history-limit 50000
+
+# Reduce escape time for faster response
+set -sg escape-time 0
+
+# Enable true color support
+set -g default-terminal "tmux-256color"
+set -ga terminal-overrides ",xterm-256color:Tc"
+
+# Allow passthrough for image support (neovim, kitty, etc.)
+set -g allow-passthrough on
+set -ga update-environment TERM
+set -ga update-environment TERM_PROGRAM
+# Window navigation
+bind N new-window
+bind t new-window
+bind n next-window
+bind p previous-window
+# Pane splitting (Emacs-style)
+bind 1 resize-pane -Z          # Zoom (like C-x 1 in Emacs)
+bind 2 split-window -v -c "#{pane_current_path}"
+bind _ split-window -v -c "#{pane_current_path}"
+bind 3 split-window -h -c "#{pane_current_path}"
+bind | split-window -h -c "#{pane_current_path}"
+bind x kill-pane
+bind C-k kill-pane
+# Pane navigation (vim-style)
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# Pane navigation (arrow keys)
+bind Left select-pane -L
+bind Down select-pane -D
+bind Up select-pane -U
+bind Right select-pane -R
+
+# Cycle through panes
+bind o select-pane -t :.+
+# Swap panes (vim-style with Shift)
+bind H swap-pane -s '{left-of}'
+bind J swap-pane -s '{down-of}'
+bind K swap-pane -s '{up-of}'
+bind L swap-pane -s '{right-of}'
+
+# Swap panes (Shift + arrow keys)
+bind S-Left swap-pane -s '{left-of}'
+bind S-Down swap-pane -s '{down-of}'
+bind S-Up swap-pane -s '{up-of}'
+bind S-Right swap-pane -s '{right-of}'
+# Resize panes (Alt/Meta + vim keys)
+bind -n M-h resize-pane -L 5
+bind -n M-j resize-pane -D 5
+bind -n M-k resize-pane -U 5
+bind -n M-l resize-pane -R 5
+
+# Resize panes (Alt/Meta + arrow keys)
+bind -n M-Left resize-pane -L 5
+bind -n M-Down resize-pane -D 5
+bind -n M-Up resize-pane -U 5
+bind -n M-Right resize-pane -R 5
+# Use Emacs keybindings in copy mode
+setw -g mode-keys emacs
+
+# Enter copy mode with C-x [
+bind [ copy-mode
+
+# Copy mode bindings
+bind -T copy-mode C-Space send-keys -X begin-selection
+bind -T copy-mode C-w send-keys -X copy-pipe-and-cancel
+bind -T copy-mode M-w send-keys -X copy-pipe-and-cancel
+bind C-y paste-buffer
+# TPM - Tmux Plugin Manager
+set -g @plugin 'tmux-plugins/tpm'
+
+# Essential plugins
+set -g @plugin 'tmux-plugins/tmux-sensible'      # Sensible defaults
+set -g @plugin 'tmux-plugins/tmux-resurrect'     # Session persistence
+set -g @plugin 'tmux-plugins/tmux-continuum'     # Auto-save sessions
+set -g @plugin 'tmux-plugins/tmux-yank'          # System clipboard integration
+
+# Theme (Tokyo Night)
+set -g @plugin 'janoamaral/tokyo-night-tmux'
+
+# Initialize TPM (keep at bottom)
+run '~/.tmux/plugins/tpm/tpm'
+
+#+end_src

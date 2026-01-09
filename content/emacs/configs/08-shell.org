@@ -34,7 +34,7 @@ Usage:
 - =C-c t e= : Alternative binding
 - Works automatically in eshell for visual commands
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+#+begin_src emacs-lisp :tangle no
   ;;; shell-conf.el --- Shell and Terminal Configuration  -*- lexical-binding: t; -*-
   ;;; Commentary:
   ;;; Comprehensive configuration for terminal emulators, shell modes,
@@ -90,7 +90,7 @@ Usage:
 - =C-c t v= : Open vterm
 - =C-c t n= : Open vterm in other window
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; Vterm - only if cmake is available for compilation
   (when (executable-find "cmake")
     (use-package vterm
@@ -144,6 +144,10 @@ Usage:
 - =C-x p s= : Open shell in project root (via project.el)
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+  ;;; shell-conf.el --- Shell and Terminal Configuration  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+
   ;; Shell Mode
   (use-package shell
     :ensure nil
@@ -255,7 +259,7 @@ Features:
 - Syntax highlighting
 - Clean and minimal design
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; Eshell Prompt Extras
   (use-package eshell-prompt-extras
     :ensure t
@@ -274,7 +278,7 @@ Features:
 
 Convenient aliases for common commands to improve productivity.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; Eshell Aliases
   (with-eval-after-load 'eshell
     (defun fu/eshell-setup-aliases ()
@@ -368,7 +372,7 @@ Provides better output formatting and runs in project context."
       (async-shell-command command output-buffer-name error-buffer-name)
 
       ;; Add process sentinel for completion notification
-      (when-let ((proc (get-buffer-process output-buffer-name)))
+      (when-let* ((proc (get-buffer-process output-buffer-name)))
         (set-process-sentinel
          proc
          (lambda (process event)
@@ -412,7 +416,7 @@ Open an external terminal application in the current directory or project root.
   (defun fu/open-external-terminal ()
     "Open external terminal in current directory or project root."
     (interactive)
-    (let ((dir (if-let ((project (project-current)))
+    (let ((dir (if-let* ((project (project-current)))
                    (project-root project)
                  default-directory)))
       (cond
@@ -505,7 +509,7 @@ Usage:
 - =C-c C-c= : Interrupt current operation
 - =TAB= / =S-TAB= : Navigate interactive elements
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/shell-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; Agent Shell - LLM agents via ACP in Emacs
   (use-package agent-shell
     :ensure t

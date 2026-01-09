@@ -7,7 +7,6 @@ Common programming tools and utilities that apply across all languages.
 ** Overview
 
 This module provides:
-- **Completion**: Corfu for in-buffer completion
 - **Compilation**: Enhanced compilation mode with ANSI colors
 - **Version Control**: Magit and merge conflict resolution
 - **Project Management**: Built-in project.el with custom markers and Magit integration
@@ -24,7 +23,6 @@ This module provides:
 
 | Category              | Tools                                          |
 |-----------------------+------------------------------------------------|
-| Completion            | corfu, corfu-candidate-overlay                 |
 | Build Tools           | compile, makefile-mode                         |
 | Version Control       | magit, smerge-mode                             |
 | Project Management    | project.el with custom markers                 |
@@ -38,41 +36,6 @@ This module provides:
 | REST Client           | restclient                                     |
 | File Formats          | conf-mode, yaml-mode, powershell, sql-indent   |
 
-** Completion
-
-In-buffer completion with Corfu provides a lightweight, fast completion UI that integrates seamlessly with Emacs's native completion system.
-
-Features:
-- Manual completion activation (disabled auto-completion to reduce distractions)
-- Candidate overlay showing the first completion inline
-- Works with LSP, Eglot, and other completion backends
-- =C-TAB= to trigger completion at point
-
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
-  ;;; prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
-  ;;; Commentary:
-  ;;; General programming tools: completion, compilation, version control,
-  ;;; syntax checking, and common programming utilities.
-  ;;; Code:
-
-  ;; Completion
-  (use-package corfu
-    :custom
-    (corfu-auto nil)
-    (corfu-auto-delay 0.3)
-    (corfu-auto-prefix 3)
-    (corfu-preview-current t))
-
-  (use-package corfu-candidate-overlay
-    :after corfu
-    :config
-    ;; enable corfu-candidate-overlay mode globally
-    ;; this relies on having corfu-auto set to nil
-    (corfu-candidate-overlay-mode 1)
-    ;; (global-set-key (kbd "C-<tab>") 'completion-at-point)
-    )
-#+end_src
-
 ** Compilation and Build Tools
 
 Enhanced compilation mode with ANSI color support for better readability of build output. Includes support for Makefiles and configuration files.
@@ -84,6 +47,11 @@ Features:
 - Tree-sitter support for Makefiles
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
+  ;;; prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; General programming tools: compilation, version control,
+  ;;; syntax checking, and common programming utilities.
+  ;;; Code:
 
   ;; Compilation
   (use-package compile
@@ -233,7 +201,7 @@ Key bindings:
       (let ((markers '(".project" ".projectile" "package.json" "Cargo.toml"
                        "setup.py" "requirements.txt" "pom.xml" "build.gradle")))
         (cl-some (lambda (marker)
-                   (when-let ((root (locate-dominating-file dir marker)))
+                   (when-let* ((root (locate-dominating-file dir marker)))
                      (cons 'transient root)))
                  markers)))
 
@@ -267,18 +235,18 @@ Features:
     :init
     (global-eldoc-mode))
 
-  (use-package eldoc-box
-    :defer t
-    :custom
-    (eldoc-box-border-width 1)
-    (eldoc-box-echo-area-use-multiline-p t)
-    (eldoc-box-scrollbar-width 8)
-    (eldoc-box-max-lines 10)
-    (eldoc-box-use-echo-area nil)
-    :bind
-    ("C-c h ." . eldoc-box-help-at-point)
-    :hook
-    (eldoc-mode . eldoc-box-hover-mode))
+  ;; (use-package eldoc-box
+  ;;   :defer t
+  ;;   :custom
+  ;;   (eldoc-box-border-width 1)
+  ;;   (eldoc-box-echo-area-use-multiline-p t)
+  ;;   (eldoc-box-scrollbar-width 8)
+  ;;   (eldoc-box-max-lines 10)
+  ;;   (eldoc-box-use-echo-area nil)
+  ;;   :bind
+  ;;   ("C-c h ." . eldoc-box-help-at-point)
+  ;;   :hook
+  ;;   (eldoc-mode . eldoc-box-hover-mode))
 #+end_src
 
 ** Editing Utilities
@@ -402,7 +370,7 @@ Features:
 - Wide library of pre-built snippets for many languages
 - Easy to create custom snippets
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/prog-general-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; Snippets
   (use-package yasnippet
     :hook

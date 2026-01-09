@@ -7,38 +7,23 @@
 Visual customization including color theme, mode line, and UI elements.
 
 * Basic Settings
+
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/theme-conf.el
   ;;; theme-conf.el --- Summary  -*- lexical-binding: t; -*-
   ;;; Commentary:
   ;;; Code:
-  ;; (use-package doom-themes
-  ;;   :config
-  ;;   (if (daemonp)
-  ;; 	  (add-hook 'server-after-make-frame-hook (lambda () (load-theme 'doom-tokyo-night t)))
-  ;; 	(load-theme 'doom-tokyo-night t)))
-
   (let ((theme-file (expand-file-name "elisp/themes/hasliberg-theme.el" user-emacs-directory)))
     (if (file-exists-p theme-file)
   	  (progn
   		(load-file theme-file)
   		(load-theme 'hasliberg t))))
 
-  ;; Load custom mode-line configuration
-  ;; (let ((mode-line-file (expand-file-name "elisp/themes/fu-mode-line.el" user-emacs-directory)))
-  ;;   (if (file-exists-p mode-line-file)
-  ;;       (load-file mode-line-file)))
-
-  ;; Skip icon packages on server (requires GUI fonts)
-  ;; (unless emacs-server-mode
-  ;;   (use-package all-the-icons)
-  ;;   (use-package all-the-icons-dired
-  ;;     :config
-  ;;     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
-
   (provide 'theme-conf)
   ;;; theme-conf.el ends here
 #+end_src
+
 * Hasliberg Theme
+
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/themes/hasliberg-theme.el
   ;;; hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
 
@@ -998,199 +983,4 @@ Visual customization including color theme, mode line, and UI elements.
                  (file-name-as-directory (file-name-directory load-file-name))))
 
   (provide-theme 'hasliberg)
-#+end_src
-* Custom Mode Line
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/themes/fu-mode-line.el
-  ;;; fu-mode-line.el --- Custom mode-line configuration  -*- lexical-binding: t; -*-
-  ;;; Commentary:
-  ;; A clean, minimal mode-line showing: buffer status, name, location, VC, major mode, LSP, and diagnostics
-  ;;; Code:
-
-  ;; Custom faces for mode-line segments
-
-  (defface mode-line-buffer-name-face
-    '((t :inherit mode-line-buffer-id :weight bold))
-    "Face for buffer name in mode-line.")
-
-  (defface mode-line-position-face
-    '((t :inherit mode-line :slant italic))
-    "Face for position information in mode-line.")
-
-  (defface mode-line-vc-face
-    '((t :inherit mode-line))
-    "Face for version control info in mode-line.")
-
-  (defface mode-line-major-mode-face
-    '((t :inherit mode-line-emphasis))
-    "Face for major mode in mode-line.")
-
-  (defface mode-line-lsp-face
-    '((t :inherit success))
-    "Face for LSP status in mode-line.")
-
-  (defface mode-line-diagnostics-error-face
-    '((t :inherit error :weight bold))
-    "Face for error diagnostics in mode-line.")
-
-  (defface mode-line-diagnostics-warning-face
-    '((t :inherit warning :weight bold))
-    "Face for warning diagnostics in mode-line.")
-
-  (defface mode-line-diagnostics-note-face
-    '((t :inherit compilation-info :weight bold))
-    "Face for note diagnostics in mode-line.")
-
-  ;; Helper functions for mode-line segments
-
-  (defun fu-mode-line-buffer-status ()
-    "Return buffer status indicator (modified, read-only)."
-    (let ((modified (if (buffer-modified-p) "*" ""))
-          (readonly (if buffer-read-only "%" "")))
-      (if (or (not (string-empty-p modified))
-              (not (string-empty-p readonly)))
-          (concat " " modified readonly " ")
-        "  ")))
-
-  (defun fu-mode-line-buffer-name ()
-    "Return buffer name with face."
-    (propertize (buffer-name)
-                'face 'mode-line-buffer-name-face))
-
-  (defun fu-mode-line-position ()
-    "Return current line, column, and position percentage."
-    (let ((line (format-mode-line "%l"))
-          (col (format-mode-line "%c"))
-          (percent (format-mode-line "%p")))
-      (propertize (format " %s:%s %s " line col percent)
-                  'face 'mode-line-position-face)))
-
-  (defun fu-mode-line-vc ()
-    "Return version control status (git branch)."
-    (when vc-mode
-      (let* ((backend (vc-backend buffer-file-name))
-             (branch (when backend
-                       (substring-no-properties vc-mode
-                                                (+ 2 (length (symbol-name backend)))))))
-        (when branch
-          (propertize (format " ⎇ %s " branch)
-                      'face 'mode-line-vc-face)))))
-
-  (defun fu-mode-line-major-mode ()
-    "Return major mode name - stripped of any mode-line constructs."
-    (let ((mode-str (format-mode-line mode-name)))
-      ;; Strip any text properties that might contain extra info
-      (propertize (format " %s " (substring-no-properties mode-str))
-                  'face 'mode-line-major-mode-face)))
-
-  (defun fu-mode-line-eglot ()
-    "Return Eglot LSP status."
-    (when (and (featurep 'eglot) (eglot-managed-p))
-      (let* ((server (eglot-current-server))
-             (project-name (when server
-                             (file-name-nondirectory
-                              (directory-file-name
-                               (project-root (eglot--project server)))))))
-        (propertize (format " LSP:%s " (or project-name "ON"))
-                    'face 'mode-line-lsp-face))))
-
-  (defun fu-mode-line-flymake ()
-    "Return Flymake diagnostics count - numbers only, no text."
-    (when (and (bound-and-true-p flymake-mode)
-               (fboundp 'flymake-diagnostics))
-      (let ((error-count 0)
-            (warning-count 0)
-            (note-count 0))
-
-        ;; Count diagnostics by severity
-        (dolist (diag (flymake-diagnostics))
-          (let ((type (flymake-diagnostic-type diag)))
-            (cond
-             ((eq type :error) (cl-incf error-count))
-             ((eq type :warning) (cl-incf warning-count))
-             ((eq type :note) (cl-incf note-count)))))
-
-        ;; Build display string with ONLY counts
-        (let ((parts '()))
-          (when (> error-count 0)
-            (push (propertize (format "E:%d" error-count)
-                              'face 'mode-line-diagnostics-error-face)
-                  parts))
-          (when (> warning-count 0)
-            (push (propertize (format "W:%d" warning-count)
-                              'face 'mode-line-diagnostics-warning-face)
-                  parts))
-          (when (> note-count 0)
-            (push (propertize (format "I:%d" note-count)
-                              'face 'mode-line-diagnostics-note-face)
-                  parts))
-          (when parts
-            (concat " " (string-join (nreverse parts) " ") " "))))))
-
-  (defun fu-mode-line-input-method ()
-    "Return input method status indicator."
-    (when current-input-method
-      (propertize (format " [%s] " current-input-method-title)
-                  'face 'mode-line-emphasis
-                  'help-echo (format "Input method: %s" current-input-method))))
-
-  ;; Assemble the mode-line - explicitly control ALL components
-  (setq-default mode-line-format
-                '((:eval (fu-mode-line-buffer-status))
-                  (:eval (fu-mode-line-buffer-name))
-                  (:eval (fu-mode-line-vc))
-                  (:eval (fu-mode-line-major-mode))
-                  (:eval (fu-mode-line-input-method))
-                  (:eval (fu-mode-line-eglot))
-                  (:eval (fu-mode-line-flymake))
-                  (:eval (fu-mode-line-position))))
-
-  ;; Also set buffer-local to ensure it overrides everything
-  (setq-default mode-line-misc-info nil)
-  (setq-default mode-line-end-spaces nil)
-
-  ;; Disable Flymake's built-in mode-line display completely
-  ;; This must be set BEFORE flymake loads
-  (setq flymake-mode-line-format nil)
-  (setq flymake-mode-line-counter-format nil)
-
-  (with-eval-after-load 'flymake
-    ;; Override Flymake's mode-line functions to return empty strings
-    (defun flymake--mode-line-exception ()
-      "Override to return empty string."
-      "")
-
-    (defun flymake--mode-line-counters ()
-      "Override to return empty string."
-      "")
-
-    ;; Completely disable all Flymake mode-line components
-    (setq flymake-mode-line-format nil)
-    (setq flymake-mode-line-counter-format nil)
-    (setq flymake-suppress-zero-counters t)
-
-    ;; Set the mode-line components to empty
-    (setq flymake-mode-line-title "")
-    (setq flymake-mode-line-exception '(:eval (flymake--mode-line-exception)))
-    (setq flymake-mode-line-counters '(:eval (flymake--mode-line-counters)))
-
-    ;; Remove Flymake from mode-line-misc-info completely
-    (setq mode-line-misc-info
-          (assq-delete-all 'flymake-mode mode-line-misc-info))
-
-    ;; Refresh mode-line when Flymake updates
-    (add-hook 'flymake-mode-hook
-              (lambda ()
-                ;; Ensure Flymake's mode-line is disabled per-buffer
-                (setq-local flymake-mode-line-format nil)
-                (add-hook 'flymake-after-diagnostics-hook
-                          (lambda () (force-mode-line-update t)) nil t))))
-
-  ;; Optional: Refresh mode-line when Eglot connects/disconnects
-  (with-eval-after-load 'eglot
-    (add-hook 'eglot-managed-mode-hook
-              (lambda () (force-mode-line-update t))))
-
-  (provide 'fu-mode-line)
-  ;;; fu-mode-line.el ends here
-
 #+end_src

@@ -1,0 +1,66 @@
+#+TITLE: Learning Resources
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-12-14
+#+STARTUP: overview
+#+OPTIONS: toc:2
+
+* Learning Resources
+
+Notes and exercises from programming books and technical documentation.
+
+* Computer Science
+
+** [[file:sicp.org][Structure and Interpretation of Computer Programs]]
+
+The classic computer science textbook by Abelson & Sussman. Complete text in Org-mode format.
+
+*Chapters*:
+1. Building Abstractions with Procedures - Functions, recursion, higher-order procedures
+2. Building Abstractions with Data - Data abstraction, hierarchical data, symbols
+3. Modularity, Objects, and State - Assignment, mutable data, concurrency, streams
+4. Metalinguistic Abstraction - Interpreters, lazy evaluation, logic programming
+5. Computing with Register Machines - Machine simulation, compilation
+
+*Language*: Scheme
+
+* Programming Languages
+
+** [[file:the-c-programming-language-2nd-ed/the-c-programming-language-2nd-ed.org][The C Programming Language (K&R)]]
+
+Complete text of "The C Programming Language, 2nd Edition" by Brian W. Kernighan and Dennis M. Ritchie.
+
+*Coverage*:
+- Chapter 1: A Tutorial Introduction
+- Chapter 2: Types, Operators and Expressions
+- Chapter 3: Control Flow
+- Chapter 4: Functions and Program Structure
+- Chapter 5: Pointers and Arrays
+- Chapter 6: Structures
+- Chapter 7: Input and Output
+- Chapter 8: The UNIX System Interface
+- Appendix A: Reference Manual
+- Appendix B: Standard Library
+- Appendix C: Summary of Changes
+
+*Format*: Full text with code examples and exercises
+
+* Tools & Utilities
+
+** [[file:GNU-sed.org][GNU sed - Stream Editor]]
+
+Comprehensive guide to the GNU sed stream editor, from basics to advanced text processing.
+
+*Topics*:
+- Stream editor fundamentals
+- Regular expressions in sed
+- Common editing operations
+- Pattern space and hold space
+- Multi-line processing
+- Practical examples and use cases
+
+*Use Case*: Text processing, log analysis, automated editing
+
+* Related Resources
+
+- [[file:../emacs/emacs-lisp.org][Learning Emacs Lisp]] - Comprehensive Elisp guide
+- [[file:../emacs/emacs-build.org][Building Emacs from Source]] - Cross-platform build guide

@@ -1,0 +1,94 @@
+#+TITLE: Neovim Configurations
+#+AUTHOR: Kyeong Soo Choi
+#+DATE: 2025-12-14
+#+STARTUP: overview
+#+OPTIONS: toc:2
+
+* Neovim Configuration
+
+Minimal, efficient Neovim configuration following suckless philosophy, written in literate programming style.
+
+** Philosophy
+
+- *Minimal*: Only essential plugins and configurations
+- *Efficient*: Lazy loading and fast startup
+- *Lua-based*: Modern Lua configuration throughout
+- *Documented*: Every setting explained
+
+* Configuration Modules
+
+** Core Configuration
+
+| Module                               | Description                              |
+|--------------------------------------+------------------------------------------|
+| [[file:configs/01-init.org][Init]]          | Core settings, options, basic setup      |
+| [[file:configs/02-keybindings.org][Keybindings]] | All key mappings organized by mode       |
+
+See [[file:configs/README.org][Configuration Guide]] for detailed documentation.
+
+** Plugin Configuration
+
+| Module                                        | Description                          |
+|-----------------------------------------------+--------------------------------------|
+| [[file:configs/plugins/00-loader.org][Plugin Loader]]   | Package management setup             |
+| [[file:configs/plugins/01-treesitter.org][Treesitter]]   | Syntax highlighting and text objects |
+| [[file:configs/plugins/02-telescope.org][Telescope]]     | Fuzzy finder and picker              |
+| [[file:configs/plugins/03-cmp.org][Completion]]        | nvim-cmp completion setup            |
+
+See [[file:configs/plugins/README.org][Plugin Guide]] for detailed documentation.
+
+* Features
+
+** Core Features
+- Transparent background support
+- Smart indentation and search settings
+- Persistent undo with dedicated directory
+- System clipboard integration
+
+** Key Mappings
+- Space as leader key
+- Emacs-style navigation in insert mode
+- Buffer and window management shortcuts
+- Visual mode enhancements
+
+** Language Support (via LSP)
+- Lua (lua-language-server)
+- Python (pyright)
+- TypeScript/JavaScript (ts_ls)
+- Ruby (ruby-lsp)
+- Web technologies (HTML, CSS, JSON)
+- Markdown (markdown-oxide, marksman)
+
+** Plugin Ecosystem
+- Telescope for fuzzy finding
+- Treesitter for syntax highlighting
+- nvim-cmp for completion
+- Mason for LSP management
+- Neo-tree for file exploration
+
+* Usage
+
+** Tangling Configuration
+
+From Emacs:
+1. Open any org file
+2. Run =C-c C-v t= (or =M-x org-babel-tangle=)
+
+Configuration files are written to =~/.config/nvim/=
+
+** Directory Structure
+
+#+begin_example
+~/.config/nvim/
+├── init.lua                 # Main configuration
+├── lua/
+│   └── pengling/           # Custom namespace
+│       ├── plugins/        # Plugin configs
+│       └── utils/          # Utility functions
+└── ftplugin/              # Filetype settings
+#+end_example
+
+* Related
+
+- [[file:../emacs/emacs-configs.org][Emacs Configuration]] - Alternative editor setup
+- [[file:../dotfiles/index.org][Dotfiles]] - Other tool configurations

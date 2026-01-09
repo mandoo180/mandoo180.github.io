@@ -144,18 +144,8 @@ Create more informative tab names based on project context:
           (format "%s: %s" project-name buffer-name)
         buffer-name)))
 
-  ;; Alternative: Show only project name
-  (defun fu/tab-bar-tab-name-project-only ()
-    "Show only the project name for the tab."
-    (if (project-current)
-        (file-name-nondirectory
-         (directory-file-name
-          (project-root (project-current))))
-      (buffer-name)))
-
   ;; Use custom naming (uncomment one)
   (setq tab-bar-tab-name-function 'fu/tab-bar-tab-name-with-project)
-  ;; (setq tab-bar-tab-name-function 'fu/tab-bar-tab-name-project-only)
 #+end_src
 
 ** Appearance Customization
@@ -252,7 +242,7 @@ Create tabs for projects with the native project-switch workflow:
   ;; Create a new tab for a selected project
   (defun fu/project-tab-bar-new ()
     "Switch to a project in a new tab using project-switch-project.
-  
+
   Workflow:
   1. Prompt user to select a project
   2. User selects an action (f=find-file, d=find-directory, m=magit, etc.)
@@ -265,7 +255,7 @@ Create tabs for projects with the native project-switch workflow:
                          (directory-file-name project-dir))))
       ;; Step 1 & 2: Create new tab first
       (tab-bar-new-tab)
-      (tab-bar-rename-tab project-name)
+      ;; (tab-bar-rename-tab project-name)
       ;; Step 3 & 4: Use native project-switch-project which prompts for action
       (let ((project-current-directory-override project-dir))
         (project-switch-project project-dir))))

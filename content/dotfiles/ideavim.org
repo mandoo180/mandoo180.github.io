@@ -3,7 +3,7 @@
 #+STARTUP: overview
 #+PROPERTY: header-args :emacs-lisp :mkdirp yes :results none
 
-#+begin_src text :tangle ~/.config/.ideavimrc
+#+begin_src text :tangle ~/.ideavimrc
   let mapleader = " "
 
   "" Source your .vimrc

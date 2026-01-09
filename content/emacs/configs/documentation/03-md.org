@@ -14,6 +14,10 @@ Key features:
 - Custom keybindings: =C-c C-e= for markdown-do and =C-c C-t= for TOC generation
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/doc-md-conf.el :results none
+  ;;; doc-md-conf.el --- Markdown Configuration  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+
   (use-package markdown-mode
     :ensure t
     :mode ("README\\.md\\'" . gfm-mode) ;; Use GitHub-Flavored Markdown for READMEs

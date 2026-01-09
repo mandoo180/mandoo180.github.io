@@ -16,7 +16,7 @@ Configuration for reading and sending email using notmuch and msmtp.
 
 Fast email indexing and searching with notmuch.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;;; misc-conf.el --- Miscellaneous Configuration  -*- lexical-binding: t; -*-
   ;;; Commentary:
   ;;; Miscellaneous utilities including email, AI chat, PDF tools, and helpers.
@@ -34,7 +34,7 @@ Fast email indexing and searching with notmuch.
 
 Configure email sending with msmtp and authentication.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; Email - Sending Configuration
   (setq user-full-name (or (getenv "USER_FULL_NAME") user-full-name)
         user-mail-address (or (getenv "USER_EMAIL") user-mail-address)
@@ -53,7 +53,7 @@ Comprehensive AI chat integration with support for multiple providers (OpenAI, C
 
 ** Core Configuration
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; GPTel - AI Chat Integration
   (use-package gptel
     :ensure t
@@ -87,7 +87,7 @@ Comprehensive AI chat integration with support for multiple providers (OpenAI, C
 
 Set up multiple AI backends with API keys from environment variables or auth-sources.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; GPTel Backend Configuration
 
   ;; Helper function to get API key
@@ -142,7 +142,7 @@ Set up multiple AI backends with API keys from environment variables or auth-sou
 
 Convenient functions to switch between different AI models quickly.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; GPTel Model Switching Functions
 
   (defvar fu/gptel-models
@@ -222,7 +222,7 @@ Convenient functions to switch between different AI models quickly.
 
 Automatically save chat conversations to disk with timestamps and model information.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; GPTel Chat History Management
 
   (defun fu/gptel-save-chat ()
@@ -288,7 +288,7 @@ Automatically save chat conversations to disk with timestamps and model informat
 
 Improved chat interface with better defaults and keybindings.
 
-#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+#+begin_src emacs-lisp :tangle no
   ;; GPTel Enhanced Interface
 
   (defun fu/gptel-new-chat ()
@@ -722,6 +722,10 @@ General utility functions for improved Emacs workflow.
 Open current file or URL in external application.
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/misc-conf.el
+  ;;; misc-conf.el --- Miscellaneous Configuration  -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;; Code:
+
   ;; Utility Functions
 
   (defun fu/open-in-external-app ()
@@ -751,8 +755,8 @@ Copy current file path to clipboard.
   (defun fu/copy-file-path ()
     "Copy the current buffer file path to clipboard."
     (interactive)
-    (when-let ((path (or (buffer-file-name)
-                        default-directory)))
+    (when-let* ((path (or (buffer-file-name)
+                         default-directory)))
       (kill-new path)
       (message "Copied: %s" path)))
 

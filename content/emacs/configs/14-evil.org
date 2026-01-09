@@ -1,0 +1,633 @@
+#+TITLE: Evil Mode - Vim Emulation
+#+AUTHOR: Kyeong Soo Choi
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:3
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :results none
+
+Evil mode configuration mirroring my Neovim setup. This is a standalone file for testing - you can either:
+1. Tangle with =C-c C-v t= to create =~/.emacs.d/elisp/settings/evil-conf.el=
+2. Evaluate individual blocks with =C-c C-c= or the entire buffer with =M-x org-babel-execute-buffer=
+
+*Warning*: This will override many default Emacs keybindings. Test before integrating!
+
+* Evil Core
+
+** Evil Mode
+
+The foundation of Vim emulation in Emacs.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+  ;;; evil-conf.el --- Evil mode configuration -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;; Vim emulation with keybindings mirroring my Neovim config
+  ;;; Code:
+
+  (use-package evil
+    :ensure t
+    :demand t
+    :init
+    ;; Required before loading evil
+    (setq evil-want-integration t)      ; Load evil-collection integrations
+    (setq evil-want-keybinding nil)     ; Don't load default keybindings (for evil-collection)
+    (setq evil-want-C-u-scroll t)       ; C-u scrolls up like Vim
+    (setq evil-want-C-d-scroll t)       ; C-d scrolls down like Vim
+    (setq evil-want-C-i-jump t)         ; C-i jumps forward in jump list
+    (setq evil-want-Y-yank-to-eol t)    ; Y yanks to end of line (like Neovim)
+    (setq evil-want-fine-undo t)        ; More granular undo
+    (setq evil-undo-system 'undo-redo)  ; Use Emacs 28+ undo-redo
+    (setq evil-respect-visual-line-mode t)
+    (setq evil-split-window-below t)    ; Horizontal splits below
+    (setq evil-vsplit-window-right t)   ; Vertical splits to the right
+    (setq evil-search-module 'evil-search)  ; Use evil's search (supports /)
+    (setq evil-ex-search-highlight-all t)
+
+    :config
+    (evil-mode 1)
+
+    ;; Set cursor shapes for different states
+    (setq evil-normal-state-cursor '(box "DarkGoldenrod2"))
+    (setq evil-insert-state-cursor '((bar . 3) "chartreuse3"))
+    (setq evil-visual-state-cursor '(box "gray"))
+    (setq evil-motion-state-cursor '(box "plum3"))
+    (setq evil-replace-state-cursor '((hbar . 4) "red"))
+    (setq evil-operator-state-cursor '((hbar . 6) "red"))
+
+    ;; Set initial state for specific modes
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal)
+    (evil-set-initial-state 'help-mode 'normal)
+    (evil-set-initial-state 'Info-mode 'normal)
+
+    ;; Use emacs state (no evil) for terminal and shell modes
+    (evil-set-initial-state 'term-mode 'emacs)
+    (evil-set-initial-state 'vterm-mode 'emacs)
+    (evil-set-initial-state 'eshell-mode 'emacs)
+    (evil-set-initial-state 'shell-mode 'emacs)
+    (evil-set-initial-state 'comint-mode 'emacs)
+    (evil-set-initial-state 'inferior-python-mode 'emacs)
+    (evil-set-initial-state 'inferior-emacs-lisp-mode 'emacs))
+#+end_src
+
+** Evil Collection
+
+Provides Evil bindings for many Emacs modes.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+#+end_src
+
+** Evil Commentary
+
+Comment/uncomment like =gcc= and =gc= in Vim.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(use-package evil-commentary
+  :after evil
+  :ensure t
+  :diminish
+  :config
+  (evil-commentary-mode))
+#+end_src
+
+** Evil Surround
+
+Surround text objects with pairs (like vim-surround).
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(use-package evil-surround
+  :after evil
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+#+end_src
+
+** Evil Matchit
+
+Enhanced =%== jumping for various languages.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(use-package evil-matchit
+  :after evil
+  :ensure t
+  :config
+  (global-evil-matchit-mode 1))
+#+end_src
+
+* Leader Key Setup
+
+Setting up =SPC= as leader key, similar to Neovim config.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(use-package general
+  :ensure t
+  :demand t
+  :config
+  (general-evil-setup t)
+
+  ;; Create leader key definer
+  (general-create-definer my/leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC")  ; For insert mode
+
+  ;; Create local leader key definer
+  (general-create-definer my/local-leader-keys
+    :keymaps '(normal visual)
+    :prefix "SPC m"
+    :global-prefix "C-SPC m"))
+#+end_src
+
+* Basic Keybindings
+
+** Normal Mode Keybindings
+
+Mirroring Neovim navigation and editing commands.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Center view after search navigation (like Neovim)
+(evil-define-key 'normal 'global
+  "n" (lambda () (interactive) (evil-search-next) (evil-scroll-line-to-center nil))
+  "N" (lambda () (interactive) (evil-search-previous) (evil-scroll-line-to-center nil)))
+
+;; Center view after half-page scrolling
+(evil-define-key 'normal 'global
+  (kbd "C-d") (lambda () (interactive) (evil-scroll-down nil) (evil-scroll-line-to-center nil))
+  (kbd "C-u") (lambda () (interactive) (evil-scroll-up nil) (evil-scroll-line-to-center nil)))
+
+;; Keep cursor position when joining lines
+(evil-define-key 'normal 'global
+  "J" (lambda () (interactive)
+        (let ((col (current-column)))
+          (evil-join (line-beginning-position) (line-beginning-position 2))
+          (move-to-column col))))
+
+;; C-g as escape (Emacs style in Neovim config)
+(define-key evil-normal-state-map (kbd "C-g") 'evil-force-normal-state)
+(define-key evil-visual-state-map (kbd "C-g") 'evil-exit-visual-state)
+(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+(define-key evil-replace-state-map (kbd "C-g") 'evil-normal-state)
+(define-key evil-operator-state-map (kbd "C-g") 'keyboard-quit)
+#+end_src
+
+** Insert Mode - Emacs Style
+
+Your Neovim config has Emacs-style keybindings in insert mode. Here we preserve them.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Exit insert mode quickly
+(define-key evil-insert-state-map (kbd "jj") 'evil-normal-state)
+(define-key evil-insert-state-map (kbd "jk") 'evil-normal-state)
+
+;; Emacs-style movement in insert mode (like your Neovim config)
+(define-key evil-insert-state-map (kbd "C-f") 'forward-char)
+(define-key evil-insert-state-map (kbd "C-b") 'backward-char)
+(define-key evil-insert-state-map (kbd "C-n") 'next-line)
+(define-key evil-insert-state-map (kbd "C-p") 'previous-line)
+(define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
+(define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
+(define-key evil-insert-state-map (kbd "M-m") 'back-to-indentation)
+
+;; Word navigation in insert mode
+(define-key evil-insert-state-map (kbd "M-f") 'forward-word)
+(define-key evil-insert-state-map (kbd "M-b") 'backward-word)
+(define-key evil-insert-state-map (kbd "M-<right>") 'forward-word)
+(define-key evil-insert-state-map (kbd "M-<left>") 'backward-word)
+
+;; Delete in insert mode
+(define-key evil-insert-state-map (kbd "C-d") 'delete-char)
+(define-key evil-insert-state-map (kbd "M-d") 'kill-word)
+(define-key evil-insert-state-map (kbd "M-<backspace>") 'backward-kill-word)
+#+end_src
+
+** Visual Mode
+
+Keep selection after indent like your Neovim config.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Keep visual selection after indent
+(define-key evil-visual-state-map (kbd "<") (lambda ()
+  (interactive)
+  (evil-shift-left (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore)))
+
+(define-key evil-visual-state-map (kbd ">") (lambda ()
+  (interactive)
+  (evil-shift-right (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore)))
+
+;; Move lines in visual mode (like Alt-j/k in Neovim)
+(define-key evil-visual-state-map (kbd "M-j") (concat ":m '>+1" (kbd "RET") "gv=gv"))
+(define-key evil-visual-state-map (kbd "M-k") (concat ":m '<-2" (kbd "RET") "gv=gv"))
+#+end_src
+
+** Move Lines (Normal Mode)
+
+Move lines up/down with Alt-j/k.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Move lines in normal mode
+(evil-define-key 'normal 'global
+  (kbd "M-j") (lambda () (interactive)
+                (evil-move-line-down 1)
+                (evil-indent (line-beginning-position) (line-end-position)))
+  (kbd "M-k") (lambda () (interactive)
+                (evil-move-line-up 1)
+                (evil-indent (line-beginning-position) (line-end-position))))
+
+;; Helper functions for line movement
+(defun evil-move-line-down (count)
+  "Move current line COUNT lines down."
+  (let ((col (current-column)))
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1)
+    (move-to-column col)))
+
+(defun evil-move-line-up (count)
+  "Move current line COUNT lines up."
+  (let ((col (current-column)))
+    (transpose-lines 1)
+    (forward-line -2)
+    (move-to-column col)))
+#+end_src
+
+* Leader Key Bindings
+
+** Buffer Management
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(my/leader-keys
+  ;; Buffer navigation (like Neovim <leader>] and <leader>[)
+  "]" '(next-buffer :which-key "next buffer")
+  "[" '(previous-buffer :which-key "prev buffer")
+  "k" '(kill-current-buffer :which-key "kill buffer")
+
+  ;; Buffer submenu
+  "b" '(:ignore t :which-key "buffer")
+  "bb" '(consult-buffer :which-key "switch buffer")
+  "bd" '(kill-current-buffer :which-key "kill buffer")
+  "bn" '(next-buffer :which-key "next buffer")
+  "bp" '(previous-buffer :which-key "prev buffer")
+  "br" '(revert-buffer :which-key "revert buffer")
+  "bs" '(save-buffer :which-key "save buffer"))
+#+end_src
+
+** Window/Split Management
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(my/leader-keys
+  ;; Window splits (like Neovim)
+  "|" '(split-window-right :which-key "vsplit")
+  "3" '(split-window-right :which-key "vsplit")
+  "_" '(split-window-below :which-key "hsplit")
+  "2" '(split-window-below :which-key "hsplit")
+  "1" '(delete-other-windows :which-key "maximize")
+  "0" '(delete-window :which-key "close window")
+  "o" '(other-window :which-key "other window")
+
+  ;; Window submenu
+  "w" '(:ignore t :which-key "window")
+  "wh" '(evil-window-left :which-key "left")
+  "wj" '(evil-window-down :which-key "down")
+  "wk" '(evil-window-up :which-key "up")
+  "wl" '(evil-window-right :which-key "right")
+  "ws" '(split-window-below :which-key "hsplit")
+  "wv" '(split-window-right :which-key "vsplit")
+  "wd" '(delete-window :which-key "close")
+  "wm" '(delete-other-windows :which-key "maximize")
+  "w=" '(balance-windows :which-key "balance"))
+
+;; Window resizing (like Neovim C-Arrow)
+(define-key evil-normal-state-map (kbd "C-<up>") 'enlarge-window)
+(define-key evil-normal-state-map (kbd "C-<down>") 'shrink-window)
+(define-key evil-normal-state-map (kbd "C-<left>") 'shrink-window-horizontally)
+(define-key evil-normal-state-map (kbd "C-<right>") 'enlarge-window-horizontally)
+#+end_src
+
+** File Operations
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(my/leader-keys
+  "f" '(:ignore t :which-key "file")
+  "ff" '(find-file :which-key "find file")
+  "fr" '(consult-recent-file :which-key "recent files")
+  "fs" '(save-buffer :which-key "save file")
+  "fS" '(write-file :which-key "save as")
+  "fe" '((lambda () (interactive) (find-file user-init-file)) :which-key "edit config")
+  "fR" '((lambda () (interactive) (load-file user-init-file)) :which-key "reload config"))
+#+end_src
+
+** Search (Consult/Vertico)
+
+These bindings mirror Telescope from Neovim. Requires consult package.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(my/leader-keys
+  ;; Search prefix (like Neovim <leader>f for telescope)
+  "s" '(:ignore t :which-key "search")
+  "sf" '(consult-find :which-key "find files")
+  "sg" '(consult-ripgrep :which-key "ripgrep")
+  "sb" '(consult-buffer :which-key "buffers")
+  "sh" '(consult-info :which-key "help")
+  "sm" '(consult-mark :which-key "marks")
+  "sr" '(consult-register :which-key "registers")
+  "sl" '(consult-line :which-key "search lines")
+  "si" '(consult-imenu :which-key "imenu")
+  "so" '(consult-outline :which-key "outline")
+
+  ;; Direct search (like telescope's most used)
+  "/" '(consult-line :which-key "search buffer")
+  "SPC" '(consult-buffer :which-key "switch buffer"))
+#+end_src
+
+** Code/LSP Actions
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(my/leader-keys
+  ;; Code actions (like Neovim LSP bindings)
+  "c" '(:ignore t :which-key "code")
+  "ca" '(eglot-code-actions :which-key "code actions")
+  "cr" '(eglot-rename :which-key "rename")
+  "cf" '(eglot-format-buffer :which-key "format buffer")
+  "ci" '(eglot-find-implementation :which-key "implementation")
+  "cd" '(eglot-find-declaration :which-key "declaration")
+  "ct" '(eglot-find-typeDefinition :which-key "type definition")
+
+  ;; Quick rename (like Neovim <leader>rn)
+  "rn" '(eglot-rename :which-key "rename"))
+#+end_src
+
+** LSP/Goto Keybindings
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Go to bindings (like Neovim g prefix)
+(evil-define-key 'normal 'global
+  "gd" 'xref-find-definitions
+  "gD" 'eglot-find-declaration
+  "gr" 'xref-find-references
+  "gi" 'eglot-find-implementation
+  "K"  'eldoc-box-help-at-point)  ; or eldoc-doc-buffer if eldoc-box not installed
+#+end_src
+
+** Diagnostics Navigation
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Diagnostic navigation (like Neovim ]d [d)
+(evil-define-key 'normal 'global
+  "]d" 'flymake-goto-next-error
+  "[d" 'flymake-goto-prev-error
+  "]q" 'next-error
+  "[q" 'previous-error)
+
+(my/leader-keys
+  "e" '(:ignore t :which-key "errors")
+  "el" '(flymake-show-buffer-diagnostics :which-key "list errors")
+  "eL" '(flymake-show-project-diagnostics :which-key "project errors"))
+#+end_src
+
+** Toggle Commands
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(my/leader-keys
+  "t" '(:ignore t :which-key "toggle")
+  "tt" '(toggle-truncate-lines :which-key "truncate lines")
+  "tn" '(display-line-numbers-mode :which-key "line numbers")
+  "tw" '(whitespace-mode :which-key "whitespace")
+  "ts" '((lambda () (interactive) (setq-local spell-checking-enabled
+                                              (not (bound-and-true-p flyspell-mode)))
+           (if spell-checking-enabled (flyspell-mode 1) (flyspell-mode -1)))
+         :which-key "spell check"))
+#+end_src
+
+** Utility Commands
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(my/leader-keys
+  ;; Clear search highlight (like Neovim <leader>c)
+  "h" '(evil-ex-nohighlight :which-key "clear highlight")
+
+  ;; Help prefix
+  "?" '(:ignore t :which-key "help")
+  "?f" '(describe-function :which-key "describe function")
+  "?v" '(describe-variable :which-key "describe variable")
+  "?k" '(describe-key :which-key "describe key")
+  "?m" '(describe-mode :which-key "describe mode")
+
+  ;; Quit
+  "q" '(:ignore t :which-key "quit")
+  "qq" '(save-buffers-kill-terminal :which-key "quit emacs")
+  "qQ" '(kill-emacs :which-key "quit without saving"))
+#+end_src
+
+** Delete/Paste Without Yanking
+
+Like your Neovim =<leader>d= and =<leader>p= bindings.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Delete to black hole register (like Neovim <leader>d)
+(my/leader-keys
+  "d" '(("_d") :which-key "delete no yank"))
+
+(evil-define-key 'normal 'global
+  (kbd "<leader>d") (lambda () (interactive)
+                      (evil-use-register ?_)
+                      (call-interactively 'evil-delete)))
+
+(evil-define-key 'visual 'global
+  (kbd "<leader>d") (lambda () (interactive)
+                      (evil-use-register ?_)
+                      (call-interactively 'evil-delete)))
+
+;; Paste without yanking replaced text (like Neovim <leader>p)
+(evil-define-key 'visual 'global
+  (kbd "<leader>p") (lambda () (interactive)
+                      (evil-use-register ?_)
+                      (evil-delete (region-beginning) (region-end))
+                      (evil-paste-before 1)))
+#+end_src
+
+* Additional Packages
+
+** Which-Key Integration
+
+Shows available keybindings in a popup.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(use-package which-key
+  :ensure t
+  :diminish
+  :init
+  (setq which-key-separator " ")
+  (setq which-key-prefix-prefix "+")
+  (setq which-key-idle-delay 0.3)
+  (setq which-key-sort-order 'which-key-key-order-alpha)
+  :config
+  (which-key-mode))
+#+end_src
+
+** Avy (Like Leap in Neovim)
+
+Quick navigation with =s= and =S=.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(use-package avy
+  :ensure t
+  :config
+  ;; Use similar keybindings to Leap in Neovim
+  (evil-define-key 'normal 'global
+    "s" 'avy-goto-char-2
+    "S" 'avy-goto-line
+    "gs" 'avy-goto-char-timer)
+  (evil-define-key 'visual 'global
+    "s" 'avy-goto-char-2
+    "S" 'avy-goto-line)
+  (evil-define-key 'operator 'global
+    "s" 'avy-goto-char-2)
+
+  (setq avy-background t)
+  (setq avy-style 'at-full)
+  (setq avy-timeout-seconds 0.3))
+#+end_src
+
+* File Explorer
+
+Dired or Treemacs toggle with =<leader>e=.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+  ;; Toggle file explorer (like Neovim <leader>e for Neo-tree)
+  ;; (my/leader-keys
+  ;;   "e" '(dired-jump :which-key "file explorer"))
+
+  ;; If you prefer treemacs, uncomment:
+  (use-package treemacs-evil
+    :after (treemacs evil)
+    :ensure t)
+  (my/leader-keys
+    "e" '(treemacs :which-key "file explorer"))
+#+end_src
+
+* Terminal Toggle
+
+Floating/popup terminal like your Neovim config.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Simple popup terminal (like Neovim <leader>`)
+(defun my/toggle-popup-term ()
+  "Toggle a popup terminal buffer."
+  (interactive)
+  (let ((term-buf (get-buffer "*popup-term*")))
+    (if (and term-buf (get-buffer-window term-buf))
+        (delete-window (get-buffer-window term-buf))
+      (if term-buf
+          (pop-to-buffer term-buf
+                         '((display-buffer-at-bottom)
+                           (window-height . 0.3)))
+        (let ((buf (get-buffer-create "*popup-term*")))
+          (pop-to-buffer buf
+                         '((display-buffer-at-bottom)
+                           (window-height . 0.3)))
+          (unless (derived-mode-p 'term-mode 'vterm-mode 'eshell-mode)
+            (eshell)))))))
+
+(my/leader-keys
+  "`" '(my/toggle-popup-term :which-key "terminal"))
+
+;; Terminal modes use emacs state, so no evil keybindings needed
+;; See evil-set-initial-state settings in Evil Core section
+#+end_src
+
+* Project Management
+
+Projectile-style bindings with =<leader>p=.
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+;; Project commands (requires project.el or projectile)
+(my/leader-keys
+  "p" '(:ignore t :which-key "project")
+  "pf" '(project-find-file :which-key "find file")
+  "pg" '(project-find-regexp :which-key "grep")
+  "pb" '(project-switch-to-buffer :which-key "buffers")
+  "pd" '(project-dired :which-key "dired")
+  "pp" '(project-switch-project :which-key "switch project")
+  "pk" '(project-kill-buffers :which-key "kill buffers"))
+#+end_src
+
+* Git Integration
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(my/leader-keys
+  "g" '(:ignore t :which-key "git")
+  "gs" '(magit-status :which-key "status")
+  "gb" '(magit-blame :which-key "blame")
+  "gl" '(magit-log-current :which-key "log")
+  "gd" '(magit-diff :which-key "diff")
+  "gf" '(magit-fetch :which-key "fetch")
+  "gp" '(magit-push :which-key "push")
+  "gP" '(magit-pull :which-key "pull"))
+#+end_src
+
+* Provide Feature
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/elisp/settings/evil-conf.el
+(provide 'evil-conf)
+;;; evil-conf.el ends here
+#+end_src
+
+* Usage
+
+To test this configuration:
+
+1. *Evaluate the whole buffer*:
+   #+begin_example
+   M-x org-babel-execute-buffer
+   #+end_example
+
+2. *Tangle to elisp file*:
+   #+begin_example
+   C-c C-v t
+   #+end_example
+   This creates =~/.emacs.d/elisp/settings/evil-conf.el=
+
+3. *Add to your config* (if keeping):
+   Add this line to your =init.el= after other requires:
+   #+begin_src emacs-lisp :tangle no
+   (require 'evil-conf)
+   #+end_src
+
+* Key Reference
+
+| Neovim          | Evil (Emacs) | Description                |
+|-----------------+--------------+----------------------------|
+| =<leader>=        | =SPC=          | Leader key                 |
+| =<leader>]=       | =SPC ]=        | Next buffer                |
+| =<leader>[=       | =SPC [=        | Previous buffer            |
+| =<leader>k=       | =SPC k=        | Kill buffer                |
+| =<leader>ff=      | =SPC f f=      | Find file                  |
+| =<leader>fg=      | =SPC s g=      | Live grep (ripgrep)        |
+| =<leader>bb=      | =SPC b b=      | Switch buffer              |
+| =<leader>e=       | =SPC e=        | File explorer              |
+| =<leader>`=       | =SPC `=        | Toggle terminal            |
+| =<leader>c=       | =SPC h=        | Clear search highlight     |
+| =<leader>\vert{}= | =SPC \vert{}=  | Vertical split             |
+| =<leader>_=       | =SPC _=        | Horizontal split           |
+| =<leader>1=       | =SPC 1=        | Close other windows        |
+| =gd=              | =gd=           | Go to definition           |
+| =gr=              | =gr=           | Go to references           |
+| =K=               | =K=            | Hover documentation        |
+| =]d=              | =]d=           | Next diagnostic            |
+| =[d=              | =[d=           | Previous diagnostic        |
+| =s=               | =s=            | Leap/Avy forward           |
+| =S=               | =S=            | Leap/Avy line              |
+| =gcc=             | =gcc=          | Comment line               |
+| =gc=              | =gc=           | Comment motion             |
+| =cs"'=            | =cs"'=         | Change surrounding         |
+| =ys)=             | =ys)=          | Add surrounding            |
+| =M-j= / =M-k=       | =M-j= / =M-k=    | Move line down/up          |
+| =jj= / =jk=         | =jj= / =jk=      | Exit insert mode           |
+| =C-a= / =C-x=       | =C-a= / =C-x=    | Increment/decrement number |

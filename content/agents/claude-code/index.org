@@ -45,12 +45,20 @@ Configure what tools Claude Code can use, set environment variables for your pro
 ** [[file:02-commands.org][Slash Commands]]
 Custom prompt templates for repeated workflows
 
-User-invoked commands accessed by typing =/= in Claude Code. Includes documentation, code review, testing, and git workflow commands.
+User-invoked commands accessed by typing =/= in Claude Code. Includes commit message generation and org-roam capture integration.
 
-** [[file:03-skills.org][Agent Skills]]
-Model-invoked capabilities for autonomous assistance
+** Agent Skills
 
-Skills that Claude automatically activates based on context. Includes TypeScript type generation, test coverage analysis, Emacs integration, and documentation checking.
+Skills that Claude automatically activates based on context. Organized by domain:
+
+| Module                            | Description                                  |
+|-----------------------------------+----------------------------------------------|
+| [[file:03-skills.org][Core Skills]]             | General development patterns and practices   |
+| [[file:03-skills-emacs.org][Emacs Skills]]         | Emacs integration, org-mode, LSP             |
+| [[file:03-skills-javascript.org][JavaScript Skills]] | TypeScript, React, Node.js patterns          |
+| [[file:03-skills-python.org][Python Skills]]       | Python, FastAPI, Django patterns             |
+| [[file:03-skills-rails.org][Rails Skills]]         | Ruby on Rails development patterns           |
+| [[file:03-skills-documentation.org][Documentation Skills]] | Documentation completeness checking     |
 
 ** [[file:04-mcp-servers.org][MCP Servers]]
 External tool integrations via Model Context Protocol
@@ -131,7 +139,7 @@ This configuration is part of a larger knowledge base. See [[file:../../index.or
 ** Related Configurations
 
 - [[file:../../emacs/emacs-configs.org][Emacs Configurations]] - Similar literate config approach
-- [[file:../../neovim/01-init.org][Neovim Configurations]] - Alternative editor setup
+- [[file:../../neovim/configs/README.org][Neovim Configurations]] - Alternative editor setup
 - [[file:../../dotfiles/index.org][Dotfiles]] - Other development tool configs
 
 ** Build Integration
