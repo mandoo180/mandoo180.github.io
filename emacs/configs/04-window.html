@@ -12,8 +12,30 @@
 <body>
 <main id="content" class="content">
 <h1 class="title">Window Management</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgfa34b05">1. Tab Bar Mode (Built-in, Emacs 27+)</a>
+<ul>
+<li><a href="#org33b6e2c">1.1. Overview</a></li>
+<li><a href="#org54db348">1.2. Basic Configuration</a></li>
+<li><a href="#orgd963fd7">1.3. Custom Tab Naming</a></li>
+<li><a href="#orgfe78e3e">1.4. Appearance Customization</a></li>
+<li><a href="#orgdaeb153">1.5. Project-Based Tabs</a></li>
+<li><a href="#orgb5478cb">1.6. Workspace Presets</a></li>
+<li><a href="#org6c1ede3">1.7. Session Persistence</a></li>
+<li><a href="#org84b15ad">1.8. Keybindings Summary</a></li>
+<li><a href="#org6df00e5">1.9. Tips and Best Practices</a></li>
+<li><a href="#org1f9da52">1.10. Common Workflows</a></li>
+<li><a href="#orgd1bb37b">1.11. Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <p>
-Configuration for window splitting, sizing, and navigation.
+Configuration for window splitting, sizing, navigation, and workspace tab management.
 </p>
 
 <div class="org-src-container">
@@ -59,6 +81,539 @@ Configuration for window splitting, sizing, and navigation.
 (<span class="org-keyword">provide</span> '<span class="org-constant">window-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">window-conf.el ends here</span>
 </pre>
+</div>
+
+<div id="outline-container-orgfa34b05" class="outline-2">
+<h2 id="orgfa34b05"><span class="section-number-2">1.</span> Tab Bar Mode (Built-in, Emacs 27+)</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Tab-bar-mode is Emacs' built-in workspace management system. Unlike buffer tabs, each tab represents an independent window configuration (workspace), making it perfect for organizing different projects, tasks, or contexts.
+</p>
+</div>
+
+<div id="outline-container-org33b6e2c" class="outline-3">
+<h3 id="org33b6e2c"><span class="section-number-3">1.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Tab-bar provides native workspace management:
+</p>
+
+<ul class="org-ul">
+<li><b>Workspace-based</b>: Each tab maintains its own window layout, not just a single buffer</li>
+<li><b>Project organization</b>: Separate tabs for different projects or tasks</li>
+<li><b>Persistent layouts</b>: Window configurations can be saved between sessions</li>
+<li><b>Lightweight</b>: Built into Emacs, no external packages needed</li>
+<li><b>Highly customizable</b>: Full control over appearance and behavior</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org54db348" class="outline-3">
+<h3 id="org54db348"><span class="section-number-3">1.2.</span> Basic Configuration</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Tab Bar Mode - Built-in workspace tabs (Emacs 27+)
+</span>(<span class="org-keyword">use-package</span> tab-bar
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable tab bar mode
+</span>  (tab-bar-mode 1)
+
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Display settings
+</span>  (tab-bar-show 1)                      <span class="org-comment-delimiter">; </span><span class="org-comment">Show tab bar when there are 2+ tabs
+</span>  (tab-bar-close-button-show nil)       <span class="org-comment-delimiter">; </span><span class="org-comment">Hide close button on tabs
+</span>  (tab-bar-new-button-show nil)         <span class="org-comment-delimiter">; </span><span class="org-comment">Hide new tab button
+</span>  (tab-bar-tab-hints t)                 <span class="org-comment-delimiter">; </span><span class="org-comment">Show tab numbers for quick switching
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Tab naming
+</span>  (tab-bar-tab-name-function 'tab-bar-tab-name-truncated)
+  (tab-bar-tab-name-truncated-max 20)   <span class="org-comment-delimiter">; </span><span class="org-comment">Max length of tab names
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">New tab behavior
+</span>  (tab-bar-new-tab-choice <span class="org-string">"*scratch*"</span>)  <span class="org-comment-delimiter">; </span><span class="org-comment">Buffer to show in new tabs
+</span>  (tab-bar-new-tab-to 'rightmost)       <span class="org-comment-delimiter">; </span><span class="org-comment">Where to create new tabs
+</span>  (tab-bar-close-tab-select 'recent)    <span class="org-comment-delimiter">; </span><span class="org-comment">Which tab to select after closing
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Tab bar position
+</span>  (tab-bar-position 'top)               <span class="org-comment-delimiter">; </span><span class="org-comment">Position at top of frame
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Format: show tabs and separator
+</span>  (tab-bar-format '(tab-bar-format-tabs tab-bar-separator))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">History settings
+</span>  (tab-bar-history-mode 1)              <span class="org-comment-delimiter">; </span><span class="org-comment">Enable tab history navigation
+</span>
+  <span class="org-builtin">:bind</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Tab management
+</span>  ((<span class="org-string">"C-x t n"</span> . tab-bar-new-tab)               <span class="org-comment-delimiter">; </span><span class="org-comment">Create new tab
+</span>   (<span class="org-string">"C-x t c"</span> . tab-bar-close-tab)             <span class="org-comment-delimiter">; </span><span class="org-comment">Close current tab
+</span>   (<span class="org-string">"C-x t k"</span> . tab-bar-close-tab)             <span class="org-comment-delimiter">; </span><span class="org-comment">Alternative close
+</span>   (<span class="org-string">"C-x t o"</span> . tab-bar-switch-to-next-tab)    <span class="org-comment-delimiter">; </span><span class="org-comment">Next tab
+</span>   (<span class="org-string">"C-&lt;tab&gt;"</span> . tab-bar-switch-to-next-tab)    <span class="org-comment-delimiter">; </span><span class="org-comment">Next tab
+</span>   (<span class="org-string">"C-x t O"</span> . tab-bar-switch-to-prev-tab)    <span class="org-comment-delimiter">; </span><span class="org-comment">Previous tab
+</span>   (<span class="org-string">"C-S-&lt;tab&gt;"</span> . tab-bar-switch-to-prev-tab)  <span class="org-comment-delimiter">; </span><span class="org-comment">Previous tab
+</span>   (<span class="org-string">"C-x t r"</span> . tab-bar-rename-tab)            <span class="org-comment-delimiter">; </span><span class="org-comment">Rename current tab
+</span>   (<span class="org-string">"C-x t m"</span> . tab-bar-move-tab)              <span class="org-comment-delimiter">; </span><span class="org-comment">Move tab position
+</span>
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">Quick tab switching (Alt+1 through Alt+9)
+</span>   (<span class="org-string">"M-1"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 1)))
+   (<span class="org-string">"M-2"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 2)))
+   (<span class="org-string">"M-3"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 3)))
+   (<span class="org-string">"M-4"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 4)))
+   (<span class="org-string">"M-5"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 5)))
+   (<span class="org-string">"M-6"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 6)))
+   (<span class="org-string">"M-7"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 7)))
+   (<span class="org-string">"M-8"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 8)))
+   (<span class="org-string">"M-9"</span> . (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (tab-bar-select-tab 9)))
+
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">History navigation
+</span>   (<span class="org-string">"C-x t &lt;left&gt;"</span> . tab-bar-history-back)
+   (<span class="org-string">"C-x t &lt;right&gt;"</span> . tab-bar-history-forward)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd963fd7" class="outline-3">
+<h3 id="orgd963fd7"><span class="section-number-3">1.3.</span> Custom Tab Naming</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Create more informative tab names based on project context:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Custom tab naming function
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/tab-bar-tab-name-with-project</span> ()
+  <span class="org-doc">"Generate tab name showing project and buffer."</span>
+  (<span class="org-keyword">let</span> ((project-name (<span class="org-keyword">when</span> (project-current)
+                        (file-name-nondirectory
+                         (directory-file-name
+                          (project-root (project-current))))))
+        (buffer-name (buffer-name)))
+    (<span class="org-keyword">if</span> project-name
+        (format <span class="org-string">"%s: %s"</span> project-name buffer-name)
+      buffer-name)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Use custom naming (uncomment one)
+</span>(<span class="org-keyword">setq</span> tab-bar-tab-name-function 'fu/tab-bar-tab-name-with-project)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfe78e3e" class="outline-3">
+<h3 id="orgfe78e3e"><span class="section-number-3">1.4.</span> Appearance Customization</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Dynamically adapt tab bar to match your current theme:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Customize tab-bar appearance to automatically match current theme
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/tab-bar-setup-appearance</span> ()
+  <span class="org-doc">"Dynamically customize tab-bar to match the current theme.
+Inherits colors from mode-line and other faces for seamless integration."</span>
+  (<span class="org-keyword">let*</span> (<span class="org-comment-delimiter">;; </span><span class="org-comment">Get colors from existing theme faces
+</span>         (mode-line-bg (face-attribute 'mode-line <span class="org-builtin">:background</span> nil 'default))
+         (mode-line-fg (face-attribute 'mode-line <span class="org-builtin">:foreground</span> nil 'default))
+         (mode-line-inactive-bg (face-attribute 'mode-line-inactive <span class="org-builtin">:background</span> nil 'default))
+         (mode-line-inactive-fg (face-attribute 'mode-line-inactive <span class="org-builtin">:foreground</span> nil 'default))
+         (default-bg (face-attribute 'default <span class="org-builtin">:background</span> nil 'default))
+         (default-fg (face-attribute 'default <span class="org-builtin">:foreground</span> nil 'default))
+
+         <span class="org-comment-delimiter">;; </span><span class="org-comment">Try to get highlight color for active tab emphasis
+</span>         (highlight-bg (<span class="org-keyword">or</span> (<span class="org-keyword">and</span> (face-attribute 'highlight <span class="org-builtin">:background</span> nil 'default)
+                                (not (string= (face-attribute 'highlight <span class="org-builtin">:background</span> nil 'default) <span class="org-string">"unspecified"</span>))
+                                (face-attribute 'highlight <span class="org-builtin">:background</span> nil 'default))
+                           mode-line-bg))
+
+         <span class="org-comment-delimiter">;; </span><span class="org-comment">Check if we have valid colors from theme
+</span>         (has-mode-line (<span class="org-keyword">and</span> (stringp mode-line-bg)
+                             (not (string= mode-line-bg <span class="org-string">"unspecified"</span>)))))
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Active tab - make it prominent using mode-line or highlight
+</span>    (<span class="org-keyword">if</span> has-mode-line
+        (set-face-attribute 'tab-bar-tab nil
+                            <span class="org-builtin">:foreground</span> mode-line-fg
+                            <span class="org-builtin">:background</span> highlight-bg
+                            <span class="org-builtin">:weight</span> 'bold
+                            <span class="org-builtin">:box</span> `(<span class="org-builtin">:line-width</span> 2 <span class="org-builtin">:color</span> ,highlight-bg <span class="org-builtin">:style</span> nil)
+                            <span class="org-builtin">:inherit</span> 'unspecified)
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Fallback if theme doesn't define mode-line properly
+</span>      (set-face-attribute 'tab-bar-tab nil
+                          <span class="org-builtin">:inherit</span> 'mode-line
+                          <span class="org-builtin">:weight</span> 'bold
+                          <span class="org-builtin">:box</span> nil))
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Inactive tabs - subtle, using mode-line-inactive
+</span>    (<span class="org-keyword">if</span> (<span class="org-keyword">and</span> (stringp mode-line-inactive-bg)
+             (not (string= mode-line-inactive-bg <span class="org-string">"unspecified"</span>)))
+        (set-face-attribute 'tab-bar-tab-inactive nil
+                            <span class="org-builtin">:foreground</span> mode-line-inactive-fg
+                            <span class="org-builtin">:background</span> mode-line-inactive-bg
+                            <span class="org-builtin">:weight</span> 'normal
+                            <span class="org-builtin">:box</span> `(<span class="org-builtin">:line-width</span> 2 <span class="org-builtin">:color</span> ,mode-line-inactive-bg <span class="org-builtin">:style</span> nil)
+                            <span class="org-builtin">:inherit</span> 'unspecified)
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Fallback
+</span>      (set-face-attribute 'tab-bar-tab-inactive nil
+                          <span class="org-builtin">:inherit</span> 'mode-line-inactive
+                          <span class="org-builtin">:weight</span> 'normal
+                          <span class="org-builtin">:box</span> nil))
+
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Tab bar background - blend with frame background
+</span>    (set-face-attribute 'tab-bar nil
+                        <span class="org-builtin">:background</span> (<span class="org-keyword">if</span> (<span class="org-keyword">and</span> (stringp default-bg)
+                                             (not (string= default-bg <span class="org-string">"unspecified"</span>)))
+                                        default-bg
+                                      (face-attribute 'mode-line-inactive <span class="org-builtin">:background</span> nil 'default))
+                        <span class="org-builtin">:foreground</span> default-fg
+                        <span class="org-builtin">:box</span> nil
+                        <span class="org-builtin">:inherit</span> 'unspecified)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Refresh tab-bar appearance when theme changes
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/tab-bar-refresh-appearance</span> (<span class="org-type">&amp;rest</span> _)
+  <span class="org-doc">"Refresh tab-bar appearance after theme changes.
+This ensures tab-bar always matches the active theme."</span>
+  (<span class="org-keyword">when</span> (fboundp 'fu/tab-bar-setup-appearance)
+    (fu/tab-bar-setup-appearance)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Hook into theme loading to auto-update appearance
+</span>(advice-add 'load-theme <span class="org-builtin">:after</span> #'fu/tab-bar-refresh-appearance)
+(advice-add 'enable-theme <span class="org-builtin">:after</span> #'fu/tab-bar-refresh-appearance)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Apply appearance for daemon and regular Emacs
+</span>(<span class="org-keyword">if</span> (daemonp)
+    (add-hook 'after-make-frame-functions
+              (<span class="org-keyword">lambda</span> (frame)
+                (<span class="org-keyword">with-selected-frame</span> frame
+                  (fu/tab-bar-setup-appearance))))
+  (fu/tab-bar-setup-appearance))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdaeb153" class="outline-3">
+<h3 id="orgdaeb153"><span class="section-number-3">1.5.</span> Project-Based Tabs</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Create tabs for projects with the native project-switch workflow:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Create a new tab for a selected project
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/project-tab-bar-new</span> ()
+  <span class="org-doc">"Switch to a project in a new tab using project-switch-project.
+
+Workflow:
+1. Prompt user to select a project
+2. User selects an action (f=find-file, d=find-directory, m=magit, etc.)
+3. Create a new tab named after the project
+4. Execute the selected action in the new tab"</span>
+  (<span class="org-keyword">interactive</span>)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Capture the project directory before switching
+</span>  (<span class="org-keyword">let*</span> ((project-dir (project-prompt-project-dir))
+         (project-name (file-name-nondirectory
+                       (directory-file-name project-dir))))
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Step 1 &amp; 2: Create new tab first
+</span>    (tab-bar-new-tab)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">(tab-bar-rename-tab project-name)
+</span>    <span class="org-comment-delimiter">;; </span><span class="org-comment">Step 3 &amp; 4: Use native project-switch-project which prompts for action
+</span>    (<span class="org-keyword">let</span> ((project-current-directory-override project-dir))
+      (project-switch-project project-dir))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Bind to convenient key
+</span>(global-set-key (kbd <span class="org-string">"C-x p t"</span>) #'fu/project-tab-bar-new)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb5478cb" class="outline-3">
+<h3 id="orgb5478cb"><span class="section-number-3">1.6.</span> Workspace Presets</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+Define predefined workspace layouts for common tasks:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Define workspace presets
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">fu/tab-bar-workspace-coding</span> ()
+  <span class="org-doc">"Create a coding workspace with three-pane layout."</span>
+  (<span class="org-keyword">interactive</span>)
+  (tab-bar-new-tab)
+  (tab-bar-rename-tab <span class="org-string">"Coding"</span>)
+  (delete-other-windows)
+  (<span class="org-keyword">when</span> (file-exists-p <span class="org-string">"~/Projects"</span>)
+    (dired <span class="org-string">"~/Projects"</span>))
+  (split-window-right)
+  (other-window 1)
+  (split-window-below))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">fu/tab-bar-workspace-writing</span> ()
+  <span class="org-doc">"Create a focused writing workspace."</span>
+  (<span class="org-keyword">interactive</span>)
+  (tab-bar-new-tab)
+  (tab-bar-rename-tab <span class="org-string">"Writing"</span>)
+  (delete-other-windows)
+  (<span class="org-keyword">when</span> (file-exists-p <span class="org-string">"~/org-roam"</span>)
+    (dired <span class="org-string">"~/org-roam"</span>)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Keybindings for workspace presets
+</span>(global-set-key (kbd <span class="org-string">"C-x t w c"</span>) #'fu/tab-bar-workspace-coding)
+(global-set-key (kbd <span class="org-string">"C-x t w w"</span>) #'fu/tab-bar-workspace-writing)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6c1ede3" class="outline-3">
+<h3 id="org6c1ede3"><span class="section-number-3">1.7.</span> Session Persistence</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+Save and restore tab configurations between Emacs sessions:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Desktop save mode for tab persistence
+</span>(<span class="org-keyword">use-package</span> desktop
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Save tab-bar configuration
+</span>  (desktop-restore-frames t)
+  (desktop-restore-in-current-display t)
+  (desktop-restore-forces-onscreen nil)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Desktop file location
+</span>  (desktop-dirname user-emacs-directory)
+  (desktop-path (list user-emacs-directory))
+
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Enable desktop save mode
+</span>  (desktop-save-mode 1))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org84b15ad" class="outline-3">
+<h3 id="org84b15ad"><span class="section-number-3">1.8.</span> Keybindings Summary</h3>
+<div class="outline-text-3" id="text-1-8">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Keybinding</th>
+<th scope="col" class="org-left">Function</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>C-x t n</code></td>
+<td class="org-left">tab-bar-new-tab</td>
+<td class="org-left">Create new tab</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t c</code></td>
+<td class="org-left">tab-bar-close-tab</td>
+<td class="org-left">Close current tab</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t o</code></td>
+<td class="org-left">tab-bar-switch-to-next-tab</td>
+<td class="org-left">Switch to next tab</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-&lt;tab&gt;</code></td>
+<td class="org-left">tab-bar-switch-to-next-tab</td>
+<td class="org-left">Switch to next tab</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t O</code></td>
+<td class="org-left">tab-bar-switch-to-prev-tab</td>
+<td class="org-left">Switch to previous tab</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-S-&lt;tab&gt;</code></td>
+<td class="org-left">tab-bar-switch-to-prev-tab</td>
+<td class="org-left">Switch to previous tab</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>M-1</code> to <code>M-9</code></td>
+<td class="org-left">tab-bar-select-tab</td>
+<td class="org-left">Jump to tab by number</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t r</code></td>
+<td class="org-left">tab-bar-rename-tab</td>
+<td class="org-left">Rename current tab</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t m</code></td>
+<td class="org-left">tab-bar-move-tab</td>
+<td class="org-left">Move tab to different position</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t p</code></td>
+<td class="org-left">(custom)</td>
+<td class="org-left">Create project tab</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t &lt;left&gt;</code></td>
+<td class="org-left">tab-bar-history-back</td>
+<td class="org-left">Go back in tab history</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t &lt;right&gt;</code></td>
+<td class="org-left">tab-bar-history-forward</td>
+<td class="org-left">Go forward in tab history</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t w c</code></td>
+<td class="org-left">(custom)</td>
+<td class="org-left">Create coding workspace</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t w w</code></td>
+<td class="org-left">(custom)</td>
+<td class="org-left">Create writing workspace</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x t w r</code></td>
+<td class="org-left">(custom)</td>
+<td class="org-left">Create research workspace</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org6df00e5" class="outline-3">
+<h3 id="org6df00e5"><span class="section-number-3">1.9.</span> Tips and Best Practices</h3>
+<div class="outline-text-3" id="text-1-9">
+<ol class="org-ol">
+<li><b>One tab per project</b>: Keep related files in the same tab workspace</li>
+<li><b>Name your tabs</b>: Use descriptive names for easy identification (<code>C-x t r</code>)</li>
+<li><b>Use tab numbers</b>: Quick switching with <code>M-1</code> through <code>M-9</code></li>
+<li><b>Workspace presets</b>: Create functions for your common layouts</li>
+<li><b>Save sessions</b>: Enable <code>desktop-save-mode</code> for persistence across restarts</li>
+<li><b>History navigation</b>: Use <code>C-x t &lt;left/right&gt;</code> to navigate tab history</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org1f9da52" class="outline-3">
+<h3 id="org1f9da52"><span class="section-number-3">1.10.</span> Common Workflows</h3>
+<div class="outline-text-3" id="text-1-10">
+</div>
+<div id="outline-container-org1a0ec9a" class="outline-4">
+<h4 id="org1a0ec9a"><span class="section-number-4">1.10.1.</span> Starting a New Project</h4>
+<div class="outline-text-4" id="text-1-10-1">
+<ol class="org-ol">
+<li><code>C-x t p</code> - Create new project tab</li>
+<li>Tab is automatically named after the project</li>
+<li>All project windows stay in this workspace</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org8b94471" class="outline-4">
+<h4 id="org8b94471"><span class="section-number-4">1.10.2.</span> Daily Work Organization</h4>
+<div class="outline-text-4" id="text-1-10-2">
+<ul class="org-ul">
+<li>Tab 1: Email/Communication</li>
+<li>Tab 2: Main project workspace</li>
+<li>Tab 3: Reference/Documentation</li>
+<li>Tab 4: Scratch/Experiments</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2a104a5" class="outline-4">
+<h4 id="org2a104a5"><span class="section-number-4">1.10.3.</span> Tab Organization Strategy</h4>
+<div class="outline-text-4" id="text-1-10-3">
+<ul class="org-ul">
+<li>Keep permanent tabs (email, org agenda) on the left</li>
+<li>Group related project tabs together</li>
+<li>Use temporary tabs on the right (close when done)</li>
+<li>Rename tabs with meaningful names for quick identification</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd1bb37b" class="outline-3">
+<h3 id="orgd1bb37b"><span class="section-number-3">1.11.</span> Troubleshooting</h3>
+<div class="outline-text-3" id="text-1-11">
+</div>
+<div id="outline-container-orgb70fd33" class="outline-4">
+<h4 id="orgb70fd33"><span class="section-number-4">1.11.1.</span> Tab Bar Not Showing</h4>
+<div class="outline-text-4" id="text-1-11-1">
+<ul class="org-ul">
+<li>Check if enabled: <code>M-x tab-bar-mode</code></li>
+<li>Verify setting: <code>(setq tab-bar-show 1)</code> requires 2+ tabs</li>
+<li>Use <code>(setq tab-bar-show t)</code> to always show the tab bar</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdd4c6bc" class="outline-4">
+<h4 id="orgdd4c6bc"><span class="section-number-4">1.11.2.</span> Tabs Not Persisting Between Sessions</h4>
+<div class="outline-text-4" id="text-1-11-2">
+<ul class="org-ul">
+<li>Enable <code>desktop-save-mode</code>: <code>(desktop-save-mode 1)</code></li>
+<li>Set desktop directory: <code>(setq desktop-dirname user-emacs-directory)</code></li>
+<li>Ensure <code>desktop-restore-frames</code> is <code>t</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1a09f83" class="outline-4">
+<h4 id="org1a09f83"><span class="section-number-4">1.11.3.</span> Theme Integration Issues</h4>
+<div class="outline-text-4" id="text-1-11-3">
+<ul class="org-ul">
+<li>Run <code>(fu/tab-bar-setup-appearance)</code> after loading your theme</li>
+<li>Check if theme overrides tab-bar faces</li>
+<li>Use <code>M-x describe-face</code> to inspect current face values</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1533915" class="outline-4">
+<h4 id="org1533915"><span class="section-number-4">1.11.4.</span> Performance</h4>
+<div class="outline-text-4" id="text-1-11-4">
+<ul class="org-ul">
+<li>Tab-bar is very lightweight and handles many tabs efficiently</li>
+<li>Consider closing unused tabs regularly</li>
+<li>Use tab history (<code>C-x t &lt;left/right&gt;</code>) to navigate recently used tabs</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 </main>
 </body>

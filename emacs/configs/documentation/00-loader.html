@@ -15,26 +15,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfe87d9c">1. Documentation Configuration Loader</a>
+<li><a href="#org142897d">1. Documentation Configuration Loader</a>
 <ul>
-<li><a href="#org0ea4704">1.1. Purpose</a></li>
-<li><a href="#org5c12c73">1.2. Architecture</a></li>
-<li><a href="#org19ba88f">1.3. Loader Implementation</a></li>
+<li><a href="#org4a53434">1.1. Purpose</a></li>
+<li><a href="#org56cc668">1.2. Architecture</a></li>
+<li><a href="#orgd5b8a31">1.3. Loader Implementation</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfe87d9c" class="outline-2">
-<h2 id="orgfe87d9c"><span class="section-number-2">1.</span> Documentation Configuration Loader</h2>
+<div id="outline-container-org142897d" class="outline-2">
+<h2 id="org142897d"><span class="section-number-2">1.</span> Documentation Configuration Loader</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This file serves as the main entry point for all documentation-related configurations. It loads document format-specific modules.
 </p>
 </div>
 
-<div id="outline-container-org0ea4704" class="outline-3">
-<h3 id="org0ea4704"><span class="section-number-3">1.1.</span> Purpose</h3>
+<div id="outline-container-org4a53434" class="outline-3">
+<h3 id="org4a53434"><span class="section-number-3">1.1.</span> Purpose</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 The loader (<code>doc-conf.el</code>) is responsible for:
@@ -47,14 +47,14 @@ The loader (<code>doc-conf.el</code>) is responsible for:
 </div>
 </div>
 
-<div id="outline-container-org5c12c73" class="outline-3">
-<h3 id="org5c12c73"><span class="section-number-3">1.2.</span> Architecture</h3>
+<div id="outline-container-org56cc668" class="outline-3">
+<h3 id="org56cc668"><span class="section-number-3">1.2.</span> Architecture</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 The documentation configuration is modular:
 </p>
 
-<pre class="example" id="org0543c6b">
+<pre class="example" id="org57ad11b">
 doc-conf.el (this file)
 ├── doc-general-conf.el   → General documentation settings
 ├── doc-org-conf.el       → Org-mode settings
@@ -63,8 +63,8 @@ doc-conf.el (this file)
 </div>
 </div>
 
-<div id="outline-container-org19ba88f" class="outline-3">
-<h3 id="org19ba88f"><span class="section-number-3">1.3.</span> Loader Implementation</h3>
+<div id="outline-container-orgd5b8a31" class="outline-3">
+<h3 id="orgd5b8a31"><span class="section-number-3">1.3.</span> Loader Implementation</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-conf.el --- Documentation configuration loader -*- lexical-binding: t; -*-

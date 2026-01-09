@@ -1,0 +1,1027 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Evil Mode - Vim Emulation</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">Evil Mode - Vim Emulation</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org8128887">1. Evil Core</a>
+<ul>
+<li><a href="#orga5896d5">1.1. Evil Mode</a></li>
+<li><a href="#org07dee84">1.2. Evil Collection</a></li>
+<li><a href="#orga0a2019">1.3. Evil Commentary</a></li>
+<li><a href="#org2ee7135">1.4. Evil Surround</a></li>
+<li><a href="#org37d757c">1.5. Evil Matchit</a></li>
+</ul>
+</li>
+<li><a href="#org63c6e7f">2. Leader Key Setup</a></li>
+<li><a href="#orged03f84">3. Basic Keybindings</a>
+<ul>
+<li><a href="#orgf3847d6">3.1. Normal Mode Keybindings</a></li>
+<li><a href="#orga5bd626">3.2. Insert Mode - Emacs Style</a></li>
+<li><a href="#orgebc7010">3.3. Visual Mode</a></li>
+<li><a href="#orgef97b2d">3.4. Move Lines (Normal Mode)</a></li>
+</ul>
+</li>
+<li><a href="#org1e15b4a">4. Leader Key Bindings</a>
+<ul>
+<li><a href="#org0e157f1">4.1. Buffer Management</a></li>
+<li><a href="#org241445b">4.2. Window/Split Management</a></li>
+<li><a href="#org58d835e">4.3. File Operations</a></li>
+<li><a href="#orge89fbb7">4.4. Search (Consult/Vertico)</a></li>
+<li><a href="#org1343e01">4.5. Code/LSP Actions</a></li>
+<li><a href="#orgb00191d">4.6. LSP/Goto Keybindings</a></li>
+<li><a href="#orgb5cbbc5">4.7. Diagnostics Navigation</a></li>
+<li><a href="#org4afd9b2">4.8. Toggle Commands</a></li>
+<li><a href="#org9ec1372">4.9. Utility Commands</a></li>
+<li><a href="#org485adb1">4.10. Delete/Paste Without Yanking</a></li>
+</ul>
+</li>
+<li><a href="#orgaacae7e">5. Additional Packages</a>
+<ul>
+<li><a href="#org42d3959">5.1. Which-Key Integration</a></li>
+<li><a href="#org02abdb1">5.2. Avy (Like Leap in Neovim)</a></li>
+</ul>
+</li>
+<li><a href="#orgba1cfd2">6. File Explorer</a></li>
+<li><a href="#org2596bbb">7. Terminal Toggle</a></li>
+<li><a href="#orga9e1a36">8. Project Management</a></li>
+<li><a href="#orgb7cfa73">9. Git Integration</a></li>
+<li><a href="#orge3d6f35">10. Provide Feature</a></li>
+<li><a href="#orgb96f58c">11. Usage</a></li>
+<li><a href="#org7ab4ca4">12. Key Reference</a></li>
+</ul>
+</div>
+</div>
+<p>
+Evil mode configuration mirroring my Neovim setup. This is a standalone file for testing - you can either:
+</p>
+<ol class="org-ol">
+<li>Tangle with <code>C-c C-v t</code> to create <code>~/.emacs.d/elisp/settings/evil-conf.el</code></li>
+<li>Evaluate individual blocks with <code>C-c C-c</code> or the entire buffer with <code>M-x org-babel-execute-buffer</code></li>
+</ol>
+
+<p>
+<b>Warning</b>: This will override many default Emacs keybindings. Test before integrating!
+</p>
+
+<div id="outline-container-org8128887" class="outline-2">
+<h2 id="org8128887"><span class="section-number-2">1.</span> Evil Core</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orga5896d5" class="outline-3">
+<h3 id="orga5896d5"><span class="section-number-3">1.1.</span> Evil Mode</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+The foundation of Vim emulation in Emacs.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">evil-conf.el --- Evil mode configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Vim emulation with keybindings mirroring my Neovim config
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+(<span class="org-keyword">use-package</span> evil
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:demand</span> t
+  <span class="org-builtin">:init</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Required before loading evil
+</span>  (<span class="org-keyword">setq</span> evil-want-integration t)      <span class="org-comment-delimiter">; </span><span class="org-comment">Load evil-collection integrations
+</span>  (<span class="org-keyword">setq</span> evil-want-keybinding nil)     <span class="org-comment-delimiter">; </span><span class="org-comment">Don't load default keybindings (for evil-collection)
+</span>  (<span class="org-keyword">setq</span> evil-want-C-u-scroll t)       <span class="org-comment-delimiter">; </span><span class="org-comment">C-u scrolls up like Vim
+</span>  (<span class="org-keyword">setq</span> evil-want-C-d-scroll t)       <span class="org-comment-delimiter">; </span><span class="org-comment">C-d scrolls down like Vim
+</span>  (<span class="org-keyword">setq</span> evil-want-C-i-jump t)         <span class="org-comment-delimiter">; </span><span class="org-comment">C-i jumps forward in jump list
+</span>  (<span class="org-keyword">setq</span> evil-want-Y-yank-to-eol t)    <span class="org-comment-delimiter">; </span><span class="org-comment">Y yanks to end of line (like Neovim)
+</span>  (<span class="org-keyword">setq</span> evil-want-fine-undo t)        <span class="org-comment-delimiter">; </span><span class="org-comment">More granular undo
+</span>  (<span class="org-keyword">setq</span> evil-undo-system 'undo-redo)  <span class="org-comment-delimiter">; </span><span class="org-comment">Use Emacs 28+ undo-redo
+</span>  (<span class="org-keyword">setq</span> evil-respect-visual-line-mode t)
+  (<span class="org-keyword">setq</span> evil-split-window-below t)    <span class="org-comment-delimiter">; </span><span class="org-comment">Horizontal splits below
+</span>  (<span class="org-keyword">setq</span> evil-vsplit-window-right t)   <span class="org-comment-delimiter">; </span><span class="org-comment">Vertical splits to the right
+</span>  (<span class="org-keyword">setq</span> evil-search-module 'evil-search)  <span class="org-comment-delimiter">; </span><span class="org-comment">Use evil's search (supports /)
+</span>  (<span class="org-keyword">setq</span> evil-ex-search-highlight-all t)
+
+  <span class="org-builtin">:config</span>
+  (evil-mode 1)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Set cursor shapes for different states
+</span>  (<span class="org-keyword">setq</span> evil-normal-state-cursor '(box <span class="org-string">"DarkGoldenrod2"</span>))
+  (<span class="org-keyword">setq</span> evil-insert-state-cursor '((bar . 3) <span class="org-string">"chartreuse3"</span>))
+  (<span class="org-keyword">setq</span> evil-visual-state-cursor '(box <span class="org-string">"gray"</span>))
+  (<span class="org-keyword">setq</span> evil-motion-state-cursor '(box <span class="org-string">"plum3"</span>))
+  (<span class="org-keyword">setq</span> evil-replace-state-cursor '((hbar . 4) <span class="org-string">"red"</span>))
+  (<span class="org-keyword">setq</span> evil-operator-state-cursor '((hbar . 6) <span class="org-string">"red"</span>))
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Set initial state for specific modes
+</span>  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal)
+  (evil-set-initial-state 'help-mode 'normal)
+  (evil-set-initial-state 'Info-mode 'normal)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Use emacs state (no evil) for terminal and shell modes
+</span>  (evil-set-initial-state 'term-mode 'emacs)
+  (evil-set-initial-state 'vterm-mode 'emacs)
+  (evil-set-initial-state 'eshell-mode 'emacs)
+  (evil-set-initial-state 'shell-mode 'emacs)
+  (evil-set-initial-state 'comint-mode 'emacs)
+  (evil-set-initial-state 'inferior-python-mode 'emacs)
+  (evil-set-initial-state 'inferior-emacs-lisp-mode 'emacs))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org07dee84" class="outline-3">
+<h3 id="org07dee84"><span class="section-number-3">1.2.</span> Evil Collection</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Provides Evil bindings for many Emacs modes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> evil-collection
+  <span class="org-builtin">:after</span> evil
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:config</span>
+  (evil-collection-init))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga0a2019" class="outline-3">
+<h3 id="orga0a2019"><span class="section-number-3">1.3.</span> Evil Commentary</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Comment/uncomment like <code>gcc</code> and <code>gc</code> in Vim.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> evil-commentary
+  <span class="org-builtin">:after</span> evil
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:diminish</span>
+  <span class="org-builtin">:config</span>
+  (evil-commentary-mode))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2ee7135" class="outline-3">
+<h3 id="org2ee7135"><span class="section-number-3">1.4.</span> Evil Surround</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Surround text objects with pairs (like vim-surround).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> evil-surround
+  <span class="org-builtin">:after</span> evil
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:config</span>
+  (global-evil-surround-mode 1))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org37d757c" class="outline-3">
+<h3 id="org37d757c"><span class="section-number-3">1.5.</span> Evil Matchit</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Enhanced <code>%=</code> jumping for various languages.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> evil-matchit
+  <span class="org-builtin">:after</span> evil
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:config</span>
+  (global-evil-matchit-mode 1))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org63c6e7f" class="outline-2">
+<h2 id="org63c6e7f"><span class="section-number-2">2.</span> Leader Key Setup</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Setting up <code>SPC</code> as leader key, similar to Neovim config.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> general
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:demand</span> t
+  <span class="org-builtin">:config</span>
+  (general-evil-setup t)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Create leader key definer
+</span>  (general-create-definer my/leader-keys
+    <span class="org-builtin">:keymaps</span> '(normal insert visual emacs)
+    <span class="org-builtin">:prefix</span> <span class="org-string">"SPC"</span>
+    <span class="org-builtin">:global-prefix</span> <span class="org-string">"C-SPC"</span>)  <span class="org-comment-delimiter">; </span><span class="org-comment">For insert mode
+</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Create local leader key definer
+</span>  (general-create-definer my/local-leader-keys
+    <span class="org-builtin">:keymaps</span> '(normal visual)
+    <span class="org-builtin">:prefix</span> <span class="org-string">"SPC m"</span>
+    <span class="org-builtin">:global-prefix</span> <span class="org-string">"C-SPC m"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged03f84" class="outline-2">
+<h2 id="orged03f84"><span class="section-number-2">3.</span> Basic Keybindings</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgf3847d6" class="outline-3">
+<h3 id="orgf3847d6"><span class="section-number-3">3.1.</span> Normal Mode Keybindings</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Mirroring Neovim navigation and editing commands.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Center view after search navigation (like Neovim)
+</span>(evil-define-key 'normal 'global
+  <span class="org-string">"n"</span> (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (evil-search-next) (evil-scroll-line-to-center nil))
+  <span class="org-string">"N"</span> (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (evil-search-previous) (evil-scroll-line-to-center nil)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Center view after half-page scrolling
+</span>(evil-define-key 'normal 'global
+  (kbd <span class="org-string">"C-d"</span>) (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (evil-scroll-down nil) (evil-scroll-line-to-center nil))
+  (kbd <span class="org-string">"C-u"</span>) (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (evil-scroll-up nil) (evil-scroll-line-to-center nil)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Keep cursor position when joining lines
+</span>(evil-define-key 'normal 'global
+  <span class="org-string">"J"</span> (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>)
+        (<span class="org-keyword">let</span> ((col (current-column)))
+          (evil-join (line-beginning-position) (line-beginning-position 2))
+          (move-to-column col))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">C-g as escape (Emacs style in Neovim config)
+</span>(define-key evil-normal-state-map (kbd <span class="org-string">"C-g"</span>) 'evil-force-normal-state)
+(define-key evil-visual-state-map (kbd <span class="org-string">"C-g"</span>) 'evil-exit-visual-state)
+(define-key evil-insert-state-map (kbd <span class="org-string">"C-g"</span>) 'evil-normal-state)
+(define-key evil-replace-state-map (kbd <span class="org-string">"C-g"</span>) 'evil-normal-state)
+(define-key evil-operator-state-map (kbd <span class="org-string">"C-g"</span>) 'keyboard-quit)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga5bd626" class="outline-3">
+<h3 id="orga5bd626"><span class="section-number-3">3.2.</span> Insert Mode - Emacs Style</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Your Neovim config has Emacs-style keybindings in insert mode. Here we preserve them.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Exit insert mode quickly
+</span>(define-key evil-insert-state-map (kbd <span class="org-string">"jj"</span>) 'evil-normal-state)
+(define-key evil-insert-state-map (kbd <span class="org-string">"jk"</span>) 'evil-normal-state)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Emacs-style movement in insert mode (like your Neovim config)
+</span>(define-key evil-insert-state-map (kbd <span class="org-string">"C-f"</span>) 'forward-char)
+(define-key evil-insert-state-map (kbd <span class="org-string">"C-b"</span>) 'backward-char)
+(define-key evil-insert-state-map (kbd <span class="org-string">"C-n"</span>) 'next-line)
+(define-key evil-insert-state-map (kbd <span class="org-string">"C-p"</span>) 'previous-line)
+(define-key evil-insert-state-map (kbd <span class="org-string">"C-a"</span>) 'beginning-of-line)
+(define-key evil-insert-state-map (kbd <span class="org-string">"C-e"</span>) 'end-of-line)
+(define-key evil-insert-state-map (kbd <span class="org-string">"M-m"</span>) 'back-to-indentation)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Word navigation in insert mode
+</span>(define-key evil-insert-state-map (kbd <span class="org-string">"M-f"</span>) 'forward-word)
+(define-key evil-insert-state-map (kbd <span class="org-string">"M-b"</span>) 'backward-word)
+(define-key evil-insert-state-map (kbd <span class="org-string">"M-&lt;right&gt;"</span>) 'forward-word)
+(define-key evil-insert-state-map (kbd <span class="org-string">"M-&lt;left&gt;"</span>) 'backward-word)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Delete in insert mode
+</span>(define-key evil-insert-state-map (kbd <span class="org-string">"C-d"</span>) 'delete-char)
+(define-key evil-insert-state-map (kbd <span class="org-string">"M-d"</span>) 'kill-word)
+(define-key evil-insert-state-map (kbd <span class="org-string">"M-&lt;backspace&gt;"</span>) 'backward-kill-word)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgebc7010" class="outline-3">
+<h3 id="orgebc7010"><span class="section-number-3">3.3.</span> Visual Mode</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Keep selection after indent like your Neovim config.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Keep visual selection after indent
+</span>(define-key evil-visual-state-map (kbd <span class="org-string">"&lt;"</span>) (<span class="org-keyword">lambda</span> ()
+  (<span class="org-keyword">interactive</span>)
+  (evil-shift-left (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore)))
+
+(define-key evil-visual-state-map (kbd <span class="org-string">"&gt;"</span>) (<span class="org-keyword">lambda</span> ()
+  (<span class="org-keyword">interactive</span>)
+  (evil-shift-right (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Move lines in visual mode (like Alt-j/k in Neovim)
+</span>(define-key evil-visual-state-map (kbd <span class="org-string">"M-j"</span>) (concat <span class="org-string">":m '&gt;+1"</span> (kbd <span class="org-string">"RET"</span>) <span class="org-string">"gv=gv"</span>))
+(define-key evil-visual-state-map (kbd <span class="org-string">"M-k"</span>) (concat <span class="org-string">":m '&lt;-2"</span> (kbd <span class="org-string">"RET"</span>) <span class="org-string">"gv=gv"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgef97b2d" class="outline-3">
+<h3 id="orgef97b2d"><span class="section-number-3">3.4.</span> Move Lines (Normal Mode)</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Move lines up/down with Alt-j/k.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Move lines in normal mode
+</span>(evil-define-key 'normal 'global
+  (kbd <span class="org-string">"M-j"</span>) (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>)
+                (evil-move-line-down 1)
+                (evil-indent (line-beginning-position) (line-end-position)))
+  (kbd <span class="org-string">"M-k"</span>) (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>)
+                (evil-move-line-up 1)
+                (evil-indent (line-beginning-position) (line-end-position))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Helper functions for line movement
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">evil-move-line-down</span> (count)
+  <span class="org-doc">"Move current line COUNT lines down."</span>
+  (<span class="org-keyword">let</span> ((col (current-column)))
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1)
+    (move-to-column col)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">evil-move-line-up</span> (count)
+  <span class="org-doc">"Move current line COUNT lines up."</span>
+  (<span class="org-keyword">let</span> ((col (current-column)))
+    (transpose-lines 1)
+    (forward-line -2)
+    (move-to-column col)))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1e15b4a" class="outline-2">
+<h2 id="org1e15b4a"><span class="section-number-2">4.</span> Leader Key Bindings</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org0e157f1" class="outline-3">
+<h3 id="org0e157f1"><span class="section-number-3">4.1.</span> Buffer Management</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my/leader-keys
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Buffer navigation (like Neovim &lt;leader&gt;] and &lt;leader&gt;[)
+</span>  <span class="org-string">"]"</span> '(next-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"next buffer"</span>)
+  <span class="org-string">"["</span> '(previous-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"prev buffer"</span>)
+  <span class="org-string">"k"</span> '(kill-current-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"kill buffer"</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Buffer submenu
+</span>  <span class="org-string">"b"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"buffer"</span>)
+  <span class="org-string">"bb"</span> '(consult-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"switch buffer"</span>)
+  <span class="org-string">"bd"</span> '(kill-current-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"kill buffer"</span>)
+  <span class="org-string">"bn"</span> '(next-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"next buffer"</span>)
+  <span class="org-string">"bp"</span> '(previous-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"prev buffer"</span>)
+  <span class="org-string">"br"</span> '(revert-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"revert buffer"</span>)
+  <span class="org-string">"bs"</span> '(save-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"save buffer"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org241445b" class="outline-3">
+<h3 id="org241445b"><span class="section-number-3">4.2.</span> Window/Split Management</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my/leader-keys
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Window splits (like Neovim)
+</span>  <span class="org-string">"|"</span> '(split-window-right <span class="org-builtin">:which-key</span> <span class="org-string">"vsplit"</span>)
+  <span class="org-string">"3"</span> '(split-window-right <span class="org-builtin">:which-key</span> <span class="org-string">"vsplit"</span>)
+  <span class="org-string">"_"</span> '(split-window-below <span class="org-builtin">:which-key</span> <span class="org-string">"hsplit"</span>)
+  <span class="org-string">"2"</span> '(split-window-below <span class="org-builtin">:which-key</span> <span class="org-string">"hsplit"</span>)
+  <span class="org-string">"1"</span> '(delete-other-windows <span class="org-builtin">:which-key</span> <span class="org-string">"maximize"</span>)
+  <span class="org-string">"0"</span> '(delete-window <span class="org-builtin">:which-key</span> <span class="org-string">"close window"</span>)
+  <span class="org-string">"o"</span> '(other-window <span class="org-builtin">:which-key</span> <span class="org-string">"other window"</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Window submenu
+</span>  <span class="org-string">"w"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"window"</span>)
+  <span class="org-string">"wh"</span> '(evil-window-left <span class="org-builtin">:which-key</span> <span class="org-string">"left"</span>)
+  <span class="org-string">"wj"</span> '(evil-window-down <span class="org-builtin">:which-key</span> <span class="org-string">"down"</span>)
+  <span class="org-string">"wk"</span> '(evil-window-up <span class="org-builtin">:which-key</span> <span class="org-string">"up"</span>)
+  <span class="org-string">"wl"</span> '(evil-window-right <span class="org-builtin">:which-key</span> <span class="org-string">"right"</span>)
+  <span class="org-string">"ws"</span> '(split-window-below <span class="org-builtin">:which-key</span> <span class="org-string">"hsplit"</span>)
+  <span class="org-string">"wv"</span> '(split-window-right <span class="org-builtin">:which-key</span> <span class="org-string">"vsplit"</span>)
+  <span class="org-string">"wd"</span> '(delete-window <span class="org-builtin">:which-key</span> <span class="org-string">"close"</span>)
+  <span class="org-string">"wm"</span> '(delete-other-windows <span class="org-builtin">:which-key</span> <span class="org-string">"maximize"</span>)
+  <span class="org-string">"w="</span> '(balance-windows <span class="org-builtin">:which-key</span> <span class="org-string">"balance"</span>))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Window resizing (like Neovim C-Arrow)
+</span>(define-key evil-normal-state-map (kbd <span class="org-string">"C-&lt;up&gt;"</span>) 'enlarge-window)
+(define-key evil-normal-state-map (kbd <span class="org-string">"C-&lt;down&gt;"</span>) 'shrink-window)
+(define-key evil-normal-state-map (kbd <span class="org-string">"C-&lt;left&gt;"</span>) 'shrink-window-horizontally)
+(define-key evil-normal-state-map (kbd <span class="org-string">"C-&lt;right&gt;"</span>) 'enlarge-window-horizontally)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org58d835e" class="outline-3">
+<h3 id="org58d835e"><span class="section-number-3">4.3.</span> File Operations</h3>
+<div class="outline-text-3" id="text-4-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my/leader-keys
+  <span class="org-string">"f"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"file"</span>)
+  <span class="org-string">"ff"</span> '(find-file <span class="org-builtin">:which-key</span> <span class="org-string">"find file"</span>)
+  <span class="org-string">"fr"</span> '(consult-recent-file <span class="org-builtin">:which-key</span> <span class="org-string">"recent files"</span>)
+  <span class="org-string">"fs"</span> '(save-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"save file"</span>)
+  <span class="org-string">"fS"</span> '(write-file <span class="org-builtin">:which-key</span> <span class="org-string">"save as"</span>)
+  <span class="org-string">"fe"</span> '((<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (find-file user-init-file)) <span class="org-builtin">:which-key</span> <span class="org-string">"edit config"</span>)
+  <span class="org-string">"fR"</span> '((<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (load-file user-init-file)) <span class="org-builtin">:which-key</span> <span class="org-string">"reload config"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge89fbb7" class="outline-3">
+<h3 id="orge89fbb7"><span class="section-number-3">4.4.</span> Search (Consult/Vertico)</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+These bindings mirror Telescope from Neovim. Requires consult package.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my/leader-keys
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Search prefix (like Neovim &lt;leader&gt;f for telescope)
+</span>  <span class="org-string">"s"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"search"</span>)
+  <span class="org-string">"sf"</span> '(consult-find <span class="org-builtin">:which-key</span> <span class="org-string">"find files"</span>)
+  <span class="org-string">"sg"</span> '(consult-ripgrep <span class="org-builtin">:which-key</span> <span class="org-string">"ripgrep"</span>)
+  <span class="org-string">"sb"</span> '(consult-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"buffers"</span>)
+  <span class="org-string">"sh"</span> '(consult-info <span class="org-builtin">:which-key</span> <span class="org-string">"help"</span>)
+  <span class="org-string">"sm"</span> '(consult-mark <span class="org-builtin">:which-key</span> <span class="org-string">"marks"</span>)
+  <span class="org-string">"sr"</span> '(consult-register <span class="org-builtin">:which-key</span> <span class="org-string">"registers"</span>)
+  <span class="org-string">"sl"</span> '(consult-line <span class="org-builtin">:which-key</span> <span class="org-string">"search lines"</span>)
+  <span class="org-string">"si"</span> '(consult-imenu <span class="org-builtin">:which-key</span> <span class="org-string">"imenu"</span>)
+  <span class="org-string">"so"</span> '(consult-outline <span class="org-builtin">:which-key</span> <span class="org-string">"outline"</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Direct search (like telescope's most used)
+</span>  <span class="org-string">"/"</span> '(consult-line <span class="org-builtin">:which-key</span> <span class="org-string">"search buffer"</span>)
+  <span class="org-string">"SPC"</span> '(consult-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"switch buffer"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1343e01" class="outline-3">
+<h3 id="org1343e01"><span class="section-number-3">4.5.</span> Code/LSP Actions</h3>
+<div class="outline-text-3" id="text-4-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my/leader-keys
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Code actions (like Neovim LSP bindings)
+</span>  <span class="org-string">"c"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"code"</span>)
+  <span class="org-string">"ca"</span> '(eglot-code-actions <span class="org-builtin">:which-key</span> <span class="org-string">"code actions"</span>)
+  <span class="org-string">"cr"</span> '(eglot-rename <span class="org-builtin">:which-key</span> <span class="org-string">"rename"</span>)
+  <span class="org-string">"cf"</span> '(eglot-format-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"format buffer"</span>)
+  <span class="org-string">"ci"</span> '(eglot-find-implementation <span class="org-builtin">:which-key</span> <span class="org-string">"implementation"</span>)
+  <span class="org-string">"cd"</span> '(eglot-find-declaration <span class="org-builtin">:which-key</span> <span class="org-string">"declaration"</span>)
+  <span class="org-string">"ct"</span> '(eglot-find-typeDefinition <span class="org-builtin">:which-key</span> <span class="org-string">"type definition"</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Quick rename (like Neovim &lt;leader&gt;rn)
+</span>  <span class="org-string">"rn"</span> '(eglot-rename <span class="org-builtin">:which-key</span> <span class="org-string">"rename"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb00191d" class="outline-3">
+<h3 id="orgb00191d"><span class="section-number-3">4.6.</span> LSP/Goto Keybindings</h3>
+<div class="outline-text-3" id="text-4-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Go to bindings (like Neovim g prefix)
+</span>(evil-define-key 'normal 'global
+  <span class="org-string">"gd"</span> 'xref-find-definitions
+  <span class="org-string">"gD"</span> 'eglot-find-declaration
+  <span class="org-string">"gr"</span> 'xref-find-references
+  <span class="org-string">"gi"</span> 'eglot-find-implementation
+  <span class="org-string">"K"</span>  'eldoc-box-help-at-point)  <span class="org-comment-delimiter">; </span><span class="org-comment">or eldoc-doc-buffer if eldoc-box not installed</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb5cbbc5" class="outline-3">
+<h3 id="orgb5cbbc5"><span class="section-number-3">4.7.</span> Diagnostics Navigation</h3>
+<div class="outline-text-3" id="text-4-7">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Diagnostic navigation (like Neovim ]d [d)
+</span>(evil-define-key 'normal 'global
+  <span class="org-string">"]d"</span> 'flymake-goto-next-error
+  <span class="org-string">"[d"</span> 'flymake-goto-prev-error
+  <span class="org-string">"]q"</span> 'next-error
+  <span class="org-string">"[q"</span> 'previous-error)
+
+(my/leader-keys
+  <span class="org-string">"e"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"errors"</span>)
+  <span class="org-string">"el"</span> '(flymake-show-buffer-diagnostics <span class="org-builtin">:which-key</span> <span class="org-string">"list errors"</span>)
+  <span class="org-string">"eL"</span> '(flymake-show-project-diagnostics <span class="org-builtin">:which-key</span> <span class="org-string">"project errors"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4afd9b2" class="outline-3">
+<h3 id="org4afd9b2"><span class="section-number-3">4.8.</span> Toggle Commands</h3>
+<div class="outline-text-3" id="text-4-8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my/leader-keys
+  <span class="org-string">"t"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"toggle"</span>)
+  <span class="org-string">"tt"</span> '(toggle-truncate-lines <span class="org-builtin">:which-key</span> <span class="org-string">"truncate lines"</span>)
+  <span class="org-string">"tn"</span> '(display-line-numbers-mode <span class="org-builtin">:which-key</span> <span class="org-string">"line numbers"</span>)
+  <span class="org-string">"tw"</span> '(whitespace-mode <span class="org-builtin">:which-key</span> <span class="org-string">"whitespace"</span>)
+  <span class="org-string">"ts"</span> '((<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>) (<span class="org-keyword">setq-local</span> spell-checking-enabled
+                                              (not (<span class="org-keyword">bound-and-true-p</span> flyspell-mode)))
+           (<span class="org-keyword">if</span> spell-checking-enabled (flyspell-mode 1) (flyspell-mode -1)))
+         <span class="org-builtin">:which-key</span> <span class="org-string">"spell check"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ec1372" class="outline-3">
+<h3 id="org9ec1372"><span class="section-number-3">4.9.</span> Utility Commands</h3>
+<div class="outline-text-3" id="text-4-9">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my/leader-keys
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Clear search highlight (like Neovim &lt;leader&gt;c)
+</span>  <span class="org-string">"h"</span> '(evil-ex-nohighlight <span class="org-builtin">:which-key</span> <span class="org-string">"clear highlight"</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Help prefix
+</span>  <span class="org-string">"?"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"help"</span>)
+  <span class="org-string">"?f"</span> '(describe-function <span class="org-builtin">:which-key</span> <span class="org-string">"describe function"</span>)
+  <span class="org-string">"?v"</span> '(describe-variable <span class="org-builtin">:which-key</span> <span class="org-string">"describe variable"</span>)
+  <span class="org-string">"?k"</span> '(describe-key <span class="org-builtin">:which-key</span> <span class="org-string">"describe key"</span>)
+  <span class="org-string">"?m"</span> '(describe-mode <span class="org-builtin">:which-key</span> <span class="org-string">"describe mode"</span>)
+
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Quit
+</span>  <span class="org-string">"q"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"quit"</span>)
+  <span class="org-string">"qq"</span> '(save-buffers-kill-terminal <span class="org-builtin">:which-key</span> <span class="org-string">"quit emacs"</span>)
+  <span class="org-string">"qQ"</span> '(kill-emacs <span class="org-builtin">:which-key</span> <span class="org-string">"quit without saving"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org485adb1" class="outline-3">
+<h3 id="org485adb1"><span class="section-number-3">4.10.</span> Delete/Paste Without Yanking</h3>
+<div class="outline-text-3" id="text-4-10">
+<p>
+Like your Neovim <code>&lt;leader&gt;d</code> and <code>&lt;leader&gt;p</code> bindings.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Delete to black hole register (like Neovim &lt;leader&gt;d)
+</span>(my/leader-keys
+  <span class="org-string">"d"</span> '((<span class="org-string">"_d"</span>) <span class="org-builtin">:which-key</span> <span class="org-string">"delete no yank"</span>))
+
+(evil-define-key 'normal 'global
+  (kbd <span class="org-string">"&lt;leader&gt;d"</span>) (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>)
+                      (evil-use-register ?_)
+                      (call-interactively 'evil-delete)))
+
+(evil-define-key 'visual 'global
+  (kbd <span class="org-string">"&lt;leader&gt;d"</span>) (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>)
+                      (evil-use-register ?_)
+                      (call-interactively 'evil-delete)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Paste without yanking replaced text (like Neovim &lt;leader&gt;p)
+</span>(evil-define-key 'visual 'global
+  (kbd <span class="org-string">"&lt;leader&gt;p"</span>) (<span class="org-keyword">lambda</span> () (<span class="org-keyword">interactive</span>)
+                      (evil-use-register ?_)
+                      (evil-delete (region-beginning) (region-end))
+                      (evil-paste-before 1)))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaacae7e" class="outline-2">
+<h2 id="orgaacae7e"><span class="section-number-2">5.</span> Additional Packages</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org42d3959" class="outline-3">
+<h3 id="org42d3959"><span class="section-number-3">5.1.</span> Which-Key Integration</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Shows available keybindings in a popup.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> which-key
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:diminish</span>
+  <span class="org-builtin">:init</span>
+  (<span class="org-keyword">setq</span> which-key-separator <span class="org-string">" "</span>)
+  (<span class="org-keyword">setq</span> which-key-prefix-prefix <span class="org-string">"+"</span>)
+  (<span class="org-keyword">setq</span> which-key-idle-delay 0.3)
+  (<span class="org-keyword">setq</span> which-key-sort-order 'which-key-key-order-alpha)
+  <span class="org-builtin">:config</span>
+  (which-key-mode))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org02abdb1" class="outline-3">
+<h3 id="org02abdb1"><span class="section-number-3">5.2.</span> Avy (Like Leap in Neovim)</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Quick navigation with <code>s</code> and <code>S</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> avy
+  <span class="org-builtin">:ensure</span> t
+  <span class="org-builtin">:config</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Use similar keybindings to Leap in Neovim
+</span>  (evil-define-key 'normal 'global
+    <span class="org-string">"s"</span> 'avy-goto-char-2
+    <span class="org-string">"S"</span> 'avy-goto-line
+    <span class="org-string">"gs"</span> 'avy-goto-char-timer)
+  (evil-define-key 'visual 'global
+    <span class="org-string">"s"</span> 'avy-goto-char-2
+    <span class="org-string">"S"</span> 'avy-goto-line)
+  (evil-define-key 'operator 'global
+    <span class="org-string">"s"</span> 'avy-goto-char-2)
+
+  (<span class="org-keyword">setq</span> avy-background t)
+  (<span class="org-keyword">setq</span> avy-style 'at-full)
+  (<span class="org-keyword">setq</span> avy-timeout-seconds 0.3))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgba1cfd2" class="outline-2">
+<h2 id="orgba1cfd2"><span class="section-number-2">6.</span> File Explorer</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Dired or Treemacs toggle with <code>&lt;leader&gt;e</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Toggle file explorer (like Neovim &lt;leader&gt;e for Neo-tree)
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(my/leader-keys
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">"e" '(dired-jump :which-key "file explorer"))
+</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">If you prefer treemacs, uncomment:
+</span>(<span class="org-keyword">use-package</span> treemacs-evil
+  <span class="org-builtin">:after</span> (treemacs evil)
+  <span class="org-builtin">:ensure</span> t)
+(my/leader-keys
+  <span class="org-string">"e"</span> '(treemacs <span class="org-builtin">:which-key</span> <span class="org-string">"file explorer"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2596bbb" class="outline-2">
+<h2 id="org2596bbb"><span class="section-number-2">7.</span> Terminal Toggle</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Floating/popup terminal like your Neovim config.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Simple popup terminal (like Neovim &lt;leader&gt;`)
+</span>(<span class="org-keyword">defun</span> <span class="org-function-name">my/toggle-popup-term</span> ()
+  <span class="org-doc">"Toggle a popup terminal buffer."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((term-buf (get-buffer <span class="org-string">"*popup-term*"</span>)))
+    (<span class="org-keyword">if</span> (<span class="org-keyword">and</span> term-buf (get-buffer-window term-buf))
+        (delete-window (get-buffer-window term-buf))
+      (<span class="org-keyword">if</span> term-buf
+          (pop-to-buffer term-buf
+                         '((display-buffer-at-bottom)
+                           (window-height . 0.3)))
+        (<span class="org-keyword">let</span> ((buf (get-buffer-create <span class="org-string">"*popup-term*"</span>)))
+          (pop-to-buffer buf
+                         '((display-buffer-at-bottom)
+                           (window-height . 0.3)))
+          (<span class="org-keyword">unless</span> (derived-mode-p 'term-mode 'vterm-mode 'eshell-mode)
+            (eshell)))))))
+
+(my/leader-keys
+  <span class="org-string">"`"</span> '(my/toggle-popup-term <span class="org-builtin">:which-key</span> <span class="org-string">"terminal"</span>))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Terminal modes use emacs state, so no evil keybindings needed
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">See evil-set-initial-state settings in Evil Core section</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga9e1a36" class="outline-2">
+<h2 id="orga9e1a36"><span class="section-number-2">8.</span> Project Management</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Projectile-style bindings with <code>&lt;leader&gt;p</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Project commands (requires project.el or projectile)
+</span>(my/leader-keys
+  <span class="org-string">"p"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"project"</span>)
+  <span class="org-string">"pf"</span> '(project-find-file <span class="org-builtin">:which-key</span> <span class="org-string">"find file"</span>)
+  <span class="org-string">"pg"</span> '(project-find-regexp <span class="org-builtin">:which-key</span> <span class="org-string">"grep"</span>)
+  <span class="org-string">"pb"</span> '(project-switch-to-buffer <span class="org-builtin">:which-key</span> <span class="org-string">"buffers"</span>)
+  <span class="org-string">"pd"</span> '(project-dired <span class="org-builtin">:which-key</span> <span class="org-string">"dired"</span>)
+  <span class="org-string">"pp"</span> '(project-switch-project <span class="org-builtin">:which-key</span> <span class="org-string">"switch project"</span>)
+  <span class="org-string">"pk"</span> '(project-kill-buffers <span class="org-builtin">:which-key</span> <span class="org-string">"kill buffers"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb7cfa73" class="outline-2">
+<h2 id="orgb7cfa73"><span class="section-number-2">9.</span> Git Integration</h2>
+<div class="outline-text-2" id="text-9">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(my/leader-keys
+  <span class="org-string">"g"</span> '(<span class="org-builtin">:ignore</span> t <span class="org-builtin">:which-key</span> <span class="org-string">"git"</span>)
+  <span class="org-string">"gs"</span> '(magit-status <span class="org-builtin">:which-key</span> <span class="org-string">"status"</span>)
+  <span class="org-string">"gb"</span> '(magit-blame <span class="org-builtin">:which-key</span> <span class="org-string">"blame"</span>)
+  <span class="org-string">"gl"</span> '(magit-log-current <span class="org-builtin">:which-key</span> <span class="org-string">"log"</span>)
+  <span class="org-string">"gd"</span> '(magit-diff <span class="org-builtin">:which-key</span> <span class="org-string">"diff"</span>)
+  <span class="org-string">"gf"</span> '(magit-fetch <span class="org-builtin">:which-key</span> <span class="org-string">"fetch"</span>)
+  <span class="org-string">"gp"</span> '(magit-push <span class="org-builtin">:which-key</span> <span class="org-string">"push"</span>)
+  <span class="org-string">"gP"</span> '(magit-pull <span class="org-builtin">:which-key</span> <span class="org-string">"pull"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge3d6f35" class="outline-2">
+<h2 id="orge3d6f35"><span class="section-number-2">10.</span> Provide Feature</h2>
+<div class="outline-text-2" id="text-10">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">evil-conf</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">evil-conf.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb96f58c" class="outline-2">
+<h2 id="orgb96f58c"><span class="section-number-2">11.</span> Usage</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+To test this configuration:
+</p>
+
+<ol class="org-ol">
+<li><p>
+<b>Evaluate the whole buffer</b>:
+</p>
+<pre class="example" id="org13c1092">
+M-x org-babel-execute-buffer
+</pre></li>
+
+<li><p>
+<b>Tangle to elisp file</b>:
+</p>
+<pre class="example" id="org63bf00b">
+C-c C-v t
+</pre>
+<p>
+This creates <code>~/.emacs.d/elisp/settings/evil-conf.el</code>
+</p></li>
+
+<li><p>
+<b>Add to your config</b> (if keeping):
+Add this line to your <code>init.el</code> after other requires:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">evil-conf</span>)
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org7ab4ca4" class="outline-2">
+<h2 id="org7ab4ca4"><span class="section-number-2">12.</span> Key Reference</h2>
+<div class="outline-text-2" id="text-12">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Neovim</th>
+<th scope="col" class="org-left">Evil (Emacs)</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>&lt;leader&gt;</code></td>
+<td class="org-left"><code>SPC</code></td>
+<td class="org-left">Leader key</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;]</code></td>
+<td class="org-left"><code>SPC ]</code></td>
+<td class="org-left">Next buffer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;[</code></td>
+<td class="org-left"><code>SPC [</code></td>
+<td class="org-left">Previous buffer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;k</code></td>
+<td class="org-left"><code>SPC k</code></td>
+<td class="org-left">Kill buffer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;ff</code></td>
+<td class="org-left"><code>SPC f f</code></td>
+<td class="org-left">Find file</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;fg</code></td>
+<td class="org-left"><code>SPC s g</code></td>
+<td class="org-left">Live grep (ripgrep)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;bb</code></td>
+<td class="org-left"><code>SPC b b</code></td>
+<td class="org-left">Switch buffer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;e</code></td>
+<td class="org-left"><code>SPC e</code></td>
+<td class="org-left">File explorer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;`</code></td>
+<td class="org-left"><code>SPC `</code></td>
+<td class="org-left">Toggle terminal</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;c</code></td>
+<td class="org-left"><code>SPC h</code></td>
+<td class="org-left">Clear search highlight</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;\vert{}</code></td>
+<td class="org-left"><code>SPC \vert{}</code></td>
+<td class="org-left">Vertical split</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;_</code></td>
+<td class="org-left"><code>SPC _</code></td>
+<td class="org-left">Horizontal split</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;leader&gt;1</code></td>
+<td class="org-left"><code>SPC 1</code></td>
+<td class="org-left">Close other windows</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>gd</code></td>
+<td class="org-left"><code>gd</code></td>
+<td class="org-left">Go to definition</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>gr</code></td>
+<td class="org-left"><code>gr</code></td>
+<td class="org-left">Go to references</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>K</code></td>
+<td class="org-left"><code>K</code></td>
+<td class="org-left">Hover documentation</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>]d</code></td>
+<td class="org-left"><code>]d</code></td>
+<td class="org-left">Next diagnostic</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>[d</code></td>
+<td class="org-left"><code>[d</code></td>
+<td class="org-left">Previous diagnostic</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>s</code></td>
+<td class="org-left"><code>s</code></td>
+<td class="org-left">Leap/Avy forward</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>S</code></td>
+<td class="org-left"><code>S</code></td>
+<td class="org-left">Leap/Avy line</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>gcc</code></td>
+<td class="org-left"><code>gcc</code></td>
+<td class="org-left">Comment line</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>gc</code></td>
+<td class="org-left"><code>gc</code></td>
+<td class="org-left">Comment motion</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>cs"'</code></td>
+<td class="org-left"><code>cs"'</code></td>
+<td class="org-left">Change surrounding</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ys)</code></td>
+<td class="org-left"><code>ys)</code></td>
+<td class="org-left">Add surrounding</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>M-j</code> / <code>M-k</code></td>
+<td class="org-left"><code>M-j</code> / <code>M-k</code></td>
+<td class="org-left">Move line down/up</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>jj</code> / <code>jk</code></td>
+<td class="org-left"><code>jj</code> / <code>jk</code></td>
+<td class="org-left">Exit insert mode</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-a</code> / <code>C-x</code></td>
+<td class="org-left"><code>C-a</code> / <code>C-x</code></td>
+<td class="org-left">Increment/decrement number</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</body>
+</html>

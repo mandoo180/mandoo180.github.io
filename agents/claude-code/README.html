@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Claude Code Configuration Guide</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">Claude Code Configuration Guide</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgff09006">1. Overview</a></li>
+<li><a href="#org24522c0">2. File Structure</a></li>
+<li><a href="#orgab683fa">3. Usage</a>
+<ul>
+<li><a href="#org6fcc51f">3.1. Before You Begin</a></li>
+<li><a href="#org0d187a7">3.2. Tangling Configurations</a></li>
+<li><a href="#org0f5391f">3.3. Viewing Documentation</a></li>
+</ul>
+</li>
+<li><a href="#org19576ed">4. Configuration Types</a>
+<ul>
+<li><a href="#org19672b0">4.1. Project vs User Level</a></li>
+<li><a href="#orgcd6a9d6">4.2. Choosing Tangle Targets</a></li>
+</ul>
+</li>
+<li><a href="#org8b26b7c">5. Editing Guide</a>
+<ul>
+<li><a href="#org5fb3568">5.1. Adding a New Slash Command</a></li>
+<li><a href="#org7201b79">5.2. Creating a New Skill</a></li>
+<li><a href="#orgb15ae9c">5.3. Adding an MCP Server</a></li>
+<li><a href="#org988c758">5.4. Modifying Settings</a></li>
+</ul>
+</li>
+<li><a href="#org833d194">6. Best Practices</a>
+<ul>
+<li><a href="#orga26ffaa">6.1. Documentation</a></li>
+<li><a href="#orgb5e5eb0">6.2. Code Blocks</a></li>
+<li><a href="#orgb68124d">6.3. Organization</a></li>
+<li><a href="#org93af94e">6.4. Version Control</a></li>
+</ul>
+</li>
+<li><a href="#org1141730">7. Troubleshooting</a>
+<ul>
+<li><a href="#orgd726b59">7.1. Tangle Paths Not Working</a></li>
+<li><a href="#org90d257e">7.2. JSON Syntax Errors</a></li>
+<li><a href="#orgd027c3e">7.3. Commands Not Appearing</a></li>
+<li><a href="#orgc2347aa">7.4. Skills Not Activating</a></li>
+<li><a href="#org5de06ec">7.5. MCP Servers Not Working</a></li>
+<li><a href="#org61c363d">7.6. Files Overwritten Unexpectedly</a></li>
+</ul>
+</li>
+<li><a href="#orgef1b1c9">8. Integration</a></li>
+<li><a href="#org14b4420">9. Resources</a>
+<ul>
+<li><a href="#orgac783b7">9.1. Official Documentation</a></li>
+<li><a href="#org3b0d792">9.2. Examples and Inspiration</a></li>
+<li><a href="#org9c388fa">9.3. Community</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgff09006" class="outline-2">
+<h2 id="orgff09006"><span class="section-number-2">1.</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This directory contains Claude Code configuration files written in literate programming style using Org-mode. All configurations include detailed documentation explaining what they do and why.
+</p>
+
+<p>
+<b>Important</b>: Before tangling, back up your existing <code>.claude/</code> directory if you have one. Tangling will overwrite existing files.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org24522c0" class="outline-2">
+<h2 id="org24522c0"><span class="section-number-2">2.</span> File Structure</h2>
+<div class="outline-text-2" id="text-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">File</th>
+<th scope="col" class="org-left">Generates</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>01-settings.org</code></td>
+<td class="org-left"><code>.claude/settings.json</code></td>
+<td class="org-left">Project settings and permissions</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>.claude/settings.local.json</code></td>
+<td class="org-left">Personal settings</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>02-commands.org</code></td>
+<td class="org-left"><code>.claude/commands/*.md</code></td>
+<td class="org-left">Slash commands</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>03-skills.org</code></td>
+<td class="org-left"><code>.claude/skills/*/SKILL.md</code></td>
+<td class="org-left">Agent skills</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>04-mcp-servers.org</code></td>
+<td class="org-left"><code>.mcp.json</code></td>
+<td class="org-left">MCP server configs</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>05-subagents.org</code></td>
+<td class="org-left"><code>.claude/agents/*</code> (future)</td>
+<td class="org-left">Custom subagents</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>index.org</code></td>
+<td class="org-left">-</td>
+<td class="org-left">Navigation and overview</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>README.org</code></td>
+<td class="org-left">-</td>
+<td class="org-left">This guide</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgab683fa" class="outline-2">
+<h2 id="orgab683fa"><span class="section-number-2">3.</span> Usage</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org6fcc51f" class="outline-3">
+<h3 id="org6fcc51f"><span class="section-number-3">3.1.</span> Before You Begin</h3>
+<div class="outline-text-3" id="text-3-1">
+<ol class="org-ol">
+<li><p>
+<b>Back up existing configs</b>: If you have <code>.claude/</code> configs, back them up:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">cp -r .claude .claude.backup
+cp .mcp.json .mcp.json.backup  <span class="org-comment-delimiter"># </span><span class="org-comment">if it exists</span>
+</pre>
+</div></li>
+
+<li><b>Customize MCP paths</b>: Edit <code>04-mcp-servers.org</code> to update placeholder paths:
+<ul class="org-ul">
+<li>Change <code>/path/to/mcp-emacs/</code> to your actual MCP server locations</li>
+<li>Update any other project-specific paths</li>
+</ul></li>
+
+<li><b>Review settings</b>: Check <code>01-settings.org</code> for permission policies</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org0d187a7" class="outline-3">
+<h3 id="org0d187a7"><span class="section-number-3">3.2.</span> Tangling Configurations</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-orgae05f88" class="outline-4">
+<h4 id="orgae05f88"><span class="section-number-4">3.2.1.</span> Tangle All Files (Recommended)</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+From the repository root:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">./tangle-claude.sh
+</pre>
+</div>
+
+<p>
+This script tangles all org files in one command.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3a521af" class="outline-4">
+<h4 id="org3a521af"><span class="section-number-4">3.2.2.</span> Tangle Individual File</h4>
+<div class="outline-text-4" id="text-3-2-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgfaa40b8"></a>From Emacs<br />
+<div class="outline-text-5" id="text-3-2-2-1">
+<p>
+Open any config file in Emacs and:
+</p>
+
+<ul class="org-ul">
+<li>Run: <code>M-x org-babel-tangle</code></li>
+<li>Or: <code>C-c C-v t</code></li>
+<li>Or: <code>C-u C-c C-v t</code> to tangle with a different target file</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org07aa7f8"></a>From Command Line<br />
+<div class="outline-text-5" id="text-3-2-2-2">
+<div class="org-src-container">
+<pre class="src src-bash">emacs -Q --batch <span class="org-sh-escaped-newline">\</span>
+  --eval <span class="org-string">"(require 'org)"</span> <span class="org-sh-escaped-newline">\</span>
+  --eval <span class="org-string">"(setq org-confirm-babel-evaluate nil)"</span> <span class="org-sh-escaped-newline">\</span>
+  --eval <span class="org-string">"(find-file \"content/agents/claude-code/01-settings.org\")"</span> <span class="org-sh-escaped-newline">\</span>
+  --eval <span class="org-string">"(org-babel-tangle)"</span> <span class="org-sh-escaped-newline">\</span>
+  --kill
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org0f5391f" class="outline-3">
+<h3 id="org0f5391f"><span class="section-number-3">3.3.</span> Viewing Documentation</h3>
+<div class="outline-text-3" id="text-3-3">
+</div>
+<div id="outline-container-orgdff10e1" class="outline-4">
+<h4 id="orgdff10e1"><span class="section-number-4">3.3.1.</span> HTML Export</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+Build the entire site:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">./build.sh
+</pre>
+</div>
+
+<p>
+Then view in browser at <code>public/agents/claude-code/index.html</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaa737a5" class="outline-4">
+<h4 id="orgaa737a5"><span class="section-number-4">3.3.2.</span> In Emacs</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<p>
+Navigate through org files directly with:
+</p>
+<ul class="org-ul">
+<li><code>C-c C-o</code> on links to open files</li>
+<li><code>TAB</code> to expand/collapse sections</li>
+<li><code>S-TAB</code> to cycle visibility</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org19576ed" class="outline-2">
+<h2 id="org19576ed"><span class="section-number-2">4.</span> Configuration Types</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org19672b0" class="outline-3">
+<h3 id="org19672b0"><span class="section-number-3">4.1.</span> Project vs User Level</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgfc16e03" class="outline-4">
+<h4 id="orgfc16e03"><span class="section-number-4">4.1.1.</span> Project-Level Configurations</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+Location: <code>.claude/</code>, <code>.mcp.json</code> (in project root)
+</p>
+<ul class="org-ul">
+<li>Version-controlled and shared with team</li>
+<li>Use for: common commands, shared skills, project settings</li>
+<li>Tangle to: Relative paths in project directory</li>
+</ul>
+
+<p>
+<b>What should be project-level:</b>
+</p>
+<ul class="org-ul">
+<li>Permission policies for the project</li>
+<li>MCP servers everyone uses (Emacs, filesystem)</li>
+<li>Common slash commands (<code>/review</code>, <code>/commit-msg</code>)</li>
+<li>Team-wide skills</li>
+<li>Project-specific environment variables</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2c2dff6" class="outline-4">
+<h4 id="org2c2dff6"><span class="section-number-4">4.1.2.</span> User-Level Configurations</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+Location: <code>~/.claude/</code> (in home directory)
+</p>
+<ul class="org-ul">
+<li>Personal preferences, not in version control</li>
+<li>Use for: personal commands, experimental skills, local tools</li>
+<li>Tangle to: Absolute paths with <code>~/.claude/</code></li>
+</ul>
+
+<p>
+<b>What should be user-level:</b>
+</p>
+<ul class="org-ul">
+<li>Personal notification preferences</li>
+<li>Local development tools</li>
+<li>Experimental commands/skills</li>
+<li>API keys and credentials</li>
+<li>Personal MCP servers</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcd6a9d6" class="outline-3">
+<h3 id="orgcd6a9d6"><span class="section-number-3">4.2.</span> Choosing Tangle Targets</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Each code block in the org files has a <code>:tangle</code> directive. To switch between project and user level:
+</p>
+
+<p>
+<b>Example - Slash Command:</b>
+</p>
+
+<pre class="example" id="orgf38580f">
+# Project level (default in our configs)
+#+begin_src markdown :tangle .claude/commands/my-command.md
+...
+#+end_src
+
+# User level (change to home directory)
+#+begin_src markdown :tangle ~/.claude/commands/my-command.md
+...
+#+end_src
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8b26b7c" class="outline-2">
+<h2 id="org8b26b7c"><span class="section-number-2">5.</span> Editing Guide</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org5fb3568" class="outline-3">
+<h3 id="org5fb3568"><span class="section-number-3">5.1.</span> Adding a New Slash Command</h3>
+<div class="outline-text-3" id="text-5-1">
+<ol class="org-ol">
+<li>Open <code>02-commands.org</code></li>
+<li>Add a new section under appropriate category:</li>
+</ol>
+
+<p>
+#+begin<sub>example</sub> org
+</p>
+</div>
+<div id="outline-container-org2d6074c" class="outline-4">
+<h4 id="org2d6074c"><span class="section-number-4">5.1.1.</span> My Custom Command</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+Description of what this command does and when to use it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-markdown">---
+description: Brief description for command menu
+argument-hint: "[what to pass]"
+---
+
+# My Custom Command
+
+Instructions for Claude on how to handle this command.
+
+User input: {{{ input }}}
+</pre>
+</div>
+<p>
+#+end<sub>example</sub>
+</p>
+
+<ol class="org-ol">
+<li>Tangle the file: <code>C-c C-v t</code></li>
+<li>Test with <code>/my-command</code> in Claude Code</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7201b79" class="outline-3">
+<h3 id="org7201b79"><span class="section-number-3">5.2.</span> Creating a New Skill</h3>
+<div class="outline-text-3" id="text-5-2">
+<ol class="org-ol">
+<li>Open <code>03-skills.org</code></li>
+<li>Add section under appropriate category:</li>
+</ol>
+
+<p>
+#+begin<sub>example</sub> org
+</p>
+</div>
+<div id="outline-container-orge86b89d" class="outline-4">
+<h4 id="orge86b89d"><span class="section-number-4">5.2.1.</span> My Custom Skill</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<p>
+Description and use cases.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-markdown">---
+name: My Skill Name
+description: Clear description of when and how this skill activates
+allowed-tools:
+  - Read
+  - Write
+---
+
+# My Skill Instructions
+
+Detailed instructions for Claude on:
+1. When to activate
+2. What to do
+3. How to do it
+</pre>
+</div>
+<p>
+#+end<sub>example</sub>
+</p>
+
+<ol class="org-ol">
+<li>Tangle the file</li>
+<li>Skill auto-activates based on description</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb15ae9c" class="outline-3">
+<h3 id="orgb15ae9c"><span class="section-number-3">5.3.</span> Adding an MCP Server</h3>
+<div class="outline-text-3" id="text-5-3">
+<ol class="org-ol">
+<li>Open <code>04-mcp-servers.org</code></li>
+<li>Add server to appropriate section:</li>
+</ol>
+
+<p>
+#+begin<sub>example</sub> org
+</p>
+</div>
+<div id="outline-container-org64922c2" class="outline-4">
+<h4 id="org64922c2"><span class="section-number-4">5.3.1.</span> My MCP Server</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<p>
+Description of what this server provides.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-json">{
+  "mcpServers": {
+    "existing-server": { ... },
+    "my-server": {
+      "type": "stdio",
+      "command": "/path/to/command",
+      "args": ["arg1", "arg2"]
+    }
+  }
+}
+</pre>
+</div>
+<p>
+#+end<sub>example</sub>
+</p>
+
+<ol class="org-ol">
+<li>Tangle and restart Claude Code</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org988c758" class="outline-3">
+<h3 id="org988c758"><span class="section-number-3">5.4.</span> Modifying Settings</h3>
+<div class="outline-text-3" id="text-5-4">
+<ol class="org-ol">
+<li>Open <code>01-settings.org</code></li>
+<li>Update appropriate section</li>
+<li>Tangle to regenerate JSON</li>
+<li>Settings take effect on next Claude Code session</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org833d194" class="outline-2">
+<h2 id="org833d194"><span class="section-number-2">6.</span> Best Practices</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orga26ffaa" class="outline-3">
+<h3 id="orga26ffaa"><span class="section-number-3">6.1.</span> Documentation</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>Explain <b>why</b>, not just <b>what</b> - help future you understand the reasoning</li>
+<li>Include examples in code blocks to demonstrate usage</li>
+<li>Reference specific use cases to make it concrete</li>
+<li>Note any gotchas, limitations, or platform-specific behavior</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb5e5eb0" class="outline-3">
+<h3 id="orgb5e5eb0"><span class="section-number-3">6.2.</span> Code Blocks</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li>Use appropriate language for syntax highlighting (<code>:markdown</code>, <code>:json</code>, <code>:bash</code>)</li>
+<li>Include <code>:mkdirp yes</code> for nested paths to auto-create directories</li>
+<li>Set <code>:results none</code> to avoid output cluttering the org file</li>
+<li>Use descriptive section headers that explain what the config does</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb68124d" class="outline-3">
+<h3 id="orgb68124d"><span class="section-number-3">6.3.</span> Organization</h3>
+<div class="outline-text-3" id="text-6-3">
+<ul class="org-ul">
+<li>Group related configs together under the same parent heading</li>
+<li>Use consistent heading levels throughout files</li>
+<li>Keep examples practical and tested - don't include broken code</li>
+<li>Update navigation links when adding new files</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org93af94e" class="outline-3">
+<h3 id="org93af94e"><span class="section-number-3">6.4.</span> Version Control</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+<b>Do commit:</b>
+</p>
+<ul class="org-ul">
+<li>Org source files (<code>*.org</code>)</li>
+<li>Generated project configs (<code>.claude/settings.json</code>, <code>.mcp.json</code>)</li>
+<li>Tangle script (<code>tangle-claude.sh</code>)</li>
+</ul>
+
+<p>
+<b>Do NOT commit:</b>
+</p>
+<ul class="org-ul">
+<li>Personal configs (<code>.claude/settings.local.json</code>)</li>
+<li>Generated user configs in <code>~/.claude/</code></li>
+<li>API keys or credentials</li>
+</ul>
+
+<p>
+<b>Update <code>.gitignore</code>:</b>
+</p>
+<pre class="example" id="orga808579">
+# Claude Code - ignore personal settings
+.claude/settings.local.json
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1141730" class="outline-2">
+<h2 id="org1141730"><span class="section-number-2">7.</span> Troubleshooting</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-orgd726b59" class="outline-3">
+<h3 id="orgd726b59"><span class="section-number-3">7.1.</span> Tangle Paths Not Working</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+<b>Symptom</b>: Tangling doesn't create files in expected location
+</p>
+
+<p>
+<b>Solutions</b>:
+</p>
+<ul class="org-ul">
+<li>Ensure paths are correct (absolute vs relative)</li>
+<li>Check that parent directories exist (or use <code>:mkdirp yes</code>)</li>
+<li>Verify org-mode is properly loaded in Emacs</li>
+<li>Check that the buffer has a filename (org file must be saved)</li>
+<li>Try using absolute paths if relative paths don't work</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org90d257e" class="outline-3">
+<h3 id="org90d257e"><span class="section-number-3">7.2.</span> JSON Syntax Errors</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+<b>Symptom</b>: Claude Code reports invalid JSON in settings or MCP config
+</p>
+
+<p>
+<b>Solutions</b>:
+</p>
+<ul class="org-ul">
+<li>Validate JSON after tangling: <code>jq . .mcp.json</code></li>
+<li>Check for trailing commas (not allowed in JSON)</li>
+<li>Ensure proper escaping of quotes and special characters</li>
+<li>Verify matching braces and brackets</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd027c3e" class="outline-3">
+<h3 id="orgd027c3e"><span class="section-number-3">7.3.</span> Commands Not Appearing</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+<b>Symptom</b>: Slash command doesn't show up in <code>/</code> menu
+</p>
+
+<p>
+<b>Solutions</b>:
+</p>
+<ul class="org-ul">
+<li>Verify file is in <code>.claude/commands/</code> directory</li>
+<li>Check filename has <code>.md</code> extension</li>
+<li>Restart Claude Code to reload commands</li>
+<li>Check YAML frontmatter syntax (must be valid YAML)</li>
+<li>Ensure <code>description</code> field is present in frontmatter</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc2347aa" class="outline-3">
+<h3 id="orgc2347aa"><span class="section-number-3">7.4.</span> Skills Not Activating</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+<b>Symptom</b>: Skill doesn't automatically activate when expected
+</p>
+
+<p>
+<b>Solutions</b>:
+</p>
+<ul class="org-ul">
+<li>Ensure <code>SKILL.md</code> is in a subdirectory (e.g., <code>.claude/skills/skill-name/SKILL.md</code>)</li>
+<li>Verify frontmatter is valid YAML</li>
+<li>Check that <code>description</code> clearly explains when to activate</li>
+<li>Make description more specific and contextual</li>
+<li>Test with explicit scenarios that match the description</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5de06ec" class="outline-3">
+<h3 id="org5de06ec"><span class="section-number-3">7.5.</span> MCP Servers Not Working</h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+<b>Symptom</b>: MCP tools not available or server fails to start
+</p>
+
+<p>
+<b>Solutions</b>:
+</p>
+<ul class="org-ul">
+<li>Verify paths in <code>.mcp.json</code> are correct (use absolute paths)</li>
+<li>Check that MCP server executable exists and is executable</li>
+<li>Test server command manually in terminal</li>
+<li>Check Claude Code logs for specific error messages</li>
+<li>Ensure Python/Node/etc runtime is available for the server</li>
+<li>Verify <code>enableAllProjectMcpServers</code> is <code>true</code> in settings</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org61c363d" class="outline-3">
+<h3 id="org61c363d"><span class="section-number-3">7.6.</span> Files Overwritten Unexpectedly</h3>
+<div class="outline-text-3" id="text-7-6">
+<p>
+<b>Symptom</b>: Your custom edits to tangled files were lost
+</p>
+
+<p>
+<b>Explanation</b>: Tangling regenerates files from org source. This is by design.
+</p>
+
+<p>
+<b>Solutions</b>:
+</p>
+<ul class="org-ul">
+<li>Always edit the org files, not the generated files</li>
+<li>Use version control to track changes</li>
+<li>Back up files before tangling if you have manual edits</li>
+<li>Consider keeping a separate <code>.local.json</code> for overrides</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgef1b1c9" class="outline-2">
+<h2 id="orgef1b1c9"><span class="section-number-2">8.</span> Integration</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+This configuration is part of the larger personal knowledge base. See:
+</p>
+
+<ul class="org-ul">
+<li><a href="../../index.html">Main Index</a> - Full site navigation</li>
+<li><a href="../../emacs/emacs-configs.html">Emacs Configurations</a> - Similar literate config approach</li>
+<li><a href="../../../CLAUDE.md">CLAUDE.md</a> - Instructions for Claude when working in this repo</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org14b4420" class="outline-2">
+<h2 id="org14b4420"><span class="section-number-2">9.</span> Resources</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-orgac783b7" class="outline-3">
+<h3 id="orgac783b7"><span class="section-number-3">9.1.</span> Official Documentation</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li><a href="https://code.anthropic.com/docs">Claude Code Documentation</a></li>
+<li><a href="https://modelcontextprotocol.org">MCP Specification</a></li>
+<li><a href="https://orgmode.org/manual/Working-with-Source-Code.html">Org-mode Babel Documentation</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3b0d792" class="outline-3">
+<h3 id="org3b0d792"><span class="section-number-3">9.2.</span> Examples and Inspiration</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li><a href="https://awesomeclaude.ai/code-cheatsheet">Claude Code Developer Cheatsheet</a></li>
+<li><a href="https://mcpcat.io">MCP Server Directory</a></li>
+<li><a href="../../emacs/configs/README.html">Emacs Config Guide</a> - Similar literate config structure</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9c388fa" class="outline-3">
+<h3 id="org9c388fa"><span class="section-number-3">9.3.</span> Community</h3>
+<div class="outline-text-3" id="text-9-3">
+<ul class="org-ul">
+<li><a href="https://github.com/anthropics/claude-code/issues">Claude Code GitHub Issues</a></li>
+<li><a href="https://github.com/modelcontextprotocol">Model Context Protocol GitHub</a></li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

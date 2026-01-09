@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Claude Code Settings</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">Claude Code Settings</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgffefe52">1. Introduction</a>
+<ul>
+<li><a href="#orgc199f96">1.1. Settings Philosophy</a></li>
+<li><a href="#org74b4df9">1.2. Common Use Cases</a></li>
+</ul>
+</li>
+<li><a href="#org408fb1f">2. Project Settings (Shared)</a>
+<ul>
+<li><a href="#orgcefa407">2.1. Core Configuration</a></li>
+<li><a href="#org4f5d163">2.2. Permissions Explained</a></li>
+<li><a href="#orgac56968">2.3. Environment Variables</a></li>
+<li><a href="#orge326870">2.4. MCP Server Configuration</a></li>
+</ul>
+</li>
+<li><a href="#org5b1d4d3">3. Local Settings (Personal)</a>
+<ul>
+<li><a href="#org5e06489">3.1. Example Configuration</a></li>
+<li><a href="#orgffde459">3.2. Common Local Settings</a></li>
+</ul>
+</li>
+<li><a href="#orga5668f2">4. Advanced Configuration</a>
+<ul>
+<li><a href="#org6ca6e20">4.1. Hooks System</a></li>
+<li><a href="#orgab9918f">4.2. Sandbox Settings</a></li>
+<li><a href="#org34f1501">4.3. Custom Tool Permissions</a></li>
+</ul>
+</li>
+<li><a href="#org116b706">5. Settings Hierarchy Example</a>
+<ul>
+<li><a href="#org2fcf0cc">5.1. User Settings (<code>~/.claude/settings.json</code>)</a></li>
+<li><a href="#orgb46f786">5.2. Project Settings (<code>.claude/settings.json</code>)</a></li>
+<li><a href="#org47ad17e">5.3. Local Settings (<code>.claude/settings.local.json</code>)</a></li>
+<li><a href="#org4839f5a">5.4. Effective Settings</a></li>
+</ul>
+</li>
+<li><a href="#org1ba39b4">6. Best Practices</a>
+<ul>
+<li><a href="#orgac660d5">6.1. Do's</a></li>
+<li><a href="#org9adb5b3">6.2. Don'ts</a></li>
+<li><a href="#org731f248">6.3. Security Considerations</a></li>
+</ul>
+</li>
+<li><a href="#orgb91b4cb">7. Troubleshooting</a>
+<ul>
+<li><a href="#orga921e0a">7.1. Settings Not Taking Effect</a></li>
+<li><a href="#orgeb75710">7.2. Permission Denied Errors</a></li>
+<li><a href="#orgc80bd2a">7.3. Hooks Not Running</a></li>
+</ul>
+</li>
+<li><a href="#org80ceba3">8. Related Configuration</a></li>
+<li><a href="#orgb659d90">9. Resources</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgffefe52" class="outline-2">
+<h2 id="orgffefe52"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Claude Code uses a hierarchical settings system with multiple configuration files. Settings are merged with the following precedence (highest to lowest):
+</p>
+
+<ol class="org-ol">
+<li>Enterprise managed policies</li>
+<li>Command-line arguments</li>
+<li>Local project settings (<code>.claude/settings.local.json</code>)</li>
+<li>Shared project settings (<code>.claude/settings.json</code>)</li>
+<li>User settings (<code>~/.claude/settings.json</code>)</li>
+</ol>
+
+<p>
+This means local settings override shared project settings, which override user settings.
+</p>
+</div>
+
+<div id="outline-container-orgc199f96" class="outline-3">
+<h3 id="orgc199f96"><span class="section-number-3">1.1.</span> Settings Philosophy</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li><b>Project settings</b>: Version-controlled, shared with team</li>
+<li><b>Local settings</b>: Git-ignored, personal overrides</li>
+<li><b>User settings</b>: Personal defaults for all projects</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org74b4df9" class="outline-3">
+<h3 id="org74b4df9"><span class="section-number-3">1.2.</span> Common Use Cases</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Restrict dangerous tools (project settings)</li>
+<li>Set project-specific environment variables (project settings)</li>
+<li>Configure personal notification hooks (local settings)</li>
+<li>Set default model preference (local/user settings)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org408fb1f" class="outline-2">
+<h2 id="org408fb1f"><span class="section-number-2">2.</span> Project Settings (Shared)</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+These settings are version-controlled and shared with the team. Configure project-wide policies, permissions, and environment variables here.
+</p>
+</div>
+
+<div id="outline-container-orgcefa407" class="outline-3">
+<h3 id="orgcefa407"><span class="section-number-3">2.1.</span> Core Configuration</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": []
+  },
+  "env": {
+    "PROJECT_ROOT": "/Users/kyeongsoo/Projects/mandoo180.github.io"
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "emacs",
+    "filesystem"
+  ]
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4f5d163" class="outline-3">
+<h3 id="org4f5d163"><span class="section-number-3">2.2.</span> Permissions Explained</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org51166e9" class="outline-4">
+<h4 id="org51166e9"><span class="section-number-4">2.2.1.</span> Allow List</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+The <code>allow</code> list explicitly permits specific tools or tool patterns:
+</p>
+
+<ul class="org-ul">
+<li><code>WebSearch</code> - Allow web searches for up-to-date information</li>
+<li><code>Bash(mkdir:*)</code> - Safe directory creation</li>
+<li><code>Bash(mv:*)</code> - File moving operations</li>
+<li><code>Bash(git add:*)</code> - Staging changes</li>
+<li><code>Bash(git commit:*)</code> - Creating commits</li>
+<li><code>Bash(git push:*)</code> - Pushing to remote</li>
+</ul>
+
+<p>
+<b>Pattern matching</b>: Use <code>*</code> as wildcard. <code>Bash(git:*)</code> would match all git commands.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org335d583" class="outline-4">
+<h4 id="org335d583"><span class="section-number-4">2.2.2.</span> Deny List</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+The <code>deny</code> list blocks specific operations. Empty by default, but you might add:
+</p>
+
+<pre class="example" id="orgb43198d">
+"deny": [
+  "Bash(rm -rf:*)",
+  "Bash(dd:*)",
+  "Bash(mkfs:*)"
+]
+</pre>
+
+<p>
+This prevents destructive operations that could cause data loss.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org343894d" class="outline-4">
+<h4 id="org343894d"><span class="section-number-4">2.2.3.</span> Tool Names</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<p>
+Common tools you can allow/deny:
+</p>
+<ul class="org-ul">
+<li><code>Read</code> - Reading files</li>
+<li><code>Write</code> - Writing files</li>
+<li><code>Edit</code> - Editing files</li>
+<li><code>Bash(command:*)</code> - Bash commands (use wildcards)</li>
+<li><code>WebSearch</code> - Web searching</li>
+<li><code>WebFetch</code> - Fetching URLs</li>
+<li><code>Glob</code> - File pattern matching</li>
+<li><code>Grep</code> - Content searching</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgac56968" class="outline-3">
+<h3 id="orgac56968"><span class="section-number-3">2.3.</span> Environment Variables</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Set project-specific environment variables available to all Claude Code sessions:
+</p>
+
+<pre class="example" id="orgcb13145">
+"env": {
+  "PROJECT_ROOT": "/path/to/project",
+  "NODE_ENV": "development",
+  "PYTHONPATH": "./src:./lib",
+  "CUSTOM_VAR": "value"
+}
+</pre>
+
+<p>
+<b>Use cases</b>:
+</p>
+<ul class="org-ul">
+<li>Project root path for scripts</li>
+<li>Environment type (dev/staging/prod)</li>
+<li>Custom paths (Python, Node modules)</li>
+<li>Feature flags</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge326870" class="outline-3">
+<h3 id="orge326870"><span class="section-number-3">2.4.</span> MCP Server Configuration</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+<div id="outline-container-org91656db" class="outline-4">
+<h4 id="org91656db"><span class="section-number-4">2.4.1.</span> Enable All Project Servers</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<pre class="example" id="orgdd804d5">
+"enableAllProjectMcpServers": true
+</pre>
+
+<p>
+When <code>true</code>, all servers defined in <code>.mcp.json</code> are automatically enabled.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb24ec85" class="outline-4">
+<h4 id="orgb24ec85"><span class="section-number-4">2.4.2.</span> Selective Server Enablement</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<pre class="example" id="orgb3896d2">
+"enableAllProjectMcpServers": false,
+"enabledMcpjsonServers": [
+  "emacs",
+  "filesystem"
+]
+</pre>
+
+<p>
+Explicitly list which MCP servers to enable from <code>.mcp.json</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5b1d4d3" class="outline-2">
+<h2 id="org5b1d4d3"><span class="section-number-2">3.</span> Local Settings (Personal)</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+These settings are git-ignored and personal to each developer. Use for preferences, experimental features, and local tools.
+</p>
+</div>
+
+<div id="outline-container-org5e06489" class="outline-3">
+<h3 id="org5e06489"><span class="section-number-3">3.1.</span> Example Configuration</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "model": "sonnet",
+  "alwaysThinkingEnabled": false
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgffde459" class="outline-3">
+<h3 id="orgffde459"><span class="section-number-3">3.2.</span> Common Local Settings</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org0b7b50c" class="outline-4">
+<h4 id="org0b7b50c"><span class="section-number-4">3.2.1.</span> Model Selection</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<pre class="example" id="org203d8d3">
+{
+  "model": "sonnet"  // or "opus", "haiku"
+}
+</pre>
+
+<p>
+Override the default model for this project.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org70c88a6" class="outline-4">
+<h4 id="org70c88a6"><span class="section-number-4">3.2.2.</span> Thinking Mode</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<pre class="example" id="org484ba00">
+{
+  "alwaysThinkingEnabled": false
+}
+</pre>
+
+<p>
+Control whether Claude shows internal reasoning by default.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb8cd65c" class="outline-4">
+<h4 id="orgb8cd65c"><span class="section-number-4">3.2.3.</span> Notification Hooks</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<pre class="example" id="org43b9dbb">
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title 'Claude Code' -message 'Awaiting input'"
+          }
+        ]
+      }
+    ]
+  }
+}
+</pre>
+
+<p>
+Run system notifications when Claude needs input (macOS example).
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga5668f2" class="outline-2">
+<h2 id="orga5668f2"><span class="section-number-2">4.</span> Advanced Configuration</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org6ca6e20" class="outline-3">
+<h3 id="org6ca6e20"><span class="section-number-3">4.1.</span> Hooks System</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Hooks execute commands before/after tool usage, enabling powerful workflow automation.
+</p>
+</div>
+
+<div id="outline-container-orgde2f597" class="outline-4">
+<h4 id="orgde2f597"><span class="section-number-4">4.1.1.</span> Hook Structure</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<pre class="example" id="orgcbe3920">
+{
+  "hooks": {
+    "ToolName": [
+      {
+        "matcher": "pattern",
+        "hooks": [
+          {
+            "type": "command",
+            "position": "before",  // or "after"
+            "command": "command to run",
+            "blocking": true
+          }
+        ]
+      }
+    ]
+  }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0e96482" class="outline-4">
+<h4 id="org0e96482"><span class="section-number-4">4.1.2.</span> Example: Git Status Before Commit</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<pre class="example" id="org8595112">
+{
+  "hooks": {
+    "Bash": [
+      {
+        "matcher": "git commit",
+        "hooks": [
+          {
+            "type": "command",
+            "position": "before",
+            "command": "git status",
+            "blocking": true
+          }
+        ]
+      }
+    ]
+  }
+}
+</pre>
+
+<p>
+Shows git status before any commit command.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org208da8e" class="outline-4">
+<h4 id="org208da8e"><span class="section-number-4">4.1.3.</span> Example: Notification on Completion</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<pre class="example" id="org09a66bc">
+{
+  "hooks": {
+    "Bash": [
+      {
+        "matcher": "npm test",
+        "hooks": [
+          {
+            "type": "command",
+            "position": "after",
+            "command": "terminal-notifier -title 'Tests' -message 'Test run complete'"
+          }
+        ]
+      }
+    ]
+  }
+}
+</pre>
+
+<p>
+Desktop notification when tests finish.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb96f95d" class="outline-4">
+<h4 id="orgb96f95d"><span class="section-number-4">4.1.4.</span> Hook Parameters</h4>
+<div class="outline-text-4" id="text-4-1-4">
+<ul class="org-ul">
+<li><code>matcher</code> - Pattern to match (empty string matches all)</li>
+<li><code>type</code> - Currently only <code>"command"</code> is supported</li>
+<li><code>position</code> - <code>"before"</code> or <code>"after"</code> tool execution</li>
+<li><code>command</code> - Shell command to execute</li>
+<li><code>blocking</code> - If <code>true</code>, wait for command to complete</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgab9918f" class="outline-3">
+<h3 id="orgab9918f"><span class="section-number-3">4.2.</span> Sandbox Settings</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Control sandboxing behavior for added security.
+</p>
+
+<pre class="example" id="org923ca8c">
+{
+  "sandbox": {
+    "enabled": true,
+    "allowedPaths": [
+      "/Users/kyeongsoo/Projects"
+    ]
+  }
+}
+</pre>
+
+<p>
+<b>Warning</b>: Modifying sandbox settings can affect security. Only change if you understand the implications.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34f1501" class="outline-3">
+<h3 id="org34f1501"><span class="section-number-3">4.3.</span> Custom Tool Permissions</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Fine-grained control over tool behavior.
+</p>
+
+<pre class="example" id="orgd5c2ae2">
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write(/path/to/allowed/*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": [
+      "Write(/etc/*)",
+      "Bash(sudo:*)"
+    ]
+  }
+}
+</pre>
+
+<p>
+Use path patterns for <code>Write</code> and command patterns for <code>Bash</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org116b706" class="outline-2">
+<h2 id="org116b706"><span class="section-number-2">5.</span> Settings Hierarchy Example</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Understanding how settings merge:
+</p>
+</div>
+
+<div id="outline-container-org2fcf0cc" class="outline-3">
+<h3 id="org2fcf0cc"><span class="section-number-3">5.1.</span> User Settings (<code>~/.claude/settings.json</code>)</h3>
+<div class="outline-text-3" id="text-5-1">
+<pre class="example" id="org92ff2f7">
+{
+  "model": "sonnet",
+  "alwaysThinkingEnabled": false,
+  "permissions": {
+    "allow": ["Read", "Write"]
+  }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb46f786" class="outline-3">
+<h3 id="orgb46f786"><span class="section-number-3">5.2.</span> Project Settings (<code>.claude/settings.json</code>)</h3>
+<div class="outline-text-3" id="text-5-2">
+<pre class="example" id="org96dfa4f">
+{
+  "permissions": {
+    "allow": ["Read", "Write", "Bash(git:*)"]
+  },
+  "env": {
+    "PROJECT_ROOT": "/path/to/project"
+  }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org47ad17e" class="outline-3">
+<h3 id="org47ad17e"><span class="section-number-3">5.3.</span> Local Settings (<code>.claude/settings.local.json</code>)</h3>
+<div class="outline-text-3" id="text-5-3">
+<pre class="example" id="org1e339ce">
+{
+  "model": "opus",
+  "hooks": {
+    "Notification": [...]
+  }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4839f5a" class="outline-3">
+<h3 id="org4839f5a"><span class="section-number-3">5.4.</span> Effective Settings</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+After merging (local &gt; project &gt; user):
+</p>
+
+<pre class="example" id="orga10b0e7">
+{
+  "model": "opus",  // from local (overrides user)
+  "alwaysThinkingEnabled": false,  // from user
+  "permissions": {
+    "allow": ["Read", "Write", "Bash(git:*)"]  // from project
+  },
+  "env": {
+    "PROJECT_ROOT": "/path/to/project"  // from project
+  },
+  "hooks": {
+    "Notification": [...]  // from local
+  }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1ba39b4" class="outline-2">
+<h2 id="org1ba39b4"><span class="section-number-2">6.</span> Best Practices</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgac660d5" class="outline-3">
+<h3 id="orgac660d5"><span class="section-number-3">6.1.</span> Do's</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li><b>Version control</b> <code>.claude/settings.json</code> for team consistency</li>
+<li><b>Use local settings</b> for personal preferences</li>
+<li><b>Document</b> why specific tools are allowed/denied</li>
+<li><b>Test hooks</b> before committing them to project settings</li>
+<li><b>Use environment variables</b> for project-specific paths</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9adb5b3" class="outline-3">
+<h3 id="org9adb5b3"><span class="section-number-3">6.2.</span> Don'ts</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li><b>Don't commit</b> <code>.claude/settings.local.json</code> (it's personal)</li>
+<li><b>Don't hardcode</b> absolute paths in project settings when possible</li>
+<li><b>Don't allow</b> overly broad permissions (<code>Bash(*:*)</code> is dangerous)</li>
+<li><b>Don't store</b> secrets or API keys in settings (use environment variables)</li>
+<li><b>Don't override</b> security policies without understanding implications</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org731f248" class="outline-3">
+<h3 id="org731f248"><span class="section-number-3">6.3.</span> Security Considerations</h3>
+<div class="outline-text-3" id="text-6-3">
+<ol class="org-ol">
+<li><b>Principle of least privilege</b>: Only allow tools that are needed</li>
+<li><b>Deny dangerous operations</b>: <code>rm -rf</code>, <code>dd</code>, <code>mkfs</code>, <code>sudo</code></li>
+<li><b>Restrict filesystem access</b>: Use path patterns in <code>Write</code> permissions</li>
+<li><b>Review hooks carefully</b>: Hooks execute arbitrary commands</li>
+<li><b>Version control project settings</b>: Team reviews for security</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb91b4cb" class="outline-2">
+<h2 id="orgb91b4cb"><span class="section-number-2">7.</span> Troubleshooting</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-orga921e0a" class="outline-3">
+<h3 id="orga921e0a"><span class="section-number-3">7.1.</span> Settings Not Taking Effect</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li>Restart Claude Code after changing settings</li>
+<li>Check JSON syntax with <code>jq . .claude/settings.json</code></li>
+<li>Verify file is in correct location</li>
+<li>Check settings precedence (local &gt; project &gt; user)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgeb75710" class="outline-3">
+<h3 id="orgeb75710"><span class="section-number-3">7.2.</span> Permission Denied Errors</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>Check <code>permissions.allow</code> includes required tool</li>
+<li>Verify no <code>deny</code> rule is blocking it</li>
+<li>Check pattern matching (<code>*</code> wildcard usage)</li>
+<li>Try more specific pattern if broad pattern doesn't work</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc80bd2a" class="outline-3">
+<h3 id="orgc80bd2a"><span class="section-number-3">7.3.</span> Hooks Not Running</h3>
+<div class="outline-text-3" id="text-7-3">
+<ul class="org-ul">
+<li>Verify JSON syntax is correct</li>
+<li>Check <code>matcher</code> pattern matches the tool usage</li>
+<li>Test command manually in terminal first</li>
+<li>Check Claude Code logs for error messages</li>
+<li>Ensure <code>blocking</code> is set if you need sequential execution</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org80ceba3" class="outline-2">
+<h2 id="org80ceba3"><span class="section-number-2">8.</span> Related Configuration</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li><a href="02-commands.html">Slash Commands</a> - Custom commands can reference environment variables</li>
+<li><a href="03-skills.html">Agent Skills</a> - Skills respect permission settings</li>
+<li><a href="04-mcp-servers.html">MCP Servers</a> - Enable/disable via settings</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb659d90" class="outline-2">
+<h2 id="orgb659d90"><span class="section-number-2">9.</span> Resources</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li><a href="https://code.anthropic.com/docs/settings">Official Settings Documentation</a></li>
+<li><a href="https://code.anthropic.com/docs/permissions">Permissions Guide</a></li>
+<li><a href="https://code.anthropic.com/docs/hooks">Hooks Documentation</a></li>
+</ul>
+</div>
+</div>
+</main>
+</body>
+</html>

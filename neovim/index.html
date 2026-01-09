@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neovim Configurations</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">Neovim Configurations</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga91f05c">1. Neovim Configuration</a>
+<ul>
+<li><a href="#org3bef51b">1.1. Philosophy</a></li>
+</ul>
+</li>
+<li><a href="#org34c3d99">2. Configuration Modules</a>
+<ul>
+<li><a href="#orgdca7ef1">2.1. Core Configuration</a></li>
+<li><a href="#orgaf2122a">2.2. Plugin Configuration</a></li>
+</ul>
+</li>
+<li><a href="#org951e736">3. Features</a>
+<ul>
+<li><a href="#orgc54c5d5">3.1. Core Features</a></li>
+<li><a href="#orgaf1d6b2">3.2. Key Mappings</a></li>
+<li><a href="#org56a554e">3.3. Language Support (via LSP)</a></li>
+<li><a href="#org2292fe0">3.4. Plugin Ecosystem</a></li>
+</ul>
+</li>
+<li><a href="#orgfaa30ec">4. Usage</a>
+<ul>
+<li><a href="#org31051e9">4.1. Tangling Configuration</a></li>
+<li><a href="#orgb44368a">4.2. Directory Structure</a></li>
+</ul>
+</li>
+<li><a href="#org79097ee">5. Related</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga91f05c" class="outline-2">
+<h2 id="orga91f05c"><span class="section-number-2">1.</span> Neovim Configuration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Minimal, efficient Neovim configuration following suckless philosophy, written in literate programming style.
+</p>
+</div>
+
+<div id="outline-container-org3bef51b" class="outline-3">
+<h3 id="org3bef51b"><span class="section-number-3">1.1.</span> Philosophy</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li><b>Minimal</b>: Only essential plugins and configurations</li>
+<li><b>Efficient</b>: Lazy loading and fast startup</li>
+<li><b>Lua-based</b>: Modern Lua configuration throughout</li>
+<li><b>Documented</b>: Every setting explained</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org34c3d99" class="outline-2">
+<h2 id="org34c3d99"><span class="section-number-2">2.</span> Configuration Modules</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgdca7ef1" class="outline-3">
+<h3 id="orgdca7ef1"><span class="section-number-3">2.1.</span> Core Configuration</h3>
+<div class="outline-text-3" id="text-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Module</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a href="configs/01-init.html">Init</a></td>
+<td class="org-left">Core settings, options, basic setup</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="configs/02-keybindings.html">Keybindings</a></td>
+<td class="org-left">All key mappings organized by mode</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+See <a href="configs/README.html">Configuration Guide</a> for detailed documentation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaf2122a" class="outline-3">
+<h3 id="orgaf2122a"><span class="section-number-3">2.2.</span> Plugin Configuration</h3>
+<div class="outline-text-3" id="text-2-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Module</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a href="configs/plugins/00-loader.html">Plugin Loader</a></td>
+<td class="org-left">Package management setup</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="configs/plugins/01-treesitter.html">Treesitter</a></td>
+<td class="org-left">Syntax highlighting and text objects</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="configs/plugins/02-telescope.html">Telescope</a></td>
+<td class="org-left">Fuzzy finder and picker</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="configs/plugins/03-cmp.html">Completion</a></td>
+<td class="org-left">nvim-cmp completion setup</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+See <a href="configs/plugins/README.html">Plugin Guide</a> for detailed documentation.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org951e736" class="outline-2">
+<h2 id="org951e736"><span class="section-number-2">3.</span> Features</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgc54c5d5" class="outline-3">
+<h3 id="orgc54c5d5"><span class="section-number-3">3.1.</span> Core Features</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>Transparent background support</li>
+<li>Smart indentation and search settings</li>
+<li>Persistent undo with dedicated directory</li>
+<li>System clipboard integration</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgaf1d6b2" class="outline-3">
+<h3 id="orgaf1d6b2"><span class="section-number-3">3.2.</span> Key Mappings</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>Space as leader key</li>
+<li>Emacs-style navigation in insert mode</li>
+<li>Buffer and window management shortcuts</li>
+<li>Visual mode enhancements</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org56a554e" class="outline-3">
+<h3 id="org56a554e"><span class="section-number-3">3.3.</span> Language Support (via LSP)</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>Lua (lua-language-server)</li>
+<li>Python (pyright)</li>
+<li>TypeScript/JavaScript (ts<sub>ls</sub>)</li>
+<li>Ruby (ruby-lsp)</li>
+<li>Web technologies (HTML, CSS, JSON)</li>
+<li>Markdown (markdown-oxide, marksman)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2292fe0" class="outline-3">
+<h3 id="org2292fe0"><span class="section-number-3">3.4.</span> Plugin Ecosystem</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>Telescope for fuzzy finding</li>
+<li>Treesitter for syntax highlighting</li>
+<li>nvim-cmp for completion</li>
+<li>Mason for LSP management</li>
+<li>Neo-tree for file exploration</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfaa30ec" class="outline-2">
+<h2 id="orgfaa30ec"><span class="section-number-2">4.</span> Usage</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org31051e9" class="outline-3">
+<h3 id="org31051e9"><span class="section-number-3">4.1.</span> Tangling Configuration</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+From Emacs:
+</p>
+<ol class="org-ol">
+<li>Open any org file</li>
+<li>Run <code>C-c C-v t</code> (or <code>M-x org-babel-tangle</code>)</li>
+</ol>
+
+<p>
+Configuration files are written to <code>~/.config/nvim/</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb44368a" class="outline-3">
+<h3 id="orgb44368a"><span class="section-number-3">4.2.</span> Directory Structure</h3>
+<div class="outline-text-3" id="text-4-2">
+<pre class="example" id="org80f6c30">
+~/.config/nvim/
+├── init.lua                 # Main configuration
+├── lua/
+│   └── pengling/           # Custom namespace
+│       ├── plugins/        # Plugin configs
+│       └── utils/          # Utility functions
+└── ftplugin/              # Filetype settings
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org79097ee" class="outline-2">
+<h2 id="org79097ee"><span class="section-number-2">5.</span> Related</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li><a href="../emacs/emacs-configs.html">Emacs Configuration</a> - Alternative editor setup</li>
+<li><a href="../dotfiles/index.html">Dotfiles</a> - Other tool configurations</li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<p class="date">Date: 2025-12-14</p>
+</footer>
+</body>
+</html>

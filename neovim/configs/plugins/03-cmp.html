@@ -16,29 +16,29 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org882a4c5">1. Overview</a></li>
-<li><a href="#org5a1f04f">2. Setup</a></li>
-<li><a href="#orgb791a24">3. Load Snippets</a></li>
-<li><a href="#orga066b94">4. Configuration Explained</a>
+<li><a href="#org92b7353">1. Overview</a></li>
+<li><a href="#org949a794">2. Setup</a></li>
+<li><a href="#org35bd698">3. Load Snippets</a></li>
+<li><a href="#org320a10d">4. Configuration Explained</a>
 <ul>
-<li><a href="#orgac6b603">4.1. Snippet Engine</a></li>
-<li><a href="#orgba55153">4.2. Key Mappings</a>
+<li><a href="#orgac55f61">4.1. Snippet Engine</a></li>
+<li><a href="#orgeafbee7">4.2. Key Mappings</a>
 <ul>
-<li><a href="#org4ba8970">4.2.1. Tab Behavior</a></li>
-<li><a href="#org22c42c7">4.2.2. Navigation</a></li>
+<li><a href="#org948591b">4.2.1. Tab Behavior</a></li>
+<li><a href="#org98c7086">4.2.2. Navigation</a></li>
 </ul>
 </li>
-<li><a href="#org66b8735">4.3. Completion Sources</a></li>
-<li><a href="#org223352a">4.4. Completion Options</a></li>
-<li><a href="#org58a7bbe">4.5. Snippets</a></li>
+<li><a href="#org3af829b">4.3. Completion Sources</a></li>
+<li><a href="#org436ed9e">4.4. Completion Options</a></li>
+<li><a href="#org325fc2f">4.5. Snippets</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org882a4c5" class="outline-2">
-<h2 id="org882a4c5"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-org92b7353" class="outline-2">
+<h2 id="org92b7353"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 nvim-cmp is a completion engine plugin for Neovim, providing intelligent code completion with support for LSP, snippets, buffers, and file paths.
@@ -46,8 +46,8 @@ nvim-cmp is a completion engine plugin for Neovim, providing intelligent code co
 </div>
 </div>
 
-<div id="outline-container-org5a1f04f" class="outline-2">
-<h2 id="org5a1f04f"><span class="section-number-2">2.</span> Setup</h2>
+<div id="outline-container-org949a794" class="outline-2">
+<h2 id="org949a794"><span class="section-number-2">2.</span> Setup</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-lua">local cmp = require "cmp"
@@ -97,8 +97,8 @@ cmp.setup({
 </div>
 </div>
 
-<div id="outline-container-orgb791a24" class="outline-2">
-<h2 id="orgb791a24"><span class="section-number-2">3.</span> Load Snippets</h2>
+<div id="outline-container-org35bd698" class="outline-2">
+<h2 id="org35bd698"><span class="section-number-2">3.</span> Load Snippets</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-lua">require "luasnip.loaders.from_vscode".lazy_load()
@@ -107,12 +107,12 @@ cmp.setup({
 </div>
 </div>
 
-<div id="outline-container-orga066b94" class="outline-2">
-<h2 id="orga066b94"><span class="section-number-2">4.</span> Configuration Explained</h2>
+<div id="outline-container-org320a10d" class="outline-2">
+<h2 id="org320a10d"><span class="section-number-2">4.</span> Configuration Explained</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgac6b603" class="outline-3">
-<h3 id="orgac6b603"><span class="section-number-3">4.1.</span> Snippet Engine</h3>
+<div id="outline-container-orgac55f61" class="outline-3">
+<h3 id="orgac55f61"><span class="section-number-3">4.1.</span> Snippet Engine</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 LuaSnip is configured as the snippet expansion engine, handling snippet completions and expansions.
@@ -120,12 +120,12 @@ LuaSnip is configured as the snippet expansion engine, handling snippet completi
 </div>
 </div>
 
-<div id="outline-container-orgba55153" class="outline-3">
-<h3 id="orgba55153"><span class="section-number-3">4.2.</span> Key Mappings</h3>
+<div id="outline-container-orgeafbee7" class="outline-3">
+<h3 id="orgeafbee7"><span class="section-number-3">4.2.</span> Key Mappings</h3>
 <div class="outline-text-3" id="text-4-2">
 </div>
-<div id="outline-container-org4ba8970" class="outline-4">
-<h4 id="org4ba8970"><span class="section-number-4">4.2.1.</span> Tab Behavior</h4>
+<div id="outline-container-org948591b" class="outline-4">
+<h4 id="org948591b"><span class="section-number-4">4.2.1.</span> Tab Behavior</h4>
 <div class="outline-text-4" id="text-4-2-1">
 <p>
 The Tab key has intelligent behavior:
@@ -138,8 +138,8 @@ The Tab key has intelligent behavior:
 </div>
 </div>
 
-<div id="outline-container-org22c42c7" class="outline-4">
-<h4 id="org22c42c7"><span class="section-number-4">4.2.2.</span> Navigation</h4>
+<div id="outline-container-org98c7086" class="outline-4">
+<h4 id="org98c7086"><span class="section-number-4">4.2.2.</span> Navigation</h4>
 <div class="outline-text-4" id="text-4-2-2">
 <ul class="org-ul">
 <li><code>&lt;C-n&gt;</code> - Next completion item (when menu is visible)</li>
@@ -149,8 +149,8 @@ The Tab key has intelligent behavior:
 </div>
 </div>
 
-<div id="outline-container-org66b8735" class="outline-3">
-<h3 id="org66b8735"><span class="section-number-3">4.3.</span> Completion Sources</h3>
+<div id="outline-container-org3af829b" class="outline-3">
+<h3 id="org3af829b"><span class="section-number-3">4.3.</span> Completion Sources</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 The completion sources are prioritized in this order:
@@ -164,8 +164,8 @@ The completion sources are prioritized in this order:
 </div>
 </div>
 
-<div id="outline-container-org223352a" class="outline-3">
-<h3 id="org223352a"><span class="section-number-3">4.4.</span> Completion Options</h3>
+<div id="outline-container-org436ed9e" class="outline-3">
+<h3 id="org436ed9e"><span class="section-number-3">4.4.</span> Completion Options</h3>
 <div class="outline-text-3" id="text-4-4">
 <ul class="org-ul">
 <li><code>menu</code> - Show completion menu</li>
@@ -175,8 +175,8 @@ The completion sources are prioritized in this order:
 </div>
 </div>
 
-<div id="outline-container-org58a7bbe" class="outline-3">
-<h3 id="org58a7bbe"><span class="section-number-3">4.5.</span> Snippets</h3>
+<div id="outline-container-org325fc2f" class="outline-3">
+<h3 id="org325fc2f"><span class="section-number-3">4.5.</span> Snippets</h3>
 <div class="outline-text-3" id="text-4-5">
 <p>
 Loads snippets from VSCode-style snippet collections via the friendly-snippets plugin.

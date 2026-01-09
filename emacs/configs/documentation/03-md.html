@@ -15,17 +15,17 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org71f4058">1. Introduction</a></li>
-<li><a href="#org5cc59b9">2. Markdown Mode</a></li>
-<li><a href="#orgba650ab">3. Table of Contents</a></li>
-<li><a href="#org67cf0ec">4. Org Table Integration</a></li>
-<li><a href="#org496afdf">5. Live GitHub Preview</a></li>
-<li><a href="#org2104bb6">6. End of File</a></li>
+<li><a href="#orgad692e0">1. Introduction</a></li>
+<li><a href="#orgd76400a">2. Markdown Mode</a></li>
+<li><a href="#orgaae00b5">3. Table of Contents</a></li>
+<li><a href="#orgba8df97">4. Org Table Integration</a></li>
+<li><a href="#org9346124">5. Live GitHub Preview</a></li>
+<li><a href="#orgca0ca6a">6. End of File</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org71f4058" class="outline-2">
-<h2 id="org71f4058"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-orgad692e0" class="outline-2">
+<h2 id="orgad692e0"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This configuration sets up a complete Markdown editing environment in Emacs with support for GitHub-Flavored Markdown, table of contents generation, live preview, and distraction-free writing.
@@ -33,8 +33,8 @@ This configuration sets up a complete Markdown editing environment in Emacs with
 </div>
 </div>
 
-<div id="outline-container-org5cc59b9" class="outline-2">
-<h2 id="org5cc59b9"><span class="section-number-2">2.</span> Markdown Mode</h2>
+<div id="outline-container-orgd76400a" class="outline-2">
+<h2 id="orgd76400a"><span class="section-number-2">2.</span> Markdown Mode</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The <code>markdown-mode</code> package provides comprehensive support for editing Markdown files with syntax highlighting, live preview, and convenient keybindings.
@@ -52,7 +52,11 @@ Key features:
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> markdown-mode
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">doc-md-conf.el --- Markdown Configuration  -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
+(<span class="org-keyword">use-package</span> markdown-mode
   <span class="org-builtin">:ensure</span> t
   <span class="org-builtin">:mode</span> (<span class="org-string">"README\\.md\\'"</span> . gfm-mode) <span class="org-comment-delimiter">;; </span><span class="org-comment">Use GitHub-Flavored Markdown for READMEs
 </span>  <span class="org-builtin">:init</span> (<span class="org-keyword">setq</span> markdown-command <span class="org-string">"multimarkdown"</span>)
@@ -72,8 +76,8 @@ Key features:
 </div>
 </div>
 
-<div id="outline-container-orgba650ab" class="outline-2">
-<h2 id="orgba650ab"><span class="section-number-2">3.</span> Table of Contents</h2>
+<div id="outline-container-orgaae00b5" class="outline-2">
+<h2 id="orgaae00b5"><span class="section-number-2">3.</span> Table of Contents</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The <code>markdown-toc</code> package automatically generates and updates table of contents in Markdown files. Use <code>C-c C-t</code> (bound above) to insert or refresh the TOC based on your headers.
@@ -88,8 +92,8 @@ The <code>markdown-toc</code> package automatically generates and updates table 
 </div>
 </div>
 
-<div id="outline-container-org67cf0ec" class="outline-2">
-<h2 id="org67cf0ec"><span class="section-number-2">4.</span> Org Table Integration</h2>
+<div id="outline-container-orgba8df97" class="outline-2">
+<h2 id="orgba8df97"><span class="section-number-2">4.</span> Org Table Integration</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 This integration enables Org-mode's powerful table editor within Markdown files. When editing Markdown tables, you can use <code>TAB</code> to navigate between cells and automatically format tables, just like in Org-mode.
@@ -105,8 +109,8 @@ This integration enables Org-mode's powerful table editor within Markdown files.
 </div>
 </div>
 
-<div id="outline-container-org496afdf" class="outline-2">
-<h2 id="org496afdf"><span class="section-number-2">5.</span> Live GitHub Preview</h2>
+<div id="outline-container-org9346124" class="outline-2">
+<h2 id="org9346124"><span class="section-number-2">5.</span> Live GitHub Preview</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 The <code>grip-mode</code> package provides live preview of Markdown files as they would appear on GitHub. It uses the GitHub Markdown API to render your files in real-time. Toggle the preview with <code>C-c C-p</code>.
@@ -126,8 +130,8 @@ Note: grip-mode requires the <code>grip</code> Python package to be installed (<
 </div>
 </div>
 
-<div id="outline-container-org2104bb6" class="outline-2">
-<h2 id="org2104bb6"><span class="section-number-2">6.</span> End of File</h2>
+<div id="outline-container-orgca0ca6a" class="outline-2">
+<h2 id="orgca0ca6a"><span class="section-number-2">6.</span> End of File</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">doc-md-conf</span>)

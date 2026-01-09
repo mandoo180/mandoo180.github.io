@@ -13,90 +13,71 @@
 <main id="content" class="content">
 <h1 class="title">Completion System</h1>
 <p>
-Completion frameworks and interfaces for enhanced productivity.
+Built-in completion using Emacs native functionality. No external packages required.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el --- Summary  -*- lexical-binding: t; -*-
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el --- Built-in Completion  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">Uses only Emacs built-in completion functionality.
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">- icomplete-vertical-mode for minibuffer completion UI
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">- flex completion style for fuzzy matching
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">- completions-detailed for annotations
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">- recentf for recent files
+</span><span class="org-comment-delimiter">;; </span><span class="org-comment">- savehist for completion history
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>(<span class="org-keyword">use-package</span> vertico
-  <span class="org-builtin">:init</span>
-  (vertico-mode))
-
-(<span class="org-keyword">use-package</span> savehist
-  <span class="org-builtin">:init</span>
-  (savehist-mode))
-
-(<span class="org-keyword">use-package</span> orderless
-  <span class="org-builtin">:ensure</span> t
-  <span class="org-builtin">:custom</span>
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
-
-(<span class="org-keyword">use-package</span> marginalia
-  <span class="org-builtin">:ensure</span> t
-  <span class="org-builtin">:diminish</span>
-  <span class="org-builtin">:config</span>
-  (marginalia-mode t))
-
-(<span class="org-keyword">use-package</span> consult
-  <span class="org-builtin">:ensure</span> t
-  <span class="org-builtin">:bind</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">C-x bindings
-</span>  (<span class="org-string">"C-x C-r"</span> . consult-recent-file)
-  (<span class="org-string">"C-x b"</span> . consult-buffer)
-  (<span class="org-string">"C-x 4 b"</span> . consult-buffer-other-window)
-  (<span class="org-string">"C-x 5 b"</span> . consult-buffer-other-frame)
-  (<span class="org-string">"C-x t b"</span> . consult-buffer-other-tab)
-  (<span class="org-string">"C-x r b"</span> . consult-bookmark)
-  (<span class="org-string">"C-x p b"</span> . consult-project-buffer)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Custom M-# bindings for fast register access
-</span>  (<span class="org-string">"M-#"</span> . consult-register-load)
-  (<span class="org-string">"M-'"</span> . consult-register-store)          <span class="org-comment-delimiter">;; </span><span class="org-comment">orig. abbrev-prefix-mark (unrelated)
-</span>  (<span class="org-string">"C-M-#"</span> . consult-register)
-  (<span class="org-string">"M-y"</span> . consult-yank-pop)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">M-g bindings
-</span>  (<span class="org-string">"M-g M-g"</span> . consult-goto-line)
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">C-c s bindings in `</span><span class="org-comment"><span class="org-constant">search-map</span></span><span class="org-comment">'
-</span>  (<span class="org-string">"C-c s e"</span> . consult-complie-error)
-  (<span class="org-string">"C-c s f"</span> . consult-flymake)
-  (<span class="org-string">"C-c s o"</span> . consult-outline)
-  (<span class="org-string">"C-c s m"</span> . consult-mark)
-  (<span class="org-string">"C-c s M"</span> . consult-global-mark)
-  (<span class="org-string">"C-c s i"</span> . consult-imenu)
-  (<span class="org-string">"C-c s I"</span> . consult-imenu-multi)
-  (<span class="org-string">"C-c s d"</span> . consult-find)                  <span class="org-comment-delimiter">;; </span><span class="org-comment">Alternative: consult-fd
-</span>  (<span class="org-string">"C-c s c"</span> . consult-locate)
-  (<span class="org-string">"C-c s g"</span> . consult-grep)
-  (<span class="org-string">"C-c s v"</span> . consult-git-grep)
-  (<span class="org-string">"C-c s r"</span> . consult-ripgrep)
-  (<span class="org-string">"C-c s l"</span> . consult-line)
-  (<span class="org-string">"C-c s L"</span> . consult-line-multi)
-  (<span class="org-string">"C-c s k"</span> . consult-keep-lines)
-  (<span class="org-string">"C-c s u"</span> . consult-focus-lines)
-  (<span class="org-string">"C-c s h"</span> . consult-org-heading))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package corfu
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; Optional customizations
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(corfu-cycle t)                   ;; Enable cycling for `</span><span class="org-comment"><span class="org-constant">corfu-next/previous</span></span><span class="org-comment">'
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(corfu-auto t)                    ;; Enable auto completion
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(corfu-auto-delay 0.1)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(corfu-auto-prefix 4)             ;; Minimum prefix length for auto completion
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-separator ?\s)          ;; Orderless field separator
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-preview-current nil)    ;; Disable current candidate preview
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; (corfu-scroll-margin 5)        ;; Use scroll margin
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">;; Enable Corfu only for certain modes. See also `</span><span class="org-comment"><span class="org-constant">global-corfu-modes</span></span><span class="org-comment">'.
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook ((prog-mode . corfu-mode))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(keymap-set corfu-map "RET" #'corfu-send))
 </span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Minibuffer Completion UI
+</span>(<span class="org-keyword">use-package</span> icomplete
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:init</span>
+  (icomplete-vertical-mode 1)
+  <span class="org-builtin">:custom</span>
+  (icomplete-delay-completions-threshold 0)
+  (icomplete-compute-delay 0)
+  (icomplete-show-matches-on-no-input t)
+  (icomplete-scroll t)
+  (icomplete-prospects-height 10)
+  <span class="org-builtin">:bind</span> (<span class="org-builtin">:map</span> icomplete-minibuffer-map
+         (<span class="org-string">"RET"</span> . icomplete-force-complete-and-exit)
+         (<span class="org-string">"TAB"</span> . icomplete-force-complete)
+         (<span class="org-string">"C-n"</span> . icomplete-forward-completions)
+         (<span class="org-string">"C-p"</span> . icomplete-backward-completions)))
+
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Completion Styles
+</span>(<span class="org-keyword">use-package</span> minibuffer
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:custom</span>
+  (completion-styles '(flex basic partial-completion emacs22))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (read-file-name-completion-ignore-case t)
+  (completions-detailed t)
+  (completions-format 'one-column)
+  (completions-max-height 20))
+
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Recent Files
+</span>(<span class="org-keyword">use-package</span> recentf
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:init</span>
+  (recentf-mode 1)
+  <span class="org-builtin">:custom</span>
+  (recentf-max-saved-items 100)
+  <span class="org-builtin">:bind</span> (<span class="org-string">"C-x C-r"</span> . recentf-open-files))
+
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Completion History
+</span>(<span class="org-keyword">use-package</span> savehist
+  <span class="org-builtin">:ensure</span> nil
+  <span class="org-builtin">:init</span>
+  (savehist-mode 1))
+
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Keybindings for built-in commands
+</span>(global-set-key (kbd <span class="org-string">"M-g i"</span>) 'imenu)
+(global-set-key (kbd <span class="org-string">"C-c s l"</span>) 'occur)
+(global-set-key (kbd <span class="org-string">"C-c s g"</span>) 'grep)
+
 (<span class="org-keyword">provide</span> '<span class="org-constant">completion-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">completion-conf.el ends here</span>
 </pre>

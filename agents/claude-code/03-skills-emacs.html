@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agent Skills - Emacs Integration</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">Agent Skills - Emacs Integration</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0ea0503">1. Emacs Integration Skills</a>
+<ul>
+<li><a href="#org9c77720">1.1. Emacs Context Helper</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0ea0503" class="outline-2">
+<h2 id="org0ea0503"><span class="section-number-2">1.</span> Emacs Integration Skills</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Skills that leverage the Emacs MCP server for enhanced capabilities.
+</p>
+</div>
+
+<div id="outline-container-org9c77720" class="outline-3">
+<h3 id="org9c77720"><span class="section-number-3">1.1.</span> Emacs Context Helper</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Automatically gather Emacs context when helping with code.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-markdown">---
+name: Emacs Context Helper
+description: Automatically gather Emacs buffer context when user asks questions about code or mentions Emacs, providing context-aware assistance based on their current buffer and cursor position
+allowed-tools:
+  - mcp__emacs__get_current_context
+  - mcp__emacs__lsp_hover
+  - mcp__emacs__lsp_diagnostics
+  - mcp__emacs__get_buffer_content
+---
+
+# Emacs Context Helper Skill
+
+## Activation Triggers
+
+Automatically activate when:
+- User asks questions about code without specifying a file
+- User mentions "current buffer", "this file", or "here"
+- User asks about errors or issues without context
+- User wants explanations of code at cursor
+- User asks Emacs-specific questions
+- User mentions "where I am" or "what I'm looking at"
+
+## Context Gathering Process
+
+### 1. Get Current Context
+
+Call =mcp__emacs__get_current_context= to retrieve:
+- **Buffer name**: Name of the current buffer
+- **File path**: Full path to the file (if visiting a file)
+- **Cursor position**: Line and column numbers
+- **Buffer content**: Full text of the buffer
+- **Major mode**: Current major mode (e.g., python-mode, typescript-mode)
+- **Project info**: Current project root and name
+- **Modified status**: Whether buffer has unsaved changes
+
+### 2. Analyze Context
+
+Based on gathered context, understand:
+
+**Location:**
+- What file is the user working in?
+- What line and column is the cursor at?
+- Is this part of a larger project?
+
+**Code at Cursor:**
+- What function/class/method is at cursor position?
+- What's the surrounding code context?
+- Are there any obvious issues or patterns?
+
+**Language/Framework:**
+- What programming language?
+- What frameworks are in use?
+- What's the project structure?
+
+**State:**
+- Are there unsaved changes?
+- Is this a new file or existing?
+
+### 3. Use LSP if Available
+
+If LSP is active for the buffer, enhance context with:
+
+**Hover Information:**
+```elisp
+(mcp__emacs__lsp_hover filepath line column)
+```
+Returns:
+- Function/variable documentation
+- Type information
+- Signature help
+
+**Diagnostics:**
+```elisp
+(mcp__emacs__lsp_diagnostics filepath)
+```
+Returns:
+- Errors (type errors, syntax errors)
+- Warnings (unused variables, deprecated APIs)
+- Information messages
+
+**Use diagnostics to:**
+- Proactively mention errors at cursor
+- Suggest fixes for warnings
+- Explain type mismatches
+
+### 4. Provide Context-Aware Response
+
+When answering, always:
+
+**Reference Specific Code:**
+- "On line 42, the function `calculateTotal`..."
+- "In `src/utils/parser.ts:156`, this code..."
+- "The variable at your cursor position (line 89)..."
+
+**Quote Relevant Code:**
+```typescript
+// From line 42-45:
+function calculateTotal(items: Item[]): number {
+  return items.reduce((sum, item) =&gt; sum + item.price, 0);
+}
+```
+
+**Provide Targeted Suggestions:**
+- Based on actual code at cursor
+- Considering the file's language and patterns
+- Respecting the project's structure
+
+**Acknowledge Context:**
+- "I see you're working in the `UserService` class"
+- "Looking at your Python unit test file"
+- "In your TypeScript React component"
+
+## Example Interactions
+
+### Example 1: Explaining Code
+
+**User**: "What does this do?"
+
+**Skill Action**:
+1. Call =mcp__emacs__get_current_context=
+2. Identify code at cursor position (e.g., line 42)
+3. Analyze the function/block at that location
+4. Check LSP hover for additional info
+
+**Response**: "At line 42 in `src/parser.ts`, the `parseJSON` function converts a JSON string into a JavaScript object. It uses `try-catch` to handle invalid JSON and returns `null` on error..."
+
+### Example 2: Finding Errors
+
+**User**: "Why isn't this working?"
+
+**Skill Action**:
+1. Get current context
+2. Call =mcp__emacs__lsp_diagnostics=
+3. Find errors near cursor position
+4. Get hover info to understand types
+
+**Response**: "I see a TypeScript error on line 38: 'Property price does not exist on type Item'. The issue is that you're accessing `item.price` but the `Item` interface doesn't have a `price` property. You might need to add it to the interface or use `item.cost` instead."
+
+### Example 3: Code Improvement
+
+**User**: "How can I improve this?"
+
+**Skill Action**:
+1. Get current context and surrounding code
+2. Identify the code block at cursor
+3. Check for diagnostics
+4. Analyze patterns and structure
+
+**Response**: "Looking at your `fetchUser` function on line 102, here are some improvements:
+
+1. Add error handling for network failures
+2. Use TypeScript types for the response
+3. Consider extracting the API URL to a constant
+4. Add timeout handling
+
+Here's a refactored version: ..."
+
+## Best Practices
+
+### Always Get Context First
+
+Before responding to questions:
+1. Call =mcp__emacs__get_current_context=
+2. Understand what the user is working on
+3. Then provide relevant answer
+
+### Be Specific
+
+- Use exact line numbers
+- Quote actual code
+- Reference file paths
+- Mention function/class names from the code
+
+### Use LSP When Appropriate
+
+For questions about:
+- Types and signatures → =lsp_hover=
+- Errors and warnings → =lsp_diagnostics=
+- Finding definitions → =lsp_definition=
+- Finding usages → =lsp_references=
+
+### Respect Privacy
+
+The buffer content might contain:
+- Proprietary code
+- Sensitive data
+- API keys or credentials
+
+Don't suggest sharing or exposing sensitive information.
+
+### Handle Edge Cases
+
+**No file associated:**
+- Buffer might be =*scratch*= or other special buffer
+- Focus on buffer content, not file path
+
+**LSP not available:**
+- Fall back to buffer content analysis
+- Still provide helpful suggestions
+
+**Modified buffer:**
+- Note there are unsaved changes if relevant
+- Content reflects current state, not saved state
+
+## Integration with Commands
+
+This skill complements slash commands:
+- =/emacs-ask= - Explicitly gather context
+- =/explain= - Use context to explain better
+- =/review= - Context-aware code review
+
+Skills activate automatically, commands are user-invoked.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

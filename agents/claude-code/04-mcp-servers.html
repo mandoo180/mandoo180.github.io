@@ -1,0 +1,1184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MCP Servers</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">MCP Servers</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org354582c">1. Introduction</a>
+<ul>
+<li><a href="#org20966a0">1.1. What MCP Servers Provide</a></li>
+<li><a href="#org8f025a6">1.2. Configuration Locations</a></li>
+<li><a href="#org4cae6d2">1.3. Server Types</a></li>
+</ul>
+</li>
+<li><a href="#org7e8d604">2. Project MCP Servers</a>
+<ul>
+<li><a href="#org3645f52">2.1. Full Configuration</a></li>
+<li><a href="#org9186aae">2.2. Customization Instructions</a></li>
+<li><a href="#org1ab3144">2.3. Server Descriptions</a></li>
+</ul>
+</li>
+<li><a href="#org32f0703">3. User MCP Servers (Examples)</a>
+<ul>
+<li><a href="#org65ecd64">3.1. User Configuration Structure</a></li>
+<li><a href="#org96dcf31">3.2. Popular MCP Servers</a></li>
+</ul>
+</li>
+<li><a href="#orgeb30510">4. Adding New MCP Servers</a>
+<ul>
+<li><a href="#org3fcf22f">4.1. Via CLI</a></li>
+<li><a href="#orgdb3d0f3">4.2. Manual Configuration</a></li>
+<li><a href="#org16baad9">4.3. Finding MCP Servers</a></li>
+</ul>
+</li>
+<li><a href="#org71b1cb3">5. Server Development</a>
+<ul>
+<li><a href="#org7d752cb">5.1. MCP Protocol Overview</a></li>
+<li><a href="#org54c1686">5.2. Creating a Server</a></li>
+<li><a href="#org3c2d2d1">5.3. MCP SDK Libraries</a></li>
+</ul>
+</li>
+<li><a href="#org1da645d">6. Troubleshooting</a>
+<ul>
+<li><a href="#org61eb61c">6.1. MCP Server Not Working</a></li>
+<li><a href="#org54ca6e5">6.2. Server Starts But Tools Don't Work</a></li>
+<li><a href="#orge1ba373">6.3. Permission Denied Errors</a></li>
+<li><a href="#org5234c3a">6.4. Server Connection Timeout</a></li>
+<li><a href="#orgc47b3f5">6.5. Multiple Servers Conflict</a></li>
+</ul>
+</li>
+<li><a href="#org68fe799">7. Security Considerations</a>
+<ul>
+<li><a href="#orgdaf3020">7.1. Principle of Least Privilege</a></li>
+<li><a href="#orge11fa6c">7.2. Credential Management</a></li>
+<li><a href="#org315b04a">7.3. Code Execution Risks</a></li>
+<li><a href="#orgb428075">7.4. Network Security</a></li>
+</ul>
+</li>
+<li><a href="#orgeb87063">8. Best Practices</a>
+<ul>
+<li><a href="#org6ecc770">8.1. Project vs User Servers</a></li>
+<li><a href="#org8c6b57a">8.2. Documentation</a></li>
+<li><a href="#org7861b47">8.3. Testing</a></li>
+<li><a href="#orga31f252">8.4. Maintenance</a></li>
+</ul>
+</li>
+<li><a href="#org263ced3">9. Related Configuration</a></li>
+<li><a href="#orgf7c9480">10. Resources</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org354582c" class="outline-2">
+<h2 id="org354582c"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Model Context Protocol (MCP) servers extend Claude Code with external tools and capabilities beyond the built-in functionality. MCP provides a standardized way for Claude to interact with external systems.
+</p>
+</div>
+
+<div id="outline-container-org20966a0" class="outline-3">
+<h3 id="org20966a0"><span class="section-number-3">1.1.</span> What MCP Servers Provide</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li><b><b>File system access</b></b> - Read/write files with specific permissions</li>
+<li><b><b>API integrations</b></b> - Connect to external services</li>
+<li><b><b>Database connections</b></b> - Query and manipulate data</li>
+<li><b><b>Development tools</b></b> - IDE integration, build systems, testing frameworks</li>
+<li><b><b>External services</b></b> - Web search, documentation lookup, code analysis</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8f025a6" class="outline-3">
+<h3 id="org8f025a6"><span class="section-number-3">1.2.</span> Configuration Locations</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org49cb199" class="outline-4">
+<h4 id="org49cb199"><span class="section-number-4">1.2.1.</span> Project Scope (<code>.mcp.json</code>)</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+Located at project root, version-controlled, shared with team.
+</p>
+
+<p>
+<b>Use for:</b>
+</p>
+<ul class="org-ul">
+<li>Servers needed by the project</li>
+<li>Team-shared integrations</li>
+<li>Project-specific tools</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org100c8c4" class="outline-4">
+<h4 id="org100c8c4"><span class="section-number-4">1.2.2.</span> User Scope (<code>~/.claude.json</code>)</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+Located in home directory, personal, not version-controlled.
+</p>
+
+<p>
+<b>Use for:</b>
+</p>
+<ul class="org-ul">
+<li>Personal tools and preferences</li>
+<li>API keys and credentials</li>
+<li>Experimental servers</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4cae6d2" class="outline-3">
+<h3 id="org4cae6d2"><span class="section-number-3">1.3.</span> Server Types</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-org533d222" class="outline-4">
+<h4 id="org533d222"><span class="section-number-4">1.3.1.</span> stdio (Standard Input/Output)</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+Process-based communication:
+</p>
+<pre class="example" id="orgf228dbe">
+{
+  "type": "stdio",
+  "command": "/path/to/executable",
+  "args": ["arg1", "arg2"]
+}
+</pre>
+
+<p>
+Most common type, works with any language that can read stdin/write stdout.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8ce16a1" class="outline-4">
+<h4 id="org8ce16a1"><span class="section-number-4">1.3.2.</span> SSE (Server-Sent Events)</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+HTTP streaming:
+</p>
+<pre class="example" id="orgcc503f4">
+{
+  "type": "sse",
+  "url": "https://api.example.com/mcp"
+}
+</pre>
+
+<p>
+For cloud-hosted MCP servers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd41558e" class="outline-4">
+<h4 id="orgd41558e"><span class="section-number-4">1.3.3.</span> HTTP</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<p>
+Traditional HTTP requests:
+</p>
+<pre class="example" id="org2e163bd">
+{
+  "type": "http",
+  "url": "https://api.example.com/mcp"
+}
+</pre>
+
+<p>
+For REST-style MCP servers.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7e8d604" class="outline-2">
+<h2 id="org7e8d604"><span class="section-number-2">2.</span> Project MCP Servers</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Configuration for team-shared MCP servers in this project.
+</p>
+
+<p>
+<b>Important:</b> Update the paths below to match your actual MCP server locations before tangling.
+</p>
+</div>
+
+<div id="outline-container-org3645f52" class="outline-3">
+<h3 id="org3645f52"><span class="section-number-3">2.1.</span> Full Configuration</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-json">{
+  "mcpServers": {
+    "emacs": {
+      "type": "stdio",
+      "command": "/path/to/mcp-emacs/venv/bin/python",
+      "args": [
+        "/path/to/mcp-emacs/src/mcp_emacs/server.py"
+      ],
+      "env": {}
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/kyeongsoo/Projects/mandoo180.github.io"
+      ]
+    }
+  }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9186aae" class="outline-3">
+<h3 id="org9186aae"><span class="section-number-3">2.2.</span> Customization Instructions</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Before tangling, edit the paths:
+</p>
+
+<ol class="org-ol">
+<li><b><b>Emacs MCP Server:</b></b>
+<ul class="org-ul">
+<li><code>command</code>: Path to Python in your mcp-emacs virtualenv</li>
+<li><code>args[0]</code>: Path to your mcp-emacs server.py</li>
+</ul></li>
+
+<li><b><b>Filesystem Server:</b></b>
+<ul class="org-ul">
+<li><code>args[2]</code>: Path to your project root (already set correctly)</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org1ab3144" class="outline-3">
+<h3 id="org1ab3144"><span class="section-number-3">2.3.</span> Server Descriptions</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-orgd6a2cf6" class="outline-4">
+<h4 id="orgd6a2cf6"><span class="section-number-4">2.3.1.</span> Emacs MCP Server</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+Provides deep Emacs integration for context-aware coding assistance.
+</p>
+
+<p>
+<b>Installation:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span class="org-comment-delimiter"># </span><span class="org-comment">Clone the MCP Emacs server
+</span>git clone https://github.com/your-org/mcp-emacs.git
+<span class="org-builtin">cd</span> mcp-emacs
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Create virtual environment and install
+</span>python -m venv venv
+<span class="org-builtin">source</span> venv/bin/activate
+pip install -e .
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Start Emacs daemon if not already running
+</span>emacs --daemon
+</pre>
+</div>
+
+<p>
+<b>Configuration:</b>
+Update the paths in <code>.mcp.json</code> above to point to:
+</p>
+<ul class="org-ul">
+<li>Your mcp-emacs installation directory</li>
+<li>The Python executable in the venv</li>
+<li>The server.py script path</li>
+</ul>
+
+<p>
+<b>Capabilities:</b>
+</p>
+
+<p>
+<b><b>Buffer Operations:</b></b>
+</p>
+<ul class="org-ul">
+<li><code>get_buffer_content</code> - Read buffer contents</li>
+<li><code>list_buffers</code> - List all open buffers</li>
+<li><code>open_file</code> - Open files in Emacs</li>
+<li><code>get_current_context</code> - Get cursor position and context</li>
+</ul>
+
+<p>
+<b><b>LSP Integration:</b></b>
+</p>
+<ul class="org-ul">
+<li><code>lsp_hover</code> - Get documentation at cursor</li>
+<li><code>lsp_diagnostics</code> - Get errors and warnings</li>
+<li><code>lsp_completion</code> - Get code completions</li>
+<li><code>lsp_definition</code> - Jump to definitions</li>
+<li><code>lsp_references</code> - Find all references</li>
+<li><code>lsp_rename</code> - Rename symbols</li>
+<li><code>lsp_format</code> - Format code</li>
+<li><code>lsp_code_actions</code> - Get available fixes</li>
+<li><code>lsp_document_symbols</code> - Get file outline</li>
+<li><code>lsp_workspace_symbols</code> - Search for symbols</li>
+</ul>
+
+<p>
+<b><b>Project Management:</b></b>
+</p>
+<ul class="org-ul">
+<li><code>list_projects</code> - List known projects</li>
+<li><code>get_current_project</code> - Get active project</li>
+<li><code>switch_project</code> - Switch to different project</li>
+</ul>
+
+<p>
+<b><b>Org-Mode:</b></b>
+</p>
+<ul class="org-ul">
+<li><code>org_agenda_todos</code> - Get TODO items from agenda</li>
+<li><code>org_capture</code> - Create capture entries</li>
+<li><code>org_get_file_todos</code> - Get TODOs from specific file</li>
+</ul>
+
+<p>
+<b><b>File Proposals:</b></b>
+</p>
+<ul class="org-ul">
+<li><code>propose_file_change</code> - Propose edits with ediff review</li>
+<li><code>apply_proposed_change</code> - Apply after review</li>
+<li><code>reject_proposed_change</code> - Reject and clean up</li>
+</ul>
+
+<p>
+<b><b>Compilation:</b></b>
+</p>
+<ul class="org-ul">
+<li><code>compile_project</code> - Run build command</li>
+<li><code>get_compilation_errors</code> - Get structured error list</li>
+<li><code>recompile</code> - Re-run last compilation</li>
+<li><code>kill_compilation</code> - Stop running compilation</li>
+</ul>
+
+<p>
+<b>Use Cases:</b>
+</p>
+<ul class="org-ul">
+<li>Context-aware code explanations (knows your cursor position)</li>
+<li>Emacs-specific assistance (knows your config, buffers, projects)</li>
+<li>LSP-powered refactoring (rename, format, fix)</li>
+<li>Org file management (capture TODOs, manage agenda)</li>
+<li>Safe file editing with ediff review</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org33d1957" class="outline-4">
+<h4 id="org33d1957"><span class="section-number-4">2.3.2.</span> Filesystem Server</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+Provides safe filesystem access restricted to the project directory.
+</p>
+
+<p>
+<b>Installation:</b>
+No installation needed - uses npx to run on-demand.
+</p>
+
+<p>
+<b>Configuration:</b>
+The server is restricted to the project root directory specified in args[2].
+</p>
+
+<p>
+<b>Capabilities:</b>
+</p>
+<ul class="org-ul">
+<li>Read files within allowed paths</li>
+<li>Write files with proper permissions</li>
+<li>List directory contents</li>
+<li>Get file metadata (size, modified time, etc.)</li>
+<li>Safe operations (can't escape allowed paths)</li>
+</ul>
+
+<p>
+<b>Security:</b>
+</p>
+<ul class="org-ul">
+<li>Access restricted to specified directory</li>
+<li>No access outside project root</li>
+<li>Safe for team sharing in version control</li>
+<li>Prevents accidental system file access</li>
+</ul>
+
+<p>
+<b>Use Cases:</b>
+</p>
+<ul class="org-ul">
+<li>Project-scoped file operations</li>
+<li>Safe file manipulation</li>
+<li>Directory traversal within project</li>
+<li>Metadata queries</li>
+</ul>
+
+<p>
+<b>Configuration:</b>
+Update <code>args[2]</code> to your project's absolute path. The current value is already set for this project.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org32f0703" class="outline-2">
+<h2 id="org32f0703"><span class="section-number-2">3.</span> User MCP Servers (Examples)</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+These configurations would go in <code>~/.claude.json</code> for personal use. They are not tangled by default - add them manually if desired.
+</p>
+</div>
+
+<div id="outline-container-org65ecd64" class="outline-3">
+<h3 id="org65ecd64"><span class="section-number-3">3.1.</span> User Configuration Structure</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+User MCP servers go in <code>~/.claude.json</code>:
+</p>
+
+<pre class="example" id="orge1aa889">
+{
+  "mcpServers": {
+    "server-name": {
+      "type": "stdio",
+      "command": "command",
+      "args": ["args"]
+    }
+  }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org96dcf31" class="outline-3">
+<h3 id="org96dcf31"><span class="section-number-3">3.2.</span> Popular MCP Servers</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-orgfbcca5f" class="outline-4">
+<h4 id="orgfbcca5f"><span class="section-number-4">3.2.1.</span> GitHub</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+Interact with GitHub repositories, PRs, and issues.
+</p>
+
+<pre class="example" id="orga76c7a3">
+{
+  "github": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-github"
+    ],
+    "env": {
+      "GITHUB_TOKEN": "your-token-here"
+    }
+  }
+}
+</pre>
+
+<p>
+<b>Capabilities:</b>
+</p>
+<ul class="org-ul">
+<li>List and search repositories</li>
+<li>Create and manage issues</li>
+<li>Review and comment on pull requests</li>
+<li>Search code across repositories</li>
+<li>Manage branches and commits</li>
+</ul>
+
+<p>
+<b>Setup:</b>
+</p>
+<ol class="org-ol">
+<li>Create GitHub personal access token</li>
+<li>Set <code>GITHUB_TOKEN</code> environment variable</li>
+<li>Add to <code>~/.claude.json</code></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org6df63a1" class="outline-4">
+<h4 id="org6df63a1"><span class="section-number-4">3.2.2.</span> Perplexity</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<p>
+Web research and real-time information.
+</p>
+
+<pre class="example" id="org88ed878">
+{
+  "perplexity": {
+    "type": "sse",
+    "url": "https://api.perplexity.ai/mcp",
+    "env": {
+      "PERPLEXITY_API_KEY": "your-key-here"
+    }
+  }
+}
+</pre>
+
+<p>
+<b>Capabilities:</b>
+</p>
+<ul class="org-ul">
+<li>Web search with citations</li>
+<li>Up-to-date information</li>
+<li>Technical documentation lookup</li>
+<li>Research assistance</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdc2b181" class="outline-4">
+<h4 id="orgdc2b181"><span class="section-number-4">3.2.3.</span> Sequential Thinking</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<p>
+Enhanced reasoning and problem-solving.
+</p>
+
+<pre class="example" id="orge3c588c">
+{
+  "sequential-thinking": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-sequential-thinking"
+    ]
+  }
+}
+</pre>
+
+<p>
+<b>Capabilities:</b>
+</p>
+<ul class="org-ul">
+<li>Break down complex problems</li>
+<li>Step-by-step reasoning</li>
+<li>Structured problem solving</li>
+<li>Task decomposition</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb01190f" class="outline-4">
+<h4 id="orgb01190f"><span class="section-number-4">3.2.4.</span> Context7</h4>
+<div class="outline-text-4" id="text-3-2-4">
+<p>
+Access to up-to-date technical documentation.
+</p>
+
+<pre class="example" id="org46d1db0">
+{
+  "context7": {
+    "type": "sse",
+    "url": "https://api.context7.com/mcp",
+    "env": {
+      "CONTEXT7_API_KEY": "your-key-here"
+    }
+  }
+}
+</pre>
+
+<p>
+<b>Capabilities:</b>
+</p>
+<ul class="org-ul">
+<li>Latest framework documentation</li>
+<li>API references</li>
+<li>Package documentation</li>
+<li>Version-specific docs</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2f3f353" class="outline-4">
+<h4 id="org2f3f353"><span class="section-number-4">3.2.5.</span> Brave Search</h4>
+<div class="outline-text-4" id="text-3-2-5">
+<p>
+Privacy-focused web search.
+</p>
+
+<pre class="example" id="org5e96291">
+{
+  "brave-search": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-brave-search"
+    ],
+    "env": {
+      "BRAVE_API_KEY": "your-key-here"
+    }
+  }
+}
+</pre>
+
+<p>
+<b>Capabilities:</b>
+</p>
+<ul class="org-ul">
+<li>Web search</li>
+<li>News search</li>
+<li>Image search</li>
+<li>Video search</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org625f3b9" class="outline-4">
+<h4 id="org625f3b9"><span class="section-number-4">3.2.6.</span> PostgreSQL</h4>
+<div class="outline-text-4" id="text-3-2-6">
+<p>
+Database access and queries.
+</p>
+
+<pre class="example" id="org9366208">
+{
+  "postgres": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-postgres"
+    ],
+    "env": {
+      "POSTGRES_CONNECTION_STRING": "postgresql://user:pass@localhost:5432/dbname"
+    }
+  }
+}
+</pre>
+
+<p>
+<b>Capabilities:</b>
+</p>
+<ul class="org-ul">
+<li>Execute SQL queries</li>
+<li>Inspect database schema</li>
+<li>Manage tables and data</li>
+<li>Database introspection</li>
+</ul>
+
+<p>
+<b>Security</b>: Only use in personal config, never commit credentials.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb30510" class="outline-2">
+<h2 id="orgeb30510"><span class="section-number-2">4.</span> Adding New MCP Servers</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org3fcf22f" class="outline-3">
+<h3 id="org3fcf22f"><span class="section-number-3">4.1.</span> Via CLI</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Claude Code provides commands to add MCP servers:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span class="org-comment-delimiter"># </span><span class="org-comment">Add stdio server
+</span>claude mcp add myserver npx -y @scope/server-name arg1 arg2
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Add SSE server
+</span>claude mcp add --transport sse myserver https://api.example.com/mcp
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Add HTTP server
+</span>claude mcp add --transport http myserver https://api.example.com/mcp
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdb3d0f3" class="outline-3">
+<h3 id="orgdb3d0f3"><span class="section-number-3">4.2.</span> Manual Configuration</h3>
+<div class="outline-text-3" id="text-4-2">
+<ol class="org-ol">
+<li><b><b>Edit configuration file:</b></b>
+<ul class="org-ul">
+<li>Project: <code>.mcp.json</code></li>
+<li>User: <code>~/.claude.json</code></li>
+</ul></li>
+
+<li><p>
+<b><b>Add server entry:</b></b>
+</p>
+<pre class="example" id="orgc2f1fcb">
+{
+  "mcpServers": {
+    "existing-server": { ... },
+    "new-server": {
+      "type": "stdio",
+      "command": "/path/to/command",
+      "args": ["arg1", "arg2"],
+      "env": {
+        "VAR": "value"
+      }
+    }
+  }
+}
+</pre></li>
+
+<li><b><b>Restart Claude Code</b></b> or reload project</li>
+
+<li><b><b>Enable server in settings</b></b> if <code>enableAllProjectMcpServers</code> is <code>false</code></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org16baad9" class="outline-3">
+<h3 id="org16baad9"><span class="section-number-3">4.3.</span> Finding MCP Servers</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li><a href="https://mcpcat.io">MCP Server Directory (mcpcat.io)</a></li>
+<li><a href="https://github.com/modelcontextprotocol">MCP GitHub Organization</a></li>
+<li><a href="https://www.npmjs.com/search?q=%40modelcontextprotocol">NPM MCP Packages</a></li>
+<li>Community forums and discussions</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org71b1cb3" class="outline-2">
+<h2 id="org71b1cb3"><span class="section-number-2">5.</span> Server Development</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Want to create a custom MCP server? Here's the process.
+</p>
+</div>
+
+<div id="outline-container-org7d752cb" class="outline-3">
+<h3 id="org7d752cb"><span class="section-number-3">5.1.</span> MCP Protocol Overview</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+MCP uses JSON-RPC 2.0 over stdio, SSE, or HTTP:
+</p>
+
+<ol class="org-ol">
+<li><b><b>Client</b></b> (Claude Code) sends request</li>
+<li><b><b>Server</b></b> processes and responds</li>
+<li><b><b>Protocol</b></b> handles bidirectional communication</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org54c1686" class="outline-3">
+<h3 id="org54c1686"><span class="section-number-3">5.2.</span> Creating a Server</h3>
+<div class="outline-text-3" id="text-5-2">
+</div>
+<div id="outline-container-orgeb12343" class="outline-4">
+<h4 id="orgeb12343"><span class="section-number-4">5.2.1.</span> 1. Choose Transport</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<ul class="org-ul">
+<li><b><b>stdio</b></b>: Best for local tools, any language</li>
+<li><b><b>SSE</b></b>: For cloud-hosted servers</li>
+<li><b><b>HTTP</b></b>: For REST-style services</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org725f702" class="outline-4">
+<h4 id="org725f702"><span class="section-number-4">5.2.2.</span> 2. Implement Protocol</h4>
+<div class="outline-text-4" id="text-5-2-2">
+<p>
+Minimal server structure:
+</p>
+
+<pre class="example" id="orge12ddc0">
+from mcp.server import Server, NotificationOptions
+from mcp.server.models import InitializationOptions
+import mcp.server.stdio
+import mcp.types as types
+
+# Create server
+server = Server("my-server")
+
+# Define capabilities
+@server.list_tools()
+async def list_tools() -&gt; list[types.Tool]:
+    return [
+        types.Tool(
+            name="my_tool",
+            description="What this tool does",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "param": {"type": "string"}
+                }
+            }
+        )
+    ]
+
+@server.call_tool()
+async def call_tool(name: str, arguments: dict) -&gt; list[types.TextContent]:
+    if name == "my_tool":
+        result = do_something(arguments["param"])
+        return [types.TextContent(type="text", text=result)]
+
+# Run server
+async def main():
+    async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
+        await server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="my-server",
+                server_version="1.0.0"
+            )
+        )
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org54c30ca" class="outline-4">
+<h4 id="org54c30ca"><span class="section-number-4">5.2.3.</span> 3. Define Tools</h4>
+<div class="outline-text-4" id="text-5-2-3">
+<p>
+Each tool needs:
+</p>
+<ul class="org-ul">
+<li><b><b>name</b></b>: Unique identifier</li>
+<li><b><b>description</b></b>: When/how to use it</li>
+<li><b><b>inputSchema</b></b>: JSON Schema for parameters</li>
+<li><b><b>handler</b></b>: Function that executes the tool</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9f3e513" class="outline-4">
+<h4 id="org9f3e513"><span class="section-number-4">5.2.4.</span> 4. Test Locally</h4>
+<div class="outline-text-4" id="text-5-2-4">
+<div class="org-src-container">
+<pre class="src src-bash"><span class="org-comment-delimiter"># </span><span class="org-comment">Test stdio server
+</span><span class="org-builtin">echo</span> <span class="org-string">'{"jsonrpc":"2.0","method":"tools/list","id":1}'</span> | python server.py
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Should respond with tool list</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdcc2ed6" class="outline-4">
+<h4 id="orgdcc2ed6"><span class="section-number-4">5.2.5.</span> 5. Package and Distribute</h4>
+<div class="outline-text-4" id="text-5-2-5">
+<ul class="org-ul">
+<li><b><b>Python</b></b>: PyPI package</li>
+<li><b><b>Node</b></b>: NPM package</li>
+<li><b><b>Other</b></b>: Docker image or binary</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3c2d2d1" class="outline-3">
+<h3 id="org3c2d2d1"><span class="section-number-3">5.3.</span> MCP SDK Libraries</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Official SDKs:
+</p>
+<ul class="org-ul">
+<li><b><b>Python</b></b>: <code>pip install mcp</code></li>
+<li><b><b>TypeScript</b></b>: <code>npm install @modelcontextprotocol/sdk</code></li>
+</ul>
+
+<p>
+Community SDKs:
+</p>
+<ul class="org-ul">
+<li>Go, Rust, Java, and more</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1da645d" class="outline-2">
+<h2 id="org1da645d"><span class="section-number-2">6.</span> Troubleshooting</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org61eb61c" class="outline-3">
+<h3 id="org61eb61c"><span class="section-number-3">6.1.</span> MCP Server Not Working</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+<b>Symptom:</b> MCP tools not available or server fails to start
+</p>
+
+<p>
+<b>Solutions:</b>
+</p>
+<ol class="org-ol">
+<li><b><b>Verify paths</b></b>: Check paths in <code>.mcp.json</code> are correct and absolute</li>
+<li><b><b>Test command</b></b>: Run the command manually in terminal</li>
+<li><b><b>Check logs</b></b>: Look at Claude Code logs for error messages</li>
+<li><b><b>Verify runtime</b></b>: Ensure Python/Node/etc is available</li>
+<li><b><b>Check permissions</b></b>: Ensure files are executable (<code>chmod +x</code>)</li>
+<li><b><b>Restart</b></b>: Restart Claude Code after config changes</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org54ca6e5" class="outline-3">
+<h3 id="org54ca6e5"><span class="section-number-3">6.2.</span> Server Starts But Tools Don't Work</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+<b>Symptom:</b> Server connects but tools fail or give errors
+</p>
+
+<p>
+<b>Solutions:</b>
+</p>
+<ol class="org-ol">
+<li><b><b>Check tool implementation</b></b>: Verify tool handler works</li>
+<li><b><b>Validate input</b></b>: Ensure arguments match inputSchema</li>
+<li><b><b>Test independently</b></b>: Run server and send test requests</li>
+<li><b><b>Check dependencies</b></b>: Verify all required packages installed</li>
+<li><b><b>Review logs</b></b>: Check both server and Claude Code logs</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge1ba373" class="outline-3">
+<h3 id="orge1ba373"><span class="section-number-3">6.3.</span> Permission Denied Errors</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+<b>Symptom:</b> Server can't access files or resources
+</p>
+
+<p>
+<b>Solutions:</b>
+</p>
+<ol class="org-ol">
+<li><b><b>Filesystem scope</b></b>: Check allowed paths in filesystem server config</li>
+<li><b><b>File permissions</b></b>: Verify files are readable/writable</li>
+<li><b><b>Environment variables</b></b>: Ensure credentials are set</li>
+<li><b><b>API keys</b></b>: Check API keys are valid and have correct permissions</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org5234c3a" class="outline-3">
+<h3 id="org5234c3a"><span class="section-number-3">6.4.</span> Server Connection Timeout</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+<b>Symptom:</b> Server takes too long to start or respond
+</p>
+
+<p>
+<b>Solutions:</b>
+</p>
+<ol class="org-ol">
+<li><b><b>Check server startup</b></b>: Ensure server starts quickly</li>
+<li><b><b>Network issues</b></b>: For SSE/HTTP servers, check network connectivity</li>
+<li><b><b>Resource constraints</b></b>: Server might be resource-heavy</li>
+<li><b><b>Increase timeout</b></b>: Adjust timeout settings if available</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgc47b3f5" class="outline-3">
+<h3 id="orgc47b3f5"><span class="section-number-3">6.5.</span> Multiple Servers Conflict</h3>
+<div class="outline-text-3" id="text-6-5">
+<p>
+<b>Symptom:</b> Tools with same name from different servers
+</p>
+
+<p>
+<b>Solutions:</b>
+</p>
+<ol class="org-ol">
+<li><b><b>Rename tools</b></b>: Use prefixes (<code>github_search</code>, <code>local_search</code>)</li>
+<li><b><b>Disable servers</b></b>: Disable conflicting servers selectively</li>
+<li><b><b>Namespace tools</b></b>: Update server to namespace tool names</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org68fe799" class="outline-2">
+<h2 id="org68fe799"><span class="section-number-2">7.</span> Security Considerations</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-orgdaf3020" class="outline-3">
+<h3 id="orgdaf3020"><span class="section-number-3">7.1.</span> Principle of Least Privilege</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li>Grant minimum necessary access</li>
+<li>Restrict filesystem to project directory</li>
+<li>Use read-only access when possible</li>
+<li>Isolate sensitive operations</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge11fa6c" class="outline-3">
+<h3 id="orge11fa6c"><span class="section-number-3">7.2.</span> Credential Management</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>Never commit API keys to <code>.mcp.json</code></li>
+<li>Use environment variables for secrets</li>
+<li>Store credentials in <code>~/.claude.json</code> (user-level)</li>
+<li>Rotate keys regularly</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org315b04a" class="outline-3">
+<h3 id="org315b04a"><span class="section-number-3">7.3.</span> Code Execution Risks</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+MCP servers execute code:
+</p>
+<ul class="org-ul">
+<li>Review server code before using</li>
+<li>Trust official servers</li>
+<li>Be cautious with community servers</li>
+<li>Sandbox when possible</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb428075" class="outline-3">
+<h3 id="orgb428075"><span class="section-number-3">7.4.</span> Network Security</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+For SSE/HTTP servers:
+</p>
+<ul class="org-ul">
+<li>Use HTTPS only</li>
+<li>Validate certificates</li>
+<li>Be aware of data transmission</li>
+<li>Consider VPN for sensitive data</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb87063" class="outline-2">
+<h2 id="orgeb87063"><span class="section-number-2">8.</span> Best Practices</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org6ecc770" class="outline-3">
+<h3 id="org6ecc770"><span class="section-number-3">8.1.</span> Project vs User Servers</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+<b>Project (<code>.mcp.json</code>):</b>
+</p>
+<ul class="org-ul">
+<li>Essential project tools</li>
+<li>Safe for version control</li>
+<li>No credentials</li>
+<li>Team-shared functionality</li>
+</ul>
+
+<p>
+<b>User (<code>~/.claude.json</code>):</b>
+</p>
+<ul class="org-ul">
+<li>Personal preferences</li>
+<li>Servers with credentials</li>
+<li>Experimental servers</li>
+<li>User-specific tools</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8c6b57a" class="outline-3">
+<h3 id="org8c6b57a"><span class="section-number-3">8.2.</span> Documentation</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+For each server, document:
+</p>
+<ul class="org-ul">
+<li>What it does</li>
+<li>How to install</li>
+<li>Required credentials</li>
+<li>Security considerations</li>
+<li>Example usage</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7861b47" class="outline-3">
+<h3 id="org7861b47"><span class="section-number-3">8.3.</span> Testing</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+Before committing project MCP config:
+</p>
+<ol class="org-ol">
+<li>Test on your machine</li>
+<li>Test with team members</li>
+<li>Verify cross-platform compatibility</li>
+<li>Document setup steps</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orga31f252" class="outline-3">
+<h3 id="orga31f252"><span class="section-number-3">8.4.</span> Maintenance</h3>
+<div class="outline-text-3" id="text-8-4">
+<ul class="org-ul">
+<li>Keep servers updated</li>
+<li>Monitor for security issues</li>
+<li>Remove unused servers</li>
+<li>Review permissions regularly</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org263ced3" class="outline-2">
+<h2 id="org263ced3"><span class="section-number-2">9.</span> Related Configuration</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li><a href="01-settings.html">Settings</a> - Enable/disable MCP servers</li>
+<li><a href="02-commands.html">Slash Commands</a> - Commands can use MCP tools</li>
+<li><a href="03-skills.html">Agent Skills</a> - Skills can use MCP tools</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf7c9480" class="outline-2">
+<h2 id="orgf7c9480"><span class="section-number-2">10.</span> Resources</h2>
+<div class="outline-text-2" id="text-10">
+<ul class="org-ul">
+<li><a href="https://modelcontextprotocol.org">MCP Official Site</a></li>
+<li><a href="https://github.com/modelcontextprotocol/specification">MCP Specification</a></li>
+<li><a href="https://mcpcat.io">MCP Server Directory</a></li>
+<li><a href="https://github.com/modelcontextprotocol/python-sdk">Python SDK</a></li>
+<li><a href="https://github.com/modelcontextprotocol/typescript-sdk">TypeScript SDK</a></li>
+<li><a href="https://code.anthropic.com/docs/mcp">Claude Code MCP Guide</a></li>
+</ul>
+</div>
+</div>
+</main>
+</body>
+</html>

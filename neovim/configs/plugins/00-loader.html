@@ -16,26 +16,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org530865a">1. Plugin Management</a></li>
-<li><a href="#org7fc965d">2. Plugin List</a></li>
-<li><a href="#orge808cf4">3. Plugin Categories</a>
+<li><a href="#org312ffcc">1. Plugin Management</a></li>
+<li><a href="#orgd3a221b">2. Plugin List</a></li>
+<li><a href="#org0d425bf">3. Plugin Categories</a>
 <ul>
-<li><a href="#org56a4c76">3.1. Core Dependencies</a></li>
-<li><a href="#org6747c12">3.2. File Management &amp; Navigation</a></li>
-<li><a href="#org2c4106a">3.3. UI Enhancements</a></li>
-<li><a href="#org34eb0ae">3.4. Debugging</a></li>
-<li><a href="#org09ca20c">3.5. Syntax &amp; Editing</a></li>
-<li><a href="#org5862558">3.6. Motion &amp; Navigation</a></li>
-<li><a href="#orgcf06a13">3.7. Completion</a></li>
-<li><a href="#orgbafc39a">3.8. Language Server Protocol</a></li>
+<li><a href="#orgf72f3ab">3.1. Core Dependencies</a></li>
+<li><a href="#org8b5a8fc">3.2. File Management &amp; Navigation</a></li>
+<li><a href="#org901120a">3.3. UI Enhancements</a></li>
+<li><a href="#org72165fa">3.4. Debugging</a></li>
+<li><a href="#orgf577de1">3.5. Syntax &amp; Editing</a></li>
+<li><a href="#orge0e4ad7">3.6. Motion &amp; Navigation</a></li>
+<li><a href="#org1e0e7dd">3.7. Completion</a></li>
+<li><a href="#orgf4f1404">3.8. Language Server Protocol</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org530865a" class="outline-2">
-<h2 id="org530865a"><span class="section-number-2">1.</span> Plugin Management</h2>
+<div id="outline-container-org312ffcc" class="outline-2">
+<h2 id="org312ffcc"><span class="section-number-2">1.</span> Plugin Management</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This file defines all the plugins to be loaded using Neovim's built-in package management system.
@@ -43,8 +43,8 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-org7fc965d" class="outline-2">
-<h2 id="org7fc965d"><span class="section-number-2">2.</span> Plugin List</h2>
+<div id="outline-container-orgd3a221b" class="outline-2">
+<h2 id="orgd3a221b"><span class="section-number-2">2.</span> Plugin List</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-lua">vim.pack.add {
@@ -95,12 +95,12 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-orge808cf4" class="outline-2">
-<h2 id="orge808cf4"><span class="section-number-2">3.</span> Plugin Categories</h2>
+<div id="outline-container-org0d425bf" class="outline-2">
+<h2 id="org0d425bf"><span class="section-number-2">3.</span> Plugin Categories</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org56a4c76" class="outline-3">
-<h3 id="org56a4c76"><span class="section-number-3">3.1.</span> Core Dependencies</h3>
+<div id="outline-container-orgf72f3ab" class="outline-3">
+<h3 id="orgf72f3ab"><span class="section-number-3">3.1.</span> Core Dependencies</h3>
 <div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
 <li><b><b>plenary.nvim</b></b>: Lua functions library used by many plugins</li>
@@ -109,8 +109,8 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-org6747c12" class="outline-3">
-<h3 id="org6747c12"><span class="section-number-3">3.2.</span> File Management &amp; Navigation</h3>
+<div id="outline-container-org8b5a8fc" class="outline-3">
+<h3 id="org8b5a8fc"><span class="section-number-3">3.2.</span> File Management &amp; Navigation</h3>
 <div class="outline-text-3" id="text-3-2">
 <ul class="org-ul">
 <li><b><b>telescope.nvim</b></b>: Fuzzy finder for files, buffers, and more</li>
@@ -120,8 +120,8 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-org2c4106a" class="outline-3">
-<h3 id="org2c4106a"><span class="section-number-3">3.3.</span> UI Enhancements</h3>
+<div id="outline-container-org901120a" class="outline-3">
+<h3 id="org901120a"><span class="section-number-3">3.3.</span> UI Enhancements</h3>
 <div class="outline-text-3" id="text-3-3">
 <ul class="org-ul">
 <li><b><b>bufferline.nvim</b></b>: Enhanced buffer/tab line</li>
@@ -131,8 +131,8 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-org34eb0ae" class="outline-3">
-<h3 id="org34eb0ae"><span class="section-number-3">3.4.</span> Debugging</h3>
+<div id="outline-container-org72165fa" class="outline-3">
+<h3 id="org72165fa"><span class="section-number-3">3.4.</span> Debugging</h3>
 <div class="outline-text-3" id="text-3-4">
 <ul class="org-ul">
 <li><b><b>nvim-dap</b></b>: Debug Adapter Protocol client</li>
@@ -143,8 +143,8 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-org09ca20c" class="outline-3">
-<h3 id="org09ca20c"><span class="section-number-3">3.5.</span> Syntax &amp; Editing</h3>
+<div id="outline-container-orgf577de1" class="outline-3">
+<h3 id="orgf577de1"><span class="section-number-3">3.5.</span> Syntax &amp; Editing</h3>
 <div class="outline-text-3" id="text-3-5">
 <ul class="org-ul">
 <li><b><b>nvim-treesitter</b></b>: Treesitter configurations</li>
@@ -155,8 +155,8 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-org5862558" class="outline-3">
-<h3 id="org5862558"><span class="section-number-3">3.6.</span> Motion &amp; Navigation</h3>
+<div id="outline-container-orge0e4ad7" class="outline-3">
+<h3 id="orge0e4ad7"><span class="section-number-3">3.6.</span> Motion &amp; Navigation</h3>
 <div class="outline-text-3" id="text-3-6">
 <ul class="org-ul">
 <li><b><b>leap.nvim</b></b>: General-purpose motion plugin</li>
@@ -165,8 +165,8 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-orgcf06a13" class="outline-3">
-<h3 id="orgcf06a13"><span class="section-number-3">3.7.</span> Completion</h3>
+<div id="outline-container-org1e0e7dd" class="outline-3">
+<h3 id="org1e0e7dd"><span class="section-number-3">3.7.</span> Completion</h3>
 <div class="outline-text-3" id="text-3-7">
 <ul class="org-ul">
 <li><b><b>nvim-cmp</b></b>: Completion plugin</li>
@@ -180,8 +180,8 @@ This file defines all the plugins to be loaded using Neovim's built-in package m
 </div>
 </div>
 
-<div id="outline-container-orgbafc39a" class="outline-3">
-<h3 id="orgbafc39a"><span class="section-number-3">3.8.</span> Language Server Protocol</h3>
+<div id="outline-container-orgf4f1404" class="outline-3">
+<h3 id="orgf4f1404"><span class="section-number-3">3.8.</span> Language Server Protocol</h3>
 <div class="outline-text-3" id="text-3-8">
 <ul class="org-ul">
 <li><b><b>nvim-lspconfig</b></b>: Quickstart configurations for LSP</li>

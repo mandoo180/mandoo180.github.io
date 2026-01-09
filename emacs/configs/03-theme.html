@@ -16,9 +16,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org74b2441">1. Basic Settings</a></li>
-<li><a href="#orgad1da39">2. Hasliberg Theme</a></li>
-<li><a href="#org6e7112f">3. Custom Mode Line</a></li>
+<li><a href="#org4cdc8f0">1. Basic Settings</a></li>
+<li><a href="#org820d3db">2. Hasliberg Theme</a></li>
 </ul>
 </div>
 </div>
@@ -26,45 +25,28 @@
 Visual customization including color theme, mode line, and UI elements.
 </p>
 
-<div id="outline-container-org74b2441" class="outline-2">
-<h2 id="org74b2441"><span class="section-number-2">1.</span> Basic Settings</h2>
+<div id="outline-container-org4cdc8f0" class="outline-2">
+<h2 id="org4cdc8f0"><span class="section-number-2">1.</span> Basic Settings</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el --- Summary  -*- lexical-binding: t; -*-
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
 </span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package doom-themes
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:config
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(if (daemonp)
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">       (add-hook 'server-after-make-frame-hook (lambda () (load-theme 'doom-tokyo-night t)))
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">     (load-theme 'doom-tokyo-night t)))
-</span>
-(<span class="org-keyword">let</span> ((theme-file (expand-file-name <span class="org-string">"elisp/themes/hasliberg-theme.el"</span> user-emacs-directory)))
+</span>(<span class="org-keyword">let</span> ((theme-file (expand-file-name <span class="org-string">"elisp/themes/hasliberg-theme.el"</span> user-emacs-directory)))
   (<span class="org-keyword">if</span> (file-exists-p theme-file)
         (<span class="org-keyword">progn</span>
               (load-file theme-file)
               (load-theme 'hasliberg t))))
 
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Load custom mode-line configuration
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(let ((mode-line-file (expand-file-name "elisp/themes/fu-mode-line.el" user-emacs-directory)))
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(if (file-exists-p mode-line-file)
-</span><span class="org-comment-delimiter">;;       </span><span class="org-comment">(load-file mode-line-file)))
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Skip icon packages on server (requires GUI fonts)
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">(unless emacs-server-mode
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(use-package all-the-icons)
-</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(use-package all-the-icons-dired
-</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">:config
-</span><span class="org-comment-delimiter">;;     </span><span class="org-comment">(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
-</span>
 (<span class="org-keyword">provide</span> '<span class="org-constant">theme-conf</span>)
 <span class="org-comment-delimiter">;;; </span><span class="org-comment">theme-conf.el ends here</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgad1da39" class="outline-2">
-<h2 id="orgad1da39"><span class="section-number-2">2.</span> Hasliberg Theme</h2>
+
+<div id="outline-container-org820d3db" class="outline-2">
+<h2 id="org820d3db"><span class="section-number-2">2.</span> Hasliberg Theme</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">hasliberg-theme.el --- Serene theme inspired by Swiss alps. -*- lexical-binding:t -*-
@@ -1025,206 +1007,6 @@ black colours."</span>
                (file-name-as-directory (file-name-directory load-file-name))))
 
 (provide-theme 'hasliberg)
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org6e7112f" class="outline-2">
-<h2 id="org6e7112f"><span class="section-number-2">3.</span> Custom Mode Line</h2>
-<div class="outline-text-2" id="text-3">
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">fu-mode-line.el --- Custom mode-line configuration  -*- lexical-binding: t; -*-
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">A clean, minimal mode-line showing: buffer status, name, location, VC, major mode, LSP, and diagnostics
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Custom faces for mode-line segments
-</span>
-(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-buffer-name-face</span>
-  '((t <span class="org-builtin">:inherit</span> mode-line-buffer-id <span class="org-builtin">:weight</span> bold))
-  <span class="org-doc">"Face for buffer name in mode-line."</span>)
-
-(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-position-face</span>
-  '((t <span class="org-builtin">:inherit</span> mode-line <span class="org-builtin">:slant</span> italic))
-  <span class="org-doc">"Face for position information in mode-line."</span>)
-
-(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-vc-face</span>
-  '((t <span class="org-builtin">:inherit</span> mode-line))
-  <span class="org-doc">"Face for version control info in mode-line."</span>)
-
-(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-major-mode-face</span>
-  '((t <span class="org-builtin">:inherit</span> mode-line-emphasis))
-  <span class="org-doc">"Face for major mode in mode-line."</span>)
-
-(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-lsp-face</span>
-  '((t <span class="org-builtin">:inherit</span> success))
-  <span class="org-doc">"Face for LSP status in mode-line."</span>)
-
-(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-diagnostics-error-face</span>
-  '((t <span class="org-builtin">:inherit</span> error <span class="org-builtin">:weight</span> bold))
-  <span class="org-doc">"Face for error diagnostics in mode-line."</span>)
-
-(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-diagnostics-warning-face</span>
-  '((t <span class="org-builtin">:inherit</span> warning <span class="org-builtin">:weight</span> bold))
-  <span class="org-doc">"Face for warning diagnostics in mode-line."</span>)
-
-(<span class="org-keyword">defface</span> <span class="org-variable-name">mode-line-diagnostics-note-face</span>
-  '((t <span class="org-builtin">:inherit</span> compilation-info <span class="org-builtin">:weight</span> bold))
-  <span class="org-doc">"Face for note diagnostics in mode-line."</span>)
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Helper functions for mode-line segments
-</span>
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu-mode-line-buffer-status</span> ()
-  <span class="org-doc">"Return buffer status indicator (modified, read-only)."</span>
-  (<span class="org-keyword">let</span> ((modified (<span class="org-keyword">if</span> (buffer-modified-p) <span class="org-string">"*"</span> <span class="org-string">""</span>))
-        (readonly (<span class="org-keyword">if</span> buffer-read-only <span class="org-string">"%"</span> <span class="org-string">""</span>)))
-    (<span class="org-keyword">if</span> (<span class="org-keyword">or</span> (not (string-empty-p modified))
-            (not (string-empty-p readonly)))
-        (concat <span class="org-string">" "</span> modified readonly <span class="org-string">" "</span>)
-      <span class="org-string">"  "</span>)))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu-mode-line-buffer-name</span> ()
-  <span class="org-doc">"Return buffer name with face."</span>
-  (propertize (buffer-name)
-              'face 'mode-line-buffer-name-face))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu-mode-line-position</span> ()
-  <span class="org-doc">"Return current line, column, and position percentage."</span>
-  (<span class="org-keyword">let</span> ((line (format-mode-line <span class="org-string">"%l"</span>))
-        (col (format-mode-line <span class="org-string">"%c"</span>))
-        (percent (format-mode-line <span class="org-string">"%p"</span>)))
-    (propertize (format <span class="org-string">" %s:%s %s "</span> line col percent)
-                'face 'mode-line-position-face)))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu-mode-line-vc</span> ()
-  <span class="org-doc">"Return version control status (git branch)."</span>
-  (<span class="org-keyword">when</span> vc-mode
-    (<span class="org-keyword">let*</span> ((backend (vc-backend buffer-file-name))
-           (branch (<span class="org-keyword">when</span> backend
-                     (substring-no-properties vc-mode
-                                              (+ 2 (length (symbol-name backend)))))))
-      (<span class="org-keyword">when</span> branch
-        (propertize (format <span class="org-string">" &#9095; %s "</span> branch)
-                    'face 'mode-line-vc-face)))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu-mode-line-major-mode</span> ()
-  <span class="org-doc">"Return major mode name - stripped of any mode-line constructs."</span>
-  (<span class="org-keyword">let</span> ((mode-str (format-mode-line mode-name)))
-    <span class="org-comment-delimiter">;; </span><span class="org-comment">Strip any text properties that might contain extra info
-</span>    (propertize (format <span class="org-string">" %s "</span> (substring-no-properties mode-str))
-                'face 'mode-line-major-mode-face)))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu-mode-line-eglot</span> ()
-  <span class="org-doc">"Return Eglot LSP status."</span>
-  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (<span class="org-keyword">featurep</span> '<span class="org-constant">eglot</span>) (eglot-managed-p))
-    (<span class="org-keyword">let*</span> ((server (eglot-current-server))
-           (project-name (<span class="org-keyword">when</span> server
-                           (file-name-nondirectory
-                            (directory-file-name
-                             (project-root (eglot--project server)))))))
-      (propertize (format <span class="org-string">" LSP:%s "</span> (<span class="org-keyword">or</span> project-name <span class="org-string">"ON"</span>))
-                  'face 'mode-line-lsp-face))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu-mode-line-flymake</span> ()
-  <span class="org-doc">"Return Flymake diagnostics count - numbers only, no text."</span>
-  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (<span class="org-keyword">bound-and-true-p</span> flymake-mode)
-             (fboundp 'flymake-diagnostics))
-    (<span class="org-keyword">let</span> ((error-count 0)
-          (warning-count 0)
-          (note-count 0))
-
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">Count diagnostics by severity
-</span>      (<span class="org-keyword">dolist</span> (diag (flymake-diagnostics))
-        (<span class="org-keyword">let</span> ((type (flymake-diagnostic-type diag)))
-          (<span class="org-keyword">cond</span>
-           ((eq type <span class="org-builtin">:error</span>) (<span class="org-keyword">cl-incf</span> error-count))
-           ((eq type <span class="org-builtin">:warning</span>) (<span class="org-keyword">cl-incf</span> warning-count))
-           ((eq type <span class="org-builtin">:note</span>) (<span class="org-keyword">cl-incf</span> note-count)))))
-
-      <span class="org-comment-delimiter">;; </span><span class="org-comment">Build display string with ONLY counts
-</span>      (<span class="org-keyword">let</span> ((parts '()))
-        (<span class="org-keyword">when</span> (&gt; error-count 0)
-          (<span class="org-keyword">push</span> (propertize (format <span class="org-string">"E:%d"</span> error-count)
-                            'face 'mode-line-diagnostics-error-face)
-                parts))
-        (<span class="org-keyword">when</span> (&gt; warning-count 0)
-          (<span class="org-keyword">push</span> (propertize (format <span class="org-string">"W:%d"</span> warning-count)
-                            'face 'mode-line-diagnostics-warning-face)
-                parts))
-        (<span class="org-keyword">when</span> (&gt; note-count 0)
-          (<span class="org-keyword">push</span> (propertize (format <span class="org-string">"I:%d"</span> note-count)
-                            'face 'mode-line-diagnostics-note-face)
-                parts))
-        (<span class="org-keyword">when</span> parts
-          (concat <span class="org-string">" "</span> (string-join (nreverse parts) <span class="org-string">" "</span>) <span class="org-string">" "</span>))))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">fu-mode-line-input-method</span> ()
-  <span class="org-doc">"Return input method status indicator."</span>
-  (<span class="org-keyword">when</span> current-input-method
-    (propertize (format <span class="org-string">" [%s] "</span> current-input-method-title)
-                'face 'mode-line-emphasis
-                'help-echo (format <span class="org-string">"Input method: %s"</span> current-input-method))))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Assemble the mode-line - explicitly control ALL components
-</span>(<span class="org-keyword">setq-default</span> mode-line-format
-              '((<span class="org-builtin">:eval</span> (fu-mode-line-buffer-status))
-                (<span class="org-builtin">:eval</span> (fu-mode-line-buffer-name))
-                (<span class="org-builtin">:eval</span> (fu-mode-line-vc))
-                (<span class="org-builtin">:eval</span> (fu-mode-line-major-mode))
-                (<span class="org-builtin">:eval</span> (fu-mode-line-input-method))
-                (<span class="org-builtin">:eval</span> (fu-mode-line-eglot))
-                (<span class="org-builtin">:eval</span> (fu-mode-line-flymake))
-                (<span class="org-builtin">:eval</span> (fu-mode-line-position))))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Also set buffer-local to ensure it overrides everything
-</span>(<span class="org-keyword">setq-default</span> mode-line-misc-info nil)
-(<span class="org-keyword">setq-default</span> mode-line-end-spaces nil)
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Disable Flymake's built-in mode-line display completely
-</span><span class="org-comment-delimiter">;; </span><span class="org-comment">This must be set BEFORE flymake loads
-</span>(<span class="org-keyword">setq</span> flymake-mode-line-format nil)
-(<span class="org-keyword">setq</span> flymake-mode-line-counter-format nil)
-
-(<span class="org-keyword">with-eval-after-load</span> 'flymake
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Override Flymake's mode-line functions to return empty strings
-</span>  (<span class="org-keyword">defun</span> <span class="org-function-name">flymake--mode-line-exception</span> ()
-    <span class="org-doc">"Override to return empty string."</span>
-    <span class="org-string">""</span>)
-
-  (<span class="org-keyword">defun</span> <span class="org-function-name">flymake--mode-line-counters</span> ()
-    <span class="org-doc">"Override to return empty string."</span>
-    <span class="org-string">""</span>)
-
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Completely disable all Flymake mode-line components
-</span>  (<span class="org-keyword">setq</span> flymake-mode-line-format nil)
-  (<span class="org-keyword">setq</span> flymake-mode-line-counter-format nil)
-  (<span class="org-keyword">setq</span> flymake-suppress-zero-counters t)
-
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Set the mode-line components to empty
-</span>  (<span class="org-keyword">setq</span> flymake-mode-line-title <span class="org-string">""</span>)
-  (<span class="org-keyword">setq</span> flymake-mode-line-exception '(<span class="org-builtin">:eval</span> (flymake--mode-line-exception)))
-  (<span class="org-keyword">setq</span> flymake-mode-line-counters '(<span class="org-builtin">:eval</span> (flymake--mode-line-counters)))
-
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Remove Flymake from mode-line-misc-info completely
-</span>  (<span class="org-keyword">setq</span> mode-line-misc-info
-        (assq-delete-all 'flymake-mode mode-line-misc-info))
-
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Refresh mode-line when Flymake updates
-</span>  (add-hook 'flymake-mode-hook
-            (<span class="org-keyword">lambda</span> ()
-              <span class="org-comment-delimiter">;; </span><span class="org-comment">Ensure Flymake's mode-line is disabled per-buffer
-</span>              (<span class="org-keyword">setq-local</span> flymake-mode-line-format nil)
-              (add-hook 'flymake-after-diagnostics-hook
-                        (<span class="org-keyword">lambda</span> () (force-mode-line-update t)) nil t))))
-
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Optional: Refresh mode-line when Eglot connects/disconnects
-</span>(<span class="org-keyword">with-eval-after-load</span> 'eglot
-  (add-hook 'eglot-managed-mode-hook
-            (<span class="org-keyword">lambda</span> () (force-mode-line-update t))))
-
-(<span class="org-keyword">provide</span> '<span class="org-constant">fu-mode-line</span>)
-<span class="org-comment-delimiter">;;; </span><span class="org-comment">fu-mode-line.el ends here
-</span>
 </pre>
 </div>
 </div>

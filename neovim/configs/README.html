@@ -16,27 +16,27 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf4f207f">1. Overview</a></li>
-<li><a href="#orge43df5d">2. File Structure</a></li>
-<li><a href="#org4d471b5">3. Configuration Architecture</a></li>
-<li><a href="#org05920e1">4. Usage</a></li>
-<li><a href="#orgea740dd">5. Features</a>
+<li><a href="#orgd2b664d">1. Overview</a></li>
+<li><a href="#org916fa2f">2. File Structure</a></li>
+<li><a href="#org307c513">3. Configuration Architecture</a></li>
+<li><a href="#org913ad5e">4. Usage</a></li>
+<li><a href="#orgf36404f">5. Features</a>
 <ul>
-<li><a href="#orgfaa1f28">5.1. Core Features</a></li>
-<li><a href="#org7fc30c1">5.2. Key Mappings</a></li>
-<li><a href="#orga4d66d9">5.3. Language Support (via LSP)</a></li>
-<li><a href="#orge6e1a9f">5.4. Plugin Ecosystem</a></li>
+<li><a href="#orgd87e731">5.1. Core Features</a></li>
+<li><a href="#org1528396">5.2. Key Mappings</a></li>
+<li><a href="#org5826f1f">5.3. Language Support (via LSP)</a></li>
+<li><a href="#org498d81c">5.4. Plugin Ecosystem</a></li>
 </ul>
 </li>
-<li><a href="#orga9725e9">6. Dependencies</a></li>
-<li><a href="#org6c5c89e">7. Directory Structure</a></li>
-<li><a href="#org7de805d">8. Notes</a></li>
+<li><a href="#orgb6c281d">6. Dependencies</a></li>
+<li><a href="#org9a091f2">7. Directory Structure</a></li>
+<li><a href="#orgf08b9d5">8. Notes</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgf4f207f" class="outline-2">
-<h2 id="orgf4f207f"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-orgd2b664d" class="outline-2">
+<h2 id="orgd2b664d"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This directory contains modular Neovim configuration files, organized from a single <code>init.lua</code> configuration into structured Org-mode files for better documentation and maintainability.
@@ -44,8 +44,8 @@ This directory contains modular Neovim configuration files, organized from a sin
 </div>
 </div>
 
-<div id="outline-container-orge43df5d" class="outline-2">
-<h2 id="orge43df5d"><span class="section-number-2">2.</span> File Structure</h2>
+<div id="outline-container-org916fa2f" class="outline-2">
+<h2 id="org916fa2f"><span class="section-number-2">2.</span> File Structure</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Each configuration module is a separate Org file:
@@ -85,8 +85,8 @@ Each configuration module is a separate Org file:
 </div>
 </div>
 
-<div id="outline-container-org4d471b5" class="outline-2">
-<h2 id="org4d471b5"><span class="section-number-2">3.</span> Configuration Architecture</h2>
+<div id="outline-container-org307c513" class="outline-2">
+<h2 id="org307c513"><span class="section-number-2">3.</span> Configuration Architecture</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The configuration is structured to follow Neovim's Lua-based configuration approach:
@@ -102,8 +102,8 @@ The configuration is structured to follow Neovim's Lua-based configuration appro
 </div>
 </div>
 
-<div id="outline-container-org05920e1" class="outline-2">
-<h2 id="org05920e1"><span class="section-number-2">4.</span> Usage</h2>
+<div id="outline-container-org913ad5e" class="outline-2">
+<h2 id="org913ad5e"><span class="section-number-2">4.</span> Usage</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 To tangle these configuration files into your Neovim config:
@@ -121,12 +121,12 @@ Alternatively, you can tangle all files at once using a script or batch command.
 </div>
 </div>
 
-<div id="outline-container-orgea740dd" class="outline-2">
-<h2 id="orgea740dd"><span class="section-number-2">5.</span> Features</h2>
+<div id="outline-container-orgf36404f" class="outline-2">
+<h2 id="orgf36404f"><span class="section-number-2">5.</span> Features</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orgfaa1f28" class="outline-3">
-<h3 id="orgfaa1f28"><span class="section-number-3">5.1.</span> Core Features</h3>
+<div id="outline-container-orgd87e731" class="outline-3">
+<h3 id="orgd87e731"><span class="section-number-3">5.1.</span> Core Features</h3>
 <div class="outline-text-3" id="text-5-1">
 <ul class="org-ul">
 <li>Suckless philosophy: minimal, efficient configuration</li>
@@ -138,8 +138,8 @@ Alternatively, you can tangle all files at once using a script or batch command.
 </div>
 </div>
 
-<div id="outline-container-org7fc30c1" class="outline-3">
-<h3 id="org7fc30c1"><span class="section-number-3">5.2.</span> Key Mappings</h3>
+<div id="outline-container-org1528396" class="outline-3">
+<h3 id="org1528396"><span class="section-number-3">5.2.</span> Key Mappings</h3>
 <div class="outline-text-3" id="text-5-2">
 <ul class="org-ul">
 <li>Space as leader key</li>
@@ -150,8 +150,8 @@ Alternatively, you can tangle all files at once using a script or batch command.
 </div>
 </div>
 
-<div id="outline-container-orga4d66d9" class="outline-3">
-<h3 id="orga4d66d9"><span class="section-number-3">5.3.</span> Language Support (via LSP)</h3>
+<div id="outline-container-org5826f1f" class="outline-3">
+<h3 id="org5826f1f"><span class="section-number-3">5.3.</span> Language Support (via LSP)</h3>
 <div class="outline-text-3" id="text-5-3">
 <ul class="org-ul">
 <li>Lua (lua-language-server)</li>
@@ -165,8 +165,8 @@ Alternatively, you can tangle all files at once using a script or batch command.
 </div>
 </div>
 
-<div id="outline-container-orge6e1a9f" class="outline-3">
-<h3 id="orge6e1a9f"><span class="section-number-3">5.4.</span> Plugin Ecosystem</h3>
+<div id="outline-container-org498d81c" class="outline-3">
+<h3 id="org498d81c"><span class="section-number-3">5.4.</span> Plugin Ecosystem</h3>
 <div class="outline-text-3" id="text-5-4">
 <ul class="org-ul">
 <li>Telescope for fuzzy finding</li>
@@ -179,8 +179,8 @@ Alternatively, you can tangle all files at once using a script or batch command.
 </div>
 </div>
 
-<div id="outline-container-orga9725e9" class="outline-2">
-<h2 id="orga9725e9"><span class="section-number-2">6.</span> Dependencies</h2>
+<div id="outline-container-orgb6c281d" class="outline-2">
+<h2 id="orgb6c281d"><span class="section-number-2">6.</span> Dependencies</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 External tools needed for full functionality:
@@ -202,10 +202,10 @@ Install these via your package manager or the recommended installation method fo
 </div>
 </div>
 
-<div id="outline-container-org6c5c89e" class="outline-2">
-<h2 id="org6c5c89e"><span class="section-number-2">7.</span> Directory Structure</h2>
+<div id="outline-container-org9a091f2" class="outline-2">
+<h2 id="org9a091f2"><span class="section-number-2">7.</span> Directory Structure</h2>
 <div class="outline-text-2" id="text-7">
-<pre class="example" id="orgc1d3622">
+<pre class="example" id="orga6dabb2">
 ~/.config/nvim/
 ├── init.lua                 # Main configuration file
 ├── lua/
@@ -225,8 +225,8 @@ Install these via your package manager or the recommended installation method fo
 </div>
 </div>
 
-<div id="outline-container-org7de805d" class="outline-2">
-<h2 id="org7de805d"><span class="section-number-2">8.</span> Notes</h2>
+<div id="outline-container-orgf08b9d5" class="outline-2">
+<h2 id="orgf08b9d5"><span class="section-number-2">8.</span> Notes</h2>
 <div class="outline-text-2" id="text-8">
 <ul class="org-ul">
 <li>The configuration uses <code>vim.pack.add</code> for native package management</li>

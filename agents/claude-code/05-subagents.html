@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Custom Subagents</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">Custom Subagents</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org8cbb890">1. Introduction</a>
+<ul>
+<li><a href="#orgedd341f">1.1. What Are Subagents?</a></li>
+<li><a href="#org32e73af">1.2. Difference from Skills</a></li>
+<li><a href="#org4732de3">1.3. Expected Structure</a></li>
+</ul>
+</li>
+<li><a href="#org55e4836">2. Planned Use Cases</a>
+<ul>
+<li><a href="#orgd99ef31">2.1. Code Review Agent</a></li>
+<li><a href="#orgdf6c4b9">2.2. Documentation Agent</a></li>
+<li><a href="#org6c8d030">2.3. Test Generation Agent</a></li>
+<li><a href="#org147803f">2.4. Refactoring Agent</a></li>
+<li><a href="#org1a1b832">2.5. Database Migration Agent</a></li>
+</ul>
+</li>
+<li><a href="#org84db8ec">3. Configuration Concepts</a>
+<ul>
+<li><a href="#org480a10e">3.1. Agent Definition</a></li>
+<li><a href="#org1064ca9">3.2. Workflow Definition</a></li>
+<li><a href="#org25841a3">3.3. Tool Restrictions</a></li>
+</ul>
+</li>
+<li><a href="#org78ddad2">4. Future Updates</a>
+<ul>
+<li><a href="#org56bc184">4.1. Tracking Progress</a></li>
+</ul>
+</li>
+<li><a href="#org8ad51ca">5. Current Alternatives</a>
+<ul>
+<li><a href="#orgf4180a5">5.1. Built-in Subagents</a></li>
+<li><a href="#org13c84c5">5.2. Skills (Automatic)</a></li>
+<li><a href="#org5b5186f">5.3. Slash Commands (Manual)</a></li>
+<li><a href="#org49d6a54">5.4. MCP Servers (External Tools)</a></li>
+</ul>
+</li>
+<li><a href="#org49e0498">6. Design Considerations</a>
+<ul>
+<li><a href="#orga16434c">6.1. Specialization Depth</a></li>
+<li><a href="#orgfd185db">6.2. Workflow Clarity</a></li>
+<li><a href="#org6407738">6.3. Tool Access</a></li>
+<li><a href="#org5754890">6.4. Integration</a></li>
+</ul>
+</li>
+<li><a href="#orgc73a762">7. Examples from Community</a>
+<ul>
+<li><a href="#org37b8768">7.1. Agentic Workflows</a></li>
+<li><a href="#orgabb2aee">7.2. Chain of Thought Prompts</a></li>
+<li><a href="#org00c83f1">7.3. Specialized Skills</a></li>
+</ul>
+</li>
+<li><a href="#org20934d7">8. Related Configuration</a></li>
+<li><a href="#orgfad4b49">9. Resources</a>
+<ul>
+<li><a href="#org35454e9">9.1. Official Sources</a></li>
+<li><a href="#orgfa57dd1">9.2. Community</a></li>
+<li><a href="#org7ce2ffd">9.3. Similar Concepts</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8cbb890" class="outline-2">
+<h2 id="org8cbb890"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Custom subagents are specialized AI agents for specific workflows and domains. This feature is under active development in Claude Code and documentation will be expanded when it becomes fully available.
+</p>
+</div>
+
+<div id="outline-container-orgedd341f" class="outline-3">
+<h3 id="orgedd341f"><span class="section-number-3">1.1.</span> What Are Subagents?</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Subagents are specialized instances of Claude with:
+</p>
+<ul class="org-ul">
+<li>Specific expertise or focus area</li>
+<li>Custom system prompts and instructions</li>
+<li>Defined tool access and permissions</li>
+<li>Ability to handle complex, multi-step workflows</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org32e73af" class="outline-3">
+<h3 id="org32e73af"><span class="section-number-3">1.2.</span> Difference from Skills</h3>
+<div class="outline-text-3" id="text-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Feature</th>
+<th scope="col" class="org-left">Skills</th>
+<th scope="col" class="org-left">Subagents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Activation</td>
+<td class="org-left">Context-based, automatic</td>
+<td class="org-left">Explicit invocation</td>
+</tr>
+
+<tr>
+<td class="org-left">Scope</td>
+<td class="org-left">Single task or check</td>
+<td class="org-left">Multi-step workflows</td>
+</tr>
+
+<tr>
+<td class="org-left">Complexity</td>
+<td class="org-left">Simple, focused</td>
+<td class="org-left">Complex, stateful</td>
+</tr>
+
+<tr>
+<td class="org-left">Duration</td>
+<td class="org-left">Brief, immediate</td>
+<td class="org-left">Extended conversations</td>
+</tr>
+
+<tr>
+<td class="org-left">State</td>
+<td class="org-left">Stateless</td>
+<td class="org-left">Can maintain state</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org4732de3" class="outline-3">
+<h3 id="org4732de3"><span class="section-number-3">1.3.</span> Expected Structure</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Based on early documentation, custom subagents will likely be configured in:
+</p>
+<ul class="org-ul">
+<li>Location: <code>.claude/agents/</code> (project) or <code>~/.claude/agents/</code> (user)</li>
+<li>Format: Configuration files (format TBD)</li>
+<li>Purpose: Specialized workflows, domain expertise, complex tasks</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org55e4836" class="outline-2">
+<h2 id="org55e4836"><span class="section-number-2">2.</span> Planned Use Cases</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+While the exact implementation is pending, here are potential use cases for custom subagents:
+</p>
+</div>
+
+<div id="outline-container-orgd99ef31" class="outline-3">
+<h3 id="orgd99ef31"><span class="section-number-3">2.1.</span> Code Review Agent</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+A specialized agent focused entirely on code review with:
+</p>
+<ul class="org-ul">
+<li>Deep knowledge of code review best practices</li>
+<li>Security vulnerability detection expertise</li>
+<li>Performance optimization experience</li>
+<li>Access to static analysis tools</li>
+<li>Checklist-driven review process</li>
+</ul>
+
+<p>
+<b>Potential workflow:</b>
+</p>
+<ol class="org-ol">
+<li>Analyze changed files</li>
+<li>Run security scanners</li>
+<li>Check performance implications</li>
+<li>Review test coverage</li>
+<li>Generate comprehensive review report</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdf6c4b9" class="outline-3">
+<h3 id="orgdf6c4b9"><span class="section-number-3">2.2.</span> Documentation Agent</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+An agent specialized in creating and maintaining documentation:
+</p>
+<ul class="org-ul">
+<li>Technical writing expertise</li>
+<li>Documentation structure knowledge</li>
+<li>API reference generation</li>
+<li>Tutorial and guide creation</li>
+<li>Keeping docs in sync with code</li>
+</ul>
+
+<p>
+<b>Potential workflow:</b>
+</p>
+<ol class="org-ol">
+<li>Analyze code structure</li>
+<li>Identify undocumented APIs</li>
+<li>Generate draft documentation</li>
+<li>Create usage examples</li>
+<li>Suggest improvements to existing docs</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org6c8d030" class="outline-3">
+<h3 id="org6c8d030"><span class="section-number-3">2.3.</span> Test Generation Agent</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Focused on comprehensive test creation:
+</p>
+<ul class="org-ul">
+<li>Testing framework expertise</li>
+<li>Coverage analysis</li>
+<li>Edge case identification</li>
+<li>Mock and fixture creation</li>
+<li>Test refactoring</li>
+</ul>
+
+<p>
+<b>Potential workflow:</b>
+</p>
+<ol class="org-ol">
+<li>Analyze code to be tested</li>
+<li>Identify test scenarios</li>
+<li>Generate unit tests</li>
+<li>Generate integration tests</li>
+<li>Create test fixtures</li>
+<li>Verify coverage</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org147803f" class="outline-3">
+<h3 id="org147803f"><span class="section-number-3">2.4.</span> Refactoring Agent</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Specialized in code quality improvement:
+</p>
+<ul class="org-ul">
+<li>Design pattern knowledge</li>
+<li>Code smell detection</li>
+<li>Refactoring techniques</li>
+<li>Safe transformation steps</li>
+<li>Impact analysis</li>
+</ul>
+
+<p>
+<b>Potential workflow:</b>
+</p>
+<ol class="org-ol">
+<li>Analyze code structure</li>
+<li>Identify improvement opportunities</li>
+<li>Propose refactoring plan</li>
+<li>Execute transformations incrementally</li>
+<li>Verify tests still pass</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org1a1b832" class="outline-3">
+<h3 id="org1a1b832"><span class="section-number-3">2.5.</span> Database Migration Agent</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Expert in database schema evolution:
+</p>
+<ul class="org-ul">
+<li>SQL knowledge</li>
+<li>Migration strategies</li>
+<li>Data preservation</li>
+<li>Rollback planning</li>
+<li>Performance considerations</li>
+</ul>
+
+<p>
+<b>Potential workflow:</b>
+</p>
+<ol class="org-ol">
+<li>Analyze schema changes needed</li>
+<li>Generate migration scripts</li>
+<li>Create rollback scripts</li>
+<li>Test on sample data</li>
+<li>Document breaking changes</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org84db8ec" class="outline-2">
+<h2 id="org84db8ec"><span class="section-number-2">3.</span> Configuration Concepts</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+While the exact format is TBD, configuration might include:
+</p>
+</div>
+
+<div id="outline-container-org480a10e" class="outline-3">
+<h3 id="org480a10e"><span class="section-number-3">3.1.</span> Agent Definition</h3>
+<div class="outline-text-3" id="text-3-1">
+<pre class="example" id="org087b84e">
+name: Code Review Agent
+description: Specialized agent for comprehensive code reviews
+expertise:
+  - security analysis
+  - performance optimization
+  - code quality
+tools:
+  - Read
+  - Grep
+  - Bash(security-scanner:*)
+system_prompt: |
+  You are a code review expert focused on security,
+  performance, and code quality. Always check for:
+  - Security vulnerabilities
+  - Performance bottlenecks
+  - Best practice violations
+  - Test coverage
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1064ca9" class="outline-3">
+<h3 id="org1064ca9"><span class="section-number-3">3.2.</span> Workflow Definition</h3>
+<div class="outline-text-3" id="text-3-2">
+<pre class="example" id="org323bafa">
+workflow:
+  - step: analyze_changes
+    description: Review all changed files
+  - step: security_scan
+    description: Run security analysis
+  - step: performance_check
+    description: Check for performance issues
+  - step: generate_report
+    description: Create comprehensive review
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org25841a3" class="outline-3">
+<h3 id="org25841a3"><span class="section-number-3">3.3.</span> Tool Restrictions</h3>
+<div class="outline-text-3" id="text-3-3">
+<pre class="example" id="orge748470">
+allowed_tools:
+  - Read
+  - Grep
+  - Bash(git:*)
+  - Bash(security-scanner:*)
+denied_tools:
+  - Write  # Review agent shouldn't modify code
+  - Bash(rm:*)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78ddad2" class="outline-2">
+<h2 id="org78ddad2"><span class="section-number-2">4.</span> Future Updates</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+This file will be updated when:
+</p>
+<ol class="org-ol">
+<li>Custom subagent functionality is released</li>
+<li>Configuration format is documented</li>
+<li>API and structure are finalized</li>
+<li>Examples become available</li>
+</ol>
+</div>
+
+<div id="outline-container-org56bc184" class="outline-3">
+<h3 id="org56bc184"><span class="section-number-3">4.1.</span> Tracking Progress</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Follow Claude Code development:
+</p>
+<ul class="org-ul">
+<li><a href="https://github.com/anthropics/claude-code">Claude Code GitHub</a></li>
+<li><a href="https://code.anthropic.com/docs">Official Documentation</a></li>
+<li><a href="https://anthropic.com/blog">Anthropic Blog</a></li>
+<li>Release notes and changelogs</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8ad51ca" class="outline-2">
+<h2 id="org8ad51ca"><span class="section-number-2">5.</span> Current Alternatives</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+While waiting for custom subagents, use:
+</p>
+</div>
+
+<div id="outline-container-orgf4180a5" class="outline-3">
+<h3 id="orgf4180a5"><span class="section-number-3">5.1.</span> Built-in Subagents</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Claude Code has built-in subagents accessible via the Task tool:
+</p>
+<ul class="org-ul">
+<li><code>general-purpose</code> - Research and multi-step tasks</li>
+<li><code>Explore</code> - Codebase exploration and search</li>
+<li><code>Plan</code> - Implementation planning</li>
+</ul>
+
+<p>
+<b>Usage:</b>
+</p>
+<pre class="example" id="orga015d12">
+Claude, use the Explore agent to find all authentication code
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org13c84c5" class="outline-3">
+<h3 id="org13c84c5"><span class="section-number-3">5.2.</span> Skills (Automatic)</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Create skills for automatic activation:
+</p>
+<ul class="org-ul">
+<li><a href="03-skills.html">Agent Skills</a> - Configure in <code>.claude/skills/</code></li>
+<li>Context-based activation</li>
+<li>Single-purpose, focused tasks</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5b5186f" class="outline-3">
+<h3 id="org5b5186f"><span class="section-number-3">5.3.</span> Slash Commands (Manual)</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Create commands for explicit invocation:
+</p>
+<ul class="org-ul">
+<li><a href="02-commands.html">Slash Commands</a> - Configure in <code>.claude/commands/</code></li>
+<li>User-invoked workflows</li>
+<li>Parameterized prompts</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org49d6a54" class="outline-3">
+<h3 id="org49d6a54"><span class="section-number-3">5.4.</span> MCP Servers (External Tools)</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+Extend capabilities with MCP:
+</p>
+<ul class="org-ul">
+<li><a href="04-mcp-servers.html">MCP Servers</a> - Configure in <code>.mcp.json</code></li>
+<li>External service integration</li>
+<li>Language-specific tooling</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org49e0498" class="outline-2">
+<h2 id="org49e0498"><span class="section-number-2">6.</span> Design Considerations</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+If/when designing custom subagents, consider:
+</p>
+</div>
+
+<div id="outline-container-orga16434c" class="outline-3">
+<h3 id="orga16434c"><span class="section-number-3">6.1.</span> Specialization Depth</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li><b>Narrow focus</b>: Expert in one specific domain</li>
+<li><b>Complementary</b>: Works alongside other agents</li>
+<li><b>Non-overlapping</b>: Doesn't duplicate built-in functionality</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfd185db" class="outline-3">
+<h3 id="orgfd185db"><span class="section-number-3">6.2.</span> Workflow Clarity</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li><b>Clear entry point</b>: When should this agent be used?</li>
+<li><b>Defined steps</b>: What's the agent's process?</li>
+<li><b>Clear exit</b>: How does the agent finish?</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6407738" class="outline-3">
+<h3 id="org6407738"><span class="section-number-3">6.3.</span> Tool Access</h3>
+<div class="outline-text-3" id="text-6-3">
+<ul class="org-ul">
+<li><b>Minimum necessary</b>: Only tools needed for the task</li>
+<li><b>Safety</b>: Can't perform dangerous operations</li>
+<li><b>Audit trail</b>: Actions are logged and reviewable</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5754890" class="outline-3">
+<h3 id="org5754890"><span class="section-number-3">6.4.</span> Integration</h3>
+<div class="outline-text-3" id="text-6-4">
+<ul class="org-ul">
+<li><b>Composable</b>: Can work with other agents</li>
+<li><b>Stateful</b>: Maintains context across steps</li>
+<li><b>Resumable</b>: Can pause and resume workflows</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc73a762" class="outline-2">
+<h2 id="orgc73a762"><span class="section-number-2">7.</span> Examples from Community</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+While official custom subagents are pending, the community has explored similar concepts:
+</p>
+</div>
+
+<div id="outline-container-org37b8768" class="outline-3">
+<h3 id="org37b8768"><span class="section-number-3">7.1.</span> Agentic Workflows</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+Using the Task tool to create multi-step workflows:
+</p>
+<pre class="example" id="orgb552b22">
+Task(
+  subagent_type="general-purpose",
+  prompt="First, analyze the codebase. Then, identify issues. Finally, propose fixes."
+)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgabb2aee" class="outline-3">
+<h3 id="orgabb2aee"><span class="section-number-3">7.2.</span> Chain of Thought Prompts</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+Embedding complex workflows in slash commands:
+</p>
+<pre class="example" id="org975f110">
+---
+description: Multi-step code analysis
+---
+
+# Analysis Workflow
+
+1. **Understand**: Read and comprehend the code
+2. **Identify**: Find issues and opportunities
+3. **Analyze**: Deep dive into each issue
+4. **Propose**: Suggest specific improvements
+5. **Prioritize**: Rank by impact
+
+[Detailed instructions for each step...]
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org00c83f1" class="outline-3">
+<h3 id="org00c83f1"><span class="section-number-3">7.3.</span> Specialized Skills</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+Creating highly focused skills:
+</p>
+<ul class="org-ul">
+<li>One skill per specific task</li>
+<li>Clear activation triggers</li>
+<li>Defined tool access</li>
+<li>Single responsibility</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org20934d7" class="outline-2">
+<h2 id="org20934d7"><span class="section-number-2">8.</span> Related Configuration</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li><a href="02-commands.html">Slash Commands</a> - User-invoked alternatives</li>
+<li><a href="03-skills.html">Agent Skills</a> - Automatic alternatives</li>
+<li><a href="01-settings.html">Settings</a> - Tool permissions and configuration</li>
+<li><a href="04-mcp-servers.html">MCP Servers</a> - External tool integration</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfad4b49" class="outline-2">
+<h2 id="orgfad4b49"><span class="section-number-2">9.</span> Resources</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-org35454e9" class="outline-3">
+<h3 id="org35454e9"><span class="section-number-3">9.1.</span> Official Sources</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li><a href="https://code.anthropic.com/docs">Claude Code Documentation</a></li>
+<li><a href="https://github.com/anthropics/claude-code">Claude Code GitHub</a></li>
+<li><a href="https://anthropic.com/blog">Anthropic Blog</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfa57dd1" class="outline-3">
+<h3 id="orgfa57dd1"><span class="section-number-3">9.2.</span> Community</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li><a href="https://github.com/anthropics/claude-code/discussions">GitHub Discussions</a></li>
+<li><a href="https://github.com/anthropics/claude-code/issues">GitHub Issues</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7ce2ffd" class="outline-3">
+<h3 id="org7ce2ffd"><span class="section-number-3">9.3.</span> Similar Concepts</h3>
+<div class="outline-text-3" id="text-9-3">
+<ul class="org-ul">
+<li><a href="https://www.anthropic.com/research/agent-computer-use">Anthropic Agent Research</a></li>
+<li><a href="https://github.com/anthropics/anthropic-sdk-python">Anthropic SDK</a></li>
+</ul>
+
+<p>
+&#x2014;
+</p>
+
+<p>
+<b>Note</b>: This file serves as a placeholder and will be significantly expanded when custom subagent functionality becomes available in Claude Code. Check back for updates.
+</p>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

@@ -16,24 +16,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8e07495">1. Overview</a></li>
-<li><a href="#orgfe54795">2. Setup and Configuration</a></li>
-<li><a href="#org7288d3e">3. Keybindings</a></li>
-<li><a href="#org46e6c93">4. Features</a>
+<li><a href="#orgab830fc">1. Overview</a></li>
+<li><a href="#org4eb1a92">2. Setup and Configuration</a></li>
+<li><a href="#org51ea98b">3. Keybindings</a></li>
+<li><a href="#orgc67e1e8">4. Features</a>
 <ul>
-<li><a href="#orgba6a556">4.1. File Navigation</a></li>
-<li><a href="#orgfa1a8c9">4.2. Help and Documentation</a></li>
-<li><a href="#org2b249d2">4.3. Navigation Aids</a></li>
-<li><a href="#orgd3b7770">4.4. LSP Integration</a></li>
-<li><a href="#org95ec792">4.5. Custom Mappings</a></li>
+<li><a href="#org6d05be8">4.1. File Navigation</a></li>
+<li><a href="#org172965f">4.2. Help and Documentation</a></li>
+<li><a href="#org873b03d">4.3. Navigation Aids</a></li>
+<li><a href="#orgebb2c5f">4.4. LSP Integration</a></li>
+<li><a href="#org6f16c9d">4.5. Custom Mappings</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8e07495" class="outline-2">
-<h2 id="org8e07495"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-orgab830fc" class="outline-2">
+<h2 id="orgab830fc"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Telescope is a highly extendable fuzzy finder for Neovim, providing fast file navigation, grep search, and LSP integration.
@@ -41,8 +41,8 @@ Telescope is a highly extendable fuzzy finder for Neovim, providing fast file na
 </div>
 </div>
 
-<div id="outline-container-orgfe54795" class="outline-2">
-<h2 id="orgfe54795"><span class="section-number-2">2.</span> Setup and Configuration</h2>
+<div id="outline-container-org4eb1a92" class="outline-2">
+<h2 id="org4eb1a92"><span class="section-number-2">2.</span> Setup and Configuration</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-lua">local telescope = require("telescope")
@@ -63,8 +63,8 @@ telescope.setup {
 </div>
 </div>
 
-<div id="outline-container-org7288d3e" class="outline-2">
-<h2 id="org7288d3e"><span class="section-number-2">3.</span> Keybindings</h2>
+<div id="outline-container-org51ea98b" class="outline-2">
+<h2 id="org51ea98b"><span class="section-number-2">3.</span> Keybindings</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-lua">local builtin = require("telescope.builtin")
@@ -89,12 +89,12 @@ vim.keymap.set("n", "&lt;leader&gt;fc", builtin.commands, { desc = "Find command
 </div>
 </div>
 
-<div id="outline-container-org46e6c93" class="outline-2">
-<h2 id="org46e6c93"><span class="section-number-2">4.</span> Features</h2>
+<div id="outline-container-orgc67e1e8" class="outline-2">
+<h2 id="orgc67e1e8"><span class="section-number-2">4.</span> Features</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgba6a556" class="outline-3">
-<h3 id="orgba6a556"><span class="section-number-3">4.1.</span> File Navigation</h3>
+<div id="outline-container-org6d05be8" class="outline-3">
+<h3 id="org6d05be8"><span class="section-number-3">4.1.</span> File Navigation</h3>
 <div class="outline-text-3" id="text-4-1">
 <ul class="org-ul">
 <li><code>&lt;leader&gt;ff</code> - Find files in the current directory</li>
@@ -104,8 +104,8 @@ vim.keymap.set("n", "&lt;leader&gt;fc", builtin.commands, { desc = "Find command
 </div>
 </div>
 
-<div id="outline-container-orgfa1a8c9" class="outline-3">
-<h3 id="orgfa1a8c9"><span class="section-number-3">4.2.</span> Help and Documentation</h3>
+<div id="outline-container-org172965f" class="outline-3">
+<h3 id="org172965f"><span class="section-number-3">4.2.</span> Help and Documentation</h3>
 <div class="outline-text-3" id="text-4-2">
 <ul class="org-ul">
 <li><code>&lt;leader&gt;fh</code> - Search help tags</li>
@@ -114,8 +114,8 @@ vim.keymap.set("n", "&lt;leader&gt;fc", builtin.commands, { desc = "Find command
 </div>
 </div>
 
-<div id="outline-container-org2b249d2" class="outline-3">
-<h3 id="org2b249d2"><span class="section-number-3">4.3.</span> Navigation Aids</h3>
+<div id="outline-container-org873b03d" class="outline-3">
+<h3 id="org873b03d"><span class="section-number-3">4.3.</span> Navigation Aids</h3>
 <div class="outline-text-3" id="text-4-3">
 <ul class="org-ul">
 <li><code>&lt;leader&gt;fm</code> - Browse marks</li>
@@ -124,8 +124,8 @@ vim.keymap.set("n", "&lt;leader&gt;fc", builtin.commands, { desc = "Find command
 </div>
 </div>
 
-<div id="outline-container-orgd3b7770" class="outline-3">
-<h3 id="orgd3b7770"><span class="section-number-3">4.4.</span> LSP Integration</h3>
+<div id="outline-container-orgebb2c5f" class="outline-3">
+<h3 id="orgebb2c5f"><span class="section-number-3">4.4.</span> LSP Integration</h3>
 <div class="outline-text-3" id="text-4-4">
 <ul class="org-ul">
 <li><code>&lt;leader&gt;fs</code> - Find symbols in current document</li>
@@ -139,8 +139,8 @@ vim.keymap.set("n", "&lt;leader&gt;fc", builtin.commands, { desc = "Find command
 </div>
 </div>
 
-<div id="outline-container-org95ec792" class="outline-3">
-<h3 id="org95ec792"><span class="section-number-3">4.5.</span> Custom Mappings</h3>
+<div id="outline-container-org6f16c9d" class="outline-3">
+<h3 id="org6f16c9d"><span class="section-number-3">4.5.</span> Custom Mappings</h3>
 <div class="outline-text-3" id="text-4-5">
 <ul class="org-ul">
 <li><code>&lt;C-g&gt;</code> - Close telescope window (both insert and normal mode)</li>

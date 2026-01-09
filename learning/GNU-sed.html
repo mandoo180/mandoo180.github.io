@@ -16,29 +16,29 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb9d37f8">1. Introduction</a>
+<li><a href="#orgd8fa011">1. Introduction</a>
 <ul>
-<li><a href="#org6481e3a">1.1. Basic Usage</a></li>
+<li><a href="#org4b39db6">1.1. Basic Usage</a></li>
 </ul>
 </li>
-<li><a href="#org2f863a6">2. In-place file editing</a>
+<li><a href="#org4753729">2. In-place file editing</a>
 <ul>
-<li><a href="#orgec43eb7">2.1. With backup</a></li>
-<li><a href="#org2f14c9d">2.2. Without backup</a></li>
-<li><a href="#org8cc9d6e">2.3. Multiple files</a></li>
-<li><a href="#orgd4c7589">2.4. Prefix backup name</a></li>
-<li><a href="#org5036271">2.5. Place backups in different directory</a></li>
-<li><a href="#orgc2ee231">2.6. Cheatsheet and summary</a></li>
+<li><a href="#org9989d00">2.1. With backup</a></li>
+<li><a href="#org9d8fb45">2.2. Without backup</a></li>
+<li><a href="#orga9a4a9c">2.3. Multiple files</a></li>
+<li><a href="#org16d28cf">2.4. Prefix backup name</a></li>
+<li><a href="#org13e976d">2.5. Place backups in different directory</a></li>
+<li><a href="#orgb789073">2.6. Cheatsheet and summary</a></li>
 </ul>
 </li>
-<li><a href="#org6fddffb">3. Selective editing</a>
+<li><a href="#orgaa86067">3. Selective editing</a>
 <ul>
-<li><a href="#orge4c1e1b">3.1. Conditional execution</a></li>
-<li><a href="#org971cb04">3.2. Delete command</a></li>
-<li><a href="#org4c55726">3.3. Print command</a></li>
-<li><a href="#org9be868f">3.4. Quit commands</a></li>
-<li><a href="#orgefd5244">3.5. Line addressing</a></li>
-<li><a href="#org2d25cd5">3.6. Print only line number</a></li>
+<li><a href="#org8b21534">3.1. Conditional execution</a></li>
+<li><a href="#org548d58f">3.2. Delete command</a></li>
+<li><a href="#org40fa38a">3.3. Print command</a></li>
+<li><a href="#orgf073106">3.4. Quit commands</a></li>
+<li><a href="#org27b3898">3.5. Line addressing</a></li>
+<li><a href="#org2e7f220">3.6. Print only line number</a></li>
 </ul>
 </li>
 </ul>
@@ -46,8 +46,8 @@
 </div>
 
 
-<div id="outline-container-orgb9d37f8" class="outline-2">
-<h2 id="orgb9d37f8"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-orgd8fa011" class="outline-2">
+<h2 id="orgd8fa011"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The command name <code>sed</code> is derived from stream editor. Here, stream
@@ -67,8 +67,8 @@ the command
 </p>
 </div>
 
-<div id="outline-container-org6481e3a" class="outline-3">
-<h3 id="org6481e3a"><span class="section-number-3">1.1.</span> Basic Usage</h3>
+<div id="outline-container-org4b39db6" class="outline-3">
+<h3 id="org4b39db6"><span class="section-number-3">1.1.</span> Basic Usage</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-builtin">printf</span> <span class="org-string">'1,2,3,4\na,b,c,d\n'</span> | sed <span class="org-string">'s/,/-/g'</span>
@@ -78,12 +78,12 @@ the command
 </div>
 </div>
 
-<div id="outline-container-org2f863a6" class="outline-2">
-<h2 id="org2f863a6"><span class="section-number-2">2.</span> In-place file editing</h2>
+<div id="outline-container-org4753729" class="outline-2">
+<h2 id="org4753729"><span class="section-number-2">2.</span> In-place file editing</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgec43eb7" class="outline-3">
-<h3 id="orgec43eb7"><span class="section-number-3">2.1.</span> With backup</h3>
+<div id="outline-container-org9989d00" class="outline-3">
+<h3 id="org9989d00"><span class="section-number-3">2.1.</span> With backup</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 When an extension is provided as an argument to -i option, the
@@ -100,8 +100,8 @@ extension given. For example, if the input file is <code>ip.txt</code> and
 </div>
 </div>
 
-<div id="outline-container-org2f14c9d" class="outline-3">
-<h3 id="org2f14c9d"><span class="section-number-3">2.2.</span> Without backup</h3>
+<div id="outline-container-org9d8fb45" class="outline-3">
+<h3 id="org9d8fb45"><span class="section-number-3">2.2.</span> Without backup</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Sometimes backups are not desirable. Using -i option on its own will
@@ -118,8 +118,8 @@ compare the differences with a <code>diff</code> program and then delete the bac
 </div>
 </div>
 
-<div id="outline-container-org8cc9d6e" class="outline-3">
-<h3 id="org8cc9d6e"><span class="section-number-3">2.3.</span> Multiple files</h3>
+<div id="outline-container-orga9a4a9c" class="outline-3">
+<h3 id="orga9a4a9c"><span class="section-number-3">2.3.</span> Multiple files</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Multiple input files are treated individually and the changes are
@@ -142,8 +142,8 @@ Using wildcard and globbing
 </div>
 </div>
 
-<div id="outline-container-orgd4c7589" class="outline-3">
-<h3 id="orgd4c7589"><span class="section-number-3">2.4.</span> Prefix backup name</h3>
+<div id="outline-container-org16d28cf" class="outline-3">
+<h3 id="org16d28cf"><span class="section-number-3">2.4.</span> Prefix backup name</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 A * character in the argumetn to -i option is special. It will get
@@ -159,8 +159,8 @@ combination that may be needed.
 </div>
 </div>
 
-<div id="outline-container-org5036271" class="outline-3">
-<h3 id="org5036271"><span class="section-number-3">2.5.</span> Place backups in different directory</h3>
+<div id="outline-container-org13e976d" class="outline-3">
+<h3 id="org13e976d"><span class="section-number-3">2.5.</span> Place backups in different directory</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 The <code>*</code> trick can also be used to place the backups in another directory
@@ -175,8 +175,8 @@ should already exist for this to work.
 </div>
 </div>
 
-<div id="outline-container-orgc2ee231" class="outline-3">
-<h3 id="orgc2ee231"><span class="section-number-3">2.6.</span> Cheatsheet and summary</h3>
+<div id="outline-container-orgb789073" class="outline-3">
+<h3 id="orgb789073"><span class="section-number-3">2.6.</span> Cheatsheet and summary</h3>
 <div class="outline-text-3" id="text-2-6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -217,8 +217,8 @@ should already exist for this to work.
 </div>
 </div>
 
-<div id="outline-container-org6fddffb" class="outline-2">
-<h2 id="org6fddffb"><span class="section-number-2">3.</span> Selective editing</h2>
+<div id="outline-container-orgaa86067" class="outline-2">
+<h2 id="orgaa86067"><span class="section-number-2">3.</span> Selective editing</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 By default, sed acts on the entire input content. Many a times, you
@@ -235,8 +235,8 @@ as seen in the examples of previous chapters.
 </p>
 </div>
 
-<div id="outline-container-orge4c1e1b" class="outline-3">
-<h3 id="orge4c1e1b"><span class="section-number-3">3.1.</span> Conditional execution</h3>
+<div id="outline-container-org8b21534" class="outline-3">
+<h3 id="org8b21534"><span class="section-number-3">3.1.</span> Conditional execution</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 As seen earlier, the syntax for substitute command is
@@ -261,8 +261,8 @@ Use /REGEXP/FLAGS! to act upon lines other than the matching ones.
 </div>
 </div>
 
-<div id="outline-container-org971cb04" class="outline-3">
-<h3 id="org971cb04"><span class="section-number-3">3.2.</span> Delete command</h3>
+<div id="outline-container-org548d58f" class="outline-3">
+<h3 id="org548d58f"><span class="section-number-3">3.2.</span> Delete command</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 To delete the filtered lines, use the <code>d</code> command. Recall that all input
@@ -282,8 +282,8 @@ lines are printed by default.
 </div>
 </div>
 
-<div id="outline-container-org4c55726" class="outline-3">
-<h3 id="org4c55726"><span class="section-number-3">3.3.</span> Print command</h3>
+<div id="outline-container-org40fa38a" class="outline-3">
+<h3 id="org40fa38a"><span class="section-number-3">3.3.</span> Print command</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 To print the filtered lines, use the <code>p</code> command. But, recall that all
@@ -328,8 +328,8 @@ Using !p with -n option will be equivalent to using d command.
 </div>
 </div>
 
-<div id="outline-container-org9be868f" class="outline-3">
-<h3 id="org9be868f"><span class="section-number-3">3.4.</span> Quit commands</h3>
+<div id="outline-container-orgf073106" class="outline-3">
+<h3 id="orgf073106"><span class="section-number-3">3.4.</span> Quit commands</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Using q command wil exit sed immediately, without any further
@@ -374,8 +374,8 @@ the quit commands.
 </div>
 
 
-<div id="outline-container-orgefd5244" class="outline-3">
-<h3 id="orgefd5244"><span class="section-number-3">3.5.</span> Line addressing</h3>
+<div id="outline-container-org27b3898" class="outline-3">
+<h3 id="org27b3898"><span class="section-number-3">3.5.</span> Line addressing</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 Line numbers can also be used as a filtering criteria.
@@ -433,8 +433,8 @@ Mimicking <code>head</code> command using line addressing and the <code>q</code>
 </div>
 </div>
 
-<div id="outline-container-org2d25cd5" class="outline-3">
-<h3 id="org2d25cd5"><span class="section-number-3">3.6.</span> Print only line number</h3>
+<div id="outline-container-org2e7f220" class="outline-3">
+<h3 id="org2e7f220"><span class="section-number-3">3.6.</span> Print only line number</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 The = command will display the line numbers of matching lines.

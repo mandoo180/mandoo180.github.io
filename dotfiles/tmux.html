@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PowerShell Configuration</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">PowerShell Configuration</h1>
+<div class="org-src-container">
+<pre class="src src-conf"><span class="org-comment-delimiter"># </span><span class="org-comment">Use C-x as prefix (Emacs-style)
+</span>unbind C-b
+set -g prefix C-x
+bind C-x send-prefix
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Enable mouse support
+</span>set -g mouse on
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Start window/pane numbering at 1
+</span>set -g base-index 1
+setw -g pane-base-index 1
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Renumber windows when one is closed
+</span>set -g renumber-windows on
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Increase scrollback buffer
+</span>set -g history-limit 50000
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Reduce escape time for faster response
+</span>set -sg escape-time 0
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Enable true color support
+</span>set -g default-terminal <span class="org-string">"tmux-256color"</span>
+set -ga terminal-overrides <span class="org-string">",xterm-256color:Tc"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Allow passthrough for image support (neovim, kitty, etc.)
+</span>set -g allow-passthrough on
+set -ga update-environment TERM
+set -ga update-environment TERM_PROGRAM
+<span class="org-comment-delimiter"># </span><span class="org-comment">Window navigation
+</span>bind N new-window
+bind t new-window
+bind n next-window
+bind p previous-window
+<span class="org-comment-delimiter"># </span><span class="org-comment">Pane splitting (Emacs-style)
+</span>bind 1 resize-pane -Z          <span class="org-comment-delimiter"># </span><span class="org-comment">Zoom (like C-x 1 in Emacs)
+</span>bind 2 split-window -v -c <span class="org-string">"#{pane_current_path}"</span>
+bind _ split-window -v -c <span class="org-string">"#{pane_current_path}"</span>
+bind 3 split-window -h -c <span class="org-string">"#{pane_current_path}"</span>
+bind | split-window -h -c <span class="org-string">"#{pane_current_path}"</span>
+bind x kill-pane
+bind C-k kill-pane
+<span class="org-comment-delimiter"># </span><span class="org-comment">Pane navigation (vim-style)
+</span>bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Pane navigation (arrow keys)
+</span>bind Left select-pane -L
+bind Down select-pane -D
+bind Up select-pane -U
+bind Right select-pane -R
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Cycle through panes
+</span>bind o select-pane -t :.+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Swap panes (vim-style with Shift)
+</span>bind H swap-pane -s <span class="org-string">'{left-of}'</span>
+bind J swap-pane -s <span class="org-string">'{down-of}'</span>
+bind K swap-pane -s <span class="org-string">'{up-of}'</span>
+bind L swap-pane -s <span class="org-string">'{right-of}'</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Swap panes (Shift + arrow keys)
+</span>bind S-Left swap-pane -s <span class="org-string">'{left-of}'</span>
+bind S-Down swap-pane -s <span class="org-string">'{down-of}'</span>
+bind S-Up swap-pane -s <span class="org-string">'{up-of}'</span>
+bind S-Right swap-pane -s <span class="org-string">'{right-of}'</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Resize panes (Alt/Meta + vim keys)
+</span>bind -n M-h resize-pane -L 5
+bind -n M-j resize-pane -D 5
+bind -n M-k resize-pane -U 5
+bind -n M-l resize-pane -R 5
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Resize panes (Alt/Meta + arrow keys)
+</span>bind -n M-Left resize-pane -L 5
+bind -n M-Down resize-pane -D 5
+bind -n M-Up resize-pane -U 5
+bind -n M-Right resize-pane -R 5
+<span class="org-comment-delimiter"># </span><span class="org-comment">Use Emacs keybindings in copy mode
+</span>setw -g mode-keys emacs
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Enter copy mode with C-x [
+</span>bind [ copy-mode
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Copy mode bindings
+</span>bind -T copy-mode C-Space send-keys -X begin-selection
+bind -T copy-mode C-w send-keys -X copy-pipe-and-cancel
+bind -T copy-mode M-w send-keys -X copy-pipe-and-cancel
+bind C-y paste-buffer
+<span class="org-comment-delimiter"># </span><span class="org-comment">TPM - Tmux Plugin Manager
+</span>set -g @plugin <span class="org-string">'tmux-plugins/tpm'</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Essential plugins
+</span>set -g @plugin <span class="org-string">'tmux-plugins/tmux-sensible'</span>      <span class="org-comment-delimiter"># </span><span class="org-comment">Sensible defaults
+</span>set -g @plugin <span class="org-string">'tmux-plugins/tmux-resurrect'</span>     <span class="org-comment-delimiter"># </span><span class="org-comment">Session persistence
+</span>set -g @plugin <span class="org-string">'tmux-plugins/tmux-continuum'</span>     <span class="org-comment-delimiter"># </span><span class="org-comment">Auto-save sessions
+</span>set -g @plugin <span class="org-string">'tmux-plugins/tmux-yank'</span>          <span class="org-comment-delimiter"># </span><span class="org-comment">System clipboard integration
+</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Theme (Tokyo Night)
+</span>set -g @plugin <span class="org-string">'janoamaral/tokyo-night-tmux'</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Initialize TPM (keep at bottom)
+</span>run <span class="org-string">'~/.tmux/plugins/tpm/tpm'</span>
+
+</pre>
+</div>
+</main>
+</body>
+</html>

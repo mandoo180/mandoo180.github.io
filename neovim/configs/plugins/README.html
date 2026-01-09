@@ -16,43 +16,43 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2973e31">1. Overview</a></li>
-<li><a href="#orge82773b">2. File Structure</a></li>
-<li><a href="#org685c523">3. Plugin Categories</a>
+<li><a href="#org0747593">1. Overview</a></li>
+<li><a href="#orgc20092b">2. File Structure</a></li>
+<li><a href="#org625bfb4">3. Plugin Categories</a>
 <ul>
-<li><a href="#orgac46647">3.1. Core Infrastructure</a></li>
-<li><a href="#org2654060">3.2. Navigation &amp; Search</a></li>
-<li><a href="#org277e460">3.3. Code Intelligence</a></li>
-<li><a href="#org1c10b7d">3.4. Completion &amp; Snippets</a></li>
-<li><a href="#org59a8674">3.5. UI Enhancements</a></li>
-<li><a href="#org857bc4a">3.6. Development Tools</a></li>
-<li><a href="#org3200b20">3.7. Editor Enhancement</a></li>
+<li><a href="#org28eb7bb">3.1. Core Infrastructure</a></li>
+<li><a href="#org75cfe12">3.2. Navigation &amp; Search</a></li>
+<li><a href="#org07e651b">3.3. Code Intelligence</a></li>
+<li><a href="#org044595c">3.4. Completion &amp; Snippets</a></li>
+<li><a href="#org42e9b0c">3.5. UI Enhancements</a></li>
+<li><a href="#org241a403">3.6. Development Tools</a></li>
+<li><a href="#orgc252979">3.7. Editor Enhancement</a></li>
 </ul>
 </li>
-<li><a href="#org400b892">4. Usage</a></li>
-<li><a href="#org4e3200e">5. Loading Order</a></li>
-<li><a href="#orgfa3fc1b">6. Dependencies</a>
+<li><a href="#org98ef790">4. Usage</a></li>
+<li><a href="#org6e1bcaa">5. Loading Order</a></li>
+<li><a href="#orgc99092b">6. Dependencies</a>
 <ul>
-<li><a href="#org1a20c3c">6.1. For Treesitter</a></li>
-<li><a href="#orgc1dc741">6.2. For Telescope</a></li>
-<li><a href="#org5f75d81">6.3. For LSP/Completion</a></li>
+<li><a href="#org4bffd76">6.1. For Treesitter</a></li>
+<li><a href="#org4832abb">6.2. For Telescope</a></li>
+<li><a href="#org6278920">6.3. For LSP/Completion</a></li>
 </ul>
 </li>
-<li><a href="#org4075f1d">7. Customization</a></li>
-<li><a href="#org3521852">8. Troubleshooting</a>
+<li><a href="#orga9d9927">7. Customization</a></li>
+<li><a href="#org825e44d">8. Troubleshooting</a>
 <ul>
-<li><a href="#org1a3e4e4">8.1. Plugins Not Loading</a></li>
-<li><a href="#org8372c8a">8.2. Treesitter Errors</a></li>
-<li><a href="#org0b001b7">8.3. Telescope Not Finding Files</a></li>
-<li><a href="#org3f7602b">8.4. Completion Not Working</a></li>
+<li><a href="#orgea7ab77">8.1. Plugins Not Loading</a></li>
+<li><a href="#orge00ff66">8.2. Treesitter Errors</a></li>
+<li><a href="#orgd091103">8.3. Telescope Not Finding Files</a></li>
+<li><a href="#orgec2d35e">8.4. Completion Not Working</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org2973e31" class="outline-2">
-<h2 id="org2973e31"><span class="section-number-2">1.</span> Overview</h2>
+<div id="outline-container-org0747593" class="outline-2">
+<h2 id="org0747593"><span class="section-number-2">1.</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This directory contains modular configurations for Neovim plugins. Each file represents a specific plugin or group of related plugins, organized to be tangled to the appropriate location in your Neovim configuration.
@@ -60,8 +60,8 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-orge82773b" class="outline-2">
-<h2 id="orge82773b"><span class="section-number-2">2.</span> File Structure</h2>
+<div id="outline-container-orgc20092b" class="outline-2">
+<h2 id="orgc20092b"><span class="section-number-2">2.</span> File Structure</h2>
 <div class="outline-text-2" id="text-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -109,12 +109,12 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-org685c523" class="outline-2">
-<h2 id="org685c523"><span class="section-number-2">3.</span> Plugin Categories</h2>
+<div id="outline-container-org625bfb4" class="outline-2">
+<h2 id="org625bfb4"><span class="section-number-2">3.</span> Plugin Categories</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgac46647" class="outline-3">
-<h3 id="orgac46647"><span class="section-number-3">3.1.</span> Core Infrastructure</h3>
+<div id="outline-container-org28eb7bb" class="outline-3">
+<h3 id="org28eb7bb"><span class="section-number-3">3.1.</span> Core Infrastructure</h3>
 <div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
 <li><b><b>plenary.nvim</b></b>: Lua utility functions required by many plugins</li>
@@ -123,8 +123,8 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-org2654060" class="outline-3">
-<h3 id="org2654060"><span class="section-number-3">3.2.</span> Navigation &amp; Search</h3>
+<div id="outline-container-org75cfe12" class="outline-3">
+<h3 id="org75cfe12"><span class="section-number-3">3.2.</span> Navigation &amp; Search</h3>
 <div class="outline-text-3" id="text-3-2">
 <ul class="org-ul">
 <li><b><b>telescope.nvim</b></b>: Extensible fuzzy finder with LSP integration</li>
@@ -134,8 +134,8 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-org277e460" class="outline-3">
-<h3 id="org277e460"><span class="section-number-3">3.3.</span> Code Intelligence</h3>
+<div id="outline-container-org07e651b" class="outline-3">
+<h3 id="org07e651b"><span class="section-number-3">3.3.</span> Code Intelligence</h3>
 <div class="outline-text-3" id="text-3-3">
 <ul class="org-ul">
 <li><b><b>nvim-treesitter</b></b>: Advanced syntax highlighting and code understanding</li>
@@ -146,8 +146,8 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-org1c10b7d" class="outline-3">
-<h3 id="org1c10b7d"><span class="section-number-3">3.4.</span> Completion &amp; Snippets</h3>
+<div id="outline-container-org044595c" class="outline-3">
+<h3 id="org044595c"><span class="section-number-3">3.4.</span> Completion &amp; Snippets</h3>
 <div class="outline-text-3" id="text-3-4">
 <ul class="org-ul">
 <li><b><b>nvim-cmp</b></b>: Modular completion framework</li>
@@ -160,8 +160,8 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-org59a8674" class="outline-3">
-<h3 id="org59a8674"><span class="section-number-3">3.5.</span> UI Enhancements</h3>
+<div id="outline-container-org42e9b0c" class="outline-3">
+<h3 id="org42e9b0c"><span class="section-number-3">3.5.</span> UI Enhancements</h3>
 <div class="outline-text-3" id="text-3-5">
 <ul class="org-ul">
 <li><b><b>bufferline.nvim</b></b>: Enhanced buffer/tab display</li>
@@ -172,8 +172,8 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-org857bc4a" class="outline-3">
-<h3 id="org857bc4a"><span class="section-number-3">3.6.</span> Development Tools</h3>
+<div id="outline-container-org241a403" class="outline-3">
+<h3 id="org241a403"><span class="section-number-3">3.6.</span> Development Tools</h3>
 <div class="outline-text-3" id="text-3-6">
 <ul class="org-ul">
 <li><b><b>nvim-dap</b></b>: Debug Adapter Protocol client for debugging</li>
@@ -184,8 +184,8 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-org3200b20" class="outline-3">
-<h3 id="org3200b20"><span class="section-number-3">3.7.</span> Editor Enhancement</h3>
+<div id="outline-container-orgc252979" class="outline-3">
+<h3 id="orgc252979"><span class="section-number-3">3.7.</span> Editor Enhancement</h3>
 <div class="outline-text-3" id="text-3-7">
 <ul class="org-ul">
 <li><b><b>mini.pairs</b></b>: Automatic bracket/quote pairs</li>
@@ -195,8 +195,8 @@ This directory contains modular configurations for Neovim plugins. Each file rep
 </div>
 </div>
 
-<div id="outline-container-org400b892" class="outline-2">
-<h2 id="org400b892"><span class="section-number-2">4.</span> Usage</h2>
+<div id="outline-container-org98ef790" class="outline-2">
+<h2 id="org98ef790"><span class="section-number-2">4.</span> Usage</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 To tangle all plugin configurations:
@@ -214,8 +214,8 @@ Or create a batch tangle script to process all files at once.
 </div>
 </div>
 
-<div id="outline-container-org4e3200e" class="outline-2">
-<h2 id="org4e3200e"><span class="section-number-2">5.</span> Loading Order</h2>
+<div id="outline-container-org6e1bcaa" class="outline-2">
+<h2 id="org6e1bcaa"><span class="section-number-2">5.</span> Loading Order</h2>
 <div class="outline-text-2" id="text-5">
 <ol class="org-ol">
 <li><b><b>Plugin Definition</b></b> (<code>00-loader.org</code>) - Must be loaded first to install plugins</li>
@@ -234,16 +234,16 @@ require "pengling.plugins.cmp"
 </div>
 </div>
 
-<div id="outline-container-orgfa3fc1b" class="outline-2">
-<h2 id="orgfa3fc1b"><span class="section-number-2">6.</span> Dependencies</h2>
+<div id="outline-container-orgc99092b" class="outline-2">
+<h2 id="orgc99092b"><span class="section-number-2">6.</span> Dependencies</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 External programs needed:
 </p>
 </div>
 
-<div id="outline-container-org1a20c3c" class="outline-3">
-<h3 id="org1a20c3c"><span class="section-number-3">6.1.</span> For Treesitter</h3>
+<div id="outline-container-org4bffd76" class="outline-3">
+<h3 id="org4bffd76"><span class="section-number-3">6.1.</span> For Treesitter</h3>
 <div class="outline-text-3" id="text-6-1">
 <ul class="org-ul">
 <li>C compiler (gcc/clang) for building parsers</li>
@@ -252,8 +252,8 @@ External programs needed:
 </div>
 </div>
 
-<div id="outline-container-orgc1dc741" class="outline-3">
-<h3 id="orgc1dc741"><span class="section-number-3">6.2.</span> For Telescope</h3>
+<div id="outline-container-org4832abb" class="outline-3">
+<h3 id="org4832abb"><span class="section-number-3">6.2.</span> For Telescope</h3>
 <div class="outline-text-3" id="text-6-2">
 <ul class="org-ul">
 <li><code>ripgrep</code> (rg) - For live grep functionality</li>
@@ -262,8 +262,8 @@ External programs needed:
 </div>
 </div>
 
-<div id="outline-container-org5f75d81" class="outline-3">
-<h3 id="org5f75d81"><span class="section-number-3">6.3.</span> For LSP/Completion</h3>
+<div id="outline-container-org6278920" class="outline-3">
+<h3 id="org6278920"><span class="section-number-3">6.3.</span> For LSP/Completion</h3>
 <div class="outline-text-3" id="text-6-3">
 <ul class="org-ul">
 <li>Language servers for your languages (installed via Mason or manually)</li>
@@ -273,8 +273,8 @@ External programs needed:
 </div>
 </div>
 
-<div id="outline-container-org4075f1d" class="outline-2">
-<h2 id="org4075f1d"><span class="section-number-2">7.</span> Customization</h2>
+<div id="outline-container-orga9d9927" class="outline-2">
+<h2 id="orga9d9927"><span class="section-number-2">7.</span> Customization</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Each configuration file contains detailed explanations of the settings. Common customization points:
@@ -289,12 +289,12 @@ Each configuration file contains detailed explanations of the settings. Common c
 </div>
 </div>
 
-<div id="outline-container-org3521852" class="outline-2">
-<h2 id="org3521852"><span class="section-number-2">8.</span> Troubleshooting</h2>
+<div id="outline-container-org825e44d" class="outline-2">
+<h2 id="org825e44d"><span class="section-number-2">8.</span> Troubleshooting</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-org1a3e4e4" class="outline-3">
-<h3 id="org1a3e4e4"><span class="section-number-3">8.1.</span> Plugins Not Loading</h3>
+<div id="outline-container-orgea7ab77" class="outline-3">
+<h3 id="orgea7ab77"><span class="section-number-3">8.1.</span> Plugins Not Loading</h3>
 <div class="outline-text-3" id="text-8-1">
 <ul class="org-ul">
 <li>Ensure you've run the tangle command on <code>00-loader.org</code></li>
@@ -304,8 +304,8 @@ Each configuration file contains detailed explanations of the settings. Common c
 </div>
 </div>
 
-<div id="outline-container-org8372c8a" class="outline-3">
-<h3 id="org8372c8a"><span class="section-number-3">8.2.</span> Treesitter Errors</h3>
+<div id="outline-container-orge00ff66" class="outline-3">
+<h3 id="orge00ff66"><span class="section-number-3">8.2.</span> Treesitter Errors</h3>
 <div class="outline-text-3" id="text-8-2">
 <ul class="org-ul">
 <li>Run <code>:TSInstall &lt;language&gt;</code> to install missing parsers</li>
@@ -314,8 +314,8 @@ Each configuration file contains detailed explanations of the settings. Common c
 </div>
 </div>
 
-<div id="outline-container-org0b001b7" class="outline-3">
-<h3 id="org0b001b7"><span class="section-number-3">8.3.</span> Telescope Not Finding Files</h3>
+<div id="outline-container-orgd091103" class="outline-3">
+<h3 id="orgd091103"><span class="section-number-3">8.3.</span> Telescope Not Finding Files</h3>
 <div class="outline-text-3" id="text-8-3">
 <ul class="org-ul">
 <li>Install <code>ripgrep</code> and <code>fd</code> for better performance</li>
@@ -324,8 +324,8 @@ Each configuration file contains detailed explanations of the settings. Common c
 </div>
 </div>
 
-<div id="outline-container-org3f7602b" class="outline-3">
-<h3 id="org3f7602b"><span class="section-number-3">8.4.</span> Completion Not Working</h3>
+<div id="outline-container-orgec2d35e" class="outline-3">
+<h3 id="orgec2d35e"><span class="section-number-3">8.4.</span> Completion Not Working</h3>
 <div class="outline-text-3" id="text-8-4">
 <ul class="org-ul">
 <li>Ensure LSP servers are installed and running</li>

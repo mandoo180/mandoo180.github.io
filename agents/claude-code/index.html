@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Claude Code Configurations</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">Claude Code Configurations</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5e0fcd7">1. Introduction</a>
+<ul>
+<li><a href="#org2ccc8ff">1.1. What is Claude Code?</a></li>
+<li><a href="#org35dcf4d">1.2. How This Works</a></li>
+<li><a href="#org5443734">1.3. Literate Configuration Philosophy</a></li>
+</ul>
+</li>
+<li><a href="#orgaa4cc05">2. Configuration Modules</a>
+<ul>
+<li><a href="#org15d96f6">2.1. Project Settings</a></li>
+<li><a href="#org64e887c">2.2. Slash Commands</a></li>
+<li><a href="#org29f7c65">2.3. Agent Skills</a></li>
+<li><a href="#org3061448">2.4. MCP Servers</a></li>
+<li><a href="#org7b301cc">2.5. Custom Subagents</a></li>
+</ul>
+</li>
+<li><a href="#org40aff0c">3. Quick Reference</a></li>
+<li><a href="#org4b33569">4. Usage</a>
+<ul>
+<li><a href="#org23e3e41">4.1. Quick Start</a></li>
+<li><a href="#orgf30d114">4.2. Tangling Individual Files</a></li>
+</ul>
+</li>
+<li><a href="#orgc1d74b1">5. Project vs User Configuration</a>
+<ul>
+<li><a href="#org7bf6b9b">5.1. Project-Level (Version Controlled)</a></li>
+<li><a href="#orgd4032e1">5.2. User-Level (Personal)</a></li>
+</ul>
+</li>
+<li><a href="#org3355a00">6. Integration</a>
+<ul>
+<li><a href="#org8d10c78">6.1. Related Configurations</a></li>
+<li><a href="#org463428d">6.2. Build Integration</a></li>
+</ul>
+</li>
+<li><a href="#org1b7ca53">7. Resources</a>
+<ul>
+<li><a href="#org182c612">7.1. Official Documentation</a></li>
+<li><a href="#orgb3dab57">7.2. Community Resources</a></li>
+<li><a href="#orgbf9a64d">7.3. Site Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5e0fcd7" class="outline-2">
+<h2 id="org5e0fcd7"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This directory contains Claude Code configuration written in literate programming style using Org-mode. Configurations include slash commands, agent skills, MCP servers, and project settings.
+</p>
+</div>
+
+<div id="outline-container-org2ccc8ff" class="outline-3">
+<h3 id="org2ccc8ff"><span class="section-number-3">1.1.</span> What is Claude Code?</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Claude Code is Anthropic's AI-powered coding assistant that extends Claude with tools for reading/writing files, running commands, and integrating with development workflows.
+</p>
+
+<p>
+Key capabilities:
+</p>
+<ul class="org-ul">
+<li>File operations (read, write, edit)</li>
+<li>Code execution and shell commands</li>
+<li>Git integration</li>
+<li>Web search and fetching</li>
+<li>MCP (Model Context Protocol) server integration</li>
+<li>Extensible via slash commands and skills</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org35dcf4d" class="outline-3">
+<h3 id="org35dcf4d"><span class="section-number-3">1.2.</span> How This Works</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li><b>Tangling</b>: Extract configurations to <code>.claude/</code> directory using Org-mode's babel</li>
+<li><b>Documentation</b>: Each config includes detailed explanations of what it does and why</li>
+<li><b>Modular</b>: Separate files for different config types for easy navigation</li>
+<li><b>Team-Shareable</b>: Project configs can be version-controlled and shared</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5443734" class="outline-3">
+<h3 id="org5443734"><span class="section-number-3">1.3.</span> Literate Configuration Philosophy</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Following the pattern established in the <a href="../../emacs/emacs-configs.html">Emacs configurations</a>, these Claude Code configs use literate programming:
+</p>
+<ol class="org-ol">
+<li>Documentation comes first - explain the "why" before the "what"</li>
+<li>Code blocks use <code>:tangle</code> directives to generate actual config files</li>
+<li>Examples and best practices inline with implementation</li>
+<li>Easy to understand, modify, and extend</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaa4cc05" class="outline-2">
+<h2 id="orgaa4cc05"><span class="section-number-2">2.</span> Configuration Modules</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org15d96f6" class="outline-3">
+<h3 id="org15d96f6"><span class="section-number-3">2.1.</span> <a href="01-settings.html">Project Settings</a></h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Permissions, environment variables, model selection, hooks
+</p>
+
+<p>
+Configure what tools Claude Code can use, set environment variables for your project, and control behavior through hooks.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org64e887c" class="outline-3">
+<h3 id="org64e887c"><span class="section-number-3">2.2.</span> <a href="02-commands.html">Slash Commands</a></h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Custom prompt templates for repeated workflows
+</p>
+
+<p>
+User-invoked commands accessed by typing <code>/</code> in Claude Code. Includes commit message generation and org-roam capture integration.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org29f7c65" class="outline-3">
+<h3 id="org29f7c65"><span class="section-number-3">2.3.</span> Agent Skills</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Skills that Claude automatically activates based on context. Organized by domain:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Module</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a href="03-skills.html">Core Skills</a></td>
+<td class="org-left">General development patterns and practices</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="03-skills-emacs.html">Emacs Skills</a></td>
+<td class="org-left">Emacs integration, org-mode, LSP</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="03-skills-javascript.html">JavaScript Skills</a></td>
+<td class="org-left">TypeScript, React, Node.js patterns</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="03-skills-python.html">Python Skills</a></td>
+<td class="org-left">Python, FastAPI, Django patterns</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="03-skills-rails.html">Rails Skills</a></td>
+<td class="org-left">Ruby on Rails development patterns</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="03-skills-documentation.html">Documentation Skills</a></td>
+<td class="org-left">Documentation completeness checking</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org3061448" class="outline-3">
+<h3 id="org3061448"><span class="section-number-3">2.4.</span> <a href="04-mcp-servers.html">MCP Servers</a></h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+External tool integrations via Model Context Protocol
+</p>
+
+<p>
+Connect Claude Code to external services and tools. Configured for Emacs integration and project-scoped filesystem access.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7b301cc" class="outline-3">
+<h3 id="org7b301cc"><span class="section-number-3">2.5.</span> <a href="05-subagents.html">Custom Subagents</a></h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Specialized agents for specific tasks (future)
+</p>
+
+<p>
+Placeholder for upcoming custom subagent functionality. Will be updated when the feature becomes available.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org40aff0c" class="outline-2">
+<h2 id="org40aff0c"><span class="section-number-2">3.</span> Quick Reference</h2>
+<div class="outline-text-2" id="text-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Project Location</th>
+<th scope="col" class="org-left">User Location</th>
+<th scope="col" class="org-left">Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Settings</td>
+<td class="org-left">.claude/settings.json</td>
+<td class="org-left">~/.claude/settings.json</td>
+<td class="org-left">JSON</td>
+</tr>
+
+<tr>
+<td class="org-left">Commands</td>
+<td class="org-left">.claude/commands/*.md</td>
+<td class="org-left">~/.claude/commands/*.md</td>
+<td class="org-left">Markdown</td>
+</tr>
+
+<tr>
+<td class="org-left">Skills</td>
+<td class="org-left">.claude/skills/*/</td>
+<td class="org-left">~/.claude/skills/*/</td>
+<td class="org-left">Markdown</td>
+</tr>
+
+<tr>
+<td class="org-left">MCP Servers</td>
+<td class="org-left">.mcp.json</td>
+<td class="org-left">~/.claude.json</td>
+<td class="org-left">JSON</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>Project-level</b> configurations are version-controlled and shared with your team. <b>User-level</b> configurations are personal preferences stored in your home directory.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4b33569" class="outline-2">
+<h2 id="org4b33569"><span class="section-number-2">4.</span> Usage</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+See <a href="README.html">README</a> for detailed tangling instructions, editing guide, and troubleshooting.
+</p>
+</div>
+
+<div id="outline-container-org23e3e41" class="outline-3">
+<h3 id="org23e3e41"><span class="section-number-3">4.1.</span> Quick Start</h3>
+<div class="outline-text-3" id="text-4-1">
+<ol class="org-ol">
+<li><b>Review configs</b>: Read through the org files to understand what each config does</li>
+<li><b>Customize paths</b>: Edit MCP server paths in <code>04-mcp-servers.org</code> if needed</li>
+<li><b>Tangle configs</b>: Run <code>./tangle-claude.sh</code> from project root</li>
+<li><b>Reload Claude Code</b>: Restart or reload to pick up new configurations</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgf30d114" class="outline-3">
+<h3 id="orgf30d114"><span class="section-number-3">4.2.</span> Tangling Individual Files</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+From Emacs:
+</p>
+<ul class="org-ul">
+<li>Open any org file</li>
+<li>Run <code>M-x org-babel-tangle</code> or <code>C-c C-v t</code></li>
+</ul>
+
+<p>
+From command line:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">emacs -Q --batch <span class="org-sh-escaped-newline">\</span>
+  --eval <span class="org-string">"(require 'org)"</span> <span class="org-sh-escaped-newline">\</span>
+  --eval <span class="org-string">"(setq org-confirm-babel-evaluate nil)"</span> <span class="org-sh-escaped-newline">\</span>
+  --eval <span class="org-string">"(find-file \"01-settings.org\")"</span> <span class="org-sh-escaped-newline">\</span>
+  --eval <span class="org-string">"(org-babel-tangle)"</span> <span class="org-sh-escaped-newline">\</span>
+  --kill
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc1d74b1" class="outline-2">
+<h2 id="orgc1d74b1"><span class="section-number-2">5.</span> Project vs User Configuration</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org7bf6b9b" class="outline-3">
+<h3 id="org7bf6b9b"><span class="section-number-3">5.1.</span> Project-Level (Version Controlled)</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Use for configurations that should be shared with your team:
+</p>
+<ul class="org-ul">
+<li>Permission policies for the project</li>
+<li>MCP servers everyone uses</li>
+<li>Common slash commands (<code>/review</code>, <code>/commit-msg</code>)</li>
+<li>Team-wide skills</li>
+<li>Project-specific settings</li>
+</ul>
+
+<p>
+Files: <code>.claude/settings.json</code>, <code>.claude/commands/</code>, <code>.claude/skills/</code>, <code>.mcp.json</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd4032e1" class="outline-3">
+<h3 id="orgd4032e1"><span class="section-number-3">5.2.</span> User-Level (Personal)</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Use for personal preferences not in version control:
+</p>
+<ul class="org-ul">
+<li>Personal notification preferences</li>
+<li>Local development tools</li>
+<li>Experimental commands/skills</li>
+<li>API keys and credentials</li>
+<li>Personal MCP servers</li>
+</ul>
+
+<p>
+Files: <code>~/.claude/settings.json</code>, <code>~/.claude/commands/</code>, <code>~/.claude/skills/</code>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3355a00" class="outline-2">
+<h2 id="org3355a00"><span class="section-number-2">6.</span> Integration</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+This configuration is part of a larger knowledge base. See <a href="../../index.html">main index</a> for other configurations.
+</p>
+</div>
+
+<div id="outline-container-org8d10c78" class="outline-3">
+<h3 id="org8d10c78"><span class="section-number-3">6.1.</span> Related Configurations</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li><a href="../../emacs/emacs-configs.html">Emacs Configurations</a> - Similar literate config approach</li>
+<li><a href="../../neovim/configs/README.html">Neovim Configurations</a> - Alternative editor setup</li>
+<li><a href="../../dotfiles/index.html">Dotfiles</a> - Other development tool configs</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org463428d" class="outline-3">
+<h3 id="org463428d"><span class="section-number-3">6.2.</span> Build Integration</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+These org files are automatically processed by the site's build system:
+</p>
+<ul class="org-ul">
+<li><code>./build.sh</code> converts org files to HTML</li>
+<li>Generated files appear in <code>public/agents/claude-code/</code></li>
+<li>Styling matches the rest of the site (GitHub Flavored Markdown theme)</li>
+<li>Floating table of contents for easy navigation</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1b7ca53" class="outline-2">
+<h2 id="org1b7ca53"><span class="section-number-2">7.</span> Resources</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org182c612" class="outline-3">
+<h3 id="org182c612"><span class="section-number-3">7.1.</span> Official Documentation</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li><a href="https://code.anthropic.com/docs">Claude Code Documentation</a></li>
+<li><a href="https://modelcontextprotocol.org">Model Context Protocol Specification</a></li>
+<li><a href="https://github.com/anthropics/claude-code">Claude Code GitHub</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb3dab57" class="outline-3">
+<h3 id="orgb3dab57"><span class="section-number-3">7.2.</span> Community Resources</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li><a href="https://awesomeclaude.ai/code-cheatsheet">Claude Code Developer Cheatsheet</a></li>
+<li><a href="https://mcpcat.io">MCP Server Directory</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbf9a64d" class="outline-3">
+<h3 id="orgbf9a64d"><span class="section-number-3">7.3.</span> Site Documentation</h3>
+<div class="outline-text-3" id="text-7-3">
+<ul class="org-ul">
+<li><a href="../../../CLAUDE.md">CLAUDE.md</a> - Instructions for Claude when working in this repo</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>

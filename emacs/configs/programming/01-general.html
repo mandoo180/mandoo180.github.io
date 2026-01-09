@@ -15,50 +15,48 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgecf301e">1. General Programming Configuration</a>
+<li><a href="#org2c77bfe">1. General Programming Configuration</a>
 <ul>
-<li><a href="#orgbf3bb6a">1.1. Overview</a></li>
-<li><a href="#orgc35283a">1.2. What's Included</a></li>
-<li><a href="#orga249f89">1.3. Completion</a></li>
-<li><a href="#orgde9fabd">1.4. Compilation and Build Tools</a></li>
-<li><a href="#orgb4f2d87">1.5. Version Control</a></li>
-<li><a href="#org01a1b37">1.6. Project Management</a></li>
-<li><a href="#orgf5de2e9">1.7. Documentation</a></li>
-<li><a href="#org3c65010">1.8. Editing Utilities</a></li>
-<li><a href="#orgfb7774e">1.9. Syntax Checking</a></li>
-<li><a href="#org8d15ce3">1.10. Diff and Merge</a></li>
-<li><a href="#org11b35bf">1.11. Code Snippets</a></li>
-<li><a href="#orgd2c408f">1.12. LSP - Language Server Protocol</a></li>
-<li><a href="#org53116c4">1.13. Multiple Cursors and Region Expansion</a>
+<li><a href="#org28f67e0">1.1. Overview</a></li>
+<li><a href="#org8806ddf">1.2. What's Included</a></li>
+<li><a href="#org1c1daff">1.3. Compilation and Build Tools</a></li>
+<li><a href="#orgc421f92">1.4. Version Control</a></li>
+<li><a href="#orgd46f28f">1.5. Project Management</a></li>
+<li><a href="#orgd5e163f">1.6. Documentation</a></li>
+<li><a href="#org7e39185">1.7. Editing Utilities</a></li>
+<li><a href="#orgfdc59ca">1.8. Syntax Checking</a></li>
+<li><a href="#orgdb2fb27">1.9. Diff and Merge</a></li>
+<li><a href="#orga12c350">1.10. Code Snippets</a></li>
+<li><a href="#orgd387cff">1.11. LSP - Language Server Protocol</a></li>
+<li><a href="#orgf6b672e">1.12. Multiple Cursors and Region Expansion</a>
 <ul>
-<li><a href="#org85b7b23">1.13.1. Multiple Cursors</a></li>
-<li><a href="#org0b009dc">1.13.2. Expand Region</a></li>
+<li><a href="#orgcae3d63">1.12.1. Multiple Cursors</a></li>
+<li><a href="#org77648ff">1.12.2. Expand Region</a></li>
 </ul>
 </li>
-<li><a href="#org83cfbbf">1.14. REST Client</a></li>
+<li><a href="#org3dffa82">1.13. REST Client</a></li>
 </ul>
 </li>
-<li><a href="#org2dd2ea9">2. End of File</a></li>
+<li><a href="#org2a36288">2. End of File</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgecf301e" class="outline-2">
-<h2 id="orgecf301e"><span class="section-number-2">1.</span> General Programming Configuration</h2>
+<div id="outline-container-org2c77bfe" class="outline-2">
+<h2 id="org2c77bfe"><span class="section-number-2">1.</span> General Programming Configuration</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Common programming tools and utilities that apply across all languages.
 </p>
 </div>
 
-<div id="outline-container-orgbf3bb6a" class="outline-3">
-<h3 id="orgbf3bb6a"><span class="section-number-3">1.1.</span> Overview</h3>
+<div id="outline-container-org28f67e0" class="outline-3">
+<h3 id="org28f67e0"><span class="section-number-3">1.1.</span> Overview</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 This module provides:
 </p>
 <ul class="org-ul">
-<li><b><b>Completion</b></b>: Corfu for in-buffer completion</li>
 <li><b><b>Compilation</b></b>: Enhanced compilation mode with ANSI colors</li>
 <li><b><b>Version Control</b></b>: Magit and merge conflict resolution</li>
 <li><b><b>Project Management</b></b>: Built-in project.el with custom markers and Magit integration</li>
@@ -74,8 +72,8 @@ This module provides:
 </div>
 </div>
 
-<div id="outline-container-orgc35283a" class="outline-3">
-<h3 id="orgc35283a"><span class="section-number-3">1.2.</span> What's Included</h3>
+<div id="outline-container-org8806ddf" class="outline-3">
+<h3 id="org8806ddf"><span class="section-number-3">1.2.</span> What's Included</h3>
 <div class="outline-text-3" id="text-1-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -92,11 +90,6 @@ This module provides:
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="org-left">Completion</td>
-<td class="org-left">corfu, corfu-candidate-overlay</td>
-</tr>
-
 <tr>
 <td class="org-left">Build Tools</td>
 <td class="org-left">compile, makefile-mode</td>
@@ -161,53 +154,9 @@ This module provides:
 </div>
 </div>
 
-<div id="outline-container-orga249f89" class="outline-3">
-<h3 id="orga249f89"><span class="section-number-3">1.3.</span> Completion</h3>
+<div id="outline-container-org1c1daff" class="outline-3">
+<h3 id="org1c1daff"><span class="section-number-3">1.3.</span> Compilation and Build Tools</h3>
 <div class="outline-text-3" id="text-1-3">
-<p>
-In-buffer completion with Corfu provides a lightweight, fast completion UI that integrates seamlessly with Emacs's native completion system.
-</p>
-
-<p>
-Features:
-</p>
-<ul class="org-ul">
-<li>Manual completion activation (disabled auto-completion to reduce distractions)</li>
-<li>Candidate overlay showing the first completion inline</li>
-<li>Works with LSP, Eglot, and other completion backends</li>
-<li><code>C-TAB</code> to trigger completion at point</li>
-</ul>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">General programming tools: completion, compilation, version control,
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">syntax checking, and common programming utilities.
-</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
-</span>
-<span class="org-comment-delimiter">;; </span><span class="org-comment">Completion
-</span>(<span class="org-keyword">use-package</span> corfu
-  <span class="org-builtin">:custom</span>
-  (corfu-auto nil)
-  (corfu-auto-delay 0.3)
-  (corfu-auto-prefix 3)
-  (corfu-preview-current t))
-
-(<span class="org-keyword">use-package</span> corfu-candidate-overlay
-  <span class="org-builtin">:after</span> corfu
-  <span class="org-builtin">:config</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">enable corfu-candidate-overlay mode globally
-</span>  <span class="org-comment-delimiter">;; </span><span class="org-comment">this relies on having corfu-auto set to nil
-</span>  (corfu-candidate-overlay-mode 1)
-  (global-set-key (kbd <span class="org-string">"C-&lt;tab&gt;"</span>) 'completion-at-point))
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgde9fabd" class="outline-3">
-<h3 id="orgde9fabd"><span class="section-number-3">1.4.</span> Compilation and Build Tools</h3>
-<div class="outline-text-3" id="text-1-4">
 <p>
 Enhanced compilation mode with ANSI color support for better readability of build output. Includes support for Makefiles and configuration files.
 </p>
@@ -223,7 +172,12 @@ Features:
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">prog-general-conf.el --- General programming configuration -*- lexical-binding: t; -*-
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Commentary:
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">General programming tools: compilation, version control,
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">syntax checking, and common programming utilities.
+</span><span class="org-comment-delimiter">;;; </span><span class="org-comment">Code:
+</span>
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Compilation
 </span>(<span class="org-keyword">use-package</span> compile
   <span class="org-builtin">:ensure</span> nil
@@ -261,9 +215,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgb4f2d87" class="outline-3">
-<h3 id="orgb4f2d87"><span class="section-number-3">1.5.</span> Version Control</h3>
-<div class="outline-text-3" id="text-1-5">
+<div id="outline-container-orgc421f92" class="outline-3">
+<h3 id="orgc421f92"><span class="section-number-3">1.4.</span> Version Control</h3>
+<div class="outline-text-3" id="text-1-4">
 <p>
 Magit is the premier Git interface for Emacs, providing a comprehensive and intuitive way to work with Git repositories. Smerge-mode helps resolve merge conflicts directly in buffers.
 </p>
@@ -325,9 +279,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org01a1b37" class="outline-3">
-<h3 id="org01a1b37"><span class="section-number-3">1.6.</span> Project Management</h3>
-<div class="outline-text-3" id="text-1-6">
+<div id="outline-container-orgd46f28f" class="outline-3">
+<h3 id="orgd46f28f"><span class="section-number-3">1.5.</span> Project Management</h3>
+<div class="outline-text-3" id="text-1-5">
 <p>
 Built-in project management system for working with projects defined by version control roots (Git, SVN, etc.) or manually specified directories.
 </p>
@@ -396,7 +350,7 @@ Key bindings:
     (<span class="org-keyword">let</span> ((markers '(<span class="org-string">".project"</span> <span class="org-string">".projectile"</span> <span class="org-string">"package.json"</span> <span class="org-string">"Cargo.toml"</span>
                      <span class="org-string">"setup.py"</span> <span class="org-string">"requirements.txt"</span> <span class="org-string">"pom.xml"</span> <span class="org-string">"build.gradle"</span>)))
       (cl-some (<span class="org-keyword">lambda</span> (marker)
-                 (<span class="org-keyword">when-let</span> ((root (locate-dominating-file dir marker)))
+                 (<span class="org-keyword">when-let*</span> ((root (locate-dominating-file dir marker)))
                    (cons 'transient root)))
                markers)))
 
@@ -415,9 +369,9 @@ Key bindings:
 </div>
 </div>
 
-<div id="outline-container-orgf5de2e9" class="outline-3">
-<h3 id="orgf5de2e9"><span class="section-number-3">1.7.</span> Documentation</h3>
-<div class="outline-text-3" id="text-1-7">
+<div id="outline-container-orgd5e163f" class="outline-3">
+<h3 id="orgd5e163f"><span class="section-number-3">1.6.</span> Documentation</h3>
+<div class="outline-text-3" id="text-1-6">
 <p>
 Eldoc provides inline documentation in the echo area or popup boxes, showing function signatures, variable documentation, and more.
 </p>
@@ -440,26 +394,26 @@ Features:
   <span class="org-builtin">:init</span>
   (global-eldoc-mode))
 
-(<span class="org-keyword">use-package</span> eldoc-box
-  <span class="org-builtin">:defer</span> t
-  <span class="org-builtin">:custom</span>
-  (eldoc-box-border-width 1)
-  (eldoc-box-echo-area-use-multiline-p t)
-  (eldoc-box-scrollbar-width 8)
-  (eldoc-box-max-lines 10)
-  (eldoc-box-use-echo-area nil)
-  <span class="org-builtin">:bind</span>
-  (<span class="org-string">"C-c h ."</span> . eldoc-box-help-at-point)
-  <span class="org-builtin">:hook</span>
-  (eldoc-mode . eldoc-box-hover-mode))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(use-package eldoc-box
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:defer t
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:custom
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eldoc-box-border-width 1)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eldoc-box-echo-area-use-multiline-p t)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eldoc-box-scrollbar-width 8)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eldoc-box-max-lines 10)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eldoc-box-use-echo-area nil)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:bind
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">("C-c h ." . eldoc-box-help-at-point)
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">:hook
+</span><span class="org-comment-delimiter">;;   </span><span class="org-comment">(eldoc-mode . eldoc-box-hover-mode))</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3c65010" class="outline-3">
-<h3 id="org3c65010"><span class="section-number-3">1.8.</span> Editing Utilities</h3>
-<div class="outline-text-3" id="text-1-8">
+<div id="outline-container-org7e39185" class="outline-3">
+<h3 id="org7e39185"><span class="section-number-3">1.7.</span> Editing Utilities</h3>
+<div class="outline-text-3" id="text-1-7">
 <p>
 Essential editing enhancements for programming including automatic pairing of brackets, parenthesis matching, and visual delimiter highlighting.
 </p>
@@ -495,9 +449,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgfb7774e" class="outline-3">
-<h3 id="orgfb7774e"><span class="section-number-3">1.9.</span> Syntax Checking</h3>
-<div class="outline-text-3" id="text-1-9">
+<div id="outline-container-orgfdc59ca" class="outline-3">
+<h3 id="orgfdc59ca"><span class="section-number-3">1.8.</span> Syntax Checking</h3>
+<div class="outline-text-3" id="text-1-8">
 <p>
 Flymake provides on-the-fly syntax checking with visual indicators in the margin and optional diagnostics at end of line.
 </p>
@@ -551,9 +505,9 @@ and restart Flymake to apply the changes."</span>
 </div>
 </div>
 
-<div id="outline-container-org8d15ce3" class="outline-3">
-<h3 id="org8d15ce3"><span class="section-number-3">1.10.</span> Diff and Merge</h3>
-<div class="outline-text-3" id="text-1-10">
+<div id="outline-container-orgdb2fb27" class="outline-3">
+<h3 id="orgdb2fb27"><span class="section-number-3">1.9.</span> Diff and Merge</h3>
+<div class="outline-text-3" id="text-1-9">
 <p>
 Tools for viewing differences between files and resolving merge conflicts with enhanced syntax highlighting and navigation.
 </p>
@@ -598,9 +552,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org11b35bf" class="outline-3">
-<h3 id="org11b35bf"><span class="section-number-3">1.11.</span> Code Snippets</h3>
-<div class="outline-text-3" id="text-1-11">
+<div id="outline-container-orga12c350" class="outline-3">
+<h3 id="orga12c350"><span class="section-number-3">1.10.</span> Code Snippets</h3>
+<div class="outline-text-3" id="text-1-10">
 <p>
 YASnippet provides a template system for Emacs, allowing you to type abbreviations and expand them into code templates.
 </p>
@@ -625,9 +579,9 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-orgd2c408f" class="outline-3">
-<h3 id="orgd2c408f"><span class="section-number-3">1.12.</span> LSP - Language Server Protocol</h3>
-<div class="outline-text-3" id="text-1-12">
+<div id="outline-container-orgd387cff" class="outline-3">
+<h3 id="orgd387cff"><span class="section-number-3">1.11.</span> LSP - Language Server Protocol</h3>
+<div class="outline-text-3" id="text-1-11">
 <p>
 Eglot is a lightweight LSP client for Emacs providing IDE-like features including code completion, navigation, and refactoring.
 </p>
@@ -669,17 +623,17 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org53116c4" class="outline-3">
-<h3 id="org53116c4"><span class="section-number-3">1.13.</span> Multiple Cursors and Region Expansion</h3>
-<div class="outline-text-3" id="text-1-13">
+<div id="outline-container-orgf6b672e" class="outline-3">
+<h3 id="orgf6b672e"><span class="section-number-3">1.12.</span> Multiple Cursors and Region Expansion</h3>
+<div class="outline-text-3" id="text-1-12">
 <p>
 Powerful editing features for working with multiple selections and intelligently expanding/contracting selections.
 </p>
 </div>
 
-<div id="outline-container-org85b7b23" class="outline-4">
-<h4 id="org85b7b23"><span class="section-number-4">1.13.1.</span> Multiple Cursors</h4>
-<div class="outline-text-4" id="text-1-13-1">
+<div id="outline-container-orgcae3d63" class="outline-4">
+<h4 id="orgcae3d63"><span class="section-number-4">1.12.1.</span> Multiple Cursors</h4>
+<div class="outline-text-4" id="text-1-12-1">
 <p>
 The <code>multiple-cursors</code> package allows you to edit multiple locations simultaneously, perfect for renaming variables or making repetitive edits.
 </p>
@@ -711,9 +665,9 @@ Key bindings:
 </div>
 </div>
 
-<div id="outline-container-org0b009dc" class="outline-4">
-<h4 id="org0b009dc"><span class="section-number-4">1.13.2.</span> Expand Region</h4>
-<div class="outline-text-4" id="text-1-13-2">
+<div id="outline-container-org77648ff" class="outline-4">
+<h4 id="org77648ff"><span class="section-number-4">1.12.2.</span> Expand Region</h4>
+<div class="outline-text-4" id="text-1-12-2">
 <p>
 The <code>expand-region</code> package provides smart selection expansion based on semantic units (words, expressions, functions, etc.).
 </p>
@@ -743,9 +697,9 @@ Example: Place cursor in a word, press <code>C-=</code> once for word, again for
 </div>
 </div>
 
-<div id="outline-container-org83cfbbf" class="outline-3">
-<h3 id="org83cfbbf"><span class="section-number-3">1.14.</span> REST Client</h3>
-<div class="outline-text-3" id="text-1-14">
+<div id="outline-container-org3dffa82" class="outline-3">
+<h3 id="org3dffa82"><span class="section-number-3">1.13.</span> REST Client</h3>
+<div class="outline-text-3" id="text-1-13">
 <p>
 HTTP REST client for testing APIs directly from Emacs buffers.
 </p>
@@ -784,8 +738,8 @@ Features:
 </div>
 </div>
 
-<div id="outline-container-org2dd2ea9" class="outline-2">
-<h2 id="org2dd2ea9"><span class="section-number-2">2.</span> End of File</h2>
+<div id="outline-container-org2a36288" class="outline-2">
+<h2 id="org2a36288"><span class="section-number-2">2.</span> End of File</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">provide</span> '<span class="org-constant">prog-general-conf</span>)

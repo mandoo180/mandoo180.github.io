@@ -1,0 +1,1514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agent Skills - JavaScript/TypeScript Development</title>
+<meta name="generator" content="Org Mode" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/assets/styles/style.css"><link rel="stylesheet" href="/assets/styles/toc-sidebar.css"><script src="/assets/scripts/toc-sidebar.js" defer></script>
+</head>
+<body>
+<main id="content" class="content">
+<h1 class="title">Agent Skills - JavaScript/TypeScript Development</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org9e43f77">1. JavaScript/TypeScript Development Skills</a>
+<ul>
+<li><a href="#org7234a05">1.1. Overview</a></li>
+<li><a href="#orgc18c350">1.2. JavaScript/TypeScript Conventions Enforcer</a></li>
+<li><a href="#orgcc18926">1.3. TypeScript Type Generator</a></li>
+<li><a href="#org4813006">1.4. JavaScript/TypeScript Security Checker</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9e43f77" class="outline-2">
+<h2 id="org9e43f77"><span class="section-number-2">1.</span> JavaScript/TypeScript Development Skills</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Skills for JavaScript and TypeScript development, covering conventions, type safety, testing, security, and common pitfalls.
+</p>
+</div>
+
+<div id="outline-container-org7234a05" class="outline-3">
+<h3 id="org7234a05"><span class="section-number-3">1.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+JavaScript and TypeScript have evolving best practices and powerful tooling ecosystems. These skills help enforce modern patterns, detect common pitfalls, identify security vulnerabilities, ensure type safety, and maintain comprehensive test coverage.
+</p>
+
+<p>
+These skills activate automatically when working in JavaScript/TypeScript projects (detected by presence of <code>package.json</code>, <code>.js</code>, <code>.ts</code>, <code>.jsx</code>, <code>.tsx</code> files).
+</p>
+
+<p>
+<b>Note:</b> Requires tool permissions in <code>.claude/settings.json</code>:
+</p>
+<ul class="org-ul">
+<li><code>Bash(npm:*)</code></li>
+<li><code>Bash(npx:*)</code></li>
+<li><code>Bash(node:*)</code></li>
+<li><code>Bash(pnpm:*)</code></li>
+<li><code>Bash(yarn:*)</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc18c350" class="outline-3">
+<h3 id="orgc18c350"><span class="section-number-3">1.2.</span> JavaScript/TypeScript Conventions Enforcer</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Automatically enforce JavaScript and TypeScript best practices and modern patterns.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-markdown">---
+name: JavaScript/TypeScript Conventions Enforcer
+description: Automatically enforce JavaScript and TypeScript conventions for code style, modern syntax, naming patterns, and project structure when working in JS/TS projects
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(npm:*)
+  - Bash(npx:*)
+---
+
+# JavaScript/TypeScript Conventions Enforcer
+
+## Activation Triggers
+
+Automatically activate when:
+- Detecting JavaScript/TypeScript project (package.json, .js, .ts files)
+- Creating new modules or components
+- Viewing code with style violations or outdated patterns
+- User mentions "ESLint", "Prettier", "conventions", or "best practices"
+- Code review context for JavaScript/TypeScript files
+
+## Convention Categories
+
+### 1. Modern JavaScript Syntax
+
+**Use const/let instead of var:**
+```javascript
+// Good - block-scoped
+const MAX_USERS = 100;
+let count = 0;
+
+// Bad - function-scoped, hoisted
+var MAX_USERS = 100;
+var count = 0;
+```
+
+**Arrow Functions:**
+```javascript
+// Good - concise, lexical this
+const double = (x) =&gt; x * 2;
+const sum = (a, b) =&gt; a + b;
+
+// Good - multi-line
+const processUser = (user) =&gt; {
+  const normalized = normalizeUser(user);
+  return saveUser(normalized);
+};
+
+// Bad - old function syntax where arrow would be better
+const double = function(x) { return x * 2; };
+```
+
+**Template Literals:**
+```javascript
+// Good - readable, supports multi-line
+const greeting = `Hello, ${name}!`;
+const html = `
+  &lt;div class="user"&gt;
+    &lt;h1&gt;${user.name}&lt;/h1&gt;
+    &lt;p&gt;${user.email}&lt;/p&gt;
+  &lt;/div&gt;
+`;
+
+// Bad - string concatenation
+const greeting = 'Hello, ' + name + '!';
+```
+
+**Destructuring:**
+```javascript
+// Good - extract what you need
+const { name, email } = user;
+const [first, second] = array;
+
+// Good - with defaults
+const { name = 'Anonymous', email } = user;
+
+// Good - rest parameters
+const { id, ...rest } = user;
+const [first, ...remaining] = array;
+
+// Bad - verbose
+const name = user.name;
+const email = user.email;
+```
+
+**Spread Operator:**
+```javascript
+// Good - array/object copying and merging
+const newArray = [...oldArray, newItem];
+const mergedObj = { ...defaults, ...userConfig };
+
+// Good - function arguments
+Math.max(...numbers);
+
+// Bad - manual copying
+const newArray = oldArray.slice();
+newArray.push(newItem);
+```
+
+**Default Parameters:**
+```javascript
+// Good - clear defaults
+function greet(name = 'Guest', greeting = 'Hello') {
+  return `${greeting}, ${name}!`;
+}
+
+// Bad - manual default handling
+function greet(name, greeting) {
+  name = name || 'Guest';
+  greeting = greeting || 'Hello';
+  return greeting + ', ' + name + '!';
+}
+```
+
+### 2. TypeScript Type Safety
+
+**Explicit Types for Public APIs:**
+```typescript
+// Good - typed function signature
+function processUser(user: User): Promise&lt;UserResult&gt; {
+  return api.process(user);
+}
+
+// Good - typed React component
+interface ButtonProps {
+  label: string;
+  onClick: () =&gt; void;
+  disabled?: boolean;
+}
+
+const Button: React.FC&lt;ButtonProps&gt; = ({ label, onClick, disabled = false }) =&gt; (
+  &lt;button onClick={onClick} disabled={disabled}&gt;
+    {label}
+  &lt;/button&gt;
+);
+
+// Bad - implicit any
+function processUser(user) {
+  return api.process(user);
+}
+```
+
+**Prefer Interfaces for Object Shapes:**
+```typescript
+// Good - interface for object shape
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+// Good - extending interfaces
+interface AdminUser extends User {
+  permissions: string[];
+}
+
+// Use type for unions/intersections
+type Status = 'active' | 'inactive' | 'pending';
+type UserWithStatus = User &amp; { status: Status };
+```
+
+**Avoid any, use unknown:**
+```typescript
+// Good - unknown forces type checking
+function parseJson(jsonString: string): unknown {
+  return JSON.parse(jsonString);
+}
+
+const result = parseJson('{"name": "Alice"}');
+if (typeof result === 'object' &amp;&amp; result !== null &amp;&amp; 'name' in result) {
+  // TypeScript knows it's safe now
+  console.log(result.name);
+}
+
+// Bad - any bypasses type checking
+function parseJson(jsonString: string): any {
+  return JSON.parse(jsonString);
+}
+```
+
+**Strict null checks:**
+```typescript
+// Good - explicit null/undefined handling
+function findUser(id: string): User | null {
+  return users.find(u =&gt; u.id === id) ?? null;
+}
+
+const user = findUser('123');
+if (user) {  // null check required
+  console.log(user.name);
+}
+
+// Bad - assuming value exists
+function findUser(id: string): User {
+  return users.find(u =&gt; u.id === id)!;  // ! assertion is risky
+}
+```
+
+### 3. Naming Conventions
+
+**Variables and Functions:**
+```javascript
+// Good - camelCase for variables and functions
+const userName = 'Alice';
+const isActive = true;
+function calculateTotal(items) { }
+
+// Bad - inconsistent naming
+const user_name = 'Alice';  // snake_case
+const IsActive = true;      // PascalCase for variable
+function CalculateTotal(items) { }  // PascalCase for function
+```
+
+**Classes and Interfaces:**
+```typescript
+// Good - PascalCase for classes and interfaces
+class UserAccount { }
+interface UserProfile { }
+type UserRole = 'admin' | 'user';
+
+// Bad
+class userAccount { }
+interface user_profile { }
+```
+
+**Constants:**
+```javascript
+// Good - UPPER_SNAKE_CASE for true constants
+const MAX_RETRY_COUNT = 3;
+const API_BASE_URL = 'https://api.example.com';
+
+// Regular const with camelCase for most values
+const config = { timeout: 3000 };
+const users = fetchUsers();
+```
+
+**Private Fields (TypeScript/Modern JS):**
+```typescript
+// Good - # for private in classes
+class BankAccount {
+  #balance = 0;
+
+  deposit(amount: number) {
+    this.#balance += amount;
+  }
+
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+// Good - _ prefix convention in TypeScript
+class User {
+  private _id: string;
+
+  get id() {
+    return this._id;
+  }
+}
+```
+
+### 4. Async/Await Patterns
+
+**Prefer async/await over .then():**
+```javascript
+// Good - readable async/await
+async function fetchUserData(userId) {
+  try {
+    const user = await api.getUser(userId);
+    const posts = await api.getUserPosts(userId);
+    return { user, posts };
+  } catch (error) {
+    logger.error('Failed to fetch user data:', error);
+    throw error;
+  }
+}
+
+// Bad - promise chaining
+function fetchUserData(userId) {
+  return api.getUser(userId)
+    .then(user =&gt; {
+      return api.getUserPosts(userId)
+        .then(posts =&gt; ({ user, posts }));
+    })
+    .catch(error =&gt; {
+      logger.error('Failed to fetch user data:', error);
+      throw error;
+    });
+}
+```
+
+**Parallel async operations:**
+```javascript
+// Good - parallel execution with Promise.all
+async function fetchAllData() {
+  const [users, posts, comments] = await Promise.all([
+    api.getUsers(),
+    api.getPosts(),
+    api.getComments()
+  ]);
+  return { users, posts, comments };
+}
+
+// Bad - sequential (slower)
+async function fetchAllData() {
+  const users = await api.getUsers();
+  const posts = await api.getPosts();
+  const comments = await api.getComments();
+  return { users, posts, comments };
+}
+```
+
+### 5. Modules and Imports
+
+**ES6 Modules:**
+```javascript
+// Good - named exports
+export const API_URL = 'https://api.example.com';
+export function fetchUser(id) { }
+export class UserService { }
+
+// Good - default export for main functionality
+export default class Application { }
+
+// Good - import syntax
+import Application from './Application';
+import { fetchUser, UserService } from './api';
+import * as api from './api';
+
+// Bad - CommonJS (unless Node.js specific)
+const Application = require('./Application');
+module.exports = Application;
+```
+
+**Import Organization:**
+```typescript
+// Good - organized imports
+// 1. External libraries
+import React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+// 2. Internal absolute imports
+import { Button } from '@/components/Button';
+import { useAuth } from '@/hooks/useAuth';
+
+// 3. Relative imports
+import { UserProfile } from './UserProfile';
+import { formatDate } from '../utils';
+
+// Bad - unorganized
+import { formatDate } from '../utils';
+import React from 'react';
+import { UserProfile } from './UserProfile';
+import axios from 'axios';
+```
+
+### 6. Error Handling
+
+**Explicit error types:**
+```typescript
+// Good - custom error classes
+class ValidationError extends Error {
+  constructor(message: string, public field: string) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
+class ApiError extends Error {
+  constructor(message: string, public statusCode: number) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+// Good - specific error handling
+try {
+  await processUser(user);
+} catch (error) {
+  if (error instanceof ValidationError) {
+    return { error: error.message, field: error.field };
+  }
+  if (error instanceof ApiError) {
+    return { error: 'Service unavailable', code: error.statusCode };
+  }
+  throw error;  // Re-throw unknown errors
+}
+```
+
+**Type-safe error handling:**
+```typescript
+// Good - type guard for error
+function isError(error: unknown): error is Error {
+  return error instanceof Error;
+}
+
+try {
+  await riskyOperation();
+} catch (error) {
+  if (isError(error)) {
+    logger.error(error.message);
+  } else {
+    logger.error('Unknown error:', error);
+  }
+}
+```
+
+### 7. Optional Chaining and Nullish Coalescing
+
+**Optional chaining (?.):**
+```javascript
+// Good - safe property access
+const userName = user?.profile?.name;
+const firstPost = user?.posts?.[0];
+const result = api?.fetchData?.();
+
+// Bad - manual null checking
+const userName = user &amp;&amp; user.profile &amp;&amp; user.profile.name;
+```
+
+**Nullish coalescing (??):**
+```javascript
+// Good - only null/undefined trigger default
+const port = config.port ?? 3000;
+const name = user.name ?? 'Anonymous';
+
+// Good vs ||
+const count = 0;
+const value1 = count ?? 10;  // 0 (correct)
+const value2 = count || 10;  // 10 (wrong for 0, '', false)
+```
+
+### 8. Code Organization
+
+**Single Responsibility:**
+```javascript
+// Good - focused functions
+function validateEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
+function saveUser(user) {
+  return db.users.insert(user);
+}
+
+function registerUser(userData) {
+  if (!validateEmail(userData.email)) {
+    throw new ValidationError('Invalid email');
+  }
+  return saveUser(userData);
+}
+
+// Bad - doing too much
+function registerUser(userData) {
+  // Validation
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regex.test(userData.email)) {
+    throw new Error('Invalid email');
+  }
+
+  // Database operation
+  return db.users.insert(userData);
+
+  // Sending email (too much!)
+  sendWelcomeEmail(userData.email);
+}
+```
+
+## Tools Integration
+
+### ESLint
+
+```json
+// .eslintrc.json
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-var": "error",
+    "prefer-const": "error",
+    "prefer-arrow-callback": "warn",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/explicit-function-return-type": "warn"
+  }
+}
+```
+
+### Prettier
+
+```json
+// .prettierrc
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "arrowParens": "always"
+}
+```
+
+### TypeScript Configuration
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
+```
+
+## Detection Process
+
+1. **Check modern syntax** - Verify ES6+ patterns
+2. **Verify TypeScript types** - Check type annotations and safety
+3. **Review naming** - Check naming conventions
+4. **Identify anti-patterns** - Spot outdated or problematic code
+5. **Check imports** - Verify proper module structure
+
+## Examples
+
+### Example 1: Outdated Syntax
+
+**User Code:**
+```javascript
+var UserController = function(userService) {
+  this.userService = userService;
+};
+
+UserController.prototype.getUser = function(id) {
+  var self = this;
+  return this.userService.fetchUser(id)
+    .then(function(user) {
+      return self.formatUser(user);
+    });
+};
+```
+
+**Issue:** Outdated ES5 patterns
+
+**Suggestion:**
+"Use modern ES6+ syntax for better readability and functionality:
+
+```javascript
+class UserController {
+  constructor(private userService: UserService) {}
+
+  async getUser(id: string): Promise&lt;FormattedUser&gt; {
+    const user = await this.userService.fetchUser(id);
+    return this.formatUser(user);
+  }
+}
+```"
+
+### Example 2: Missing TypeScript Types
+
+**User Code:**
+```typescript
+function processItems(items) {
+  return items.map(item =&gt; ({
+    id: item.id,
+    value: item.price * item.quantity
+  }));
+}
+```
+
+**Issue:** Missing type annotations
+
+**Suggestion:**
+"Add TypeScript types for better type safety:
+
+```typescript
+interface Item {
+  id: string;
+  price: number;
+  quantity: number;
+}
+
+interface ProcessedItem {
+  id: string;
+  value: number;
+}
+
+function processItems(items: Item[]): ProcessedItem[] {
+  return items.map(item =&gt; ({
+    id: item.id,
+    value: item.price * item.quantity
+  }));
+}
+```"
+
+## Best Practices
+
+### Use Modern Features
+- Prefer `const`/`let` over `var`
+- Use arrow functions for callbacks
+- Leverage destructuring
+- Use template literals
+- Async/await over promise chains
+
+### TypeScript First
+- Enable strict mode
+- Avoid `any` type
+- Use interfaces for object shapes
+- Type all public APIs
+- Leverage utility types
+
+### Keep It Simple
+- Single responsibility functions
+- Clear, descriptive names
+- Avoid deep nesting
+- Extract complex logic
+- Use early returns
+
+### Error Handling
+- Custom error classes
+- Explicit error types
+- Proper async error handling
+- Don't swallow errors
+- Log contextually
+
+## When to Alert
+
+Alert when:
+- `var` usage detected
+- Missing TypeScript types in public APIs
+- `any` type usage
+- Promise chains instead of async/await
+- Inconsistent naming conventions
+- Outdated ES5 patterns
+- Missing error handling
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcc18926" class="outline-3">
+<h3 id="orgcc18926"><span class="section-number-3">1.3.</span> TypeScript Type Generator</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Automatically generate TypeScript type definitions from data structures.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-markdown">---
+name: TypeScript Type Generator
+description: Automatically generate TypeScript type definitions from API responses, JSON data, or existing JavaScript code when working in TypeScript projects
+allowed-tools:
+  - Read
+  - Write
+  - Grep
+  - Bash(npx:*)
+---
+
+# TypeScript Type Generation Skill
+
+## Activation Triggers
+
+Automatically activate when detecting:
+- API response handling without type definitions
+- JSON parsing in TypeScript files without types
+- Type errors related to implicit 'any' type
+- Data transformation operations lacking type safety
+- Props or state definitions without interfaces/types
+- Function parameters or return types marked as 'any'
+
+## Type Generation Patterns
+
+### 1. From API Responses
+
+```typescript
+// Given API response
+const response = await fetch('/api/user');
+const data = await response.json();
+
+// Generate types
+interface ApiUser {
+  id: number;
+  name: string;
+  email: string;
+  createdAt: string;  // ISO date string
+  profile: {
+    avatar: string;
+    bio: string | null;
+  };
+  roles: Array&lt;'admin' | 'user' | 'moderator'&gt;;
+}
+
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  meta: {
+    page: number;
+    total: number;
+  };
+}
+
+// Typed usage
+const users: ApiResponse&lt;ApiUser[]&gt; = await response.json();
+```
+
+### 2. From React Component Props
+
+```typescript
+// Before - untyped
+function UserCard(props) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{props.user.name}&lt;/h3&gt;
+      &lt;button onClick={props.onEdit}&gt;Edit&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// After - fully typed
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+interface UserCardProps {
+  user: User;
+  onEdit: (user: User) =&gt; void;
+  className?: string;
+  variant?: 'default' | 'compact';
+}
+
+const UserCard: React.FC&lt;UserCardProps&gt; = ({
+  user,
+  onEdit,
+  className = '',
+  variant = 'default'
+}) =&gt; (
+  &lt;div className={className}&gt;
+    &lt;h3&gt;{user.name}&lt;/h3&gt;
+    &lt;button onClick={() =&gt; onEdit(user)}&gt;Edit&lt;/button&gt;
+  &lt;/div&gt;
+);
+```
+
+### 3. From State Management
+
+```typescript
+// Redux/Zustand store types
+interface UserState {
+  currentUser: User | null;
+  users: User[];
+  loading: boolean;
+  error: string | null;
+}
+
+interface UserActions {
+  setUser: (user: User) =&gt; void;
+  fetchUsers: () =&gt; Promise&lt;void&gt;;
+  clearError: () =&gt; void;
+}
+
+type UserStore = UserState &amp; UserActions;
+
+// Usage
+const useUserStore = create&lt;UserStore&gt;((set) =&gt; ({
+  currentUser: null,
+  users: [],
+  loading: false,
+  error: null,
+  setUser: (user) =&gt; set({ currentUser: user }),
+  fetchUsers: async () =&gt; {
+    set({ loading: true });
+    try {
+      const users = await api.getUsers();
+      set({ users, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+  clearError: () =&gt; set({ error: null }),
+}));
+```
+
+### 4. Utility Types
+
+```typescript
+// Extract return type from function
+async function fetchUser(id: string) {
+  return await api.get(`/users/${id}`);
+}
+
+type FetchUserReturn = Awaited&lt;ReturnType&lt;typeof fetchUser&gt;&gt;;
+
+// Pick specific properties
+type UserSummary = Pick&lt;User, 'id' | 'name' | 'email'&gt;;
+
+// Omit sensitive properties
+type PublicUser = Omit&lt;User, 'password' | 'securityQuestions'&gt;;
+
+// Make all properties optional
+type PartialUser = Partial&lt;User&gt;;
+
+// Make all properties required
+type RequiredUser = Required&lt;User&gt;;
+
+// Make all properties readonly
+type ImmutableUser = Readonly&lt;User&gt;;
+
+// Extract keys
+type UserKeys = keyof User;
+
+// Map over properties
+type Nullable&lt;T&gt; = {
+  [K in keyof T]: T[K] | null;
+};
+
+type NullableUser = Nullable&lt;User&gt;;
+```
+
+### 5. Generic Types
+
+```typescript
+// Generic response wrapper
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  status: number;
+  message: string;
+}
+
+// Generic async function
+async function fetchData&lt;T&gt;(url: string): Promise&lt;ApiResponse&lt;T&gt;&gt; {
+  const response = await fetch(url);
+  return response.json();
+}
+
+// Usage with inference
+const users = await fetchData&lt;User[]&gt;('/api/users');
+const user = await fetchData&lt;User&gt;('/api/users/123');
+
+// Generic component
+interface ListProps&lt;T&gt; {
+  items: T[];
+  renderItem: (item: T) =&gt; React.ReactNode;
+  keyExtractor: (item: T) =&gt; string;
+}
+
+function List&lt;T&gt;({ items, renderItem, keyExtractor }: ListProps&lt;T&gt;) {
+  return (
+    &lt;ul&gt;
+      {items.map(item =&gt; (
+        &lt;li key={keyExtractor(item)}&gt;
+          {renderItem(item)}
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Type-safe usage
+&lt;List&lt;User&gt;
+  items={users}
+  renderItem={user =&gt; &lt;span&gt;{user.name}&lt;/span&gt;}
+  keyExtractor={user =&gt; user.id}
+/&gt;
+```
+
+### 6. Discriminated Unions
+
+```typescript
+// Type-safe state machines
+type LoadingState =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: User[] }
+  | { status: 'error'; error: string };
+
+function UserList({ state }: { state: LoadingState }) {
+  // TypeScript knows what properties are available
+  switch (state.status) {
+    case 'idle':
+      return &lt;div&gt;Click to load&lt;/div&gt;;
+    case 'loading':
+      return &lt;div&gt;Loading...&lt;/div&gt;;
+    case 'success':
+      return &lt;div&gt;{state.data.length} users&lt;/div&gt;;  // data is available
+    case 'error':
+      return &lt;div&gt;Error: {state.error}&lt;/div&gt;;  // error is available
+  }
+}
+
+// API responses with different shapes
+type ApiResult&lt;T&gt; =
+  | { success: true; data: T }
+  | { success: false; error: string; code: number };
+
+function handleResult&lt;T&gt;(result: ApiResult&lt;T&gt;) {
+  if (result.success) {
+    console.log(result.data);  // TypeScript knows data exists
+  } else {
+    console.error(result.error, result.code);  // TypeScript knows error &amp; code exist
+  }
+}
+```
+
+### 7. Type Guards
+
+```typescript
+// User-defined type guards
+function isUser(value: unknown): value is User {
+  return (
+    typeof value === 'object' &amp;&amp;
+    value !== null &amp;&amp;
+    'id' in value &amp;&amp;
+    'name' in value &amp;&amp;
+    'email' in value
+  );
+}
+
+// Usage
+const data: unknown = await response.json();
+if (isUser(data)) {
+  // TypeScript knows data is User here
+  console.log(data.email);
+}
+
+// Array type guard
+function isUserArray(value: unknown): value is User[] {
+  return Array.isArray(value) &amp;&amp; value.every(isUser);
+}
+
+// Narrowing with in operator
+function processValue(value: string | User) {
+  if ('email' in value) {
+    // value is User
+    console.log(value.email);
+  } else {
+    // value is string
+    console.log(value.toUpperCase());
+  }
+}
+```
+
+## Best Practices
+
+### 1. Start with Interfaces for Object Shapes
+
+```typescript
+// Good - interface for objects
+interface User {
+  id: string;
+  name: string;
+}
+
+interface Admin extends User {
+  permissions: string[];
+}
+
+// Use type for unions, tuples, primitives
+type Status = 'active' | 'inactive';
+type Coordinates = [number, number];
+type UserId = string;
+```
+
+### 2. Leverage Type Inference
+
+```typescript
+// Good - let TypeScript infer
+const numbers = [1, 2, 3];  // number[]
+const user = { name: 'Alice', age: 30 };  // { name: string; age: number }
+
+// Add types when inference isn't enough
+const users: User[] = [];  // Empty array needs type
+const config: Config = loadConfig();  // Function might return any
+```
+
+### 3. Use Const Assertions
+
+```typescript
+// Good - readonly and literal types
+const CONFIG = {
+  apiUrl: 'https://api.example.com',
+  timeout: 3000,
+} as const;
+
+// CONFIG.apiUrl has type 'https://api.example.com' not string
+// CONFIG is readonly
+
+const ROLES = ['admin', 'user', 'guest'] as const;
+type Role = typeof ROLES[number];  // 'admin' | 'user' | 'guest'
+```
+
+### 4. Avoid Type Assertions When Possible
+
+```typescript
+// Bad - type assertion without validation
+const user = data as User;
+
+// Good - validate then assert
+function assertUser(data: unknown): asserts data is User {
+  if (!isUser(data)) {
+    throw new Error('Invalid user data');
+  }
+}
+
+const data: unknown = await response.json();
+assertUser(data);
+// data is User here
+```
+
+## Tools Integration
+
+### Generate types from JSON
+
+```bash
+# Install quicktype
+npm install -g quicktype
+
+# Generate TypeScript types from JSON
+quicktype data.json -o types.ts
+
+# From URL
+quicktype https://api.example.com/users -o api-types.ts
+```
+
+### Zod for Runtime Validation
+
+```typescript
+import { z } from 'zod';
+
+// Define schema (also generates types)
+const UserSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  age: z.number().min(0).optional(),
+});
+
+// Infer TypeScript type from schema
+type User = z.infer&lt;typeof UserSchema&gt;;
+
+// Runtime validation
+const user: User = UserSchema.parse(data);
+
+// Safe parsing
+const result = UserSchema.safeParse(data);
+if (result.success) {
+  console.log(result.data);
+} else {
+  console.error(result.error);
+}
+```
+
+## Examples
+
+### Example 1: Missing Types for API Response
+
+**User Code:**
+```typescript
+async function fetchUser(id: string) {
+  const response = await fetch(`/api/users/${id}`);
+  return response.json();
+}
+```
+
+**Issue:** Return type is `any`
+
+**Suggestion:**
+"Add explicit return type and create an interface:
+
+```typescript
+interface ApiUser {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+}
+
+async function fetchUser(id: string): Promise&lt;ApiUser&gt; {
+  const response = await fetch(`/api/users/${id}`);
+  return response.json();
+}
+```"
+
+### Example 2: Untyped React Props
+
+**User Code:**
+```typescript
+function DataTable({ data, onRowClick }) {
+  return (
+    &lt;table&gt;
+      {data.map((row, i) =&gt; (
+        &lt;tr key={i} onClick={() =&gt; onRowClick(row)}&gt;
+          &lt;td&gt;{row.name}&lt;/td&gt;
+        &lt;/tr&gt;
+      ))}
+    &lt;/table&gt;
+  );
+}
+```
+
+**Issue:** Props have implicit any
+
+**Suggestion:**
+"Define prop types:
+
+```typescript
+interface Row {
+  id: string;
+  name: string;
+}
+
+interface DataTableProps {
+  data: Row[];
+  onRowClick: (row: Row) =&gt; void;
+}
+
+const DataTable: React.FC&lt;DataTableProps&gt; = ({ data, onRowClick }) =&gt; (
+  &lt;table&gt;
+    {data.map((row) =&gt; (
+      &lt;tr key={row.id} onClick={() =&gt; onRowClick(row)}&gt;
+        &lt;td&gt;{row.name}&lt;/td&gt;
+      &lt;/tr&gt;
+    ))}
+  &lt;/table&gt;
+);
+```"
+
+## When to Generate Types
+
+Generate types when:
+- Working with API responses
+- Creating React components
+- Defining state management stores
+- Handling form data
+- Processing external data (JSON, CSV, etc.)
+- Creating library APIs
+- Migrating JavaScript to TypeScript
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4813006" class="outline-3">
+<h3 id="org4813006"><span class="section-number-3">1.4.</span> JavaScript/TypeScript Security Checker</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Detect common security vulnerabilities in JavaScript and TypeScript code.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-markdown">---
+name: JavaScript/TypeScript Security Checker
+description: Automatically detect common security vulnerabilities in JavaScript/TypeScript code including XSS, injection, prototype pollution, and other web security risks
+allowed-tools:
+  - Read
+  - Grep
+  - Bash(npm:*)
+---
+
+# JavaScript/TypeScript Security Checker
+
+## Activation Triggers
+
+Automatically activate when:
+- DOM manipulation code detected (innerHTML, document.write)
+- User input handling (forms, URL parameters, localStorage)
+- Dynamic code execution (eval, Function constructor)
+- HTTP requests with user data
+- File upload handling
+- Authentication/authorization code
+- User mentions "security", "vulnerability", or "XSS"
+
+## Critical Vulnerabilities
+
+### 1. Cross-Site Scripting (XSS)
+
+**Vulnerable:**
+```javascript
+// DANGEROUS - direct HTML injection
+element.innerHTML = userInput;
+document.write(userInput);
+
+// DANGEROUS - unescaped template
+const html = `&lt;div&gt;${userInput}&lt;/div&gt;`;
+
+// DANGEROUS - in React
+function UserProfile({ bio }) {
+  return &lt;div dangerouslySetInnerHTML={{ __html: bio }} /&gt;;
+}
+```
+
+**Safe:**
+```javascript
+// Good - use textContent
+element.textContent = userInput;
+
+// Good - use createElement
+const div = document.createElement('div');
+div.textContent = userInput;
+
+// Good - React automatically escapes
+function UserProfile({ bio }) {
+  return &lt;div&gt;{bio}&lt;/div&gt;;
+}
+
+// Good - sanitize if HTML is needed
+import DOMPurify from 'dompurify';
+const clean = DOMPurify.sanitize(dirtyHTML);
+element.innerHTML = clean;
+```
+
+### 2. Code Injection
+
+**Vulnerable:**
+```javascript
+// DANGEROUS - eval with user input
+eval(userCode);
+new Function(userCode)();
+
+// DANGEROUS - setTimeout/setInterval with strings
+setTimeout(userCode, 1000);
+```
+
+**Safe:**
+```javascript
+// Good - avoid eval entirely
+// Use JSON.parse for data
+const data = JSON.parse(jsonString);
+
+// Good - use functions, not strings
+setTimeout(() =&gt; userFunction(), 1000);
+```
+
+### 3. Prototype Pollution
+
+**Vulnerable:**
+```javascript
+// DANGEROUS - unvalidated merge
+function merge(target, source) {
+  for (let key in source) {
+    target[key] = source[key];
+  }
+  return target;
+}
+
+// Attack: merge({}, JSON.parse('{"__proto__":{"isAdmin":true}}'))
+```
+
+**Safe:**
+```javascript
+// Good - Object.assign (safer)
+const merged = Object.assign({}, target, source);
+
+// Good - check for prototype keys
+function safeMerge(target, source) {
+  for (let key in source) {
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      continue;
+    }
+    target[key] = source[key];
+  }
+  return target;
+}
+
+// Good - use Object.create(null) for data objects
+const safeObj = Object.create(null);
+```
+
+### 4. Open Redirect
+
+**Vulnerable:**
+```javascript
+// DANGEROUS - unvalidated redirect
+const returnUrl = new URLSearchParams(location.search).get('return');
+window.location = returnUrl;
+```
+
+**Safe:**
+```javascript
+// Good - validate against allow list
+const ALLOWED_DOMAINS = ['example.com', 'api.example.com'];
+
+function safeRedirect(url) {
+  try {
+    const parsed = new URL(url, window.location.origin);
+
+    if (ALLOWED_DOMAINS.includes(parsed.hostname)) {
+      window.location = url;
+    } else {
+      console.error('Invalid redirect');
+      window.location = '/';
+    }
+  } catch {
+    window.location = '/';
+  }
+}
+```
+
+### 5. Insecure Storage
+
+**Vulnerable:**
+```javascript
+// DANGEROUS - storing sensitive data
+localStorage.setItem('authToken', token);
+localStorage.setItem('password', password);
+```
+
+**Safe:**
+```javascript
+// Good - use httpOnly cookies for tokens (set by server)
+// Don't store in localStorage/sessionStorage
+
+// Good - for non-sensitive data only
+localStorage.setItem('theme', 'dark');
+localStorage.setItem('language', 'en');
+
+// Good - encrypt if you must store locally
+import { encrypt, decrypt } from './crypto';
+localStorage.setItem('data', encrypt(sensitiveData));
+```
+
+### 6. Regular Expression Denial of Service (ReDoS)
+
+**Vulnerable:**
+```javascript
+// DANGEROUS - catastrophic backtracking
+const emailRegex = /^([a-zA-Z0-9]+)*@/;
+emailRegex.test(userInput);  // Can hang with malicious input
+```
+
+**Safe:**
+```javascript
+// Good - use simpler regex
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+// Good - set timeout or use validator library
+import validator from 'validator';
+if (validator.isEmail(email)) {
+  // process email
+}
+```
+
+### 7. Insecure Dependencies
+
+```bash
+# Check for vulnerabilities
+npm audit
+npm audit fix
+
+# Use Snyk
+npx snyk test
+```
+
+### 8. Missing CSRF Protection
+
+**Vulnerable:**
+```javascript
+// DANGEROUS - state-changing GET request
+app.get('/delete-account', (req, res) =&gt; {
+  deleteUser(req.session.userId);
+});
+```
+
+**Safe:**
+```javascript
+// Good - use POST for state changes + CSRF token
+import csrf from 'csurf';
+
+app.use(csrf());
+
+app.post('/delete-account', (req, res) =&gt; {
+  // CSRF token validated automatically
+  deleteUser(req.session.userId);
+});
+
+// In form
+&lt;form method="POST"&gt;
+  &lt;input type="hidden" name="_csrf" value={csrfToken} /&gt;
+  &lt;button&gt;Delete Account&lt;/button&gt;
+&lt;/form&gt;
+```
+
+## Best Practices
+
+1. **Never trust user input** - Validate and sanitize all input
+2. **Use textContent over innerHTML** - Avoid HTML injection
+3. **Sanitize HTML if needed** - Use DOMPurify
+4. **Avoid eval** - Never execute user-provided code
+5. **Validate redirects** - Use allow lists
+6. **Use httpOnly cookies** - For sensitive tokens
+7. **Enable Content Security Policy** - Restrict resource loading
+8. **Keep dependencies updated** - Run npm audit regularly
+9. **Use CSRF protection** - For state-changing requests
+10. **Implement rate limiting** - Prevent abuse
+
+## Tools Integration
+
+```json
+// package.json
+{
+  "scripts": {
+    "audit": "npm audit",
+    "audit:fix": "npm audit fix",
+    "security": "npx eslint-plugin-security ."
+  }
+}
+```
+
+## When to Alert
+
+Alert when:
+- innerHTML or dangerouslySetInnerHTML with user data
+- eval or Function constructor usage
+- Unvalidated redirects
+- Sensitive data in localStorage
+- Complex regex that could cause ReDoS
+- Missing CSRF protection on state-changing endpoints
+- Outdated dependencies with known vulnerabilities
+</pre>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>
