@@ -1,0 +1,23 @@
+---
+import type { Locale } from '../lib/types';
+import { useTranslations } from '../i18n/ui';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const youtube = 'https://www.youtube.com/@fulang.anonpengling';
+---
+<section id="follow" class="follow">
+  <div class="container follow__inner">
+    <div>
+      <h2 class="follow__title">{t('follow.heading')}</h2>
+      <p class="follow__body">{t('follow.body')}</p>
+    </div>
+    <a class="btn btn-primary" href={youtube} target="_blank" rel="noopener">{t('follow.cta')} ↗</a>
+  </div>
+</section>
+<style>
+  .follow { padding: 28px 0; border-top: 1px solid #1c222b; }
+  .follow__inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .follow__title { font-size: 18px; font-weight: 800; margin: 0; }
+  .follow__body { font-size: 12px; color: var(--text-2); margin: 4px 0 0; }
+</style>

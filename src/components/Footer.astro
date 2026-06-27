@@ -1,0 +1,19 @@
+---
+import type { Locale } from '../lib/types';
+import { useTranslations } from '../i18n/ui';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+<footer class="footer">
+  <div class="container footer__inner">
+    <span>© 2026 anonpengling</span>
+    <span>
+      <a href="https://github.com/mandoo180" target="_blank" rel="noopener">GitHub</a> · {t('footer.built')}
+    </span>
+  </div>
+</footer>
+<style>
+  .footer { padding: 18px 0; border-top: 1px solid #1c222b; }
+  .footer__inner { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); }
+</style>

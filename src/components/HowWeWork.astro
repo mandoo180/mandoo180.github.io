@@ -1,0 +1,33 @@
+---
+import type { Locale } from '../lib/types';
+import { useTranslations } from '../i18n/ui';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const cards = [
+  { title: t('how.daily.title'), body: t('how.daily.body'), color: 'var(--accent-1)' },
+  { title: t('how.engine.title'), body: t('how.engine.body'), color: 'var(--accent-2)' },
+  { title: t('how.small.title'), body: t('how.small.body'), color: '#7bd88f' },
+];
+---
+<section id="about" class="how">
+  <div class="container">
+    <p class="section-label">{t('how.heading')}</p>
+    <div class="how__grid">
+      {cards.map((c) => (
+        <div class="how__card">
+          <div class="how__title" style={`color:${c.color}`}>{c.title}</div>
+          <p class="how__body">{c.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .how { padding: 28px 0; border-top: 1px solid #1c222b; }
+  .how__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .how__card { border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+  .how__title { font-size: 13px; font-weight: 700; }
+  .how__body { font-size: 12px; color: var(--text-2); margin: 5px 0 0; }
+  @media (max-width: 640px) { .how__grid { grid-template-columns: 1fr; } }
+</style>
