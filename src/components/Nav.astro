@@ -1,0 +1,29 @@
+---
+import type { Locale } from '../lib/types';
+import { useTranslations } from '../i18n/ui';
+import LangToggle from './LangToggle.astro';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href={locale === 'ko' ? '/ko' : '/'}>
+      <span class="nav__mark" aria-hidden="true"></span>
+      <span class="gradient-text">anonpengling</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#apps">{t('nav.apps')}</a>
+      <a href="#about">{t('nav.about')}</a>
+      <a href="#follow">{t('nav.youtube')}</a>
+      <LangToggle locale={locale} />
+    </nav>
+  </div>
+</header>
+<style>
+  .nav { border-bottom: 1px solid #1c222b; }
+  .nav__inner { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+  .nav__brand { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 800; }
+  .nav__mark { width: 26px; height: 26px; border-radius: 8px; background: var(--accent-grad); }
+  .nav__links { display: flex; gap: 16px; align-items: center; font-size: 13px; color: var(--text-2); }
+</style>

@@ -1,0 +1,15 @@
+---
+import type { Locale } from '../lib/types';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+---
+<div class="lang">
+  <a href="/" aria-current={locale === 'en' ? 'true' : undefined} class={locale === 'en' ? 'on' : ''}>EN</a>
+  <span>·</span>
+  <a href="/ko" aria-current={locale === 'ko' ? 'true' : undefined} class={locale === 'ko' ? 'on' : ''}>한</a>
+</div>
+<style>
+  .lang { display: inline-flex; gap: 6px; align-items: center; font-size: 12px;
+    border: 1px solid var(--border); border-radius: 7px; padding: 3px 8px; color: var(--text-3); }
+  .lang a.on { color: var(--text); font-weight: 700; }
+</style>
