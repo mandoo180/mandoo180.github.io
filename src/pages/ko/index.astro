@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import type { AppData, Locale } from '../../lib/types';
+import { sortApps } from '../../lib/app-display';
+import { useTranslations } from '../../i18n/ui';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Hero from '../../components/Hero.astro';
+import AppCard from '../../components/AppCard.astro';
+import HowWeWork from '../../components/HowWeWork.astro';
+import Follow from '../../components/Follow.astro';
+import Footer from '../../components/Footer.astro';
+
+const locale: Locale = 'ko';
+const t = useTranslations(locale);
+const entries = await getCollection('apps');
+const apps = sortApps(entries.map((e) => e.data as AppData));
+const featured = apps.filter((a) => a.featured);
+const rest = apps.filter((a) => !a.featured);
+const shipping = apps.filter((a) => a.status === 'live' || a.status === 'pre-launch').length;
+---
+<Base locale={locale}>
+  <Nav locale={locale} />
+  <main>
+    <Hero locale={locale} />
+    <section id="apps" class="apps">
+      <div class="container apps__head">
+        <p class="section-label">{t('apps.heading')}</p>
+        <span class="apps__note">{shipping} {t('apps.note')}</span>
+      </div>
+      <div class="container apps__list">
+        {featured.map((app) => <AppCard app={app} locale={locale} />)}
+        {rest.map((app) => <AppCard app={app} locale={locale} />)}
+      </div>
+    </section>
+    <HowWeWork locale={locale} />
+    <Follow locale={locale} />
+  </main>
+  <Footer locale={locale} />
+</Base>
+
+<style>
+  .apps { padding: 10px 0 8px; }
+  .apps__head { display: flex; justify-content: space-between; align-items: baseline; }
+  .apps__note { font-size: 11px; color: var(--text-3); }
+  .apps__list { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+</style>
