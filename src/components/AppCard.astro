@@ -1,0 +1,78 @@
+---
+import type { AppData, Locale } from '../lib/types';
+import { visibleLinks, statusLabel, localized } from '../lib/app-display';
+import { useTranslations } from '../i18n/ui';
+
+interface Props { app: AppData; locale: Locale; }
+const { app, locale } = Astro.props;
+const t = useTranslations(locale);
+const links = visibleLinks(app);
+const tagline = localized(app.tagline, locale);
+const desc = localized(app.description, locale);
+const status = statusLabel(app.status, locale);
+const ctaKey = (key: string) => `app.cta.${key}` as
+  'app.cta.site' | 'app.cta.appStore' | 'app.cta.playStore' | 'app.cta.youtube' | 'app.cta.waitlist';
+---
+<article class={`card ${app.featured ? 'card--feature' : 'card--row'}`} style={`--accent:${app.accent}`}>
+  <div class="card__media">
+    {app.screenshot
+      ? <img src={app.screenshot} alt={`${app.name} screenshot`} loading="lazy" width="74" height="140" />
+      : <div class="card__phone" aria-hidden="true"></div>}
+  </div>
+  <div class="card__body">
+    <div class="card__head">
+      <img class="card__icon" src={app.icon} alt="" width="26" height="26" />
+      <span class="card__name">{app.name}</span>
+      <span class={`badge badge--${app.status}`}>{status}</span>
+    </div>
+    <p class="card__tagline">{desc ?? tagline}</p>
+    <p class="card__meta">{app.learn.language} · {t('app.learnedBy')} {app.learn.forSpeakers} · {app.platforms.join(' · ')}</p>
+    <div class="card__links">
+      {links.map((l) => (
+        <a class={l.key === 'waitlist' || l.key === 'appStore' ? 'btn btn-primary' : 'btn'}
+           href={l.url} target="_blank" rel="noopener">{t(ctaKey(l.key))}</a>
+      ))}
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+  }
+  .card--row { align-items: center; }
+  .card__media {
+    width: 130px; flex: none;
+    display: flex; align-items: center; justify-content: center; padding: 16px;
+    background: radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--accent) 40%, transparent), var(--bg));
+  }
+  .card--row .card__media { width: 64px; padding: 12px; }
+  .card__phone {
+    width: 74px; height: 140px; border-radius: 15px;
+    border: 2px solid #3a4250; background: linear-gradient(#1b2330, #0e1116);
+  }
+  .card--row .card__phone { width: 34px; height: 34px; border-radius: 9px; }
+  .card__media img { border-radius: 14px; }
+  .card__body { padding: 18px; flex: 1; min-width: 0; }
+  .card__head { display: flex; align-items: center; gap: 9px; }
+  .card__icon { border-radius: 7px; }
+  .card__name { font-size: 16px; font-weight: 800; }
+  .badge {
+    font-size: 9px; border-radius: 999px; padding: 2px 8px;
+    border: 1px solid var(--border); color: var(--text-2);
+  }
+  .badge--live { color: #7bd88f; border-color: #28503a; }
+  .badge--pre-launch { color: #ff8aa0; border-color: #5a2730; }
+  .card__tagline { font-size: 12.5px; color: var(--text-2); margin: 7px 0 0; }
+  .card__meta { font-size: 11px; color: var(--text-3); margin: 8px 0 0; }
+  .card__links { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .card--row .card__media { display: none; }
+  @media (max-width: 640px) {
+    .card--feature { flex-direction: column; }
+    .card--feature .card__media { width: 100%; }
+  }
+</style>
