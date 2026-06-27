@@ -1,19 +1,19 @@
-*.backup
-*.bkp
-*#$
+# OS
+.DS_Store
+
+# Node / Astro
+node_modules/
+dist/
+.astro/
 
 # Claude Code - ignore personal settings, keep project configs
 .claude/settings.local.json
+.mcp.json
 
-# Agent and package directories
-.agent-shell/
-.packages/
-
-# Temporary directories
-tmp/
-content/tmp/
+# Brainstorm scratch
 .superpowers/
 
-# Generated site (regenerated on each build)
-public/
-.mcp.json
+# Agent + cache leftovers
+.agent-shell/
+.packages/
+tmp/
