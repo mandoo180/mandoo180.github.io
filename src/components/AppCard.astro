@@ -22,7 +22,7 @@ const ctaKey = (key: string) => `app.cta.${key}` as
   <div class="card__body">
     <div class="card__head">
       <img class="card__icon" src={app.icon} alt="" width="26" height="26" />
-      <span class="card__name">{app.name}</span>
+      <h3 class="card__name">{app.name}</h3>
       <span class={`badge badge--${app.status}`}>{status}</span>
     </div>
     <p class="card__tagline">{desc ?? tagline}</p>
@@ -60,7 +60,7 @@ const ctaKey = (key: string) => `app.cta.${key}` as
   .card__body { padding: 18px; flex: 1; min-width: 0; }
   .card__head { display: flex; align-items: center; gap: 9px; }
   .card__icon { border-radius: 7px; }
-  .card__name { font-size: 16px; font-weight: 800; }
+  .card__name { font-size: 16px; font-weight: 800; margin: 0; }
   .badge {
     font-size: 9px; border-radius: 999px; padding: 2px 8px;
     border: 1px solid var(--border); color: var(--text-2);

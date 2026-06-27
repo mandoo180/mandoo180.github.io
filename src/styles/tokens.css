@@ -4,7 +4,7 @@
   --border: #232a34;
   --text: #e8eaed;
   --text-2: #9aa3af;
-  --text-3: #5f6875;
+  --text-3: #7a8290;
   --accent-1: #67e8f9;
   --accent-2: #818cf8;
   --accent-grad: linear-gradient(90deg, #67e8f9, #818cf8);
@@ -38,7 +38,7 @@ a { color: inherit; text-decoration: none; }
 }
 .section-label {
   font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--text-3);
+  color: var(--text-3); margin: 0;
 }
 .btn {
   display: inline-block; font-size: 13px; padding: 9px 16px; border-radius: 10px;

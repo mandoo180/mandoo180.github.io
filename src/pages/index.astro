@@ -25,7 +25,7 @@ const shipping = apps.filter((a) => a.status === 'live' || a.status === 'pre-lau
     <Hero locale={locale} />
     <section id="apps" class="apps">
       <div class="container apps__head">
-        <p class="section-label">{t('apps.heading')}</p>
+        <h2 class="section-label">{t('apps.heading')}</h2>
         <span class="apps__note">{shipping} {t('apps.note')}</span>
       </div>
       <div class="container apps__list">

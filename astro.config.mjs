@@ -8,5 +8,9 @@ export default defineConfig({
     locales: ['en', 'ko'],
     routing: { prefixDefaultLocale: false },
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      i18n: { defaultLocale: 'en', locales: { en: 'en-US', ko: 'ko-KR' } },
+    }),
+  ],
 });
