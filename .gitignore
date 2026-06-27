@@ -12,6 +12,7 @@
 # Temporary directories
 tmp/
 content/tmp/
+.superpowers/
 
 # Generated site (regenerated on each build)
 public/
