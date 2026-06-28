@@ -13,6 +13,27 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Client-side locale detection (static host can't redirect server-side).
+      // Only acts on the English root "/"; respects an explicit choice saved by
+      // the language toggle; never runs on /ko, so there is no redirect loop.
+      (function () {
+        try {
+          if (location.pathname !== '/') return;
+          var saved = localStorage.getItem('pengling-lang');
+          if (saved === 'en') return;
+          if (saved === 'ko') { location.replace('/ko'); return; }
+          var langs = navigator.languages && navigator.languages.length
+            ? navigator.languages : [navigator.language || ''];
+          for (var i = 0; i < langs.length; i++) {
+            if (langs[i] && langs[i].toLowerCase().indexOf('ko') === 0) {
+              location.replace('/ko');
+              return;
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
     <title>{t('meta.title')}</title>
     <meta name="description" content={t('meta.description')} />
     <link rel="canonical" href={canonical} />

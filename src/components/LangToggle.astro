@@ -4,9 +4,9 @@ interface Props { locale: Locale; }
 const { locale } = Astro.props;
 ---
 <div class="lang">
-  <a href="/" aria-current={locale === 'en' ? 'page' : undefined} class={locale === 'en' ? 'on' : undefined}>EN</a>
+  <a href="/" aria-current={locale === 'en' ? 'page' : undefined} class={locale === 'en' ? 'on' : undefined} onclick="try{localStorage.setItem('pengling-lang','en')}catch(e){}">EN</a>
   <span>·</span>
-  <a href="/ko" aria-current={locale === 'ko' ? 'page' : undefined} class={locale === 'ko' ? 'on' : undefined}>한</a>
+  <a href="/ko" aria-current={locale === 'ko' ? 'page' : undefined} class={locale === 'ko' ? 'on' : undefined} onclick="try{localStorage.setItem('pengling-lang','ko')}catch(e){}">한</a>
 </div>
 <style>
   .lang { display: inline-flex; gap: 6px; align-items: center; font-size: 12px;
