@@ -10,9 +10,12 @@ const t = useTranslations(locale);
   <div class="container nav__inner">
     <a class="nav__brand" href={locale === 'ko' ? '/ko' : '/'}>
       <span class="nav__mark" aria-hidden="true"></span>
-      <span class="gradient-text">anonpengling</span>
+      <span class="gradient-text">Pengling</span>
     </a>
-    <nav class="nav__links">
+    <button class="nav__toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
+      <span class="nav__bars" aria-hidden="true"></span>
+    </button>
+    <nav id="nav-menu" class="nav__links">
       <a href="#apps">{t('nav.apps')}</a>
       <a href="#about">{t('nav.about')}</a>
       <a href="#follow">{t('nav.youtube')}</a>
@@ -20,10 +23,43 @@ const t = useTranslations(locale);
     </nav>
   </div>
 </header>
+<script>
+  const header = document.querySelector('.nav');
+  const toggle = document.querySelector('.nav__toggle');
+  toggle?.addEventListener('click', () => {
+    const open = header?.classList.toggle('nav--open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.querySelectorAll('#nav-menu a').forEach((a) =>
+    a.addEventListener('click', () => {
+      header?.classList.remove('nav--open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    })
+  );
+</script>
 <style>
-  .nav { border-bottom: 1px solid #1c222b; }
+  .nav { border-bottom: 1px solid var(--border); position: relative; }
   .nav__inner { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
   .nav__brand { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 800; }
   .nav__mark { width: 26px; height: 26px; border-radius: 8px; background: var(--accent-grad); }
   .nav__links { display: flex; gap: 16px; align-items: center; font-size: 13px; color: var(--text-2); }
+  .nav__toggle { display: none; background: none; border: 1px solid var(--border); border-radius: 8px;
+    width: 38px; height: 34px; cursor: pointer; align-items: center; justify-content: center; padding: 0; }
+  .nav__bars, .nav__bars::before, .nav__bars::after {
+    display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; }
+  .nav__bars { position: relative; }
+  .nav__bars::before, .nav__bars::after { content: ''; position: absolute; left: 0; }
+  .nav__bars::before { top: -6px; }
+  .nav__bars::after { top: 6px; }
+  @media (max-width: 767px) {
+    .nav__toggle { display: inline-flex; }
+    .nav__links {
+      display: none; position: absolute; top: 100%; right: 0; left: 0;
+      flex-direction: column; align-items: flex-start; gap: 4px;
+      background: var(--card); border-bottom: 1px solid var(--border);
+      padding: 10px var(--space) 16px; z-index: 20;
+    }
+    .nav--open .nav__links { display: flex; }
+    .nav__links a { padding: 8px 0; }
+  }
 </style>

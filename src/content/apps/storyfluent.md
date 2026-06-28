@@ -13,7 +13,7 @@ icon: /apps/storyfluent/icon.png
 screenshot: /apps/storyfluent/hero.png
 links:
   site: https://storyfluent.anonpengling.org
-  appStore: https://apps.apple.com/app/storyfluent
+  appStore: https://apps.apple.com/app/id6777867649
   youtube: https://www.youtube.com/@storyfluent_kr
 tagline:
   en: Learn English by listening to classic short stories.

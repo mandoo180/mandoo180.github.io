@@ -5,7 +5,7 @@ export const defaultLocale: Locale = 'en';
 
 export const ui = {
   en: {
-    'meta.title': 'anonpengling — daily language games',
+    'meta.title': 'Pengling — daily language games',
     'meta.description':
       'An independent app studio building daily language-learning games. Meet Fulang and Storyfluent.',
     'nav.apps': 'Apps',
@@ -39,7 +39,7 @@ export const ui = {
     'app.learnedBy': 'for',
   },
   ko: {
-    'meta.title': 'anonpengling — 매일 한 판의 언어 학습 앱',
+    'meta.title': 'Pengling — 매일 한 판의 언어 학습 앱',
     'meta.description':
       '언어를 게임처럼 배우는 앱을 만드는 인디 스튜디오. Fulang과 Storyfluent.',
     'nav.apps': '앱',
