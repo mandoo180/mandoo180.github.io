@@ -41,7 +41,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <link rel="alternate" hreflang="en" href={new URL('/', Astro.site).href} />
     <link rel="alternate" hreflang="ko" href={new URL('/ko', Astro.site).href} />
     <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site).href} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="any" />
+    <link rel="apple-touch-icon" href="/brand/pengling-mark.png" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={t('meta.title')} />
     <meta property="og:description" content={t('meta.description')} />
