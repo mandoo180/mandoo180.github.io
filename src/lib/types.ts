@@ -11,7 +11,7 @@ export interface AppData {
   order: number;
   featured: boolean;
   platforms: Platform[];
-  learn: { language: string; forSpeakers: string };
+  learn: { subject: string; forSpeakers: string };
   icon: string;
   screenshot?: string;
   links: Partial<Record<LinkKey, string>>;

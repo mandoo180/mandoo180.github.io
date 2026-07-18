@@ -5,17 +5,17 @@ export const defaultLocale: Locale = 'en';
 
 export const ui = {
   en: {
-    'meta.title': 'Pengling — daily language games',
+    'meta.title': 'Pengling — daily learning games',
     'meta.description':
-      'An independent app studio building daily language-learning games. Meet Fulang and Storyfluent.',
+      'An independent app studio turning learning into daily games. Meet Fulang, Storyfluent, and FlashShell.',
     'nav.apps': 'Apps',
     'nav.about': 'About',
     'nav.youtube': 'YouTube',
     'hero.eyebrow': 'Independent app studio',
     'hero.title.line1': 'We build daily',
-    'hero.title.line2': 'language games.',
+    'hero.title.line2': 'learning games.',
     'hero.subtitle':
-      'One round a day, and a language starts to click. A small studio turning listening, reading, and speaking into games.',
+      'One round a day, and it starts to click. From Mandarin to the command line — a small studio that turns learning into a game.',
     'hero.cta.apps': 'See the apps',
     'hero.cta.youtube': 'Watch on YouTube',
     'apps.heading': 'Apps',
@@ -39,17 +39,17 @@ export const ui = {
     'app.learnedBy': 'for',
   },
   ko: {
-    'meta.title': 'Pengling — 매일 한 판의 언어 학습 앱',
+    'meta.title': 'Pengling — 매일 한 판의 학습 게임',
     'meta.description':
-      '언어를 게임처럼 배우는 앱을 만드는 인디 스튜디오. Fulang과 Storyfluent.',
+      '배움을 게임처럼 만드는 인디 스튜디오. Fulang, Storyfluent, 그리고 FlashShell.',
     'nav.apps': '앱',
     'nav.about': '소개',
     'nav.youtube': 'YouTube',
     'hero.eyebrow': '인디 앱 스튜디오',
     'hero.title.line1': '매일 한 판,',
-    'hero.title.line2': '언어가 들리기 시작합니다.',
+    'hero.title.line2': '배움이 게임이 됩니다.',
     'hero.subtitle':
-      '하루 한 판이면 언어가 들리기 시작합니다. 듣기·읽기·말하기를 게임으로 만드는 작은 스튜디오.',
+      '외국어부터 커맨드라인까지, 배움을 매일 한 판의 게임으로 만드는 작은 스튜디오.',
     'hero.cta.apps': '앱 보기',
     'hero.cta.youtube': 'YouTube에서 보기',
     'apps.heading': '앱',

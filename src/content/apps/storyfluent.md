@@ -7,7 +7,7 @@ order: 2
 featured: true
 platforms: [ios, android]
 learn:
-  language: English through stories
+  subject: English through stories
   forSpeakers: KO
 icon: /apps/storyfluent/icon.png
 screenshot: /apps/storyfluent/hero.png

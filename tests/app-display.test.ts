@@ -4,7 +4,7 @@ import type { AppData } from '../src/lib/types';
 
 const base: AppData = {
   name: 'X', slug: 'x', status: 'live', accent: '#000', order: 2, featured: true,
-  platforms: ['ios'], learn: { language: 'L', forSpeakers: 'S' }, icon: '/i.png',
+  platforms: ['ios'], learn: { subject: 'L', forSpeakers: 'S' }, icon: '/i.png',
   links: {}, tagline: { en: 't', ko: 'ㅌ' }, description: { en: 'd', ko: 'ㄷ' },
 };
 

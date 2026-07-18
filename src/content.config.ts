@@ -11,7 +11,7 @@ const apps = defineCollection({
     order: z.number(),
     featured: z.boolean().default(true),
     platforms: z.array(z.enum(['ios', 'android', 'web'])),
-    learn: z.object({ language: z.string(), forSpeakers: z.string() }),
+    learn: z.object({ subject: z.string(), forSpeakers: z.string() }),
     icon: z.string(),
     screenshot: z.string().optional(),
     links: z.object({

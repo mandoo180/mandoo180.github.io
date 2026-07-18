@@ -8,7 +8,7 @@ describe('useTranslations', () => {
   });
 
   it('returns the hero title parts per locale', () => {
-    expect(useTranslations('en')('hero.title.line2')).toBe('language games.');
-    expect(useTranslations('ko')('hero.title.line2')).toBe('언어가 들리기 시작합니다.');
+    expect(useTranslations('en')('hero.title.line2')).toBe('learning games.');
+    expect(useTranslations('ko')('hero.title.line2')).toBe('배움이 게임이 됩니다.');
   });
 });

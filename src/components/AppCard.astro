@@ -26,7 +26,7 @@ const ctaKey = (key: string) => `app.cta.${key}` as
       <span class={`badge badge--${app.status}`}>{status}</span>
     </div>
     <p class="card__tagline">{desc ?? tagline}</p>
-    <p class="card__meta">{app.learn.language} · {t('app.learnedBy')} {app.learn.forSpeakers} · {app.platforms.join(' · ')}</p>
+    <p class="card__meta">{app.learn.subject} · {t('app.learnedBy')} {app.learn.forSpeakers} · {app.platforms.join(' · ')}</p>
     <div class="card__links">
       {links.map((l) => (
         <a class={l.key === 'waitlist' || l.key === 'appStore' ? 'btn btn-primary' : 'btn'}

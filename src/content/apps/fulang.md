@@ -7,7 +7,7 @@ order: 1
 featured: true
 platforms: [ios, web]
 learn:
-  language: Taiwanese Mandarin
+  subject: Taiwanese Mandarin
   forSpeakers: EN · KO
 icon: /apps/fulang/icon.png
 screenshot: /apps/fulang/hero.png
