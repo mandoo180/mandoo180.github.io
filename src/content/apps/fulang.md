@@ -1,7 +1,7 @@
 ---
 name: Fulang
 slug: fulang
-status: pre-launch
+status: live
 accent: "#C8102E"
 order: 1
 featured: true
@@ -13,8 +13,8 @@ icon: /apps/fulang/icon.png
 screenshot: /apps/fulang/hero.png
 links:
   site: https://fulang.anonpengling.org
+  appStore: https://apps.apple.com/app/id6779087601
   youtube: https://www.youtube.com/@fulang.anonpengling
-  waitlist: https://fulang.anonpengling.org
 tagline:
   en: Real Taiwan Mandarin in Zhuyin, as a daily game.
   ko: 注音으로 배우는 정통 대만 만다린, 매일 게임처럼.
